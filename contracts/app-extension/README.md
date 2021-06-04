@@ -2,12 +2,12 @@
 
 > Add a short description of your App Extension. What does it do? How is it beneficial? Why would someone want to use it?
 
-[![npm](https://img.shields.io/npm/v/quasar-app-extension-contracts.svg?label=quasar-app-extension-contracts)](https://www.npmjs.com/package/quasar-app-extension-contracts)
-[![npm](https://img.shields.io/npm/dt/quasar-app-extension-contracts.svg)](https://www.npmjs.com/package/quasar-app-extension-contracts)
+[![npm](https://img.shields.io/npm/v/@controleonline/quasar-app-extension-contracts-ui.svg?label=@controleonline/quasar-app-extension-contracts-ui)](https://www.npmjs.com/package/@controleonline/quasar-app-extension-contracts-ui)
+[![npm](https://img.shields.io/npm/dt/@controleonline/quasar-app-extension-contracts-ui.svg)](https://www.npmjs.com/package/@controleonline/quasar-app-extension-contracts-ui)
 
 # Install
 ```bash
-quasar ext add contracts
+quasar ext add @controleonline/contracts-ui
 ```
 Quasar CLI will retrieve it from NPM and install the extension.
 
@@ -17,7 +17,7 @@ Quasar CLI will retrieve it from NPM and install the extension.
 
 # Uninstall
 ```bash
-quasar ext remove contracts
+quasar ext remove @controleonline/contracts-ui
 ```
 
 # Info

@@ -1,7 +1,7 @@
 # Component Contracts
 
-[![npm](https://img.shields.io/npm/v/quasar-ui-contracts.svg?label=quasar-ui-contracts)](https://www.npmjs.com/package/quasar-ui-contracts)
-[![npm](https://img.shields.io/npm/dt/quasar-ui-contracts.svg)](https://www.npmjs.com/package/quasar-ui-contracts)
+[![npm](https://img.shields.io/npm/v/@controleonline/quasar-contracts-ui.svg?label=@controleonline/quasar-contracts-ui)](https://www.npmjs.com/package/@controleonline/quasar-contracts-ui)
+[![npm](https://img.shields.io/npm/dt/@controleonline/quasar-contracts-ui.svg)](https://www.npmjs.com/package/@controleonline/quasar-contracts-ui)
 
 # Component Contracts
 > Short description of the component
@@ -19,8 +19,8 @@ Create and register a boot file:
 
 ```js
 import Vue from 'vue'
-import Plugin from 'quasar-ui-contracts'
-import 'quasar-ui-contracts/dist/index.css'
+import Plugin from '@controleonline/quasar-contracts-ui'
+import '@controleonline/quasar-contracts-ui/dist/index.css'
 
 Vue.use(Plugin)
 ```
@@ -28,10 +28,10 @@ Vue.use(Plugin)
 **OR**:
 
 ```html
-<style src="quasar-ui-contracts/dist/index.css"></style>
+<style src="@controleonline/quasar-contracts-ui/dist/index.css"></style>
 
 <script>
-import { Component as Contracts } from 'quasar-ui-contracts'
+import { Component as Contracts } from '@controleonline/quasar-contracts-ui'
 
 export default {
   components: {
@@ -45,8 +45,8 @@ export default {
 
 ```js
 import Vue from 'vue'
-import Plugin from 'quasar-ui-contracts'
-import 'quasar-ui-contracts/dist/index.css'
+import Plugin from '@controleonline/quasar-contracts-ui'
+import '@controleonline/quasar-contracts-ui/dist/index.css'
 
 Vue.use(Plugin)
 ```
@@ -54,10 +54,10 @@ Vue.use(Plugin)
 **OR**:
 
 ```html
-<style src="quasar-ui-contracts/dist/index.css"></style>
+<style src="@controleonline/quasar-contracts-ui/dist/index.css"></style>
 
 <script>
-import { Component as Contracts } from 'quasar-ui-contracts'
+import { Component as Contracts } from '@controleonline/quasar-contracts-ui'
 
 export default {
   components: {
@@ -76,16 +76,16 @@ Add the following tag(s) after the Quasar ones:
 ```html
 <head>
   <!-- AFTER the Quasar stylesheet tags: -->
-  <link href="https://cdn.jsdelivr.net/npm/quasar-ui-contracts/dist/index.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/@controleonline/quasar-contracts-ui/dist/index.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
   <!-- at end of body, AFTER Quasar script(s): -->
-  <script src="https://cdn.jsdelivr.net/npm/quasar-ui-contracts/dist/index.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@controleonline/quasar-contracts-ui/dist/index.umd.min.js"></script>
 </body>
 ```
 If you need the RTL variant of the CSS, then go for the following (instead of the above stylesheet link):
 ```html
-<link href="https://cdn.jsdelivr.net/npm/quasar-ui-contracts/dist/index.rtl.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/@controleonline/quasar-contracts-ui/dist/index.rtl.min.css" rel="stylesheet" type="text/css">
 ```
 
 # Setup

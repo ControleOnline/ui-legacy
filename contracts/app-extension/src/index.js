@@ -8,13 +8,13 @@
 
 function extendConf (conf) {
   // register our boot file
-  conf.boot.push('~quasar-app-extension-contracts/src/boot/register.js')
+  conf.boot.push('~@controleonline/quasar-app-extension-contracts-ui/src/boot/register.js')
 
   // make sure app extension files & ui package gets transpiled
-  conf.build.transpileDependencies.push(/quasar-app-extension-contracts[\\/]src/)
+  conf.build.transpileDependencies.push(/quasar-app-extension-contracts-ui[\\/]src/)
+  conf.build.transpileDependencies.push(/quasar-contracts-ui[\\/]src/)
 
-  // make sure the stylesheet goes through webpack to avoid SSR issues
-  conf.css.push('~quasar-ui-contracts/src/index.sass')
+  conf.css.push('~@controleonline/quasar-contracts-ui/src/index.sass')
 }
 
 module.exports = function (api) {

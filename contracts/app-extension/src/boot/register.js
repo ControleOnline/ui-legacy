@@ -1,4 +1,4 @@
-import Vue from 'vue'
-import VuePlugin from 'quasar-ui-contracts'
+import Vue       from 'vue'
+import VuePlugin from '@controleonline/quasar-contracts-ui'
 
 Vue.use(VuePlugin)
