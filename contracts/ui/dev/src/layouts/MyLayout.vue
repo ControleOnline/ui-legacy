@@ -11,7 +11,7 @@
         />
 
         <q-toolbar-title>
-          quasar-ui-contracts v{{ version }}
+          @conline/quasar-contracts-ui v{{ version }}
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>

@@ -1,23 +1,20 @@
 import { version } from '../package.json'
 
-import Component from './components/Component'
-
+import Searching from './components/Searching'
 
 export {
   version,
 
-  Component
-  
+  Searching
+
 }
 
 export default {
   version,
 
-  Component,
-  
+  Searching,
 
   install (Vue) {
-    Vue.component(Component.name, Component)
-    
+    Vue.component(Searching.name, Searching)
   }
 }

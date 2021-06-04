@@ -1,6 +1,6 @@
 {
-  "name": "quasar-ui-contracts",
-  "version": "0.0.1",
+  "name": "@conline/quasar-contracts-ui",
+  "version": "1.0.0",
   "author": "Francisco Rivera",
   "description": "ControleOnline Quasar UI Component",
   "license": "MIT",
