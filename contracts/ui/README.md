@@ -1,93 +1,23 @@
-# Component Contracts
+# Contract Component
 
 [![npm](https://img.shields.io/npm/v/@controleonline/quasar-contracts-ui.svg?label=@controleonline/quasar-contracts-ui)](https://www.npmjs.com/package/@controleonline/quasar-contracts-ui)
 [![npm](https://img.shields.io/npm/dt/@controleonline/quasar-contracts-ui.svg)](https://www.npmjs.com/package/@controleonline/quasar-contracts-ui)
 
-# Component Contracts
-> Short description of the component
-
+# Contract Component
+> ControleOnline Contract Quasar UI Component
 
 # Usage
 
 ## Quasar CLI project
 
-Install the [App Extension](../app-extension).
-
-**OR**:
-
 Create and register a boot file:
 
 ```js
-import Vue from 'vue'
+import Vue    from 'vue'
 import Plugin from '@controleonline/quasar-contracts-ui'
-import '@controleonline/quasar-contracts-ui/dist/index.css'
 
 Vue.use(Plugin)
 ```
-
-**OR**:
-
-```html
-<style src="@controleonline/quasar-contracts-ui/dist/index.css"></style>
-
-<script>
-import { Component as Contracts } from '@controleonline/quasar-contracts-ui'
-
-export default {
-  components: {
-    Contracts
-  }
-}
-</script>
-```
-
-## Vue CLI project
-
-```js
-import Vue from 'vue'
-import Plugin from '@controleonline/quasar-contracts-ui'
-import '@controleonline/quasar-contracts-ui/dist/index.css'
-
-Vue.use(Plugin)
-```
-
-**OR**:
-
-```html
-<style src="@controleonline/quasar-contracts-ui/dist/index.css"></style>
-
-<script>
-import { Component as Contracts } from '@controleonline/quasar-contracts-ui'
-
-export default {
-  components: {
-    Contracts
-  }
-}
-</script>
-```
-
-## UMD variant
-
-Exports `window.contracts`.
-
-Add the following tag(s) after the Quasar ones:
-
-```html
-<head>
-  <!-- AFTER the Quasar stylesheet tags: -->
-  <link href="https://cdn.jsdelivr.net/npm/@controleonline/quasar-contracts-ui/dist/index.min.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-  <!-- at end of body, AFTER Quasar script(s): -->
-  <script src="https://cdn.jsdelivr.net/npm/@controleonline/quasar-contracts-ui/dist/index.umd.min.js"></script>
-</body>
-```
-If you need the RTL variant of the CSS, then go for the following (instead of the above stylesheet link):
-```html
-<link href="https://cdn.jsdelivr.net/npm/@controleonline/quasar-contracts-ui/dist/index.rtl.min.css" rel="stylesheet" type="text/css">
-```
-
 # Setup
 ```bash
 $ yarn
