@@ -20,7 +20,7 @@ Vue.use(Plugin)
 ```
 # Setup
 ```bash
-$ yarn
+$ yarn add @controleonline/quasar-contracts-ui@latest -D
 ```
 
 # Developing
