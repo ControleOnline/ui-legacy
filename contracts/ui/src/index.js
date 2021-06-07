@@ -1,20 +1,19 @@
-import { version } from '../package.json'
+import { version }  from '../package.json'
 
-import Searching from './components/Searching'
+import ContractList from './components/ContractList'
 
 export {
   version,
 
-  Searching
-
+  ContractList
 }
 
 export default {
   version,
 
-  Searching,
+  ContractList,
 
   install (Vue) {
-    Vue.component(Searching.name, Searching)
+    Vue.component(ContractList.name, ContractList)
   }
 }

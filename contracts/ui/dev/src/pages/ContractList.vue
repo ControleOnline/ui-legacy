@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <ContractsSearching
+    <contract-list
       title            ="Lista de contratos"
       :detailRoute     ="(id) => { return { name: 'ContractDetails', params: { id: id }}}"
       :retrieveContract="requestContracts"

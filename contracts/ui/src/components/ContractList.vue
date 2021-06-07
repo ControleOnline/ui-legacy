@@ -143,7 +143,7 @@ Object.freeze(SETTINGS);
 Object.freeze(STATUSES);
 
 export default {
-  name: 'ContractsSearching',
+  name: 'ContractList',
 
   props: {
     title           : {

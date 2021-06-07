@@ -1,11 +1,10 @@
 {
   "name": "@controleonline/quasar-contracts-ui",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Francisco Rivera",
-  "description": "ControleOnline Quasar UI Component",
+  "description": "ControleOnline Contract Quasar UI Component",
   "license": "MIT",
-  "module": "dist/index.esm.js",
-  "main": "dist/index.common.js",
+  "main": "src/index.js",
   "scripts": {
     "dev": "cd dev && yarn dev && cd ..",
     "dev:umd": "yarn build && node build/script.open-umd.js",
