@@ -10,17 +10,17 @@
   >
     <template v-slot:top>
       <div class="col-3 q-mb-md text-h6">
-        {{ title }}
+        {{ langs.TITLE }}
       </div>
       <div class="col-9 q-mb-md">
         <div class="row justify-end">
           <q-btn
-            label   ="Novo contrato"
+            :label  ="langs.NEW_CONTRACT"
             icon    ="add"
             size    ="md"
             color   ="primary"
             class   ="q-ml-sm"
-            @click  ="createNewContract"
+            @click  ="onCreate"
             :loading="isCreating"
           />
         </div>
@@ -28,7 +28,7 @@
 
       <div class="col-sm-6 col-xs-12 q-pa-md">
         <q-input stack-label
-          label   ="Buscar por"
+          :label  ="langs.SEARCH_BY"
           debounce="1000"
           v-model ="filters.text"
           class   ="full-width"
@@ -36,7 +36,7 @@
       </div>
       <div class="col-sm-6 col-xs-12 q-pa-md">
         <q-select stack-label
-          label   ="Status do contrato"
+          :label  ="langs.STATUS"
           v-model ="filters.status"
           :options="statuses"
           class   ="full-width"
@@ -48,7 +48,7 @@
       <q-tr :props="props">
         <q-td key="id" :props="props">
           <q-btn dense
-            :to   ="detailRoute(props.row.id)"
+            :to   ="{ name: 'Default', params: { id: props.row.id } }"
             :label="props.cols[0].value"
             class ="full-width"
           />
@@ -85,7 +85,7 @@ const SETTINGS = {
       field : 'dataInicio',
       align : 'left',
       format: (val, row) => {
-        return val.replace(/^(\d{4})\-(\d{2})\-(\d{2})$/g,"\$3\/\$2\/\$1");
+        return val.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,"$3/$2/$1");
       },
       label : 'Data inicio'
     },
@@ -95,7 +95,7 @@ const SETTINGS = {
       align : 'left',
       format: (val, row) => {
         if (typeof val == 'string') {
-          return val.replace(/^(\d{4})\-(\d{2})\-(\d{2})$/g,"\$3\/\$2\/\$1");
+          return val.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,"$3/$2/$1");
         }
         else{
           return '-';
@@ -142,29 +142,28 @@ const STATUSES = [
 Object.freeze(SETTINGS);
 Object.freeze(STATUSES);
 
-export default {
-  name: 'ContractList',
+import api   from './../mixins/api';
+import langs from './../mixins/langs';
 
-  props: {
-    title           : {
-      type    : String,
-      required: false
-    },
-    detailRoute     : {
+export default {
+  name  : 'ContractList',
+  mixins: [ api, langs ],
+
+  props : {
+    config: {
       type    : Function,
-      required: true
-    },
-    retrieveContract: {
-      type    : Function,
-      required: true
-    },
-    createContract  : {
-      type    : Function,
-      required: true
+      required: false,
+      default : function() { }
     },
   },
 
   created() {
+    this.config({
+      api   : this.api,
+      lang  : this.langs,
+      routes: {},
+    });
+
     this.onRequest({
       pagination: this.pagination,
       filter    : this.filters,
@@ -210,17 +209,8 @@ export default {
   },
 
   methods: {
-    createNewContract() {
-      this.isCreating = true;
+    onCreate() {
 
-      this.createContract()
-        .then(() => {
-          this.$emit('contractCreated');
-        })
-        .finally(() => {
-          this.isCreating = false;
-        })
-      ;
     },
 
     onRequest(props) {
@@ -229,30 +219,14 @@ export default {
 
       this.isLoading = true;
 
-      this.retrieveContract({
-        filters   : props.filters,
-        pagination: props.pagination
-      })
-        .then((result) => {
-          let {
-              page,
-              rowsPerPage,
-              rowsNumber,
-              sortBy,
-              descending
-          } = props.pagination;
+      this.api.Contracts
+        .getAll()
+          .then((response) => {
 
-          this.data = result.members;
-
-          this.pagination.rowsNumber  = result.total;
-          this.pagination.page        = page;
-          this.pagination.rowsPerPage = rowsPerPage;
-          this.pagination.sortBy      = sortBy;
-          this.pagination.descending  = descending;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        })
+          })
+          .finally(() => {
+            this.isLoading = false;
+          })
       ;
     },
   },
