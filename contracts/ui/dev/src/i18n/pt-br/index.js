@@ -15,5 +15,12 @@ export default {
       'Amended'           : 'Alterado',
       'Waiting signatures': 'Aguardando assinaturas',
     },
+    columns     : {
+      'id'         : 'ID',
+      'contratante': 'Contratante',
+      'data_inicio': 'Data inicio',
+      'data_fim'   : 'Data fim',
+      'status'     : 'Status',
+    },
   }
 }

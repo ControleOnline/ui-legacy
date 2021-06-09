@@ -2,7 +2,7 @@
   <q-table
     :loading        ="isLoading"
     :data           ="data"
-    :columns        ="settings.columns"
+    :columns        ="columns"
     :pagination.sync="pagination"
     @request        ="onRequest"
     row-key         ="id"
@@ -44,69 +44,19 @@
       </div>
     </template>
 
-    <template v-slot:body="props">
-      <q-tr :props="props">
-        <q-td key="id" :props="props">
-          <q-btn dense
-            :to   ="{ name: 'Default', params: { id: props.row.id } }"
-            :label="props.cols[0].value"
-            class ="full-width"
-          />
-        </q-td>
-        <q-td key="beneficiario" :props="props">{{ props.row.beneficiario }}</q-td>
-        <q-td key="dataInicio" :props="props">
-          {{ props.row.dataInicio | formatToDmy }}
-        </q-td>
-        <q-td key="dataFim" :props="props">
-          {{ props.row.dataFim | formatToDmy }}
-        </q-td>
-        <q-td key="status" :props="props">
-          {{ $t(`contracts.statuses.${props.row.status}`) }}
-        </q-td>
-      </q-tr>
+    <template v-slot:body-cell-id="props">
+      <q-td key="id">
+        <q-btn dense
+          :to   ="{ name: 'Default', params: { id: props.row.id } }"
+          :label="props.value"
+          class ="full-width"
+        />
+      </q-td>
     </template>
   </q-table>
 </template>
 
 <script>
-const SETTINGS = {
-  columns       : [
-    {
-      name  : 'id',
-      field : 'id',
-      align : 'left',
-      format: (val) => {
-        return `#${val}`;
-      },
-      label : 'ID'
-    },
-    {
-      name : 'beneficiario',
-      align: 'left',
-      field: 'beneficiario',
-      label: 'Contratante'
-    },
-    {
-      name  : 'dataInicio',
-      field : 'dataInicio',
-      align : 'left',
-      label : 'Data inicio'
-    },
-    {
-      name  : 'dataFim',
-      field : 'dataFim',
-      align : 'left',
-      label : 'Data fim'
-    },
-    {
-      name : 'status',
-      field: 'status',
-      align: 'left',
-      label: 'Status',
-    },
-  ]
-};
-
 const STATUSES = [
     {
       'label': 'Todos',
@@ -138,16 +88,59 @@ const STATUSES = [
     },
 ];
 
-Object.freeze(SETTINGS);
-Object.freeze(STATUSES);
-
-import configurable from './../mixins/configurable';
+import configurable           from './../mixins/configurable';
+import { formatDateYmdTodmY } from './../library/formatter';
 
 export default {
   name  : 'ContractList',
   mixins: [ configurable ],
 
   created() {
+    this.columns = [
+      {
+        name  : 'id',
+        field : 'id',
+        align : 'left',
+        format: (val) => {
+          return `#${val}`;
+        },
+        label : this.$t('contracts.columns.id')
+      },
+      {
+        name : 'beneficiario',
+        align: 'left',
+        field: 'beneficiario',
+        label: this.$t('contracts.columns.contratante')
+      },
+      {
+        name  : 'dataInicio',
+        field : 'dataInicio',
+        align : 'left',
+        label : this.$t('contracts.columns.data_inicio'),
+        format: (val) => {
+          return formatDateYmdTodmY(val);
+        }
+      },
+      {
+        name  : 'dataFim',
+        field : 'dataFim',
+        align : 'left',
+        label: this.$t('contracts.columns.data_fim'),
+        format: (val) => {
+          return formatDateYmdTodmY(val);
+        }
+      },
+      {
+        name : 'status',
+        field: 'status',
+        align: 'left',
+        label: this.$t('contracts.columns.status'),
+        format: (val) => {
+          return this.$t(`contracts.statuses.${val}`)
+        }
+      },
+    ];
+
     this.onRequest({
       pagination: this.pagination,
       filter    : this.filters,
@@ -156,7 +149,7 @@ export default {
 
   data() {
     return {
-      settings  : SETTINGS,
+      columns   : [],
       statuses  : STATUSES,
       data      : [],
       isCreating: false,
