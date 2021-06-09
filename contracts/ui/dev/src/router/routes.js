@@ -7,12 +7,26 @@ const children = pages.map(page => ({
 
 const routes = [
   {
-    path: '/',
+    path     : '/',
+    component: () => import('layouts/MyLayout.vue'),
+    children : [
+      {
+        path     : '',
+        component: () => import('pages/Index.vue')
+      }
+    ].concat(children)
+  },
+  {
+    path: '/contracts/',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
-    ].concat(children)
-  }
+      {
+        name     : 'ContractDetails',
+        path     : 'id/:id',
+        component: () => import('pages/ContractDetails.vue')
+      },
+    ]
+  },
 ]
 
 export default routes

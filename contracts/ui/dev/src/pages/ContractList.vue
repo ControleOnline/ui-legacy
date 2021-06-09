@@ -14,6 +14,8 @@ export default {
       configs.api.setAsFake (false);
       configs.api.setBaseUrl('https://localhost:8081');
       configs.api.setToken  ('1ce707158c54688fa80484223ec2404b');
+
+      configs.routes.Details.name = 'ContractDetails';
     },
   },
 };

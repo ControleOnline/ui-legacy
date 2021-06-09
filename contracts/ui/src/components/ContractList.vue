@@ -47,7 +47,7 @@
     <template v-slot:body-cell-id="props">
       <q-td key="id">
         <q-btn dense
-          :to   ="{ name: 'Default', params: { id: props.row.id } }"
+          :to   ="routes.Details.get(props.row.id)"
           :label="props.value"
           class ="full-width"
         />
@@ -196,12 +196,9 @@ export default {
         })
           .then((contract) => {
             if (contract['@id']) {
-              let id = contract['@id'].replace(/\D/g, '');
-
-              this.$router.push({
-                name  : 'ContractDetails',
-                params: { id }
-              });
+              this.$router.push(
+                this.routes.Details.get(contract['@id'].replace(/\D/g, ''))
+              );
             }
           })
           .finally(() => {
