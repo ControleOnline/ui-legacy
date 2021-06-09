@@ -11,8 +11,8 @@
 export default {
   methods: {
     setConfig(configs) {
-      configs.api.setAsFake (true);
-      configs.api.setBaseUrl('https://api.empresa.com.br');
+      configs.api.setAsFake (false);
+      configs.api.setBaseUrl('https://localhost:8081');
       configs.api.setToken  ('a4aa211252118d5eb566f673c18365b7');
 
       configs.lang.TITLE = 'Contratos';

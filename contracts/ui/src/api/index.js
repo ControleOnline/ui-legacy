@@ -1,16 +1,19 @@
 import Client    from './../library/client'
 import Contracts from './Contracts'
 
-const add = function(api, apiModule, key) {
+const add = function(api, apiModule, modulekey) {
   for (const resourceClassName in apiModule) {
-    if (api[key] == undefined) {
-      api[key] = {};
+    if (api[modulekey] == undefined) {
+      api[modulekey] = {};
     }
 
-    api[key][resourceClassName]
+    api[modulekey][`_${resourceClassName}`]
+      = new apiModule[resourceClassName](api.client);
+
+    api[modulekey][resourceClassName]
       = function(options = {}) {
         if (this.resource == undefined) {
-          this.resource = new apiModule[resourceClassName](api.client);
+          this.resource = api[modulekey][`_${resourceClassName}`];
 
           if (api.isFake === true) {
             this.resource.isFake = true;
