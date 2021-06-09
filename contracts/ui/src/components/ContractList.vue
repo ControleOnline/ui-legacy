@@ -57,37 +57,6 @@
 </template>
 
 <script>
-const STATUSES = [
-    {
-      'label': 'Todos',
-      'value': -1
-    },
-    {
-      'label': 'Proposta',
-      'value': 'Draft'
-    },
-    {
-      'label': 'Aguardando aprovação',
-      'value': 'Waiting approval'
-    },
-    {
-      'label': 'Aguardando assinaturas',
-      'value': 'Waiting signatures'
-    },
-    {
-      'label': 'Ativo',
-      'value': 'Active'
-    },
-    {
-      'label': 'Cancelado',
-      'value': 'Canceled'
-    },
-    {
-      'label': 'Alterado',
-      'value': 'Amended'
-    },
-];
-
 import configurable           from './../mixins/configurable';
 import { formatDateYmdTodmY } from './../library/formatter';
 
@@ -141,6 +110,37 @@ export default {
       },
     ];
 
+    this.statuses = [
+        {
+          'label': this.$t('contracts.all'),
+          'value': -1
+        },
+        {
+          'label': this.$t(`contracts.statuses.${'Draft'}`),
+          'value': 'Draft'
+        },
+        {
+          'label': this.$t(`contracts.statuses.${'Waiting approval'}`),
+          'value': 'Waiting approval'
+        },
+        {
+          'label': this.$t(`contracts.statuses.${'Waiting signatures'}`),
+          'value': 'Waiting signatures'
+        },
+        {
+          'label': this.$t(`contracts.statuses.${'Active'}`),
+          'value': 'Active'
+        },
+        {
+          'label': this.$t(`contracts.statuses.${'Canceled'}`),
+          'value': 'Canceled'
+        },
+        {
+          'label': this.$t(`contracts.statuses.${'Amended'}`),
+          'value': 'Amended'
+        },
+    ];
+
     this.onRequest({
       pagination: this.pagination,
       filter    : this.filters,
@@ -150,14 +150,13 @@ export default {
   data() {
     return {
       columns   : [],
-      statuses  : STATUSES,
+      statuses  : [],
       data      : [],
       isCreating: false,
       isLoading : false,
       filters   : {
         text   : null,
-        status : STATUSES[0],
-        company: null,
+        status : null,
       },
       pagination: {
         sortBy     : 'dataInicio',

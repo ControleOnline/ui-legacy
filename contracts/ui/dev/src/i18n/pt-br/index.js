@@ -7,6 +7,7 @@ export default {
     new_contract: 'Novo contrato',
     search_by   : 'Buscar por',
     status      : 'Status',
+    all         : 'Todos',
     statuses    : {
       'Draft'             : 'Proposta',
       'Waiting approval'  : 'Aguardando aprovação',
