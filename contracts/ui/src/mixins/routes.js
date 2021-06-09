@@ -2,7 +2,7 @@
 export default {
   data() {
     return {
-      routes: {
+      Routes: {
         Details: {
           name: 'Details',
           get(id) {

@@ -47,7 +47,7 @@
     <template v-slot:body-cell-id="props">
       <q-td key="id">
         <q-btn dense
-          :to   ="routes.Details.get(props.row.id)"
+          :to   ="Routes.Details.get(props.row.id)"
           :label="props.value"
           class ="full-width"
         />
@@ -186,20 +186,36 @@ export default {
 
   methods: {
     onCreate() {
+      if (!this.Params.Company.get()) {
+        this.$q.notify({
+          message : this.$t('contracts.errors.no_company'),
+          position: 'bottom',
+          type    : 'negative',
+        });
+        return;
+      }
+
       this.isCreating = true;
-      this.api.Contracts
+      this.Api.Contracts
         .Create({
           payload: {},
           params : {
-            myProvider: 13
+            myProvider: this.Params.Company.get()
           }
         })
           .then((contract) => {
             if (contract['@id']) {
               this.$router.push(
-                this.routes.Details.get(contract['@id'].replace(/\D/g, ''))
+                this.Routes.Details.get(contract['@id'].replace(/\D/g, ''))
               );
             }
+          })
+          .catch((error) => {
+            this.$q.notify({
+              message : this.$t(error.message),
+              position: 'bottom',
+              type    : 'negative',
+            });
           })
           .finally(() => {
             this.isCreating = false;
@@ -240,16 +256,25 @@ export default {
         }
       }
 
+      if (this.Params.Company.get()) {
+        params['myProvider'] = this.Params.Company.get();
+        params['myCompany']  = this.Params.Company.get();
+      }
+
       params['mycontract[startDate]'] = 'desc';
 
       // do request
 
       this.isLoading = true;
-      this.api.Contracts
+      this.Api.Contracts
         .GetAll({
           params
         })
           .then((contracts) => {
+            if (!contracts) {
+              throw new Error('No contracts');
+            }
+
             let data = [];
 
             if (contracts != null) {

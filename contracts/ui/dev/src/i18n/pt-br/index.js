@@ -23,5 +23,8 @@ export default {
       'data_fim'   : 'Data fim',
       'status'     : 'Status',
     },
+    errors     : {
+      'no_company' : 'Faltou selecionar a empresa',
+    },
   }
 }

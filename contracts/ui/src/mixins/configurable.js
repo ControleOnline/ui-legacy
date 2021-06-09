@@ -1,9 +1,10 @@
 import api     from './api';
 import filters from './filters';
 import routes  from './routes';
+import params  from './params';
 
 export default {
-  mixins: [ api, filters, routes ],
+  mixins: [ api, filters, routes, params ],
 
   props : {
     config: {
@@ -15,8 +16,9 @@ export default {
 
   created() {
     this.config({
-      api   : this.api,
-      routes: this.routes,
+      Api   : this.Api,
+      Routes: this.Routes,
+      Params: this.Params,
     });
   },
 }

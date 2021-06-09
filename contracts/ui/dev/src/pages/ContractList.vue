@@ -9,13 +9,30 @@
 <script>
 
 export default {
+  data() {
+    return {
+      company: 13,
+    }
+  },
+
   methods: {
     setConfig(configs) {
-      configs.api.setAsFake (false);
-      configs.api.setBaseUrl('https://localhost:8081');
-      configs.api.setToken  ('1ce707158c54688fa80484223ec2404b');
+      // config api
 
-      configs.routes.Details.name = 'ContractDetails';
+      configs.Api.setAsFake (false);
+      configs.Api.setBaseUrl('https://localhost:8081');
+      configs.Api.setToken  ('1ce707158c54688fa80484223ec2404b');
+
+      // config routes
+
+      configs.Routes.Details.name = 'ContractDetails';
+
+      // config params
+
+      configs.Params.Company
+        .getter = () => {
+          return this.company
+        };
     },
   },
 };
