@@ -10,17 +10,13 @@ const add = function(api, apiModule, modulekey) {
     api[modulekey][`_${resourceClassName}`]
       = new apiModule[resourceClassName](api.client);
 
+    if (api.isFake === true) {
+      api[modulekey][`_${resourceClassName}`].isFake = true;
+    }
+
     api[modulekey][resourceClassName]
       = function(options = {}) {
-        if (this.resource == undefined) {
-          this.resource = api[modulekey][`_${resourceClassName}`];
-
-          if (api.isFake === true) {
-            this.resource.isFake = true;
-          }
-        }
-
-        return this.resource.fetch(options);
+        return api[modulekey][`_${resourceClassName}`].fetch(options);
       }
   }
 };

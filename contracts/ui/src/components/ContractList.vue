@@ -186,7 +186,28 @@ export default {
 
   methods: {
     onCreate() {
+      this.isCreating = true;
+      this.api.Contracts
+        .Create({
+          payload: {},
+          params : {
+            myProvider: 13
+          }
+        })
+          .then((contract) => {
+            if (contract['@id']) {
+              let id = contract['@id'].replace(/\D/g, '');
 
+              this.$router.push({
+                name  : 'ContractDetails',
+                params: { id }
+              });
+            }
+          })
+          .finally(() => {
+            this.isCreating = false;
+          })
+        ;
     },
 
     onRequest(props) {
