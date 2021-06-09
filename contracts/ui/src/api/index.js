@@ -1,36 +1,28 @@
-import Resource from './../library/resource'
-import Client   from './../library/client'
+import Client    from './../library/client'
+import Contracts from './Contracts'
 
-const emptyPromise = function(api, config) {
-  console.log('Executing:', config.operation, config.endpoint);
-
-  return new Promise(
-    function(resolve, reject) {
-      window.setTimeout(
-        function() {
-          resolve()
-        },
-        Math.random() * 2000 + 1000
-      );
+const add = function(api, apiModule, key) {
+  for (const resourceClassName in apiModule) {
+    if (api[key] == undefined) {
+      api[key] = {};
     }
-  )
+
+    api[key][resourceClassName]
+      = function(options = {}) {
+        if (this.resource == undefined) {
+          this.resource = new apiModule[resourceClassName](api.client);
+
+          if (api.isFake === true) {
+            this.resource.isFake = true;
+          }
+        }
+
+        return this.resource.fetch(options);
+      }
+  }
 };
 
-/*
- *
- * Resource configs
- *
- */
-
-let _resDefaults = {
-  'contracts:get-all': {
-    endpoint : '/my_contracts',
-    operation: 'GET',
-    isPrivate: true,
-  }
-}
-
-export default class API {
+class API {
   constructor(baseEndpoint, token = null) {
     this.client = new Client(baseEndpoint, token);
     this.isFake = false;
@@ -47,35 +39,14 @@ export default class API {
   setAsFake(isFake) {
     this.isFake = isFake;
   }
+}
 
-  config(resId, config) {
-    if (_resDefaults[resId]) {
-      if (config.endpoint) {
-        _resDefaults[resId].endpoint  = config.endpoint
-      }
-      if (config.operation) {
-        _resDefaults[resId].operation = config.operation
-      }
-      if (config.isPrivate) {
-        _resDefaults[resId].isPrivate = config.isPrivate
-      }
-    }
-  }
+export default {
+  create(baseEndpoint, token = null) {
+    let api = new API(baseEndpoint, token);
 
-  get Contracts() {
-    const self = this;
+    add(api, Contracts, 'Contracts');
 
-    return {
-      getAll: function(options = {}) {
-        const config = _resDefaults['contracts:get-all'];
-
-        if (self.isFake) {
-          return emptyPromise(self, config);
-        }
-
-        return (new Resource(self.client, config.endpoint, config.operation, config.isPrivate))
-          .fetch(options);
-      },
-    }
+    return api;
   }
 }

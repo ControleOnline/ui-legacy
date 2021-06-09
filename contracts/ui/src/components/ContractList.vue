@@ -142,28 +142,13 @@ const STATUSES = [
 Object.freeze(SETTINGS);
 Object.freeze(STATUSES);
 
-import api   from './../mixins/api';
-import langs from './../mixins/langs';
+import configurable from './../mixins/configurable';
 
 export default {
   name  : 'ContractList',
-  mixins: [ api, langs ],
-
-  props : {
-    config: {
-      type    : Function,
-      required: false,
-      default : function() { }
-    },
-  },
+  mixins: [ configurable ],
 
   created() {
-    this.config({
-      api   : this.api,
-      lang  : this.langs,
-      routes: {},
-    });
-
     this.onRequest({
       pagination: this.pagination,
       filter    : this.filters,
@@ -220,7 +205,7 @@ export default {
       this.isLoading = true;
 
       this.api.Contracts
-        .getAll()
+        .GetAll()
           .then((response) => {
 
           })

@@ -6,14 +6,31 @@
  * @param {String} resourceId
  * @param {String} operation
  * @param {bool}   isPrivate
+ * @param {bool}   isFake
  */
 
+const emptyPromise = function(config) {
+  console.log('Executing:', config.operation, config.resourceId);
+
+  return new Promise(
+   function(resolve, reject) {
+     window.setTimeout(
+       function() {
+         resolve()
+       },
+       Math.random() * 2000 + 1000
+     );
+   }
+  )
+};
+
 export default class Resource {
-  constructor(client, resourceId, operation, isPrivate) {
+  constructor(client, resourceId, operation, isPrivate, isFake = false) {
     this.client     = client;
     this.resourceId = resourceId;
     this.operation  = operation;
     this.isPrivate  = isPrivate;
+    this.isFake     = isFake;
   }
 
   fetch(options) {
@@ -27,6 +44,13 @@ export default class Resource {
 
     if (options.payload) {
       _options.body = JSON.stringify(options.payload);
+    }
+
+    if (this.isFake) {
+      return emptyPromise({
+        operation : this.operation,
+        resourceId: this.resourceId,
+      });
     }
 
     return this.client[this.isPrivate ? 'private' : 'public'](this.resourceId, _options);
