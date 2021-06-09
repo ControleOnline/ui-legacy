@@ -50,6 +50,10 @@ export const formatBRMoney = (value) => {
 
 
 export const formatDateYmdTodmY = (value, withTime = false) => {
+  if (!value) {
+    return '';
+  }
+
   let result = value.match(/^(\d{4})\-(\d{2})\-(\d{2})([\w:]*)/);
 
   if (result === null)

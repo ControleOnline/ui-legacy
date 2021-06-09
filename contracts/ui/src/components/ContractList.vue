@@ -10,12 +10,12 @@
   >
     <template v-slot:top>
       <div class="col-3 q-mb-md text-h6">
-        {{ langs.TITLE }}
+        {{ $t('contracts.title') }}
       </div>
       <div class="col-9 q-mb-md">
         <div class="row justify-end">
           <q-btn
-            :label  ="langs.NEW_CONTRACT"
+            :label  ="$t('contracts.new_contract')"
             icon    ="add"
             size    ="md"
             color   ="primary"
@@ -28,7 +28,7 @@
 
       <div class="col-sm-6 col-xs-12 q-pa-md">
         <q-input stack-label
-          :label  ="langs.SEARCH_BY"
+          :label  ="$t('contracts.search_by')"
           debounce="1000"
           v-model ="filters.text"
           class   ="full-width"
@@ -36,7 +36,7 @@
       </div>
       <div class="col-sm-6 col-xs-12 q-pa-md">
         <q-select stack-label
-          :label  ="langs.STATUS"
+          :label  ="$t('contracts.status')"
           v-model ="filters.status"
           :options="statuses"
           class   ="full-width"
@@ -54,9 +54,15 @@
           />
         </q-td>
         <q-td key="beneficiario" :props="props">{{ props.row.beneficiario }}</q-td>
-        <q-td key="dataInicio"   :props="props">{{ props.cols[2].value    }}</q-td>
-        <q-td key="dataFim"      :props="props">{{ props.cols[3].value    }}</q-td>
-        <q-td key="status"       :props="props">{{ props.row.status       }}</q-td>
+        <q-td key="dataInicio" :props="props">
+          {{ props.row.dataInicio | formatToDmy }}
+        </q-td>
+        <q-td key="dataFim" :props="props">
+          {{ props.row.dataFim | formatToDmy }}
+        </q-td>
+        <q-td key="status" :props="props">
+          {{ $t(`contracts.statuses.${props.row.status}`) }}
+        </q-td>
       </q-tr>
     </template>
   </q-table>
@@ -69,7 +75,7 @@ const SETTINGS = {
       name  : 'id',
       field : 'id',
       align : 'left',
-      format: (val, row) => {
+      format: (val) => {
         return `#${val}`;
       },
       label : 'ID'
@@ -84,30 +90,19 @@ const SETTINGS = {
       name  : 'dataInicio',
       field : 'dataInicio',
       align : 'left',
-      format: (val, row) => {
-        return val.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,"$3/$2/$1");
-      },
       label : 'Data inicio'
     },
     {
       name  : 'dataFim',
       field : 'dataFim',
       align : 'left',
-      format: (val, row) => {
-        if (typeof val == 'string') {
-          return val.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,"$3/$2/$1");
-        }
-        else{
-          return '-';
-        }
-      },
       label : 'Data fim'
     },
     {
       name : 'status',
       field: 'status',
       align: 'left',
-      label: 'Status'
+      label: 'Status',
     },
   ]
 };
@@ -122,8 +117,12 @@ const STATUSES = [
       'value': 'Draft'
     },
     {
-      'label': 'Aguardando assinatura',
+      'label': 'Aguardando aprovação',
       'value': 'Waiting approval'
+    },
+    {
+      'label': 'Aguardando assinaturas',
+      'value': 'Waiting signatures'
     },
     {
       'label': 'Ativo',
@@ -202,12 +201,81 @@ export default {
       if (this.isLoading)
         return;
 
+      // prepare request params
+
+      let {
+          page,
+          rowsPerPage,
+          rowsNumber,
+          sortBy,
+          descending
+      }          = props.pagination;
+      let filter = props.filter;
+      let params = { itemsPerPage: rowsPerPage, page };
+
+      if (this.filters.text != null && this.filters.text.length > 0) {
+        if (this.filters.text.length < 2)
+          return;
+
+        if (/^(\d{2})\/(\d{2})\/(\d{4})$/.test(this.filters.text)) {
+          params['searchBy'] = this.filters.text.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/,"$3-$2-$1");
+        }
+        else {
+          params['searchBy'] = this.filters.text;
+        }
+      }
+      else {
+        if (this.filters.status != null && this.filters.status.value != -1) {
+          params['contractStatus'] = this.filters.status.value;
+        }
+      }
+
+      params['mycontract[startDate]'] = 'desc';
+
+      // do request
+
       this.isLoading = true;
-
       this.api.Contracts
-        .GetAll()
-          .then((response) => {
+        .GetAll({
+          params
+        })
+          .then((contracts) => {
+            let data = [];
 
+            if (contracts != null) {
+              for (let i in contracts.members) {
+                let beneficiario = contracts.members[i].contractPeople
+                  .find(people => people.peopleType == 'Beneficiary');
+
+                data.push({
+                  'id'          : contracts.members[i]['@id'].replace(/\D/g, ''),
+                  'beneficiario': beneficiario ? beneficiario.people.name : '',
+                  'dataInicio'  : contracts.members[i].startDate,
+                  'dataFim'     : contracts.members[i].endDate,
+                  'status'      : contracts.members[i].contractStatus,
+                });
+              }
+            }
+
+            return {
+              members: data,
+              total  : contracts.total
+            };
+          })
+          .then((contracts) => {
+            this.data = contracts.members;
+
+            return {
+              members: contracts.members,
+              total  : contracts.total
+            };
+          })
+          .then((contracts) => {
+            this.pagination.rowsNumber  = contracts.total;
+            this.pagination.page        = page;
+            this.pagination.rowsPerPage = rowsPerPage;
+            this.pagination.sortBy      = sortBy;
+            this.pagination.descending  = descending;
           })
           .finally(() => {
             this.isLoading = false;

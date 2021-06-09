@@ -1,8 +1,8 @@
-import api   from './api';
-import langs from './langs';
+import api     from './api';
+import filters from './filters';
 
 export default {
-  mixins: [ api, langs ],
+  mixins: [ api, filters ],
 
   props : {
     config: {
@@ -15,7 +15,6 @@ export default {
   created() {
     this.config({
       api   : this.api,
-      lang  : this.langs,
       routes: {},
     });
   },

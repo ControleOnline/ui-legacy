@@ -8,7 +8,8 @@ module.exports = function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
-      'register.js'
+      'register.js',
+      'i18n.js'    ,
     ],
 
     css: [
@@ -30,8 +31,8 @@ module.exports = function (ctx) {
 
     framework: {
       iconSet: 'material-icons', // Quasar icon set
-      lang: 'en-us', // Quasar language pack
-      config: {},
+      lang   : 'pt-br', // Quasar language pack
+      config : {},
 
       // Possible values for "importStrategy":
       // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives

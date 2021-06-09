@@ -13,9 +13,7 @@ export default {
     setConfig(configs) {
       configs.api.setAsFake (false);
       configs.api.setBaseUrl('https://localhost:8081');
-      configs.api.setToken  ('a4aa211252118d5eb566f673c18365b7');
-
-      configs.lang.TITLE = 'Contratos';
+      configs.api.setToken  ('1ce707158c54688fa80484223ec2404b');
     },
   },
 };
