@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import configurable from './../../mixins/configurable';
+import configurable from './../mixins/configurable';
 
 export default {
   name  : 'ContractActions',

@@ -42,7 +42,7 @@
 
 <script>
 import { date }     from 'quasar';
-import configurable from './../../mixins/configurable';
+import configurable from './../mixins/configurable';
 
 export default {
   name  : 'ContractActionCancel',

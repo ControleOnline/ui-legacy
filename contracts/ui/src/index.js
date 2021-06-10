@@ -3,9 +3,9 @@ import { version }          from '../package.json'
 import ContractList         from './components/ContractList'
 import ContractForm         from './components/ContractForm'
 import ContractNav          from './components/ContractNav'
-import ContractActions      from './components/Actions/ContractActions'
-import ContractActionCancel from './components/Actions/ContractActionCancel'
-import ContractActionAmend  from './components/Actions/ContractActionAmend'
+import ContractActions      from './components/ContractActions'
+import ContractActionCancel from './components/ContractActionCancel'
+import ContractActionAmend  from './components/ContractActionAmend'
 
 export {
   version,
