@@ -12,6 +12,8 @@ export default {
     model       : 'Template',
     start_date  : 'Data de inicio',
     save        : 'Salvar',
+    original    : 'Contrato original',
+    amended     : 'Contrato adendo',
     statuses    : {
       'Draft'             : 'Proposta',
       'Waiting approval'  : 'Aguardando aprovação',

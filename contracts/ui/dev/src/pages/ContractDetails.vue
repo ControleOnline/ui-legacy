@@ -1,5 +1,9 @@
 <template>
   <q-page padding>
+    <contract-nav
+      :id      ="id"
+      :config  ="setConfig"
+    />
     <contract-form
       :id      ="id"
       :config  ="setConfig"
