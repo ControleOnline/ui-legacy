@@ -16,6 +16,7 @@ export default {
     amended        : 'Contrato adendo',
     cancel_contract: 'Cancelar contrato',
     select_data    : 'Selecione uma data',
+    create_amended : 'Criar adendo',
     statuses       : {
       'Draft'             : 'Proposta',
       'Waiting approval'  : 'Aguardando aprovação',

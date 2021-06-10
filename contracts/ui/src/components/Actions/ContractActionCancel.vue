@@ -1,10 +1,10 @@
 <template>
   <div>
     <q-btn
-      color   ="negative"
+      color   ="secondary"
       :label  ="$t('contracts.cancel_contract')"
       @click  ="dialog = true"
-      :disable="false"
+      :disable="!canCancel"
     />
 
     <q-dialog v-model="dialog">
@@ -52,6 +52,13 @@ export default {
     contract: {
       required: true,
       default : {}
+    },
+  },
+
+  computed: {
+    canCancel() {
+      return ['Draft', 'Active']
+        .includes(this.contract.contractStatus) && this.contract.endDate == null;
     },
   },
 

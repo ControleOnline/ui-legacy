@@ -4,6 +4,7 @@ import GetOne          from './GetOne'
 import GetTemplateList from './GetTemplateList'
 import Save            from './Save'
 import Cancel          from './Cancel'
+import CreateAddendum  from './CreateAddendum'
 
 export default {
   GetAll,
@@ -12,4 +13,5 @@ export default {
   GetTemplateList,
   Save,
   Cancel,
+  CreateAddendum,
 }

@@ -4,6 +4,10 @@
       :config  ="config"
       :contract="contract"
     />
+    <contract-action-amend
+      :config  ="config"
+      :contract="contract"
+    />
   </div>
 </template>
 
