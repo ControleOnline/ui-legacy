@@ -200,7 +200,7 @@ export default {
       this.Api.Contracts
         .Create({
           payload: {},
-          params : {
+          query  : {
             myProvider: this.Params.Company.get()
           }
         })
@@ -238,38 +238,38 @@ export default {
           descending
       }          = props.pagination;
       let filter = props.filter;
-      let params = { itemsPerPage: rowsPerPage, page };
+      let query  = { itemsPerPage: rowsPerPage, page };
 
       if (this.filters.text != null && this.filters.text.length > 0) {
         if (this.filters.text.length < 2)
           return;
 
         if (/^(\d{2})\/(\d{2})\/(\d{4})$/.test(this.filters.text)) {
-          params['searchBy'] = this.filters.text.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/,"$3-$2-$1");
+          query['searchBy'] = this.filters.text.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/,"$3-$2-$1");
         }
         else {
-          params['searchBy'] = this.filters.text;
+          query['searchBy'] = this.filters.text;
         }
       }
       else {
         if (this.filters.status != null && this.filters.status.value != -1) {
-          params['contractStatus'] = this.filters.status.value;
+          query['contractStatus'] = this.filters.status.value;
         }
       }
 
       if (this.Params.Company.get()) {
-        params['myProvider'] = this.Params.Company.get();
-        params['myCompany']  = this.Params.Company.get();
+        query['myProvider'] = this.Params.Company.get();
+        query['myCompany']  = this.Params.Company.get();
       }
 
-      params['mycontract[startDate]'] = 'desc';
+      query['mycontract[startDate]'] = 'desc';
 
       // do request
 
       this.isLoading = true;
       this.Api.Contracts
         .GetAll({
-          params
+          query
         })
           .then((contracts) => {
             if (!contracts) {

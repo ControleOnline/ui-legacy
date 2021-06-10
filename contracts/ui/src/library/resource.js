@@ -38,19 +38,30 @@ export default class Resource {
       method: this.operation,
     };
 
-    if (options.params) {
-      _options.params = options.params;
+    if (this.isFake) {
+      return emptyPromise({
+        operation : this.operation,
+        resourceId: this.resourceId,
+      });
+    }
+
+    if (options.query) {
+      _options.params = options.query;
     }
 
     if (options.payload) {
       _options.body = JSON.stringify(options.payload);
     }
 
-    if (this.isFake) {
-      return emptyPromise({
-        operation : this.operation,
-        resourceId: this.resourceId,
-      });
+    if (options.params) {
+      Object.keys(options.params)
+        .forEach((paramKey) => {
+          this.resourceId = this.resourceId
+            .replace(
+              new RegExp(`\{${paramKey}\}`, 'ig'), options.params[paramKey]
+            )
+          ;
+        });
     }
 
     return this.client[this.isPrivate ? 'private' : 'public'](this.resourceId, _options);

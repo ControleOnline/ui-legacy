@@ -9,6 +9,9 @@ export default {
     search_phold: 'Data inicio ou nome participante',
     status      : 'Status',
     all         : 'Todos',
+    model       : 'Template',
+    start_date  : 'Data de inicio',
+    save        : 'Salvar',
     statuses    : {
       'Draft'             : 'Proposta',
       'Waiting approval'  : 'Aguardando aprovação',
@@ -27,5 +30,12 @@ export default {
     errors     : {
       'no_company' : 'Faltou selecionar a empresa',
     },
+  },
+  messages: {
+    saved_successfully: 'Dados salvos com sucesso',
+    select_an_option  : 'Selecione uma opção',
+    field_required    : 'Este campo é obrigatório',
+    email_invalid     : 'O email informado não é válido',
+    value_invalid     : 'O valor informado não é válido',
   }
 }

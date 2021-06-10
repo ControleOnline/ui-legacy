@@ -1,6 +1,10 @@
 <template>
-  <q-page class="text-center flex flex-center" padding>
-    <h2>Contract #{{id}} Details page</h2>
+  <q-page padding>
+    <contract-form
+      :id      ="id"
+      :config  ="setConfig"
+      :readOnly="false"
+    />
   </q-page>
 </template>
 
@@ -9,7 +13,8 @@
 export default {
   data() {
     return {
-      id: null
+      id     : null,
+      company: 13,
     }
   },
 
@@ -20,7 +25,24 @@ export default {
   },
 
   methods: {
+    setConfig(configs) {
+      // config api
 
+      configs.Api.setAsFake (false);
+      configs.Api.setBaseUrl('https://localhost:8081');
+      configs.Api.setToken  ('1ce707158c54688fa80484223ec2404b');
+
+      // config routes
+
+      configs.Routes.Details.name = 'ContractDetails';
+
+      // config params
+
+      configs.Params.Company
+        .getter = () => {
+          return this.company
+        };
+    },
   },
 };
 </script>
