@@ -53,10 +53,12 @@ export default class Resource {
       _options.body = JSON.stringify(options.payload);
     }
 
+    let endpoint = this.resourceId;
+
     if (options.params) {
       Object.keys(options.params)
         .forEach((paramKey) => {
-          this.resourceId = this.resourceId
+          endpoint = endpoint
             .replace(
               new RegExp(`\{${paramKey}\}`, 'ig'), options.params[paramKey]
             )
@@ -64,6 +66,6 @@ export default class Resource {
         });
     }
 
-    return this.client[this.isPrivate ? 'private' : 'public'](this.resourceId, _options);
+    return this.client[this.isPrivate ? 'private' : 'public'](endpoint, _options);
   }
 }

@@ -4,6 +4,10 @@
       :id      ="id"
       :config  ="setConfig"
     />
+    <contract-actions
+      :id      ="id"
+      :config  ="setConfig"
+    />
     <contract-form
       :id      ="id"
       :config  ="setConfig"

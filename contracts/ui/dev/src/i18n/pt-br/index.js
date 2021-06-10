@@ -3,18 +3,20 @@
 
 export default {
   contracts: {
-    title       : 'Contratos',
-    new_contract: 'Novo contrato',
-    search_by   : 'Buscar por',
-    search_phold: 'Data inicio ou nome participante',
-    status      : 'Status',
-    all         : 'Todos',
-    model       : 'Template',
-    start_date  : 'Data de inicio',
-    save        : 'Salvar',
-    original    : 'Contrato original',
-    amended     : 'Contrato adendo',
-    statuses    : {
+    title          : 'Contratos',
+    new_contract   : 'Novo contrato',
+    search_by      : 'Buscar por',
+    search_phold   : 'Data inicio ou nome participante',
+    status         : 'Status',
+    all            : 'Todos',
+    model          : 'Template',
+    start_date     : 'Data de inicio',
+    save           : 'Salvar',
+    original       : 'Contrato original',
+    amended        : 'Contrato adendo',
+    cancel_contract: 'Cancelar contrato',
+    select_data    : 'Selecione uma data',
+    statuses       : {
       'Draft'             : 'Proposta',
       'Waiting approval'  : 'Aguardando aprovação',
       'Active'            : 'Ativo',
@@ -22,22 +24,25 @@ export default {
       'Amended'           : 'Alterado',
       'Waiting signatures': 'Aguardando assinaturas',
     },
-    columns     : {
+    columns        : {
       'id'         : 'ID',
       'contratante': 'Contratante',
       'data_inicio': 'Data inicio',
       'data_fim'   : 'Data fim',
       'status'     : 'Status',
     },
-    errors     : {
+    errors         : {
       'no_company' : 'Faltou selecionar a empresa',
     },
   },
-  messages: {
+  messages         : {
     saved_successfully: 'Dados salvos com sucesso',
     select_an_option  : 'Selecione uma opção',
     field_required    : 'Este campo é obrigatório',
     email_invalid     : 'O email informado não é válido',
     value_invalid     : 'O valor informado não é válido',
-  }
+    select_a_date     : 'Selecione uma data',
+  },
+
+  'This contract can not be canceled': 'Este contrato não pode ser cancelado',
 }
