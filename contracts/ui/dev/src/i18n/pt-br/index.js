@@ -6,6 +6,7 @@ export default {
     title       : 'Contratos',
     new_contract: 'Novo contrato',
     search_by   : 'Buscar por',
+    search_phold: 'Data inicio ou nome participante',
     status      : 'Status',
     all         : 'Todos',
     statuses    : {

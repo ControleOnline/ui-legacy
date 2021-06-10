@@ -28,10 +28,11 @@
 
       <div class="col-sm-6 col-xs-12 q-pa-md">
         <q-input stack-label
-          :label  ="$t('contracts.search_by')"
-          debounce="1000"
-          v-model ="filters.text"
-          class   ="full-width"
+          :label      ="$t('contracts.search_by')"
+          debounce    ="1000"
+          v-model     ="filters.text"
+          class       ="full-width"
+          :placeholder="$t('contracts.search_phold')"
         />
       </div>
       <div class="col-sm-6 col-xs-12 q-pa-md">
