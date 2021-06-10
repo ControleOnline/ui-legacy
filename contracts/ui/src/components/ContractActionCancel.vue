@@ -1,10 +1,11 @@
 <template>
   <div>
-    <q-btn
+    <q-btn flat
       color   ="secondary"
       :label  ="$t('contracts.cancel_contract')"
       @click  ="dialog = true"
       :disable="!canCancel"
+      icon    ="cancel"
     />
 
     <q-dialog v-model="dialog">
@@ -50,8 +51,8 @@ export default {
 
   props: {
     contract: {
-      required: true,
-      default : {}
+      type    : Object,
+      required: true
     },
   },
 

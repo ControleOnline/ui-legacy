@@ -1,17 +1,8 @@
 <template>
   <q-page padding>
-    <contract-nav
-      :id      ="id"
-      :config  ="setConfig"
-    />
-    <contract-actions
-      :id      ="id"
-      :config  ="setConfig"
-    />
-    <contract-form
-      :id      ="id"
-      :config  ="setConfig"
-      :readOnly="false"
+    <contract-detail
+      :id    ="id"
+      :config="setConfig"
     />
   </q-page>
 </template>

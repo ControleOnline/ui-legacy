@@ -20,38 +20,38 @@ export default {
   mixins: [ configurable ],
 
   props: {
-    id     : {
-      type    : String,
-      required: false,
-      default : null
+    contract: {
+      type    : Object,
+      required: true
     },
-  },
-
-  created() {
-    this.loadContract();
   },
 
   data() {
     return {
-      originalId: '',
-      amendedId : '',
+
     }
   },
 
-  methods: {
-    loadContract() {
-      if (this.id !== null) {
-        this.Api.Contracts
-          .GetOne({ params: { id: this.id } })
-            .then((contract) => {
-              this.originalId = contract.contractParent !== null ?
-                contract.contractParent['@id'].replace(/\D/g, '')   : '';
+  computed: {
+    originalId() {
+      if (this.contract === null) return ''
 
-              this.amendedId  = contract.contractChild[0] ?
-                contract.contractChild[0]['@id'].replace(/\D/g, '') : '';
-            })
-          ;
-      }
+      if (!this.contract.contractParent)
+        return '';
+
+      return this.contract.contractParent['@id'].replace(/\D/g, '');
+    },
+
+    amendedId () {
+      if (this.contract === null) return ''
+
+      if (!this.contract.contractChild)
+        return '';
+
+      if (!this.contract.contractChild.length)
+        return '';
+
+      return this.contract.contractChild[0]['@id'].replace(/\D/g, '');
     },
   },
 };

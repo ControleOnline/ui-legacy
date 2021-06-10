@@ -72,10 +72,9 @@ export default {
   mixins: [ configurable, validation ],
 
   props: {
-    id     : {
-      type    : String,
-      required: false,
-      default : null
+    contract : {
+      type    : Object,
+      required: true
     },
     readOnly: {
       type    : Boolean,
@@ -85,8 +84,16 @@ export default {
   },
 
   created() {
-    this.loadContract();
     this.loadContractModels();
+  },
+
+  watch: {
+    contract() {
+      this.status    = this.$t(`contracts.statuses.${this.contract.contractStatus}`);
+      this.model     = this.contract.contractModel['@id'];
+      this.startDate = this.contract.startDate ?
+        formatDateYmdTodmY(this.contract.startDate) : '';
+    },
   },
 
   data() {
@@ -106,7 +113,9 @@ export default {
 
       this.Api.Contracts
         .Save({
-          params : { id: this.id },
+          params : {
+            id: this.contract['@id'].replace(/\D/g, '')
+          },
           payload: {
             contractModel: this.model,
             startDate    : this.startDate.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/, "$3-$2-$1"),
@@ -134,21 +143,6 @@ export default {
             this.isSaving = false;
           })
         ;
-    },
-
-    loadContract() {
-      if (this.id !== null) {
-        this.Api.Contracts
-          .GetOne({
-            params: { id: this.id },
-          })
-            .then((contract) => {
-              this.status    = this.$t(`contracts.statuses.${contract.contractStatus}`);
-              this.model     = contract.contractModel['@id'];
-              this.startDate = contract.startDate ? formatDateYmdTodmY(contract.startDate) : '';
-            })
-          ;
-      }
     },
 
     loadContractModels() {

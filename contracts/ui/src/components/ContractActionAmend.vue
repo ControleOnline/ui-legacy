@@ -1,11 +1,12 @@
 <template>
   <div>
-    <q-btn
+    <q-btn flat
       color   ="secondary"
       :label  ="$t('contracts.create_amended')"
       @click  ="onClick"
       :disable="contract.contractStatus != 'Active'"
       :loading="isCreating"
+      icon    ="add"
     />
   </div>
 </template>
@@ -20,8 +21,8 @@ export default {
 
   props: {
     contract: {
+      type    : Object,
       required: true,
-      default : {}
     },
   },
 

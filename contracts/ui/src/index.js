@@ -3,7 +3,7 @@ import { version }          from '../package.json'
 import ContractList         from './components/ContractList'
 import ContractForm         from './components/ContractForm'
 import ContractNav          from './components/ContractNav'
-import ContractActions      from './components/ContractActions'
+import ContractDetail       from './components/ContractDetail'
 import ContractActionCancel from './components/ContractActionCancel'
 import ContractActionAmend  from './components/ContractActionAmend'
 
@@ -13,7 +13,7 @@ export {
   ContractList        ,
   ContractForm        ,
   ContractNav         ,
-  ContractActions     ,
+  ContractDetail      ,
   ContractActionCancel,
   ContractActionAmend ,
 }
@@ -24,7 +24,7 @@ export default {
   ContractList        ,
   ContractForm        ,
   ContractNav         ,
-  ContractActions     ,
+  ContractDetail      ,
   ContractActionCancel,
   ContractActionAmend ,
 
@@ -32,7 +32,7 @@ export default {
     Vue.component(ContractList.name        , ContractList        )
     Vue.component(ContractForm.name        , ContractForm        )
     Vue.component(ContractNav.name         , ContractNav         )
-    Vue.component(ContractActions.name     , ContractActions     )
+    Vue.component(ContractDetail.name      , ContractDetail      )
     Vue.component(ContractActionCancel.name, ContractActionCancel)
     Vue.component(ContractActionAmend.name , ContractActionAmend )
   }
