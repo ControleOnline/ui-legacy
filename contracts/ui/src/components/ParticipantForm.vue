@@ -188,6 +188,8 @@ export default {
             position: 'bottom',
             type    : 'positive',
           });
+
+          this.$emit('added');
         })
         .catch(error => {
           this.$q.notify({

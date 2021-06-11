@@ -27,6 +27,17 @@ const routes = [
       },
     ]
   },
+  {
+    path: '/customers/',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      {
+        name     : 'CustomerDetails',
+        path     : 'id/:id',
+        component: () => import('pages/ContractDetails.vue')
+      },
+    ]
+  },
 ]
 
 export default routes

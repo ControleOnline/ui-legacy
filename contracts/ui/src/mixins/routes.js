@@ -14,6 +14,17 @@ export default {
             }
           }
         },
+        Customer: {
+          name: 'Customer',
+          get(id) {
+            return {
+              name  : this.name,
+              params: {
+                id: id
+              }
+            }
+          }
+        },
       },
     }
   },

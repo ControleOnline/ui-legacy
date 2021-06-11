@@ -34,11 +34,15 @@ export default {
       'Waiting signatures': 'Aguardando assinaturas',
     },
     columns        : {
-      'id'         : 'ID',
-      'contratante': 'Contratante',
-      'data_inicio': 'Data inicio',
-      'data_fim'   : 'Data fim',
-      'status'     : 'Status',
+      'id'           : 'ID',
+      'contratante'  : 'Contratante',
+      'data_inicio'  : 'Data inicio',
+      'data_fim'     : 'Data fim',
+      'status'       : 'Status',
+      'participant'  : 'Participante',
+      'participation': 'Participação',
+      'percent'      : 'Porcentagem',
+      'payment_day'  : 'Dia de pagamento',
     },
     panels        : {
       'contract'    : 'Contrato',
@@ -52,6 +56,7 @@ export default {
     roles          : {
       'Beneficiary': 'Contratante',
       'Payer'      : 'Pagador',
+      'Provider'   : 'Contratado',
     },
   },
   messages         : {

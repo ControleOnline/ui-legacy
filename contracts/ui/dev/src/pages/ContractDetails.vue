@@ -18,12 +18,17 @@
       </template>
 
       <template v-slot:participants="{ contract, config }">
-        <div class="row justify-end">
+        <div class="row q-mb-md justify-end">
           <contract-action-participant
-            :config    ="config"
-            :contract  ="contract"
+            :config  ="config"
+            :contract="contract"
           />
         </div>
+        <contract-participant-list
+          :config  ="config"
+          :contract="contract"
+          :readOnly="!contract.canEdit()"
+        />
       </template>
 
       <template v-slot:products="{ contract, config }">
@@ -66,7 +71,8 @@ export default {
 
       // config routes
 
-      configs.Routes.Details.name = 'ContractDetails';
+      configs.Routes.Details.name  = 'ContractDetails';
+      configs.Routes.Customer.name = 'CustomerDetails';
 
       // config params
 
