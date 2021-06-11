@@ -21,6 +21,7 @@
           <ParticipantForm
             :config  ="config"
             :contract="contract"
+            @added   ="onAdded"
           />
         </q-card-section>
       </q-card>
@@ -55,7 +56,9 @@ export default {
   },
 
   methods: {
-
+    onAdded() {
+      this.$emit('added')
+    }
   },
 };
 </script>

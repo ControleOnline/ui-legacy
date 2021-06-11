@@ -22,9 +22,11 @@
           <contract-action-participant
             :config  ="config"
             :contract="contract"
+            @added   ="$refs.participantList.reload()"
           />
         </div>
         <contract-participant-list
+          ref      ="participantList"
           :config  ="config"
           :contract="contract"
           :readOnly="!contract.canEdit()"

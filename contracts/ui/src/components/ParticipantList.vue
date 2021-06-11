@@ -211,6 +211,13 @@ export default {
           ;
       }
     },
+
+    reload() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter    : this.filters,
+      });
+    },
   },
 };
 </script>
