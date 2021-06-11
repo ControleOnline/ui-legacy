@@ -11,7 +11,7 @@
 
       <div class="col-xs-12 col-sm-6">
         <q-select stack-label emit-value map-options :hide-dropdown-icon="readOnly"
-          v-model    ="model"
+          v-model    ="template"
           :label     ="$t('contracts.model')"
           :options   ="contractModels"
           :loading   ="loadingModels"
@@ -66,6 +66,7 @@
 import configurable           from './../mixins/configurable';
 import validation             from './../mixins/validation';
 import { formatDateYmdTodmY } from './../library/formatter';
+import Contract               from './../entity/Contract';
 
 export default {
   name  : 'ContractForm',
@@ -73,7 +74,7 @@ export default {
 
   props: {
     contract : {
-      type    : Object,
+      type    : Contract,
       required: true
     },
     readOnly: {
@@ -87,20 +88,11 @@ export default {
     this.loadContractModels();
   },
 
-  watch: {
-    contract() {
-      this.status    = this.$t(`contracts.statuses.${this.contract.contractStatus}`);
-      this.model     = this.contract.contractModel['@id'];
-      this.startDate = this.contract.startDate ?
-        formatDateYmdTodmY(this.contract.startDate) : '';
-    },
-  },
-
   data() {
     return {
-      status        : null,
-      model         : null,
-      startDate     : null,
+      status        : this.$t(`contracts.statuses.${this.contract.status}`),
+      template      : null,
+      startDate     : formatDateYmdTodmY(this.contract.startDate),
       contractModels: [],
       loadingModels : false,
       isSaving      : false,
@@ -114,10 +106,10 @@ export default {
       this.Api.Contracts
         .Save({
           params : {
-            id: this.contract['@id'].replace(/\D/g, '')
+            id: this.contract.id
           },
           payload: {
-            contractModel: this.model,
+            contractModel: this.template,
             startDate    : this.startDate.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/, "$3-$2-$1"),
           },
           query  : {
@@ -169,7 +161,11 @@ export default {
               });
             }
 
+            return templates;
+          })
+          .then(templates => {
             this.contractModels = templates;
+            this.template       = this.contract.template['@id'];
           })
           .finally(() => {
             this.loadingModels = false;

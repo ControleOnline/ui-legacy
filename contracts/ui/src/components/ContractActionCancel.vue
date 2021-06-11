@@ -44,6 +44,7 @@
 <script>
 import { date }     from 'quasar';
 import configurable from './../mixins/configurable';
+import Contract     from './../entity/Contract';
 
 export default {
   name  : 'ContractActionCancel',
@@ -51,7 +52,7 @@ export default {
 
   props: {
     contract: {
-      type    : Object,
+      type    : Contract,
       required: true
     },
   },
@@ -59,7 +60,7 @@ export default {
   computed: {
     canCancel() {
       return ['Draft', 'Active']
-        .includes(this.contract.contractStatus) && this.contract.endDate == null;
+        .includes(this.contract.status) && this.contract.endDate == null;
     },
   },
 
@@ -91,7 +92,7 @@ export default {
       this.Api.Contracts
         .Cancel({
           params : {
-            id: this.contract['@id'].replace(/\D/g, ''),
+            id: this.contract.id,
           },
           payload: {
             endDate: this.cancelDate.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/, "$3-$2-$1"),

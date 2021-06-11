@@ -4,7 +4,7 @@
       color   ="secondary"
       :label  ="$t('contracts.create_amended')"
       @click  ="onClick"
-      :disable="contract.contractStatus != 'Active'"
+      :disable="contract.status != 'Active'"
       :loading="isCreating"
       icon    ="add"
     />
@@ -14,6 +14,7 @@
 <script>
 import { date }     from 'quasar';
 import configurable from './../mixins/configurable';
+import Contract     from './../entity/Contract';
 
 export default {
   name  : 'ContractActionAmend',
@@ -21,7 +22,7 @@ export default {
 
   props: {
     contract: {
-      type    : Object,
+      type    : Contract,
       required: true,
     },
   },
@@ -39,7 +40,7 @@ export default {
       this.Api.Contracts
         .CreateAddendum({
           params : {
-            id: this.contract['@id'].replace(/\D/g, ""),
+            id: this.contract.id,
           },
           payload: {},
           query  : {
@@ -48,7 +49,7 @@ export default {
         })
           .then(contract => {
             this.$router.push(
-              this.Routes.Details.get(this.contract['@id'].replace(/\D/g, ""))
+              this.Routes.Details.get(contract['@id'].replace(/\D/g, ''))
             );
           })
           .catch(e => {

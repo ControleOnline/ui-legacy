@@ -1,19 +1,24 @@
 <template>
-  <div class="row q-pt-sm q-pb-sm q-gutter-xs justify-end">
-    <q-btn flat
-      :to   ="Routes.Details.get(originalId)"
-      :label="$t('contracts.original')"
+  <div v-if="contract.hasOriginal() || contract.hasAmended()"
+    class="row q-pt-sm q-pb-sm q-gutter-xs justify-end"
+  >
+    <q-btn flat no-caps
+      v-if  ="contract.hasOriginal()"
+      :to   ="Routes.Details.get(contract.original.id)"
+      :label="$t('contracts.go_original')"
     />
 
-    <q-btn flat
-      :to   ="Routes.Details.get(amendedId)"
-      :label="$t('contracts.amended')"
+    <q-btn flat no-caps
+      v-if  ="contract.hasAmended()"
+      :to   ="Routes.Details.get(contract.amended.id)"
+      :label="$t('contracts.go_amended')"
     />
   </div>
 </template>
 
 <script>
 import configurable from './../mixins/configurable';
+import Contract     from './../entity/Contract';
 
 export default {
   name  : 'ContractNav',
@@ -21,8 +26,14 @@ export default {
 
   props: {
     contract: {
-      type    : Object,
+      type    : Contract,
       required: true
+    },
+  },
+
+  watch: {
+    '$route'(to) {
+      this.$router.go(to);
     },
   },
 
@@ -30,29 +41,6 @@ export default {
     return {
 
     }
-  },
-
-  computed: {
-    originalId() {
-      if (this.contract === null) return ''
-
-      if (!this.contract.contractParent)
-        return '';
-
-      return this.contract.contractParent['@id'].replace(/\D/g, '');
-    },
-
-    amendedId () {
-      if (this.contract === null) return ''
-
-      if (!this.contract.contractChild)
-        return '';
-
-      if (!this.contract.contractChild.length)
-        return '';
-
-      return this.contract.contractChild[0]['@id'].replace(/\D/g, '');
-    },
   },
 };
 </script>
