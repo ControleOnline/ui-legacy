@@ -32,6 +32,12 @@ export default {
       'data_fim'   : 'Data fim',
       'status'     : 'Status',
     },
+    panels        : {
+      'contract'    : 'Contrato',
+      'participants': 'Participantes',
+      'products'    : 'Produtos / Serviços',
+      'document'    : 'Documento',
+    },
     errors         : {
       'no_company' : 'Faltou selecionar a empresa',
     },

@@ -3,7 +3,32 @@
     <contract-detail
       :id    ="id"
       :config="setConfig"
-    />
+      :panels="panels"
+    >
+      <template v-slot:contract="{ contract, config }">
+        <contract-nav
+          :config  ="config"
+          :contract="contract"
+        />
+        <contract-form
+          :config    ="config"
+          :contract  ="contract"
+          :readOnly  ="!contract.canEdit()"
+        />
+      </template>
+
+      <template v-slot:participants="{ contract, config }">
+
+      </template>
+
+      <template v-slot:products="{ contract, config }">
+
+      </template>
+
+      <template v-slot:document="{ contract, config }">
+
+      </template>
+    </contract-detail>
   </q-page>
 </template>
 
@@ -14,6 +39,7 @@ export default {
     return {
       id     : null,
       company: 13,
+      panels : []
     }
   },
 
@@ -21,6 +47,8 @@ export default {
     if (this.$route.params.id) {
       this.id = decodeURIComponent(this.$route.params.id);
     }
+
+    this.setPanels();
   },
 
   methods: {
@@ -41,6 +69,32 @@ export default {
         .getter = () => {
           return this.company
         };
+    },
+
+    setPanels() {
+      let panels = [];
+
+      panels.push({
+        name: 'contract',
+        icon: 'edit'
+      });
+
+      panels.push({
+        name: 'participants',
+        icon: 'people'
+      });
+
+      panels.push({
+        name: 'products',
+        icon: 'shopping_cart'
+      });
+
+      panels.push({
+        name: 'document',
+        icon: 'article'
+      });
+
+      this.panels = panels;
     },
   },
 };

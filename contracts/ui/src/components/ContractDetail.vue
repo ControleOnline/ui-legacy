@@ -15,19 +15,31 @@
       </div>
     </q-card>
 
-    <q-card class="q-pa-md" style="min-height: 90vh">
-      <div v-if="contract !== null">
-        <contract-nav
-          :config  ="config"
-          :contract="contract"
-        />
-        <contract-form
-          :config    ="config"
-          :contract  ="contract"
-          :readOnly  ="false"
-        />
-      </div>
-    </q-card>
+    <div v-if="contract !== null">
+      <q-stepper alternative-labels header-nav
+        v-model     ="currentStep"
+        color       ="primary"
+        :vertical   ="$q.screen.lt.sm"
+        active-color="primary"
+        style       ="min-height: 90vh"
+      >
+        <q-step :header-nav="true"
+          v-for ="panel in panels"
+          :key  ="panel.name"
+          :name ="panel.name"
+          :title="$t(`contracts.panels.${panel.name}`)"
+          :icon ="panel.icon"
+        >
+          <slot
+            :name          ="panel.name"
+            v-bind:contract="contract"
+            v-bind:config  ="config"
+          >
+            {{ `Panel '${panel.name}' not found` }}
+          </slot>
+        </q-step>
+      </q-stepper>
+    </div>
   </div>
 </template>
 
@@ -44,6 +56,10 @@ export default {
       type    : String,
       required: true
     },
+    panels : {
+      type    : Array,
+      required: true,
+    },
   },
 
   created() {
@@ -52,7 +68,8 @@ export default {
 
   data() {
     return {
-      contract: null,
+      contract   : null,
+      currentStep: this.panels[0].name,
     }
   },
 

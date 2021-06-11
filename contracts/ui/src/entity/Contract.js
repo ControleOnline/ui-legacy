@@ -20,4 +20,8 @@ export default class Contract {
   hasAmended() {
     return this.amended !== null;
   }
+
+  canEdit() {
+    return this.status === 'Draft';
+  }
 }
