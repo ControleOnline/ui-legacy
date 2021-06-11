@@ -18,7 +18,12 @@
       </template>
 
       <template v-slot:participants="{ contract, config }">
-
+        <div class="row justify-end">
+          <contract-action-participant
+            :config    ="config"
+            :contract  ="contract"
+          />
+        </div>
       </template>
 
       <template v-slot:products="{ contract, config }">

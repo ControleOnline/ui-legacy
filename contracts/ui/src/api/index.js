@@ -1,5 +1,6 @@
 import Client    from './../library/client'
 import Contracts from './Contracts'
+import Customers from './Customers'
 
 const add = function(api, apiModule, modulekey) {
   for (const resourceClassName in apiModule) {
@@ -45,6 +46,7 @@ export default {
     let api = new API(baseEndpoint, token);
 
     add(api, Contracts, 'Contracts');
+    add(api, Customers, 'Customers');
 
     return api;
   }

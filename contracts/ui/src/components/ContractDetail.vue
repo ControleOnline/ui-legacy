@@ -65,10 +65,6 @@ export default {
     },
   },
 
-  created() {
-    this.loadContract();
-  },
-
   data() {
     return {
       contract   : null,
@@ -78,7 +74,7 @@ export default {
 
   computed: {
     statusStyle() {
-      let style = 'text-h6 rounded-borders q-pa-xs ';
+      let style = 'text-h6 rounded-borders q-pl-sm q-pr-sm ';
 
       if (['Draft'].includes(this.contract.status))
         style += 'bg-blue text-white';
@@ -97,6 +93,14 @@ export default {
 
       return style;
     }
+  },
+
+  created() {
+    if (this.$route.query.panel) {
+      this.currentStep = decodeURIComponent(this.$route.query.panel);
+    }
+
+    this.loadContract();
   },
 
   methods: {

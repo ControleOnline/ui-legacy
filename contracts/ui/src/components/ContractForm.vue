@@ -50,7 +50,7 @@
         </q-input>
       </div>
     </div>
-    <div class="row justify-end q-mt-lg">
+    <div class="row justify-end">
       <q-btn
          type     ="submit"
          color    ="primary"

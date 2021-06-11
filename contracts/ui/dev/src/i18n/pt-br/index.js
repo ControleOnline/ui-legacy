@@ -8,8 +8,13 @@ export default {
     search_by      : 'Buscar por',
     search_phold   : 'Data inicio ou nome participante',
     status         : 'Status',
+    name           : 'Nome',
+    alias          : 'Sobrenome',
+    participation  : 'Participação',
+    percent        : 'Porcentagem',
     all            : 'Todos',
     model          : 'Template',
+    payment_day    : 'Dia de pagamento',
     start_date     : 'Data de inicio',
     save           : 'Salvar',
     go_original    : 'Ver contrato original',
@@ -17,6 +22,9 @@ export default {
     cancel_contract: 'Cancelar contrato',
     select_data    : 'Selecione uma data',
     create_amended : 'Criar adendo',
+    add_participant: 'Adicionar participante',
+    search_customer: 'Busca de cliente',
+    how_search     : 'Digite o documento ou email',
     statuses       : {
       'Draft'             : 'Proposta',
       'Waiting approval'  : 'Aguardando aprovação',
@@ -40,6 +48,10 @@ export default {
     },
     errors         : {
       'no_company' : 'Faltou selecionar a empresa',
+    },
+    roles          : {
+      'Beneficiary': 'Contratante',
+      'Payer'      : 'Pagador',
     },
   },
   messages         : {
