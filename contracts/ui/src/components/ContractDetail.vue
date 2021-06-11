@@ -2,7 +2,10 @@
   <div>
     <q-card class="q-pa-md q-mb-sm">
       <div v-if="contract !== null">
-        <div class="row q-pt-sm q-pb-sm q-gutter-xs justify-end">
+        <div class="row q-gutter-xs items-center justify-between">
+          <div :class="statusStyle">
+            {{ this.$t(`contracts.statuses.${contract.status}`) }}
+          </div>
           <contract-action-cancel
             :config  ="config"
             :contract="contract"
@@ -70,6 +73,29 @@ export default {
     return {
       contract   : null,
       currentStep: this.panels[0].name,
+    }
+  },
+
+  computed: {
+    statusStyle() {
+      let style = 'text-h6 rounded-borders q-pa-xs ';
+
+      if (['Draft'].includes(this.contract.status))
+        style += 'bg-blue text-white';
+
+      else if (['Waiting approval','Waiting signatures'].includes(this.contract.status))
+        style += 'bg-yellow text-black';
+
+      else if (['Active'].includes(this.contract.status))
+        style += 'bg-green text-white';
+
+      else if (['Canceled','Amended'].includes(this.contract.status))
+        style += 'bg-red text-white';
+
+      else
+        style += 'text-black';
+
+      return style;
     }
   },
 
