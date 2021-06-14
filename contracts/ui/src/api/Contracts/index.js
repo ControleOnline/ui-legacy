@@ -8,6 +8,9 @@ import CreateAddendum    from './CreateAddendum'
 import AddParticipant    from './AddParticipant'
 import GetParticipants   from './GetParticipants'
 import DeleteParticipant from './DeleteParticipant'
+import GetProducts       from './GetProducts'
+import DeleteProduct     from './DeleteProduct'
+import AddProduct        from './AddProduct'
 
 export default {
   GetAll,
@@ -20,4 +23,7 @@ export default {
   AddParticipant,
   GetParticipants,
   DeleteParticipant,
+  GetProducts,
+  DeleteProduct,
+  AddProduct,
 }
