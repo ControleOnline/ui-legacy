@@ -14,10 +14,9 @@
       </div>
       <div class="col-9 q-mb-md">
         <div class="row justify-end">
-          <q-btn
+          <q-btn flat
             :label  ="$t('contracts.new_contract')"
             icon    ="add"
-            size    ="md"
             color   ="primary"
             class   ="q-ml-sm"
             @click  ="onCreate"
