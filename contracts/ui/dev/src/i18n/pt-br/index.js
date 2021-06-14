@@ -43,6 +43,11 @@ export default {
       'participation': 'Participação',
       'percent'      : 'Porcentagem',
       'payment_day'  : 'Dia de pagamento',
+      'product_name' : 'Nome produto / serviço',
+      'quantity'     : 'Quantidade',
+      'price'        : 'Preço',
+      'payer'        : 'Pagador',
+      'parceled'     : 'Parcelamento',
     },
     panels        : {
       'contract'    : 'Contrato',

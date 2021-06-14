@@ -8,6 +8,7 @@ import ActionCancel      from './components/ActionCancel'
 import ActionAmend       from './components/ActionAmend'
 import ActionParticipant from './components/ActionParticipant'
 import ParticipantList   from './components/ParticipantList'
+import ProductList       from './components/ProductList'
 
 export {
   version,
@@ -20,6 +21,7 @@ export {
   ActionAmend      ,
   ActionParticipant,
   ParticipantList  ,
+  ProductList      ,
 }
 
 export default {
@@ -33,6 +35,7 @@ export default {
   ActionAmend      ,
   ActionParticipant,
   ParticipantList  ,
+  ProductList      ,
 
   install (Vue) {
     Vue.component(ContractList.name     , ContractList  )
@@ -43,5 +46,6 @@ export default {
     Vue.component(ActionAmend.name      , ActionAmend   )
     Vue.component(ActionParticipant.name, ActionParticipant)
     Vue.component(ParticipantList.name  , ParticipantList)
+    Vue.component(ProductList.name      , ProductList   )
   }
 }

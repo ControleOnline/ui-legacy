@@ -11,13 +11,7 @@ export default class GetProducts extends Resource {
         if (response.ok) {
           return response.json()
             .then(data => {
-              if (data['hydra:member']) {
-                return {
-                  members: data['hydra:member'],
-                  total  : data['hydra:totalItems']
-                }
-              }
-              return null;
+              return data;
             });
         }
       });

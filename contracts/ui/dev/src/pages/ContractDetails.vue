@@ -34,7 +34,12 @@
       </template>
 
       <template v-slot:products="{ contract, config }">
-
+        <contract-product-list
+          ref      ="productList"
+          :config  ="config"
+          :contract="contract"
+          :readOnly="!contract.canEdit()"
+        />
       </template>
 
       <template v-slot:document="{ contract, config }">
