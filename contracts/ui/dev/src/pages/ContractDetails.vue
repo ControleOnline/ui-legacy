@@ -50,6 +50,14 @@
         />
       </template>
 
+      <template v-slot:schedule="{ contract, config }">
+        <contract-schedule-list
+          :config  ="config"
+          :contract="contract"
+          :readOnly="!contract.canEdit()"
+        />
+      </template>
+
       <template v-slot:document="{ contract, config }">
         <contract-document
           :config   ="config"
@@ -117,6 +125,11 @@ export default {
       panels.push({
         name: 'products',
         icon: 'shopping_cart'
+      });
+
+      panels.push({
+        name: 'schedule',
+        icon: 'calendar_today'
       });
 
       panels.push({

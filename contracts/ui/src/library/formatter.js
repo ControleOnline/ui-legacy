@@ -69,3 +69,8 @@ export const formatDateYmdTodmY = (value, withTime = false) => {
 
   return `${result[3]}/${result[2]}/${result[1]}`;
 };
+
+export const formatAsTime = (dateTime) => {
+  return dateTime
+    .replace(/^\d{4}\-\d{2}\-\d{2}T(\d{2}):(\d{2}):(\d{2})\+00:00$/, '\$1:\$2');
+};

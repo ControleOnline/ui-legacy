@@ -11,6 +11,7 @@ import ParticipantList   from './components/ParticipantList'
 import ProductList       from './components/ProductList'
 import ActionProduct     from './components/ActionProduct'
 import ContractDocument  from './components/ContractDocument'
+import ScheduleList      from './components/ScheduleList'
 
 export {
   version,
@@ -26,6 +27,7 @@ export {
   ProductList      ,
   ActionProduct    ,
   ContractDocument ,
+  ScheduleList     ,
 }
 
 export default {
@@ -42,6 +44,7 @@ export default {
   ProductList      ,
   ActionProduct    ,
   ContractDocument ,
+  ScheduleList     ,
 
   install (Vue) {
     Vue.component(ContractList.name     , ContractList  )
@@ -55,5 +58,6 @@ export default {
     Vue.component(ProductList.name      , ProductList   )
     Vue.component(ActionProduct.name    , ActionProduct )
     Vue.component(ContractDocument.name , ContractDocument)
+    Vue.component(ScheduleList.name     , ScheduleList  )
   }
 }
