@@ -2,18 +2,24 @@
   <div>
     <q-card class="q-pa-md q-mb-sm">
       <div v-if="contract !== null">
-        <div class="row q-gutter-xs items-center justify-between">
-          <div :class="statusStyle">
-            {{ this.$t(`contracts.statuses.${contract.status}`) }}
+        <div class="row">
+          <div class="col-xs-12 col-sm-3">
+            <div :class="statusStyle">
+              {{ this.$t(`contracts.statuses.${contract.status}`) }}
+            </div>
           </div>
-          <contract-action-cancel
-            :config  ="config"
-            :contract="contract"
-          />
-          <contract-action-amend
-            :config  ="config"
-            :contract="contract"
-          />
+          <div class="col-xs-12 col-sm-9">
+            <div class="row items-center justify-end">
+              <contract-action-cancel
+                :config  ="config"
+                :contract="contract"
+              />
+              <contract-action-amend
+                :config  ="config"
+                :contract="contract"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </q-card>
@@ -74,7 +80,7 @@ export default {
 
   computed: {
     statusStyle() {
-      let style = 'text-h6 rounded-borders q-pl-sm q-pr-sm ';
+      let style = 'text-center text-h6 rounded-borders q-pl-sm q-pr-sm ';
 
       if (['Draft'].includes(this.contract.status))
         style += 'bg-blue text-white';
