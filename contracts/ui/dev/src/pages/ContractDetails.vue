@@ -1,6 +1,7 @@
 <template>
   <q-page padding>
     <contract-detail
+      ref    ="contractDetail"
       :id    ="id"
       :config="setConfig"
       :panels="panels"
@@ -50,7 +51,11 @@
       </template>
 
       <template v-slot:document="{ contract, config }">
-
+        <contract-document
+          :config   ="config"
+          :contract ="contract"
+          @requested="$refs.contractDetail.loadContract()"
+        />
       </template>
     </contract-detail>
   </q-page>

@@ -11,6 +11,9 @@ import DeleteParticipant from './DeleteParticipant'
 import GetProducts       from './GetProducts'
 import DeleteProduct     from './DeleteProduct'
 import AddProduct        from './AddProduct'
+import GetSigners        from './GetSigners'
+import GetDocument       from './GetDocument'
+import RequestSignatures from './RequestSignatures'
 
 export default {
   GetAll,
@@ -26,4 +29,7 @@ export default {
   GetProducts,
   DeleteProduct,
   AddProduct,
+  GetSigners,
+  GetDocument,
+  RequestSignatures,
 }
