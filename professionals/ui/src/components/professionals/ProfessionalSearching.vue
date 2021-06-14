@@ -16,7 +16,7 @@
         <q-td key="id"                :props="props">
           <q-btn outline dense
             :to   ="{
-              name  : user.type === 'admin' ? 'Admin.Trainer.Details' : 'Salesman.Trainer.Details',
+              name  : 'Professionals.Details',
               params: {
                 id: props.row.id
               }
