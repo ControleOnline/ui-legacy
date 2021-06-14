@@ -2,7 +2,7 @@
   <div>
     <q-btn flat
       color   ="secondary"
-      :label  ="$t('contracts.add_participant')"
+      :label  ="$t('contracts.add_product')"
       @click  ="dialog = true"
       icon    ="add"
       :disable="!contract.canEdit()"
@@ -12,14 +12,14 @@
       <q-card style="width: 700px; max-width: 80vw;">
         <q-card-section class="row items-center">
           <div class="text-h6">
-            {{ $t('contracts.add_participant') }}
+            {{ $t('contracts.add_product') }}
           </div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
 
         <q-card-section>
-          <ParticipantForm
+          <ProductForm
             :config  ="config"
             :contract="contract"
             @added   ="onAdded"
@@ -31,16 +31,16 @@
 </template>
 
 <script>
-import configurable    from './../mixins/configurable';
-import Contract        from './../entity/Contract';
-import ParticipantForm from './ParticipantForm';
+import configurable from './../mixins/configurable';
+import Contract     from './../entity/Contract';
+import ProductForm  from './ProductForm';
 
 export default {
-  name      : 'ContractActionParticipant',
+  name      : 'ContractActionProduct',
   mixins    : [ configurable ],
 
   components: {
-    ParticipantForm
+    ProductForm
   },
 
   props     : {

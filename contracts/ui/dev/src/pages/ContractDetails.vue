@@ -34,6 +34,13 @@
       </template>
 
       <template v-slot:products="{ contract, config }">
+        <div class="row q-mb-md justify-end">
+          <contract-action-product
+            :config  ="config"
+            :contract="contract"
+            @added   ="$refs.productList.reload()"
+          />
+        </div>
         <contract-product-list
           ref      ="productList"
           :config  ="config"

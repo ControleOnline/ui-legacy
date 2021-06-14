@@ -12,18 +12,21 @@ export default class AddProduct extends Resource {
         if (response.ok) {
           return response.json()
             .then(data => {
-              return data;
+              if (data.response) {
+                if (data.response.success) {
+                  return data.response.data;
+                }
+                else {
+                  throw new Error(data.response.error);
+                }
+              }
+
+              return null;
             });
         }
         else {
           return response.json()
             .then(responseJson => {
-              if (responseJson['@type'] === 'hydra:Error') {
-                let message = responseJson['hydra:description'];
-
-                throw new Errors.ValidationError(message);
-              }
-
               throw new Error('Unknown error');
             });
         }

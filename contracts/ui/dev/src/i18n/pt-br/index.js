@@ -25,6 +25,12 @@ export default {
     add_participant: 'Adicionar participante',
     search_customer: 'Busca de cliente',
     how_search     : 'Digite o documento ou email',
+    add_product    : 'Adicionar produto / serviço',
+    product        : 'Produto / Serviço',
+    price          : 'Preço',
+    parcels        : 'Parcelas',
+    payer          : 'Pagador',
+    quantity       : 'Quantidade',
     statuses       : {
       'Draft'             : 'Proposta',
       'Waiting approval'  : 'Aguardando aprovação',
@@ -71,6 +77,7 @@ export default {
     email_invalid     : 'O email informado não é válido',
     value_invalid     : 'O valor informado não é válido',
     select_a_date     : 'Selecione uma data',
+    sure_remove       : 'Realmente deseja eliminar este registro?',
   },
 
   'This contract can not be canceled': 'Este contrato não pode ser cancelado',
