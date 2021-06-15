@@ -51,7 +51,15 @@
       </template>
 
       <template v-slot:schedule="{ contract, config }">
+        <div class="row q-mb-md justify-end">
+          <contract-action-schedule
+            :config  ="config"
+            :contract="contract"
+            @added   ="$refs.scheduleList.reload()"
+          />
+        </div>
         <contract-schedule-list
+          ref      ="scheduleList"
           :config  ="config"
           :contract="contract"
           :readOnly="!contract.canEdit()"

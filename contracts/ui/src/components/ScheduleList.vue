@@ -88,186 +88,20 @@ export default {
       },
     ];
 
-    this.weekDays = [
-      {
-        label: 'Segunda-feira',
-        value: 'monday',
-      },
-      {
-        label: 'Terça-feira',
-        value: 'tuesday',
-      },
-      {
-        label: 'Quarta-feira',
-        value: 'wednesday',
-      },
-      {
-        label: 'Quinta-feira',
-        value: 'thursday',
-      },
-      {
-        label: 'Sexta-feira',
-        value: 'friday',
-      },
-      {
-        label: 'Sábado',
-        value: 'saturday',
-      },
-      {
-        label: 'Domingo',
-        value: 'sunday',
-      },
-    ];
-
-    this.dayPeriods = [
-      {
-        label: '07:00',
-        value: '07:00:00',
-      },
-      {
-        label: '07:30',
-        value: '07:30:00',
-      },
-      {
-        label: '08:00',
-        value: '08:00:00',
-      },
-      {
-        label: '08:30',
-        value: '08:30:00',
-      },
-      {
-        label: '09:00',
-        value: '09:00:00',
-      },
-      {
-        label: '09:30',
-        value: '09:30:00',
-      },
-      {
-        label: '10:00',
-        value: '10:00:00',
-      },
-      {
-        label: '10:30',
-        value: '10:30:00',
-      },
-      {
-        label: '11:00',
-        value: '11:00:00',
-      },
-      {
-        label: '11:30',
-        value: '11:30:00',
-      },
-      {
-        label: '12:00',
-        value: '12:00:00',
-      },
-      {
-        label: '12:30',
-        value: '12:30:00',
-      },
-      {
-        label: '13:00',
-        value: '13:00:00',
-      },
-      {
-        label: '13:30',
-        value: '13:30:00',
-      },
-      {
-        label: '14:00',
-        value: '14:00:00',
-      },
-      {
-        label: '14:30',
-        value: '14:30:00',
-      },
-      {
-        label: '15:00',
-        value: '15:00:00',
-      },
-      {
-        label: '15:30',
-        value: '15:30:00',
-      },
-      {
-        label: '16:00',
-        value: '16:00:00',
-      },
-      {
-        label: '16:30',
-        value: '16:30:00',
-      },
-      {
-        label: '17:00',
-        value: '17:00:00',
-      },
-      {
-        label: '17:30',
-        value: '17:30:00',
-      },
-      {
-        label: '18:00',
-        value: '18:00:00',
-      },
-      {
-        label: '18:30',
-        value: '18:30:00',
-      },
-      {
-        label: '19:00',
-        value: '19:00:00',
-      },
-      {
-        label: '19:30',
-        value: '19:30:00',
-      },
-      {
-        label: '20:00',
-        value: '20:00:00',
-      },
-      {
-        label: '20:30',
-        value: '20:30:00',
-      },
-      {
-        label: '21:00',
-        value: '21:00:00',
-      },
-      {
-        label: '21:30',
-        value: '21:30:00',
-      },
-      {
-        label: '22:00',
-        value: '22:00:00',
-      },
-      {
-        label: '22:30',
-        value: '22:30:00',
-      },
-      {
-        label: '23:00',
-        value: '23:00:00',
-      },
-    ];
-
     this.allDays = {
-      'monday'   : 'Segunda-feira',
-      'tuesday'  : 'Terça-feira',
-      'wednesday': 'Quarta-feira',
-      'thursday' : 'Quinta-feira',
-      'friday'   : 'Sexta-feira',
-      'saturday' : 'Sábado',
-      'sunday'   : 'Domingo',
+      'monday'   : this.$t('contracts.monday'),
+      'tuesday'  : this.$t('contracts.tuesday'),
+      'wednesday': this.$t('contracts.wednesday'),
+      'thursday' : this.$t('contracts.thursday'),
+      'friday'   : this.$t('contracts.friday'),
+      'saturday' : this.$t('contracts.saturday'),
+      'sunday'   : this.$t('contracts.sunday'),
     };
 
     this.classType = {
-      'ead'    : 'Online',
-      'company': 'Externa',
-      'school' : 'Interna',
+      'ead'    : this.$t('contracts.ead'),
+      'company': this.$t('contracts.company'),
+      'school' : this.$t('contracts.school'),
     };
 
     this.onRequest({
@@ -279,8 +113,6 @@ export default {
   data() {
     return {
       columns   : [],
-      dayPeriods: [],
-      weekDays  : [],
       allDays   : {},
       classType : {},
       data      : [],

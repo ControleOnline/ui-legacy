@@ -184,7 +184,7 @@ export default {
           .finally(() => {
             this.isLoading = false;
           })
-      ;
+        ;
     },
 
     removeItem(item) {

@@ -33,6 +33,26 @@ export default {
     quantity          : 'Quantidade',
     request_signatures: 'Solicitar assinaturas',
     signers           : 'Assinantes',
+    add_schedule      : 'Adicionar horário',
+    students          : 'Alunos',
+    week_day          : 'Dia da semana',
+    start_time        : 'Horário de inicio',
+    end_time          : 'Horário de termino',
+    teacher           : 'Professor',
+    last_time         : 'Último horário',
+    local             : 'Local',
+
+    monday            : 'Segunda-feira',
+    tuesday           : 'Terça-feira',
+    wednesday         : 'Quarta-feira',
+    thursday          : 'Quinta-feira',
+    friday            : 'Sexta-feira',
+    saturday          : 'Sábado',
+    sunday            : 'Domingo',
+
+    ead               : 'Online',
+    company           : 'Externa',
+    school            : 'Interna',
 
     statuses       : {
       'Draft'             : 'Proposta',
