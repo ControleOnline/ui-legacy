@@ -113,7 +113,14 @@ export default {
     loadContract() {
       if (this.id !== null) {
         this.Api.Contracts
-          .GetOne({ params: { id: this.id } })
+          .GetOne({
+            query : {
+              myCompany: this.Params.Company.get(),
+            },
+            params: {
+              id: this.id
+            },
+          })
             .then((data) => {
               const contract = new Contract(data['@id'].replace(/\D/g, ''));
 
