@@ -1,10 +1,12 @@
-import { version } from '../package.json'
+import { name, version } from '../package.json'
 
 export {
+  name,
   version,
 }
 
 export default {
+  name,
   version,
 
   install (Vue) {

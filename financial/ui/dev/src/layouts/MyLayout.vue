@@ -11,7 +11,7 @@
         />
 
         <q-toolbar-title>
-          @controleonline/quasar-contracts-ui v{{ version }}
+          {{ name }} v{{ version }}
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -25,13 +25,14 @@
 </template>
 
 <script>
-import { version } from 'ui' // "ui" is aliased in quasar.conf.js
+import { name, version } from 'ui' // "ui" is aliased in quasar.conf.js
 
 export default {
   name: 'MyLayout',
 
   data () {
     return {
+      name,
       version
     }
   }
