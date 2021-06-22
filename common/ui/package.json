@@ -1,0 +1,20 @@
+{
+    "name": "@controleonline/quasar-common-ui",
+    "version": "1.0.0",
+    "author": "ControleOnline",
+    "description": "ControleOnline Common Quasar UI Component",
+    "license": "MIT",
+    "main": "src/index.js",
+    "scripts": {
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/Frete-Click/fclick-quasar-ui"
+    },
+    "bugs": "",
+    "homepage": "https://www.controleonline.com/devs/plugins",
+    "browserslist": [
+      "last 1 version, not dead, ie >= 11"
+    ]
+}
+  
