@@ -24,7 +24,7 @@ export default {
     create_amended    : 'Criar adendo',
     add_participant   : 'Adicionar participante',
     search_customer   : 'Busca de cliente',
-    how_search        : 'Digite o documento ou email',
+    how_search        : 'Digite o nome, documento ou email',
     add_product       : 'Adicionar produto / serviço',
     product           : 'Produto / Serviço',
     price             : 'Preço',
@@ -41,6 +41,8 @@ export default {
     teacher           : 'Professor',
     last_time         : 'Último horário',
     local             : 'Local',
+    document          : 'Documento',
+    email             : 'Email',
 
     monday            : 'Segunda-feira',
     tuesday           : 'Terça-feira',

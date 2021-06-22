@@ -40,7 +40,7 @@ export default {
         return 'document';
       }
 
-      return null;
+      return 'name';
     },
   },
 
@@ -67,6 +67,18 @@ export default {
             customer.alias      = data.alias;
             customer.paymentDay = data.payment.dueDay;
             customer.type       = data.type;
+            customer.cnpj       = data.documents.find(doc => doc.type === 'CNPJ');
+            customer.cpf        = data.documents.find(doc => doc.type === 'CPF' );
+
+            if (customer.cnpj !== undefined)
+              customer.cnpj = customer.cnpj.document;
+
+            if (customer.cpf !== undefined)
+              customer.cpf = customer.cpf.document;
+
+            if (data.contact) {
+              customer.email = data.contact.email;
+            }
 
             this.$emit('found', customer)
           })

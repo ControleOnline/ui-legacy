@@ -9,6 +9,9 @@ export default class Customer {
     this.alias      = null;
     this.paymentDay = null;
     this.type       = null;
+    this.cnpj       = null;
+    this.cpf        = null;
+    this.email      = null;
   }
 
   isPerson() {
