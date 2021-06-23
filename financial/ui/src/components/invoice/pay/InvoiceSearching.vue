@@ -62,7 +62,7 @@
           </q-td>
           <q-td key="pedidos"        :props="props">
             <q-btn outline dense
-              :label="props.row.pedidos.length > 1 ? `${props.row.pedidos.length} Aulas` : '1 Aula'"
+              :label="props.row.pedidos.length > 1 ? `${props.row.pedidos.length} ${$t('finance.orders')}` : `1 ${$t('finance.order')}`"
               color ="primary"
               @click="seeOrdersList(props.row.pedidos, props.row.id)"
               class ="full-width"
@@ -82,7 +82,7 @@
       <q-card class="text-white" style="background-color: #00519b; width: 300px">
         <q-card-section>
           <div class="row items-center">
-            <div class="text-h6">Aulas da Fatura #{{ dialogs.orders.invoice }}</div>
+            <div class="text-h6">{{ $t('finance.orders') }} da Fatura #{{ dialogs.orders.invoice }}</div>
             <q-space />
             <q-btn icon="close" color="white" flat round dense v-close-popup />
           </div>
@@ -98,7 +98,7 @@
                 <td class="text-center">
                   <q-btn flat
                     color ="primary"
-                    :label="`Ver aula #${orderId}`"
+                    :label="`Ver ${$t('finance.order')} #${orderId}`"
                     :to   ="{
                       name  : 'Admin.OrderPurchasing.Details',
                       params: {
