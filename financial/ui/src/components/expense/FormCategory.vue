@@ -39,7 +39,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { Api }                    from '@freteclick/quasar-common-ui/src/utils/api';
+import Api                        from '@freteclick/quasar-common-ui/src/utils/api';
 
 export default {
   props: {
