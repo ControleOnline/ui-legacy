@@ -1,0 +1,22 @@
+{
+  "name": "@controleonline/quasar-financial-ui",
+  "version": "1.0.5",
+  "author": "ControleOnline",
+  "description": "ControleOnline financial Quasar UI Component",
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Frete-Click/fclick-quasar-ui"
+  },
+  "bugs": "",
+  "homepage": "https://www.controleonline.com/devs/plugins",
+  "browserslist": [
+    "last 1 version, not dead, ie >= 11"
+  ],
+  "dependencies": {
+    "@controleonline/quasar-common-ui": "^1.0.0",
+    "@freteclick/quasar-common-ui": "^1.0.1"
+  }
+}
