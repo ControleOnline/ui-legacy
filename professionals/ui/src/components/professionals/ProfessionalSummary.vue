@@ -35,7 +35,7 @@
         </div>
 
         <div class="row q-col-gutter-sm">
-          <div class="col-xs-12 col-sm-grow">
+          <div v-show="false" class="col-xs-12 col-sm-grow">
             <q-input stack-label outlined
               v-model="item.birthday"
               mask   ="##/##/####"
