@@ -48,7 +48,7 @@
           :loading="isLoading"
           :label  ="$t('dashboard.request')"
           color   ="primary"
-          @click  ="refreshDashboardData"
+          @click  ="$emit('refresh')"
         />
       </q-card-actions>
     </q-card>
@@ -103,16 +103,6 @@ export default {
       toDate   : date.formatDate(Date.now(), 'DD/MM/YYYY'),
       isLoading: false,
     }
-  },
-
-  created() {
-    this.refreshDashboardData()
-  },
-
-  methods: {
-    refreshDashboardData() {
-
-    },
   },
 };
 </script>

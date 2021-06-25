@@ -3,10 +3,13 @@
 
 export default {
   dashboard: {
-    from_date         : 'Data inicio',
-    to_date           : 'Data fim',
-    request           : 'Filtrar',
-    inactive_customers: 'Clientes inativos',
+    from_date            : 'Data inicio',
+    to_date              : 'Data fim',
+    request              : 'Filtrar',
+    inactive_customers   : 'Clientes inativos',
+    active_customers     : 'Clientes ativos',
+    new_customers        : 'Novos clientes',
+    prospective_customers: 'Prospectivos clientes',
   },
   messages         : {
     saved_successfully: 'Dados salvos com sucesso',
