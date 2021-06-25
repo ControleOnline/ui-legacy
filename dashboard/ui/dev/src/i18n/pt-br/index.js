@@ -10,6 +10,9 @@ export default {
     active_customers     : 'Clientes ativos',
     new_customers        : 'Novos clientes',
     prospective_customers: 'Prospectivos clientes',
+    quotes               : 'Cotações',
+    sales                : 'Vendas',
+    average_ticket       : 'Ticket médio',
   },
   messages         : {
     saved_successfully: 'Dados salvos com sucesso',

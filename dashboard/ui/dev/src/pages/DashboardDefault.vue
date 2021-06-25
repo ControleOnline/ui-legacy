@@ -41,6 +41,33 @@
           :to    ="filters.to"
         />
       </template>
+
+      <template v-slot:quote-totals="{ config, filters }">
+        <dashboard-quote-totals
+          ref    ="quoteTotals"
+          :config="config"
+          :from  ="filters.from"
+          :to    ="filters.to"
+        />
+      </template>
+
+      <template v-slot:sales-totals="{ config, filters }">
+        <dashboard-sales-totals
+          ref    ="salesTotals"
+          :config="config"
+          :from  ="filters.from"
+          :to    ="filters.to"
+        />
+      </template>
+
+      <template v-slot:average-ticket="{ config, filters }">
+        <dashboard-average-ticket
+          ref    ="averageTicket"
+          :config="config"
+          :from  ="filters.from"
+          :to    ="filters.to"
+        />
+      </template>
     </dashboard-default>
   </q-page>
 </template>
@@ -99,6 +126,18 @@ export default {
         name: 'prospective-customers',
       });
 
+      elements.push({
+        name: 'quote-totals',
+      });
+
+      elements.push({
+        name: 'sales-totals',
+      });
+
+      elements.push({
+        name: 'average-ticket',
+      });
+
       this.elements = elements;
     },
 
@@ -107,6 +146,9 @@ export default {
       this.$refs.activeCustomers.reload()
       this.$refs.newCustomers.reload()
       this.$refs.prospectiveCustomers.reload()
+      this.$refs.quoteTotals.reload()
+      this.$refs.salesTotals.reload()
+      this.$refs.averageTicket.reload()
     },
   },
 };
