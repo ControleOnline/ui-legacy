@@ -6,26 +6,26 @@
       ref        ="username"
       v-model    ="item.username"
       type       ="text"
-      :label     ="$t('Seu usuário')"
+      :label     ="$t('login.yourUser')"
       class      ="q-mt-md"
-      placeholder="Digite seu usuário"
-      :rules     ="[val => !!val || $t('Campo obrigatório'), isInvalid('username')]"
+      :placeholder="$t('login.enterYourUsername')"
+      :rules     ="[val => !!val || $t('messages.fieldRequired'), isInvalid('username')]"
     />
 
     <q-input outlined stack-label
       ref        ="password"
       v-model    ="item.password"
       type       ="password"
-      :label     ="$t('Sua senha')"
+      :label     ="$t('login.yourPass')"
       class      ="q-mt-md"
-      placeholder="Digite sua senha"
-      :rules     ="[val => !!val || $t('Campo obrigatório'), isInvalid('password')]"
+      :placeholder="$t('login.enterYourPass')"
+      :rules     ="[val => !!val || $t('messages.fieldRequired'), isInvalid('password')]"
     />
 
     <q-btn
       type    ="submit"
       :loading="isLoading"
-      :label  ="$t('Entrar')"
+      :label  ="$t('login.send')"
       size    ="lg"
       color   ="primary"
       class   ="full-width q-mt-md"
@@ -89,7 +89,7 @@ export default {
       this.signIn(this.item)
         .catch(error => {
           this.$q.notify({
-            message : 'Usuário ou senha não são válidos',
+            message : this.$t('login.invalidUserMessage'),
             position: 'bottom',
             type    : 'negative',
           });
@@ -103,7 +103,7 @@ export default {
           return this.$t('messages.fieldRequired');
 
         if (key == 'password' && val.length < 6)
-          return this.$t('A senha deve ter no mínimo 6 caracteres');
+          return this.$t('login.passMessage');
 
         return true;
       };

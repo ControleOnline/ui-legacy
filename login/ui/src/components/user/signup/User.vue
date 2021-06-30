@@ -7,8 +7,8 @@
         <q-input outlined stack-label lazy-rules
           v-model    ="item.name"
           type       ="text"
-          :label     ="$t('Nome')"
-          placeholder="Digite seu nome"
+          :label     ="$t('login.name')"
+          :placeholder="$t('login.enterYourName')"
           :rules     ="[isInvalid('name')]"
         />
       </div>
@@ -16,9 +16,9 @@
         <q-input outlined stack-label lazy-rules unmasked-value
           v-model    ="item.phone"
           type       ="text"
-          :label     ="$t('Telefone')"
+          :label     ="$t('login.phone')"
           mask       ="(##) #####-####"
-          placeholder="Digite seu telefone"
+          :placeholder="$t('login.enterYourPhone')"
           :rules     ="[isInvalid('phone')]"
         />
       </div>
@@ -27,8 +27,8 @@
     <q-input outlined stack-label lazy-rules
       v-model    ="item.email"
       type       ="text"
-      :label     ="$t('Email')"
-      placeholder="Digite seu e-mail"
+      :label     ="$t('login.email')"
+      :placeholder="$t('login.enterYourEmail')"
       class      ="q-mb-md"
       :rules     ="[isInvalid('email')]"
     />
@@ -36,12 +36,12 @@
     <q-input outlined stack-label lazy-rules reverse-fill-mask
       v-model    ="item.username"
       type       ="text"
-      :label     ="$t('Usuário')"
-      placeholder="Digite seu usuário (nickname)"
+      :label     ="$t('login.username')"
+      :placeholder="$t('login.enterYourUsername')"
       class      ="q-mb-md"
       mask       ="x"
       :rules     ="[isInvalid('username')]"
-      hint       ="Use apenas letras e números sem espaços"
+      :hint       ="$t('login.usernameMessage')"
     />
 
     <div class="row q-col-gutter-xs q-pb-xs">
@@ -49,18 +49,18 @@
         <q-input outlined stack-label lazy-rules
           v-model    ="item.password"
           type       ="password"
-          :label     ="$t('Senha')"
-          placeholder="Digite sua senha"
+          :label     ="$t('login.password')"
+          :placeholder="$t('login.enterYourPass')"
           :rules     ="[isInvalid('password')]"
-          hint       ="Use seis ou mais caracteres com uma combinação de letras, números e símbolos"
+          :hint      ="$t('login.passMessage')"
         />
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-md">
         <q-input outlined stack-label lazy-rules
           v-model    ="item.confirmPassword"
           type       ="password"
-          :label     ="$t('Confirmação')"
-          placeholder="Confirme sua senha"
+          :label     ="$t('login.confirm')"
+          :placeholder="$t('login.confirmYourPass')"
           :rules     ="[isInvalid('confirm')]"
         />
       </div>
@@ -70,7 +70,7 @@
       <q-btn
          type    ="submit"
          color   ="primary"
-         label   ="Continuar"
+         :label   ="$t('login.continue')"
          :loading="isLoading"
       />
     </div>
@@ -150,11 +150,11 @@ export default {
 
     notifyError(message) {
       if (/password: This password has been leaked in a data breach/gi.test(message))
-        message = this.$t('Esta senha não é segura. Crie uma senha mais forte');
+        message = this.$t('login.weakPass');
       else if (/This account already exists/gi.test(message))
-        message = this.$t('O email utilizado já existe');
+        message = this.$t('login.duplicateEmail');
       else if (/This user already exists/gi.test(message))
-        message = this.$t('O usuário já existe');
+        message = this.$t('login.duplicateUser');
 
       this.$q.notify({
         message : message,
@@ -175,10 +175,10 @@ export default {
           return this.$t('messages.phoneInvalid');
 
         if (key == 'password' && val.length < 6)
-          return this.$t('A senha deve ter no mínimo 6 caracteres');
+          return this.$t('login.passMessage');
 
         if (key == 'confirm' && (this.item.password != this.item.confirmPassword))
-          return this.$t('As senhas não coincidem');
+          return this.$t('login.passNoMatch');
 
         return true;
       };

@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <div class="text-body2">{{ $t('Informe seu nome de usuário e email. Em breve enviaremos no email informado um link de recuperação de acesso.' ) }}</div>
+    <div class="text-body2">{{ $t('login.rememberDesc' ) }}</div>
 
     <q-form @submit="onSubmit" class="q-mt-md">
 
@@ -8,7 +8,7 @@
         ref    ="email"
         v-model="item.username"
         type   ="text"
-        :label ="$t('Seu nome de usuário')"
+        :label ="$t('login.yourUsername')"
         class  ="q-mt-md"
         :rules ="[isInvalid('username')]"
       />
@@ -17,14 +17,14 @@
         ref    ="email"
         v-model="item.email"
         type   ="email"
-        :label ="$t('Seu email')"
+        :label ="$t('login.yourEmail')"
         class  ="q-mt-md"
         :rules ="[isInvalid('email')]"
       />
 
       <q-btn
         type    ="submit"
-        :label  ="$t('Enviar')"
+        :label  ="$t('login.send')"
         size    ="lg"
         color   ="primary"
         class   ="full-width q-mt-md"

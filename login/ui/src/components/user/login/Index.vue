@@ -3,10 +3,10 @@
     <q-card class="login-form">
       <q-card-section class="bg-primary text-white text-center">
         <div class="text-h6 text-uppercase">
-          {{ $t('Faça login') }}
+          {{ $t('login.title') }}
         </div>
         <div class="text-subtitle2 text-uppercase">
-          {{ $t('Sistema Cotafácil') }}
+          {{ $t('app.name') }}
         </div>
       </q-card-section>
 
@@ -16,14 +16,14 @@
 
       <q-card-actions align="around" class="q-pa-md">
         <q-btn outline
-          :label  ="$t('Cadastrar')"
+          :label  ="$t('login.register')"
           size    ="md"
           class   ="q-mr-md"
           color   ="primary"
           @click  ="onSignUp"
         />
         <q-btn flat
-          :label  ="$t('Perdeu a senha?')"
+          :label  ="$t('login.lostPass')"
           size    ="md"
           color   ="primary"
           @click  ="recovery = true"
@@ -38,7 +38,7 @@
     >
       <q-card>
         <q-card-section class="row items-center">
-          <div class="text-h6">{{ $t('Não lembro minha senha') }}</div>
+          <div class="text-h6">{{ $t('login.dontRemember') }}</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
