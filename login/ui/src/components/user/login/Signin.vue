@@ -34,9 +34,7 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
-
-const { mapGetters, mapActions } = createNamespacedHelpers('auth');
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -48,10 +46,17 @@ export default {
     };
   },
 
-  computed: mapGetters(['user', 'isLoading', 'error', 'violations']),
+  computed: {
+      ...mapGetters({
+      user      : 'auth/user', 
+      isLoading : 'auth/isLoading', 
+      error     : 'auth/error', 
+      violations: 'auth/violations'
+    })
+  },
 
-  watch   : {
-    user: function(user) {
+  watch: {
+    user(user) {
       if (!user)
         return;
 
@@ -83,7 +88,9 @@ export default {
   },
 
   methods: {
-    ...mapActions(['signIn']),
+    ...mapActions({
+      signIn: 'auth/signIn'
+    }),
 
     onSubmit () {
       this.signIn(this.item)

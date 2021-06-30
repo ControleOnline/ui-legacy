@@ -145,6 +145,7 @@
       <q-btn
          type    ="submit"
          color   ="primary"
+         icon    ="save"
          :label  ="saveBtn"
          :loading="isLoading"
       />

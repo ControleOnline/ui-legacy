@@ -4,7 +4,6 @@ import { LocalStorage } from 'quasar';
 export default {
   [types.LOGIN_SET_USER] (state, payload = null) {
     try {
-
       let _user = payload;
 
       if (payload !== null && payload.api_key) {
@@ -18,10 +17,11 @@ export default {
           avatar  : payload.avatar,
           email   : payload.email,
           phone   : payload.phone,
+          active  : payload.active,
+          type    : payload.type
         };
 
         // save user data in LocalStorage
-
         let session = LocalStorage.has('session') ? LocalStorage.getItem('session') : {};
 
         session.user     = _user.username;
@@ -32,6 +32,8 @@ export default {
         session.avatar   = _user.avatar;
         session.email    = _user.email;
         session.phone    = _user.phone;
+        session.active    = _user.active;
+        session.type     = _user.type;
 
         LocalStorage.set('session', session);
       }

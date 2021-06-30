@@ -3,6 +3,7 @@ import fetch           from '@freteclick/quasar-common-ui/src/utils/fetch';
 import * as types      from './mutation_types';
 
 export const signIn = ({ commit }, values) => {
+  commit(types.LOGIN_SET_ERROR, '');
   commit(types.LOGIN_SET_ISLOADING);
 
   return fetch('token', { method: 'POST', body: JSON.stringify(values) })
@@ -17,9 +18,15 @@ export const signIn = ({ commit }, values) => {
     .catch(e => {
       commit(types.LOGIN_SET_ISLOADING, false);
 
-      if (e instanceof SubmissionError)
-        throw new Error(e.errors._error);
+      if (e instanceof SubmissionError) {
+        commit(types.LOGIN_SET_VIOLATIONS, e.errors);
 
+        commit(types.LOGIN_SET_ERROR, e.errors._error);
+
+        throw new Error(e.errors._error);
+      }
+
+      commit(types.LOGIN_SET_ERROR, e.message);
       throw new Error(e.message);
     });
 };

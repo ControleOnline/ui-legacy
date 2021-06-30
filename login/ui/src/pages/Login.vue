@@ -125,7 +125,7 @@ export default {
           this.$router.push(this.$route.query.redirect);
         }
         else {
-          this.$router.push({ name: 'OrderIndex' });
+          this.$router.push({ name: this.indexRoute });
         }
       }
     },
