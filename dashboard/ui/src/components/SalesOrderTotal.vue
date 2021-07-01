@@ -8,11 +8,11 @@
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ $t('dashboard.sales') }} ({{ data.sales_order_totals.total_count }})
+          {{ $t('dashboard.sales') }} ({{ sales_order_totals.total_count }})
         </div>
         <div class="col-6 text-right text-green-14 text-h6">
           {{
-            data.sales_order_totals.total_price | formatMoney
+            sales_order_totals.total_price | formatMoney
           }}
         </div>
       </div>
@@ -37,8 +37,10 @@ export default {
     }
   },
 
-  methods: {
-
+  computed: {
+    sales_order_totals() {
+      return this.data.sales_order_totals ? this.data.sales_order_totals : {}
+    }
   },
 };
 </script>

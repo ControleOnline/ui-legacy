@@ -8,11 +8,11 @@
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase"     >
-          {{ $t('dashboard.quotes') }} ({{ data.quote_order_totals.total_count }})
+          {{ $t('dashboard.quotes') }} ({{ quote_order_totals.total_count }})
         </div>
         <div class="col-6 text-right text-blue-4 text-h6">
           {{
-            data.quote_order_totals.total_price | formatMoney
+            quote_order_totals.total_price | formatMoney
           }}
         </div>
       </div>
@@ -37,8 +37,10 @@ export default {
     }
   },
 
-  methods: {
-
+  computed: {
+    quote_order_totals() {
+      return this.data.quote_order_totals ? this.data.quote_order_totals : {}
+    }
   },
 };
 </script>
