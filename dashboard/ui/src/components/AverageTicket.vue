@@ -12,7 +12,7 @@
         </div>
         <div class="col-6 text-right text-green-14 text-h6">
           {{
-            data.average_ticket_total | formatMoney
+            (data.average_ticket_total || 0) | formatMoney
           }}
         </div>
       </div>

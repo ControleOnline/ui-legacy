@@ -68,6 +68,42 @@
           :to    ="filters.to"
         />
       </template>
+
+      <template v-slot:comission-totals="{ config, filters }">
+        <dashboard-comission-totals
+          ref    ="comissionTotals"
+          :config="config"
+          :from  ="filters.from"
+          :to    ="filters.to"
+        />
+      </template>
+
+      <template v-slot:operational-expenses="{ config, filters }">
+        <dashboard-operational-expenses
+          ref    ="operationalExpenses"
+          :config="config"
+          :from  ="filters.from"
+          :to    ="filters.to"
+        />
+      </template>
+
+      <template v-slot:administrative-expenses="{ config, filters }">
+        <dashboard-administrative-expenses
+          ref    ="administrativeExpenses"
+          :config="config"
+          :from  ="filters.from"
+          :to    ="filters.to"
+        />
+      </template>
+
+      <template v-slot:active-contracts="{ config, filters }">
+        <dashboard-active-contracts
+          ref    ="activeContracts"
+          :config="config"
+          :from  ="filters.from"
+          :to    ="filters.to"
+        />
+      </template>
     </dashboard-default>
   </q-page>
 </template>
@@ -138,6 +174,22 @@ export default {
         name: 'average-ticket',
       });
 
+      elements.push({
+        name: 'comission-totals',
+      });
+
+      elements.push({
+        name: 'operational-expenses',
+      });
+
+      elements.push({
+        name: 'administrative-expenses',
+      });
+
+      elements.push({
+        name: 'active-contracts',
+      });
+
       this.elements = elements;
     },
 
@@ -149,6 +201,10 @@ export default {
       this.$refs.quoteTotals.reload()
       this.$refs.salesTotals.reload()
       this.$refs.averageTicket.reload()
+      this.$refs.comissionTotals.reload()
+      this.$refs.operationalExpenses.reload()
+      this.$refs.administrativeExpenses.reload()
+      this.$refs.activeContracts.reload()
     },
   },
 };

@@ -2,17 +2,17 @@
   <q-card class="my-card q-pa-md row items-stretch" flat bordered>
     <div class="col-3 text-center">
       <div class="row items-center full-height">
-        <q-icon color="green-14" size="md" name="shopping_basket" />
+        <q-icon color="red-14" size="md" name="paid" />
       </div>
     </div>
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ $t('dashboard.sales') }} ({{ sales_order_totals.total_count }})
+          {{ $t('dashboard.operational_expenses') }} ({{ operational_expenses.total_count }})
         </div>
-        <div class="col-6 text-right text-green-14 text-h6">
+        <div class="col-6 text-right text-red-14 text-h6">
           {{
-            (sales_order_totals.total_price || 0) | formatMoney
+            (operational_expenses.total_price || 0) | formatMoney
           }}
         </div>
       </div>
@@ -28,18 +28,18 @@ import configurable from './../mixins/configurable';
 import dashboard    from './../mixins/dashboard';
 
 export default {
-  name  : 'DashboardSalesTotals',
+  name  : 'DashboardOperationalExpenses',
   mixins: [ configurable, dashboard ],
 
   data() {
     return {
-      query: 'sales-totals',
+      query: 'operational-expenses',
     }
   },
 
   computed: {
-    sales_order_totals() {
-      return this.data.sales_order_totals ? this.data.sales_order_totals : {}
+    operational_expenses() {
+      return this.data.operational_expenses ? this.data.operational_expenses : {}
     }
   },
 };

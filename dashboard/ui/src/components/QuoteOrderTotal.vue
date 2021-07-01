@@ -12,7 +12,7 @@
         </div>
         <div class="col-6 text-right text-blue-4 text-h6">
           {{
-            quote_order_totals.total_price | formatMoney
+            (quote_order_totals.total_price || 0) | formatMoney
           }}
         </div>
       </div>

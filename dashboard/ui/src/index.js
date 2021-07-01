@@ -1,13 +1,17 @@
-import { name, version } from '../package.json'
+import { name, version }      from '../package.json'
 
-import DashboardDefault     from './components/DashboardDefault'
-import InactiveCustomers    from './components/InactiveCustomers'
-import ActiveCustomers      from './components/ActiveCustomers'
-import NewCustomers         from './components/NewCustomers'
-import ProspectiveCustomers from './components/ProspectiveCustomers'
-import QuoteOrderTotal      from './components/QuoteOrderTotal'
-import SalesOrderTotal      from './components/SalesOrderTotal'
-import AverageTicket        from './components/AverageTicket'
+import DashboardDefault       from './components/DashboardDefault'
+import InactiveCustomers      from './components/InactiveCustomers'
+import ActiveCustomers        from './components/ActiveCustomers'
+import NewCustomers           from './components/NewCustomers'
+import ProspectiveCustomers   from './components/ProspectiveCustomers'
+import QuoteOrderTotal        from './components/QuoteOrderTotal'
+import SalesOrderTotal        from './components/SalesOrderTotal'
+import AverageTicket          from './components/AverageTicket'
+import ComissionOrderTotal    from './components/ComissionOrderTotal'
+import OperationalExpenses    from './components/OperationalExpenses'
+import AdministrativeExpenses from './components/AdministrativeExpenses'
+import ActiveContracts        from './components/ActiveContracts'
 
 export {
   name,
@@ -21,6 +25,10 @@ export {
   QuoteOrderTotal     ,
   SalesOrderTotal     ,
   AverageTicket       ,
+  ComissionOrderTotal ,
+  OperationalExpenses ,
+  AdministrativeExpenses,
+  ActiveContracts,
 }
 
 export default {
@@ -35,6 +43,10 @@ export default {
   QuoteOrderTotal     ,
   SalesOrderTotal     ,
   AverageTicket       ,
+  ComissionOrderTotal ,
+  OperationalExpenses ,
+  AdministrativeExpenses,
+  ActiveContracts,
 
   install (Vue) {
     Vue.component(DashboardDefault.name    , DashboardDefault )
@@ -45,5 +57,9 @@ export default {
     Vue.component(QuoteOrderTotal.name     , QuoteOrderTotal)
     Vue.component(SalesOrderTotal.name     , SalesOrderTotal)
     Vue.component(AverageTicket.name       , AverageTicket)
+    Vue.component(ComissionOrderTotal.name , ComissionOrderTotal)
+    Vue.component(OperationalExpenses.name , OperationalExpenses)
+    Vue.component(AdministrativeExpenses.name, AdministrativeExpenses)
+    Vue.component(ActiveContracts.name, ActiveContracts)
   }
 }

@@ -2,18 +2,16 @@
   <q-card class="my-card q-pa-md row items-stretch" flat bordered>
     <div class="col-3 text-center">
       <div class="row items-center full-height">
-        <q-icon color="green-14" size="md" name="shopping_basket" />
+        <q-icon color="green-14" size="md" name="text_snippet" />
       </div>
     </div>
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ $t('dashboard.sales') }} ({{ sales_order_totals.total_count }})
+          {{ $t('dashboard.active_contracts') }}
         </div>
-        <div class="col-6 text-right text-green-14 text-h6">
-          {{
-            (sales_order_totals.total_price || 0) | formatMoney
-          }}
+        <div class="col-6 text-right text-green-4 text-h6">
+          {{ active_contracts.total_count || 0 }}
         </div>
       </div>
     </div>
@@ -28,18 +26,18 @@ import configurable from './../mixins/configurable';
 import dashboard    from './../mixins/dashboard';
 
 export default {
-  name  : 'DashboardSalesTotals',
+  name  : 'DashboardActiveContracts',
   mixins: [ configurable, dashboard ],
 
   data() {
     return {
-      query: 'sales-totals',
+      query: 'active-contracts',
     }
   },
 
   computed: {
-    sales_order_totals() {
-      return this.data.sales_order_totals ? this.data.sales_order_totals : {}
+    active_contracts() {
+      return this.data.active_contracts ? this.data.active_contracts : {}
     }
   },
 };
