@@ -122,6 +122,12 @@ export default {
     this.setDashBoardElements();
   },
 
+  watch: {
+    company() {
+      this.onRefresh()
+    },
+  },
+
   methods: {
     setConfig(configs) {
       // config api
