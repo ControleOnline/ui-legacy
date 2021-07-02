@@ -30,7 +30,7 @@ export default {
 
   methods: {
     loadData() {
-      if (this.Params.Company.get() === null) {
+      if (!this.Params.Company.get()) {
         return;
       }
 
