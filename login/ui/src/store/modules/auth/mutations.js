@@ -38,11 +38,33 @@ export default {
         LocalStorage.set('session', session);
       }
 
-      if (_user === null)
+      if (_user === null) {
         LocalStorage.remove('session');
+        state.isLoggedIn = false;
+      }
 
       Object.assign(state, { user: _user });
 
+    } catch (e) {
+
+    }
+  },
+
+  SET_PEOPLE_STATUS (state, payload) {
+    try {
+      const session = LocalStorage.has('session') ? LocalStorage.getItem('session') : {};
+
+      session.active = payload.active;
+      session.type   = payload.type;
+
+      LocalStorage.set('session', session);
+
+      if (payload === null) { 
+        LocalStorage.remove('session') 
+      }
+
+      state.isLoggedIn = payload.active;
+      state.user = session;
     } catch (e) {
 
     }
