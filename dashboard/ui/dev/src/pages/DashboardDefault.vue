@@ -1,5 +1,15 @@
 <template>
   <q-page padding>
+    <div class="row q-mb-md">
+      <div class="col-12">
+        <q-select outlined stack-label emit-value map-options
+          v-model ="company"
+          :label  ="$t('Companies')"
+          :options="companies"
+        />
+      </div>
+    </div>
+
     <dashboard-default
       ref      ="dashboardDefault"
       :config  ="setConfig"
@@ -113,13 +123,15 @@
 export default {
   data() {
     return {
-      company : 13,
-      elements: []
+      company  : null,
+      elements : [],
+      companies: [],
     }
   },
 
   created() {
     this.setDashBoardElements();
+    this.loadCompanies();
   },
 
   watch: {
@@ -211,6 +223,39 @@ export default {
       this.$refs.operationalExpenses.reload()
       this.$refs.administrativeExpenses.reload()
       this.$refs.activeContracts.reload()
+    },
+
+    loadCompanies() {
+      (new Promise(
+       function(resolve, reject) {
+         window.setTimeout(
+           function() {
+             resolve()
+           },
+           Math.random() * 2000 + 1000
+         );
+       }
+     )).then(() => {
+       let companies = [];
+
+       companies.push({
+         label: 'Company Blue',
+         value: 13,
+       })
+
+       companies.push({
+         label: 'Company Red',
+         value: 1,
+       })
+
+       companies.push({
+         label: 'Company Green',
+         value: 7,
+       })
+
+       this.companies = companies;
+       this.company   = 13;
+     });
     },
   },
 };
