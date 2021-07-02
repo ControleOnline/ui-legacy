@@ -1,6 +1,7 @@
 import SubmissionError from '@freteclick/quasar-common-ui/src/error/SubmissionError';
 import fetch           from '@freteclick/quasar-common-ui/src/utils/fetch';
 import * as types      from './mutation_types';
+import axios           from 'axios';
 
 export const signIn = ({ commit }, values) => {
   commit(types.LOGIN_SET_ERROR, '');
@@ -14,6 +15,13 @@ export const signIn = ({ commit }, values) => {
     })
     .then(data => {
       commit(types.LOGIN_SET_USER, data);
+      
+      const entryPoint = ENTRYPOINT + (ENTRYPOINT.endsWith('/') ? '' : '/')
+      axios.get(new URL(`/people/${data.people}/status`, entryPoint), { headers: { 'api-token': data.api_key } })
+        .then(response => {
+          commit('SET_PEOPLE_STATUS', response.data.response.data)
+          commit(types.LOGIN_SET_ISLOADING, false)
+        });
     })
     .catch(e => {
       commit(types.LOGIN_SET_ISLOADING, false);

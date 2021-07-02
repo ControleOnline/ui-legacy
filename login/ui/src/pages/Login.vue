@@ -58,6 +58,49 @@ export default {
       return this.$store.getters['auth/user'];
     },
   },
+  
+  mounted () {
+    if (this.isLogged) {
+
+      if (this.$route.query.redirect) {
+        this.$router.push(this.$route.query.redirect);
+      }
+      else {
+        const route = this.indexRoute;
+
+        if (typeof route === 'string') {
+          this.$router.push({ name: route });
+        }
+        else if (typeof route === 'object') {
+          let obj = null;
+
+          if (this.logged.type === 'student' && route.student) {
+            obj = route.student;
+          } 
+          else if (this.logged.type === 'trainer' && route.trainer) {
+            obj = route.trainer;
+          } 
+          else if (this.logged.type === 'admin' && route.admin) {
+            obj = route.admin;
+          }
+          else if (this.logged.type === 'salesman' && route.salesman) {
+            obj = route.salesman;
+          }
+          else {
+            this.$store.dispatch('auth/logOut');
+          }
+
+          if (obj) {
+            this.$router.push({ name: typeof obj === 'string' ? obj : obj.name });
+          }
+        }
+        else {
+          this.$router.push('/');
+        }
+
+      }
+    }
+  },
 
   methods: {
 
@@ -69,7 +112,37 @@ export default {
           this.$router.push(this.$route.query.redirect);
         }
         else {
-          this.$router.push({ name: this.indexRoute });
+          const route = this.indexRoute;
+
+          if (typeof route === 'string') {
+            this.$router.push({ name: route });
+          }
+          else if (typeof route === 'object') {
+            let obj = null;
+
+            if (user.type === 'student' && route.student) {
+              obj = route.student;
+            } 
+            else if (user.type === 'trainer' && route.trainer) {
+              obj = route.trainer;
+            } 
+            else if (user.type === 'admin' && route.admin) {
+              obj = route.admin;
+            }
+            else if (user.type === 'salesman' && route.salesman) {
+              obj = route.salesman;
+            }
+            else {
+              this.$store.dispatch('auth/logOut');
+            }
+
+            if (obj) {
+              this.$router.push({ name: typeof obj === 'string' ? obj : obj.name });
+            }
+          }
+          else {
+            this.$router.push('/');
+          }
         }
       }
     },
@@ -125,7 +198,37 @@ export default {
           this.$router.push(this.$route.query.redirect);
         }
         else {
-          this.$router.push({ name: this.indexRoute });
+          const route = this.indexRoute;
+
+          if (typeof route === 'string') {
+            this.$router.push({ name: route });
+          }
+          else if (typeof route === 'object') {
+            let obj = null;
+
+            if (user.type === 'student' && route.student) {
+              obj = route.student;
+            } 
+            else if (user.type === 'trainer' && route.trainer) {
+              obj = route.trainer;
+            } 
+            else if (user.type === 'admin' && route.admin) {
+              obj = route.admin;
+            }
+            else if (user.type === 'salesman' && route.salesman) {
+              obj = route.salesman;
+            }
+            else {
+              this.$store.dispatch('auth/logOut');
+            }
+
+            if (obj) {
+              this.$router.push({ name: typeof obj === 'string' ? obj : obj.name });
+            }
+          }
+          else {
+            this.$router.push('/');
+          }
         }
       }
     },

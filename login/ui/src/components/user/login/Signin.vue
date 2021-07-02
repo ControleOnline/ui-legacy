@@ -48,7 +48,8 @@ export default {
 
   computed: {
       ...mapGetters({
-      user      : 'auth/user', 
+      user      : 'auth/user',
+      isLoggedIn: 'auth/isLoggedIn',
       isLoading : 'auth/isLoading', 
       error     : 'auth/error', 
       violations: 'auth/violations'
@@ -56,6 +57,12 @@ export default {
   },
 
   watch: {
+    isLoggedIn: function (isLoggedIn) {
+      if (isLoggedIn === true) {
+        this.$emit('authenticated', this.user)
+      }
+    },
+
     user(user) {
       if (!user)
         return;
@@ -81,6 +88,7 @@ export default {
           message : message,
           position: 'bottom',
           type    : 'negative',
+          closeBtn: this.$t('common.labels.close')
         });
       }
       */
