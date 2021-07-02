@@ -30,6 +30,10 @@ export default {
 
   methods: {
     loadData() {
+      if (this.Params.Company.get() === null) {
+        return;
+      }
+
       this.isLoading = true;
 
       this.Api.client
