@@ -70,6 +70,23 @@
         </div>
       </div>
     </q-card>
+
+    <q-card v-if="charts.length > 0"
+      class="q-pa-md q-mb-sm"
+    >
+      <q-card-section
+        v-for="chart in charts"
+        :key ="chart.name"
+      >
+        <slot
+          :name         ="chart.name"
+          v-bind:config ="config"
+          v-bind:filters="filters"
+        >
+          {{ `Dashboard chart '${chart.name}' not found` }}
+        </slot>
+      </q-card-section>
+    </q-card>
   </div>
 </template>
 
@@ -85,6 +102,13 @@ export default {
     elements: {
       type    : Array,
       required: true,
+    },
+    charts  : {
+      type    : Array,
+      required: false,
+      default : function() {
+        return [];
+      }
     },
   },
 

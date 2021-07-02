@@ -12,6 +12,8 @@ import ComissionOrderTotal    from './components/ComissionOrderTotal'
 import OperationalExpenses    from './components/OperationalExpenses'
 import AdministrativeExpenses from './components/AdministrativeExpenses'
 import ActiveContracts        from './components/ActiveContracts'
+import ChartSalesMoney        from './components/ChartSalesMoney'
+import ChartSalesOrder        from './components/ChartSalesOrder'
 
 export {
   name,
@@ -29,6 +31,8 @@ export {
   OperationalExpenses ,
   AdministrativeExpenses,
   ActiveContracts,
+  ChartSalesMoney,
+  ChartSalesOrder,
 }
 
 export default {
@@ -47,6 +51,8 @@ export default {
   OperationalExpenses ,
   AdministrativeExpenses,
   ActiveContracts,
+  ChartSalesMoney,
+  ChartSalesOrder,
 
   install (Vue) {
     Vue.component(DashboardDefault.name    , DashboardDefault )
@@ -61,5 +67,7 @@ export default {
     Vue.component(OperationalExpenses.name , OperationalExpenses)
     Vue.component(AdministrativeExpenses.name, AdministrativeExpenses)
     Vue.component(ActiveContracts.name, ActiveContracts)
+    Vue.component(ChartSalesMoney.name, ChartSalesMoney)
+    Vue.component(ChartSalesOrder.name, ChartSalesOrder)
   }
 }

@@ -17,6 +17,12 @@ export default {
     operational_expenses   : 'Despesas operacionais',
     administrative_expenses: 'Despesas administrativas',
     active_contracts       : 'Contratos ativos',
+    charts: {
+      sales_in_reals : 'Vendas em R$',
+      quotations     : 'Cotações',
+      sales_orders   : 'Pedidos de venda',
+      sales_order_qty: 'Vendas por quantidade de pedidos',
+    },
   },
   messages         : {
     saved_successfully: 'Dados salvos com sucesso',

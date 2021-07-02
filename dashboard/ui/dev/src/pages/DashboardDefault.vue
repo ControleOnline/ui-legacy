@@ -14,6 +14,7 @@
       ref      ="dashboardDefault"
       :config  ="setConfig"
       :elements="elements"
+      :charts  ="charts"
       @refresh ="onRefresh"
     >
       <template v-slot:inactive-customers="{ config, filters }">
@@ -114,6 +115,24 @@
           :to    ="filters.to"
         />
       </template>
+
+      <template v-slot:chart-sales-money="{ config, filters }">
+        <dashboard-chart-sales-money
+          ref    ="chartSalesMoney"
+          :config="config"
+          :from  ="filters.from"
+          :to    ="filters.to"
+        />
+      </template>
+
+      <template v-slot:chart-sales-order="{ config, filters }">
+        <dashboard-chart-sales-order
+          ref    ="chartSalesOrder"
+          :config="config"
+          :from  ="filters.from"
+          :to    ="filters.to"
+        />
+      </template>
     </dashboard-default>
   </q-page>
 </template>
@@ -125,12 +144,14 @@ export default {
     return {
       company  : null,
       elements : [],
+      charts   : [],
       companies: [],
     }
   },
 
   created() {
     this.setDashBoardElements();
+    this.setDashBoardCharts();
     this.loadCompanies();
   },
 
@@ -211,6 +232,20 @@ export default {
       this.elements = elements;
     },
 
+    setDashBoardCharts() {
+      let charts = [];
+
+      charts.push({
+        name: 'chart-sales-money',
+      });
+
+      charts.push({
+        name: 'chart-sales-order',
+      });
+
+      this.charts = charts;
+    },
+
     onRefresh() {
       this.$refs.inactiveCustomers.reload()
       this.$refs.activeCustomers.reload()
@@ -223,6 +258,8 @@ export default {
       this.$refs.operationalExpenses.reload()
       this.$refs.administrativeExpenses.reload()
       this.$refs.activeContracts.reload()
+      this.$refs.chartSalesMoney.reload()
+      this.$refs.chartSalesOrder.reload()
     },
 
     loadCompanies() {
