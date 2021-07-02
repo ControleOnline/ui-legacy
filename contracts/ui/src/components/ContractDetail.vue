@@ -74,8 +74,18 @@ export default {
   data() {
     return {
       contract   : null,
+      contractdId: this.id,
       currentStep: this.panels[0].name,
     }
+  },
+
+  watch: {
+    '$route'(to) {
+      if (to.params.id) {
+        this.contractdId = to.params.id;
+        this.loadContract();
+      }
+    },
   },
 
   computed: {
@@ -111,14 +121,18 @@ export default {
 
   methods: {
     loadContract() {
-      if (this.id !== null) {
+      if (!this.Params.Company.get()) {
+        return;
+      }
+
+      if (this.contractdId !== null) {
         this.Api.Contracts
           .GetOne({
             query : {
               myCompany: this.Params.Company.get(),
             },
             params: {
-              id: this.id
+              id: this.contractdId
             },
           })
             .then((data) => {
