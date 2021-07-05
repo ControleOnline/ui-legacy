@@ -1,6 +1,6 @@
 {
   "name": "@controleonline/quasar-login-ui",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "author": "ControleOnline",
   "description": "ControleOnline login Quasar UI Component",
   "license": "MIT",
@@ -16,6 +16,7 @@
     "last 1 version, not dead, ie >= 11"
   ],
   "dependencies": {
-    "@freteclick/quasar-common-ui": "^1.0.2"
+    "@freteclick/quasar-common-ui": "^1.0.2",
+    "axios": "^0.21.1"
   }
 }
