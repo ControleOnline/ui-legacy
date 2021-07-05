@@ -77,7 +77,7 @@ export default {
           if (this.logged.type === 'student' && route.student) {
             obj = route.student;
           } 
-          else if (this.logged.type === 'trainer' && route.trainer) {
+          else if ((this.logged.type === 'trainer' || this.logged.type === 'guest') && route.trainer) {
             obj = route.trainer;
           } 
           else if (this.logged.type === 'admin' && route.admin) {
@@ -120,16 +120,16 @@ export default {
           else if (typeof route === 'object') {
             let obj = null;
 
-            if (user.type === 'student' && route.student) {
+            if (this.logged.type === 'student' && route.student) {
               obj = route.student;
             } 
-            else if (user.type === 'trainer' && route.trainer) {
+            else if ((this.logged.type === 'trainer' || this.logged.type === 'guest') && route.trainer) {
               obj = route.trainer;
             } 
-            else if (user.type === 'admin' && route.admin) {
+            else if (this.logged.type === 'admin' && route.admin) {
               obj = route.admin;
             }
-            else if (user.type === 'salesman' && route.salesman) {
+            else if (this.logged.type === 'salesman' && route.salesman) {
               obj = route.salesman;
             }
             else {
@@ -158,12 +158,13 @@ export default {
     onCreated(user) {
       this.$store.dispatch('auth/logIn');
 
-      if (this.isLogged)
+      if (this.isLogged) {
         this.$q.notify({
           message : `Agora você esta logado como "${user.username}"`,
           position: 'top',
           type    : 'positive',
         });
+      }
     },
 
     // when company created signup step 2
@@ -206,16 +207,16 @@ export default {
           else if (typeof route === 'object') {
             let obj = null;
 
-            if (user.type === 'student' && route.student) {
+            if (this.logged.type === 'student' && route.student) {
               obj = route.student;
             } 
-            else if (user.type === 'trainer' && route.trainer) {
+            else if ((this.logged.type === 'trainer' || this.logged.type === 'guest') && route.trainer) {
               obj = route.trainer;
             } 
-            else if (user.type === 'admin' && route.admin) {
+            else if (this.logged.type === 'admin' && route.admin) {
               obj = route.admin;
             }
-            else if (user.type === 'salesman' && route.salesman) {
+            else if (this.logged.type === 'salesman' && route.salesman) {
               obj = route.salesman;
             }
             else {
