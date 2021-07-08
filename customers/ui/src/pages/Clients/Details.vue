@@ -16,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ClientPage     from '../../repository/pages/PageUpdateClient/Index.vue';
+import ClientPage     from '../../repository/pages/PageUpDateClient/Index.vue';
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 export default {
