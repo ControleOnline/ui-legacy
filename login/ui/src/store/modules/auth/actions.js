@@ -2,6 +2,7 @@ import SubmissionError from '@freteclick/quasar-common-ui/src/error/SubmissionEr
 import fetch           from '@freteclick/quasar-common-ui/src/utils/fetch';
 import * as types      from './mutation_types';
 import axios           from 'axios';
+import { ENTRYPOINT }  from '../../../../../../../src/config/entrypoint';
 
 export const signIn = ({ commit }, values) => {
   commit(types.LOGIN_SET_ERROR, '');

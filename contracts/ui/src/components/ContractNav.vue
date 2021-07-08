@@ -31,12 +31,6 @@ export default {
     },
   },
 
-  watch: {
-    '$route'(to) {
-      this.$router.go(to);
-    },
-  },
-
   data() {
     return {
 
