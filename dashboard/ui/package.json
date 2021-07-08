@@ -1,7 +1,7 @@
 {
   "name": "@controleonline/quasar-dashboard-ui",
-  "version": "1.2.0",
-  "author": "Francisco Rivera",
+  "version": "1.2.1",
+  "author": "Controle Online",
   "description": "ControleOnline Dashboard Quasar UI Component",
   "license": "MIT",
   "main": "src/index.js",
