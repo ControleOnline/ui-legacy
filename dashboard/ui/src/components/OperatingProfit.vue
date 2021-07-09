@@ -2,16 +2,18 @@
   <q-card class="my-card q-pa-md row items-stretch" flat bordered>
     <div class="col-3 text-center">
       <div class="row items-center full-height">
-        <q-icon color="green-14" size="md" name="note_add" />
+        <q-icon color="green-14" size="md" name="paid" />
       </div>
     </div>
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ $t('dashboard.new_contracts') }} ({{ new_contracts_count.total_count || 0 }})
+          {{ $t('dashboard.operating_profit') }}
         </div>
-        <div class="col-6 text-right text-green-4 text-h6">
-          {{ (new_contracts_count.total_price || 0) | formatMoney }}
+        <div class="col-6 text-right text-green-14 text-h6">
+          {{
+            (operating_profit_count.total_price || 0) | formatMoney
+          }}
         </div>
       </div>
     </div>
@@ -26,18 +28,18 @@ import configurable from './../mixins/configurable';
 import dashboard    from './../mixins/dashboard';
 
 export default {
-  name  : 'DashboardNewContracts',
+  name  : 'DashboardOperatingProfit',
   mixins: [ configurable, dashboard ],
 
   data() {
     return {
-      query: 'new-contracts',
+      query: 'operating-profit',
     }
   },
 
   computed: {
-    new_contracts_count() {
-      return this.data.new_contracts_count ? this.data.new_contracts_count : {}
+    operating_profit_count() {
+      return this.data.operating_profit_count ? this.data.operating_profit_count : {}
     }
   },
 };

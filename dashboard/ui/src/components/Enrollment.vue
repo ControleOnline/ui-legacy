@@ -2,7 +2,7 @@
   <q-card class="my-card q-pa-md row items-stretch" flat bordered>
     <div class="col-3 text-center">
       <div class="row items-center full-height">
-        <q-icon color="green-14" size="md" name="text_snippet" />
+        <q-icon color="green-14" size="md" name="person_add" />
       </div>
     </div>
     <div class="col-9">
