@@ -69,11 +69,12 @@
             />
           </q-td>
           <q-td key="dataVencimento" :props="props">{{ props.cols[2].value }}</q-td>
-          <q-td key="fornecedor"     :props="props">{{ props.cols[3].value }}</q-td>
+          <q-td key="categoria"      :props="props">{{ props.cols[3].value }}</q-td>
+          <q-td key="fornecedor"     :props="props">{{ props.cols[4].value }}</q-td>
           <q-td key="status"         :props="props" :style="{color:props.row.color_status}">
             {{ $t(`invoice.statuses.${props.row.status}`) }}
           </q-td>
-          <q-td key="preco"          :props="props">{{ props.cols[5].value }}</q-td>
+          <q-td key="preco"          :props="props">{{ props.cols[6].value }}</q-td>
         </q-tr>
       </template>
     </q-table>
@@ -136,57 +137,7 @@ import { mapActions, mapGetters }          from 'vuex';
 import { formatMoney, formatDateYmdTodmY } from '@freteclick/quasar-common-ui/src/utils/formatter';
 import CreateExpense                       from '../expense/CreateExpense';
 
-const SETTINGS = {
-  columns       : [
-    {
-      name  : 'id',
-      field : 'id',
-      align : 'left',
-      format: (val, row) => {
-        return `#${val}`;
-      },
-      label : 'ID'
-    },
-    {
-      name : 'pedidos',
-      align: 'left',
-      field: 'pedidos',
-      label: 'Aulas'
-    },
-    {
-      name  : 'dataVencimento',
-      field : 'dataVencimento',
-      align : 'left',
-      format: (val, row) => {
-        return formatDateYmdTodmY(val);
-      },
-      label : 'Data vencimento'
-    },
-    {
-      name : 'fornecedor',
-      field: 'fornecedor',
-      align: 'left',
-      label: 'Prestador'
-    },
-    {
-      name  : 'status',
-      field : 'status',
-      align : 'left',
-      label : 'Status'
-    },
-    {
-      name  : 'preco',
-      field : 'preco',
-      align : 'left',
-      format: (val, row) => {
-        return formatMoney(val, 'BRL', 'pt-br');
-      },
-      label : 'Preço'
-    },
-  ],
-};
 
-Object.freeze(SETTINGS);
 
 export default {
   components: {
@@ -227,7 +178,61 @@ export default {
     ];
 
     return {
-      settings       : SETTINGS,
+      settings        : Object.freeze( {
+        columns       : [
+          {
+            name  : 'id',
+            field : 'id',
+            align : 'left',
+            format: (val, row) => {
+              return `#${val}`;
+            },
+            label : 'ID'
+          },
+          {
+            name : 'pedidos',
+            align: 'left',
+            field: 'pedidos',
+            label: this.$t('finance.orders')
+          },
+          {
+            name  : 'dataVencimento',
+            field : 'dataVencimento',
+            align : 'left',
+            format: (val, row) => {
+              return formatDateYmdTodmY(val);
+            },
+            label : 'Data vencimento'
+          },
+          {
+           name : 'categoria',
+           field: 'categoryName',
+           align: 'left',
+           label: 'Categoria'
+          },
+          {
+            name : 'fornecedor',
+            field: 'fornecedor',
+            align: 'left',
+            label: 'Fornecedor'
+          },
+          {
+            name  : 'status',
+            field : 'status',
+            align : 'left',
+            label : 'Status'
+          },
+          {
+            name  : 'preco',
+            field : 'preco',
+            align : 'left',
+            format: (val, row) => {
+              return formatMoney(val, 'BRL', 'pt-br');
+            },
+            label : 'Preço'
+          },
+        ],
+      }),
       statuses       : statuses,
       loadingStatuses: false,
       dialogs        : {
@@ -253,6 +258,7 @@ export default {
         rowsPerPage: 25,
         rowsNumber : 10,
       },
+
     }
   },
 
@@ -306,6 +312,7 @@ export default {
           'dataVencimento': item.dueDate,
           'fornecedor'    : `${item.order[0].order.provider.name} ${item.order[0].order.provider.alias}`,
           'status'        : item.invoiceStatus.status,
+          'categoryName'  : item.categoryName,
           'preco'         : item.price,
         });
       }
@@ -329,6 +336,7 @@ export default {
   },
 
   methods: {
+
     ...mapActions({
       getItems   : 'payInvoice/getItems'   ,
       reset      : 'payInvoice/reset'      ,
@@ -363,6 +371,7 @@ export default {
     },
 
     onRequest(props) {
+
       let {
           page,
           rowsPerPage,
@@ -405,6 +414,7 @@ export default {
           this.pagination.sortBy      = sortBy;
           this.pagination.descending  = descending;
         });
+
     },
   },
 };
