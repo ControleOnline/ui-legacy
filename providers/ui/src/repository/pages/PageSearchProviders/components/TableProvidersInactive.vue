@@ -210,6 +210,8 @@ export default {
         .then(data => {
           let _data = [];
 
+          console.log('>>> getProviders result', data);
+
           for (let index in data) {
             let item   = data[index];
             let client = {};
@@ -232,6 +234,8 @@ export default {
           this.pagination.sortBy      = sortBy;
           this.pagination.descending  = descending;
           this.pagination.rowsNumber  = data.totalItems;
+
+          console.log('>>> this.data result', this.data);
         })
         .finally(() => {
           this.isLoading = false;
