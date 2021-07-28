@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import { date }           from 'quasar';
-import { formatDocument } from '@freteclick/quasar-common-ui/src/utils/formatter';
-import Api                from '@freteclick/quasar-common-ui/src/utils/api';
+import { date }                        from 'quasar';
+import { formatDocument, formatPhone } from '@freteclick/quasar-common-ui/src/utils/formatter';
+import Api                             from '@freteclick/quasar-common-ui/src/utils/api';
 
 const SETTINGS = {
   visibleColumns: [
@@ -156,9 +156,7 @@ export default {
   methods: {
 
     getProviders(params) {
-      
       params.table = "provider";
-      
       return this.api.private('/customers', { params })
         .then(response => response.json())
         .then(result => {
@@ -208,13 +206,13 @@ export default {
 
       this.$emit('before', params);
 
-      this.getProviders({ params })
+      this.getProviders(params)
         .then(data => {
-          console.log(data);
           let _data = [];
 
           for (let index in data) {
             let item   = data[index];
+            let client = {};
 
             client = {
               'id'   : item.id,
