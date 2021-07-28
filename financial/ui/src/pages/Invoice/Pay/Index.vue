@@ -24,10 +24,6 @@
                 name  ="categories"
                 :label="$t('Categorias')"
               />
-              <q-tab
-                name  ="providers"
-                :label="$t('Fornecedores')"
-              />
             </q-tabs>
 
             <q-separator />
@@ -44,12 +40,6 @@
                   :api="api"
                 />
               </q-tab-panel>
-
-              <q-tab-panel name="providers" class="q-px-none">
-                <TableProviders
-                  :api="api"
-                />
-              </q-tab-panel>
             </q-tab-panels>
           </div>
         </div>
@@ -61,11 +51,9 @@
 import Api              from '@freteclick/quasar-common-ui/src/utils/api';
 import InvoiceSearching from '../../../components/invoice/pay/InvoiceSearching.vue';
 import TableCategories  from '../../../components/expense/TableCategories.vue';
-import TableProviders   from '../../../components/expense/TableProviders.vue';
 
 export default {
   components: {
-    TableProviders  ,
     TableCategories ,
     InvoiceSearching,
   },
