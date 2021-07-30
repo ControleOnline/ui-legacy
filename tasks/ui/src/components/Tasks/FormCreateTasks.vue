@@ -19,7 +19,7 @@
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
         <q-select stack-label lazy-rules
-          v-model  ="item.status"
+          v-model  ="item.taskStatus"
           class    ="q-mb-sm"
           label    ="Status *"
           :options ="statusArray"
@@ -114,7 +114,7 @@
           :readonly  ="contractSelected !== '' || isSearchingContract"
         >
           <template v-slot:append>
-            <q-btn round flat v-if="contractSelected !== ''" @click="removeTaskForClick()">
+            <q-btn round flat v-if="contractSelected !== ''" @click="removeContractClick()">
               <q-icon name="close" />
             </q-btn>
           </template>
@@ -242,29 +242,69 @@ export default {
     searchTaskFor: function (search) {
       if (this.taskForSelected === '') {
         if (this.timeSearch !== '') {
-          this.isSearchingTaskFor = false;
-          this.isSearchingClient  = false;
+          this.isSearchingTaskFor  = false;
+          this.isSearchingClient   = false;
+          this.isSearchingContract = false;
+          this.isSearchingOrder    = false;
+
           clearTimeout(this.timeSearch);
           this.timeSearch = '';
         }
 
         this.timeSearch = setTimeout((
-          () => this.searchPeople.bind(this)(search, 'taskFor')
-        ).bind(this), 700);
+          () => this.searchData.bind(this)(search, 'taskFor')
+        ).bind(this), 1000);
       }
     },
     searchClient: function (search) {
       if (this.clientSelected === '') {
         if (this.timeSearch !== '') {
-          this.isSearchingTaskFor = false;
-          this.isSearchingClient  = false;
+          this.isSearchingTaskFor  = false;
+          this.isSearchingClient   = false;
+          this.isSearchingContract = false;
+          this.isSearchingOrder    = false;
+
           clearTimeout(this.timeSearch);
           this.timeSearch = '';
         }
 
         this.timeSearch = setTimeout((
-          () => this.searchPeople.bind(this)(search, 'client')
-        ).bind(this), 700);
+          () => this.searchData.bind(this)(search, 'client')
+        ).bind(this), 1000);
+      }
+    },
+    searchContract: function (search) {
+      if (this.contractSelected === '') {
+        if (this.timeSearch !== '') {
+          this.isSearchingTaskFor  = false;
+          this.isSearchingClient   = false;
+          this.isSearchingContract = false;
+          this.isSearchingOrder    = false;
+
+          clearTimeout(this.timeSearch);
+          this.timeSearch = '';
+        }
+
+        this.timeSearch = setTimeout((
+          () => this.searchData.bind(this)(search, 'contract')
+        ).bind(this), 1000);
+      }
+    },
+    searchOrder: function (search) {
+      if (this.orderSelected === '') {
+        if (this.timeSearch !== '') {
+          this.isSearchingTaskFor  = false;
+          this.isSearchingClient   = false;
+          this.isSearchingContract = false;
+          this.isSearchingOrder    = false;
+
+          clearTimeout(this.timeSearch);
+          this.timeSearch = '';
+        }
+
+        this.timeSearch = setTimeout((
+          () => this.searchData.bind(this)(search, 'order')
+        ).bind(this), 1000);
       }
     }
   },
@@ -294,6 +334,11 @@ export default {
       this.searchOrder   = '';
     },
 
+    removeContractClick() {
+      this.contractSelected = '';
+      this.searchContract   = '';
+    },
+
     getPeople(params) {
       return this.api.private('/people/client-company', { params })
         .then(response => response.json())
@@ -313,125 +358,218 @@ export default {
         });
     },
 
-    searchPeople(search, fromField) {
+    getContract(contractId) {
+      return this.api.private('/my_contracts/' + contractId + '?myCompany=' + this.myCompany.id)
+        .then(response => response.json())
+        .then(result => {
+          
+          if (!result["@id"]) {
+            this.$q.notify({
+              message : "Contrato não encontrado!",
+              position: 'bottom',
+              type    : 'negative',
+            });
+          }
+
+          return {
+            members   : result,
+            totalItems: result["@id"] ? 1 : 0
+          };
+        });
+    },
+
+    getOrder(orderId) {
+      return this.api.private('/sales/orders/' + orderId)
+        .then(response => response.json())
+        .then(result => {
+          
+          if (!result["@id"]) {
+            this.$q.notify({
+              message : "Pedido não encontrado!",
+              position: 'bottom',
+              type    : 'negative',
+            });
+          }
+
+          return {
+            members   : result,
+            totalItems: result["@id"] ? 1 : 0
+          };
+        });
+    },
+
+    searchData(search, fromField) {
       this.timeSearch = '';
 
       if (search) {
         switch(fromField) {
           case 'taskFor': 
-            this.isSearchingTaskFor = true;
+            this.isSearchingTaskFor  = true;
             break;
           case 'client': 
-            this.isSearchingClient  = true;
+            this.isSearchingClient   = true;
+            break;
+          case 'contract': 
+            this.isSearchingContract = true;
+            break;
+          case 'order': 
+            this.isSearchingOrder    = true;
             break;
         }
         
-        var query = {};
+        var query  = {};
+        var method = "getPeople";
 
-        if (search.indexOf('@') > 0) {
-          query.email = encodeURIComponent(search);
+        if (fromField == "order") {
+          query = search.replace('#', "");
+          method = "getOrder";
         }
-        else { 
-          var fixed = search.replace(/[.-\s]+/g, '');
-          if (!isNaN(fixed)) {
-            query.document = fixed;
+        else if (fromField == "contract") {
+          query = search.replace('#', "");
+          method = "getContract";
+        }
+        else {
+          if (search.indexOf('@') > 0) {
+            query.email = encodeURIComponent(search);
           }
-          else {
-            query.name = encodeURIComponent(search);
+          else { 
+            var fixed = search.replace(/[.-\s]+/g, '');
+            if (!isNaN(fixed)) {
+              query.document = fixed;
+            }
+            else {
+              query.name = encodeURIComponent(search);
+            }
           }
         }
+
+        var reset = () => {
+          switch(fromField) {
+            case 'taskFor': 
+              this.searchTaskFor  = '';
+              break;
+            case 'client': 
+              this.searchClient   = '';
+              break;
+            case 'contract': 
+              this.searchContract = '';
+              break;
+            case 'order': 
+              this.searchOrder    = '';
+              break;
+          }
+        };
         
-        this.getPeople(query).then(result => {
+        this[method](query).then(result => {
           if (result.totalItems) {
-            var inputVal = '(' + result.members.id + ') ' + result.members.name;
+            var inputVal = '(#' + result.members.id + ') ' + result.members.name;
 
             switch(fromField) {
               case 'taskFor': 
                 this.taskForSelected = result.members;
                 this.searchTaskFor   = inputVal;
+                this.item.taskFor    = result.members.id;
                 break;
               case 'client': 
-                this.clientSelected  = result.members;
-                this.searchClient    = inputVal;
+                this.clientSelected = result.members;
+                this.searchClient   = inputVal;
+                this.item.client    = result.members.id;
+                break;
+              case 'contract': 
+                var contractId = result.members['@id'].split('/')[2];
+
+                inputVal = '(#' + (
+                  contractId
+                ) + ') ' + (
+                  result.members.contractPeople[0] ? result.members.contractPeople[0].people.alias : ''
+                );
+
+                this.contractSelected = result.members;
+                this.searchContract   = inputVal;
+                this.item.contract    = contractId;
+                break;
+              case 'order': 
+                var orderId = result.members['@id'].split('/')[3];
+
+                inputVal = '(#' + (
+                  orderId
+                ) + ') ' + (
+                  result.members.client ? result.members.client.alias : ''
+                );
+
+                this.orderSelected = result.members;
+                this.searchOrder   = inputVal;
+                this.item.order    = orderId;
                 break;
             }
 
           }
           else {
-            switch(fromField) {
-              case 'taskFor': 
-                this.searchTaskFor = '';
-                break;
-              case 'client': 
-                this.searchClient  = '';
-                break;
-            }
+            reset();
           }
-          this.isSearchingTaskFor = false;
-          this.isSearchingClient  = false;
+
+          this.isSearchingTaskFor  = false;
+          this.isSearchingClient   = false;
+          this.isSearchingContract = false;
+          this.isSearchingOrder    = false;
+        }).catch(e => {
+          this.$q.notify({
+            message : "Não foi possível encontrar...",
+            position: 'bottom',
+            type    : 'negative',
+          });
+          
+          reset();
+
+          this.isSearchingTaskFor  = false;
+          this.isSearchingClient   = false;
+          this.isSearchingContract = false;
+          this.isSearchingOrder    = false;
         });
       }
     },
 
-    saveProvider(values) {
-      let params = {};
-
-      this.$emit('before', params);
-
-      let options = {
-        method: 'POST',
-        body  : JSON.stringify(values),
-        params: params
-      };
-
-      options.params.table = "provider";
-
-      return this.api.private('/customers', options)
+    saveTask(payload) {
+      
+      return this.api.private('/tasks', { 
+        body: JSON.stringify(payload),
+        method: "POST"
+       })
         .then(response => response.json())
-        .then(data => {
-          if (data.response) {
-            if (data.response.success === false)
-              throw new Error(data.response.error);
-
-            return data.response.data;
-          }
-
-          return null;
+        .then(result => {
+          console.log(result);
+          return {
+          };
         });
+
     },
 
     onSubmit() {
-      this.isSaving = true;
-
-      this.saveProvider(this.getValues())
-        .then(data => {
-          this.$emit('saved', data);
-        })
-        .catch(error => {
-          this.$emit('error', { message: error.message });
-        })
-        .finally(() => {
-          this.isSaving = false;
-        });
-    },
-
-    getValues() {
-      return {
-        "name"    : this.item.name,
-        "alias"   : this.item.alias,
-        "document": this.item.document,
-        "email"   : this.item.email
+      //this.isSaving = true;
+      
+      var payload = {
+        name        : this.item.name,
+        description : this.item.description,
+        dueDate     : this.item.dueDate,
+        registeredBy: '/people/' + this.user.people,
+        provider    : '/people/' + this.myCompany.id,
+        taskFor     : '/people/' + this.item.taskFor,
+        client      : '/people/' + this.item.client,
+        taskStatus  : '/task_statuses/' + this.item.taskStatus.value,
+        contract    : '/contracts/' + this.item.contract,
+        order       : '/sales/orders/' + this.item.order,
       };
+
+      console.log(payload);
+      this.saveTask(payload);
     },
 
     isInvalid(key) {
       return val => {
-        if (!(val && val.length > 0))
+
+        if (!(val && (val.length > 0 || (typeof val === "object" && Object.keys(val).length))))
           return this.$t('messages.fieldRequired');
-
-        if (key == 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.$t('messages.emailInvalid');
-
+          
         return true;
       };
     },
