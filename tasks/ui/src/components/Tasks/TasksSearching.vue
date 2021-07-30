@@ -77,7 +77,11 @@
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
           <q-card-section>
-            
+            <FormCreateTasks
+              ref      ="myForm"
+              :api     ="API"
+              :statuses="statuses"
+            />
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -89,8 +93,13 @@
 import Api                    from '@freteclick/quasar-common-ui/src/utils/api';
 import { mapGetters }         from 'vuex';
 import { formatDateYmdTodmY } from '@freteclick/quasar-common-ui/src/utils/formatter';
+import FormCreateTasks        from './FormCreateTasks.vue';
 
 export default {
+
+  components: {
+    FormCreateTasks,
+  },
     
   data() {
     let statuses = [
