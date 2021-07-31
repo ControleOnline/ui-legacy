@@ -81,6 +81,7 @@
               ref      ="myForm"
               :api     ="API"
               :statuses="statuses"
+              @saved   ="onTaskSave"
             />
           </q-card-section>
         </q-card>
@@ -289,6 +290,15 @@ export default {
           this.isLoading = false;
         });
     },
+
+    onTaskSave(id) {
+      this.dialog = false;
+      
+      this.onRequest({
+        pagination: this.pagination,
+        filter    : this.filters,
+      });
+    }
   }
 }
 

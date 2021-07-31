@@ -8,8 +8,8 @@
           v-model    ="item.name"
           type       ="text"
           class      ="q-mb-sm"
-          label      ="Nome"
-          placeholder="Digite a nome *"
+          label      ="Nome *"
+          placeholder="Digite o nome"
           :rules     ="[isInvalid('name')]"
           :outlined  ="true"
         />
@@ -537,31 +537,69 @@ export default {
        })
         .then(response => response.json())
         .then(result => {
-          console.log(result);
-          return {
-          };
+          if (result['@id']) {
+            return {
+              success: true,
+              id: result['@id'].split('/')[2]
+            };
+          }
+          else {
+            return {
+              success: false
+            };
+          }
         });
 
     },
 
     onSubmit() {
-      //this.isSaving = true;
+      this.isSaving = true;
       
       var payload = {
         name        : this.item.name,
-        description : this.item.description,
-        dueDate     : this.item.dueDate,
         registeredBy: '/people/' + this.user.people,
         provider    : '/people/' + this.myCompany.id,
         taskFor     : '/people/' + this.item.taskFor,
         client      : '/people/' + this.item.client,
         taskStatus  : '/task_statuses/' + this.item.taskStatus.value,
-        contract    : '/contracts/' + this.item.contract,
-        order       : '/sales/orders/' + this.item.order,
       };
 
-      console.log(payload);
-      this.saveTask(payload);
+      if (this.item.description){
+        payload.description = this.item.description;
+      }
+
+      if (this.item.dueDate){
+        payload.dueDate = this.item.dueDate;
+      }
+      
+      if (this.item.contract){
+        payload.contract = '/contracts/' + this.item.contract;
+      }
+
+      if (this.item.order) {
+        payload.order = '/sales/orders/' + this.item.order;
+      }
+
+      var error = () => {
+          this.$q.notify({
+            message : "Não foi possível cadastrar, tente novamente mais tarde.",
+            position: 'bottom',
+            type    : 'negative',
+          });
+      };
+
+      this.saveTask(payload).then(res => {
+        if (res.success) {
+          this.$emit('saved', res.id);
+        }
+        else {
+          error();
+        }
+        this.isSaving = false;
+      }).catch(e => {
+        error();
+        this.isSaving = false;
+      });
     },
 
     isInvalid(key) {

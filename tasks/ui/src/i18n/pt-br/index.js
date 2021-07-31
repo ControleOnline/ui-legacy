@@ -3,9 +3,10 @@
 
 export default {
   tasks: {
-    create  : 'Tarefas Criadas',
-    myTasks : 'Minhas Tarefas',
-    category: 'Categorias',
-    title   : 'Tarefas'
+    create     : 'Tarefas Criadas',
+    myTasks    : 'Minhas Tarefas',
+    category   : 'Categorias',
+    title      : 'Tarefas',
+    information: 'Detalhes da tarefa'
   }
 }
