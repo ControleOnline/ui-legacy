@@ -115,6 +115,11 @@ export default {
     },
 
     onTaskSave() {
+      this.$q.notify({
+        message : this.$t('Data saved successfully'),
+        position: 'bottom',
+        type    : 'positive',
+      });
     }
 
   }

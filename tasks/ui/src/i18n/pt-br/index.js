@@ -3,10 +3,11 @@
 
 export default {
   tasks: {
-    create     : 'Tarefas Criadas',
-    myTasks    : 'Minhas Tarefas',
-    category   : 'Categorias',
-    title      : 'Tarefas',
-    information: 'Detalhes da tarefa'
+    create      : 'Tarefas Criadas',
+    myTasks     : 'Minhas Tarefas',
+    category    : 'Categorias',
+    title       : 'Tarefas',
+    information : 'Detalhes da tarefa',
+    interactions: 'Interações'
   }
 }

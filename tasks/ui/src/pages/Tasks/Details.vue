@@ -23,6 +23,10 @@
                 name ="summary"
                 label="Resumo"
               />
+              <q-tab
+                name ="interactions"
+                :label="$t('tasks.interactions')"
+              />
             </q-tabs>
 
             <q-separator />
@@ -37,6 +41,12 @@
                   :task="task"
                 />
               </q-tab-panel>
+              <q-tab-panel name="interactions">
+                <TaskInteractions 
+                  :api  ="API"
+                  :id   ="taskId"
+                />
+              </q-tab-panel>
             </q-tab-panels>
           </div>
         </div>
@@ -48,11 +58,13 @@
 <script>
 import Api from '@freteclick/quasar-common-ui/src/utils/api';
 import TasksSummary from '../../components/Tasks/TasksSummary.vue';
+import TaskInteractions from '../../components/Tasks/TaskInteractions.vue';
 
 export default {
 
   components: {
-    TasksSummary
+    TasksSummary,
+    TaskInteractions
   },
 
   data () {
@@ -73,7 +85,6 @@ export default {
       return this.API.private(`tasks/${this.taskId}`)
         .then(response => response.json())
         .then(data => {
-          console.log(data);
           if (data['@id']) {
             this.task = data;
           }

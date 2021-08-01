@@ -166,8 +166,9 @@
 </template>
 
 <script>
-import Api            from '@freteclick/quasar-common-ui/src/utils/api';
-import { mapGetters } from 'vuex';
+import Api                   from '@freteclick/quasar-common-ui/src/utils/api';
+import { formatDateYmdTodmY }from '@freteclick/quasar-common-ui/src/utils/formatter';
+import { mapGetters }        from 'vuex';
 
 export default {
   props: {
@@ -242,7 +243,7 @@ export default {
       this.item.description = this.taskData.description;
       
       if (this.taskData.dueDate) {
-
+        this.item.dueDate = formatDateYmdTodmY(this.taskData.dueDate);
       }
       
       var taskForVal       = '(#' + this.taskData.taskFor.id + ') ' + this.taskData.taskFor.name;
@@ -255,6 +256,11 @@ export default {
       this.clientSelected = this.taskData.client;
       this.item.client    = this.taskData.client.id;
 
+      this.item.taskStatus = {
+        label: this.taskData.taskStatus.name,
+        value: this.taskData.taskStatus.id
+      };
+
       if (this.taskData.contract) {
         var contractVal       = '(#' + this.taskData.contract.id + ') ' + (
           this.taskData.contract.peoples[0] ? this.taskData.contract.peoples[0].alias : ''
@@ -265,7 +271,15 @@ export default {
         this.item.contract    = this.taskData.contract.id;
       }
 
-      console.log(this.taskData);
+      if (this.taskData.order) {
+        var orderVal       = '(#' + this.taskData.order.id + ') ' + (
+          this.taskData.order.client ? this.taskData.order.client.alias : ''
+        );
+
+        this.searchOrder   = orderVal;
+        this.orderSelected = this.taskData.order;
+        this.item.order    = this.taskData.order.id;
+      }
     }
   },
 
@@ -571,9 +585,9 @@ export default {
 
     saveTask(payload) {
       
-      return this.api.private('/tasks', { 
+      return this.api.private('/tasks' + (this.taskId ? "/" + this.taskId : ""), { 
         body: JSON.stringify(payload),
-        method: "POST"
+        method: this.taskId ? "PUT" : "POST"
        })
         .then(response => response.json())
         .then(result => {
@@ -613,7 +627,8 @@ export default {
       }
 
       if (this.item.dueDate){
-        payload.dueDate = this.item.dueDate;
+        var dueDate = this.item.dueDate.split('/');
+        payload.dueDate = dueDate[2] + '-' + dueDate[1] + '-' + dueDate[0] + ' 00:00:00';
       }
       
       if (this.item.contract){
