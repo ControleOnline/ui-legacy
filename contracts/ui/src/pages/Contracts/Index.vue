@@ -22,7 +22,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { ENTRYPOINT } from './../../config/entrypoint';
+import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 export default {
   name: 'ContractIndexPage',
