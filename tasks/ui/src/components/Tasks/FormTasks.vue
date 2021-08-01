@@ -178,6 +178,14 @@ export default {
     statuses: {
       type    : Array,
       required: true
+    },
+    taskId: {
+      type    : Number,
+      required: false
+    },
+    taskData: {
+      type    : Object,
+      required: false
     }
   },
 
@@ -226,6 +234,38 @@ export default {
         itens.splice(0, 1);
 
         this.statusArray = itens;
+    }
+
+    if (this.taskData) {
+      this.item.id          = this.taskId;
+      this.item.name        = this.taskData.name;
+      this.item.description = this.taskData.description;
+      
+      if (this.taskData.dueDate) {
+
+      }
+      
+      var taskForVal       = '(#' + this.taskData.taskFor.id + ') ' + this.taskData.taskFor.name;
+      this.searchTaskFor   = taskForVal;
+      this.taskForSelected = this.taskData.taskFor;
+      this.item.taskFor    = this.taskData.taskFor.id;
+      
+      var clientVal       = '(#' + this.taskData.client.id + ') ' + this.taskData.client.name;
+      this.searchClient   = clientVal;
+      this.clientSelected = this.taskData.client;
+      this.item.client    = this.taskData.client.id;
+
+      if (this.taskData.contract) {
+        var contractVal       = '(#' + this.taskData.contract.id + ') ' + (
+          this.taskData.contract.peoples[0] ? this.taskData.contract.peoples[0].alias : ''
+        );
+
+        this.searchContract   = contractVal;
+        this.contractSelected = this.taskData.contract;
+        this.item.contract    = this.taskData.contract.id;
+      }
+
+      console.log(this.taskData);
     }
   },
 
@@ -563,6 +603,10 @@ export default {
         client      : '/people/' + this.item.client,
         taskStatus  : '/task_statuses/' + this.item.taskStatus.value,
       };
+
+      if (this.taskId) {
+        payload.id = this.taskId;
+      }
 
       if (this.item.description){
         payload.description = this.item.description;
