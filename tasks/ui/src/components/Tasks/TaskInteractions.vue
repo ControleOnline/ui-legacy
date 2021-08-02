@@ -1,23 +1,9 @@
 <template>
   <div class="row">
-    <div class="col-12">
-
-      <div class="row justify-end q-mb-md">
-        <q-btn
-          :label="$t('Add')"
-          icon  ="add"
-          size  ="md"
-          color ="primary"
-          class ="q-ml-sm"
-          @click="dialog = !dialog"
-        />
-      </div>
-
-    </div>
 
     <div class="col-12" v-for="interaction of interactions" :key="interaction.id">
         <q-card
-            :style="interaction.type === 'request' ? 'background-color: #e5e5e5' : (interaction.type === 'response' ? 'background-color: #e1e1bd' : '')"
+            :style="interaction.type === 'request' ? 'background-color: #e5e5e5' : (interaction.type === 'response' ? 'background-color: #cbe1e6' : '')"
         >
             <q-card-section>
                 <div>
@@ -50,18 +36,6 @@
             </q-card-actions>
         </q-card>
     </div>
-    <q-dialog v-model="dialog">
-        <q-card style="width: 700px; max-width: 80vw;">
-            <q-card-section class="row items-center">
-                <div class="text-h6">{{ $t('Add') }}</div>
-                <q-space />
-                <q-btn icon="close" flat round dense v-close-popup />
-            </q-card-section>
-            <q-card-section>
-                <FormTaskInteraction />
-            </q-card-section>
-        </q-card>
-    </q-dialog>
   </div>
 </template>
 
@@ -69,6 +43,7 @@
 import Api                    from '@freteclick/quasar-common-ui/src/utils/api';
 import { formatDateYmdTodmY } from '@freteclick/quasar-common-ui/src/utils/formatter';
 import FormTaskInteraction    from './FormTaskInteraction.vue';
+import { ENTRYPOINT }         from '../../../../../../src/config/entrypoint';
 
 export default {
 
@@ -90,6 +65,7 @@ export default {
     data() {
         return {
             dialog      : false,
+            isLoading   : true,
             interactions: [
                 {
                     id: 3,
@@ -106,7 +82,7 @@ export default {
                     },
                     file: {
                         id: 12,
-                        url: require('../../../../../../src/assets/fiat uno.jpg')
+                        url: '../../../../../../src/assets/fiat uno.jpg'
                     },
                     createdAt: "2021-08-02"
                 },
@@ -154,12 +130,45 @@ export default {
         }
     },
 
+    created() {
+        console.log(ENTRYPOINT);
+        this.getInterations();
+    },
+
     methods: {
         getInterations() {
-            return this.API.private(`task_interations`)
+            var params = {
+                task: this.id
+            };
+
+            this.isLoading = true;
+
+            return this.api.private(`task_interations`, { params })
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
+                    if (data['hydra:member'] && data['hydra:member'].length) {
+                        var items = data['hydra:member'];
+
+                        for(var key in items) {
+                            if (items[key]) {
+                                var item = items[key];
+
+                                if (item.body) {
+                                    item.body = JSON.parse(item.body);
+                                }
+
+                                if (item.file) {
+                                    item.file.url = ENTRYPOINT + item.file.url;
+                                }
+
+                                items[key] = item;
+                            }
+                        }
+
+                        this.interactions = items;
+                        this.isLoading = false;
+                    }
                 });
         },
         getInteractionDate(interaction) {

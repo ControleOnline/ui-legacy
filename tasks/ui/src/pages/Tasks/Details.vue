@@ -23,10 +23,6 @@
                 name ="summary"
                 label="Resumo"
               />
-              <q-tab
-                name ="interactions"
-                :label="$t('tasks.interactions')"
-              />
             </q-tabs>
 
             <q-separator />
@@ -40,12 +36,18 @@
                   :id   ="taskId"
                   :task="task"
                 />
-              </q-tab-panel>
-              <q-tab-panel name="interactions">
-                <TaskInteractions 
-                  :api  ="API"
-                  :id   ="taskId"
-                />
+
+                <div v-if="task.name">
+                  <br/>
+                  <q-separator />
+
+                  <h5>{{ $t('tasks.interactions') }}</h5>
+                  
+                  <TaskInteractions 
+                    :api  ="API"
+                    :id   ="taskId"
+                  />
+                </div>
               </q-tab-panel>
             </q-tab-panels>
           </div>
