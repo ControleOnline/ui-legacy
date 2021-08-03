@@ -21,7 +21,7 @@
         <q-select stack-label lazy-rules
           v-model  ="item.taskStatus"
           class    ="q-mb-sm"
-          label    ="Status *"
+          label    ="Categoria *"
           :options ="statusArray"
           :rules   ="[isInvalid('status')]"
           :outlined="true"
@@ -307,7 +307,7 @@ export default {
 
         this.timeSearch = setTimeout((
           () => this.searchData.bind(this)(search, 'taskFor')
-        ).bind(this), 1000);
+        ).bind(this), 2000);
       }
     },
     searchClient: function (search) {
@@ -324,7 +324,7 @@ export default {
 
         this.timeSearch = setTimeout((
           () => this.searchData.bind(this)(search, 'client')
-        ).bind(this), 1000);
+        ).bind(this), 2000);
       }
     },
     searchContract: function (search) {
@@ -341,7 +341,7 @@ export default {
 
         this.timeSearch = setTimeout((
           () => this.searchData.bind(this)(search, 'contract')
-        ).bind(this), 1000);
+        ).bind(this), 2000);
       }
     },
     searchOrder: function (search) {
@@ -358,7 +358,7 @@ export default {
 
         this.timeSearch = setTimeout((
           () => this.searchData.bind(this)(search, 'order')
-        ).bind(this), 1000);
+        ).bind(this), 2000);
       }
     }
   },

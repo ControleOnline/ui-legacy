@@ -2,9 +2,7 @@
   <div class="row">
 
     <div class="col-12" v-for="interaction of interactions" :key="interaction.id">
-        <q-card
-            :style="interaction.type === 'request' ? 'background-color: #e5e5e5' : (interaction.type === 'response' ? 'background-color: #cbe1e6' : '')"
-        >
+        <q-card :style="isMyInteraction(interaction) ? 'background: #e9e9e9' : ''">
             <q-card-section>
                 <div>
                     <strong>{{ interaction.registeredBy.alias }}</strong>
@@ -26,15 +24,11 @@
             <q-card-section v-if="interaction.type === 'comment' || interaction.type === 'response'">
                 {{ interaction.body.message }}
             </q-card-section>
-            <q-card-actions v-if="interaction.type === 'response'" align="around">
-                <q-btn flat>
-                    <q-icon name="thumb_up" /> Aprovado
-                </q-btn>
-                <q-btn flat>
-                    <q-icon name="thumb_down" /> Reprovado
-                </q-btn>
-            </q-card-actions>
         </q-card>
+    </div>
+
+    <div class="col-12">
+        <FormTaskInteraction @newInteraction="onNewInteractionAdded"/>
     </div>
   </div>
 </template>
@@ -44,6 +38,7 @@ import Api                    from '@freteclick/quasar-common-ui/src/utils/api';
 import { formatDateYmdTodmY } from '@freteclick/quasar-common-ui/src/utils/formatter';
 import FormTaskInteraction    from './FormTaskInteraction.vue';
 import { ENTRYPOINT }         from '../../../../../../src/config/entrypoint';
+import { mapGetters }         from 'vuex';
 
 export default {
 
@@ -66,72 +61,17 @@ export default {
         return {
             dialog      : false,
             isLoading   : true,
-            interactions: [
-                {
-                    id: 3,
-                    type: 'response',
-                    body: {
-                        responseFrom: 2,
-                        message: "Essa é a foto do carro fiat Uno",
-                        status: "em análise"
-                    },
-                    registeredBy: {
-                        id   : 0,
-                        name : "Guilherme",
-                        alias: "Guilherme"
-                    },
-                    file: {
-                        id: 12,
-                        url: '../../../../../../src/assets/fiat uno.jpg'
-                    },
-                    createdAt: "2021-08-02"
-                },
-                {
-                    id  : 2,
-                    type: 'request',
-                    body: {
-                        title: "Foto do carro",
-                        message: "Envie uma foto do carro"
-                    },
-                    registeredBy: {
-                        id   : 0,
-                        name : "Foccus Cegonhas",
-                        alias: "Foccus Cegonhas"
-                    },
-                    createdAt: "2021-08-02"
-                },
-                {
-                    id  : 1,
-                    type: 'comment',
-                    body: {
-                        message: "Outro comentário sobre essa tarefa"
-                    },
-                    registeredBy: {
-                        id   : 0,
-                        name : "Anderson",
-                        alias: "Anderson"
-                    },
-                    createdAt: "2021-08-01"
-                },
-                {
-                    id  : 0,
-                    type: 'comment',
-                    body: {
-                        message: "Comentário número 1 sobre essa tarefa"
-                    },
-                    registeredBy: {
-                        id   : 0,
-                        name : "Guilherme",
-                        alias: "Guilherme"
-                    },
-                    createdAt: "2021-08-01"
-                }
-            ]
+            interactions: []
         }
     },
 
+    computed: {
+        ...mapGetters({
+        user: 'auth/user',
+        }),
+    },
+
     created() {
-        console.log(ENTRYPOINT);
         this.getInterations();
     },
 
@@ -171,11 +111,47 @@ export default {
                     }
                 });
         },
+        onNewInteractionAdded(message) {
+            console.log(this.user);
+            var today = new Date();
+
+            var month = today.getMonth() + 1;
+
+            if (month < 10) {
+                month + "0" + month;
+            }
+            var day = today.getDate();
+
+            if (day < 10) {
+                day + "0" + day;
+            }
+
+            var newItem = {
+                id: this.interactions.length + 2,
+                type: 'comment',
+                body: {
+                    message: message
+                },
+                registeredBy: {
+                    id   : this.user.people,
+                    alias: this.user.realname,
+                    name : this.user.realname,
+                },
+                createdAt: today.getFullYear() + '-' + month + '-' + day
+            };
+
+            this.interactions.push(newItem);
+        },
         getInteractionDate(interaction) {
             return formatDateYmdTodmY(interaction.createdAt);
         },
         getInteractionById(id) {
             return this.interactions.find(interaction => interaction.id === id);
+        },
+        isMyInteraction(interaction) {
+            console.log(this.user.people);
+            console.log(interaction.registeredBy.id);
+            return interaction.registeredBy.id == this.user.people;
         }
     }
 }

@@ -40,7 +40,7 @@
                 <TasksSearching />
               </q-tab-panel>
               <q-tab-panel name="category" class="q-px-none">
-                <TaskStatusesSearching />
+                <TaskCategorySearching />
               </q-tab-panel>
             </q-tab-panels>
 
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import TaskStatusesSearching from '../../components/Tasks/TaskStatusesSearching';
+import TaskCategorySearching from '../../components/Tasks/TaskCategorySearching';
 import MyTasksSearching      from '../../components/Tasks/MyTasksSearching';
 import TasksSearching        from '../../components/Tasks/TasksSearching';
 import { mapGetters }        from 'vuex';
@@ -61,7 +61,7 @@ export default {
   name: 'TasksIndexPage',
 
   components: {
-    TaskStatusesSearching,
+    TaskCategorySearching,
     MyTasksSearching,
     TasksSearching,
   },

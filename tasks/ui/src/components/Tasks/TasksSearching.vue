@@ -153,7 +153,10 @@ export default {
                   field : 'dueDate',
                   align : 'left',
                   format: (val, row) => {
+                    if (val) {
                       return formatDateYmdTodmY(val);
+                    }
+                    return '-';
                   },
                   label : 'Vencimento'
               },

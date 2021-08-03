@@ -1,6 +1,6 @@
 {
   "name": "@controleonline/quasar-providers-ui",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "ControleOnline",
   "description": "ControleOnline providers Quasar UI Component",
   "license": "MIT",
@@ -15,7 +15,5 @@
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
   ],
-  "dependencies": {
-    "@freteclick/quasar-common-ui": "^1.0.2"
-  }
+  "dependencies": {}
 }
