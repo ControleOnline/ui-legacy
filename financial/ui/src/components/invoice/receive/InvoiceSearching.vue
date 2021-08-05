@@ -90,7 +90,7 @@
                   <q-btn flat
                     color ="primary"
                     :label="`Ver pedido #${orderId}`"
-                    :to   ="{ name: 'SalesOrderDetails', params: { id: orderId } }"
+                    :to   ="{ name: 'OrderDetails', params: { id: orderId } }"
                   />
                 </td>
               </tr>
