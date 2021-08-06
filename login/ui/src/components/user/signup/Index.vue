@@ -96,7 +96,7 @@ export default {
     }),
 
     isLogged() {
-      return this.$store.getters['auth/user'] !== null;
+      return this.$store.getters['auth/user'] !== null && this.$store.getters['auth/user'].user;
     },
 
     logged() {
