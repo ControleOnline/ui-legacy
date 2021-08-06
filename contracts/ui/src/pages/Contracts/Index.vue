@@ -61,7 +61,7 @@ export default {
       configs.Api.setToken  (this.$store.getters['auth/user'].token);
 
       // config routes
-      configs.Routes.Details.name = 'Admin.Contract.Details';
+      configs.Routes.Details.name = 'ContractDetails';
       
       // config params
       configs.Params.Company

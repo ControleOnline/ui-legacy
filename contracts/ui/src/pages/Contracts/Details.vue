@@ -121,7 +121,7 @@ export default {
       
       // config routes
 
-      configs.Routes.Details.name  = 'Admin.Contract.Details';
+      configs.Routes.Details.name  = 'ContractDetails';
       configs.Routes.Customer.name = 'ClientDetails';
       
       // config params
