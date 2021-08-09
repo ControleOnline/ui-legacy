@@ -35,18 +35,18 @@ export default {
 
   computed: {
     ...mapGetters({
-      defaultCompany : 'people/defaultCompany',
+      currentCompany : 'people/currentCompany',
     })
   },
 
   created() {
-    if (this.defaultCompany) {
+    if (this.currentCompany) {
       this.pageLoading = false;
     }
   },
   
   watch: {
-    defaultCompany(data) {
+    currentCompany(data) {
       if (data) {
         this.pageLoading = false;
       }
@@ -66,7 +66,7 @@ export default {
       // config params
       configs.Params.Company
         .getter = () => {
-          return this.$store.getters['people/defaultCompany'].id;
+          return this.$store.getters['people/currentCompany'].id;
         };
     },
   },
