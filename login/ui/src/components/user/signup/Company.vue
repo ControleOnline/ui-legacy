@@ -264,8 +264,9 @@ export default {
 
           this.$emit('saved', formHasErrors);
 
-          if (formHasErrors)
+          if (formHasErrors) {
             this.notifyError(response.error);
+          }
         })
         .catch(error => {
           let formHasErrors = true;

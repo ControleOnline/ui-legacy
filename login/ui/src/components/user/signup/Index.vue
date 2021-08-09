@@ -85,8 +85,9 @@ export default {
   },
 
   created() {
-    if (this.isLogged && this.logged.company === null)
+    if (this.isLogged && this.logged.company === null) {
       this.current = 'create_company';
+    }
   },
 
   computed: {
