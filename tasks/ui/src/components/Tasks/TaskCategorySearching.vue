@@ -32,7 +32,7 @@
             <q-td key="id" :props="props">
               <q-btn outline dense
                 :to   ="{
-                  name  : 'TasksDetails',
+                  name  : 'TaskCategoryDetails',
                   params: {
                     id: props.row.id
                   }
@@ -54,7 +54,11 @@
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
           <q-card-section>
-            
+            <FormTaskCategory
+              ref      ="myForm"
+              :api     ="API"
+              @saved   ="onCategorySave"
+            />
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -63,24 +67,21 @@
 </template>
 
 <script>
-import Api                    from '@freteclick/quasar-common-ui/src/utils/api';
-import { mapGetters }         from 'vuex';
+import Api              from '@freteclick/quasar-common-ui/src/utils/api';
+import FormTaskCategory from './FormTaskCategory.vue';
+import { mapGetters }   from 'vuex';
 
 export default {
+
+  components: {
+    FormTaskCategory
+  },
     
   data() {
-    let statuses = [
-      { 'label': 'Todos', 'value': -1 },
-    ];
 
     return {
       API    : new Api(this.$store.getters['auth/user'].token),
       dialog : false,
-      filters: {
-        status: statuses[0]
-      },
-      statuses       : statuses,
-      loadingStatuses: false,
       settings: {
           visibleColumns: [
               'id'      ,
@@ -128,8 +129,8 @@ export default {
 
   methods: {
     // store method
-    getTaskStatuses(params) {
-      return this.API.private('/task_statuses')
+    getTaskCategories(params) {
+      return this.API.private('/task_categories', { params })
         .then(response => response.json())
         .then(result => {
           return {
@@ -154,7 +155,7 @@ export default {
       }          = props.pagination;
       let params = { limit: rowsPerPage, page };
 
-      this.getTaskStatuses(params)
+      this.getTaskCategories(params)
         .then(data => {
           let _data = [];
 
@@ -178,6 +179,15 @@ export default {
           this.isLoading = false;
         });
     },
+
+    onCategorySave(id) {
+      this.dialog = false;
+      
+      this.onRequest({
+        pagination: this.pagination,
+        filter    : this.filters,
+      });
+    }
   }
 }
 

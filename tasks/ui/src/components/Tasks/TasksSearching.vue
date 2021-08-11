@@ -78,10 +78,11 @@
           </q-card-section>
           <q-card-section>
             <FormTasks
-              ref      ="myForm"
-              :api     ="API"
-              :statuses="statuses"
-              @saved   ="onTaskSave"
+              ref        ="myForm"
+              :api       ="API"
+              :statuses  ="statuses"
+              :categories="categories"
+              @saved     ="onTaskSave"
             />
           </q-card-section>
         </q-card>
@@ -114,6 +115,7 @@ export default {
         status: statuses[0]
       },
       statuses       : statuses,
+      categories     : [],
       loadingStatuses: false,
       settings: {
           visibleColumns: [
@@ -183,6 +185,7 @@ export default {
       });
     }
     this.requestStatuses();
+    this.requestCategories();
   },
 
   computed: {
@@ -219,6 +222,17 @@ export default {
         });
     },
 
+    getCategories() {
+      return this.API.private('/task_categories')
+        .then(response => response.json())
+        .then(result => {
+          return {
+            members   : result['hydra:member'],
+            totalItems: result['hydra:totalItems']
+          };
+        });
+    },
+
     getStatuses() {
       return this.API.private('/task_statuses')
         .then(response => response.json())
@@ -228,6 +242,24 @@ export default {
             totalItems: result['hydra:totalItems']
           };
         });
+    },
+
+    requestCategories() {
+      this.getCategories()
+        .then(categories => {
+          if (categories.totalItems) {
+            
+            for (let index in categories.members) {
+              let item = categories.members[index];
+              this.categories.push({
+                'label': item.name,
+                'value': item.id,
+              });
+            }
+
+          }
+        });
+
     },
 
     requestStatuses() {

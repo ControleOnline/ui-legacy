@@ -3,7 +3,7 @@
   <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
 
     <div class="row q-col-gutter-sm">
-      <div class="col-xs-12 col-sm-12">
+      <div class="col-xs-12 col-sm-6">
         <q-input stack-label lazy-rules
           v-model    ="item.name"
           type       ="text"
@@ -14,6 +14,24 @@
           :outlined  ="true"
         />
       </div>
+      <div class="col-xs-12 col-sm-6">
+        <q-select stack-label lazy-rules
+          v-model  ="item.taskCategory"
+          class    ="q-mb-sm"
+          label    ="Categoria *"
+          :options ="categoryArray"
+          :rules   ="[isInvalid('category')]"
+          :outlined="true"
+        >
+          <template v-slot:no-option>
+              <q-item>
+                  <q-item-section class="text-grey">
+                  Sem resultados
+                  </q-item-section>
+              </q-item>
+          </template>
+        </q-select>
+      </div>
     </div>
 
     <div class="row q-col-gutter-sm">
@@ -21,7 +39,7 @@
         <q-select stack-label lazy-rules
           v-model  ="item.taskStatus"
           class    ="q-mb-sm"
-          label    ="Categoria *"
+          label    ="Status *"
           :options ="statusArray"
           :rules   ="[isInvalid('status')]"
           :outlined="true"
@@ -180,6 +198,10 @@ export default {
       type    : Array,
       required: true
     },
+    categories: {
+      type    : Array,
+      required: true
+    },
     taskId: {
       type    : Number,
       required: false
@@ -206,18 +228,20 @@ export default {
       orderSelected      : '',
       isSearchingOrder   : false,
       item: {
-        id         : null,
-        name       : null,
-        description: null,
-        dueDate    : '',
-        taskFor    : null,
-        client     : null,
-        taskStatus : null,
-        contract   : null,
-        order      : null
+        id          : null,
+        name        : null,
+        description : null,
+        dueDate     : '',
+        taskFor     : null,
+        client      : null,
+        taskStatus  : null,
+        taskCategory: null,
+        contract    : null,
+        order       : null
       },
-      isSaving          : false,
-      statusArray       : []
+      isSaving     : false,
+      statusArray  : [],
+      categoryArray: []
     };
   },
 
@@ -235,6 +259,12 @@ export default {
         itens.splice(0, 1);
 
         this.statusArray = itens;
+    }
+    
+    if (this.categories) {
+        var itens = Object.assign([], this.categories);
+
+        this.categoryArray = itens;
     }
 
     if (this.taskData) {
@@ -259,6 +289,11 @@ export default {
       this.item.taskStatus = {
         label: this.taskData.taskStatus.name,
         value: this.taskData.taskStatus.id
+      };
+
+      this.item.taskCategory = {
+        label: this.taskData.taskCategory.name,
+        value: this.taskData.taskCategory.id
       };
 
       if (this.taskData.contract) {
@@ -291,6 +326,13 @@ export default {
         itens.splice(0, 1);
 
         this.statusArray = itens;
+      }
+    },
+    categories: function (categories) {
+      if (categories) {
+        var itens = Object.assign([], categories);
+
+        this.categoryArray = itens;
       }
     },
     searchTaskFor: function (search) {
@@ -616,6 +658,7 @@ export default {
         taskFor     : '/people/' + this.item.taskFor,
         client      : '/people/' + this.item.client,
         taskStatus  : '/task_statuses/' + this.item.taskStatus.value,
+        taskCategory: '/task_categories/' + this.item.taskCategory.value,
       };
 
       if (this.taskId) {

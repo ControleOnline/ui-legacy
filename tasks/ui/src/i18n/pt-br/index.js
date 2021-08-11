@@ -8,6 +8,7 @@ export default {
     category    : 'Categorias',
     title       : 'Tarefas',
     information : 'Detalhes da tarefa',
-    interactions: 'Interações'
+    interactions: 'Interações',
+    categoryInfo: 'Detalhes da Categoria'
   }
 }
