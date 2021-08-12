@@ -16,6 +16,11 @@
         v-model="currentTab"
         class  ="bg-white text-primary"
       >
+        <q-tab v-if="client.type === 'F'"
+          name ="companies"
+          label="Empresas"
+        />
+
         <q-tab
           name ="summary"
           label="Resumo"
@@ -54,16 +59,13 @@
         />
         <q-tab
           name ="orders"
-          label="Pedidos"
+          :label="$t('customers.separeteServices')"
         />
         <q-tab
           name ="contracts"
           label="Contratos"
         />
-        <q-tab v-if="client.type === 'F'"
-          name ="companies"
-          label="Empresas"
-        />
+        
       </q-tabs>
 
       <q-separator />
