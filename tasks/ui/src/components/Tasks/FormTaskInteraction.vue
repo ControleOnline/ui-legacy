@@ -4,15 +4,17 @@
             <div class="row" style="width: 100%">
                 <div class="col-12">
                     <q-input 
-                        v-model="message"
-                        style="width: 100%"
-                        type="textarea"
+                        v-model ="message"
+                        style   ="width: 100%"
+                        type    ="textarea"
+                        :loading="isSaving"
+                        
                     >
                         <template v-slot:append>
                             <q-btn round flat @click="sendAttachment">
                                 <q-icon name="attachment" />
                             </q-btn>
-                            <q-btn round flat @click="sendInteraction">
+                            <q-btn round flat @click="sendInteraction(message)">
                                 <q-icon name="send" />
                             </q-btn>
                         </template>
@@ -30,8 +32,10 @@
             </q-card-section>
             <q-card-section>
                 <InteractionForm 
-                    :message ="message"
+                    v-model  ="message"
                     :category="category"
+                    :isSaving="isSaving"
+                    @submit  ="onSubmit"
                 />
             </q-card-section>
             </q-card>
@@ -48,6 +52,11 @@ export default {
     },
     
     props: {
+        isSaving:{
+            type    : Boolean,
+            required: false,
+            default : false
+        },
         category: {
             type    : Object,
             required: true
@@ -65,9 +74,24 @@ export default {
         sendAttachment() {
             this.dialog = true;
         },
-        sendInteraction() {
-          this.$emit('newInteraction', this.message);
-          this.message = '';
+        sendInteraction(message, details) {
+            if (message && message.length) {
+                var data = {};
+
+                if (details) {
+                    data = details;
+                }
+
+                data.message = message;
+                
+                this.$emit('newInteraction', data);
+
+                this.message = '';
+            }
+        },
+        onSubmit(data) {
+            this.sendInteraction(data.message, data);
+            this.dialog = false;
         }
     }
 }

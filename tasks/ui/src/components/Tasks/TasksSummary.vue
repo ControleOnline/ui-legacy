@@ -28,8 +28,9 @@
 </template>
 
 <script>
-import Api       from '@freteclick/quasar-common-ui/src/utils/api';
-import FormTasks from './FormTasks.vue';
+import Api            from '@freteclick/quasar-common-ui/src/utils/api';
+import FormTasks      from './FormTasks.vue';
+import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 export default {
 
@@ -86,7 +87,7 @@ export default {
   methods: {
 
     getCategories() {
-      return this.api.private('/task_categories')
+      return this.api.private(ENTRYPOINT + '/task_categories')
         .then(response => response.json())
         .then(result => {
           return {

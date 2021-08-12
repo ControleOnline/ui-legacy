@@ -5,7 +5,7 @@
         <q-card :style="isMyInteraction(interaction) ? 'background: #e9e9e9' : ''">
             <q-card-section>
                 <div>
-                    <strong>{{ interaction.registeredBy.alias }}</strong>
+                    <strong>{{ interaction.registeredBy.alias || interaction.registeredBy.name }}</strong>
                     <small> | em {{ getInteractionDate(interaction) }}</small>    
                 </div>
                 <h5 v-if="interaction.type === 'response'">
@@ -29,7 +29,9 @@
 
     <div class="col-12">
         <FormTaskInteraction 
+            :isLoading     ="isLoading"
             :category      ="taskData.taskCategory"
+            :isSaving      ="isSaving"
             @newInteraction="onNewInteractionAdded"
         />
     </div>
@@ -66,9 +68,9 @@ export default {
 
     data() {
         return {
-            dialog      : false,
             isLoading   : true,
-            interactions: []
+            interactions: [],
+            isSaving    : false
         }
     },
 
@@ -117,7 +119,7 @@ export default {
                     }
                 });
         },
-        onNewInteractionAdded(message) {
+        onNewInteractionAdded(data) {
             var today = new Date();
 
             var month = today.getMonth() + 1;
@@ -135,7 +137,7 @@ export default {
                 id: this.interactions.length + 2,
                 type: 'comment',
                 body: {
-                    message: message
+                    message: data.message
                 },
                 registeredBy: {
                     id   : this.user.people,
@@ -145,8 +147,47 @@ export default {
                 createdAt: today.getFullYear() + '-' + month + '-' + day
             };
 
-            this.interactions.push(newItem);
+            if (data.checklist) {
+                newItem.body.checklist = data.checklist;
+            }
+
+            if (data.file) {
+                newItem.file = data.file;
+            }
+
+            this.isSaving = true;
+            this.saveInteraction(newItem)
+                .then(res => {
+                    this.isSaving = false;
+                    this.getInterations();
+                });
+
         },
+        
+        saveInteraction(payload) {
+            var file = payload.file;
+
+            var data = Object.assign({}, payload);
+
+            delete data.file;
+
+            var options = {
+                body: JSON.stringify(data),
+                method: "POST"
+            };
+
+            if (file) {
+                options.file = file;
+            }
+
+            return this.api.private('/task_interations/task/' + this.id, options)
+                .then(response => response.json())
+                .then(result => {
+                    return result;
+                });
+
+        },
+
         getInteractionDate(interaction) {
             return formatDateYmdTodmY(interaction.createdAt);
         },

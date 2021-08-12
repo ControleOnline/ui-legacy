@@ -3,7 +3,6 @@
         <div class="row">
             <div :class="'col-xs-12 ' + (checkIfIsVistoria() ? 'col-sm-6' : 'col-sm-12')">
                 <q-uploader ref="uploader" no-thumbnails square flat
-                    :headers     ="uploadHeaders"
                     :accept      ="uploadAccepted"
                     field-name   ="file"
                     color        ="white"
@@ -12,6 +11,7 @@
                     :multiple    ="false"
                     :class       ="myClass"
                     :auto-upload ="false"
+                    :isUploading="isSaving"
                 >
                     <template v-slot:header="scope">
                         <div class="row no-wrap items-center justify-end q-pa-sm q-gutter-xs">
@@ -108,6 +108,7 @@
                     label      ="Mensagem"
                     placeholder="Digite uma mensagem"
                     :outlined  ="true"
+                    :loading="isSaving"
                 />
             </div>
         </div>
@@ -125,33 +126,29 @@
 </template>
 
 <script>
-import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 export default {
     props: {
-        message: {
+        value: {
             type    : String,
             required: true
         },
         category: {
             type    : Object,
             required: true
+        },
+        isSaving: {
+            type    : Boolean,
+            required: true
         }
     },
 
     data() {
         return {
+            message       : this.value,
             selectedFile  : {},
-            uploadEndpoint: `${ENTRYPOINT}/`,
-            uploadHeaders : [
-                {
-                    name : 'API-TOKEN',
-                    value: this.$store.getters['auth/user'].token
-                },
-            ],
             uploadAccepted: 'image/*',
-            isSaving: false,
-            checklist: {
+            checklist     : {
                 item1: false,
                 item2: false,
                 item3: false,
@@ -165,6 +162,12 @@ export default {
     computed: {
         myClass() {
             return `q-upd q-upd-single w-100p`;
+        }
+    },
+
+    watch: {
+        message: function (val) {
+            this.$emit('input', val);
         }
     },
 
@@ -190,9 +193,30 @@ export default {
         },
 
         onSubmit() {
-            this.$emmit('submit', {
-                message: this.message,
-            });
+            var data = {
+                message: this.message
+            };
+
+            if (this.selectedFile && this.selectedFile.name) {
+                data.file = this.selectedFile;
+            }
+
+            if (this.checkIfIsVistoria() && Object.keys(this.checklist).length) {
+                var hasTrue = false;
+
+                for (var key in this.checklist) {
+                    if (this.checklist[key]) {
+                        hasTrue = true;
+                        break; 
+                    }
+                }
+
+                if (hasTrue) {
+                    data.checklist = this.checklist;
+                }
+            }
+
+            this.$emit('submit', data);
         }
     }
 
