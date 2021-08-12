@@ -44,8 +44,9 @@
                   <h5>{{ $t('tasks.interactions') }}</h5>
                   
                   <TaskInteractions 
-                    :api  ="API"
-                    :id   ="taskId"
+                    :api     ="API"
+                    :id      ="taskId"
+                    :taskData="task"
                   />
                 </div>
               </q-tab-panel>

@@ -12,13 +12,14 @@
     <div class="col-12 q-mt-md" :style="(isLoading || loadingStatuses) ? 'visibility:hidden' : 'visibility:visible'">
         
         <FormTasks 
-            v-if     ="!isLoading && !loadingStatuses"
-            ref      ="myForm"
-            :taskId  ="id"
-            :taskData="task"
-            :api     ="api"
-            :statuses="statuses"
-            @saved   ="onTaskSave"
+            v-if       ="!isLoading && !loadingStatuses"
+            ref        ="myForm"
+            :taskId    ="id"
+            :taskData  ="task"
+            :api       ="api"
+            :statuses  ="statuses"
+            :categories="categories"
+            @saved     ="onTaskSave"
         />
 
     </div>
@@ -60,6 +61,7 @@ export default {
       saving         : false,
       isLoading      : true,
       statuses       : statuses,
+      categories     : [],
       loadingStatuses: false,
     }
   },
@@ -70,6 +72,7 @@ export default {
     }
 
     this.requestStatuses();
+    this.requestCategories();
   },
 
   watch: {
@@ -82,6 +85,17 @@ export default {
 
   methods: {
 
+    getCategories() {
+      return this.api.private('/task_categories')
+        .then(response => response.json())
+        .then(result => {
+          return {
+            members   : result['hydra:member'],
+            totalItems: result['hydra:totalItems']
+          };
+        });
+    },
+
     getStatuses() {
       return this.api.private('/task_statuses')
         .then(response => response.json())
@@ -91,6 +105,24 @@ export default {
             totalItems: result['hydra:totalItems']
           };
         });
+    },
+
+    requestCategories() {
+      this.getCategories()
+        .then(categories => {
+          if (categories.totalItems) {
+            
+            for (let index in categories.members) {
+              let item = categories.members[index];
+              this.categories.push({
+                'label': item.name,
+                'value': item.id,
+              });
+            }
+
+          }
+        });
+
     },
 
     requestStatuses() {

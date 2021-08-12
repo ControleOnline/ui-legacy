@@ -28,7 +28,10 @@
     </div>
 
     <div class="col-12">
-        <FormTaskInteraction @newInteraction="onNewInteractionAdded"/>
+        <FormTaskInteraction 
+            :category      ="taskData.taskCategory"
+            @newInteraction="onNewInteractionAdded"
+        />
     </div>
   </div>
 </template>
@@ -51,6 +54,10 @@ export default {
             type    : Api,
             required: true
         },
+        taskData: {
+            type    : Object,
+            required: true
+        },
         id: {
             type    : Number,
             required: true
@@ -67,7 +74,7 @@ export default {
 
     computed: {
         ...mapGetters({
-        user: 'auth/user',
+            user: 'auth/user',
         }),
     },
 
@@ -86,7 +93,6 @@ export default {
             return this.api.private(`task_interations`, { params })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     if (data['hydra:member'] && data['hydra:member'].length) {
                         var items = data['hydra:member'];
 
@@ -112,7 +118,6 @@ export default {
                 });
         },
         onNewInteractionAdded(message) {
-            console.log(this.user);
             var today = new Date();
 
             var month = today.getMonth() + 1;
@@ -149,8 +154,6 @@ export default {
             return this.interactions.find(interaction => interaction.id === id);
         },
         isMyInteraction(interaction) {
-            console.log(this.user.people);
-            console.log(interaction.registeredBy.id);
             return interaction.registeredBy.id == this.user.people;
         }
     }
