@@ -17,7 +17,7 @@
             </q-card-section>
             <q-card-section v-if="interaction.file">
                 <img
-                    style="max-height: 400px; max-width: 80%;" 
+                    style="max-height: 200px; max-width: 80%;" 
                     :src="interaction.file.url"
                 />
             </q-card-section>
