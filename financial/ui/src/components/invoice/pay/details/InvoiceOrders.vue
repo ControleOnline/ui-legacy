@@ -19,13 +19,14 @@
             class ="full-width"
           />
         </q-td>
+        <q-td key="client"            :props="props">{{ props.row.client }}</q-td>
         <q-td key="notaFiscal"        :props="props">{{ props.row.notaFiscal }}</q-td>
-        <q-td key="dataPedido"        :props="props">{{ props.cols[2].value }}</q-td>
-        <q-td key="ultimaModificacao" :props="props">{{ props.cols[3].value }}</q-td>
+        <q-td key="dataPedido"        :props="props">{{ props.cols[3].value }}</q-td>
+        <q-td key="ultimaModificacao" :props="props">{{ props.cols[4].value }}</q-td>
         <q-td key="status"            :props="props" :style="{color:props.row.color_status}">
           {{ $t(`order.statuses.${props.row.status}`) }}
         </q-td>
-        <q-td key="preco"             :props="props">{{ props.cols[5].value }}</q-td>
+        <q-td key="preco"             :props="props">{{ props.cols[6].value }}</q-td>
       </q-tr>
     </template>
   </q-table>
@@ -43,6 +44,12 @@ const SETTINGS = {
       field : 'id',
       align : 'left',
       label : 'ID'
+    },
+    {
+      name : 'client',
+      field: 'client',
+      align: 'left',
+      label: 'Cliente',
     },
     {
       name : 'notaFiscal',
@@ -180,9 +187,37 @@ export default {
       for (let index in items) {
         let item = items[index];
 
+        var clientName = '--';
+
+        if (item.mainOrder && item.mainOrder.client) {
+          clientName = item.mainOrder.client.name;
+
+          if (!clientName) {
+            clientName = item.mainOrder.client.alias;
+          }
+          else if (
+            (
+              clientName.toLowerCase().indexOf('ltda') == -1 && 
+              clientName.toLowerCase().indexOf('eireli') == -1 && 
+              clientName.toLowerCase().indexOf('comercio') == -1 && 
+              clientName.toLowerCase().indexOf('comércio') == -1 && 
+              clientName.toLowerCase().indexOf('comercial') == -1 && 
+              clientName.toLowerCase().indexOf('industria') == -1 && 
+              clientName.toLowerCase().indexOf('indústria') == -1 && 
+              clientName.toLowerCase().indexOf('soluções') == -1 && 
+              clientName.toLowerCase().indexOf('importação') == -1 && 
+              clientName.toLowerCase().indexOf('solutions') == -1 && 
+              clientName.toLowerCase().indexOf('me') == -1
+            ) && clientName.toLowerCase().trim() != item.mainOrder.client.alias.toLowerCase().trim()
+          ) {
+              clientName += " " + item.mainOrder.client.alias;
+          }
+        }
+
         data.push({
           '@id'              : item['@id'],
           'id'               : item['@id'].match(/^\/purchasing\/orders\/([a-z0-9-]*)$/)[1],
+          'client'           : clientName,
           'notaFiscal'       : item.invoiceTax.length > 0 ? '#'+item.invoiceTax[0].invoiceTax.invoiceNumber : '',
           'dataPedido'       : item.orderDate,
           'ultimaModificacao': item.alterDate,
