@@ -22,7 +22,23 @@
                 />
             </q-card-section>
             <q-card-section v-if="interaction.type === 'comment' || interaction.type === 'response'">
-                {{ interaction.body.message }}
+                <div class="row">
+                    <div :class="interaction.body.checklist ? 'col-6' : 'col-12'">
+                        {{ interaction.body.message }}
+                    </div>
+                    <div v-if="interaction.body.checklist" class="col-6">
+                        <div class="radio-inline">
+                            <q-checkbox left-label v-model="interaction.body.checklist.item1" disable label="Stepe" />
+                            <q-checkbox left-label v-model="interaction.body.checklist.item2" disable label="Extintor" />
+                            <q-checkbox left-label v-model="interaction.body.checklist.item3" disable label="Tapete" />
+                        </div>
+                        <div class="radio-inline">
+                            <q-checkbox left-label v-model="interaction.body.checklist.item4" disable label="Pneu" />
+                            <q-checkbox left-label v-model="interaction.body.checklist.item5" disable label="Calota" />
+                            <q-checkbox left-label v-model="interaction.body.checklist.item6" disable label="Banco" />
+                        </div>
+                    </div>
+                </div>
             </q-card-section>
         </q-card>
     </div>
