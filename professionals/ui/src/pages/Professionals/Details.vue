@@ -65,7 +65,7 @@
                   :id   ="trainerId"
                   @error="(error) => {
                     this.$q.notify({
-                      message : error.message,
+                      message : this.$t(error.message),
                       position: 'bottom',
                       type    : 'negative',
                     });
@@ -86,7 +86,7 @@
                   :id   ="trainerId"
                   @error="(error) => {
                     this.$q.notify({
-                      message : error.message,
+                      message : this.$t(error.message),
                       position: 'bottom',
                       type    : 'negative',
                     });
@@ -107,7 +107,7 @@
                   :id   ="trainerId"
                   @error="(error) => {
                     this.$q.notify({
-                      message : error.message,
+                      message : this.$t(error.message),
                       position: 'bottom',
                       type    : 'negative',
                     });
@@ -128,7 +128,7 @@
                   :id   ="trainerId"
                   @error="(error) => {
                     this.$q.notify({
-                      message : error.message,
+                      message : this.$t(error.message),
                       position: 'bottom',
                       type    : 'negative',
                     });
@@ -149,7 +149,7 @@
                   :id   ="trainerId"
                   @error="(error) => {
                     this.$q.notify({
-                      message : error.message,
+                      message : this.$t(error.message),
                       position: 'bottom',
                       type    : 'negative',
                     });
@@ -170,7 +170,7 @@
                   :id   ="trainerId"
                   @error="(error) => {
                     this.$q.notify({
-                      message : error.message,
+                      message : this.$t(error.message),
                       position: 'bottom',
                       type    : 'negative',
                     });
@@ -191,7 +191,7 @@
                   :id   ="trainerId"
                   @error="(error) => {
                     this.$q.notify({
-                      message : error.message,
+                      message : this.$t(error.message),
                       position: 'bottom',
                       type    : 'negative',
                     });
@@ -212,7 +212,7 @@
                   :id   ="trainerId"
                   @error="(error) => {
                     this.$q.notify({
-                      message : error.message,
+                      message : this.$t(error.message),
                       position: 'bottom',
                       type    : 'negative',
                     });
