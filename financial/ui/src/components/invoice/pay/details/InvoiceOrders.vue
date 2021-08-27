@@ -223,17 +223,17 @@ export default {
           if (!clientName) {
             clientName = item.mainOrder.client.alias;
           } else if (
-            clientName.toLowerCase().indexOf("ltda") == -1 &&
-            clientName.toLowerCase().indexOf("eireli") == -1 &&
-            clientName.toLowerCase().indexOf("comercio") == -1 &&
-            clientName.toLowerCase().indexOf("comércio") == -1 &&
-            clientName.toLowerCase().indexOf("comercial") == -1 &&
-            clientName.toLowerCase().indexOf("industria") == -1 &&
-            clientName.toLowerCase().indexOf("indústria") == -1 &&
-            clientName.toLowerCase().indexOf("soluções") == -1 &&
-            clientName.toLowerCase().indexOf("importação") == -1 &&
-            clientName.toLowerCase().indexOf("solutions") == -1 &&
-            clientName.toLowerCase().indexOf("me") == -1 &&
+            clientName.toLowerCase().indexOf(" ltda") == -1 &&
+            clientName.toLowerCase().indexOf(" eireli") == -1 &&
+            clientName.toLowerCase().indexOf(" comercio") == -1 &&
+            clientName.toLowerCase().indexOf(" comércio") == -1 &&
+            clientName.toLowerCase().indexOf(" comercial") == -1 &&
+            clientName.toLowerCase().indexOf(" industria") == -1 &&
+            clientName.toLowerCase().indexOf(" indústria") == -1 &&
+            clientName.toLowerCase().indexOf(" soluções") == -1 &&
+            clientName.toLowerCase().indexOf(" importação") == -1 &&
+            clientName.toLowerCase().indexOf(" solutions") == -1 &&
+            clientName.toLowerCase().indexOf(" me") == -1 &&
             clientName.toLowerCase().trim() !=
               item.mainOrder.client.alias.toLowerCase().trim()
           ) {
