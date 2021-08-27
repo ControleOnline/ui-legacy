@@ -305,9 +305,9 @@ export default {
           clientName.toLowerCase().indexOf("solutions") == -1 &&
           clientName.toLowerCase().indexOf("me") == -1 &&
           clientName.toLowerCase().trim() !=
-            item.mainOrder.client.alias.toLowerCase().trim()
+            item.order[0].order.client.alias.toLowerCase().trim()
         ) {
-          clientName += " " + item.mainOrder.client.alias;
+          clientName += " " + item.order[0].order.client.alias;
         }
 
         data.push({
