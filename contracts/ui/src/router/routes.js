@@ -14,5 +14,12 @@ export const routes = [
         component: () => import('../pages/Contracts/Details.vue') 
       },
     ]
+  },
+  {
+    path: '/contract/',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [      
+      { name: 'ContractAccept', path: '/accept/:id', component: () => import('../pages/Contracts/Accept.vue') },      
+    ]
   }
 ];
