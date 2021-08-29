@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import configurable    from './../mixins/configurable';
-import Contract        from './../entity/Contract';
-import ParticipantForm from './ParticipantForm';
+import configurable    from './../../mixins/configurable';
+import Contract        from './../../entity/Contract';
+import ParticipantForm from './../../components/ParticipantForm';
 
 export default {
   name      : 'ContractActionParticipant',
