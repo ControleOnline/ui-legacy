@@ -1,6 +1,6 @@
 {
   "name": "@controleonline/quasar-contracts-ui",
-  "version": "1.6.16",
+  "version": "1.6.19",
   "author": "Controle Online",
   "description": "ControleOnline Contract Quasar UI Component",
   "license": "MIT",
@@ -22,7 +22,7 @@
   },
   "bugs": "",
   "homepage": "https://www.controleonline.com/devs/plugins",
-  "devDependencies": {    
+  "devDependencies": {
     "@rollup/plugin-buble": "^0.20.0",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
