@@ -55,6 +55,12 @@
         v-model    ="currentTab"
         class      ="bg-white text-primary"
       >
+
+        <q-tab
+          name ="allClients"
+          label="Clientes"
+        />
+        <!--
         <q-tab
           name ="inactiveClient"
           label="Clientes inativos"
@@ -71,6 +77,7 @@
           name ="newClient"
           label="Clientes novos"
         />
+        -->
       </q-tabs>
 
       <q-separator />
@@ -78,6 +85,23 @@
       <q-tab-panels
         v-model="currentTab"
       >
+
+      <q-tab-panel name="allClients" class="q-px-none">
+          <TableAllClients
+            ref      ="allClients"
+            :api     ="api"
+            :fromDate="dateFrom"
+            :toDate  ="dateTo"
+            :searchBy="searchBy"
+            @selected="onClientSelected"
+            @before  ="(params) => {
+              if (this.fetchs.loadClients) {
+                this.fetchs.loadClients.before(params);
+              }
+            }"
+          />
+        </q-tab-panel>
+      <!--
         <q-tab-panel name="inactiveClient" class="q-px-none">
           <TableClientsInactive
             ref      ="inactiveClient"
@@ -141,6 +165,7 @@
             }"
           />
         </q-tab-panel>
+        -->
       </q-tab-panels>
     </div>
 
@@ -149,10 +174,12 @@
 
 <script>
 import { date }              from 'quasar';
-import TableClientsInactive  from './components/TableClientsInactive.vue';
-import TableClientsProspects from './components/TableClientsProspects.vue';
-import TableClientsActive    from './components/TableClientsActive.vue';
-import TableClientsNew       from './components/TableClientsNew.vue';
+
+//import TableClientsInactive  from './components/TableClientsInactive.vue';
+//import TableClientsProspects from './components/TableClientsProspects.vue';
+//import TableClientsActive    from './components/TableClientsActive.vue';
+//import TableClientsNew       from './components/TableClientsNew.vue';
+import TableAllClients       from './components/TableAllClients.vue';
 import Api                   from '@freteclick/quasar-common-ui/src/utils/api';
 
 export default {
@@ -168,10 +195,11 @@ export default {
   },
 
   components: {
-    TableClientsInactive ,
-    TableClientsProspects,
-    TableClientsActive   ,
-    TableClientsNew      ,
+    TableAllClients,
+    //TableClientsInactive ,
+    //TableClientsProspects,
+    //TableClientsActive   ,
+    //TableClientsNew      ,
   },
 
   created() {
@@ -182,7 +210,7 @@ export default {
 
   data () {
     return {
-      currentTab: 'inactiveClient',
+      currentTab: 'allClients',
       dateFrom  : date.formatDate(date.subtractFromDate(Date.now(), { month: 1 }), 'DD-MM-YYYY'),
       dateTo    : date.formatDate(Date.now(), 'DD-MM-YYYY'),
       searchBy  : '',
