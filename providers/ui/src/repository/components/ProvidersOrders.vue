@@ -15,7 +15,7 @@
           <q-tr :props="props">
             <q-td key="id"                :props="props">
               <q-btn outline dense
-                :to   ="{ name: 'OrderDetails', params: { id: props.row.id }}"
+                :to   ="{ name: 'SalesOrderDetails', params: { id: props.row.id }}"
                 :label="`#${props.row.id}`"
                 :style="{color:props.row.color_status}"
                 class ="full-width"

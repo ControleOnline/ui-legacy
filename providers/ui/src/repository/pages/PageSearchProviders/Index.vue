@@ -56,6 +56,11 @@
         class      ="bg-white text-primary"
       >
         <q-tab
+          name ="allClient"
+          label="Fornecedores"
+        />
+        <!--
+        <q-tab
           name ="inactiveClient"
           label="Fornecedores inativos"
         />
@@ -67,6 +72,7 @@
           name ="newClient"
           label="Fornecedores novos"
         />
+        -->
       </q-tabs>
 
       <q-separator />
@@ -74,6 +80,23 @@
       <q-tab-panels
         v-model="currentTab"
       >
+        <q-tab-panel name="allClient" class="q-px-none">
+          <TableProvidersNew
+            ref      ="allClient"
+            :api     ="api"
+            :fromDate="dateFrom"
+            :toDate  ="dateTo"
+            :searchBy="searchBy"
+            @selected="onProviderSelected"
+            @before  ="(params) => {
+              if (this.fetchs.loadClients) {
+                this.fetchs.loadClients.before(params);
+              }
+            }"
+          />
+        </q-tab-panel>
+
+      <!--
         <q-tab-panel name="inactiveClient" class="q-px-none">
           <TableProvidersInactive
             ref      ="inactiveClient"
@@ -114,13 +137,14 @@
             :toDate  ="dateTo"
             :searchBy="searchBy"
             @selected="onProviderSelected"
-            @before  ="(params) => {
-              if (this.fetchs.loadClients) {
+            @before  ="(params) => {              
+              if (this.fetchs.loadClients) {                
                 this.fetchs.loadClients.before(params);
               }
             }"
           />
         </q-tab-panel>
+        -->
       </q-tab-panels>
     </div>
 
@@ -128,10 +152,11 @@
 </template>
 
 <script>
-import { date }                from 'quasar';
-import TableProvidersInactive  from './components/TableProvidersInactive.vue';
-import TableProvidersActive    from './components/TableProvidersActive.vue';
-import TableProvidersNew       from './components/TableProvidersNew.vue';
+import { date }                  from 'quasar';
+import TableAllProviders         from './components/TableAllProviders.vue';
+//import TableProvidersInactive  from './components/TableProvidersInactive.vue';
+//import TableProvidersActive    from './components/TableProvidersActive.vue';
+//import TableProvidersNew       from './components/TableProvidersNew.vue';
 import Api                     from '@freteclick/quasar-common-ui/src/utils/api';
 
 export default {
@@ -147,6 +172,7 @@ export default {
   },
 
   components: {
+    TableAllProviders,
     TableProvidersInactive,
     TableProvidersActive  ,
     TableProvidersNew     ,
@@ -160,7 +186,7 @@ export default {
 
   data () {
     return {
-      currentTab: 'inactiveClient',
+      currentTab: 'allClient',
       dateFrom  : date.formatDate(date.subtractFromDate(Date.now(), { month: 1 }), 'DD-MM-YYYY'),
       dateTo    : date.formatDate(Date.now(), 'DD-MM-YYYY'),
       searchBy  : '',
