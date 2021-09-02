@@ -81,7 +81,7 @@
         v-model="currentTab"
       >
         <q-tab-panel name="allClient" class="q-px-none">
-          <TableProvidersNew
+          <TableAllProviders
             ref      ="allClient"
             :api     ="api"
             :fromDate="dateFrom"
@@ -173,9 +173,9 @@ export default {
 
   components: {
     TableAllProviders,
-    TableProvidersInactive,
-    TableProvidersActive  ,
-    TableProvidersNew     ,
+    //TableProvidersInactive,
+    //TableProvidersActive  ,
+    //TableProvidersNew     ,
   },
 
   created() {
