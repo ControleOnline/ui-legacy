@@ -90,13 +90,36 @@ export default {
         });
     },
     onSave(data) {
-      this.$q.notify({
-        message: "Os dados foram salvos com sucesso",
-        position: "bottom",
-        type: "positive",
-      });
+      this.pageLoading = true;
 
-      this.isSaved = true;
+      let options = {
+        method: "POST",
+        body: JSON.stringify(data),
+        params: {},
+      };
+
+      return fetch(`/accept/order/${this.id}/payer`, options)
+        .then((response) => response.json())
+        .then((data) => {
+          this.pageLoading = false;
+
+          if (data && data.response && data.response.success) {
+            this.$q.notify({
+              message: "Os dados foram salvos com sucesso",
+              position: "bottom",
+              type: "positive",
+            });
+            this.isSaved = true;
+          } else {
+            this.$q.notify({
+              message: "Não foi possível atualizar o contrato neste momento!",
+              position: "bottom",
+              type: "negative",
+            });
+          }
+
+          return data;
+        });
     },
   },
 };

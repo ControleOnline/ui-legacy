@@ -10,7 +10,7 @@
       <q-btn-toggle
         flat
         no-caps
-        v-model="personType"
+        v-model="form.personType"
         toggle-color="primary"
         :options="[
           { label: 'Pessoa Jurídica', value: 'PJ' },
@@ -29,9 +29,13 @@
           unmasked-value
           v-model="form.document"
           type="text"
-          :label="personType == 'PJ' ? $t('CNPJ') : $t('CPF')"
-          :mask="personType == 'PJ' ? '##.###.###/####-##' : '###.###.###-##'"
-          :placeholder="personType == 'PJ' ? 'Digite o CNPJ' : 'Digite o CPF'"
+          :label="form.personType == 'PJ' ? $t('CNPJ') : $t('CPF')"
+          :mask="
+            form.personType == 'PJ' ? '##.###.###/####-##' : '###.###.###-##'
+          "
+          :placeholder="
+            form.personType == 'PJ' ? 'Digite o CNPJ' : 'Digite o CPF'
+          "
           :rules="[isInvalid('document')]"
           :disable="payer.document ? true : false"
         />
@@ -45,7 +49,7 @@
           stack-label
           v-model="form.name"
           type="text"
-          :label="personType == 'PJ' ? 'Razão social' : 'Nome'"
+          :label="form.personType == 'PJ' ? 'Razão social' : 'Nome'"
           :rules="[isInvalid('name')]"
           :disable="payer.name ? true : false"
         />
@@ -56,7 +60,7 @@
           stack-label
           v-model="form.alias"
           type="text"
-          :label="personType == 'PJ' ? 'Nome fantasia' : 'Sobrenome'"
+          :label="form.personType == 'PJ' ? 'Nome fantasia' : 'Sobrenome'"
           :rules="[isInvalid('alias')]"
           :disable="payer.alias ? true : false"
         />
@@ -243,9 +247,9 @@ export default {
 
   data() {
     return {
-      personType: "PJ",
       isSearching: false,
       form: {
+        personType: "PJ",
         name: "",
         alias: "",
         document: "",
@@ -288,7 +292,7 @@ export default {
       if (this.payer) {
         var payer = this.payer;
 
-        this.personType = payer.personType;
+        this.form.personType = payer.personType;
 
         if (payer.name) {
           this.form.name = payer.name;
