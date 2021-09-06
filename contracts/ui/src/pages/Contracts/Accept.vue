@@ -68,6 +68,24 @@ export default {
           var data = response.response.data;
 
           this.payerData = data;
+
+          if (
+            data.personType &&
+            data.name &&
+            data.alias &&
+            data.document &&
+            data.email &&
+            data.phone &&
+            data.address &&
+            data.address.postal_code &&
+            data.address.street &&
+            data.address.number &&
+            data.address.district &&
+            data.address.city &&
+            data.address.state
+          ) {
+            this.isSaved = true;
+          }
         }
       });
     }
