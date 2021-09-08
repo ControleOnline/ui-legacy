@@ -19,11 +19,12 @@
           <q-icon class="green" name="check_circle" />
         </h5>
         <br />
-        <h6>os dados foram preenchidos,</h6>
         <h6>
-          os próximos passos para a finalização serão enviados para seu e-mail,
+          os dados foram preenchidos,<br />
+          os próximos passos para a finalização serão enviados para seu
+          e-mail,<br />
+          não esqueça de checar a sua caixa de span.
         </h6>
-        <h6>não esqueça de checar a sua caixa de span.</h6>
       </div>
     </div>
   </q-page>
@@ -44,6 +45,7 @@ export default {
       id: null,
       pageLoading: false,
       payerData: {
+        carModel: "",
         carColor: "",
         carNumber: "",
         carYear: "",

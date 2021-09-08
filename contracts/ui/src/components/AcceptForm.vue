@@ -12,6 +12,19 @@
           outlined
           stack-label
           lazy-rules
+          v-model="form.carModel"
+          type="text"
+          :label="$t('Modelo do carro')"
+          placeholder="Modelo do carro"
+          :rules="[isInvalid('car_model')]"
+          :disable="payer.carModel ? true : false"
+        />
+      </div>
+      <div class="col-xs-12 col-sm-6 q-mb-sm">
+        <q-input
+          outlined
+          stack-label
+          lazy-rules
           v-model="form.carColor"
           type="text"
           :label="$t('Cor do carro')"
@@ -30,7 +43,7 @@
           type="text"
           :label="$t('Placa do Carro')"
           placeholder="Placa do Carro"
-          :rules="[isInvalid('carNumber')]"
+          :rules="[isInvalid('car_number')]"
           :disable="payer.carNumber ? true : false"
         />
       </div>
@@ -44,7 +57,7 @@
           type="text"
           :label="$t('Ano do Carro')"
           placeholder="Ano do Carro"
-          :rules="[isInvalid('carYear')]"
+          :rules="[isInvalid('car_year')]"
           :disable="payer.carYear ? true : false"
         />
       </div>
@@ -295,6 +308,7 @@ export default {
     return {
       isSearching: false,
       form: {
+        carModel: "",
         carColor: "",
         carNumber: "",
         carYear: "",
