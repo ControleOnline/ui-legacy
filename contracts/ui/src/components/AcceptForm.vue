@@ -461,7 +461,7 @@ export default {
 
     onSelect(item) {
       this.setAddress({
-        country: payer.country,
+        country: item.country,
         state: item.state,
         city: item.city,
         district: item.district,
