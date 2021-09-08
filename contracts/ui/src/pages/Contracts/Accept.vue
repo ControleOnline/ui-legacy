@@ -48,7 +48,6 @@ export default {
         carModel: "",
         carColor: "",
         carNumber: "",
-        carYear: "",
         personType: "PF",
         name: "",
         alias: "",

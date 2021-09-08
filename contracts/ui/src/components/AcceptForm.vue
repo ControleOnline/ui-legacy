@@ -6,8 +6,9 @@
 
     <q-separator spaced />
 
+    <h7>Dados do veículo a ser transportado</h7>
     <div class="row justify-center q-pb-md">
-      <div class="col-xs-12 col-sm-6 q-mb-sm">
+      <div class="col-xs-12 col-sm-12 q-mb-sm">
         <q-input
           outlined
           stack-label
@@ -45,20 +46,6 @@
           placeholder="Placa do Carro"
           :rules="[isInvalid('car_number')]"
           :disable="payer.carNumber ? true : false"
-        />
-      </div>
-      <div class="col-xs-12 col-sm-6 q-mb-sm">
-        <q-input
-          outlined
-          stack-label
-          lazy-rules
-          unmasked-value
-          v-model="form.carYear"
-          type="text"
-          :label="$t('Ano do Carro')"
-          placeholder="Ano do Carro"
-          :rules="[isInvalid('car_year')]"
-          :disable="payer.carYear ? true : false"
         />
       </div>
     </div>
@@ -311,7 +298,6 @@ export default {
         carModel: "",
         carColor: "",
         carNumber: "",
-        carYear: "",
         personType: "PJ",
         name: "",
         alias: "",
@@ -356,6 +342,18 @@ export default {
         var payer = this.payer;
 
         this.form.personType = payer.personType;
+
+        if (payer.carModel) {
+          this.form.carModel = payer.carModel;
+        }
+
+        if (payer.carColor) {
+          this.form.carColor = payer.carColor;
+        }
+
+        if (payer.carNumber) {
+          this.form.carNumber = payer.carNumber;
+        }
 
         if (payer.name) {
           this.form.name = payer.name;
