@@ -15,10 +15,15 @@
     <div class="row back-white" v-else>
       <div class="col-12">
         <h5>
-          Obrigado
+          Muito Obrigado
           <q-icon class="green" name="check_circle" />
         </h5>
-        <h6>seu contrato foi finalizado</h6>
+        <br />
+        <h6>os dados foram preenchidos,</h6>
+        <h6>
+          os próximos passos para a finalização serão enviados para seu e-mail,
+        </h6>
+        <h6>não esqueça de checar a sua caixa de span.</h6>
       </div>
     </div>
   </q-page>
@@ -39,6 +44,9 @@ export default {
       id: null,
       pageLoading: false,
       payerData: {
+        carColor: "",
+        carNumber: "",
+        carYear: "",
         personType: "PF",
         name: "",
         alias: "",

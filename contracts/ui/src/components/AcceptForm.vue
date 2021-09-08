@@ -7,6 +7,52 @@
     <q-separator spaced />
 
     <div class="row justify-center q-pb-md">
+      <div class="col-xs-12 col-sm-6 q-mb-sm">
+        <q-input
+          outlined
+          stack-label
+          lazy-rules
+          v-model="form.carColor"
+          type="text"
+          :label="$t('Cor do carro')"
+          placeholder="Cor do carro"
+          :rules="[isInvalid('car_color')]"
+          :disable="payer.carColor ? true : false"
+        />
+      </div>
+      <div class="col-xs-12 col-sm-6 q-mb-sm">
+        <q-input
+          outlined
+          stack-label
+          lazy-rules
+          unmasked-value
+          v-model="form.carNumber"
+          type="text"
+          :label="$t('Placa do Carro')"
+          placeholder="Placa do Carro"
+          :rules="[isInvalid('carNumber')]"
+          :disable="payer.carNumber ? true : false"
+        />
+      </div>
+      <div class="col-xs-12 col-sm-6 q-mb-sm">
+        <q-input
+          outlined
+          stack-label
+          lazy-rules
+          unmasked-value
+          v-model="form.carYear"
+          type="text"
+          :label="$t('Ano do Carro')"
+          placeholder="Ano do Carro"
+          :rules="[isInvalid('carYear')]"
+          :disable="payer.carYear ? true : false"
+        />
+      </div>
+    </div>
+
+    <q-separator spaced />
+
+    <div class="row justify-center q-pb-md">
       <q-btn-toggle
         flat
         no-caps
@@ -249,6 +295,9 @@ export default {
     return {
       isSearching: false,
       form: {
+        carColor: "",
+        carNumber: "",
+        carYear: "",
         personType: "PJ",
         name: "",
         alias: "",
