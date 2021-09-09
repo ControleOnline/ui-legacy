@@ -64,7 +64,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getCompanies: 'people/mySalesCompanies',
+      getCompanies: 'people/myCompanies',
       setCompany  : 'people/currentCompany' ,
     }),
 
