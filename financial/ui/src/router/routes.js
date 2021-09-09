@@ -5,17 +5,17 @@ export const routes = [
       component: () => import('../../../../../src/layouts/AdminLayout.vue'),
       children : [
         { 
-            name: 'InvoiceIndex', 
+            name: 'FinancePayIndex', 
             path: 'pay', 
             component: () => import('../pages/Invoice/Pay/Index.vue')
         },
         { 
-            name: 'Admin.InvoicePay.Details', 
+            name: 'PayDetails', 
             path: 'pay/id/:id', 
             component: () => import('../pages/Invoice/Pay/Details.vue') 
         },
         { 
-            name: 'ReceiveIndex', 
+            name: 'FinanceReceiveIndex', 
             path: 'receive', 
             component: () => import('../pages/Invoice/Receive/Index.vue')
         },
