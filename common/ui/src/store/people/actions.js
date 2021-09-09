@@ -1,5 +1,5 @@
-import SubmissionError from '../../../error/SubmissionError';
-import { fetch } from '../../../boot/myapi';
+import SubmissionError from '../../../../../../src/error/SubmissionError';
+import { fetch } from '../../../../../../src/boot/myapi';
 import * as types from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/people';

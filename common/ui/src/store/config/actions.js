@@ -1,5 +1,5 @@
-import SubmissionError from '../../../error/SubmissionError';
-import fetch           from '../../../utils/fetch';
+import SubmissionError from '../../../../../../src/error/SubmissionError';
+import fetch           from '../../../../../../src/utils/fetch';
 import * as types      from './mutation_types';
 
 export const appConfig = ({ commit }) => {
