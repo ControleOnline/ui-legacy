@@ -211,6 +211,7 @@ export default {
       params['to']    = this.formatDate(this.toDate  );
       params['page']  = page;
       params['limit'] = rowsPerPage;
+      this.onBeforeLoadClients();
 
       if (this.searchBy.length > 1)
         params['searchBy'] = this.searchBy;
