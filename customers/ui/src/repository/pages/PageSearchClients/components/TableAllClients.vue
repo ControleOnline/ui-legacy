@@ -141,8 +141,8 @@ export default {
 
   watch: {  
     myProvider(provider) {
-      if (provider !== null)
-        this.$refs.clientPageRef.loadClientsDataRows();
+      //if (provider !== null)
+        //this.$refs.clientPageRef.loadClientsDataRows();
     },
     fromDate() {
       this.onRequest({
