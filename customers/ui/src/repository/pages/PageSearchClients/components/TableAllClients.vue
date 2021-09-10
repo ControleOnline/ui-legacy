@@ -165,6 +165,7 @@ export default {
   methods: {
     // store method
     getCustomers(params) {
+      this.onBeforeLoadClients();
       return this.api.private('/customers', { params })
         .then(response => response.json())
         .then(result => {
@@ -211,7 +212,7 @@ export default {
       params['to']    = this.formatDate(this.toDate  );
       params['page']  = page;
       params['limit'] = rowsPerPage;
-      this.onBeforeLoadClients();
+      
 
       if (this.searchBy.length > 1)
         params['searchBy'] = this.searchBy;
