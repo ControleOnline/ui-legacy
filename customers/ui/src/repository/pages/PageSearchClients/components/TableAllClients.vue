@@ -93,6 +93,11 @@ const SETTINGS = {
 Object.freeze(SETTINGS);
 
 export default {
+  computed: {
+    ...mapGetters({
+      myProvider: 'people/currentCompany',
+    }),
+  },
   props: {
     api     : {
       type    : Api,
@@ -133,7 +138,11 @@ export default {
     };
   },
 
-  watch: {
+  watch: {  
+    myProvider(provider) {
+      if (provider !== null)
+        this.$refs.clientPageRef.loadClientsDataRows();
+    },
     fromDate() {
       this.onRequest({
         pagination: this.pagination
@@ -165,7 +174,13 @@ export default {
           };
         });
     },
+    onBeforeLoadClients(params) {
+      params['myProvider'] = this.myProvider.id;
+    },
 
+    onBeforeCreateClient(params) {
+      params['myProvider'] = this.myProvider.id;
+    },
     formatDate(dateString) {
       return date.formatDate(date.extractDate(dateString, 'DD-MM-YYYY'), 'YYYY-MM-DD');
     },
