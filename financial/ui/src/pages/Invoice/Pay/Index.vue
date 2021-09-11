@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import Api              from '@freteclick/quasar-common-ui/src/utils/api';
+import Api              from '@controleonline/quasar-common-ui/src/utils/api';
 import InvoiceSearching from '../../../components/invoice/pay/InvoiceSearching.vue';
 import TableCategories  from '../../../components/expense/TableCategories.vue';
 

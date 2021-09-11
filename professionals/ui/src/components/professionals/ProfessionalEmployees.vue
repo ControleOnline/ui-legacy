@@ -150,7 +150,7 @@
 </template>
 
 <script>
-import Api from '@freteclick/quasar-common-ui/src/utils/api';
+import Api from '@controleonline/quasar-common-ui/src/utils/api';
 import md5 from 'md5';
 
 export default {

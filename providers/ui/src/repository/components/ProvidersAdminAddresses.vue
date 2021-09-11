@@ -181,8 +181,8 @@
 </template>
 
 <script>
-import Api              from '@freteclick/quasar-common-ui/src/utils/api';
-import { formatCEP }    from '@freteclick/quasar-common-ui/src/utils/formatter';
+import Api              from '@controleonline/quasar-common-ui/src/utils/api';
+import { formatCEP }    from '@controleonline/quasar-common-ui/src/utils/formatter';
 import SearchCEPAddress from './ProvidersSearchCEPAddress';
 
 const SETTINGS = {

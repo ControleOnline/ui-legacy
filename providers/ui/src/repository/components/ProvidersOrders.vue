@@ -46,8 +46,8 @@
 
 <script>
 import { date }        from 'quasar';
-import Api             from '@freteclick/quasar-common-ui/src/utils/api';
-import { formatMoney } from '@freteclick/quasar-common-ui/src/utils/formatter'
+import Api             from '@controleonline/quasar-common-ui/src/utils/api';
+import { formatMoney } from '@controleonline/quasar-common-ui/src/utils/formatter'
 import { mapGetters }  from 'vuex';
 
 const SETTINGS = {

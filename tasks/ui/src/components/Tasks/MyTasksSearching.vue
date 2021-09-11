@@ -59,9 +59,9 @@
 </template>
 
 <script>
-import Api                    from '@freteclick/quasar-common-ui/src/utils/api';
+import Api                    from '@controleonline/quasar-common-ui/src/utils/api';
 import { mapGetters }         from 'vuex';
-import { formatDateYmdTodmY } from '@freteclick/quasar-common-ui/src/utils/formatter';
+import { formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 export default {
     

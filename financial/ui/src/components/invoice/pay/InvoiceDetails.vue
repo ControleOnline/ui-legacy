@@ -116,7 +116,7 @@
 import { mapActions, mapGetters }          from 'vuex';
 import InvoiceOrders                       from './details/InvoiceOrders';
 import InvoiceInvoice                      from './details/InvoiceInvoice';
-import { formatMoney, formatDateYmdTodmY } from '@freteclick/quasar-common-ui/src/utils/formatter';
+import { formatMoney, formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 export default {
   components: {

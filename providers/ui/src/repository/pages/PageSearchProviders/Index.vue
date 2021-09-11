@@ -157,7 +157,7 @@ import TableAllProviders         from './components/TableAllProviders.vue';
 //import TableProvidersInactive  from './components/TableProvidersInactive.vue';
 //import TableProvidersActive    from './components/TableProvidersActive.vue';
 //import TableProvidersNew       from './components/TableProvidersNew.vue';
-import Api                     from '@freteclick/quasar-common-ui/src/utils/api';
+import Api                     from '@controleonline/quasar-common-ui/src/utils/api';
 
 export default {
   props: {

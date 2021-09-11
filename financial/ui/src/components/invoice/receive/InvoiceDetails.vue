@@ -157,7 +157,7 @@ import InvoiceOrders             from './details/InvoiceOrders';
 import {
   formatMoney,
   formatDateYmdTodmY
-}                                from '@freteclick/quasar-common-ui/src/utils/formatter';
+}                                from '@controleonline/quasar-common-ui/src/utils/formatter';
 import EditInvoiceDuedate        from '@controleonline/quasar-common-ui/src/components/common/EditInvoiceDuedate.vue';
 import InvoiceActions            from '@controleonline/quasar-common-ui/src/components/common/InvoiceActions.vue';
 import InvoiceEditActions        from '@controleonline/quasar-common-ui/src/components/common/InvoiceEditActions.vue';

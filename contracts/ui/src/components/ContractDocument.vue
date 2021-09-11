@@ -45,7 +45,7 @@ import configurable from "./../mixins/configurable";
 import Contract from "./../entity/Contract";
 import { formatBRDocument } from "./../library/formatter";
 import { formatBRPostalCode } from "./../library/formatter";
-import fetch from "@freteclick/quasar-common-ui/src/utils/fetch";
+import fetch from "@controleonline/quasar-common-ui/src/utils/fetch";
 
 export default {
   name: "ContractDocument",

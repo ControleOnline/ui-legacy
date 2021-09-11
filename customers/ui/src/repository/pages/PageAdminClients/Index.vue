@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import Api              from '@freteclick/quasar-common-ui/src/utils/api';
+import Api              from '@controleonline/quasar-common-ui/src/utils/api';
 import FormCreateClient from '../../components/FormCreateClient.vue';
 import PageSearchClient from '../PageSearchClients/Index.vue';
 

@@ -180,7 +180,7 @@ import { date }              from 'quasar';
 //import TableClientsActive    from './components/TableClientsActive.vue';
 //import TableClientsNew       from './components/TableClientsNew.vue';
 import TableAllClients       from './components/TableAllClients.vue';
-import Api                   from '@freteclick/quasar-common-ui/src/utils/api';
+import Api                   from '@controleonline/quasar-common-ui/src/utils/api';
 
 export default {
   props: {

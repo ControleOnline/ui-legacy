@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import Api            from '@freteclick/quasar-common-ui/src/utils/api';
+import Api            from '@controleonline/quasar-common-ui/src/utils/api';
 import FormTasks      from './FormTasks.vue';
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 

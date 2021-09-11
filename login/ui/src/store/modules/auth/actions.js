@@ -1,5 +1,5 @@
-import SubmissionError from '@freteclick/quasar-common-ui/src/error/SubmissionError';
-import fetch           from '@freteclick/quasar-common-ui/src/utils/fetch';
+import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
+import fetch           from '@controleonline/quasar-common-ui/src/utils/fetch';
 import * as types      from './mutation_types';
 import axios           from 'axios';
 import { ENTRYPOINT }  from '../../../../../../../src/config/entrypoint';

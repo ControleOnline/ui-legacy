@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import Api                             from '@freteclick/quasar-common-ui/src/utils/api';
-import { formatDocument, formatPhone } from '@freteclick/quasar-common-ui/src/utils/formatter';
+import Api                             from '@controleonline/quasar-common-ui/src/utils/api';
+import { formatDocument, formatPhone } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import { mapGetters }                  from 'vuex';
 
 const SETTINGS = {

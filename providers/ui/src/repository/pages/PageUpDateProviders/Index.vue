@@ -343,7 +343,7 @@
 </template>
 
 <script>
-import Api                     from '@freteclick/quasar-common-ui/src/utils/api';
+import Api                     from '@controleonline/quasar-common-ui/src/utils/api';
 import ProvidersAdminEmails    from '../../components/ProvidersAdminEmails.vue';
 import ProvidersAdminUsers     from '../../components/ProvidersAdminUsers.vue';
 import ProvidersAdminAddresses from '../../components/ProvidersAdminAddresses.vue';

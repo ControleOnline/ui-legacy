@@ -182,9 +182,9 @@
 </template>
 
 <script>
-import Api              from '@freteclick/quasar-common-ui/src/utils/api';
-import { formatCEP }    from '@freteclick/quasar-common-ui/src/utils/formatter';
-import SearchCEPAddress from '@freteclick/quasar-common-ui/src/components/common/SearchCEPAddress.vue';
+import Api              from '@controleonline/quasar-common-ui/src/utils/api';
+import { formatCEP }    from '@controleonline/quasar-common-ui/src/utils/formatter';
+import SearchCEPAddress from '@controleonline/quasar-common-ui/src/components/common/SearchCEPAddress.vue';
 
 const SETTINGS = {
   visibleColumns: [

@@ -235,7 +235,7 @@
 </template>
 
 <script>
-import Api                   from '@freteclick/quasar-common-ui/src/utils/api';
+import Api                   from '@controleonline/quasar-common-ui/src/utils/api';
 import ProfessionalEmails    from '../../components/professionals/ProfessionalEmails';
 import ProfessionalAddresses from '../../components/professionals/ProfessionalAddresses';
 import ProfessionalPhones    from '../../components/professionals/ProfessionalPhones';

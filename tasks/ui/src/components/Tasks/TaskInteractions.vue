@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import Api                    from '@freteclick/quasar-common-ui/src/utils/api';
-import { formatDateYmdTodmY } from '@freteclick/quasar-common-ui/src/utils/formatter';
+import Api                    from '@controleonline/quasar-common-ui/src/utils/api';
+import { formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import FormTaskInteraction    from './FormTaskInteraction.vue';
 import { ENTRYPOINT }         from '../../../../../../src/config/entrypoint';
 import { mapGetters }         from 'vuex';

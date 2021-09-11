@@ -134,7 +134,7 @@
 
 <script>
 import { mapActions, mapGetters }          from 'vuex';
-import { formatMoney, formatDateYmdTodmY } from '@freteclick/quasar-common-ui/src/utils/formatter';
+import { formatMoney, formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import CreateExpense                       from '../expense/CreateExpense';
 
 

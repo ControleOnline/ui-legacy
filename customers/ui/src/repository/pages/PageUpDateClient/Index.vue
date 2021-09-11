@@ -345,7 +345,7 @@
 </template>
 
 <script>
-import Api                  from '@freteclick/quasar-common-ui/src/utils/api';
+import Api                  from '@controleonline/quasar-common-ui/src/utils/api';
 import ClientAdminEmails    from '../../components/ClientAdminEmails.vue';
 import ClientAdminUsers     from '../../components/ClientAdminUsers.vue';
 import ClientAdminAddresses from '../../components/ClientAdminAddresses.vue';

@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import Api from '@freteclick/quasar-common-ui/src/utils/api';
+import Api from '@controleonline/quasar-common-ui/src/utils/api';
 import TasksSummary from '../../components/Tasks/TasksSummary.vue';
 import TaskInteractions from '../../components/Tasks/TaskInteractions.vue';
 

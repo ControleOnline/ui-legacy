@@ -1,6 +1,6 @@
 {
   "name": "@controleonline/quasar-tasks-ui",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "author": "ControleOnline",
   "description": "ControleOnline tasks Quasar UI Component",
   "license": "MIT",
@@ -15,5 +15,7 @@
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "@controleonline/quasar-common-ui": "*"
+  }
 }
