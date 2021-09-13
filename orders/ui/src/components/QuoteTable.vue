@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import QuotationTaxes from '@controleonline/quasar-common-ui/src/common/QuotationTaxes';
+import QuotationTaxes from '@controleonline/quasar-common-ui/src/components/common/QuotationTaxes';
 
 export default {
   props     : {
