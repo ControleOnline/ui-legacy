@@ -42,7 +42,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { isDateGreaterThanToday } from '../../utils/mydate';
+import { isDateGreaterThanToday } from '@controleonline/quasar-common-ui/src/utils/mydate';
 
 export default {
   props: {
