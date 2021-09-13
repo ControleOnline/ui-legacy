@@ -246,7 +246,7 @@ export default {
             if (value === null)
               return null;
 
-            return 'https:\/\/' + row.carrier.image;
+           return 'https:\/\/' + value;
           },
           label : 'Carrier Image'
         },
