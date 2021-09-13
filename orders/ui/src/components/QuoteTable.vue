@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import QuotationTaxes from '@controleonline/quasar-common-ui/src/components/common/QuotationTaxes';
+import QuotationTaxes from './common/QuotationTaxes';
 
 export default {
   props     : {
@@ -246,7 +246,7 @@ export default {
             if (value === null)
               return null;
 
-            return value.substring(value.indexOf('user/profile'));
+            return 'https:\/\/' + row.carrier.image;
           },
           label : 'Carrier Image'
         },
