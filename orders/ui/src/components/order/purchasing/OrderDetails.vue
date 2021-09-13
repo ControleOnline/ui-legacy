@@ -159,7 +159,7 @@ import OrderDetailQuotation       from './details/OrderDetailQuotation.vue';
 import OrderDetailNotaFiscal      from './details/OrderDetailNotaFiscal.vue';
 import OrderDetailInvoice         from './details/OrderDetailInvoice.vue';
 import OrderDetailTracking        from './details/OrderTracking.vue';
-import { formatMoney }            from '@controleonline/quasar-common-ui/src/@controleonline/quasar-common-ui/src/utils/formatter';
+import { formatMoney }            from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 export default {
   components: {

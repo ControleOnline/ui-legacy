@@ -406,7 +406,7 @@ import OrderDetailInvoice from "./details/OrderDetailInvoice.vue";
 import OrderDetailDACTE from "./details/OrderDetailDACTE.vue";
 import OrderDetailTracking from "./details/OrderTracking.vue";
 import OrderDetailTag from "./details/OrderDetailTag.vue";
-import { formatMoney } from "@controleonline/quasar-common-ui/src/@controleonline/quasar-common-ui/src/utils/formatter";
+import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 export default {
   components: {
