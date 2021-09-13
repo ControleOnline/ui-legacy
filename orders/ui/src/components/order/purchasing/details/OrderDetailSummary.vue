@@ -273,7 +273,7 @@ import {
   formatMoney   ,
   formatPhone   ,
   formatCEP     ,
-}                  from '@controleonline/quasar-common-ui/src/utils/formatter';
+}                  from '@controleonline/quasar-common-ui/src/@controleonline/quasar-common-ui/src/utils/formatter';
 import ContactForm from '@controleonline/quasar-common-ui/src/components/common/ContactForm.vue';
 
 export default {

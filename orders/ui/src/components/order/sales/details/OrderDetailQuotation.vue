@@ -50,7 +50,7 @@
 <script>
 import { date, extend }           from 'quasar';
 import { mapActions, mapGetters } from 'vuex';
-import { formatMoney }            from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { formatMoney }            from '@controleonline/quasar-common-ui/src/@controleonline/quasar-common-ui/src/utils/formatter';
 import QuoteTable                 from '../../../QuoteTable';
 import ContractPage               from '../../../contracting/Index';
 

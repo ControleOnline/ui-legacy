@@ -269,7 +269,7 @@
 
 <script>
 import { mapActions, mapGetters }                    from 'vuex';
-import { formatDocument, formatTelefone, formatCEP } from './../../utils/formatter';
+import { formatDocument, formatTelefone, formatCEP } from './../../@controleonline/quasar-common-ui/src/utils/formatter';
 import ContactForm                                   from './../common/ContactForm'
 
 export default {

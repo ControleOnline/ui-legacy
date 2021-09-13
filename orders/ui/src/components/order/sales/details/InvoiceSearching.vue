@@ -101,7 +101,7 @@ import { mapActions, mapGetters } from "vuex";
 import {
   formatMoney,
   formatDateYmdTodmY,
-} from "@controleonline/quasar-common-ui/src/utils/formatter";
+} from "@controleonline/quasar-common-ui/src/@controleonline/quasar-common-ui/src/utils/formatter";
 
 const SETTINGS = {
   visibleColumns: [

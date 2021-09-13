@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
-import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import Api from "@controleonline/quasar-common-ui/src/@controleonline/quasar-common-ui/src/utils/api";
+import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/@controleonline/quasar-common-ui/src/utils/formatter";
 
 const SETTINGS = {
   visibleColumns: [

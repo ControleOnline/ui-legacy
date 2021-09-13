@@ -49,7 +49,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { formatMoney }            from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { formatMoney }            from '@controleonline/quasar-common-ui/src/@controleonline/quasar-common-ui/src/utils/formatter';
 import CheckoutPage               from '@freteclick/quasar-quote-ui/src/components/checkout/Index.vue';
 import QuoteTable                 from '@freteclick/quasar-quote-ui/src/components/QuoteTable.vue';
 
