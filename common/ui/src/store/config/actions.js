@@ -1,5 +1,5 @@
 import SubmissionError from '../../../../../../src/error/SubmissionError';
-import fetch           from '../../../../../../src/utils/fetch';
+import fetch           from '@controleonline/quasar-common-ui/src/utils/fetch';
 import * as types      from './mutation_types';
 
 export const appConfig = ({ commit }) => {
