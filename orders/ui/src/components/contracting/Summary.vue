@@ -269,8 +269,8 @@
 
 <script>
 import { mapActions, mapGetters }                    from 'vuex';
-import { formatDocument, formatTelefone, formatCEP } from './../../@controleonline/quasar-common-ui/src/utils/formatter';
-import ContactForm                                   from './../common/ContactForm'
+import { formatDocument, formatTelefone, formatCEP } from '@controleonline/quasar-common-ui/src/utils/formatter';
+import ContactForm                                   from '@controleonline/quasar-common-ui/src/components/common/ContactForm'
 
 export default {
   components: {
