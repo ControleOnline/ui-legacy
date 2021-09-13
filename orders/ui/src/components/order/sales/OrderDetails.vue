@@ -152,6 +152,14 @@
                       @click="cancelOrder"
                       :loading="isUpdating"
                     />
+
+                    <q-btn v-if="['waiting payment'].includes(orderStatus.status)"
+                      color   ="positive"
+                      label   ="Liberar Pagamento"
+                      @click  ="releasePayment"
+                      :loading="isUpdating"
+                    />
+
                   </div>
                 </td>
               </tr>
@@ -504,7 +512,34 @@ export default {
     setDomainValue(value) {
       this.form.dominio = value;
     },
+    releasePayment(){
+      let params = {
+        'myCompany': this.myCompany.id
+      };
 
+      this.isUpdating = true;
+
+      this.updateStatus({
+        id    : this.orderId,
+        values: {
+          "update": "release_payment"
+        },
+        params: params
+      })
+        .then (order => {
+          this.requestOrderStatus(this.orderId)
+            .finally(data => {
+              this.isUpdating = false;
+            });
+        })
+        .catch(error => {
+          this.$q.notify({
+            message : 'O status do pedido não pode ser atualizado',
+            position: 'bottom',
+            type    : 'negative',
+          });
+        });
+    },
     setDateValue() {
       var date = new Date();
 
