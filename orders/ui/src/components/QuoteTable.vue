@@ -246,7 +246,7 @@ export default {
             if (value === null)
               return null;
 
-            return 'https:\/\/app.freteclick.com.br\/' + value.substring(value.indexOf('user/profile'));
+            return value.substring(value.indexOf('user/profile'));
           },
           label : 'Carrier Image'
         },
