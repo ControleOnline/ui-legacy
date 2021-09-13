@@ -1,9 +1,8 @@
 <template>
   <div class="row items-center justify-center">
     <div class="flex flex-center" v-if="isLoading">
-      <q-circular-progress
-        :indeterminate="isLoading"
-        size="sm"
+      <q-circular-progress :indeterminate="isLoading"
+        size ="sm"
         color="primary"
         class="q-ma-md"
       />
@@ -13,7 +12,7 @@
     <!-- QUOTE TABLE RESULTS  -->
     <div class="col-12" v-if="order !== null">
       <QuoteTable
-        :order="order"
+        :order ="order"
         :header="false"
         :footer="false"
         @choose="onChoose"
@@ -21,19 +20,22 @@
     </div>
 
     <!-- CHECKUP STEP TO STEP -->
-    <q-dialog
-      maximized
-      no-esc-dismiss
-      no-backdrop-dismiss
-      v-model="dialog"
+    <q-dialog maximized no-esc-dismiss no-backdrop-dismiss
+      v-model        ="dialog"
       transition-show="slide-left"
       transition-hide="slide-right"
     >
-      <CheckoutPage :order="order" @finished="onFinished" />
+      <ContractPage
+        :order   ="order"
+        @finished="onFinished"
+      />
     </q-dialog>
 
     <div class="col-12" v-if="order === null && incomplete">
-      <div class="row items-center justify-center" style="min-height: 90vh">
+      <div 
+        class="row items-center justify-center"
+        style="min-height: 90vh;"
+      >
         <q-banner class="text-white bg-red text-center text-h3" rounded>
           <template v-slot:avatar>
             <q-icon name="error" color="white" />
@@ -46,76 +48,82 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import CheckoutPage from "@freteclick/quasar-quote-ui/src/components/checkout/Index.vue";
-import QuoteTable from "@freteclick/quasar-quote-ui/src/components/QuoteTable.vue";
+import { date, extend }           from 'quasar';
+import { mapActions, mapGetters } from 'vuex';
+import { formatMoney }            from '@controleonline/quasar-common-ui/src/utils/formatter';
+import QuoteTable                 from '../../../QuoteTable';
+import ContractPage               from '../../../contracting/Index';
 
 export default {
   props: {
     orderId: {
-      type: String,
+      type    : String,
       required: true,
-    },
+    }
   },
 
   components: {
-    QuoteTable,
-    CheckoutPage,
+    QuoteTable  ,
+    ContractPage,
   },
 
   created() {
     if (this.myCompany !== null && this.orderId !== null) {
-      this.requestQuotation(this.orderId).then((result) => {
-        if (result === false) this.incomplete = true;
-      });
+      this.requestQuotation(this.orderId)
+        .then(result => {
+          if (result === false)
+            this.incomplete = true;
+        });
     }
   },
 
   data() {
     return {
-      order: null,
-      isLoading: false,
-      editable: false,
+      order     : null,
+      isLoading : false,
+      editable  : false,
       incomplete: false,
-      dialog: false,
-      quotation: null,
+      dialog    : false,
+      quotation : null,
     };
   },
 
   computed: {
     ...mapGetters({
-      myCompany: "people/currentCompany",
+      myCompany: 'people/currentCompany',
     }),
   },
 
   watch: {
     myCompany(company) {
       if (company !== null) {
-        this.requestQuotation(this.orderId).then((result) => {
-          if (result === false) this.incomplete = true;
-        });
+        this.requestQuotation(this.orderId)
+          .then(result => {
+            if (result === false)
+              this.incomplete = true;
+          });
       }
     },
 
     quotation(data) {
-      if (!data) return;
+      if (!data)
+        return;
 
       this.order = {
-        id: data.id,
-        quotes: data.quotes,
-        quote: data.quote,
-        status: data.status,
-        choose: null,
-        price: null,
-        user: {
+        id     : data.id,
+        quotes : data.quotes,
+        quote  : data.quote,
+        status : data.status,
+        choose : null,
+        price  : null,
+        user   : {
           logged: true,
-          isNew: false,
+          isNew : false,
         },
         contact: data.contact,
         product: data.product,
         address: {
-          origin: data.origin,
+          origin     : data.origin,
           destination: data.destination,
         },
       };
@@ -124,43 +132,46 @@ export default {
 
   methods: {
     ...mapActions({
-      getQuotation: "salesOrder/getDetailQuotation",
+      getQuotation: 'salesOrder/getDetailQuotation',
     }),
 
     onChoose(quote) {
       if (quote) {
         this.order.choose = quote.id;
-        this.order.price = quote.price;
+        this.order.price  = quote.price;
       }
 
-      this.dialog = true;
+      this.dialog = true ;
     },
 
     onFinished() {
-      this.$emit("finished");
+      this.$emit('finished');
 
       if (this.myCompany !== null && this.orderId !== null) {
-        this.requestQuotation(this.orderId).then((result) => {
-          if (result === false) this.incomplete = true;
-        });
+        this.requestQuotation(this.orderId)
+          .then(result => {
+            if (result === false)
+              this.incomplete = true;
+          });
       }
 
       this.dialog = false;
     },
 
     formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+      return formatMoney(value, 'BRL', 'pt-br');
     },
 
     requestQuotation(orderId) {
       let params = {};
 
-      params["myCompany"] = this.myCompany.id;
+      params['myCompany'] = this.myCompany.id;
 
       this.isLoading = true;
 
       return this.getQuotation({ orderId, params })
-        .then((response) => {
+        .then(response => {
+
           this.isLoading = false;
 
           if (!response) {
@@ -177,7 +188,7 @@ export default {
 
           return false;
         })
-        .catch((error) => {
+        .catch(error => {
           this.isLoading = false;
           this.quotation = null;
         });
