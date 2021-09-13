@@ -74,7 +74,7 @@
         <q-td key="transportadora" :props="props">
           {{ props.row.transportadora }}
         </q-td>
-        <q-td key="preco" :props="props">{{ props.cols[8].value }}</q-td>
+        <q-td key="preco" :props="props">{{ props.cols[9].value }}</q-td>
       </q-tr>
     </template>
   </q-table>
