@@ -91,8 +91,7 @@
         </div>
         <div class="col-6 col-sm-2">
           <q-btn
-            dense
-            v-if="isCeg()"
+            dense            
             style="margin-top: 13px"
             color="primary"
             @click="onPropostaClick()"
