@@ -32,7 +32,7 @@
 
 <script>
 import AcceptForm from "../../components/AcceptForm.vue";
-import { fetch } from "../../../../../../src/boot/myapi";
+import { fetch } from "@controleonline/quasar-common-ui/src/boot/myapi";
 
 export default {
   components: {
