@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { fetch }      from '../../../../../../src/boot/myapi';
+import { fetch }      from '@controleonline/quasar-common-ui/src/boot/myapi';
 
 export default {
   props: {
