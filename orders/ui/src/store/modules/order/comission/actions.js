@@ -1,5 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch }       from '@controleonline/quasar-common-ui/src/boot/myapi';
+import { fetch }       from '../../../../../../../../src/boot/myapi';
 import * as types      from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/comission/orders';
