@@ -53,7 +53,7 @@
 <script>
 import { mapGetters }  from 'vuex';
 import { fetch }       from '../../../../../../src/boot/myapi';
-import SubmissionError from '../../../../../../src/error/SubmissionError';
+import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
 
 export default {
   props: {
