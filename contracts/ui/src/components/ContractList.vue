@@ -228,18 +228,7 @@ export default {
       return cegTypes.indexOf(this.defaultCompany.domainType) > -1;
     },
 
-    onCreate() {
-      if (this.isCeg()) {
-        const route = this.cegCreateRoute;
-
-        if (typeof route === 'string') {
-          this.$router.push({ name: route });
-        }
-        else if (route.name) {
-          this.$router.push({ name: route.name });
-        }
-      }
-      else {
+    onCreate() {      
         if (!this.Params.Company.get()) {
           this.$q.notify({
             message : this.$t('contracts.errors.no_company'),
@@ -273,8 +262,7 @@ export default {
             })
             .finally(() => {
               this.isCreating = false;
-            });
-      }
+            });      
     },
 
     onRequest(props) {
