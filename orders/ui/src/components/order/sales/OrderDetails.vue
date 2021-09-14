@@ -63,6 +63,34 @@
               <td class="text-left text-bold">Previsão de entrega</td>
               <td class="text-left">
                 {{ this.deliveryDueDate || '-' }}
+                <q-btn v-if="deliveryDueDate && isEditable" class="btn-edit" icon="edit" color="black" flat round dense />
+                <q-popup-edit
+                  v-if    ="deliveryDueDate && isEditable"
+                  v-model ="inputDeadline"
+                  @save   ="onSaveDeadline"
+                >
+                  <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
+                    <q-input autofocus dense
+                      :value="inputDeadline"
+                      @input="emitValue"
+                      mask  ="##/##/####"
+                    >
+                      <template v-slot:after>
+                        <q-btn flat dense
+                          color      ="negative"
+                          icon       ="cancel"
+                          @click.stop="cancel"
+                        />
+                        <q-btn flat dense
+                          color      ="positive"
+                          icon       ="check_circle"
+                          @click.stop="set"
+                          :disable   ="validate(value) === false || initialValue === value"
+                        />
+                      </template>
+                    </q-input>
+                  </template>
+                </q-popup-edit>
               </td>
             </tr>
           </tbody>
@@ -258,6 +286,8 @@ export default {
         name: '',
       },
       price          : null,
+      isEditable     : false,
+      inputDeadline  : date.formatDate(Date.now(), 'DD/MM/YYYY'),
       mainPrice      : null,
       mainOrderId    : null,
       notFound       : false,
@@ -481,6 +511,8 @@ export default {
             this.mainPrice       = data.mainPrice;
             this.mainOrderId     = data.mainOrderId;
             this.notFound        = false;
+            this.isEditable      = data.orderStatus.status === 'on the way' || data.orderStatus.status === 'retrieved';
+            //this.integrationType = data.integrationType;
           }
 
           return data;
@@ -493,6 +525,34 @@ export default {
           this.client.name     = '';
           this.price           = null;
           this.notFound        = true;
+          this.isEditable      = false;
+          //this.integrationType = null;
+        });
+    },
+    onSaveDeadline() {
+      let params = {
+        'myCompany': this.myCompany.id
+      };
+      this.isUpdating = true;
+      this.updateDeadline({
+        id         : this.orderId,
+        newDeadline: this.inputDeadline,
+        params
+      })
+      .then (result => {
+          this.requestOrderStatus(this.orderId)
+            .finally(data => {
+              this.isUpdating = false;
+            });
+        })
+        .catch(error => {
+          this.$q.notify({
+            message : 'A previsão de entrega do pedido não pode ser atualizada',
+            position: 'bottom',
+            type    : 'negative',
+          });
+          
+          this.isUpdating = false;
         });
     },
   },
