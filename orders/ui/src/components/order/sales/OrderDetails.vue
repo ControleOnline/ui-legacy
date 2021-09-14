@@ -247,6 +247,7 @@
 </template>
 
 <script>
+import { date }                   from 'quasar';
 import { mapActions, mapGetters } from 'vuex';
 import OrderDetailSummary         from './details/OrderDetailSummary';
 import OrderDetailQuotation       from './details/OrderDetailQuotation';
