@@ -320,6 +320,7 @@ export default {
     ...mapActions({
       getStatus   : 'salesOrder/getDetailStatus',
       updateStatus: 'salesOrder/updateStatus',
+      updateDeadline: 'salesOrder/updateDeadline',
     }),
 
     releasePayment(){
