@@ -218,15 +218,7 @@ export default {
     },
   },
 
-  methods: {
-
-    isCeg() {
-      const cegTypes = [
-        'ceg', 'ce2'
-      ];
-
-      return cegTypes.indexOf(this.defaultCompany.domainType) > -1;
-    },
+  methods: {    
 
     onCreate() {      
         if (!this.Params.Company.get()) {
