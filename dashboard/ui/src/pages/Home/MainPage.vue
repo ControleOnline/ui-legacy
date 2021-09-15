@@ -1,12 +1,8 @@
 <template>
   <q-page id="mainpage" :style="'min-height: ' + getHeight()">
 
-    <div class="container">
-      <img class="logo"
-      src="../../assets/logosemfundo.png"
-      /><br><br>
-
-      <p class="texto">Sistema Gestor NTC - um produto <img class="logoFc" src="../../assets/logo_fk_white.png"></p>
+    <div class="container">      
+      <p class="texto">Sistema Gestor NTC - um produto </p>
     </div>
     
 
