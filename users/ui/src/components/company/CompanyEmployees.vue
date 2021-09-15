@@ -29,7 +29,7 @@
             <q-card>
               <q-img
                 :contain="true"
-                src     ="~assets/employee1.png"
+                src     ="~assets/business.png"
                 style   ="height: 150px; max-width: 100%"
               >
                 <div class="absolute-bottom text-subtitle1 text-center">

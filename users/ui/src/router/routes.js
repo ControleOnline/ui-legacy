@@ -1,14 +1,14 @@
 export const routes = [
   {
     path: '/user/',
-    component: () => import('../../../../../layouts/AdminLayout.vue'),
+    component: () => import('../../../../../src/layouts/AdminLayout.vue'),
     children: [
       { name: 'UserProfile', path: 'profile', component: () => import('pages/User/Profile.vue') },
     ]
   },
   {
     path: '/company/',
-    component: () => import('../../../../../layouts/AdminLayout.vue'),
+    component: () => import('../../../../../src/layouts/AdminLayout.vue'),
     children: [
       {
         name: 'CompanyIndex',
@@ -24,7 +24,7 @@ export const routes = [
   },
   {
     path: '/forgot-password',
-    component: () => import('../../../../../layouts/MainLayout.vue'),
+    component: () => import('../../../../../src/layouts/MainLayout.vue'),
     children: [
       {
         path: ':hash/:lost',
