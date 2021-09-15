@@ -13,12 +13,12 @@ export const routes = [
       {
         name: 'CompanyIndex',
         path: '',
-        component: () => import('pages/admin/Company/Index.vue')
+        component: () => import('../pages/admin/Company/Index.vue')
       },
       {
         name: 'CompanyDetailsPage',
         path: 'id/:id',
-        component: () => import('pages/admin/Company/Details.vue')
+        component: () => import('../pages/admin/Company/Details.vue')
       },
     ]
   },
@@ -28,7 +28,7 @@ export const routes = [
     children: [
       {
         path: ':hash/:lost',
-        component: () => import('pages/User/Recovery/AccessRecovery.vue')
+        component: () => import('../pages/User/Recovery/AccessRecovery.vue')
       },
     ]
   },
