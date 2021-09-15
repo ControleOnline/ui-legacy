@@ -1,6 +1,6 @@
 {
   "name": "@controleonline/quasar-common-ui",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "author": "ControleOnline",
   "description": "ControleOnline Common Quasar UI Component",
   "license": "MIT",
@@ -16,14 +16,6 @@
     "vue-echarts-v3": "^2.0.1",
     "vue-i18n": "^8.25.0",
     "vue2-google-maps": "^0.10.7"
-  },
-  "devDependencies": {
-    "@quasar/app": "2.0.6",
-    "devtron": "^1.4.0",
-    "electron": "^9.0.0",
-    "electron-debug": "^3.0.1",
-    "electron-devtools-installer": "^3.0.0",
-    "electron-packager": "^14.1.1"
   },
   "scripts": {},
   "repository": {
