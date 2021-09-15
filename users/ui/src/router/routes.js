@@ -3,7 +3,7 @@ export const routes = [
     path: '/user/',
     component: () => import('../../../../../src/layouts/AdminLayout.vue'),
     children: [
-      { name: 'UserProfile', path: 'profile', component: () => import('pages/User/Profile.vue') },
+      { name: 'UserProfile', path: 'profile', component: () => import('../pages/User/Profile.vue') },
     ]
   },
   {
