@@ -269,7 +269,7 @@
 
 <script>
 import { mapActions, mapGetters }                    from 'vuex';
-import { formatDocument, formatTelefone, formatCEP } from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { formatDocument, formatPhone, formatCEP } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import ContactForm                                   from '@controleonline/quasar-common-ui/src/components/common/ContactForm'
 
 export default {
@@ -350,7 +350,7 @@ export default {
     seeDetails(data) {
       this.dialogs.details.data.name        = data.contact.name;
       this.dialogs.details.data.email       = data.contact.email;
-      this.dialogs.details.data.phone       = formatTelefone(data.contact.phone);
+      this.dialogs.details.data.phone       = formatPhone(data.contact.phone);
       this.dialogs.details.data.country     = data.address.country;
       this.dialogs.details.data.state       = data.address.state;
       this.dialogs.details.data.city        = data.address.city;
