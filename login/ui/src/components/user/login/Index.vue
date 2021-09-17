@@ -1,33 +1,33 @@
 <template>
   <div class="login-page row justify-center items-center">
+
+    <div class="text-right full-width">
+      <h5 class="login-app-name">{{ $t('app.name') }}</h5>
+    </div>
+
     <q-card class="login-form">
-      <q-card-section class="bg-primary text-white text-center">
-        <div class="text-h6 text-uppercase">
-          {{ $t('login.title') }}
-        </div>
-        <div class="text-subtitle2 text-uppercase">
-          {{ $t('app.name') }}
+      <q-card-section>
+        <div class="text-h6">
+          <h4 class="login-label">{{ $t('login.title') }}</h4>
         </div>
       </q-card-section>
 
       <q-card-section>
-        <LoginForm @authenticated="onAuthenticated" />
+        <LoginForm @authenticated="onAuthenticated" @recovery="recovery = true" />
       </q-card-section>
 
-      <q-card-actions align="around" class="q-pa-md">
-        <q-btn outline
-          :label  ="$t('login.register')"
-          size    ="md"
-          class   ="q-mr-md"
-          color   ="primary"
+      <label
+        class="register-link-label"
+        v-if="$t('login.registerLabel') !== 'login.registerLabel'"
+      >
+        {{ $t('login.registerLabel') }}
+      </label>
+      <q-card-actions align="left" class="q-pa-md">
+        <a
+          href="#"
+          class="register-link"
           @click  ="onSignUp"
-        />
-        <q-btn flat
-          :label  ="$t('login.lostPass')"
-          size    ="md"
-          color   ="primary"
-          @click  ="recovery = true"
-        />
+        >{{ $t('login.register') }}</a>
       </q-card-actions>
     </q-card>
 
@@ -84,9 +84,22 @@ export default {
 .login-page
   background-position: center    !important
   background-repeat  : no-repeat !important
-  background-size    : cover     !important  
+  background-size    : cover     !important
   padding-left       : 30px
   padding-right      : 30px
+
+.login-form
+  width: 100%;
+  max-width: 320px;
+
+.login-label
+  margin-bottom: 0px
+
+.register-link-label
+  font-size: 10px
+
+.register-link
+  font-size: 10px
 
 @media (max-width: $breakpoint-xs-max)
   .login-page

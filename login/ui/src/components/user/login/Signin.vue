@@ -2,34 +2,46 @@
 
   <q-form @submit="onSubmit" class="q-mt-md">
 
-    <q-input outlined stack-label
+    <label class="q-input-label">{{ $t('login.yourUser') }}</label>
+    <q-input outlined
+      id="inputUsername"
       ref        ="username"
       v-model    ="item.username"
       type       ="text"
-      :label     ="$t('login.yourUser')"
-      class      ="q-mt-md"
       :placeholder="$t('login.enterYourUsername')"
       :rules     ="[val => !!val || $t('messages.fieldRequired'), isInvalid('username')]"
     />
 
-    <q-input outlined stack-label
+    <label class="q-input-label">{{ $t('login.yourPass') }}</label>
+    <q-input outlined
+      id="inputPassword"
       ref        ="password"
       v-model    ="item.password"
       type       ="password"
-      :label     ="$t('login.yourPass')"
-      class      ="q-mt-md"
       :placeholder="$t('login.enterYourPass')"
       :rules     ="[val => !!val || $t('messages.fieldRequired'), isInvalid('password')]"
     />
 
-    <q-btn
-      type    ="submit"
-      :loading="isLoading"
-      :label  ="$t('login.send')"
-      size    ="lg"
-      color   ="primary"
-      class   ="full-width q-mt-md"
-    />
+    <div class="text-right">
+      <a
+        href="#"
+        class="recovery-link"
+        @click="$emit('recovery')"
+      >
+        {{ $t('login.lostPass') }}
+      </a>
+    </div>
+
+    <div class="text-right">
+      <q-btn
+        type    ="submit"
+        :loading="isLoading"
+        :label  ="$t('login.send')"
+        size    ="lg"
+        color   ="primary"
+        class   ="q-mt-md login-submit-button"
+      />
+    </div>
   </q-form>
 </template>
 
@@ -50,8 +62,8 @@ export default {
       ...mapGetters({
       user      : 'auth/user',
       isLoggedIn: 'auth/isLoggedIn',
-      isLoading : 'auth/isLoading', 
-      error     : 'auth/error', 
+      isLoading : 'auth/isLoading',
+      error     : 'auth/error',
       violations: 'auth/violations'
     })
   },
@@ -126,3 +138,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.recovery-link {
+  font-size: 10px;
+}
+</style>
