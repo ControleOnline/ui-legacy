@@ -1,24 +1,25 @@
 <template>
   <div>
-    <q-card class="q-pa-md q-mb-sm">
-      <div v-if="contract !== null">
-        <div class="row">
-          <div class="col-xs-12 col-sm-3">
-            <div :class="statusStyle">
-              {{ this.$t(`contracts.statuses.${contract.status}`) }}
-            </div>
+    <q-card
+      v-if ="contract !== null"
+      class="q-pa-md q-mb-sm"
+    >
+      <div class="row">
+        <div class="col-xs-12 col-sm-3">
+          <div :class="statusStyle">
+            {{ this.$t(`contracts.statuses.${contract.status}`) }}
           </div>
-          <div class="col-xs-12 col-sm-9">
-            <div class="row items-center justify-end">
-              <contract-action-cancel
-                :config  ="config"
-                :contract="contract"
-              />
-              <contract-action-amend
-                :config  ="config"
-                :contract="contract"
-              />
-            </div>
+        </div>
+        <div class="col-xs-12 col-sm-9">
+          <div class="row items-center justify-end">
+            <contract-action-cancel
+              :config  ="config"
+              :contract="contract"
+            />
+            <contract-action-amend
+              :config  ="config"
+              :contract="contract"
+            />
           </div>
         </div>
       </div>
@@ -49,6 +50,18 @@
         </q-step>
       </q-stepper>
     </div>
+
+    <q-card v-else
+      class="row items-center justify-center"
+      style="min-height: 90vh;"
+    >
+      <q-banner class="text-white bg-red text-center text-h3" rounded>
+        <template v-slot:avatar>
+          <q-icon name="error" color="white" />
+        </template>
+        {{ $t('Contrato não encontrado') }}
+      </q-banner>
+    </q-card>
   </div>
 </template>
 
@@ -136,6 +149,10 @@ export default {
             },
           })
             .then((data) => {
+              if (!data) {
+                return null;
+              }
+
               const contract = new Contract(data['@id'].replace(/\D/g, ''));
 
               contract.original = (function(c) {
