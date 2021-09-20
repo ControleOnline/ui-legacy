@@ -6,7 +6,7 @@
 
     <q-separator spaced />
 
-    <h7>Dados do veículo a ser transportado</h7>
+    <span>Dados do veículo a ser transportado</span>
     <div class="row justify-center q-pb-md">
       <div class="col-xs-12 col-sm-12 q-mb-sm">
         <q-input

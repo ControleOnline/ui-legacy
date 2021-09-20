@@ -20,10 +20,8 @@
         </h5>
         <br />
         <h6>
-          os dados foram preenchidos,<br />
-          os próximos passos para a finalização serão enviados para seu
-          e-mail,<br />
-          não esqueça de checar a sua caixa de span.
+          Os dados foram preenchidos,<br />
+          Será enviado um e-mail para que você realize a assinatura digital.<br />          
         </h6>
       </div>
     </div>
@@ -78,21 +76,7 @@ export default {
 
           this.payerData = data;
 
-          if (
-            data.personType &&
-            data.name &&
-            data.alias &&
-            data.document &&
-            data.email &&
-            data.phone &&
-            data.address &&
-            data.address.postal_code &&
-            data.address.street &&
-            data.address.number &&
-            data.address.district &&
-            data.address.city &&
-            data.address.state
-          ) {
+          if (data.contractId) {
             this.isSaved = true;
           }
         }
