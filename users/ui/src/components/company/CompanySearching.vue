@@ -55,7 +55,7 @@
                 color   ="primary"
                 icon    ="edit"
                 :to     ="{
-                  name  : `${userTypeCapitalized}.Company.Details`,
+                  name  : `CompanyDetailsPage`,
                   params: {
                     id: props.row.id
                   }
@@ -128,7 +128,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getItems: 'people/getMyCompanies',
+      getItems: 'myCompanies',
       save    : 'people/company'    ,
     }),
 
