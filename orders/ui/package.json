@@ -1,6 +1,6 @@
 {
   "name": "@controleonline/quasar-orders-ui",
-  "version": "1.0.66",
+  "version": "1.0.67",
   "author": "Frete Click",
   "description": "Frete Click Quotations Quasar UI Component",
   "license": "MIT",
@@ -16,6 +16,6 @@
     "last 1 version, not dead, ie >= 11"
   ],
   "dependencies": {
-    "@freteclick/quasar-quote-ui" : "*"
+    
   }
 }
