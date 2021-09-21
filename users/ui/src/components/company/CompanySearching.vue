@@ -128,7 +128,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getItems: 'myCompanies',
+      getItems: 'people/myCompany',
       save    : 'people/company'    ,
     }),
 
