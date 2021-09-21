@@ -1,6 +1,7 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import fetch           from '@controleonline/quasar-common-ui/src/utils/fetch';
-import * as types      from './mutation_types';
+import fetch           from '@controleonline/quasar-common-ui/src/utils/fetch'
+import * as types      from './mutation_types'
+import * as myapi      from '../../../../../../src/boot/myapi';
 
 export const appConfig = ({ commit }) => {
   commit(types.SET_ISLOADING)
