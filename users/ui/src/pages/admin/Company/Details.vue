@@ -126,7 +126,7 @@ import CompanyDocuments    from './../../../components/company/CompanyDocuments'
 import CompanyInvoicement  from './../../../components/company/CompanyInvoicement';
 import CompanySalesman     from './../../../components/company/CompanySalesman';
 import CompanyIntegrations from './../../../components/company/CompanyIntegrations';
-import { ENTRYPOINT }      from '../../../../../../src/config/entrypoint';
+import { ENTRYPOINT }      from '../../../../../../../src/config/entrypoint';
 
 export default {
   name      : 'CompanyDetailsPage',
