@@ -126,6 +126,7 @@ import CompanyDocuments    from './../../../components/company/CompanyDocuments'
 import CompanyInvoicement  from './../../../components/company/CompanyInvoicement';
 import CompanySalesman     from './../../../components/company/CompanySalesman';
 import CompanyIntegrations from './../../../components/company/CompanyIntegrations';
+import { ENTRYPOINT }      from '../../../../../../src/config/entrypoint';
 
 export default {
   name      : 'CompanyDetailsPage',
@@ -149,7 +150,7 @@ export default {
             this.company.name  = company.alias;
             this.company.image = (
               company.image !== null ?
-                `https://api.ipschool.com.br${company.image.url}` : null
+                `https://${ENTRYPOINT}${company.image.url}` : null
             );
           }
         });
