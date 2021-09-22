@@ -16,7 +16,7 @@
             outline
             dense
             :to="{
-              name: 'Admin.OrderPurchasing.Details',
+              name: 'PurchasingOrderDetails',
               params: { id: props.row.id },
             }"
             :label="`#${props.row.id}`"
@@ -30,7 +30,7 @@
             outline
             dense
             :to="{
-              name: 'SalesOrderDetails',
+              name: 'OrderDetails',
               params: { id: props.row.mainOrder },
             }"
             :label="`#${props.row.mainOrder}`"
