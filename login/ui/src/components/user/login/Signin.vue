@@ -1,52 +1,54 @@
 <template>
-
-  <q-form @submit="onSubmit" class="q-mt-md">
-
-    <label class="q-input-label">{{ $t('login.yourUser') }}</label>
-    <q-input outlined
+  <q-form @submit="onSubmit">
+    <label class="q-input-label">{{ $t("login.yourUser") }}</label>
+    <q-input
+      outlined
       id="inputUsername"
-      ref        ="username"
-      v-model    ="item.username"
-      type       ="text"
+      ref="username"
+      v-model="item.username"
+      type="text"
       :placeholder="$t('login.enterYourUsername')"
-      :rules     ="[val => !!val || $t('messages.fieldRequired'), isInvalid('username')]"
+      :rules="[
+        (val) => !!val || $t('messages.fieldRequired'),
+        isInvalid('username'),
+      ]"
     />
 
-    <label class="q-input-label">{{ $t('login.yourPass') }}</label>
-    <q-input outlined
+    <label class="q-input-label">{{ $t("login.yourPass") }}</label>
+    <q-input
+      outlined
       id="inputPassword"
-      ref        ="password"
-      v-model    ="item.password"
-      type       ="password"
+      ref="password"
+      v-model="item.password"
+      type="password"
       :placeholder="$t('login.enterYourPass')"
-      :rules     ="[val => !!val || $t('messages.fieldRequired'), isInvalid('password')]"
+      :rules="[
+        (val) => !!val || $t('messages.fieldRequired'),
+        isInvalid('password'),
+      ]"
     />
-
-    <div class="text-right">
-      <a
-        href="#"
-        class="recovery-link"
-        @click="$emit('recovery')"
-      >
-        {{ $t('login.lostPass') }}
-      </a>
-    </div>
 
     <div class="text-right">
       <q-btn
-        type    ="submit"
+        type="submit"
         :loading="isLoading"
-        :label  ="$t('login.send')"
-        size    ="lg"
-        color   ="primary"
-        class   ="q-mt-md login-submit-button"
+        :label="$t('login.send')"
+        size="lg"
+        color="primary"
+        class="q-mt-md login-submit-button"
       />
+    </div>
+
+    <div class="text-right">
+      <a href="#" class="recovery-link" @click="$emit('recovery')">
+        {{ $t("login.lostPass") }}
+      </a>
     </div>
   </q-form>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -54,33 +56,32 @@ export default {
       item: {
         username: null,
         password: null,
-      }
+      },
     };
   },
 
   computed: {
-      ...mapGetters({
-      user      : 'auth/user',
-      isLoggedIn: 'auth/isLoggedIn',
-      isLoading : 'auth/isLoading',
-      error     : 'auth/error',
-      violations: 'auth/violations'
-    })
+    ...mapGetters({
+      user: "auth/user",
+      isLoggedIn: "auth/isLoggedIn",
+      isLoading: "auth/isLoading",
+      error: "auth/error",
+      violations: "auth/violations",
+    }),
   },
 
   watch: {
     isLoggedIn: function (isLoggedIn) {
       if (isLoggedIn === true) {
-        this.$emit('authenticated', this.user)
+        this.$emit("authenticated", this.user);
       }
     },
 
     user(user) {
-      if (!user)
-        return;
+      if (!user) return;
 
-      if (this.$store.getters['auth/user'] !== null) {
-        this.$emit('authenticated', this.$store.getters['auth/user']);
+      if (this.$store.getters["auth/user"] !== null) {
+        this.$emit("authenticated", this.$store.getters["auth/user"]);
       }
     },
 
@@ -109,28 +110,25 @@ export default {
 
   methods: {
     ...mapActions({
-      signIn: 'auth/signIn'
+      signIn: "auth/signIn",
     }),
 
-    onSubmit () {
-      this.signIn(this.item)
-        .catch(error => {
-          this.$q.notify({
-            message : this.$t('login.invalidUserMessage'),
-            position: 'bottom',
-            type    : 'negative',
-          });
+    onSubmit() {
+      this.signIn(this.item).catch((error) => {
+        this.$q.notify({
+          message: this.$t("login.invalidUserMessage"),
+          position: "bottom",
+          type: "negative",
         });
+      });
     },
 
     isInvalid(key) {
-      return val => {
+      return (val) => {
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
-        if (!(val && val.length > 0))
-          return this.$t('messages.fieldRequired');
-
-        if (key == 'password' && val.length < 6)
-          return this.$t('login.passMessage');
+        if (key == "password" && val.length < 6)
+          return this.$t("login.passMessage");
 
         return true;
       };
@@ -138,10 +136,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-
-.recovery-link {
-  font-size: 10px;
-}
-</style>
