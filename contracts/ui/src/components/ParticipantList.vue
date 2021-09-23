@@ -9,8 +9,8 @@
   >
     <template v-slot:body-cell-name="props">
       <q-td>
-        <q-btn dense
-          :to   ="Routes.Customer.get(props.row.peopleId)"
+        <q-btn dense          
+          :to   ="{ name: 'ClientsDetails', params: { id: props.row.peopleId } }"
           :label="props.value"
           class ="full-width"
         />
