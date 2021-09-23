@@ -11,6 +11,11 @@ export const routes = [
     component: () => import('../../../../../src/layouts/AdminLayout.vue'),
     children: [
       {
+        path     : ':id/employees/:employeeId',
+        name     : 'CompanyEmployee',
+        component: () => import('../pages/admin/Company/Employee.vue')
+      },      
+      {
         name: 'CompanyIndex',
         path: '',
         component: () => import('../pages/admin/Company/Index.vue')
