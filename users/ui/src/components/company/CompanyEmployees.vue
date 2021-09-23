@@ -52,7 +52,7 @@
               <q-card-actions align="around">
                 <q-btn flat round dense
                   :to   ="{
-                    name  : `${userTypeCapitalized}.Company.Employee`,
+                    name  : `CompanyEmployee`,
                     params: {
                       id        : id,
                       employeeId: props.row.id
