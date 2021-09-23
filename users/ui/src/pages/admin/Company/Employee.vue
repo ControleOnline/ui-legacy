@@ -119,11 +119,11 @@
 
 <script>
 import { mapActions }   from 'vuex';
-import UserPhones       from './../../../components/profile/UserPhones';
-import UserAddress      from './../../../components/profile/UserAddress';
-import UserEmails       from './../../../components/profile/UserEmails';
-import UserUsers        from './../../../components/profile/UserUsers';
-import UserDocuments    from './../../../components/profile/UserDocuments';
+import UserPhones       from './../../../components/user/profile/UserPhones';
+import UserAddress      from './../../../components/user/profile/UserAddress';
+import UserEmails       from './../../../components/user/profile/UserEmails';
+import UserUsers        from './../../../components/user/profile/UserUsers';
+import UserDocuments    from './../../../components/user/profile/UserDocuments';
 import CompanyEmployees from './../../../components/company/CompanyEmployees';
 import md5              from 'md5';
 import { mapGetters }   from 'vuex';
