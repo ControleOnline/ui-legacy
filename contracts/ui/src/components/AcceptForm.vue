@@ -21,33 +21,47 @@
           :disable="payer.carModel ? true : false"
         />
       </div>
-      <div class="col-xs-12 col-sm-6 q-mb-sm">
+      <div class="col-xs-12 col-sm-4 q-mb-sm">
         <q-input
           outlined
           stack-label
           lazy-rules
-          v-model="form.carColor"
+          v-model="form.other_informations.carColor"
           type="text"
           :label="$t('Cor do carro')"
           placeholder="Cor do carro"
           :rules="[isInvalid('car_color')]"
-          :disable="payer.carColor ? true : false"
+          :disable="payer.other_informations.carColor ? true : false"
         />
       </div>
-      <div class="col-xs-12 col-sm-6 q-mb-sm">
+      <div class="col-xs-12 col-sm-4 q-mb-sm">
         <q-input
           outlined
           stack-label
           lazy-rules
           unmasked-value
-          v-model="form.carNumber"
+          v-model="form.other_informations.carNumber"
           type="text"
           :label="$t('Placa do Carro')"
           placeholder="Placa do Carro"
           :rules="[isInvalid('car_number')]"
-          :disable="payer.carNumber ? true : false"
+          :disable="payer.other_informations.carNumber ? true : false"
         />
       </div>
+      <div class="col-xs-12 col-sm-4 q-mb-sm">
+        <q-input
+          outlined
+          stack-label
+          lazy-rules
+          unmasked-value
+          v-model="form.other_informations.renavan"
+          type="text"
+          :label="$t('Renavan')"
+          placeholder="Renavan"
+          :rules="[isInvalid('renavan')]"
+          :disable="payer.other_informations.renavan ? true : false"
+        />
+      </div>      
     </div>
 
     <q-separator spaced />
@@ -302,6 +316,7 @@ export default {
         name: "",
         alias: "",
         document: "",
+        rg: "",
         email: "",
         phone: "",
         address: {
@@ -347,12 +362,12 @@ export default {
           this.form.carModel = payer.carModel;
         }
 
-        if (payer.carColor) {
-          this.form.carColor = payer.carColor;
+        if (payer.other_informations.carColor) {
+          this.form.other_informations.carColor = payer.other_informations.carColor;
         }
 
-        if (payer.carNumber) {
-          this.form.carNumber = payer.carNumber;
+        if (payer.other_informations.carNumber) {
+          this.form.other_informations.carNumber = payer.other_informations.carNumber;
         }
 
         if (payer.name) {

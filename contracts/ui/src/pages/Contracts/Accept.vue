@@ -44,12 +44,16 @@ export default {
       pageLoading: false,
       payerData: {
         carModel: "",
-        carColor: "",
-        carNumber: "",
+        other_informations:{
+          carColor: "",
+          carNumber: "",
+          renavan: "",
+        },        
         personType: "PF",
         name: "",
         alias: "",
         document: "",
+        rg: "",
         email: "",
         phone: "",
         address: {
