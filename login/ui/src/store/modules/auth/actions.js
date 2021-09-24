@@ -1,8 +1,8 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import fetch           from '@controleonline/quasar-common-ui/src/utils/fetch';
-import * as types      from './mutation_types';
-import axios           from 'axios';
-import { ENTRYPOINT }  from '../../../../../../../src/config/entrypoint';
+import fetch from '@controleonline/quasar-common-ui/src/utils/fetch';
+import * as types from './mutation_types';
+import axios from 'axios';
+import { ENTRYPOINT } from '../../../../../../../src/config/entrypoint';
 
 export const signIn = ({ commit }, values) => {
   commit(types.LOGIN_SET_ERROR, '');
@@ -16,7 +16,7 @@ export const signIn = ({ commit }, values) => {
     })
     .then(data => {
       commit(types.LOGIN_SET_USER, data);
-      
+
       const entryPoint = ENTRYPOINT + (ENTRYPOINT.endsWith('/') ? '' : '/')
       axios.get(new URL(`/people/${data.people}/status`, entryPoint), { headers: { 'api-token': data.api_key } })
         .then(response => {
@@ -73,16 +73,16 @@ export const signUp = ({ commit }, values) => {
 /*
  * Do login with just created user
  */
-export const logIn  = ({ commit, state }, user = null) => {
+export const logIn = ({ commit, state }, user = null) => {
   let data = user;
 
   if (data === null && state.created !== null)
     data = {
-      api_key : state.created.token,
+      api_key: state.created.token,
       username: state.created.username,
-      people  : state.created.people,
-      roles   : '',
-      company : state.created.company,
+      people: state.created.people,
+      roles: '',
+      company: state.created.company,
     };
 
   if (data === null)
@@ -97,4 +97,8 @@ export const logOut = ({ commit }) => {
 
 export const setIndexRoute = ({ commit }, indexRoute) => {
   commit(types.LOGIN_SET_INDEX_ROUTE, indexRoute);
+};
+
+export const setSignUpFields = ({ commit }, signUpFields) => {
+  commit(types.SIGN_UP_FIELDS, signUpFields);
 };
