@@ -310,7 +310,11 @@ export default {
       isSearching: false,
       form: {
         carModel: "",
-        carColor: "",
+        other_informations:{
+          carColor: "",
+          carNumber: "",
+          renavan: "",
+        },        
         carNumber: "",
         personType: "PJ",
         name: "",
