@@ -50,7 +50,7 @@
     </q-stepper>
 
     <UserForm
-      v-if="userFields.length > 0"
+      v-else-if="userFields.length > 0"
       ref="userForm"
       :userFields="userFields"
       :contact="order.contact"
@@ -58,7 +58,7 @@
     />
 
     <CompanyForm
-      v-if="companyFields.length > 0"
+      v-else-if="companyFields.length > 0"
       ref="companyForm"
       :companyFields="companyFields"
       :origin="order.address.origin"

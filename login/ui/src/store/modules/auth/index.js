@@ -19,7 +19,9 @@ export default {
         'username',
         'phone',
         'email',
-        'password'
+        /*'confirmEmail',*/
+        'password',
+        'confirmPassword'
       ],
       company: [
         'name',

@@ -11,6 +11,9 @@
       />
     </div>
 
+    <label v-if="hasCompanyField('document')" class="q-input-label">
+      {{ personType == "PJ" ? $t("CNPJ") : $t("CPF") }}
+    </label>
     <q-input
       v-if="hasCompanyField('document')"
       outlined
@@ -19,7 +22,6 @@
       unmasked-value
       v-model="item.document"
       type="text"
-      :label="personType == 'PJ' ? $t('CNPJ') : $t('CPF')"
       :mask="personType == 'PJ' ? '##.###.###/####-##' : '###.###.###-##'"
       :placeholder="personType == 'PJ' ? 'Digite o CNPJ' : 'Digite o CPF'"
       :rules="[isInvalid('document')]"
@@ -28,13 +30,15 @@
 
     <div class="row q-col-gutter-xs q-pb-xs">
       <div v-if="hasCompanyField('name')" class="col-xs-12 col-sm-6 q-mb-sm">
+        <label class="q-input-label">
+          {{ personType == "PJ" ? $t("Razão social") : $t("Nome") }}
+        </label>
         <q-input
           outlined
           stack-label
           lazy-rules
           v-model="item.name"
           type="text"
-          :label="personType == 'PJ' ? $t('Razão social') : $t('Nome')"
           :placeholder="
             personType == 'PJ' ? 'Digite a Razão social' : 'Digite seu nome'
           "
@@ -42,13 +46,15 @@
         />
       </div>
       <div v-if="hasCompanyField('alias')" class="col-xs-12 col-sm-6 q-mb-sm">
+        <label class="q-input-label">
+          {{ personType == "PJ" ? $t("Nome Fantasia") : $t("Sobrenome") }}
+        </label>
         <q-input
           outlined
           stack-label
           lazy-rules
           v-model="item.alias"
           type="text"
-          :label="personType == 'PJ' ? $t('Nome Fantasia') : $t('Sobrenome')"
           :placeholder="
             personType == 'PJ'
               ? 'Digite o Nome fantasia'
@@ -67,10 +73,10 @@
         Procure o endereço na caixa de busca
       </div>
       <div class="col-xs-12 q-mb-sm">
+        <label class="q-input-label">Busca de endereço</label>
         <ListAutocomplete
           :source="getGeoPlaces"
           :isLoading="isSearching"
-          label="Busca de endereço"
           @selected="onSelect"
           placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
         />
@@ -82,6 +88,7 @@
 
     <div v-if="hasCompanyField('address')" class="row q-col-gutter-sm q-pb-xs">
       <div class="col-xs-12 col-sm-grow q-mb-sm" v-if="address == 'bycep'">
+        <label class="q-input-label">{{ $t("CEP") }}</label>
         <q-input
           outlined
           stack-label
@@ -90,7 +97,6 @@
           hide-bottom-space
           v-model="item.address.postal_code"
           type="text"
-          :label="$t('CEP')"
           mask="#####-###"
           :rules="[isInvalid('postal_code')]"
           :loading="loading"
@@ -98,6 +104,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm" v-else>
+        <label class="q-input-label">{{ $t("CEP") }}</label>
         <q-input
           outlined
           stack-label
@@ -106,13 +113,13 @@
           hide-bottom-space
           v-model="item.address.postal_code"
           type="text"
-          :label="$t('CEP')"
           mask="#####-###"
           :rules="[isInvalid('postal_code')]"
         />
       </div>
 
       <div class="col-xs-12 col-sm-grow q-mb-sm">
+        <label class="q-input-label">{{ $t("Rua") }}</label>
         <q-input
           outlined
           stack-label
@@ -120,11 +127,11 @@
           hide-bottom-space
           v-model="item.address.street"
           type="text"
-          :label="$t('Rua')"
           :rules="[isInvalid('street')]"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
+        <label class="q-input-label">{{ $t("Número") }}</label>
         <q-input
           outlined
           stack-label
@@ -132,21 +139,21 @@
           hide-bottom-space
           v-model="item.address.number"
           type="text"
-          :label="$t('Número')"
           :rules="[isInvalid('number')]"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
+        <label class="q-input-label">{{ $t("Complemento") }}</label>
         <q-input
           outlined
           stack-label
           hide-bottom-space
           v-model="item.address.complement"
           type="text"
-          :label="$t('Complemento')"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
+        <label class="q-input-label">{{ $t("Bairro") }}</label>
         <q-input
           outlined
           stack-label
@@ -154,11 +161,11 @@
           hide-bottom-space
           v-model="item.address.district"
           type="text"
-          :label="$t('Bairro')"
           :rules="[isInvalid('district')]"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
+        <label class="q-input-label">{{ $t("Cidade") }}</label>
         <q-input
           outlined
           stack-label
@@ -166,11 +173,11 @@
           hide-bottom-space
           v-model="item.address.city"
           type="text"
-          :label="$t('Cidade')"
           :rules="[isInvalid('city')]"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
+        <label class="q-input-label">{{ $t("UF") }}</label>
         <q-input
           outlined
           stack-label
@@ -178,12 +185,12 @@
           hide-bottom-space
           v-model="item.address.state"
           type="text"
-          :label="$t('UF')"
           mask="AA"
           :rules="[isInvalid('state')]"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
+        <label class="q-input-label">{{ $t("País") }}</label>
         <q-input
           outlined
           stack-label
@@ -191,7 +198,6 @@
           hide-bottom-space
           v-model="item.address.country"
           type="text"
-          :label="$t('País')"
           :rules="[isInvalid('country')]"
         />
       </div>

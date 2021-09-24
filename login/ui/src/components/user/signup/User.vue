@@ -2,18 +2,19 @@
   <q-form @submit="save" class="q-mt-md" ref="myForm">
     <div class="row q-col-gutter-xs q-pb-xs">
       <div v-if="hasUserField('name')" class="col-xs-12 col-sm-6 q-mb-md">
+        <label class="q-input-label">{{ $t("login.name") }}</label>
         <q-input
           outlined
           stack-label
           lazy-rules
           v-model="item.name"
           type="text"
-          :label="$t('login.name')"
           :placeholder="$t('login.enterYourName')"
           :rules="[isInvalid('name')]"
         />
       </div>
       <div v-if="hasUserField('phone')" class="col-xs-12 col-sm-6 q-mb-md">
+        <label class="q-input-label">{{ $t("login.phone") }}</label>
         <q-input
           outlined
           stack-label
@@ -21,7 +22,6 @@
           unmasked-value
           v-model="item.phone"
           type="text"
-          :label="$t('login.phone')"
           mask="(##) #####-####"
           :placeholder="$t('login.enterYourPhone')"
           :rules="[isInvalid('phone')]"
@@ -29,19 +29,41 @@
       </div>
     </div>
 
-    <q-input
-      v-if="hasUserField('email')"
-      outlined
-      stack-label
-      lazy-rules
-      v-model="item.email"
-      type="text"
-      :label="$t('login.email')"
-      :placeholder="$t('login.enterYourEmail')"
-      class="q-mb-md"
-      :rules="[isInvalid('email')]"
-    />
+    <div class="row q-col-gutter-xs q-pb-xs">
+      <div v-if="hasUserField('email')" class="col-xs-12 col-sm-6 q-mb-md">
+        <label class="q-input-label">{{ $t("login.email") }}</label>
+        <q-input
+          outlined
+          stack-label
+          lazy-rules
+          v-model="item.email"
+          type="text"
+          :placeholder="$t('login.enterYourEmail')"
+          class="q-mb-md"
+          :rules="[isInvalid('email')]"
+        />
+      </div>
+      <div
+        v-if="hasUserField('confirmEmail')"
+        class="col-xs-12 col-sm-6 q-mb-md"
+      >
+        <label class="q-input-label">{{ $t("login.confirmEmail") }}</label>
+        <q-input
+          outlined
+          stack-label
+          lazy-rules
+          v-model="item.confirmEmail"
+          type="text"
+          :placeholder="$t('login.enterYourEmail')"
+          class="q-mb-md"
+          :rules="[isInvalid('confirmEmail')]"
+        />
+      </div>
+    </div>
 
+    <label v-if="hasUserField('username')" class="q-input-label">
+      {{ $t("login.username") }}
+    </label>
     <q-input
       v-if="hasUserField('username')"
       outlined
@@ -50,7 +72,6 @@
       reverse-fill-mask
       v-model="item.username"
       type="text"
-      :label="$t('login.username')"
       :placeholder="$t('login.enterYourUsername')"
       class="q-mb-md"
       mask="x"
@@ -60,26 +81,29 @@
 
     <div class="row q-col-gutter-xs q-pb-xs">
       <div v-if="hasUserField('password')" class="col-xs-12 col-sm-6 q-mb-md">
+        <label class="q-input-label">{{ $t("login.password") }}</label>
         <q-input
           outlined
           stack-label
           lazy-rules
           v-model="item.password"
           type="password"
-          :label="$t('login.password')"
           :placeholder="$t('login.enterYourPass')"
           :rules="[isInvalid('password')]"
           :hint="$t('login.passMessage')"
         />
       </div>
-      <div v-if="hasUserField('password')" class="col-xs-12 col-sm-6 q-mb-md">
+      <div
+        v-if="hasUserField('confirmPassword')"
+        class="col-xs-12 col-sm-6 q-mb-md"
+      >
+        <label class="q-input-label">{{ $t("login.confirm") }}</label>
         <q-input
           outlined
           stack-label
           lazy-rules
           v-model="item.confirmPassword"
           type="password"
-          :label="$t('login.confirm')"
           :placeholder="$t('login.confirmYourPass')"
           :rules="[isInvalid('confirm')]"
         />
@@ -119,6 +143,7 @@ export default {
         username: null,
         phone: this.contact.phone,
         email: this.contact.email,
+        confirmEmail: "",
         password: null,
         confirmPassword: null,
       },
@@ -160,7 +185,9 @@ export default {
         phone: this.item.phone.substr(2),
         email: this.item.email,
         password: this.item.password,
-        confirmPassword: this.item.confirmPassword,
+        confirmPassword: this.hasUserField("confirmPassword")
+          ? this.item.confirmPassword
+          : this.item.password,
       })
         .then((response) => {
           let formHasErrors = !(response && response.success === true);
@@ -208,7 +235,18 @@ export default {
         if (key == "password" && val.length < 6)
           return this.$t("login.passMessage");
 
-        if (key == "confirm" && this.item.password != this.item.confirmPassword)
+        if (
+          key == "confirmEmail" &&
+          this.hasUserField("email") &&
+          this.item.email != this.item.confirmEmail
+        )
+          return this.$t("login.passNoMatch");
+
+        if (
+          key == "confirm" &&
+          this.hasUserField("password") &&
+          this.item.password != this.item.confirmPassword
+        )
           return this.$t("login.passNoMatch");
 
         return true;
