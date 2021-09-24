@@ -1,15 +1,20 @@
 <template>
   <!-- eslint-disable -->
-  <q-btn-dropdown outline
-    color     ="primary"
+  <q-btn-dropdown
+    outline
+    v-if="isMultipleCompanies() == true"
+    color="primary"
     text-color="white"
-    :label    ="currentCompany !== null ? currentCompany.name : 'Loading...'"
-    class     ="ellipsis full-width"
+    :label="currentCompany !== null ? currentCompany.name : 'Loading...'"
+    class="ellipsis full-width"
   >
     <q-list>
-      <q-item clickable v-close-popup dense
+      <q-item
+        clickable
+        v-close-popup
+        dense
         v-for="(company, index) in myCompanies"
-        :key  ="index"
+        :key="index"
         @click="onCompanySelection(company)"
       >
         <q-item-section>
@@ -22,23 +27,23 @@
 
 <script>
 /* eslint-disable */
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   props: {
     selected: {
-      type    : Number,
+      type: Number,
       required: false,
-      default : -1
-    }
+      default: -1,
+    },
   },
 
-  data () {
+  data() {
     return {
-      myCompanies   : [],
+      myCompanies: [],
       currentCompany: null,
-      menuOpen      : false,
-    }
+      menuOpen: false,
+    };
   },
 
   created() {
@@ -47,14 +52,14 @@ export default {
 
   computed: {
     ...mapGetters({
-      myCompany: 'people/currentCompany',
-      companies: 'people/companies'     ,
+      myCompany: "people/currentCompany",
+      companies: "people/companies",
     }),
   },
 
   watch: {
     myCompany(company) {
-      this.$emit('selected', company);
+      this.$emit("selected", company);
     },
 
     companies(companies) {
@@ -64,10 +69,12 @@ export default {
 
   methods: {
     ...mapActions({
-      getCompanies: 'people/myCompanies',
-      setCompany  : 'people/currentCompany' ,
+      getCompanies: "people/myCompanies",
+      setCompany: "people/currentCompany",
     }),
-
+    isMultipleCompanies() {
+      return this.myCompanies.length > 1 ? true : false;
+    },
     setCompanies(companies) {
       let data = [];
 
@@ -76,39 +83,35 @@ export default {
         let logo = null;
 
         if (item.logo !== null) {
-          logo = 'https://' + item.logo.domain + item.logo.url;
+          logo = "https://" + item.logo.domain + item.logo.url;
         }
 
         data.push({
-          'id'        : item.id,
-          'name'      : item.alias,
-          'logo'      : logo || null,
-          'commission': item.commission,
+          id: item.id,
+          name: item.alias,
+          logo: logo || null,
+          commission: item.commission,
         });
       }
 
       this.myCompanies = data;
 
       if (this.selected != -1) {
-        let _company = data.find(companies => companies.id === this.selected);
+        let _company = data.find((companies) => companies.id === this.selected);
 
-        this.currentCompany = _company !== undefined ?
-          _company : (data.length > 0 ? data[0] : null);
-      }
-      else
-        this.currentCompany = data.length > 0 ? data[0] : null;
+        this.currentCompany =
+          _company !== undefined ? _company : data.length > 0 ? data[0] : null;
+      } else this.currentCompany = data.length > 0 ? data[0] : null;
 
-      if (this.currentCompany !== null)
-        this.setCompany(this.currentCompany);
+      if (this.currentCompany !== null) this.setCompany(this.currentCompany);
     },
 
     getMyCompanies() {
-      this.getCompanies()
-        .then(response => {
-          if (response.success === true && response.data.length) {
-            this.setCompanies(response.data);
-          }
-        });
+      this.getCompanies().then((response) => {
+        if (response.success === true && response.data.length) {
+          this.setCompanies(response.data);
+        }
+      });
     },
 
     onCompanySelection(company) {
