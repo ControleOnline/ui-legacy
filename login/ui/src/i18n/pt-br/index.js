@@ -6,10 +6,10 @@ export default {
     name: 'Sistema Cotafácil'
   },
   messages: {
-    fieldRequired     : 'Este campo é obrigatório',
-    emailInvalid      : 'O email informado não é válido',
-    phoneInvalid      : 'O fone informado não é válido',
-    gmapsReqNoData    : 'Pesquisa sem resultados',
+    fieldRequired: 'Este campo é obrigatório',
+    emailInvalid: 'O email informado não é válido',
+    phoneInvalid: 'O fone informado não é válido',
+    gmapsReqNoData: 'Pesquisa sem resultados',
   },
   login: {
     continue: 'Continuar',
@@ -20,6 +20,7 @@ export default {
     name: 'Nome',
     enterYourName: 'Digite seu nome',
     email: 'E-mail',
+    confirmEmail: "Confirme seu E-mail",
     enterYourEmail: 'Digite seu e-mail',
     send: 'Enviar',
     phone: 'Telefone',
