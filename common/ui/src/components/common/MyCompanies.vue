@@ -84,13 +84,17 @@ export default {
 
         if (item.logo !== null) {
           logo = "https://" + item.logo.domain + item.logo.url;
-        }
-
+        }        
         data.push({
           id: item.id,
           name: item.alias,
           logo: logo || null,
           commission: item.commission,
+          alias: item.alias,
+          configs: item.configs,
+          document: item.document,
+          domains: item.domains,
+          permission: item.permission,
         });
       }
 
