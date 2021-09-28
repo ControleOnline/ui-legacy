@@ -230,10 +230,7 @@ export default {
     },
 
     discoveryDefaultCompany() {
-      if (
-        typeof this.signUpCustomBg === "boolean" &&
-        this.signUpCustomBg === true
-      ) {
+      if (this.signUpCustomBg === true) {
         this.peopleDefaultCompany().then((response) => {
           let data = [];
           if (response.success === true && response.data.length) {
