@@ -42,6 +42,9 @@ export default {
     usernameMessage: 'Use apenas letras e números sem espaços',
     username: 'Usuário',
     weakPass: 'Esta senha não é segura. Crie uma senha mais forte',
-    passNoMatch: 'As senhas não coincidem'
+    passNoMatch: 'As senhas não coincidem',
+    registerLabel: "Nunca esteve aqui?",
+    signinLabel: "Já tem cadastro?",
+    signin: 'Faça o login'
   }
 }

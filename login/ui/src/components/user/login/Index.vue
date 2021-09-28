@@ -20,14 +20,22 @@
 
       <label
         class="register-link-label"
-        v-if="$t('login.registerLabel') !== 'login.registerLabel'"
+        v-if="
+          $t('login.registerLabel') !== 'login.registerLabel' &&
+          signinDialogStatus === false
+        "
       >
         {{ $t("login.registerLabel") }}
       </label>
       <q-card-actions align="left" class="q-pa-md">
-        <a href="#" class="register-link" @click="onSignUp">{{
-          $t("login.register")
-        }}</a>
+        <a
+          v-if="signinDialogStatus === false"
+          href="#"
+          class="register-link"
+          @click="onSignUp"
+        >
+          {{ $t("login.register") }}
+        </a>
       </q-card-actions>
     </q-card>
 
@@ -61,6 +69,13 @@ export default {
   components: {
     LoginForm,
     RecoveryForm,
+  },
+
+  props: {
+    signinDialogStatus: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   data() {

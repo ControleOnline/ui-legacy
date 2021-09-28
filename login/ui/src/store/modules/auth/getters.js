@@ -7,3 +7,4 @@ export const isLoggedIn = state => state.isLoggedIn;
 export const type = state => state.user.type;
 export const indexRoute = state => state.indexRoute;
 export const signUpFields = state => state.signUpFields;
+export const signUpCustomBg = state => state.signUpCustomBg;

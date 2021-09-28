@@ -30,7 +30,8 @@ export default {
         'address',
         'origin'
       ]
-    }
+    },
+    signUpCustomBg: false
   },
   actions,
   getters,

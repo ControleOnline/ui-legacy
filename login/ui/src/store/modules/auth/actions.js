@@ -1,8 +1,9 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
 import fetch from '@controleonline/quasar-common-ui/src/utils/fetch';
-import * as types from './mutation_types';
 import axios from 'axios';
+
 import { ENTRYPOINT } from '../../../../../../../src/config/entrypoint';
+import * as types from './mutation_types';
 
 export const signIn = ({ commit }, values) => {
   commit(types.LOGIN_SET_ERROR, '');
@@ -101,4 +102,8 @@ export const setIndexRoute = ({ commit }, indexRoute) => {
 
 export const setSignUpFields = ({ commit }, signUpFields) => {
   commit(types.SIGN_UP_FIELDS, signUpFields);
+};
+
+export const setSignUpCustomBg = ({ commit }, signUpCustomBg) => {
+  commit(types.SIGN_UP_CUSTOM_BG, signUpCustomBg);
 };
