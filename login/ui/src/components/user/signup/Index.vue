@@ -1,5 +1,8 @@
 <template>
-  <div class="bg-white signup-page" :style="style()">
+  <div
+    :class="'signup-page' + (background() !== null ? '' : ' bg-white')"
+    :style="style()"
+  >
     <div class="signup-container">
       <div class="text-right full-width">
         <h5 class="signup-app-name">{{ $t("app.name") }}</h5>
@@ -106,6 +109,10 @@ export default {
       type: Object,
       required: true,
     },
+    defaultCompany: {
+      type: Object,
+      required: true,
+    },
     order: {
       type: Object,
       required: false,
@@ -179,7 +186,6 @@ export default {
 
   data() {
     return {
-      defaultCompany: {},
       current: "create_user",
       steps: {
         create_user: {
@@ -193,10 +199,6 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      peopleDefaultCompany: "people/defaultCompany",
-    }),
-
     goToNext(formHasErrors) {
       this.steps[this.current].hasErrors = formHasErrors;
 
@@ -221,60 +223,26 @@ export default {
     },
 
     style() {
-      if (this.defaultCompany && this.defaultCompany.background) {
+      if (this.background()) {
         return `
-          background-image: url('${this.defaultCompany.background}') !important;
+          background-image: url('${this.background()}');
         `;
       }
       return "";
     },
 
-    discoveryDefaultCompany() {
+    background() {
       if (this.signUpCustomBg === true) {
-        this.peopleDefaultCompany().then((response) => {
-          let data = [];
-          if (response.success === true && response.data.length) {
-            for (let index in response.data) {
-              let item = response.data[index];
-              let logo = null;
-              let background = null;
-
-              const protocol = location.protocol;
-
-              if (item.logo !== null) {
-                logo = protocol + "//" + item.logo.domain + item.logo.url;
-              }
-              if (item.background !== null) {
-                background =
-                  protocol +
-                  "//" +
-                  item.background.domain +
-                  item.background.url;
-              }
-              data.push({
-                id: item.id,
-                name: item.alias,
-                logo: logo || null,
-                background: background || null,
-              });
-            }
-          }
-          this.defaultCompany = data[0];
-        });
+        return this.defaultCompany.background;
       } else if (typeof this.signUpCustomBg === "string") {
-        this.defaultCompany = {
-          background: this.signUpCustomBg,
-        };
+        return this.signUpCustomBg;
       }
+      return null;
     },
 
     onSignIn() {
       this.$emit("signIn");
     },
-  },
-
-  mounted() {
-    this.discoveryDefaultCompany();
   },
 };
 </script>

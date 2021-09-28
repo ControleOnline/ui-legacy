@@ -22,13 +22,14 @@
         @registered="onRegistered"
         @signIn="dialogs.signup.visible = false"
         :signUpFields="signUpFields"
+        :defaultCompany="defaultCompany"
       />
     </q-dialog>
   </q-page>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { LocalStorage } from "quasar";
 import LoginPage from "../components/user/login/Index.vue";
 import SignUpPage from "../components/user/signup/Index.vue";
@@ -48,6 +49,7 @@ export default {
           visible: false,
         },
       },
+      defaultCompany: {},
     };
   },
 
@@ -77,9 +79,15 @@ export default {
         this.goToIndexRoute();
       }
     }
+
+    this.discoveryDefaultCompany();
   },
 
   methods: {
+    ...mapActions({
+      peopleDefaultCompany: "people/defaultCompany",
+    }),
+
     goToIndexRoute() {
       const route = this.indexRoute;
 
@@ -194,6 +202,36 @@ export default {
             this.dialogs[dialogName].visible = false;
         }
       }, time);
+    },
+
+    discoveryDefaultCompany() {
+      this.peopleDefaultCompany().then((response) => {
+        let data = [];
+        if (response.success === true && response.data.length) {
+          for (let index in response.data) {
+            let item = response.data[index];
+            let logo = null;
+            let background = null;
+
+            const protocol = location.protocol;
+
+            if (item.logo !== null) {
+              logo = protocol + "//" + item.logo.domain + item.logo.url;
+            }
+            if (item.background !== null) {
+              background =
+                protocol + "//" + item.background.domain + item.background.url;
+            }
+            data.push({
+              id: item.id,
+              name: item.alias,
+              logo: logo || null,
+              background: background || null,
+            });
+          }
+        }
+        this.defaultCompany = data[0];
+      });
     },
   },
 };
