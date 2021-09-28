@@ -100,5 +100,8 @@ export default {
   },
   [types.SIGN_UP_FIELDS](state, signUpFields) {
     Object.assign(state, { signUpFields });
+  },
+  [types.SIGN_UP_CUSTOM_BG](state, signUpCustomBg) {
+    Object.assign(state, { signUpCustomBg });
   }
 };

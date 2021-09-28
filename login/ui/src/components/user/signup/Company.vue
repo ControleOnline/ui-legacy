@@ -1,5 +1,5 @@
 <template>
-  <q-form @submit="save" class="q-mt-sm" ref="myForm">
+  <q-form @submit="save" ref="myForm">
     <div class="row justify-center q-pb-md" v-if="person === true">
       <q-btn-toggle
         v-model="personType"
@@ -210,6 +210,7 @@
         icon="save"
         :label="saveBtn"
         :loading="isLoading"
+        class="q-mt-md signup-submit-button"
       />
     </div>
   </q-form>

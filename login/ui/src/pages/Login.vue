@@ -1,7 +1,11 @@
 <template>
   <q-page class="row justify-center">
     <!-- LOGIN FORM -->
-    <LoginPage @logged="onLogged" @signup="onSignUp" />
+    <LoginPage
+      :signinDialogStatus="dialogs.signup.visible"
+      @logged="onLogged"
+      @signup="onSignUp"
+    />
 
     <!-- SIGNUP STEP TO STEP -->
     <q-dialog
@@ -16,6 +20,7 @@
         @created="onCreated"
         @company="onCompany"
         @registered="onRegistered"
+        @signIn="dialogs.signup.visible = false"
         :signUpFields="signUpFields"
       />
     </q-dialog>

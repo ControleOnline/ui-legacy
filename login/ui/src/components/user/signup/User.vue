@@ -1,5 +1,5 @@
 <template>
-  <q-form @submit="save" class="q-mt-md" ref="myForm">
+  <q-form @submit="save" ref="myForm">
     <div class="row q-col-gutter-xs q-pb-xs">
       <div v-if="hasUserField('name')" class="col-xs-12 col-sm-6 q-mb-md">
         <label class="q-input-label">{{ $t("login.name") }}</label>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="row q-col-gutter-xs q-pb-xs">
-      <div v-if="hasUserField('email')" class="col-xs-12 col-sm-6 q-mb-md">
+      <div v-if="hasUserField('email')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.email") }}</label>
         <q-input
           outlined
@@ -43,10 +43,7 @@
           :rules="[isInvalid('email')]"
         />
       </div>
-      <div
-        v-if="hasUserField('confirmEmail')"
-        class="col-xs-12 col-sm-6 q-mb-md"
-      >
+      <div v-if="hasUserField('confirmEmail')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.confirmEmail") }}</label>
         <q-input
           outlined
@@ -80,7 +77,7 @@
     />
 
     <div class="row q-col-gutter-xs q-pb-xs">
-      <div v-if="hasUserField('password')" class="col-xs-12 col-sm-6 q-mb-md">
+      <div v-if="hasUserField('password')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.password") }}</label>
         <q-input
           outlined
@@ -93,10 +90,7 @@
           :hint="$t('login.passMessage')"
         />
       </div>
-      <div
-        v-if="hasUserField('confirmPassword')"
-        class="col-xs-12 col-sm-6 q-mb-md"
-      >
+      <div v-if="hasUserField('confirmPassword')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.confirm") }}</label>
         <q-input
           outlined
@@ -116,6 +110,7 @@
         color="primary"
         :label="$t('login.continue')"
         :loading="isLoading"
+        class="q-mt-md signup-submit-button"
       />
     </div>
   </q-form>
