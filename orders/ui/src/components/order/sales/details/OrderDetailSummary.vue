@@ -89,7 +89,9 @@
             <q-tooltip>Salvar</q-tooltip>
           </q-btn>
         </div>
-        <div class="col-6 col-sm-2">
+        <div 
+        v-if="orderStatus.status != 'quote'"
+        class="col-6 col-sm-2">
           <q-btn
             dense            
             style="margin-top: 13px"
@@ -99,11 +101,13 @@
             Gerar Proposta
           </q-btn>
         </div>
-        <div class="col-6 col-sm-2">
+        <div         
+        v-if="orderStatus.status != 'quote'"
+        class="col-6 col-sm-2">
           <q-btn
             dense
             style="margin-top: 13px"
-            color="secondary"
+            color="primary"
             @click="createNewContract()"
           >
             {{ hasContract() ? "Ver" : "Gerar" }} Contrato
@@ -662,7 +666,7 @@ export default {
     }),
 
     isCeg() {
-      const cegTypes = ["ceg", "ce2"];
+      const cegTypes = ["ceg", "simple"];
 
       return cegTypes.indexOf(this.defaultCompany.domainType) > -1;
     },
