@@ -292,7 +292,6 @@ export default {
 
 .signup-page-card
   width: 100%;
-  max-width: 320px;
 
 @media (max-width: $breakpoint-xs-max)
   .signup-page
