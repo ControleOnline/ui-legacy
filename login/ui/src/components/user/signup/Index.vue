@@ -223,7 +223,7 @@ export default {
     style() {
       if (this.defaultCompany && this.defaultCompany.background) {
         return `
-          background-image: url('${this.defaultCompany.background}');
+          background-image: url('${this.defaultCompany.background}') !important;
         `;
       }
       return "";
