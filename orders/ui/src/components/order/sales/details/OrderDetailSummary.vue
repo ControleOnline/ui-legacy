@@ -89,11 +89,9 @@
             <q-tooltip>Salvar</q-tooltip>
           </q-btn>
         </div>
-        <div 
-        v-if="orderStatus.status != 'quote'"
-        class="col-6 col-sm-2">
+        <div v-if="orderStatus != 'quote'" class="col-6 col-sm-2">
           <q-btn
-            dense            
+            dense
             style="margin-top: 13px"
             color="primary"
             @click="onPropostaClick()"
@@ -101,9 +99,7 @@
             Gerar Proposta
           </q-btn>
         </div>
-        <div         
-        v-if="orderStatus.status != 'quote'"
-        class="col-6 col-sm-2">
+        <div v-if="orderStatus != 'quote'" class="col-6 col-sm-2">
           <q-btn
             dense
             style="margin-top: 13px"
@@ -426,6 +422,7 @@ export default {
     if (this.defaultCompany) {
       this.checkLabels();
     }
+    
   },
 
   data() {
@@ -434,6 +431,7 @@ export default {
       isLoading: false,
       options: [],
       comments: "",
+      orderStatus: null,
       editable: false,
       payerContact: null,
       labels: {
@@ -513,7 +511,6 @@ export default {
       myCompany: "people/currentCompany",
       defaultCompany: "people/defaultCompany",
     }),
-
     logged() {
       return this.$store.getters["auth/user"];
     },
@@ -628,6 +625,11 @@ export default {
       this.product.packages = this.summary.packages;
 
       this.comments = this.summary.comments;
+
+
+      if (this.myCompany !== null && this.orderId !== null) {
+        this.getOrderStatus(this.orderId);
+      }
     },
 
     payer(payerId) {
@@ -663,7 +665,23 @@ export default {
       getSummary: "salesOrder/getDetailSummary",
       sendProposta: "quote/sendProposta",
       updateStatus: "salesOrder/updateRemote",
+      getStatus: "salesOrder/getDetailStatus",
     }),
+
+    getOrderStatus(orderId) {
+      this.getStatus({ orderId })
+        .then((data) => {
+          this.isLoading = false;
+
+          if (data["@id"]) {
+            this.orderStatus = data.orderStatus.status;
+          }                    
+          return data;
+        })
+        .catch((error) => {
+          this.orderStatus = null;
+        });
+    },
 
     isCeg() {
       const cegTypes = ["ceg", "simple"];
@@ -775,30 +793,28 @@ export default {
             myCompany: this.myCompany.id,
           },
         }).then((res) => {
-          this.isLoading = false;                    
-            if (res.response && res.response.data && res.response.data.html) {
+          this.isLoading = false;
+          if (res.response && res.response.data && res.response.data.html) {
+            /*Imprimir PDF*/
+            var pdf = res.response.data.pdf;
+            var pdfName = "Proposta - " + quote.id + ".pdf";
 
+            if (window.navigator.msSaveOrOpenBlob) {
+              window.navigator.msSaveBlob(
+                b64toBlob(pdf, "Aplication/PDF"),
+                pdfName
+              );
+            } else {
+              const downloadLink = window.document.createElement("a");
+              const blob = this.b64toBlob(pdf, "Aplication/PDF");
+              downloadLink.href = window.URL.createObjectURL(blob);
+              downloadLink.download = pdfName;
+              document.body.appendChild(downloadLink);
+              downloadLink.click();
+              document.body.removeChild(downloadLink);
+            }
 
-
-
-
-              /*Imprimir PDF*/
-              var pdf = res.response.data.pdf;
-              var pdfName = "Proposta - "+quote.id+".pdf";
-            
-              if (window.navigator.msSaveOrOpenBlob) {
-                window.navigator.msSaveBlob(b64toBlob(pdf, 'Aplication/PDF'), pdfName);
-              } else {
-                const downloadLink = window.document.createElement('a');                           
-                const blob = this.b64toBlob(pdf, 'Aplication/PDF');
-                downloadLink.href = window.URL.createObjectURL(blob);                
-                downloadLink.download = pdfName;
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-                document.body.removeChild(downloadLink);
-              }
-
-/*
+            /*
               var html = atob(res.response.data.html);
               var ww = window.open(
                 "",
@@ -812,12 +828,7 @@ export default {
               ww.document.close();
               ww.focus();
 */
-
-
-
-
-
-            }          
+          }
         });
       } else {
         this.$q.notify({
@@ -827,11 +838,15 @@ export default {
         });
       }
     },
-    b64toBlob(b64Data, contentType='', sliceSize=512)  {
+    b64toBlob(b64Data, contentType = "", sliceSize = 512) {
       const byteCharacters = atob(b64Data);
       const byteArrays = [];
 
-      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      for (
+        let offset = 0;
+        offset < byteCharacters.length;
+        offset += sliceSize
+      ) {
         const slice = byteCharacters.slice(offset, offset + sliceSize);
 
         const byteNumbers = new Array(slice.length);
@@ -843,8 +858,8 @@ export default {
         byteArrays.push(byteArray);
       }
 
-      const blob = new Blob(byteArrays, {type: contentType});
-      return blob;    
+      const blob = new Blob(byteArrays, { type: contentType });
+      return blob;
     },
     getCompaniesSelect(input) {
       return new Promise((success) => {
