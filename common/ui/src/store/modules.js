@@ -9,7 +9,7 @@ import people from "@controleonline/quasar-common-ui/src/store/people";
 import config from "@controleonline/quasar-common-ui/src/store/config";
 import profile from "@controleonline/quasar-common-ui/src/store/profile";
 import user from "@controleonline/quasar-common-ui/src/store/user";
-import dashboard from "@controleonline/quasar-dashboard-ui/src/store/dashboard";
+import dashboard from "@controleonline/quasar-dashboard-ui/src/mixins/dashboard";
 import receiveInvoice from "@controleonline/quasar-financial-ui/src/store/modules/invoice/receive";
 import comissionInvoice from "@controleonline/quasar-financial-ui/src/store/modules/invoice/comission";
 import payInvoice from "@controleonline/quasar-financial-ui/src/store/modules/invoice/pay";
