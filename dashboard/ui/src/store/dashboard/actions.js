@@ -1,34 +1,63 @@
-import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch }       from '../../../../../../src/boot/myapi';
-import * as types      from './mutation_types';
+import { fetch }  from '../../../../../../src/boot/myapi'
+
+export function loadUpcomingLesson (context, params) {
+  fetch(`/ead/dashboard/upcoming?people_id=${params.peopleId}&date=${params.date}`, { method: 'GET' })
+    .then(response => response.json())
+    .then(response => {
+      if (response.response.count > 0) {
+        context.commit('SET_UPCOMING_LESSON', response.response.data[0])
+      }
+    })
+}
+
+export function doCheckin ({ commit, dispatch }, params) {
+  return new Promise((resolve, reject) => {
+    fetch('/ead/dashboard/checkin', { method: 'POST', body: JSON.stringify(params) })
+      .then(response => response.json())
+      .then(response => {
+        resolve(response)
+        commit('SET_UPCOMING_LESSON', null)
+        dispatch('loadUpcomingLesson', { peopleId: params.peopleId, date: params.date })
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+export function loadAverages ({ commit }, params) {
+  fetch(`/ead/dashboard/average?people_id=${params}`, { method: 'GET' })
+    .then(response => response.json())
+    .then(response => commit('SET_AVERAGES', response.response.data))
+}
+
+export function loadDetailedPresences ({ commit }, peopleId) {
+  return new Promise((resolve, reject) => {
+    fetch(`/ead/dashboard/presence?people_id=${peopleId}`, { method: 'GET' })
+      .then(response => response.json())
+      .then(response => {
+        resolve(response.response.data)
+        commit('SET_DETAILED_PRESENCES', response.response.data)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
 
 export const getTotals = ({ commit }, values) => {
-  commit(types.SET_ISLOADING);
-
   let params   = {
       method: 'POST',
       body  : JSON.stringify(values)
-    };
+  };
 
   return fetch('/dashboard/main', params)
     .then(response => response.json())
     .then(data => {
 
-      commit(types.SET_ISLOADING, false);
-      commit(types.SET_RETRIEVED, data.response ? data.response.data : null);
-
       return data;
 
     }).catch(e => {
-      commit(types.SET_ISLOADING, false);
-
-      if (e instanceof SubmissionError) {
-        commit(types.SET_VIOLATIONS, e.errors);
-        // eslint-disable-next-line
-        commit(types.SET_ERROR, e.errors._error);
-        return;
-      }
-
-      commit(types.SET_ERROR, e.message);
+      throw new Error(e.message);
     });
 };

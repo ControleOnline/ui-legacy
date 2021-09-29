@@ -1,19 +1,11 @@
-import * as types from './mutation_types';
+export function SET_UPCOMING_LESSON (state, payload) {
+  state.upcomingLesson = payload
+}
 
-export default {
-  [types.SET_ERROR]     (state, error) {
-    Object.assign(state, { error });
-  },
+export function SET_AVERAGES (state, payload) {
+  state.averages = payload
+}
 
-  [types.SET_ISLOADING] (state, isLoading = true) {
-    Object.assign(state, { isLoading: isLoading });
-  },
-
-  [types.SET_VIOLATIONS](state, violations) {
-    Object.assign(state, { violations });
-  },
-
-  [types.SET_RETRIEVED](state, retrieved) {
-    Object.assign(state, { retrieved });
-  },
-};
+export function SET_DETAILED_PRESENCES (state, payload) {
+  state.detailedPresences = payload
+}

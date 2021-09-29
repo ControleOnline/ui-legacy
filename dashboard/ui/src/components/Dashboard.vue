@@ -2,7 +2,7 @@
   <q-card>
     <q-card-section>
       <div class="row">
-        <div class="col-xs-12 col-sm-grow q-pa-sm">
+        <div class="col-xs-12 col-sm-5 q-pa-sm">
           <q-input stack-label
             v-model="fromDate"
             label  ="Data inicio"
@@ -21,7 +21,7 @@
             </template>
           </q-input>
         </div>
-        <div class="col-xs-12 col-sm-grow q-pa-sm">
+        <div class="col-xs-12 col-sm-5 q-pa-sm">
           <q-input stack-label
             v-model="toDate"
             label  ="Data fim"
@@ -40,10 +40,9 @@
             </template>
           </q-input>
         </div>
-        <div class="col-xs-12 col-sm-grow q-pa-sm text-right">
-          <q-btn
+        <div class="col-xs-12 col-sm-2 q-pa-sm">
+          <q-btn flat
             :loading="isLoading"
-            icon    ="search"
             type    ="submit"
             label   ="Consultar"
             size    ="md"
@@ -83,6 +82,7 @@ import ChartSalesMoney            from './Charts/ChartSalesMoney';
 import ChartSalesOrder            from './Charts/ChartSalesOrder';
 
 export default {
+  name  : 'Dashboard',
   components: {
     Summary        ,
     ChartSalesMoney,
@@ -106,20 +106,12 @@ export default {
   computed: {
     ...mapGetters({
       theCompany: 'people/currentCompany',
-      dashboard : 'dashboard/retrieved',
     }),
   },
 
   watch: {
     theCompany(company) {
       this.request();
-    },
-
-    dashboard(data) {
-      if (!data)
-        return;
-
-      this.data = data;
     },
   },
 
@@ -148,9 +140,13 @@ export default {
         "fromDate"  : this.formatDate(this.fromDate),
         "toDate"    : this.formatDate(this.toDate  ),
         "providerId": this.theCompany !== null ? this.theCompany.id : null
-      }).finally(() => {
-        this.isLoading = false;
-      });
+      })
+        .then((data) => {
+          this.data = data.response ? data.response.data : null;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
 };

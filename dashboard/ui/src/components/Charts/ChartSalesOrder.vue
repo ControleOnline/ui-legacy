@@ -165,11 +165,11 @@ export default {
     },
 
     onReady(instance, ECharts) {
-      
+
     },
 
     onClick(event, instance, ECharts) {
-      
+
     },
 
     formatDate(dateString) {
@@ -191,4 +191,3 @@ export default {
   .chart-box
     height 400px
 </style>
-
