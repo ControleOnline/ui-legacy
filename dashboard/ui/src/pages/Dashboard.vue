@@ -1,163 +1,163 @@
 <template>
   <q-page padding>
-    <div class="row q-mb-md">
-      <div class="col-12">
-        <q-select outlined stack-label emit-value map-options
-          v-model ="company"
-          :label  ="$t('Companies')"
-          :options="companies"
-        />
-      </div>
-    </div>
-
     <dashboard-default
-      ref      ="dashboardDefault"
-      :config  ="setConfig"
+      ref="dashboardDefault"
+      :config="setConfig"
       :elements="elements"
-      :charts  ="charts"
-      @refresh ="onRefresh"
+      :charts="charts"
+      @refresh="onRefresh"
     >
       <template v-slot:inactive-customers="{ config, filters }">
         <dashboard-inactive-customers
-          ref    ="inactiveCustomers"
+          ref="inactiveCustomers"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:active-customers="{ config, filters }">
         <dashboard-active-customers
-          ref    ="activeCustomers"
+          ref="activeCustomers"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:new-customers="{ config, filters }">
         <dashboard-new-customers
-          ref    ="newCustomers"
+          ref="newCustomers"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:prospective-customers="{ config, filters }">
         <dashboard-prospective-customers
-          ref    ="prospectiveCustomers"
+          ref="prospectiveCustomers"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:quote-totals="{ config, filters }">
         <dashboard-quote-totals
-          ref    ="quoteTotals"
+          ref="quoteTotals"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:sales-totals="{ config, filters }">
         <dashboard-sales-totals
-          ref    ="salesTotals"
+          ref="salesTotals"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:average-ticket="{ config, filters }">
         <dashboard-average-ticket
-          ref    ="averageTicket"
+          ref="averageTicket"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:comission-totals="{ config, filters }">
         <dashboard-comission-totals
-          ref    ="comissionTotals"
+          ref="comissionTotals"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:operational-expenses="{ config, filters }">
         <dashboard-operational-expenses
-          ref    ="operationalExpenses"
+          ref="operationalExpenses"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:administrative-expenses="{ config, filters }">
         <dashboard-administrative-expenses
-          ref    ="administrativeExpenses"
+          ref="administrativeExpenses"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:active-contracts="{ config, filters }">
         <dashboard-active-contracts
-          ref    ="activeContracts"
+          ref="activeContracts"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:chart-sales-money="{ config, filters }">
         <dashboard-chart-sales-money
-          ref    ="chartSalesMoney"
+          ref="chartSalesMoney"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
 
       <template v-slot:chart-sales-order="{ config, filters }">
         <dashboard-chart-sales-order
-          ref    ="chartSalesOrder"
+          ref="chartSalesOrder"
           :config="config"
-          :from  ="filters.from"
-          :to    ="filters.to"
+          :from="filters.from"
+          :to="filters.to"
         />
       </template>
     </dashboard-default>
   </q-page>
-</template>
+</template>  
 
 <script>
-import { ENTRYPOINT } from '../../../../../src/config/entrypoint';
+import { ENTRYPOINT } from "../../../../../src/config/entrypoint";
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   data() {
     return {
-      company  : null,
-      elements : [],
-      charts   : [],
+      company: null,
+      elements: [],
+      charts: [],
       companies: [],
-    }
+    };
+  },
+
+  computed: {
+    ...mapGetters({
+      myCompany: "people/currentCompany",
+    }),
   },
 
   created() {
     this.setDashBoardElements();
     this.setDashBoardCharts();
-    this.loadCompanies();
   },
 
   watch: {
-    company() {
-      this.onRefresh()
+    myCompany(company) {
+      if (company !== null) {
+        this.company = company.id;
+        this.onRefresh();
+      }
     },
   },
 
@@ -165,68 +165,66 @@ export default {
     setConfig(configs) {
       // config api
 
-      configs.Api.setAsFake (false);
+      configs.Api.setAsFake(false);
       configs.Api.setBaseUrl(ENTRYPOINT);
-      configs.Api.setToken  (this.$store.getters['auth/user'].token);
+      configs.Api.setToken(this.$store.getters["auth/user"].token);
 
       // config params
 
-      configs.Params.Company
-        .getter = () => {
-          return this.company
-        };
+      configs.Params.Company.getter = () => {
+        return this.company;
+      };
 
-      configs.Params.ViewType
-        .getter = () => {
-          return 'main'
-        };
+      configs.Params.ViewType.getter = () => {
+        return "main";
+      };
     },
 
     setDashBoardElements() {
       let elements = [];
 
       elements.push({
-        name: 'inactive-customers',
+        name: "inactive-customers",
       });
 
       elements.push({
-        name: 'active-customers',
+        name: "active-customers",
       });
 
       elements.push({
-        name: 'new-customers',
+        name: "new-customers",
       });
 
       elements.push({
-        name: 'prospective-customers',
+        name: "prospective-customers",
       });
 
       elements.push({
-        name: 'quote-totals',
+        name: "quote-totals",
       });
 
       elements.push({
-        name: 'sales-totals',
+        name: "sales-totals",
       });
 
       elements.push({
-        name: 'average-ticket',
+        name: "average-ticket",
       });
 
       elements.push({
-        name: 'comission-totals',
+        name: "comission-totals",
       });
 
       elements.push({
-        name: 'operational-expenses',
+        name: "operational-expenses",
       });
 
       elements.push({
-        name: 'administrative-expenses',
+        name: "administrative-expenses",
       });
 
       elements.push({
-        name: 'active-contracts',
+        name: "active-contracts",
       });
 
       this.elements = elements;
@@ -236,63 +234,30 @@ export default {
       let charts = [];
 
       charts.push({
-        name: 'chart-sales-money',
+        name: "chart-sales-money",
       });
 
       charts.push({
-        name: 'chart-sales-order',
+        name: "chart-sales-order",
       });
 
       this.charts = charts;
     },
 
     onRefresh() {
-      this.$refs.inactiveCustomers.reload()
-      this.$refs.activeCustomers.reload()
-      this.$refs.newCustomers.reload()
-      this.$refs.prospectiveCustomers.reload()
-      this.$refs.quoteTotals.reload()
-      this.$refs.salesTotals.reload()
-      this.$refs.averageTicket.reload()
-      this.$refs.comissionTotals.reload()
-      this.$refs.operationalExpenses.reload()
-      this.$refs.administrativeExpenses.reload()
-      this.$refs.activeContracts.reload()
-      this.$refs.chartSalesMoney.reload()
-      this.$refs.chartSalesOrder.reload()
-    },
-
-    loadCompanies() {
-      (new Promise(
-       function(resolve, reject) {
-         window.setTimeout(
-           function() {
-             resolve()
-           },
-           Math.random() * 2000 + 1000
-         );
-       }
-     )).then(() => {
-       let companies = [];
-
-       companies.push({
-         label: 'Company Blue',
-         value: 13,
-       })
-
-       companies.push({
-         label: 'Company Red',
-         value: 1,
-       })
-
-       companies.push({
-         label: 'Company Green',
-         value: 7,
-       })
-
-       this.companies = companies;
-       this.company   = 13;
-     });
+      this.$refs.inactiveCustomers.reload();
+      this.$refs.activeCustomers.reload();
+      this.$refs.newCustomers.reload();
+      this.$refs.prospectiveCustomers.reload();
+      this.$refs.quoteTotals.reload();
+      this.$refs.salesTotals.reload();
+      this.$refs.averageTicket.reload();
+      this.$refs.comissionTotals.reload();
+      this.$refs.operationalExpenses.reload();
+      this.$refs.administrativeExpenses.reload();
+      this.$refs.activeContracts.reload();
+      this.$refs.chartSalesMoney.reload();
+      this.$refs.chartSalesOrder.reload();
     },
   },
 };
@@ -300,6 +265,6 @@ export default {
 
 <style lang="sass" scoped>
 .directive-target
-  width : 50px
+  width: 50px
   height: 50px
 </style>
