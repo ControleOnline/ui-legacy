@@ -138,7 +138,7 @@
 </template>
 
 <script>
-
+import { ENTRYPOINT } from '../../../../../src/config/entrypoint';
 export default {
   data() {
     return {
@@ -166,8 +166,8 @@ export default {
       // config api
 
       configs.Api.setAsFake (false);
-      configs.Api.setBaseUrl('https://localhost:8081');
-      configs.Api.setToken  ('1ce707158c54688fa80484223ec2404b');
+      configs.Api.setBaseUrl(ENTRYPOINT);
+      configs.Api.setToken  (this.$store.getters['auth/user'].token);
 
       // config params
 
