@@ -269,6 +269,7 @@ import OrderDetailTracking from "./details/OrderTracking";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 
+
 export default {
   components: {
     OrderDetailSummary,
@@ -276,8 +277,7 @@ export default {
     OrderDetailNotaFiscal,
     OrderDetailInvoice,
     OrderDetailDACTE,
-    OrderDetailTracking
-
+    OrderDetailTracking       
   },
 
   created() {
@@ -338,9 +338,9 @@ export default {
       getStatus: "salesOrder/getDetailStatus",
       updateStatus: "salesOrder/updateStatus",
       updateDeadline: "salesOrder/updateDeadline",
-      choose : 'quote/choose_quote',
-      email  : 'people/email',
-      contact: 'people/createContact'
+      choose: "quote/choose_quote",
+      email: "people/email",
+      contact: "people/createContact",
     }),
 
     releasePayment() {
