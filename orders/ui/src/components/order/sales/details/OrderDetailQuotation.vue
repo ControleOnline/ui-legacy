@@ -25,10 +25,6 @@
       transition-show="slide-left"
       transition-hide="slide-right"
     >
-      <ContractPage
-        :order   ="order"
-        @finished="onFinished"
-      />
     </q-dialog>
 
     <div class="col-12" v-if="order === null && incomplete">
@@ -51,8 +47,9 @@
 import { date, extend }           from 'quasar';
 import { mapActions, mapGetters } from 'vuex';
 import { formatMoney }            from '@controleonline/quasar-common-ui/src/utils/formatter';
-import QuoteTable                 from '../../../QuoteTable';
-import ContractPage               from '../../../contracting/Index';
+import QuoteTable                 from '@freteclick/quasar-quote-ui/src/components/QuoteTable';
+
+
 
 export default {
   props: {
@@ -63,8 +60,7 @@ export default {
   },
 
   components: {
-    QuoteTable  ,
-    ContractPage,
+    QuoteTable  ,    
   },
 
   created() {
