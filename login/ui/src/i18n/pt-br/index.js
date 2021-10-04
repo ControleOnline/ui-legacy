@@ -1,16 +1,7 @@
 // This is just an example,
 // so you can safely delete all default props below
 
-export default {
-  app: {
-    name: 'Sistema Cotafácil'
-  },
-  messages: {
-    fieldRequired: 'Este campo é obrigatório',
-    emailInvalid: 'O email informado não é válido',
-    phoneInvalid: 'O fone informado não é válido',
-    gmapsReqNoData: 'Pesquisa sem resultados',
-  },
+export const translate = {
   login: {
     continue: 'Continuar',
     confirm: 'Confirmação',
@@ -45,6 +36,6 @@ export default {
     passNoMatch: 'As senhas não coincidem',
     registerLabel: "Nunca esteve aqui?",
     signinLabel: "Já tem cadastro?",
-    signin: 'Faça o login'
+    signin: 'Faça o login',    
   }
 }
