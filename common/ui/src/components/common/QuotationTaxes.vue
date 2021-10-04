@@ -186,13 +186,17 @@ export default {
         });
     },
 
-    formatMoney(value) {
+    formatMoney(value) {      
       let format = new Intl.NumberFormat(this.$i18n.locale, {
         style   : 'currency',
         currency: 'BRL',
       });
 
-      return format.format(value);
+      return value;
+      /*
+      * @todo Arrumar a formatação.
+      */
+      //format.format(value);
     },
   },
 };
