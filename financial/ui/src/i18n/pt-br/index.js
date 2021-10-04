@@ -2,6 +2,10 @@
 // so you can safely delete all default props below
 
 export const translate = {
+  finance:{
+    orders: 'Pedidos',
+    order: 'Pedido'
+  },
   invoice: {
     statuses: {
       'waiting payment': 'Aguardando pagamento',
