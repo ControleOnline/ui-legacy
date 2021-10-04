@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="row justify-center items-center">
-    <q-card class="my-card">
+    <q-card class="login my-card">
       <q-card-section class="bg-primary text-white text-center">
         <div class="text-h6 text-uppercase"       >{{ $t('Recupere sua senha') }}</div>
         <div class="text-subtitle2 text-uppercase">{{ $t('Sistema Cotafácil') }}</div>
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style lang="stylus">
-.my-card
+.login.my-card
   margin-left  5px
   margin-right 5px
   @media (min-width: $breakpoint-sm-min)
