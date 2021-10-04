@@ -20,6 +20,8 @@ export const translate = {
     purchasingorders: 'Pedidos de Compra',
     financepay: 'Contas à Pagar',
     financereceive: 'Contas à Receber',
+    myprofile: 'Meu Perfil',
+    mycompany: 'Minhas Empresas'
   },
   messages: {
     fieldRequired: 'Este campo é obrigatório',
