@@ -3,9 +3,9 @@
 
 export const translate = {
   order: {
-    inMyCompany: 'Base ou Ponto de Encontro',
-    inOtherPlace: 'Coleta por Guincho',
-    inOtherPlaceDelivery: 'Entrega por Guincho',
+    inMyCompany: 'Em minha Empresa',
+    inOtherPlace: 'Em outro Local',
+    inOtherPlaceDelivery: 'Em outro Local',
     statuses: {
       'quote': 'Cotação',
       'waiting client invoice tax': 'Aguardando nota fiscal',
