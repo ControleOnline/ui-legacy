@@ -8,7 +8,18 @@ export const translate = {
     }
   },
   menu: {
-    carriers: 'Bases'
+    home: 'Home',
+    carriers: 'Transportadoras',
+    quotes: 'Cotação',
+    clients: 'Clientes',
+    contracts: 'Contratos',
+    salesorders: 'Pedidos de Venda',
+    profissionals: 'Profissionais',
+    providers: 'Fonecedores',
+    serviceorders: 'Ordens de Serviço',
+    purchasingorders: 'Pedidos de Compra',
+    financepay: 'Contas à Pagar',
+    financereceive: 'Contas à Receber',
   },
   messages: {
     fieldRequired: 'Este campo é obrigatório',
