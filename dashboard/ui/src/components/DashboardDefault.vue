@@ -56,7 +56,7 @@
     <q-card class="q-pa-md q-mb-sm">
       <div class="row q-col-gutter-sm">
         <div
-          class="col-xs-12  col-md-4 col-sm-6"
+          class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12"
           v-for="element in elements"
           :key ="element.name"
         >
