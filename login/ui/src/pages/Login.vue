@@ -10,7 +10,7 @@
     <!-- SIGNUP STEP TO STEP -->
     <q-dialog
       maximized
-      no-esc-dismiss
+       
       no-backdrop-dismiss
       v-model="dialogs.signup.visible"
       transition-show="slide-left"

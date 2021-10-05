@@ -40,7 +40,7 @@
     </q-card>
 
     <q-dialog
-      no-esc-dismiss
+       
       no-backdrop-dismiss
       v-model="recovery"
       transition-show="scale"
