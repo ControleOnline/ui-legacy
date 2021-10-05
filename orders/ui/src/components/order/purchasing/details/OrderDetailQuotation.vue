@@ -20,7 +20,7 @@
     </div>
 
     <!-- CHECKUP STEP TO STEP -->
-    <q-dialog maximized no-esc-dismiss no-backdrop-dismiss
+    <q-dialog maximized   no-backdrop-dismiss
       v-model        ="dialog"
       transition-show="slide-left"
       transition-hide="slide-right"
