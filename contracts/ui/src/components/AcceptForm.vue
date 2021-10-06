@@ -30,8 +30,7 @@
           type="text"
           :label="$t('Cor do carro')"
           placeholder="Cor do carro"
-          :rules="[isInvalid('car_color')]"
-          :disable="payer.other_informations.carColor ? true : false"
+          :rules="[isInvalid('car_color')]"          
         />
       </div>
       <div class="col-xs-12 col-sm-4 q-mb-sm">
@@ -44,8 +43,7 @@
           type="text"
           :label="$t('Placa do Carro')"
           placeholder="Placa do Carro"
-          :rules="[isInvalid('car_number')]"
-          :disable="payer.other_informations.carNumber ? true : false"
+          :rules="[isInvalid('car_number')]"          
         />
       </div>
       <div class="col-xs-12 col-sm-4 q-mb-sm">
@@ -58,8 +56,7 @@
           type="text"
           :label="$t('Renavan')"
           placeholder="Renavan"
-          :rules="[isInvalid('renavan')]"
-          :disable="payer.other_informations.renavan ? true : false"
+          :rules="[isInvalid('renavan')]"          
         />
       </div>      
     </div>
@@ -75,8 +72,7 @@
         :options="[
           { label: 'Pessoa Jurídica', value: 'PJ' },
           { label: 'Pessoa Física', value: 'PF' },
-        ]"
-        :disable="payer.document ? true : false"
+        ]"        
       />
     </div>
 
@@ -96,8 +92,7 @@
           :placeholder="
             form.personType == 'PJ' ? 'Digite o CNPJ' : 'Digite o CPF'
           "
-          :rules="[isInvalid('document')]"
-          :disable="payer.document ? true : false"
+          :rules="[isInvalid('document')]"          
         />
       </div>
     </div>
@@ -110,8 +105,7 @@
           v-model="form.name"
           type="text"
           :label="form.personType == 'PJ' ? 'Razão social' : 'Nome'"
-          :rules="[isInvalid('name')]"
-          :disable="payer.name ? true : false"
+          :rules="[isInvalid('name')]"          
         />
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
@@ -121,8 +115,7 @@
           v-model="form.alias"
           type="text"
           :label="form.personType == 'PJ' ? 'Nome fantasia' : 'Sobrenome'"
-          :rules="[isInvalid('alias')]"
-          :disable="payer.alias ? true : false"
+          :rules="[isInvalid('alias')]"          
         />
       </div>
     </div>
@@ -137,8 +130,7 @@
           type="text"
           :label="$t('Email')"
           placeholder="E-mail"
-          :rules="[isInvalid('email')]"
-          :disable="payer.email ? true : false"
+          :rules="[isInvalid('email')]"          
         />
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
@@ -152,8 +144,7 @@
           :label="$t('Telefone')"
           mask="(##) #####-####"
           placeholder="Telefone"
-          :rules="[isInvalid('phone')]"
-          :disable="payer.phone ? true : false"
+          :rules="[isInvalid('phone')]"          
         />
       </div>
     </div>
@@ -168,17 +159,7 @@
           :isLoading="isSearching"
           label="Busca de endereço"
           @selected="onSelect"
-          placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-          :disable="
-            payer.address.postal_code ||
-            payer.address.street ||
-            payer.address.number ||
-            payer.address.district ||
-            payer.address.city ||
-            payer.address.state
-              ? true
-              : false
-          "
+          placeholder="Digite o endereço completo (rua, número, bairro, CEP)"          
         />
       </div>
     </div>
@@ -194,8 +175,7 @@
           type="text"
           :label="$t('CEP')"
           mask="#####-###"
-          :rules="[isInvalid('postal_code')]"
-          :disable="payer.address.postal_code ? true : false"
+          :rules="[isInvalid('postal_code')]"          
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -206,8 +186,7 @@
           v-model="form.address.street"
           type="text"
           :label="$t('Rua')"
-          :rules="[isInvalid('street')]"
-          :disable="payer.address.street ? true : false"
+          :rules="[isInvalid('street')]"          
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -218,8 +197,7 @@
           v-model="form.address.number"
           type="text"
           :label="$t('Número')"
-          :rules="[isInvalid('number')]"
-          :disable="payer.address.number ? true : false"
+          :rules="[isInvalid('number')]"          
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -228,8 +206,7 @@
           hide-bottom-space
           v-model="form.address.complement"
           type="text"
-          :label="$t('Complemento')"
-          :disable="payer.address.complement ? true : false"
+          :label="$t('Complemento')"          
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -240,8 +217,7 @@
           v-model="form.address.district"
           type="text"
           :label="$t('Bairro')"
-          :rules="[isInvalid('district')]"
-          :disable="payer.address.district ? true : false"
+          :rules="[isInvalid('district')]"          
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -252,8 +228,7 @@
           v-model="form.address.city"
           type="text"
           :label="$t('Cidade')"
-          :rules="[isInvalid('city')]"
-          :disable="payer.address.city ? true : false"
+          :rules="[isInvalid('city')]"          
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -265,8 +240,7 @@
           type="text"
           :label="$t('UF')"
           mask="AA"
-          :rules="[isInvalid('state')]"
-          :disable="payer.address.state ? true : false"
+          :rules="[isInvalid('state')]"          
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -277,8 +251,7 @@
           v-model="form.address.country"
           type="text"
           :label="$t('País')"
-          :rules="[isInvalid('country')]"
-          :disable="payer.address.country ? true : false"
+          :rules="[isInvalid('country')]"          
         />
       </div>
     </div>
