@@ -21,7 +21,7 @@
               {{ formatMoney(tax.total) }}
             </td>
           </tr>
-        </tbody>        
+        </tbody>
       </q-markup-table>
     </q-card-section>
 
@@ -47,7 +47,8 @@
         reverse-fill-mask
         prefix="R$"
         v-model="taxValue"
-        type="text"
+        :style="showValues == false ? 'visibility:hidden' : 'visibility:visible'"
+        type="number"
         label="Valor"
         mask="#,##"
         fill-mask="0"
@@ -93,6 +94,7 @@ export default {
     return {
       isSaving: false,
       taxValue: 0,
+      showValues: false,
       quoteTaxes: this.quote.taxes,
       isloadingTaxes: false,
       deliveryTaxes: [],
@@ -101,8 +103,9 @@ export default {
   },
 
   methods: {
-    onSelect(item) {      
-        this.taxValue = this.newTax.price;
+    onSelect(item) {
+      this.showValues = true;
+      this.taxValue = this.newTax.price;
     },
     addnewTax() {
       if (!this.newTax) {
@@ -114,13 +117,13 @@ export default {
 
       this.createQuoteTax({
         id: this.newTax.value,
-        value: this.taxValue.replace(',', '.') ,
+        value: this.taxValue.replace(",", "."),
       })
         .then((quotation) => {
           if (quotation["@id"]) {
             this.quoteTaxes.push({
               name: this.newTax.label,
-              total: this.taxValue.replace(',', '.') ,
+              total: this.taxValue.replace(",", "."),
             });
 
             this.$emit("added", {
@@ -128,7 +131,7 @@ export default {
               tax: {
                 id: this.newTax.value,
                 name: this.newTax.label,
-                price: this.taxValue.replace(',', '.') ,
+                price: this.taxValue.replace(",", "."),
               },
             });
           }
