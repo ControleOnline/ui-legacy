@@ -32,8 +32,7 @@
       <CheckoutPage
         :order="order"
         :quoteContact="contact"
-        @finished="onFinished"
-        @load="onCheckOut"
+        @finished="onFinished"        
       />
     </q-dialog>
 
@@ -80,6 +79,7 @@ export default {
 
   data() {
     return {
+      contact:[],
       order: null,
       isLoading: false,
       editable: false,
