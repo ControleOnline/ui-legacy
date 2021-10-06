@@ -386,10 +386,10 @@ export default {
         params["orderStatus"] = this.filters.status.value;
       } else {
 
-        //console.log(typeof this.defaultCompany.config.salesOrdersStartRealStatus);
+        
         params["orderStatus.realStatus"] = 
-        (this.defaultCompany.config && typeof this.defaultCompany.config.salesOrdersStartRealStatus  != 'undefined')
-          ? JSON.parse(this.defaultCompany.config.salesOrdersStartRealStatus)
+        (this.defaultCompany.configs && typeof this.defaultCompany.configs.salesOrdersStartRealStatus  != 'undefined')
+          ? JSON.parse(this.defaultCompany.configs.salesOrdersStartRealStatus)
           : ["pending"];
       }
 
