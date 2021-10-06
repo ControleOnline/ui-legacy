@@ -79,7 +79,7 @@ export default {
 
   data() {
     return {
-      contact:[],
+      contact:{},
       order: null,
       isLoading: false,
       editable: false,
