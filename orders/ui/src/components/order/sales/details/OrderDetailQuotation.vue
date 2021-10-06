@@ -23,7 +23,7 @@
     <!-- ORDER STEP TO STEP -->
     <q-dialog
       maximized
-      no-esc-dismiss
+      
       no-backdrop-dismiss
       v-model="dialog"
       transition-show="slide-left"

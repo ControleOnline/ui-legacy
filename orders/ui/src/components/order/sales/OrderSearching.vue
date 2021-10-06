@@ -234,6 +234,7 @@ export default {
         text: null,
         status: statuses[0],
         company: null,
+        defaultCompany: null,
       },
       pagination: {
         sortBy: "ultimaModificacao",
@@ -248,6 +249,7 @@ export default {
 
   computed: {
     ...mapGetters({
+      defaultCompany: "people/defaultCompany",
       isLoading: "salesOrder/isLoading",
       error: "salesOrder/error",
       violations: "salesOrder/violations",
@@ -383,8 +385,11 @@ export default {
       if (this.filters.status != null && this.filters.status.value != -1) {
         params["orderStatus"] = this.filters.status.value;
       } else {
-        params["orderStatus.realStatus"] = this.filters.company.config.salesOrdersStartRealStatus
-          ? JSON.parse(this.filters.company.config.salesOrdersStartRealStatus)
+
+        //console.log(typeof this.defaultCompany.config.salesOrdersStartRealStatus);
+        params["orderStatus.realStatus"] = 
+        (this.defaultCompany.config && typeof this.defaultCompany.config.salesOrdersStartRealStatus  != 'undefined')
+          ? JSON.parse(this.defaultCompany.config.salesOrdersStartRealStatus)
           : ["pending"];
       }
 
