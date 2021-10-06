@@ -9,7 +9,19 @@
       Carregando...
     </div>
 
-    <!-- BILLET VIEWER -->
+    <!-- BILLET VIEWER INTER -->
+
+    <div :class="showBilletInter ? 'full-width q-pa-lg' : 'hidden'">
+      <div style="height: 1200px">
+        <iframe
+            :src="invoiceUrlInter"
+            name="BILLETINTER" width="100%" height="100%" frameBorder="0">
+          <p>This browser does not support IFrame.</p>
+        </iframe>
+      </div>
+    </div>
+
+    <!-- BILLET VIEWER ITAU -->
 
     <div :class="showBillet ? 'full-width q-pa-lg' : 'hidden'">
       <q-form
@@ -123,7 +135,8 @@ export default {
 
   data() {
     return {
-      base64PDF: 'https://www.uol.com.br',
+      invoiceUrlInter: null,
+      showBilletInter: null,
       isLoadingDownload: false,
       isLoading: false,
       payment: null,
@@ -140,14 +153,12 @@ export default {
     ...mapGetters({
       myCompany: 'people/currentCompany',
     }),
-
     paymentIsPending() {
       if (this.payment === null)
         return false;
 
       return this.payment.invoiceRealStatus === 'pending';
     },
-
     billetMustBeCreated() {
       if (this.payment === null)
         return false;
@@ -178,6 +189,15 @@ export default {
                 this.showBillet = true;
               }
             });
+          } else { // -------------------------------------- Banco Inter
+
+            this.showBillet = false;
+            this.mountInvoiceUrlInter()
+                .then(url => {
+                  this.invoiceUrlInter = url;
+                  this.showBilletInter = true;
+                });
+
           }
         } else {
           this.showBillet = false;
@@ -191,6 +211,7 @@ export default {
             isPaid: data.paymentStatus === 'paid'
           }
       );
+
     },
 
     showBillet(show) {
@@ -207,16 +228,23 @@ export default {
       getBankPerInvoiceId: 'receiveInvoice/getBankPerInvoiceId',
     }),
 
-    clickDownloadBilletInter() {
+    mountInvoiceUrlInter() {
       let invoiceUrl = encodeURIComponent(this.payment.invoiceUrl);
-      axios({
-        url: ENTRYPOINT + '/download?invoiceUrl=' + invoiceUrl,
+      return axios({
+        url: ENTRYPOINT + `/download?invoiceUrl=${invoiceUrl}&timestamp=${new Date().getTime()}`,
         method: 'get',
         responseType: 'blob'
       }).then((response) => {
         let blob = new Blob([response.data], {type: 'application/pdf'}), url = window.URL.createObjectURL(blob);
-        window.open(url);
+        return url;
       });
+    },
+
+    clickDownloadBilletInter() {
+      this.mountInvoiceUrlInter()
+          .then(url => {
+            window.open(url);
+          });
     },
 
     getBank() {
