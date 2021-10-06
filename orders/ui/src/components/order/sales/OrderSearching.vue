@@ -383,7 +383,9 @@ export default {
       if (this.filters.status != null && this.filters.status.value != -1) {
         params["orderStatus"] = this.filters.status.value;
       } else {
-        params["orderStatus.realStatus"] = ["pending"];
+        params["orderStatus.realStatus"] = this.filters.company.status
+          ? this.filters.company.salesOrdersStartRealStatus
+          : ["pending"];
       }
 
       if (this.filters.company != null) {
