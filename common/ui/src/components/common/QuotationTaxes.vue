@@ -8,42 +8,58 @@
       <q-markup-table>
         <thead>
           <tr>
-            <th class="text-left" >Nome</th>
+            <th class="text-left">Nome</th>
             <th class="text-right">Valor</th>
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="(tax, index) in quoteTaxes"
-            :key ="index"
-          >
-            <td class="text-left" >
+          <tr v-for="(tax, index) in quoteTaxes" :key="index">
+            <td class="text-left">
               {{ tax.name }}
             </td>
             <td class="text-right">
               {{ formatMoney(tax.total) }}
             </td>
           </tr>
-        </tbody>
+        </tbody>        
       </q-markup-table>
     </q-card-section>
 
     <q-card-section>
       <q-separator />
-      <div class="text-subtitle2 q-mt-sm q-mb-sm text-center">Taxas opcionais</div>
-      <q-select outlined filled stack-label
-        v-model ="newTax"
-        label   ="Taxa"
+      <div class="text-subtitle2 q-mt-sm q-mb-sm text-center">
+        Taxas opcionais
+      </div>
+      <q-select
+        outlined
+        filled
+        stack-label
+        v-model="newTax"
+        label="Taxa"
+        @input="onSelect"
         :options="deliveryTaxes"
         :loading="isloadingTaxes"
       >
       </q-select>
+      <q-input
+        lazy-rules
+        stack-label
+        reverse-fill-mask
+        prefix="R$"
+        v-model="taxValue"
+        type="text"
+        label="Valor"
+        mask="#,##"
+        fill-mask="0"
+        placeholder="Digite um valor"
+        :loading="isloadingTaxes"
+      />
       <div class="row q-mt-sm justify-end">
         <q-btn
-          color   ="primary"
-          label   ="Adicionar"
+          color="primary"
+          label="Adicionar"
           :loading="isSaving"
-          @click  ="addnewTax"
+          @click="addnewTax"
         />
       </div>
     </q-card-section>
@@ -51,21 +67,21 @@
 </template>
 
 <script>
-import { mapGetters }  from 'vuex';
-import { fetch }       from '../../../../../../src/boot/myapi';
-import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
+import { mapGetters } from "vuex";
+import { fetch } from "../../../../../../src/boot/myapi";
+import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 
 export default {
   props: {
     quote: {
-      type    : Object,
+      type: Object,
       required: true,
-      default : () => {
+      default: () => {
         return {
-          id   : null,
-          taxes: []
-        }
-      }
+          id: null,
+          taxes: [],
+        };
+      },
     },
   },
 
@@ -73,68 +89,68 @@ export default {
     this.loadDeliveryTaxes();
   },
 
-  data () {
+  data() {
     return {
-      isSaving      : false,
-      quoteTaxes    : this.quote.taxes,
+      isSaving: false,
+      taxValue: 0,
+      quoteTaxes: this.quote.taxes,
       isloadingTaxes: false,
-      deliveryTaxes : [],
-      newTax         : null
-    }
+      deliveryTaxes: [],
+      newTax: null,
+    };
   },
 
   methods: {
+    onSelect(item) {      
+        this.taxValue = this.newTax.price;
+    },
     addnewTax() {
       if (!this.newTax) {
-        this.$emit('error', { message: 'A taxa não foi selecionada' });
+        this.$emit("error", { message: "A taxa não foi selecionada" });
         return;
       }
 
       this.isSaving = true;
 
       this.createQuoteTax({
-        id   : this.newTax.value,
-        value: this.newTax.price,
+        id: this.newTax.value,
+        value: this.taxValue.replace(',', '.') ,
       })
-      .then(quotation => {
-        if (quotation['@id']) {
-          this.quoteTaxes.push({
-            name : this.newTax.label,
-            total: this.newTax.price,
-          });
+        .then((quotation) => {
+          if (quotation["@id"]) {
+            this.quoteTaxes.push({
+              name: this.newTax.label,
+              total: this.taxValue.replace(',', '.') ,
+            });
 
-          this.$emit(
-            'added',
-            {
-              id : this.quote.id,
+            this.$emit("added", {
+              id: this.quote.id,
               tax: {
-                id   : this.newTax.value,
-                name : this.newTax.label,
-                price: this.newTax.price,
-              }
-            }
-          );
-        }
-      })
-      .catch(error => {
-        this.$emit('error', error);
-      })
-      .finally(() => {
-        this.isSaving = false;
-        this.newTax   = null;
-      });
+                id: this.newTax.value,
+                name: this.newTax.label,
+                price: this.taxValue.replace(',', '.') ,
+              },
+            });
+          }
+        })
+        .catch((error) => {
+          this.$emit("error", error);
+        })
+        .finally(() => {
+          this.isSaving = false;
+          this.newTax = null;
+        });
     },
 
     loadDeliveryTaxes() {
-      if (this.isloadingTaxes)
-        return;
+      if (this.isloadingTaxes) return;
 
       this.isloadingTaxes = true;
 
       this.getDeliveryTaxes()
-        .then(taxes => {
+        .then((taxes) => {
           if (taxes) {
-            taxes.forEach(element => {
+            taxes.forEach((element) => {
               this.deliveryTaxes.push({
                 label: element.name,
                 value: element.id,
@@ -150,8 +166,8 @@ export default {
 
     getDeliveryTaxes() {
       return fetch(`/quotations/${this.quote.id}/optional-taxes`)
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           if (data.response) {
             if (data.response.success === false)
               throw Error(data.response.error);
@@ -165,18 +181,19 @@ export default {
 
     createQuoteTax(tax) {
       let options = {
-        method: 'PUT',
-        body  : JSON.stringify({
-          "id"   : tax.id,
-          "value": tax.value
-        })
+        method: "PUT",
+        body: JSON.stringify({
+          id: tax.id,
+          value: tax.value,
+        }),
       };
 
       return fetch(`/quotations/${this.quote.id}/add-deliverytax`, options)
-        .then(response => response.json())
-        .then(quotation => {
+        .then((response) => response.json())
+        .then((quotation) => {
           return quotation;
-        }).catch(e => {
+        })
+        .catch((e) => {
           if (e instanceof SubmissionError) {
             throw Error(e.errors._error);
             return;
@@ -186,16 +203,16 @@ export default {
         });
     },
 
-    formatMoney(value) {      
+    formatMoney(value) {
       let format = new Intl.NumberFormat(this.$i18n.locale, {
-        style   : 'currency',
-        currency: 'BRL',
+        style: "currency",
+        currency: "BRL",
       });
 
       return value;
       /*
-      * @todo Arrumar a formatação.
-      */
+       * @todo Arrumar a formatação.
+       */
       //format.format(value);
     },
   },
