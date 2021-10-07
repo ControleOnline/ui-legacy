@@ -12,34 +12,84 @@
       </div>
 
       <div class="col-12" v-else>
-        <!-- UPLOAD DACTE -->
-
         <div class="row" v-if="invoiceTax === null">
-          <div class="col-12">
-            <div class="text-subtitle1 q-mt-md q-mb-md">
-              Faça upload do DACTE
-            </div>
+          <!-- DACTE FORM -->
 
-            <UploadFileForm
-              class="q-mb-md"
-              :endpoint="updEndpoint"
-              @fileUploaded="onUploadedFile"
-              @uploadFailed="onUploadFailed"
-              @filesRemoved="onFilesRemoved"
-              :multiple="false"
-              accepted=".xml"
-              :showError="false"
-            />
+          <div class="col-12" v-if="dacteMode == 'fields'">
+            <q-form @submit="updateDacte" class="q-mt-sm" ref="myForm">
+              <div class="row q-col-gutter-sm">
+                <div class="col-xs-12 col-sm-6">
+                  <q-input
+                    outlined
+                    stack-label
+                    lazy-rules
+                    reverse-fill-mask
+                    v-model="item.dacte"
+                    type="text"
+                    label="Número do DACTE"
+                    mask="#"
+                    :rules="[isInvalid('dacte')]"
+                  />
+                </div>
+
+                <div class="col-xs-12 col-sm-6">
+                  <q-input
+                    outlined
+                    stack-label
+                    lazy-rules
+                    reverse-fill-mask
+                    prefix="R$"
+                    v-model="item.total"
+                    type="text"
+                    label="Valor"
+                    mask="#,##"
+                    :rules="[isInvalid('total')]"
+                    fill-mask="0"
+                  />
+                </div>
+              </div>
+
+              <div class="row justify-end q-mt-lg">
+                <q-btn
+                  type="submit"
+                  color="primary"
+                  label="Salvar"
+                  :loading="isSaving"
+                />
+              </div>
+            </q-form>
           </div>
-          <div class="col-12" v-if="uploadErrors.length > 0">
-            <q-banner
-              v-for="(error, index) in uploadErrors"
-              :key="index"
-              class="text-white bg-red q-mb-xs"
-            >
-              <q-icon left size="md" name="error" color="white" />
-              {{ error }}
-            </q-banner>
+
+          <!-- UPLOAD DACTE -->
+
+          <div class="col-12">
+            <div class="row">
+              <div class="col-12">
+                <div class="text-subtitle1 q-mt-md q-mb-md">
+                  Faça upload do DACTE
+                </div>
+                <UploadFileForm
+                  class="q-mb-md"
+                  :endpoint="updEndpoint"
+                  @fileUploaded="onUploadedFile"
+                  @uploadFailed="onUploadFailed"
+                  @filesRemoved="onFilesRemoved"
+                  :multiple="false"
+                  accepted=".xml"
+                  :showError="false"
+                />
+              </div>
+              <div class="col-12" v-if="uploadErrors.length > 0">
+                <q-banner
+                  v-for="(error, index) in uploadErrors"
+                  :key="index"
+                  class="text-white bg-red q-mb-xs"
+                >
+                  <q-icon left size="md" name="error" color="white" />
+                  {{ error }}
+                </q-banner>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -68,6 +118,8 @@
 </template>
 
 <script>
+import { date } from "quasar";
+import { fetch } from "../../../../../../../../src/boot/myapi";
 import UploadFileForm from "@controleonline/quasar-common-ui/src/components/common/UploadFileForm.vue";
 import { mapActions, mapGetters } from "vuex";
 import { ENTRYPOINT } from "../../../../../../../../src/config/entrypoint";
@@ -93,6 +145,12 @@ export default {
       isDownloading: false,
       uploadErrors: [],
       invoiceTax: null,
+      dacteMode: "upload",
+      isSaving: false,
+      item: {
+        dacte: null,
+        total: null,
+      },
     };
   },
 
@@ -130,6 +188,42 @@ export default {
       getItem: "salesOrder/getDetailOrder",
     }),
 
+    updateDacte() {
+      if (this.isSaving) return;
+
+      this.isSaving = true;
+
+      let options = {
+        method: "PUT",
+        body: JSON.stringify({
+          total: parseFloat(this.item.total.replace(",", ".")),
+          dacte: this.item.dacte,
+        }),
+        params: {
+          myCompany: this.myCompany.id,
+        },
+      };
+
+      return fetch(`sales/orders/${this.orderId}/detail/update-dacte`, options)
+        .then((response) => response.json())
+        .then((order) => {
+          if (order !== null) {
+            this.$q.notify({
+              message: "DACTE atualizado com sucesso",
+              position: "bottom",
+              type: "positive",
+            });
+
+            this.onRequest();
+
+            this.$emit("fileUploaded");
+          }
+        })
+        .finally(() => {
+          this.isSaving = false;
+        });
+    },
+
     onFilesRemoved() {
       this.uploadErrors = [];
     },
@@ -142,6 +236,8 @@ export default {
         position: "bottom",
         type: "positive",
       });
+
+      this.onRequest();
 
       this.$emit("fileUploaded");
     },
@@ -170,8 +266,20 @@ export default {
             );
             this.invoiceTax = invoiceTax || null;
           }
+
+          if (order.sameCity || order.sameState) {
+            this.dacteMode = "fields";
+          }
         }
       });
+    },
+
+    isInvalid(key) {
+      return (val) => {
+        if (!(val && val.length > 0))
+          return this.$t("Este campo é obrigatório");
+        return true;
+      };
     },
   },
 };

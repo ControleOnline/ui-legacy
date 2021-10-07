@@ -1,13 +1,26 @@
 <template>
   <div class="row q-pa-md">
     <div class="col-12">
-      <InvoiceSearching :search="false" :orderId="orderId" />
+      <OrderInvoiceButton
+        :order="{
+          '@id': `/purchasing/orders/${orderId}`
+        }"
+        @created="$refs.invoicesRef.reload()"
+      />
+    </div>
+    <div class="col-12">
+      <InvoiceSearching
+        ref     ="invoicesRef"
+        :search ="false"
+        :orderId="orderId"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import InvoiceSearching   from '@controleonline/quasar-financial-ui/src/components/invoice/pay/InvoiceSearching.vue';
+import InvoiceSearching   from '@controleonline/quasar-financial-ui/src/components/invoice/pay/InvoiceSearching';
+import OrderInvoiceButton from '@controleonline/quasar-common-ui/src/components/common/NewOrderInvoiceButton';
 
 export default {
   props: {
@@ -18,29 +31,14 @@ export default {
   },
 
   components: {
-    InvoiceSearching,
-  },
-  
-  created() {
-
+    InvoiceSearching  ,
+    OrderInvoiceButton,
   },
 
   data() {
     return {
 
     };
-  },
-
-  computed: {
-
-  },
-
-  watch: {
-
-  },
-
-  methods: {
-
   },
 };
 </script>
