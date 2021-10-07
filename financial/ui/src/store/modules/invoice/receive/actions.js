@@ -1,13 +1,13 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import {fetch} from '../../../../../../../../src/boot/myapi';
+import { fetch } from '../../../../../../../../src/boot/myapi';
 import * as types from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/finance/receive';
 
-export const getItems = ({commit}, params = {}) => {
+export const getItems = ({ commit }, params = {}) => {
     commit(types.SET_ISLOADING);
 
-    return fetch(RESOURCE_ENDPOINT, {params})
+    return fetch(RESOURCE_ENDPOINT, { params })
         .then(response => response.json())
         .then(data => {
             commit(types.SET_ISLOADING, false);
@@ -32,12 +32,12 @@ export const getItems = ({commit}, params = {}) => {
         });
 };
 
-export const reset = ({commit}) => {
+export const reset = ({ commit }) => {
     commit(types.RESET);
 };
 
-export const getStatuses = ({commit}, params = {}) => {
-    return fetch('/invoice_statuses', {params})
+export const getStatuses = ({ commit }, params = {}) => {
+    return fetch('/invoice_statuses', { params })
         .then(response => response.json())
         .then(data => {
 
@@ -55,16 +55,16 @@ export const getStatuses = ({commit}, params = {}) => {
         });
 };
 
-export const getInvoice = ({commit}, {invoiceId, params}) => {
-    return fetch(`/finance/receive/${invoiceId}`, {params})
+export const getInvoice = ({ commit }, { invoiceId, params }) => {
+    return fetch(`/finance/receive/${invoiceId}`, { params })
         .then(response => response.json())
         .then(data => {
             return data;
         });
 };
 
-export const bankItau = ({commit}, {invoiceId, operation, params = {}}) => {
-    return fetch(`/finance/receive/${invoiceId}/bank/itau/${operation}`, {params})
+export const bankItau = ({ commit }, { invoiceId, operation, params = {} }) => {
+    return fetch(`/finance/receive/${invoiceId}/bank/itau/${operation}`, { params })
         .then(response => response.json())
         .then(data => {
             if (data.response) {
@@ -74,8 +74,8 @@ export const bankItau = ({commit}, {invoiceId, operation, params = {}}) => {
         });
 };
 
-export const bankInter = ({commit}, {invoiceId, operation, params = {}}) => {
-    return fetch(`/finance/receive/${invoiceId}/bank/inter/${operation}`, {params})
+export const bankInter = ({ commit }, { invoiceId, operation, params = {} }) => {
+    return fetch(`/finance/receive/${invoiceId}/bank/inter/${operation}`, { params })
         .then(response => response.json())
         .then(data => {
             if (data.response) {
@@ -85,12 +85,49 @@ export const bankInter = ({commit}, {invoiceId, operation, params = {}}) => {
         });
 };
 
-export const getBankPerInvoiceId = ({commit}, {invoiceId, params = {}}) => {
-    return fetch(`/finance/receive/${invoiceId}/bank`, {params})
+export const getBankPerInvoiceId = ({ commit }, { invoiceId, params = {} }) => {
+    return fetch(`/finance/receive/${invoiceId}/bank`, { params })
         .then(response => response.json())
         .then(data => {
             if (data.response)
                 return data.response.data !== null ? data.response.data : null;
+            return null;
+        });
+};
+
+
+export const updateInvoiceDuedate = ({ commit }, { id, dueDate, params }) => {
+    let options = {
+        method: 'PUT',
+        body: JSON.stringify({ dueDate }),
+        params: params
+    };
+
+    return fetch(`${id}`, options)
+        .then(response => response.json())
+        .then(invoice => {
+            if (invoice['@id'])
+                return invoice;
+
+            return null;
+        });
+};
+
+export const deleteInvoiceOrder = ({ commit }, { invoiceId, orderId, params }) => {
+    let options = {
+        method: 'PUT',
+        body: JSON.stringify({ orderId }),
+        params: params
+    };
+
+    return fetch(`${invoiceId}/remove-order`, options)
+        .then(response => response.json())
+        .then(data => {
+            if (data.response) {
+                if (data.response.success === false)
+                    throw Error(data.response.error);
+            }
+
             return null;
         });
 };
