@@ -172,7 +172,7 @@
 import {fetch} from 'boot/myapi';
 import {mapActions, mapGetters} from 'vuex';
 import axios from 'axios';
-import {ENTRYPOINT} from '../../../src/config/entrypoint';
+import {ENTRYPOINT} from '../../../../../../src/config/entrypoint';
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
 
 const msgErro = 'Este campo é obrigatório';
