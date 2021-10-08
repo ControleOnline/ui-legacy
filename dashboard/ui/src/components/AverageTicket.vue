@@ -7,8 +7,8 @@
     </div>
     <div class="col-9">
       <div class="column">
-        <div class="col-6 text-right text-uppercase">
-          {{ $t('dashboard.average_ticket') }}
+        <div class="col-6 text-right text-uppercase">          
+          {{ $t('dashboard.average_ticket') }} ({{ (data.average_ticket || 0) | formatMoney }})
         </div>
         <div class="col-6 text-right text-green-14 text-h6">
           {{
