@@ -272,7 +272,7 @@ export default {
       this.$refs.administrativeExpenses.reload();
       this.$refs.netProfit.reload();
       this.$refs.chartSalesMoney.reload();
-      this.$refs.chartSalesOrder.reload();
+      //this.$refs.chartSalesOrder.reload();
     },
   },
 };
