@@ -15,7 +15,14 @@
           :to="filters.to"
         />
       </template>
-
+      <template v-slot:active-contracts="{ config, filters }">
+        <dashboard-active-contracts
+          ref="activeContracts"
+          :config="config"
+          :from="filters.from"
+          :to="filters.to"
+        />
+      </template>
       <template v-slot:active-customers="{ config, filters }">
         <dashboard-active-customers
           ref="activeCustomers"
@@ -87,7 +94,14 @@
           :to="filters.to"
         />
       </template>
-
+      <template v-slot:operational-profit="{ config, filters }">
+        <dashboard-operational-profit
+          ref="operationalProfit"
+          :config="config"
+          :from="filters.from"
+          :to="filters.to"
+        />
+      </template>
       <template v-slot:administrative-expenses="{ config, filters }">
         <dashboard-administrative-expenses
           ref="administrativeExpenses"
@@ -96,16 +110,14 @@
           :to="filters.to"
         />
       </template>
-
-      <template v-slot:active-contracts="{ config, filters }">
-        <dashboard-active-contracts
-          ref="activeContracts"
+      <template v-slot:net-profit="{ config, filters }">
+        <dashboard-net-profit
+          ref="netProfit"
           :config="config"
           :from="filters.from"
           :to="filters.to"
         />
       </template>
-
       <template v-slot:chart-sales-money="{ config, filters }">
         <dashboard-chart-sales-money
           ref="chartSalesMoney"
@@ -114,7 +126,6 @@
           :to="filters.to"
         />
       </template>
-
       <template v-slot:chart-sales-order="{ config, filters }">
         <dashboard-chart-sales-order
           ref="chartSalesOrder"
@@ -186,7 +197,9 @@ export default {
       elements.push({
         name: "inactive-customers",
       });
-
+      elements.push({
+        name: "active-contracts",
+      });
       elements.push({
         name: "active-customers",
       });
@@ -218,15 +231,15 @@ export default {
       elements.push({
         name: "operational-expenses",
       });
-
+      elements.push({
+        name: "operational-profit",
+      });
       elements.push({
         name: "administrative-expenses",
       });
-
       elements.push({
-        name: "active-contracts",
+        name: "net-profit",
       });
-
       this.elements = elements;
     },
 
@@ -246,6 +259,7 @@ export default {
 
     onRefresh() {
       this.$refs.inactiveCustomers.reload();
+      this.$refs.activeContracts.reload();
       this.$refs.activeCustomers.reload();
       this.$refs.newCustomers.reload();
       this.$refs.prospectiveCustomers.reload();
@@ -254,8 +268,9 @@ export default {
       this.$refs.averageTicket.reload();
       this.$refs.comissionTotals.reload();
       this.$refs.operationalExpenses.reload();
+      this.$refs.operationalProfit.reload();
       this.$refs.administrativeExpenses.reload();
-      this.$refs.activeContracts.reload();
+      this.$refs.netProfit.reload();
       this.$refs.chartSalesMoney.reload();
       this.$refs.chartSalesOrder.reload();
     },
