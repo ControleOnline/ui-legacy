@@ -38,7 +38,7 @@ export default {
   },
 
   computed: {
-    operational_profit() {
+    net_profit() {
       return this.data.net_profit ? this.data.net_profit : {}
     }
   },
