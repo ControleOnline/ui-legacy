@@ -9,7 +9,7 @@ export const translate = {
     inactive_customers: 'Clientes inativos',
     active_customers: 'Clientes ativos',
     new_customers: 'Novos clientes',
-    prospective_customers: 'Prospectivos clientes',
+    prospective_customers: 'Prospects',
     quotes: 'Cotações',
     sales: 'Vendas',
     average_ticket: 'Ticket médio',
