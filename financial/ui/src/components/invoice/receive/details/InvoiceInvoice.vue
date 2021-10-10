@@ -15,7 +15,7 @@
       <div style="height: 1200px">
         <iframe
             :src="invoiceUrlInter"
-            name="BILLETINTER" width="100%" height="100%" frameBorder="0">
+            name="BILLETINTER" id="billet_inter" width="100%" height="100%" frameBorder="0">
           <p>This browser does not support IFrame.</p>
         </iframe>
       </div>
@@ -170,7 +170,6 @@ export default {
   watch: {
     myCompany(company) {
       if (company !== null) {
-        // this.getPaymentStatus();
         this.$router.push("/finance/receive");
       }
     },
@@ -182,21 +181,23 @@ export default {
       this.isPaid = data.paymentStatus === 'paid';
 
       if (data.paymentType == 'billet') {
+
         if (data.paymentStatus == 'created' && this.isPaid === false) {
+
           if (this.paymentInstitution === 'itau') {
             this.getItauHash().then(hash => {
               if (hash !== null) {
                 this.showBillet = true;
               }
             });
+
           } else { // -------------------------------------- Banco Inter
 
             this.showBillet = false;
-            this.mountInvoiceUrlInter()
-                .then(url => {
-                  this.invoiceUrlInter = url;
-                  this.showBilletInter = true;
-                });
+            let urlTmp = ENTRYPOINT + `/vendor/pdf.js/web/viewer.html?file=/finance/${this.invoiceId}/download`;
+            this.invoiceUrlInter = urlTmp;
+            this.isLoading = false;
+            this.showBilletInter = true;
 
           }
         } else {
@@ -241,10 +242,8 @@ export default {
     },
 
     clickDownloadBilletInter() {
-      this.mountInvoiceUrlInter()
-          .then(url => {
-            window.open(url);
-          });
+      let urlTmp = ENTRYPOINT + `/vendor/pdf.js/web/viewer.html?file=/finance/${this.invoiceId}/download`;
+      window.open(urlTmp);
     },
 
     getBank() {
@@ -356,7 +355,7 @@ export default {
           }).catch(error => {
             console.table(error);
           }).finally(() => {
-            this.isLoading = false;
+            // this.isLoading = false;
           });
 
         }
