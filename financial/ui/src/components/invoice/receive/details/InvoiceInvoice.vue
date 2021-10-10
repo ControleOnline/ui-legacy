@@ -202,6 +202,9 @@ export default {
           }
         } else {
           this.showBillet = false;
+          if (this.paymentInstitution === 'inter') {
+            this.isPaid = data.invoiceStatus === 'paid';
+          }
         }
       }
 
@@ -355,7 +358,7 @@ export default {
           }).catch(error => {
             console.table(error);
           }).finally(() => {
-            // this.isLoading = false;
+            this.isLoading = false;
           });
 
         }
