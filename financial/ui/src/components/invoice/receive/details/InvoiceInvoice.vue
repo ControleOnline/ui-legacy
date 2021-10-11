@@ -194,7 +194,7 @@ export default {
           } else { // -------------------------------------- Banco Inter
 
             this.showBillet = false;
-            let urlTmp = ENTRYPOINT + `/vendor/pdf.js/web/viewer.html?file=/finance/${this.invoiceId}/download`;
+            let urlTmp = ENTRYPOINT + `/vendor/pdf.js/web/viewer.html?file=/finance/${this.invoiceId}/download?timestamp${new Date().getTime()}`;
             this.invoiceUrlInter = urlTmp;
             this.isLoading = false;
             this.showBilletInter = true;
@@ -206,6 +206,7 @@ export default {
             this.isPaid = data.invoiceStatus === 'paid';
           }
         }
+
       }
 
       this.$emit(
@@ -245,7 +246,7 @@ export default {
     },
 
     clickDownloadBilletInter() {
-      let urlTmp = ENTRYPOINT + `/vendor/pdf.js/web/viewer.html?file=/finance/${this.invoiceId}/download`;
+      let urlTmp = ENTRYPOINT + `/vendor/pdf.js/web/viewer.html?file=/finance/${this.invoiceId}/download?timestamp${new Date().getTime()}`;
       window.open(urlTmp);
     },
 
