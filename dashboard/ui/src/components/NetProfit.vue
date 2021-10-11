@@ -13,7 +13,9 @@
         <div class="col-6 text-right text-green-14 text-h6">
           {{
             (net_profit || 0) | formatMoney
-          }}
+          }} ({{
+            (net_profit_percent || 0) 
+          }} %)
         </div>
       </div>
     </div>
@@ -38,6 +40,9 @@ export default {
   },
 
   computed: {
+    net_profit_percent(){
+      return this.data.net_profit_percent ? this.data.net_profit_percent : {}
+    },
     net_profit() {
       return this.data.net_profit ? this.data.net_profit : {}
     }
