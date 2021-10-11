@@ -309,7 +309,7 @@ export default {
           ultimaModificacao: item.alterDate,
           status: item.orderStatus.status,
           color_status: item.orderStatus.color,
-          fornecedor: item.client.alias,
+          fornecedor: item.client?item.client.alias:null,
           coleta: item.retrievePeople !== null ? item.retrievePeople.name : "",
           localColeta:
             item.quote !== null

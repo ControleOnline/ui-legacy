@@ -422,7 +422,6 @@ export default {
     if (this.defaultCompany) {
       this.checkLabels();
     }
-    
   },
 
   data() {
@@ -544,12 +543,12 @@ export default {
       this.companyId = data.providerId;
 
       this.options = this.getPayerOptions();
-      this.payer =
-        this.payerIsOther === null
-          ? -1
-          : this.payerIsOther
-          ? null
-          : this.summary.payer.id;
+      this.payer = this.summary.payer.id;
+      //this.payerIsOther === null
+      //? -1
+      //: this.payerIsOther
+      //? null
+      //: this.summary.payer.id;
 
       if (this.summary.retrievePeople !== null) {
         let retrieveName = `${this.summary.retrievePeople.name} ${this.summary.retrievePeople.alias}`;
@@ -626,7 +625,6 @@ export default {
 
       this.comments = this.summary.comments;
 
-
       if (this.myCompany !== null && this.orderId !== null) {
         this.getOrderStatus(this.orderId);
       }
@@ -675,7 +673,7 @@ export default {
 
           if (data["@id"]) {
             this.orderStatus = data.orderStatus.status;
-          }                    
+          }
           return data;
         })
         .catch((error) => {
