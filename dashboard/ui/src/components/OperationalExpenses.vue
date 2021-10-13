@@ -8,12 +8,12 @@
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ $t('dashboard.operational_expenses') }} ({{ operational_expenses.total_count }})
+          {{ $t('dashboard.operational_expenses') }} ({{ purchasing_order_count }})
         </div>
         <div class="col-6 text-right text-red-14 text-h6">
           {{
-            (operational_expenses.total_price || 0) | formatMoney
-          }}
+            (purchasing_order_totals || 0) | formatMoney
+          }} ({{ purchasing_percent }})
         </div>
       </div>
     </div>
@@ -38,9 +38,16 @@ export default {
   },
 
   computed: {
-    operational_expenses() {
-      return this.data.operational_expenses ? this.data.operational_expenses : {}
-    }
+    purchasing_order_count(){
+      return this.data.purchasing_order_count ? this.data.purchasing_order_count : {}
+    },
+    purchasing_order_totals(){
+      return this.data.purchasing_order_totals ? this.data.purchasing_order_totals : {}
+    },
+    purchasing_percent(){
+      return this.data.purchasing_percent ? this.data.purchasing_percent : {}
+    },
+    
   },
 };
 </script>
