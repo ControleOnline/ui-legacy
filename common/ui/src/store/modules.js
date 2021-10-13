@@ -13,20 +13,22 @@ import dashboard from "@controleonline/quasar-dashboard-ui/src/mixins/dashboard"
 import receiveInvoice from "@controleonline/quasar-financial-ui/src/store/modules/invoice/receive";
 import comissionInvoice from "@controleonline/quasar-financial-ui/src/store/modules/invoice/comission";
 import payInvoice from "@controleonline/quasar-financial-ui/src/store/modules/invoice/pay";
+import expense from "@controleonline/quasar-financial-ui/src/store/modules/invoice/expense";
 
-    export const modules = {
-        auth,
-        gmaps,
-        people,
-        config,
-        profile,
-        user,
-        dashboard,
-        quote,
-        salesOrder,
-        purchasingOrder,
-        comissionOrder,
-        receiveInvoice,
-        comissionInvoice,
-        payInvoice      
-      };
+export const modules = {
+  auth,
+  gmaps,
+  people,
+  config,
+  profile,
+  user,
+  dashboard,
+  quote,
+  salesOrder,
+  purchasingOrder,
+  comissionOrder,
+  receiveInvoice,
+  comissionInvoice,
+  payInvoice,
+  expense
+};
