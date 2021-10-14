@@ -8,12 +8,13 @@
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ $t('dashboard.operational_expenses') }} ({{ purchasing_order_count }})
+          {{ $t("dashboard.operational_expenses") }} ({{
+            purchasing_percent || 0
+          }}
+          %)
         </div>
         <div class="col-6 text-right text-red-14 text-h6">
-          {{
-            (purchasing_order_totals || 0) | formatMoney
-          }} ({{ purchasing_percent }} %)
+          {{ (purchasing_order_totals || 0) | formatMoney }}
         </div>
       </div>
     </div>
@@ -24,30 +25,33 @@
 </template>
 
 <script>
-import configurable from './../mixins/configurable';
-import dashboard    from './../mixins/dashboard';
+import configurable from "./../mixins/configurable";
+import dashboard from "./../mixins/dashboard";
 
 export default {
-  name  : 'DashboardOperationalExpenses',
-  mixins: [ configurable, dashboard ],
+  name: "DashboardOperationalExpenses",
+  mixins: [configurable, dashboard],
 
   data() {
     return {
-      query: 'operational-expenses',
-    }
+      query: "operational-expenses",
+    };
   },
 
   computed: {
-    purchasing_order_count(){
-      return this.data.purchasing_order_count ? this.data.purchasing_order_count : {}
+    purchasing_order_count() {
+      return this.data.purchasing_order_count
+        ? this.data.purchasing_order_count
+        : {};
     },
-    purchasing_order_totals(){
-      return this.data.purchasing_order_totals ? this.data.purchasing_order_totals : {}
+    purchasing_order_totals() {
+      return this.data.purchasing_order_totals
+        ? this.data.purchasing_order_totals
+        : {};
     },
-    purchasing_percent(){
-      return this.data.purchasing_percent ? this.data.purchasing_percent : {}
+    purchasing_percent() {
+      return this.data.purchasing_percent ? this.data.purchasing_percent : {};
     },
-    
   },
 };
 </script>

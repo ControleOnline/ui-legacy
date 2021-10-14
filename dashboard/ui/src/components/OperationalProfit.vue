@@ -8,13 +8,13 @@
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ $t("dashboard.operational_profit") }}
-        </div>
-        <div class="col-6 text-right text-green-14 text-h6">
-          {{ (operational_profit || 0) | formatMoney }} ({{
-            operational_profit_percent
+          {{ $t("dashboard.operational_profit") }} ({{
+            operational_profit_percent || 0
           }}
           %)
+        </div>
+        <div class="col-6 text-right text-green-14 text-h6">
+          {{ (operational_profit || 0) | formatMoney }}
         </div>
       </div>
     </div>

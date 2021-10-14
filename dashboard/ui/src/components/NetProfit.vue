@@ -8,14 +8,10 @@
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ $t('dashboard.net_profit') }} 
+          {{ $t("dashboard.net_profit") }} ({{ net_profit_percent || 0 }} %)
         </div>
         <div class="col-6 text-right text-green-14 text-h6">
-          {{
-            (net_profit || 0) | formatMoney
-          }} ({{
-            (net_profit_percent || 0) 
-          }} %)
+          {{ (net_profit || 0) | formatMoney }}
         </div>
       </div>
     </div>
@@ -26,26 +22,26 @@
 </template>
 
 <script>
-import configurable from '@controleonline/quasar-dashboard-ui/src/mixins/configurable';
-import dashboard    from '@controleonline/quasar-dashboard-ui/src/mixins/dashboard';
+import configurable from "@controleonline/quasar-dashboard-ui/src/mixins/configurable";
+import dashboard from "@controleonline/quasar-dashboard-ui/src/mixins/dashboard";
 
 export default {
-  name  : 'DashboardNetProfit',
-  mixins: [ configurable, dashboard ],
+  name: "DashboardNetProfit",
+  mixins: [configurable, dashboard],
 
   data() {
     return {
-      query: 'net-profit',
-    }
+      query: "net-profit",
+    };
   },
 
   computed: {
-    net_profit_percent(){
-      return this.data.net_profit_percent ? this.data.net_profit_percent : {}
+    net_profit_percent() {
+      return this.data.net_profit_percent ? this.data.net_profit_percent : {};
     },
     net_profit() {
-      return this.data.net_profit ? this.data.net_profit : {}
-    }
+      return this.data.net_profit ? this.data.net_profit : {};
+    },
   },
 };
 </script>
