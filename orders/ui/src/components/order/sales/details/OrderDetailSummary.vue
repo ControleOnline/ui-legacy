@@ -543,7 +543,10 @@ export default {
       this.companyId = data.providerId;
 
       this.options = this.getPayerOptions();
-      this.payer = this.summary.payer.id;
+      if (this.summary.payer) {
+        this.payer = this.summary.payer.id;
+      }
+
       //this.payerIsOther === null
       //? -1
       //: this.payerIsOther
