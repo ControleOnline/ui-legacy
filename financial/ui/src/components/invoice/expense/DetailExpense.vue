@@ -161,7 +161,8 @@ export default {
     loadProviders() {
       this.getProviders({
         params: {
-          'myCompany': this.myCompany.id
+          'myCompany': this.myCompany.id,
+          'invoiceId': this.id
         }
       }).then(members => {
         if (members.length) {
