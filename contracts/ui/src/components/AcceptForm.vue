@@ -99,8 +99,8 @@
         <q-input
           outlined
           stack-label
-          :value="form.birthDate"
-          :rules="[(val) => isInvalid('birthDate') || 'A data não é válida']"
+          v-model="form.birthDate"
+          :rules="[isInvalid('birthDate')]"
           :label="'Data de Nascimento'"
           mask="##/##/####"
           placeholder="Data de Nascimento"
