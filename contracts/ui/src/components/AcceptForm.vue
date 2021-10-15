@@ -30,7 +30,7 @@
           type="text"
           :label="$t('Cor do carro')"
           placeholder="Cor do carro"
-          :rules="[isInvalid('car_color')]"          
+          :rules="[isInvalid('car_color')]"
         />
       </div>
       <div class="col-xs-12 col-sm-4 q-mb-sm">
@@ -43,7 +43,7 @@
           type="text"
           :label="$t('Placa do Carro')"
           placeholder="Placa do Carro"
-          :rules="[isInvalid('car_number')]"          
+          :rules="[isInvalid('car_number')]"
         />
       </div>
       <div class="col-xs-12 col-sm-4 q-mb-sm">
@@ -56,9 +56,9 @@
           type="text"
           :label="$t('Renavan')"
           placeholder="Renavan"
-          :rules="[isInvalid('renavan')]"          
+          :rules="[isInvalid('renavan')]"
         />
-      </div>      
+      </div>
     </div>
 
     <q-separator spaced />
@@ -72,12 +72,12 @@
         :options="[
           { label: 'Pessoa Jurídica', value: 'PJ' },
           { label: 'Pessoa Física', value: 'PF' },
-        ]"        
+        ]"
       />
     </div>
 
     <div class="row justify-center q-pb-md">
-      <div class="col-xs-12 q-mb-sm">
+      <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
           outlined
           stack-label
@@ -92,8 +92,20 @@
           :placeholder="
             form.personType == 'PJ' ? 'Digite o CNPJ' : 'Digite o CPF'
           "
-          :rules="[isInvalid('document')]"          
+          :rules="[isInvalid('document')]"
         />
+      </div>
+      <div class="col-xs-12 col-sm-6 q-mb-sm">
+        <q-input
+          outlined
+          stack-label
+          :value="form.birthDate"
+          :rules="[(val) => isInvalid('birthDate') || 'A data não é válida']"
+          :label="'Data de Nascimento'"
+          mask="##/##/####"
+          placeholder="Data de Nascimento"
+        >
+        </q-input>
       </div>
     </div>
 
@@ -105,7 +117,7 @@
           v-model="form.name"
           type="text"
           :label="form.personType == 'PJ' ? 'Razão social' : 'Nome'"
-          :rules="[isInvalid('name')]"          
+          :rules="[isInvalid('name')]"
         />
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
@@ -115,7 +127,7 @@
           v-model="form.alias"
           type="text"
           :label="form.personType == 'PJ' ? 'Nome fantasia' : 'Sobrenome'"
-          :rules="[isInvalid('alias')]"          
+          :rules="[isInvalid('alias')]"
         />
       </div>
     </div>
@@ -130,7 +142,7 @@
           type="text"
           :label="$t('Email')"
           placeholder="E-mail"
-          :rules="[isInvalid('email')]"          
+          :rules="[isInvalid('email')]"
         />
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
@@ -144,7 +156,7 @@
           :label="$t('Telefone')"
           mask="(##) #####-####"
           placeholder="Telefone"
-          :rules="[isInvalid('phone')]"          
+          :rules="[isInvalid('phone')]"
         />
       </div>
     </div>
@@ -159,7 +171,7 @@
           :isLoading="isSearching"
           label="Busca de endereço"
           @selected="onSelect"
-          placeholder="Digite o endereço completo (rua, número, bairro, CEP)"          
+          placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
         />
       </div>
     </div>
@@ -175,7 +187,7 @@
           type="text"
           :label="$t('CEP')"
           mask="#####-###"
-          :rules="[isInvalid('postal_code')]"          
+          :rules="[isInvalid('address.postal_code')]"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -186,7 +198,7 @@
           v-model="form.address.street"
           type="text"
           :label="$t('Rua')"
-          :rules="[isInvalid('street')]"          
+          :rules="[isInvalid('address.street')]"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -197,7 +209,7 @@
           v-model="form.address.number"
           type="text"
           :label="$t('Número')"
-          :rules="[isInvalid('number')]"          
+          :rules="[isInvalid('address.number')]"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -206,7 +218,7 @@
           hide-bottom-space
           v-model="form.address.complement"
           type="text"
-          :label="$t('Complemento')"          
+          :label="$t('Complemento')"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -217,7 +229,7 @@
           v-model="form.address.district"
           type="text"
           :label="$t('Bairro')"
-          :rules="[isInvalid('district')]"          
+          :rules="[isInvalid('address.district')]"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -228,7 +240,7 @@
           v-model="form.address.city"
           type="text"
           :label="$t('Cidade')"
-          :rules="[isInvalid('city')]"          
+          :rules="[isInvalid('address.city')]"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -240,7 +252,7 @@
           type="text"
           :label="$t('UF')"
           mask="AA"
-          :rules="[isInvalid('state')]"          
+          :rules="[isInvalid('address.state')]"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -251,11 +263,10 @@
           v-model="form.address.country"
           type="text"
           :label="$t('País')"
-          :rules="[isInvalid('country')]"          
+          :rules="[isInvalid('address.country')]"
         />
       </div>
     </div>
-
     <div class="row justify-end">
       <q-btn type="submit" color="primary" label="Salvar" />
     </div>
@@ -282,12 +293,13 @@ export default {
     return {
       isSearching: false,
       form: {
+        birthDate: "",
         carModel: "",
-        other_informations:{
+        other_informations: {
           carColor: "",
           carNumber: "",
           renavan: "",
-        },        
+        },
         carNumber: "",
         personType: "PJ",
         name: "",
@@ -340,11 +352,13 @@ export default {
         }
 
         if (payer.other_informations.carColor) {
-          this.form.other_informations.carColor = payer.other_informations.carColor;
+          this.form.other_informations.carColor =
+            payer.other_informations.carColor;
         }
 
         if (payer.other_informations.carNumber) {
-          this.form.other_informations.carNumber = payer.other_informations.carNumber;
+          this.form.other_informations.carNumber =
+            payer.other_informations.carNumber;
         }
 
         if (payer.name) {
@@ -357,6 +371,10 @@ export default {
 
         if (payer.document) {
           this.form.document = payer.document;
+        }
+
+        if (payer.birthDate) {
+          this.form.birthDate = payer.birthDate;
         }
 
         if (payer.email) {
@@ -408,7 +426,6 @@ export default {
     isInvalid(key) {
       return (val) => {
         if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
-
         return true;
       };
     },
@@ -440,12 +457,11 @@ export default {
 
     setAddress(data) {
       if (!data) return;
-
       this.form.address.country = data.country;
       this.form.address.state = data.state;
       this.form.address.city = data.city;
       this.form.address.district = data.district;
-      this.form.address.postal_code = data.postalCode;
+      this.form.address.postal_code = data.postal_code;
       this.form.address.street = data.street;
       this.form.address.number = data.number ? data.number.toString() : "";
       this.form.address.complement = data.complement ? data.complement : "";
@@ -457,7 +473,7 @@ export default {
         state: item.state,
         city: item.city,
         district: item.district,
-        postalCode: item.postal_code,
+        postal_code: item.postal_code,
         street: item.street,
         number: item.number,
       });

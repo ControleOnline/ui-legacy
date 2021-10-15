@@ -42,6 +42,7 @@ export const translate = {
       'Canceled': 'Cancelado',
       'Amended': 'Alterado',
       'Waiting signatures': 'Aguardando assinaturas',
+      'Analysis': 'Inconsistência nos dados',
     },
 
     columns: {
