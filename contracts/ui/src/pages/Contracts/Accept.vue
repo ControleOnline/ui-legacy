@@ -21,7 +21,7 @@
         <br />
         <h6>
           Os dados foram preenchidos,<br />
-          Será enviado um e-mail para que você realize a assinatura digital.<br />          
+          Enviaremos um e-mail para que você realize a assinatura digital.<br />          
         </h6>
       </div>
     </div>
