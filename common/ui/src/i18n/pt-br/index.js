@@ -21,7 +21,10 @@ export const translate = {
     financepay: 'Contas à Pagar',
     financereceive: 'Contas à Receber',
     myprofile: 'Meu Perfil',
-    mycompany: 'Minhas Empresas'
+    mycompany: 'Minhas Empresas',
+    simulator: 'Simulador',
+    tables: 'Tabelas',
+    home: 'Home'
   },
   messages: {
     fieldRequired: 'Este campo é obrigatório',
