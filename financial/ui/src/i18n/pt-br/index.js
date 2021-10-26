@@ -2,6 +2,10 @@
 // so you can safely delete all default props below
 
 export const translate = {
+  purchase: 'Compra',
+  sale: 'Venda',
+  comission: 'Comissão',
+  royalties: 'Royalties',
   finance:{
     orders: 'Pedidos',
     order: 'Pedido'

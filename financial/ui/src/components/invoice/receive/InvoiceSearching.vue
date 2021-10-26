@@ -53,6 +53,7 @@
               class="full-width"
             />
           </q-td>
+          <q-td key="tipo" :props="props">{{ props.cols[1].value }}</q-td>
           <q-td key="pedidos" :props="props">
             <q-btn
               outline
@@ -68,9 +69,9 @@
             />
           </q-td>
           <q-td key="dataVencimento" :props="props">{{
-            props.cols[2].value
+            props.cols[3].value
           }}</q-td>
-          <q-td key="client" :props="props">{{ props.cols[3].value }}</q-td>
+          <q-td key="client" :props="props">{{ props.cols[4].value }}</q-td>
           <q-td
             key="status"
             :props="props"
@@ -78,7 +79,7 @@
           >
             {{ $t(`invoice.statuses.${props.row.status}`) }}
           </q-td>
-          <q-td key="preco" :props="props">{{ props.cols[5].value }}</q-td>
+          <q-td key="preco" :props="props">{{ props.cols[6].value }}</q-td>
         </q-tr>
       </template>
     </q-table>
@@ -133,6 +134,7 @@ import {
 const SETTINGS = {
   visibleColumns: [
     "id",
+    "tipo",
     "pedidos",
     "dataVencimento",
     "client",
@@ -148,6 +150,12 @@ const SETTINGS = {
         return `#${val}`;
       },
       label: "ID",
+    },
+    {
+      name: "tipo",
+      align: "left",
+      field: "tipo",
+      label: "Tipo",
     },
     {
       name: "pedidos",
@@ -313,6 +321,7 @@ export default {
         data.push({
           "@id": item["@id"],
           id: item["@id"].replace(/[^0-9]/g, ""),
+          tipo: this.$t(item.invoice_type),
           pedidos: orders,
           color_status: item.invoiceStatus.color,
           dataVencimento: item.dueDate,
