@@ -29,6 +29,7 @@
           <li>No campo "Dados adicionais", coloque a seguinte instrução: Frete número #{{ order.id }} por conta e ordem da {{ provider.name }} CNPJ: {{ provider.document }}</li>
           <li>Atenção ao endereço de entrega</li>
           <li>Abaixo está nossa carta de consignatário do frete, que deve ser impressa e anexada na frente da sua Nota Fiscal.</li>
+          <li><b>Atenção: </b>Caso o <b>LOCAL DE COLETA</b> seja <u>diferente</u> do endereço do emissor da NF, os dados de coleta deverão constar nos <b>"DADOS ADICIONAIS"</b> da NF</li>
         </ul>
 
         <q-separator />
