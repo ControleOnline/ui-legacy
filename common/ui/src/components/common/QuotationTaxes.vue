@@ -120,7 +120,7 @@ export default {
         : 0;
 
       if (this.newTax.label.toUpperCase() == "DESCONTO") {
-        taxVal = parseFloat(taxVa) * -1;
+        taxVal = parseFloat(taxVal) * -1;
       }
       this.isSaving = true;
 
