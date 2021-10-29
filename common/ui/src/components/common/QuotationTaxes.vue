@@ -115,7 +115,13 @@ export default {
         return;
       }
 
-      let taxVal = this.taxValue ? this.taxValue.toString().replace(",", ".") : 0;      
+      let taxVal = this.taxValue
+        ? this.taxValue.toString().replace(",", ".")
+        : 0;
+
+      if (this.newTax.label.toUpperCase() == "DESCONTO") {
+        taxVal = taxVal.parseFloat() * -1;
+      }
       this.isSaving = true;
 
       this.createQuoteTax({
