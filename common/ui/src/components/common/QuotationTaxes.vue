@@ -47,7 +47,9 @@
         reverse-fill-mask
         prefix="R$"
         v-model="taxValue"
-        :style="showValues == false ? 'visibility:hidden' : 'visibility:visible'"
+        :style="
+          showValues == false ? 'visibility:hidden' : 'visibility:visible'
+        "
         type="number"
         label="Valor"
         mask="#,##"
@@ -113,17 +115,18 @@ export default {
         return;
       }
 
+      let taxVal = this.taxValue ? this.taxValue.toString().replace(",", ".") : 0;      
       this.isSaving = true;
 
       this.createQuoteTax({
         id: this.newTax.value,
-        value: this.taxValue.replace(",", "."),
+        value: taxVal,
       })
         .then((quotation) => {
           if (quotation["@id"]) {
             this.quoteTaxes.push({
               name: this.newTax.label,
-              total: this.taxValue.replace(",", "."),
+              total: taxVal,
             });
 
             this.$emit("added", {
@@ -131,7 +134,7 @@ export default {
               tax: {
                 id: this.newTax.value,
                 name: this.newTax.label,
-                price: this.taxValue.replace(",", "."),
+                price: taxVal,
               },
             });
           }
