@@ -59,7 +59,7 @@
         />
         <q-tab
           name ="orders"
-          :label="$t('customers.separeteServices')"
+          :label="$t('orders')"
         />
         <q-tab
           name ="contracts"
