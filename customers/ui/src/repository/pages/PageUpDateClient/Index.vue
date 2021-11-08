@@ -59,7 +59,7 @@
         />
         <q-tab
           name ="orders"
-          :label="$t('orders')"
+          :label="$t('menu.salesorders')"
         />
         <q-tab
           name ="contracts"
