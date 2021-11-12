@@ -18,6 +18,11 @@ export const routes = [
         path     : 'category/id/:id',
         component: () => import('../pages/Tasks/CategoryDetails.vue')
       },
+      {
+        name     : 'ChecklistDetails',
+        path     : 'checklist/id/:id',
+        component: () => import('../pages/Tasks/ChecklistDetails.vue')
+      },
     ]
   },
 ];
