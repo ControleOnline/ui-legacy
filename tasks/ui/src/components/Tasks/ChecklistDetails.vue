@@ -2,7 +2,7 @@
   <div class="q-pa-lg">
     <div class="row">
       <h4>Condições Gerais</h4>
-      <q-separator />
+      <q-separator class="clear" />
       <div v-for="(field, i) in carcase_fields" :key="i" class="q-pa-lg">
         <h7> {{ field.label }} </h7>
         <q-option-group
@@ -16,7 +16,7 @@
     </div>
     <div class="row">
       <h4>Rodas</h4>
-      <q-separator />
+      <q-separator class="clear" />
       <div v-for="(field, i) in wheels_fields" :key="i" class="q-pa-lg">
         <h7> {{ field.label }} </h7>
         <q-option-group
@@ -30,7 +30,7 @@
     </div>
     <div class="row">
       <h4>Acessórios</h4>
-      <q-separator />
+      <q-separator class="clear" />
       <div v-for="(field, i) in accessories_fields" :key="i" class="q-pa-lg">
         <h7> {{ field.label }} </h7>
         <q-option-group
@@ -216,3 +216,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.clear {
+  clear: both;  
+  width: 100%;
+}
+</style>
