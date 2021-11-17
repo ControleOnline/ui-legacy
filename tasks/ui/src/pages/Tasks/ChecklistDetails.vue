@@ -10,7 +10,11 @@
           </div>
 
           <div class="col-12">
-            <ChecklistDetails :default_options="default_options" />
+            <ChecklistDetails 
+            :wheels_options="wheels_options" 
+            :accessories_options="accessories_options" 
+            :carcase_options="carcase_options"
+            />
           </div>
         </div>
       </q-card-section>
@@ -28,36 +32,48 @@ export default {
 
   data() {
     return {
-      default_options: [
-        {
-          label: "Boas Condições",
+      carcase_options:[
+                {
+          label: "Bom",
           value: "good",
         },
         {
-          label: "Amassado",
-          value: "kneaded",
+          label: "Regular",
+          value: "steady",
+        },
+        {
+          label: "Ruim",
+          value: "poor",
+        }
+      ],
+      accessories_options:[
+        {
+          label: "Sim",
+          value: "yes",
+        },
+        {
+          label: "Não",
+          value: "no",
+        }
+      ],
+      wheels_options: [
+        {
+          label: "Bom",
+          value: "good",
+        },
+        {
+          label: "Regular",
+          value: "steady",
+        },
+        {
+          label: "Ruim",
+          value: "poor",
         },
         {
           label: "Falta",
-          value: "lack",
-        },
-        {
-          label: "Pique",
-          value: "chop",
-        },
-        {
-          label: "Quebrado",
-          value: "broke",
-        },
-        {
-          label: "Riscado",
-          value: "scratched",
-        },
-        {
-          label: "Trincado",
-          value: "cracked",
-        },
-      ],
+          value: "missed",
+        }
+      ]
     };
   },
 };
