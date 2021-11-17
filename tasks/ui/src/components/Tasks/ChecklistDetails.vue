@@ -1,11 +1,12 @@
 <template>
   <div class="q-pa-lg">
     <div class="row">
-      <h4>Condições Gerais</h4>
+      <h5>Condições Gerais</h5>
       <q-separator class="clear" />
       <div v-for="(field, i) in carcase_fields" :key="i" class="q-pa-lg">
         <h7> {{ field.label }} </h7>
         <q-option-group
+          required
           v-model="group[field.value]"
           :options="carcase_options"
           color="primary"
@@ -15,11 +16,12 @@
       </div>
     </div>
     <div class="row">
-      <h4>Rodas</h4>
+      <h5>Rodas</h5>
       <q-separator class="clear" />
       <div v-for="(field, i) in wheels_fields" :key="i" class="q-pa-lg">
         <h7> {{ field.label }} </h7>
         <q-option-group
+          required
           v-model="group[field.value]"
           :options="wheels_options"
           color="primary"
@@ -29,11 +31,12 @@
       </div>
     </div>
     <div class="row">
-      <h4>Acessórios</h4>
+      <h5>Acessórios</h5>
       <q-separator class="clear" />
       <div v-for="(field, i) in accessories_fields" :key="i" class="q-pa-lg">
         <h7> {{ field.label }} </h7>
         <q-option-group
+          required
           v-model="group[field.value]"
           :options="accessories_options"
           color="primary"
@@ -41,6 +44,26 @@
         />
         <q-separator />
       </div>
+    </div>
+
+    <div class="row">
+      <h5>Observações</h5>
+      <q-separator class="clear" />
+      <textarea required class="full-width" rows="10"></textarea>
+    </div>
+    <div class="row">
+      <q-checkbox
+        v-model="dirty"
+        label="Veículo muito sujo, sem condições de apuração detalhada da lataria, não nos responsabilizamos por arranhões que venham a ser identificados após a lavagem."
+      />
+      <h8>
+        A empresa não se responsabiliza pelos seguintes defeitos do veículo:
+        Descarga da bateria, total ou parcial, queima de farol, luzes ou
+        celibim, ou qualquer mal funcionamento do motor, vazamento do radiador,
+        mangueiras ou correias arrebentadas, caixa escapando, disco platinado,
+        objetos de valor, dinheiro, jóias, armas e documentos sob hipótese
+        alguma.
+      </h8>
     </div>
   </div>
 </template>
@@ -68,6 +91,7 @@ export default {
   data() {
     return {
       group: {},
+      dirty: false,
       carcase_fields: [
         {
           label: "Pintura",
@@ -193,23 +217,23 @@ export default {
       wheels_fields: [
         {
           label: "Pneu Diant. Esq.",
-          value: "antenna",
+          value: "left_front_tire",
         },
         {
           label: "Pneu Diant. Dir.",
-          value: "antenna",
+          value: "right_front_tire",
         },
         {
           label: "Pneu Tras. Esq.",
-          value: "antenna",
+          value: "left_rear_tire",
         },
         {
           label: "Pneu Tras. Dir.",
-          value: "antenna",
+          value: "right_rear_tire",
         },
         {
           label: "Estepe",
-          value: "antenna",
+          value: "spare",
         },
       ],
     };
@@ -218,7 +242,12 @@ export default {
 </script>
 <style scoped>
 .clear {
-  clear: both;  
+  clear: both;
   width: 100%;
+}
+h5 {
+  margin: 0;
+  margin-top: 50px;
+  font-weight: 500;
 }
 </style>
