@@ -200,6 +200,7 @@
             <q-tab name="invoice" label="Fatura" />
             <q-tab v-if="showDacteTab" name="dacte" label="DACTE" />
             <q-tab name="tracking" label="Rastreamento" />
+            <q-tab name="tag" label="Etiqueta" />
           </q-tabs>
 
           <q-separator />
@@ -237,6 +238,10 @@
             <q-tab-panel name="tracking" class="q-pa-none">
               <OrderDetailTracking :orderId="orderId" />
             </q-tab-panel>
+
+            <q-tab-panel name="tag" class="q-pa-none">
+              <OrderDetailTag :orderId="orderId" :orderStatus="orderStatus" :integrationType="integrationType" />
+            </q-tab-panel>
           </q-tab-panels>
         </div>
       </div>
@@ -266,9 +271,9 @@ import OrderDetailNotaFiscal from "./details/OrderDetailNotaFiscal";
 import OrderDetailInvoice from "./details/OrderDetailInvoice";
 import OrderDetailDACTE from "./details/OrderDetailDACTE";
 import OrderDetailTracking from "./details/OrderTracking";
+import OrderDetailTag from "./details/OrderDetailTag";
+
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
-
-
 
 export default {
   components: {
@@ -277,7 +282,8 @@ export default {
     OrderDetailNotaFiscal,
     OrderDetailInvoice,
     OrderDetailDACTE,
-    OrderDetailTracking       
+    OrderDetailTracking,
+    OrderDetailTag,
   },
 
   created() {
@@ -291,6 +297,7 @@ export default {
 
   data() {
     return {
+      integrationType: null,
       currentTab: "resumo",
       orderId: null,
       orderStatus: null,
@@ -529,7 +536,7 @@ export default {
             this.isEditable =
               data.orderStatus.status === "on the way" ||
               data.orderStatus.status === "retrieved";
-            //this.integrationType = data.integrationType;
+            this.integrationType = data.integrationType;
           }
 
           return data;
@@ -543,7 +550,7 @@ export default {
           this.price = null;
           this.notFound = true;
           this.isEditable = false;
-          //this.integrationType = null;
+          this.integrationType = null;
         });
     },
     onSaveDeadline() {
