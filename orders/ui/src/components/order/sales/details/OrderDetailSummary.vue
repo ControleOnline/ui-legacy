@@ -311,7 +311,7 @@
               v-model="comments"
               type="textarea"
               label="Observações"
-              :disable="!editable"
+              :readonly="!editable"
             />
           </div>
         </div>
