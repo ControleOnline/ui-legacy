@@ -2,6 +2,8 @@ import SubmissionError from '@controleonline/quasar-common-ui/src/error/Submissi
 import { fetch } from '../../../../../../src/boot/myapi';
 import * as types from './mutation_types';
 
+import { DOMAIN } from '../../../../../../src/config/domain';
+
 const RESOURCE_ENDPOINT = '/people';
 
 export const company = ({ commit }, values) => {
@@ -154,9 +156,9 @@ export const mySaleCompanies = ({ commit }) => {
 };
 
 export const defaultCompany = ({ commit, dispatch }) => {
-  commit(types.SET_ISLOADING);
+  commit(types.SET_ISLOADING);  
 
-  return fetch(`${RESOURCE_ENDPOINT}/default-company?domain=` + domain)
+  return fetch(`${RESOURCE_ENDPOINT}/default-company?domain=` + DOMAIN)
     .then(response => response.json())
     .then(data => {
       commit(types.SET_ISLOADING, false);
