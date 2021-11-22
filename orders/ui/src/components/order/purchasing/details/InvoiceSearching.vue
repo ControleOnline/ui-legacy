@@ -243,7 +243,7 @@ export default {
         for (let o in item.order) {
           orders.push(
             item.order[o].order["@id"].match(
-              /^\/sales\/orders\/([a-z0-9-]*)$/
+              /^\/purchasing\/orders\/([a-z0-9-]*)$/
             )[1]
           );
         }
