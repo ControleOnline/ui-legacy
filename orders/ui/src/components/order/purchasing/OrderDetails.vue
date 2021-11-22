@@ -34,23 +34,23 @@
                   {{ `#${this.orderId}` }}
                 </td>
               </tr>
-              <tr>
-                <td class="text-left text-bold">Valor do pedido</td>
-                <td class="text-left">
-                  {{ formatMoney(this.price) }}
-                </td>
-              </tr>
               <tr v-if="this.mainOrderId">
                 <td class="text-left text-bold">
-                  Valor do fornecedor
+                  Valor do pedido
                   <router-link
-                    v-bind:to="'/purchasing/order/id/' + this.mainOrderId"
+                    v-bind:to="'/sales/order/id/' + this.mainOrderId"
                   >
                     (#{{ this.mainOrderId }})
                   </router-link>
                 </td>
                 <td class="text-left">
                   {{ formatMoney(this.mainPrice) }}
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left text-bold">Valor do Fornecedor</td>
+                <td class="text-left">
+                  {{ formatMoney(this.price) }}
                 </td>
               </tr>
               <tr v-if="this.mainOrderId">
