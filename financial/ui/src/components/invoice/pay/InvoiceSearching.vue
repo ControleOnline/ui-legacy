@@ -126,7 +126,7 @@
                     color="primary"
                     :label="`Ver ${$t('finance.order')} #${orderId}`"
                     :to="{
-                      name: 'Admin.OrderPurchasing.Details',
+                      name: 'PurchasingOrderDetails',
                       params: {
                         id: orderId,
                       },
