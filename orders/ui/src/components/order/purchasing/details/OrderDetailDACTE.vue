@@ -156,7 +156,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      isLoading: "salesOrder/isLoading",
+      isLoading: "purchasingOrder/isLoading",
       myCompany: "people/currentCompany",
     }),
 
@@ -185,7 +185,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getItem: "salesOrder/getDetailOrder",
+      getItem: "purchasingOrder/getDetailOrder",
     }),
 
     updateDacte() {
@@ -204,7 +204,7 @@ export default {
         },
       };
 
-      return fetch(`sales/orders/${this.orderId}/detail/update-dacte`, options)
+      return fetch(`purchasing/orders/${this.orderId}/detail/update-dacte`, options)
         .then((response) => response.json())
         .then((order) => {
           if (order !== null) {

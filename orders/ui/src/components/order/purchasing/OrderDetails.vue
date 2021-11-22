@@ -56,10 +56,10 @@
               <tr v-if="this.mainOrderId">
                 <td class="text-left text-bold">Valor do ticket</td>
                 <td class="text-left">
-                  {{ formatMoney(this.price - this.mainPrice) }}
+                  {{ formatMoney(this.mainPrice - this.price) }}
                   ({{
                     parseFloat(
-                      ((this.price - this.mainPrice) / this.price) * 100
+                      ((this.mainPrice - this.price) / this.mainPrice) * 100
                     ).toFixed(2)
                   }}
                   %)

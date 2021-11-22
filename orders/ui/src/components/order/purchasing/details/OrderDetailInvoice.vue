@@ -19,7 +19,8 @@
 </template>
 
 <script>
-import InvoiceSearching   from '@controleonline/quasar-financial-ui/src/components/invoice/pay/InvoiceSearching';
+import { date, extend }   from 'quasar';
+import InvoiceSearching   from './InvoiceSearching';
 import OrderInvoiceButton from '@controleonline/quasar-common-ui/src/components/common/NewOrderInvoiceButton';
 
 export default {

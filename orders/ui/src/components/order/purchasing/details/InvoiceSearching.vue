@@ -20,7 +20,7 @@
             <q-btn
               outline
               dense
-              :to="{ name: 'ReceiveDetails', params: { id: props.row.id } }"
+              :to="{ name: 'PurchasingOrderDetails', params: { id: props.row.id } }"
               :label="props.cols[0].value"
               :style="{ color: props.row.color_status }"
               class="full-width"
@@ -208,11 +208,11 @@ export default {
 
   computed: {
     ...mapGetters({
-      isLoading: "receiveInvoice/isLoading",
-      error: "receiveInvoice/error",
-      violations: "receiveInvoice/violations",
-      items: "receiveInvoice/items",
-      totalItems: "receiveInvoice/totalItems",
+      isLoading: "payInvoice/isLoading",
+      error: "payInvoice/error",
+      violations: "payInvoice/violations",
+      items: "payInvoice/items",
+      totalItems: "payInvoice/totalItems",
       myCompany: "people/currentCompany",
     }),
   },
@@ -243,14 +243,14 @@ export default {
         for (let o in item.order) {
           orders.push(
             item.order[o].order["@id"].match(
-              /^\/sales\/orders\/([a-z0-9-]*)$/
+              /^\/purchasing\/orders\/([a-z0-9-]*)$/
             )[1]
           );
         }
 
         data.push({
           "@id": item["@id"],
-          id: item["@id"].match(/^\/finance\/receive\/([a-z0-9-]*)$/)[1],
+          id: item["@id"].match(/^\/finance\/pay\/([a-z0-9-]*)$/)[1],
           pedidos: orders,
           color_status: item.invoiceStatus.color,
           dataVencimento: item.dueDate,
@@ -266,9 +266,9 @@ export default {
 
   methods: {
     ...mapActions({
-      getItems: "receiveInvoice/getItems",
-      reset: "receiveInvoice/reset",
-      getStatuses: "receiveInvoice/getStatuses",
+      getItems: "payInvoice/getItems",
+      reset: "payInvoice/reset",
+      getStatuses: "payInvoice/getStatuses",
     }),
 
     seeOrdersList(ordersId, invoiceId) {

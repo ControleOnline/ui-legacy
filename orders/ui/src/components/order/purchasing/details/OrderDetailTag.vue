@@ -94,7 +94,7 @@ export default {
 
   methods: {
     ...mapActions({
-      createNewLabelTag: "salesOrder/createNewLabelTag",
+      createNewLabelTag: "purchasingOrder/createNewLabelTag",
     }),
 
     onCreateTagClick() {
