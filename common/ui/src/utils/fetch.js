@@ -1,5 +1,6 @@
 import SubmissionError from '../error/SubmissionError';
 import { ENTRYPOINT }  from '../../../../../src/config/entrypoint';
+import { DOMAIN }  from '../../../../../src/config/domain';
 
 const MIME_TYPE = 'application/ld+json';
 
@@ -32,6 +33,7 @@ export default function(id, options = {}) {
   }
 
   const entryPoint = ENTRYPOINT + (ENTRYPOINT.endsWith('/') ? '' : '/');
+  const domain = DOMAIN + (DOMAIN.endsWith('/') ? '' : '/');
 
   return fetch(new URL(id, entryPoint), options).then(response => {
     if (response.ok) return response;

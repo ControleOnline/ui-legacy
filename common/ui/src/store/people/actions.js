@@ -156,7 +156,7 @@ export const mySaleCompanies = ({ commit }) => {
 export const defaultCompany = ({ commit, dispatch }) => {
   commit(types.SET_ISLOADING);
 
-  return fetch(`${RESOURCE_ENDPOINT}/default-company?domain=` + location.host)
+  return fetch(`${RESOURCE_ENDPOINT}/default-company?domain=` + domain)
     .then(response => response.json())
     .then(data => {
       commit(types.SET_ISLOADING, false);
