@@ -57,6 +57,20 @@
                 <td class="text-left text-bold">Valor do ticket</td>
                 <td class="text-left">
                   {{ formatMoney(this.price - this.mainPrice) }}
+                  ({{
+                    parseFloat(
+                      ((this.price - this.mainPrice) / this.price) * 100
+                    ).toFixed(2)
+                  }}
+                  %)
+                </td>
+              </tr>
+              <tr v-if="this.mainOrderId">
+                <td class="text-left text-bold">Valor correto do ticket</td>
+                <td class="text-left">
+                  {{ formatMoney(this.correctValue) }}
+                  ({{ parseFloat(this.correctPercentage).toFixed(2) }}
+                  %)
                 </td>
               </tr>
               <tr>
@@ -240,7 +254,11 @@
             </q-tab-panel>
 
             <q-tab-panel name="tag" class="q-pa-none">
-              <OrderDetailTag :orderId="orderId" :orderStatus="orderStatus" :integrationType="integrationType" />
+              <OrderDetailTag
+                :orderId="orderId"
+                :orderStatus="orderStatus"
+                :integrationType="integrationType"
+              />
             </q-tab-panel>
           </q-tab-panels>
         </div>
@@ -307,6 +325,8 @@ export default {
         name: "",
       },
       price: null,
+      correctValue: 0,
+      correctPercentage: 0,
       isEditable: false,
       inputDeadline: date.formatDate(Date.now(), "DD/MM/YYYY"),
       mainPrice: null,
@@ -531,6 +551,8 @@ export default {
             this.client.id = data.client.id;
             this.price = data.price;
             this.mainPrice = data.mainPrice;
+            this.correctValue = data.correctValue;
+            this.correctPercentage = data.correctPercentage;
             this.mainOrderId = data.mainOrderId;
             this.notFound = false;
             this.isEditable =
