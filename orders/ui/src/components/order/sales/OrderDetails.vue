@@ -54,8 +54,8 @@
                 </td>
               </tr>
               <tr v-if="this.mainOrderId">
-                <td class="text-left text-bold">Valor do ticket</td>
-                <td class="text-left">
+                <td :class="((this.price - this.mainPrice) < this.correctValue)?'red text-left text-bold':'green text-left text-bold'">Valor do ticket</td>
+                <td :class="((this.price - this.mainPrice) < this.correctValue)?'red text-left text-bold':'green text-left text-bold'">
                   {{ formatMoney(this.price - this.mainPrice) }}
                   ({{
                     parseFloat(
@@ -603,3 +603,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.red{
+  color: red !important;
+}
+.green{
+  color: rgb(75, 110, 5) !important;
+}
+</style>
