@@ -21,7 +21,8 @@ export const translate = {
       'exceeded billing': 'Limite de faturamento excedido',
       'waiting billing': 'Aguardando fatura',
       'waiting generate invoice': 'Gerando NF',
-      'waiting for discount': 'Aguardando desconto'
+      'waiting for discount': 'Aguardando desconto',
+      'resolved': 'Resolvido'
     },
   },
 
