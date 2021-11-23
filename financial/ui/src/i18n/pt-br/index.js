@@ -6,7 +6,7 @@ export const translate = {
   sale: 'Venda',
   comission: 'Comissão',
   royalties: 'Royalties',
-  finance:{
+  finance: {
     orders: 'Pedidos',
     order: 'Pedido'
   },
@@ -21,7 +21,8 @@ export const translate = {
       'exceeded billing': 'Limite de faturamento excedido',
       'waiting billing': 'Aguardando fatura',
       'waiting generate invoice': 'Gerando NF',
+      'waiting for discount': 'Aguardando desconto'
     },
   },
-  
+
 }
