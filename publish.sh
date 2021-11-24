@@ -1,3 +1,9 @@
+cd accounting
+cd ui
+npm publish --access=publish
+cd ..
+cd ..
+
 cd common
 cd ui
 npm publish --access=publish
@@ -34,6 +40,12 @@ npm publish --access=publish
 cd ..
 cd ..
 
+cd orders
+cd ui
+npm publish --access=publish
+cd ..
+cd ..
+
 cd professionals
 cd ui
 npm publish --access=publish
@@ -47,6 +59,12 @@ cd ..
 cd ..
 
 cd tasks
+cd ui
+npm publish --access=publish
+cd ..
+cd ..
+
+cd users
 cd ui
 npm publish --access=publish
 cd ..
