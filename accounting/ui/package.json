@@ -4,19 +4,7 @@
   "author": "ControleOnline",
   "description": "ControleOnline Accounting Quasar UI Component",
   "license": "MIT",
-  "main": "src/index.js",
-  "dependencies": {
-    "@quasar/cli": "^1.2.1",
-    "@quasar/extras": "^1.9.3",
-    "axios": "^0.21.4",
-    "core-js": "^3.17.3",
-    "echarts": "^4.9.0",
-    "md5": "^2.3.0",
-    "quasar": "^1.12.13",
-    "vue-echarts-v3": "^2.0.1",
-    "vue-i18n": "^8.25.0",
-    "vue2-google-maps": "^0.10.7"
-  },
+  "main": "src/index.js",  
   "scripts": {},
   "repository": {
     "type": "git",

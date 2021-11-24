@@ -14,8 +14,5 @@
   "homepage": "https://www.controleonline.com/devs/plugins",
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
-  ],
-  "dependencies": {
-    "@controleonline/quasar-common-ui": "*"
-  }
+  ]
 }
