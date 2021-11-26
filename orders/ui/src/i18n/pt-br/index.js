@@ -22,7 +22,8 @@ export const translate = {
       'ship to carrier': 'Entregar na transportadora',
       'retrieved': 'Coletado',
       'entered the base': "Entrou na Base",
-      'boarded': "Embarcou"
+      'boarded': "Embarcou",
+      'expired': "Expirado"
     },
   },
 }
