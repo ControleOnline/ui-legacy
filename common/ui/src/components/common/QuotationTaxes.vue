@@ -130,13 +130,9 @@ export default {
       })
         .then((quotation) => {
           if (quotation["@id"]) {
-            this.quoteTaxes.push({
-              name: this.newTax.label,
-              total: taxVal,
-            });
-
             this.$emit("added", {
               id: this.quote.id,
+              total: quotation.total,
               tax: {
                 id: this.newTax.value,
                 name: this.newTax.label,
