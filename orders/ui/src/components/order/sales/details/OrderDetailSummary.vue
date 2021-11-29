@@ -642,6 +642,7 @@ export default {
       this.$emit("quote-details", {
         destination: Object.filter(this.delivery.address, (score) => score.length > 1),
         origin: Object.filter(this.retrieve.address, (score) => score.length > 1),
+        contact: this.retrieve.contact,
         packages:
           this.product.packages.length > 0
             ? this.product.packages
