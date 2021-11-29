@@ -638,18 +638,33 @@ export default {
         Object.keys(obj)
           .filter((key) => predicate(obj[key]))
           .reduce((res, key) => Object.assign(res, { [key]: obj[key] }), {});
-      
-      this.$emit("quote-details", Object.filter({
-        destination: Object.filter(this.delivery.address, (score) => score.length > 1),
-        origin: Object.filter(this.retrieve.address, (score) => score.length > 1),
-        contact: Object.filter(this.retrieve.contact, (score) => score.length > 1),
-        packages:
-          this.product.packages.length > 0
-            ? this.product.packages
-            : this.product.sumCubage,
-        productTotalPrice: this.product.totalPrice,
-        productType: this.product.type,
-      }, (score) => score.length > 1);
+
+      this.$emit(
+        "quote-details",
+        Object.filter(
+          {
+            destination: Object.filter(
+              this.delivery.address,
+              (score) => score.length > 1
+            ),
+            origin: Object.filter(
+              this.retrieve.address,
+              (score) => score.length > 1
+            ),
+            contact: Object.filter(
+              this.retrieve.contact,
+              (score) => score.length > 1
+            ),
+            packages:
+              this.product.packages.length > 0
+                ? this.product.packages
+                : this.product.sumCubage,
+            productTotalPrice: this.product.totalPrice,
+            productType: this.product.type,
+          },
+          (score) => score.length > 1
+        )
+      );
     },
 
     payer(payerId) {
