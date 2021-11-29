@@ -54,8 +54,22 @@
                 </td>
               </tr>
               <tr v-if="this.mainOrderId">
-                <td :class="((this.price - this.mainPrice) < this.correctValue)?'red text-left text-bold':'green text-left text-bold'">Valor do ticket</td>
-                <td :class="((this.price - this.mainPrice) < this.correctValue)?'red text-left text-bold':'green text-left text-bold'">
+                <td
+                  :class="
+                    this.price - this.mainPrice < this.correctValue
+                      ? 'red text-left text-bold'
+                      : 'green text-left text-bold'
+                  "
+                >
+                  Valor do ticket
+                </td>
+                <td
+                  :class="
+                    this.price - this.mainPrice < this.correctValue
+                      ? 'red text-left text-bold'
+                      : 'green text-left text-bold'
+                  "
+                >
                   {{ formatMoney(this.price - this.mainPrice) }}
                   ({{
                     parseFloat(
@@ -156,6 +170,14 @@
                 <td class="text-center text-bold">
                   <div class="row items-center justify-around">
                     <q-btn
+                      v-if="showQuoteDetails"
+                      color="positive"
+                      label="Revalidar Cotação"
+                      @click="remakeQuote"
+                      :loading="isUpdating"
+                    />
+
+                    <q-btn
                       v-if="orderStatus.status == 'analysis'"
                       color="positive"
                       label="Aprovar Pedido"
@@ -221,7 +243,10 @@
 
           <q-tab-panels v-model="currentTab">
             <q-tab-panel name="resumo" class="q-pa-none">
-              <OrderDetailSummary :orderId="orderId" />
+              <OrderDetailSummary
+                @quote-details="setQuoteDetails"
+                :orderId="orderId"
+              />
             </q-tab-panel>
 
             <q-tab-panel name="quotation" class="q-pa-none">
@@ -315,6 +340,7 @@ export default {
 
   data() {
     return {
+      showQuoteDetails: false,
       integrationType: null,
       currentTab: "resumo",
       orderId: null,
@@ -324,6 +350,7 @@ export default {
       client: {
         name: "",
       },
+      quoteDetails: {},
       price: null,
       correctValue: 0,
       correctPercentage: 0,
@@ -362,6 +389,8 @@ export default {
 
   methods: {
     ...mapActions({
+      quote: "quote/quote",
+      remakeOrder: "salesOrder/remakeOrder",
       getStatus: "salesOrder/getDetailStatus",
       updateStatus: "salesOrder/updateStatus",
       updateDeadline: "salesOrder/updateDeadline",
@@ -478,6 +507,30 @@ export default {
           });
         });
     },
+
+    remakeQuote() {
+      this.isUpdating = true;
+      this.quote({
+        values: this.quoteDetails,
+      })
+        .then((response) => {
+          this.$router.push({
+            name: "OrderDetails",
+            params: { id: response.response.data.order.id },
+          });
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: "O status do pedido não pode ser refeito",
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally((data) => {
+          this.isUpdating = false;
+        });
+    },
+
     approveOrder() {
       let params = {
         myCompany: this.myCompany.id,
@@ -575,6 +628,12 @@ export default {
           this.integrationType = null;
         });
     },
+    setQuoteDetails(quoteDetails) {
+      if (this.orderStatus.status == "canceled" || this.orderStatus.status == "expired") {
+        this.showQuoteDetails = true;
+      }
+      this.quoteDetails = quoteDetails;
+    },
     onSaveDeadline() {
       let params = {
         myCompany: this.myCompany.id,
@@ -604,10 +663,10 @@ export default {
 };
 </script>
 <style scoped>
-.red{
+.red {
   color: red !important;
 }
-.green{
+.green {
   color: rgb(75, 110, 5) !important;
 }
 </style>

@@ -513,7 +513,6 @@ export default {
     logged() {
       return this.$store.getters["auth/user"];
     },
-
     payerIsOther() {
       if (this.summary.payer == null) return null;
 
@@ -625,12 +624,31 @@ export default {
       this.product.type = this.summary.productType;
       this.product.totalPrice = this.summary.invoiceTotal;
       this.product.packages = this.summary.packages;
+      this.retrieve.address.country =
+        this.summary.quote.origin.country || "Brasil";
+      this.delivery.address.country =
+        this.summary.quote.destination.country || "Brasil";
 
       this.comments = this.summary.comments;
 
       if (this.myCompany !== null && this.orderId !== null) {
         this.getOrderStatus(this.orderId);
       }
+      Object.filter = (obj, predicate) =>
+        Object.keys(obj)
+          .filter((key) => predicate(obj[key]))
+          .reduce((res, key) => Object.assign(res, { [key]: obj[key] }), {});
+      
+      this.$emit("quote-details", {
+        destination: Object.filter(this.delivery.address, (score) => score.length > 1),
+        origin: Object.filter(this.retrieve.address, (score) => score.length > 1),
+        packages:
+          this.product.packages.length > 0
+            ? this.product.packages
+            : this.product.sumCubage,
+        productTotalPrice: this.product.totalPrice,
+        productType: this.product.type,
+      });
     },
 
     payer(payerId) {
