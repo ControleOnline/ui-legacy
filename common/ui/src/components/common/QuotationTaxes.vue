@@ -25,7 +25,7 @@
       </q-markup-table>
     </q-card-section>
 
-    <q-card-section>
+    <q-card-section :class="showTaxes == false ? 'hidden' : ''">
       <q-separator />
       <div class="text-subtitle2 q-mt-sm q-mb-sm text-center">
         Taxas opcionais
@@ -47,9 +47,7 @@
         reverse-fill-mask
         prefix="R$"
         v-model="taxValue"
-        :style="
-          showValues == false ? 'visibility:hidden' : 'visibility:visible'
-        "
+        :class="showValues == false ? 'hidden' : ''"
         type="number"
         label="Valor"
         mask="#,##"
@@ -57,8 +55,22 @@
         placeholder="Digite um valor"
         :loading="isloadingTaxes"
       />
-      <div class="row q-mt-sm justify-end">
+
+      <q-checkbox
+        :class="showValues == false ? 'hidden' : ''"
+        v-model="taxProfit"
+        label="Adicionar Lucro/Imposto?"
+      />
+
+      <div
+        :class="
+          showValues == false
+            ? 'hidden row q-mt-sm justify-end'
+            : 'row q-mt-sm justify-end'
+        "
+      >
         <q-btn
+          :class="showValues == false ? 'hidden' : ''"
           color="primary"
           label="Adicionar"
           :loading="isSaving"
@@ -96,7 +108,9 @@ export default {
     return {
       isSaving: false,
       taxValue: 0,
+      taxProfit: false,
       showValues: false,
+      showTaxes: false,
       quoteTaxes: this.quote.taxes,
       isloadingTaxes: false,
       deliveryTaxes: [],
@@ -127,6 +141,7 @@ export default {
       this.createQuoteTax({
         id: this.newTax.value,
         value: taxVal,
+        taxProfit: this.taxProfit,
       })
         .then((quotation) => {
           if (quotation["@id"]) {
@@ -158,6 +173,7 @@ export default {
       this.getDeliveryTaxes()
         .then((taxes) => {
           if (taxes) {
+            this.showTaxes = true;
             taxes.forEach((element) => {
               this.deliveryTaxes.push({
                 label: element.name,
@@ -193,6 +209,7 @@ export default {
         body: JSON.stringify({
           id: tax.id,
           value: tax.value,
+          taxProfit: tax.taxProfit,
         }),
       };
 

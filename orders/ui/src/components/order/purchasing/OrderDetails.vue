@@ -59,7 +59,7 @@
                   {{ formatMoney(this.mainPrice - this.price) }}
                   ({{
                     parseFloat(
-                      ((this.mainPrice - this.price) / this.mainPrice) * 100
+                      this.realPecentage
                     ).toFixed(2)
                   }}
                   %)
@@ -330,6 +330,7 @@ export default {
       isEditable: false,
       inputDeadline: date.formatDate(Date.now(), "DD/MM/YYYY"),
       mainPrice: null,
+      realPecentage: null,
       mainOrderId: null,
       notFound: false,
       isLoading: false,
@@ -551,6 +552,7 @@ export default {
             this.client.id = data.client.id;
             this.price = data.price;
             this.mainPrice = data.mainPrice;
+            this.realPecentage = data.realPecentage;
             this.correctValue = data.correctValue;
             this.correctPercentage = data.correctPercentage;
             this.mainOrderId = data.mainOrderId;
