@@ -154,7 +154,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import ClientOrderDetailsummary         from './details/ClientOrderDetailsummary';
+import ClientOrderDetailsummary         from './details/ClientOrderDetailSummary';
 import ClientOrderDetailQuotation       from './details/ClientOrderDetailQuotation';
 import ClientOrderDetailNotaFiscal      from './details/ClientOrderDetailNotaFiscal';
 import ClientOrderDetailInvoice         from './details/ClientOrderDetailInvoice';
