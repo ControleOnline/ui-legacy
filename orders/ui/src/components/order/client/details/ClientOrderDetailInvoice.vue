@@ -8,7 +8,7 @@
 
 <script>
 import { date, extend } from 'quasar';
-import InvoiceSearching   from '../../../invoice/client/InvoiceSearching';
+import InvoiceSearching   from '@controleonline/quasar-financial-ui/src/components/invoice/client/InvoiceSearching';
 
 export default {
   props: {

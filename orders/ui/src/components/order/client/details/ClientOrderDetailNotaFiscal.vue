@@ -99,7 +99,7 @@
 import { mapActions, mapGetters }    from 'vuex';
 import { formatCEP, formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import UploadFileForm                from '@controleonline/quasar-common-ui/src/components/common/UploadFileForm';
-import { ENTRYPOINT }                from '../../../../config/entrypoint';
+import { ENTRYPOINT }                from '../../../../../../../../src/config/entrypoint';
 
 export default {
   props: {
