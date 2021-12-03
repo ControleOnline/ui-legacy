@@ -1,8 +1,6 @@
 <template>
   <div class="row">
-
     <!-- search fields -->
-
     <div class="col-12">
       <div class="row q-col-gutter-sm">
         <div class="col-xs-12 col-sm-4">
@@ -45,9 +43,7 @@
         </div>
       </div>
     </div>
-
     <!-- search results -->
-
     <div class="col-12 q-mt-md">
       <q-tabs
         :horizontal="$q.screen.gt.xs"
@@ -60,7 +56,7 @@
           name ="allClients"
           label="Clientes"
         />
-        <!--
+        
         <q-tab
           name ="inactiveClient"
           label="Clientes inativos"
@@ -77,7 +73,7 @@
           name ="newClient"
           label="Clientes novos"
         />
-        -->
+        
       </q-tabs>
 
       <q-separator />
@@ -100,8 +96,7 @@
               }
             }"
           />
-        </q-tab-panel>
-      <!--
+        </q-tab-panel>      
         <q-tab-panel name="inactiveClient" class="q-px-none">
           <TableClientsInactive
             ref      ="inactiveClient"
@@ -164,8 +159,7 @@
               }
             }"
           />
-        </q-tab-panel>
-        -->
+        </q-tab-panel>        
       </q-tab-panels>
     </div>
 
@@ -175,10 +169,10 @@
 <script>
 import { date }              from 'quasar';
 
-//import TableClientsInactive  from './components/TableClientsInactive.vue';
-//import TableClientsProspects from './components/TableClientsProspects.vue';
-//import TableClientsActive    from './components/TableClientsActive.vue';
-//import TableClientsNew       from './components/TableClientsNew.vue';
+import TableClientsInactive  from './components/TableClientsInactive.vue';
+import TableClientsProspects from './components/TableClientsProspects.vue';
+import TableClientsActive    from './components/TableClientsActive.vue';
+import TableClientsNew       from './components/TableClientsNew.vue';
 import TableAllClients       from './components/TableAllClients.vue';
 import Api                   from '@controleonline/quasar-common-ui/src/utils/api';
 
@@ -196,10 +190,10 @@ export default {
 
   components: {
     TableAllClients,
-    //TableClientsInactive ,
-    //TableClientsProspects,
-    //TableClientsActive   ,
-    //TableClientsNew      ,
+    TableClientsInactive ,
+    TableClientsProspects,
+    TableClientsActive   ,
+    TableClientsNew      ,
   },
 
   created() {
