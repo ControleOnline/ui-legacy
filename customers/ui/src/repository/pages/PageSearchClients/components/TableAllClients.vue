@@ -20,11 +20,12 @@
             @click="$emit('selected', props.row.id)"
           />		  
         </q-td>
-        <q-td key="cnpj"  :props="props">{{ props.cols[1].value }}</q-td>
-        <q-td key="alias" :props="props">{{ props.row.alias     }}</q-td>
-        <q-td key="name"  :props="props">{{ props.row.name      }}</q-td>
-        <q-td key="email" :props="props">{{ props.row.email     }}</q-td>
-        <q-td key="phone" :props="props">{{ props.cols[5].value }}</q-td>
+        <q-td key="cnpj"            :props="props">{{ props.cols[1].value }}</q-td>
+        <q-td key="alias"           :props="props">{{ props.row.alias     }}</q-td>
+        <q-td key="name"            :props="props">{{ props.row.name      }}</q-td>
+        <q-td key="email"           :props="props">{{ props.row.email     }}</q-td>
+        <q-td key="phone"           :props="props">{{ props.cols[5].value }}</q-td>
+        <q-td key="register_date"   :props="props">{{ props.row.register_date }}</q-td>
       </q-tr>
     </template>
   </q-table>
@@ -44,6 +45,7 @@ const SETTINGS = {
     'name' ,
     'email',
     'phone',
+    'register_date',
   ],
   columns       : [
     {
@@ -88,6 +90,13 @@ const SETTINGS = {
       },
       label : 'Telefone'
     },
+    {
+      name  : 'register_date',
+      field : 'register_date',
+      align : 'left',      
+      label : 'Data do Registro'
+    },
+
   ],
 };
 
@@ -234,7 +243,8 @@ export default {
               'alias': item.alias,
               'name' : item.name,
               'email': item.email,
-              'phone': item.phone
+              'phone': item.phone,
+              'register_date': date.formatDate(item.register_date, "DD/MM/YYYY H:m:s")
             };
 
             _data.push(client);
