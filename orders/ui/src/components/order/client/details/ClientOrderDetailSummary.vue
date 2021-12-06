@@ -498,9 +498,13 @@ export default {
       this.product.type = this.summary.productType;
       this.product.totalPrice = this.summary.invoiceTotal;
       this.product.packages = this.summary.packages;
+      this.retrieve.address.country =
+        this.summary.quote.origin.country || "Brasil";
+      this.delivery.address.country =
+        this.summary.quote.destination.country || "Brasil";
 
       this.comments = this.summary.comments;
-      
+
       Object.filter = (obj, predicate) =>
         Object.keys(obj)
           .filter((key) => predicate(obj[key]))
