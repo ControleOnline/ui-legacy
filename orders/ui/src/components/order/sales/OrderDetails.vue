@@ -166,7 +166,7 @@
                 <td class="text-center text-bold">
                   <div class="row items-center justify-around">
                     <q-btn
-                      v-if="orderStatus.orderStatus.realStatus == 'canceled'"
+                      v-if="orderStatus.realStatus == 'canceled'"
                       color="positive"
                       label="Revalidar Cotação"
                       @click="remakeQuote"
