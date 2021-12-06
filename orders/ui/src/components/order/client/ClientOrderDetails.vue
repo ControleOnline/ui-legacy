@@ -250,7 +250,7 @@ export default {
       })
         .then((response) => {
           this.$router.push({
-            name: "OrderDetails",
+            name: "ClientOrderDetails",
             params: { id: response.response.data.order.id },
           });
         })
