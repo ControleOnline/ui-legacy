@@ -235,6 +235,28 @@ export default {
           });
         });
     },
+    remakeQuote() {
+      this.isUpdating = true;
+      this.quote({
+        values: this.quoteDetails,
+      })
+        .then((response) => {
+          this.$router.push({
+            name: "OrderDetails",
+            params: { id: response.response.data.order.id },
+          });
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: "O status do pedido não pode ser refeito",
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally((data) => {
+          this.isUpdating = false;
+        });
+    },
     onCheckoutFinished() {
       this.$q.notify({
         message: `Pedido #${this.orderId} foi salvo com sucesso`,
