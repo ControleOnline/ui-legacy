@@ -205,6 +205,8 @@ export default {
 
   methods: {
     ...mapActions({
+      quote: "quote/quote",
+      remakeOrder: "salesOrder/remakeOrder",
       getStatus: "purchasingOrder/getDetailStatus",
       updateStatus: "purchasingOrder/updateStatus",
     }),
