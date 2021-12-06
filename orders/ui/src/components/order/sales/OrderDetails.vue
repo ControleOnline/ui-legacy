@@ -169,8 +169,7 @@
               <tr>
                 <td class="text-center text-bold">
                   <div class="row items-center justify-around">
-                    <q-btn
-                      v-if="showQuoteDetails"
+                    <q-btn                      
                       color="positive"
                       label="Revalidar Cotação"
                       @click="remakeQuote"
