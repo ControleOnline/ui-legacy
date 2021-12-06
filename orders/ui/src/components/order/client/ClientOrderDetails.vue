@@ -106,7 +106,10 @@
 
           <q-tab-panels v-model="currentTab">
             <q-tab-panel name="resumo" class="q-pa-none">
-              <ClientOrderDetailsummary :orderId="orderId" />
+              <ClientOrderDetailsummary
+                @quote-details="setQuoteDetails"
+                :orderId="orderId"
+              />
             </q-tab-panel>
 
             <q-tab-panel name="quotation" class="q-pa-none">
@@ -236,6 +239,9 @@ export default {
             type: "negative",
           });
         });
+    },
+    setQuoteDetails(quoteDetails) {      
+      this.quoteDetails = quoteDetails;
     },
     remakeQuote() {
       this.isUpdating = true;
