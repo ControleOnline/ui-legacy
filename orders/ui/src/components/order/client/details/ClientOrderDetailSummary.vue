@@ -500,6 +500,11 @@ export default {
       this.product.packages = this.summary.packages;
 
       this.comments = this.summary.comments;
+      
+      Object.filter = (obj, predicate) =>
+        Object.keys(obj)
+          .filter((key) => predicate(obj[key]))
+          .reduce((res, key) => Object.assign(res, { [key]: obj[key] }), {});
 
       this.$emit("quote-details", {
         destination: Object.filter(
