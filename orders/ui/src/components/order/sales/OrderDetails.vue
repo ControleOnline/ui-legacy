@@ -71,11 +71,7 @@
                   "
                 >
                   {{ formatMoney(this.price - this.mainPrice) }}
-                  ({{
-                    parseFloat(
-                      this.realPecentage
-                    ).toFixed(2)
-                  }}
+                  ({{ parseFloat(this.realPecentage).toFixed(2) }}
                   %)
                 </td>
               </tr>
@@ -169,13 +165,13 @@
               <tr>
                 <td class="text-center text-bold">
                   <div class="row items-center justify-around">
-                    <q-btn                      
+                    <q-btn
+                      v-if="orderStatus.orderStatus.realStatus == 'canceled'"
                       color="positive"
                       label="Revalidar Cotação"
                       @click="remakeQuote"
                       :loading="isUpdating"
                     />
-
                     <q-btn
                       v-if="orderStatus.status == 'analysis'"
                       color="positive"
@@ -630,7 +626,10 @@ export default {
         });
     },
     setQuoteDetails(quoteDetails) {
-      if (this.orderStatus.status == "canceled" || this.orderStatus.status == "expired") {
+      if (
+        this.orderStatus.status == "canceled" ||
+        this.orderStatus.status == "expired"
+      ) {
         this.showQuoteDetails = true;
       }
       this.quoteDetails = quoteDetails;
