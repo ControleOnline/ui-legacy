@@ -1,38 +1,28 @@
 <template>
   <q-page padding>
-    <q-card style="min-height: 90vh;">
+    <q-card style="min-height: 90vh">
       <q-card-section>
         <q-card-section class="text-h5">
-          {{ $t('tasks.title') }}
+          {{ $t("tasks.title") }}
         </q-card-section>
         <div class="row">
           <div class="col-12">
-
             <q-tabs
               :horizontal="$q.screen.gt.xs"
-              align      ="justify"
-              v-model    ="currentTab"
-              class      ="bg-white text-primary"
-            >
-              <q-tab
-                name  ="myTasks"
-                :label="$t('tasks.myTasks')"
-              />
-              <q-tab
-                name  ="create"
-                :label="$t('tasks.create')"
-              />
-              <q-tab
-                name  ="category"
-                :label="$t('tasks.category')"
-              />
-            </q-tabs>
-
-            <q-separator />
-
-            <q-tab-panels
+              align="justify"
               v-model="currentTab"
+              class="bg-white text-primary"
             >
+            <q-tab name="allTasks" :label="$t('tasks.allTasks')" />
+              <q-tab name="myTasks" :label="$t('tasks.myTasks')" />
+              <q-tab name="create" :label="$t('tasks.create')" />
+              <q-tab name="category" :label="$t('tasks.category')" />
+            </q-tabs>
+            <q-separator />
+            <q-tab-panels v-model="currentTab">
+              <q-tab-panel name="allTasks" class="q-px-none">
+                <TasksSearchingAll />
+              </q-tab-panel>
               <q-tab-panel name="myTasks" class="q-px-none">
                 <MyTasksSearching />
               </q-tab-panel>
@@ -43,7 +33,6 @@
                 <TaskCategorySearching />
               </q-tab-panel>
             </q-tab-panels>
-
           </div>
         </div>
       </q-card-section>
@@ -52,30 +41,33 @@
 </template>
 
 <script>
-import TaskCategorySearching from '../../components/Tasks/TaskCategorySearching';
-import MyTasksSearching      from '../../components/Tasks/MyTasksSearching';
-import TasksSearching        from '../../components/Tasks/TasksSearching';
-import { mapGetters }        from 'vuex';
+import TaskCategorySearching from "../../components/Tasks/TaskCategorySearching";
+import MyTasksSearching from "../../components/Tasks/MyTasksSearching";
+import TasksSearching from "../../components/Tasks/TasksSearching";
+import TasksSearchingAll from "../../components/Tasks/TasksSearchingAll";
+
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'TasksIndexPage',
+  name: "TasksIndexPage",
 
   components: {
     TaskCategorySearching,
     MyTasksSearching,
     TasksSearching,
+    TasksSearchingAll
   },
 
-  data () {
+  data() {
     return {
-      currentTab: 'myTasks'
-    }
+      currentTab: "myTasks",
+    };
   },
 
   computed: {
     ...mapGetters({
-      user: 'auth/user',
+      user: "auth/user",
     }),
-  }
-}
+  },
+};
 </script>

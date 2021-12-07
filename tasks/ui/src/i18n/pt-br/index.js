@@ -3,11 +3,12 @@
 
 export const translate = {
   tasks: {
-    create        : 'Tarefas Criadas',
-    myTasks       : 'Minhas Tarefas',
+    allTasks      : 'Todas',
+    create        : 'Ocorrências Criadas',
+    myTasks       : 'Minhas Ocorrências',
     category      : 'Categorias',
-    title         : 'Tarefas',
-    information   : 'Detalhes da tarefa',
+    title         : 'Ocorrências',
+    information   : 'Detalhes da Ocorrências',
     interactions  : 'Interações',
     categoryInfo  : 'Detalhes da Categoria',
     newInteraction: 'Nova Interação'

@@ -94,7 +94,7 @@
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { mapGetters } from "vuex";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import FormTasks from "./FormTasks.vue";
+import FormTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/FormTasks.vue";
 
 export default {
   props: {
@@ -215,11 +215,10 @@ export default {
     // store method
     getTasks(params) {
       params.provider = this.myCompany.id;
-      if (this.orderId) {
+      if (this.orderId){
         params.order = this.orderId;
       }
-
-      params.registeredBy = this.user.people;
+      
 
       return this.API.private("/tasks", { params })
         .then((response) => response.json())
@@ -295,7 +294,7 @@ export default {
 
       if (this.filters.status) {
         params.taskStatus = this.filters.status.value;
-      }
+      }      
 
       this.getTasks(params)
         .then((data) => {
