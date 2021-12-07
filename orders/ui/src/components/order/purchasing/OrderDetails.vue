@@ -304,7 +304,7 @@ import OrderDetailDACTE from "./details/OrderDetailDACTE";
 import OrderDetailTracking from "./details/OrderTracking";
 import OrderDetailTag from "./details/OrderDetailTag";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearching";
+import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 
 export default {
   components: {

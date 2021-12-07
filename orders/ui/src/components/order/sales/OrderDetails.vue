@@ -313,7 +313,7 @@ import OrderDetailInvoice from "./details/OrderDetailInvoice";
 import OrderDetailDACTE from "./details/OrderDetailDACTE";
 import OrderDetailTracking from "./details/OrderTracking";
 import OrderDetailTag from "./details/OrderDetailTag";
-import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearching";
+import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
