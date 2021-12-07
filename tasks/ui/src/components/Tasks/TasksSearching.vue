@@ -110,7 +110,14 @@ export default {
   components: {
     FormTasks,
   },
-
+  watch: {
+    "filters.status"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+  },
   data() {
     let statuses = [{ label: "Todos", value: -1 }];
 
