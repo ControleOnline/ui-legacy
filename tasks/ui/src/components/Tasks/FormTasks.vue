@@ -301,6 +301,13 @@ export default {
       this.item.order = this.orderId;
     }
 
+    if (this.user) {
+      var taskForVal = "(#" + this.user.people + ") " + this.user.realname;
+      this.searchTaskFor = taskForVal;
+      this.taskForSelected = this.user.people;
+      this.item.taskFor = this.user.people;
+    }
+
     if (this.taskData) {
       this.item.id = this.taskId;
       this.item.name = this.taskData.name;
@@ -594,7 +601,11 @@ export default {
         })
         .then((response) => response.json())
         .then((result) => {
-          if (result.response && result.response.data && result.response.data.id) {
+          if (
+            result.response &&
+            result.response.data &&
+            result.response.data.id
+          ) {
             return {
               success: true,
               id: result.response.data.id,

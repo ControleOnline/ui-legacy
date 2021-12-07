@@ -289,6 +289,10 @@ export default {
         props.pagination;
       let params = { limit: rowsPerPage, page };
 
+      if (this.filters.status) {
+        params.status = this.filters.status.value;
+      }
+
       this.getTasks(params)
         .then((data) => {
           let _data = [];
