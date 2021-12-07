@@ -290,7 +290,7 @@ export default {
       let params = { limit: rowsPerPage, page };
 
       if (this.filters.status) {
-        params.status = this.filters.status.value;
+        params.taskStatus = this.filters.status.value;
       }
 
       this.getTasks(params)
