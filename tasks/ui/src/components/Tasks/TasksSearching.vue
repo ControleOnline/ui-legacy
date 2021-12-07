@@ -110,14 +110,6 @@ export default {
   components: {
     FormTasks,
   },
-  watch: {
-    "filters.status"() {
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
-    },
-  },
   data() {
     let statuses = [{ label: "Todos", value: -1 }];
 
@@ -202,8 +194,13 @@ export default {
       myCompany: "people/currentCompany",
     }),
   },
-
   watch: {
+    "filters.status"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
     myCompany(company) {
       if (company !== null) {
         this.onRequest({
