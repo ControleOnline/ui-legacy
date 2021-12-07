@@ -290,7 +290,7 @@ export default {
 
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
         props.pagination;
-      let params = { limit: rowsPerPage, page };
+      let params = { itemsPerPage: rowsPerPage, page };
 
       if (this.filters.status && this.filters.status.value > 0) {
         params.taskStatus = this.filters.status.value;
