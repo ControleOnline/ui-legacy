@@ -126,12 +126,11 @@
                 @fileUploaded="onInvoiceTaxUploaded"
               />
             </q-tab-panel>
-
             <q-tab-panel name="invoice" class="q-pa-none">
               <ClientOrderDetailInvoice :orderId="orderId" />
             </q-tab-panel>
-           <q-tab-panel name="tasks" class="q-pa-none">
-              <OrderTasks :orderId="orderId" />
+            <q-tab-panel name="tasks" class="q-pa-none">
+              <OrderTasks :orderId="orderId" :client="client" />
             </q-tab-panel>
             <q-tab-panel name="tracking" class="q-pa-none">
               <ClientOrderDetailTracking :orderId="orderId" />

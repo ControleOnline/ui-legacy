@@ -54,14 +54,24 @@
                 </td>
               </tr>
               <tr v-if="this.mainOrderId">
-                <td :class="((this.mainPrice - this.price) < this.correctValue)?'red text-left text-bold':'green text-left text-bold'">Valor do ticket</td>
-                <td :class="((this.mainPrice - this.price) < this.correctValue)?'red text-left text-bold':'green text-left text-bold'">
+                <td
+                  :class="
+                    this.mainPrice - this.price < this.correctValue
+                      ? 'red text-left text-bold'
+                      : 'green text-left text-bold'
+                  "
+                >
+                  Valor do ticket
+                </td>
+                <td
+                  :class="
+                    this.mainPrice - this.price < this.correctValue
+                      ? 'red text-left text-bold'
+                      : 'green text-left text-bold'
+                  "
+                >
                   {{ formatMoney(this.mainPrice - this.price) }}
-                  ({{
-                    parseFloat(
-                      this.realPecentage
-                    ).toFixed(2)
-                  }}
+                  ({{ parseFloat(this.realPecentage).toFixed(2) }}
                   %)
                 </td>
               </tr>
@@ -249,8 +259,8 @@
                 @fileUploaded="onDacteUploaded"
               />
             </q-tab-panel>
-           <q-tab-panel name="tasks" class="q-pa-none">
-              <OrderTasks :orderId="orderId" />
+            <q-tab-panel name="tasks" class="q-pa-none">
+              <OrderTasks :orderId="orderId" :client="client" />
             </q-tab-panel>
             <q-tab-panel name="tracking" class="q-pa-none">
               <OrderDetailTracking :orderId="orderId" />
@@ -305,7 +315,7 @@ export default {
     OrderDetailDACTE,
     OrderDetailTracking,
     OrderDetailTag,
-    OrderTasks
+    OrderTasks,
   },
 
   created() {
@@ -552,8 +562,7 @@ export default {
             this.orderStatus = data.orderStatus;
             this.invoices = data.invoiceTax;
             this.deliveryDueDate = data.deliveryDueDate;
-            this.client.name = data.client.name;
-            this.client.id = data.client.id;
+            this.client = data.client;
             this.price = data.price;
             this.mainPrice = data.mainPrice;
             this.realPecentage = data.realPecentage;
@@ -610,10 +619,10 @@ export default {
 };
 </script>
 <style scoped>
-.red{
+.red {
   color: red !important;
 }
-.green{
+.green {
   color: rgb(75, 110, 5) !important;
 }
 </style>

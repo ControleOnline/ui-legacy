@@ -270,7 +270,7 @@
               />
             </q-tab-panel>
             <q-tab-panel name="tasks" class="q-pa-none">
-              <OrderTasks :orderId="orderId" />
+              <OrderTasks :orderId="orderId" :client="client" />
             </q-tab-panel>
             <q-tab-panel name="tracking" class="q-pa-none">
               <OrderDetailTracking :orderId="orderId" />
@@ -601,8 +601,7 @@ export default {
             this.orderStatus = data.orderStatus;
             this.invoices = data.invoiceTax;
             this.deliveryDueDate = data.deliveryDueDate;
-            this.client.name = data.client.name;
-            this.client.id = data.client.id;
+            this.client = data.client;
             this.price = data.price;
             this.mainPrice = data.mainPrice;
             this.realPecentage = data.realPecentage;
@@ -613,7 +612,7 @@ export default {
             this.isEditable =
               data.orderStatus.status === "on the way" ||
               data.orderStatus.status === "retrieved";
-            this.integrationType = data.integrationType;
+            this.integrationType = data.integrationType;            
           }
 
           return data;
