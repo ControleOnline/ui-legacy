@@ -230,6 +230,7 @@
             <q-tab name="notafiscal" label="Nota Fiscal" />
             <q-tab name="invoice" label="Fatura" />
             <q-tab v-if="showDacteTab" name="dacte" label="DACTE" />
+            <q-tab name="tasks" label="Ocorrências" />
             <q-tab name="tracking" label="Rastreamento" />
             <q-tab name="tag" label="Etiqueta" />
           </q-tabs>
@@ -268,7 +269,9 @@
                 @fileUploaded="onDacteUploaded"
               />
             </q-tab-panel>
-
+            <q-tab-panel name="tasks" class="q-pa-none">
+              <OrderTasks :orderId="orderId" />
+            </q-tab-panel>
             <q-tab-panel name="tracking" class="q-pa-none">
               <OrderDetailTracking :orderId="orderId" />
             </q-tab-panel>
@@ -310,6 +313,7 @@ import OrderDetailInvoice from "./details/OrderDetailInvoice";
 import OrderDetailDACTE from "./details/OrderDetailDACTE";
 import OrderDetailTracking from "./details/OrderTracking";
 import OrderDetailTag from "./details/OrderDetailTag";
+import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearching";
 
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
@@ -322,6 +326,7 @@ export default {
     OrderDetailDACTE,
     OrderDetailTracking,
     OrderDetailTag,
+    OrderTasks,
   },
 
   created() {
