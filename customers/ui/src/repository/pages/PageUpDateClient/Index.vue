@@ -429,7 +429,7 @@ export default {
         .then((data) => {
           if (data["@id"]) {
             this.people = data;
-            this.people.id = data["@id"];
+            this.people.id = this.clientId;
             this.client.name =
               data.peopleType === "J"
                 ? data.alias
