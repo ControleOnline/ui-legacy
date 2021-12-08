@@ -63,7 +63,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="tasks" class="q-pa-none">
-          <OrderTasks :client="client" />
+          <OrderTasks :client="people" />
         </q-tab-panel>
 
         <q-tab-panel name="salesman">
@@ -410,6 +410,7 @@ export default {
 
   data() {
     return {
+      people:[],
       currentTab: "summary",
       api: null,
       clientId: this.id,
@@ -427,6 +428,8 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           if (data["@id"]) {
+            this.people = data;
+            this.people.id = data["@id"];
             this.client.name =
               data.peopleType === "J"
                 ? data.alias
