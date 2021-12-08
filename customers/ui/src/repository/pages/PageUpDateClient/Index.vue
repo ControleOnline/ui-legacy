@@ -63,7 +63,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="tasks" class="q-pa-none">
-          <OrderTasks :client="clientId" />
+          <OrderTasks :client="client" />
         </q-tab-panel>
 
         <q-tab-panel name="salesman">
