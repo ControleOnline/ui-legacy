@@ -219,8 +219,8 @@ export default {
         params.order = this.orderId;
       }
       
-      if (client){
-        params.order = this.orderId;
+      if (this.client) {
+        params.client = this.client;
       }
 
       return this.API.private("/tasks", { params })

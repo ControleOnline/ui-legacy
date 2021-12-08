@@ -219,8 +219,8 @@ export default {
         params.taskStatus = this.filters.status.value;
       }
 
-      if (client) {
-        params.order = this.orderId;
+      if (this.client) {
+        params.client = this.client;
       }
 
       this.getMyTasks(params)
