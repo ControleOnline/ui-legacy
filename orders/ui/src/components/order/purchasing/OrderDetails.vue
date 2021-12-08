@@ -260,7 +260,7 @@
               />
             </q-tab-panel>
             <q-tab-panel name="tasks" class="q-pa-none">
-              <OrderTasks :orderId="orderId" :client="client" />
+              <OrderTasks :orderId="orderId" :client="provider" />
             </q-tab-panel>
             <q-tab-panel name="tracking" class="q-pa-none">
               <OrderDetailTracking :orderId="orderId" />
@@ -335,6 +335,7 @@ export default {
       orderStatus: null,
       deliveryDueDate: null,
       invoices: [],
+      provider:{},
       client: {
         name: "",
       },
@@ -563,6 +564,7 @@ export default {
             this.invoices = data.invoiceTax;
             this.deliveryDueDate = data.deliveryDueDate;
             this.client = data.client;
+            this.provider = data.provider;
             this.price = data.price;
             this.mainPrice = data.mainPrice;
             this.realPecentage = data.realPecentage;
