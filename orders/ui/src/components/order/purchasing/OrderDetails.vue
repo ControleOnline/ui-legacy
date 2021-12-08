@@ -19,8 +19,8 @@
             <q-btn
               flat
               dense
-              :to="{ name: 'ClientsDetails', params: { id: client.id } }"
-              :label="client.name"
+              :to="{ name: 'CarrierDetails', params: { id: provider.id } }"
+              :label="provider.alias"
               class="full-width"
             />
           </div>
@@ -335,7 +335,7 @@ export default {
       orderStatus: null,
       deliveryDueDate: null,
       invoices: [],
-      provider:{},
+      provider: {},
       client: {
         name: "",
       },
