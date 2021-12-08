@@ -410,7 +410,7 @@ export default {
 
   data() {
     return {
-      people:[],
+      people:{},
       currentTab: "summary",
       api: null,
       clientId: this.id,
