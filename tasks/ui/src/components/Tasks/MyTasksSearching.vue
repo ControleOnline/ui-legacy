@@ -220,7 +220,7 @@ export default {
       }
 
       if (this.client) {
-        params.client = this.client;
+        params.client = this.client.id;
       }
 
       this.getMyTasks(params)
