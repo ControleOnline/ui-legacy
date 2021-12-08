@@ -218,6 +218,11 @@ export default {
       if (this.filters.status && this.filters.status.value > 0) {
         params.taskStatus = this.filters.status.value;
       }
+
+      if (client) {
+        params.order = this.orderId;
+      }
+
       this.getMyTasks(params)
         .then((data) => {
           let _data = [];

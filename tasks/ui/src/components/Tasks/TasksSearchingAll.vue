@@ -219,6 +219,9 @@ export default {
         params.order = this.orderId;
       }
       
+      if (client){
+        params.order = this.orderId;
+      }
 
       return this.API.private("/tasks", { params })
         .then((response) => response.json())
