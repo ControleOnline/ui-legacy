@@ -97,8 +97,7 @@
 
         <div class="row" v-else>
           <div class="col-12">
-            <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-              ">
+            <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">              
               <h6 class="q-mb-md q-mt-md">
                 DACTE: #{{ invoiceTax.invoice_number }}
               </h6>
@@ -277,7 +276,15 @@ export default {
         },
       })
         .then((order) => {
-          location.reload();
+          if (order.response && order.response.error) {
+            this.$q.notify({
+              message: order.response.error,
+              position: "bottom",
+              type: "negative",
+            });
+          } else {
+            location.reload();
+          }                    
         })
         .catch((error) => {
           this.$q.notify({
