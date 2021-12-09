@@ -110,6 +110,25 @@ export const downloadNF = ({ commit }, id) => {
     });
 };
 
+export const removeInvoiceTax = ({ commit }, { id, values, params = {} }) => {
+  let options = {
+    method: 'PUT',
+    body: JSON.stringify(values),
+    params: params
+  };
+
+  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+
+  return fetch(`${RESOURCE_ENDPOINT}/${id}/remove-invoice-tax`, options)
+    .then(response => response.json())
+    .then(data => {
+
+      return data;
+
+    });
+};
+
+
 export const updateStatus = ({ commit }, { id, values, params = {} }) => {
   let options = {
     method: 'PUT',

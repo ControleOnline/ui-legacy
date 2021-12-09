@@ -97,9 +97,26 @@
 
         <div class="row" v-else>
           <div class="col-12">
-            <h6 class="q-mb-md q-mt-md">
-              DACTE: #{{ invoiceTax.invoice_number }}
-            </h6>
+            <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+              ">
+              <h6 class="q-mb-md q-mt-md">
+                DACTE: #{{ invoiceTax.invoice_number }}
+              </h6>
+            </div>
+            <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+              <q-btn
+                v-if="
+                  order.status.status == 'on the way' ||
+                  order.status.status == 'delivered'
+                "
+                lazy-rules
+                color="negative"
+                label="Remover DACTE"
+                @click="removeDACTE"
+              />
+            </div>
+          </div>
+          <div class="col-12">
             <div class="row justify-center">
               <iframe
                 :src="urlInvoiceTax"
@@ -146,6 +163,7 @@ export default {
       uploadErrors: [],
       invoiceTax: null,
       dacteMode: "upload",
+      order: null,
       isSaving: false,
       item: {
         dacte: null,
@@ -186,6 +204,7 @@ export default {
   methods: {
     ...mapActions({
       getItem: "salesOrder/getDetailOrder",
+      removeInvoiceTax: "salesOrder/removeInvoiceTax",
     }),
 
     updateDacte() {
@@ -249,7 +268,25 @@ export default {
         this.uploadErrors.push(error["hydra:description"]);
       }
     },
-
+    removeDACTE() {
+      this.removeInvoiceTax({
+        id: this.orderId,
+        values: {
+          orderId: this.orderId,
+          invoiceTax: this.invoiceTax.id,
+        },
+      })
+        .then((order) => {
+          location.reload();
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: "O status do pedido não pode ser atualizado",
+            position: "bottom",
+            type: "negative",
+          });
+        });
+    },
     onRequest() {
       if (this.isLoading) return;
 
@@ -260,6 +297,7 @@ export default {
         },
       }).then((order) => {
         if (order !== null) {
+          this.order = order;
           if (order.invoiceTax.length > 0) {
             let invoiceTax = order.invoiceTax.find(
               (inv) => inv.invoice_type == 57
