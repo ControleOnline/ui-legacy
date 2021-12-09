@@ -610,6 +610,7 @@ export default {
             this.mainOrderId = data.mainOrderId;
             this.notFound = false;
             this.isEditable =
+            data.orderStatus.status === "delivered" ||
               data.orderStatus.status === "on the way" ||
               data.orderStatus.status === "retrieved";
             this.integrationType = data.integrationType;            
