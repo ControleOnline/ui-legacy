@@ -53,8 +53,7 @@ export default {
     }),
   onRequest() {
       this.items = [];
-      let params = {
-        'categories': 332,
+      let params = {        
         'status': 'publish'
       };            
       this.getNews(params)
