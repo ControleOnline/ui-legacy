@@ -194,6 +194,13 @@
                       :loading="isUpdating"
                     />
                     <q-btn
+                      v-if="orderStatus.status == 'retrieved'"
+                      color="negative"
+                      label="Coleta não Realizada"
+                      @click="backToWaitingRetrieve"
+                      :loading="isUpdating"
+                    />
+                    <q-btn
                       v-if="
                         ['open', 'pending'].includes(orderStatus.realStatus)
                       "
@@ -455,6 +462,32 @@ export default {
           });
         });
     },
+    backToWaitingRetrieve(){
+      let params = {
+        myCompany: this.myCompany.id,
+      };
+
+      this.isUpdating = true;
+      this.updateStatus({
+        id: this.orderId,
+        values: {
+          update: "waiting_retrieve",
+        },
+        params: params,
+      })
+        .then((order) => {
+          this.requestOrderStatus(this.orderId).finally((data) => {
+            this.isUpdating = false;
+          });
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: "O status do pedido não pode ser atualizado",
+            position: "bottom",
+            type: "negative",
+          });
+        });
+    },
     addDelivered() {
       let params = {
         myCompany: this.myCompany.id,
@@ -610,10 +643,10 @@ export default {
             this.mainOrderId = data.mainOrderId;
             this.notFound = false;
             this.isEditable =
-            data.orderStatus.status === "delivered" ||
+              data.orderStatus.status === "delivered" ||
               data.orderStatus.status === "on the way" ||
               data.orderStatus.status === "retrieved";
-            this.integrationType = data.integrationType;            
+            this.integrationType = data.integrationType;
           }
 
           return data;
