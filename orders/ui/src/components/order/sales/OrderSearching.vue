@@ -51,6 +51,7 @@
             :style="{ color: props.row.color_status }"
             class="full-width"
           />
+          <q-icon v-if="props.row.task.length > 0" name="priority_high" color="red" />
         </q-td>
         <q-td key="notaFiscal" :props="props">{{ props.row.notaFiscal }}</q-td>
         <q-td key="dataPedido" :props="props">{{ props.cols[2].value }}</q-td>
@@ -309,6 +310,7 @@ export default {
           ultimaModificacao: item.alterDate,
           status: item.orderStatus.status,
           color_status: item.orderStatus.color,
+          task: item.task,
           fornecedor: item.client?item.client.alias:null,
           coleta: item.retrievePeople !== null ? item.retrievePeople.name : "",
           localColeta:
