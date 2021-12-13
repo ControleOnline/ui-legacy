@@ -424,6 +424,13 @@ export default {
     },
 
     isInvalid(key) {
+      
+      switch (key) {
+        case "renavan":
+          return true;
+          break;
+      }
+
       return (val) => {
         if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
         return true;
