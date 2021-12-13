@@ -70,7 +70,6 @@
         "
       >
         <q-btn
-          v-close-popup
           :class="showValues == false ? 'hidden' : ''"
           color="primary"
           label="Adicionar"
