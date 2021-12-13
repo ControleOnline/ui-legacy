@@ -89,7 +89,7 @@
             <q-tooltip>Salvar</q-tooltip>
           </q-btn>
         </div>
-        <div v-if="orderStatus != 'quote'" class="col-6 col-sm-2">
+        <div class="col-6 col-sm-2">
           <q-btn
             dense
             style="margin-top: 13px"
@@ -99,7 +99,7 @@
             Gerar Proposta
           </q-btn>
         </div>
-        <div v-if="orderStatus != 'quote'" class="col-6 col-sm-2">
+        <div class="col-6 col-sm-2">
           <q-btn
             dense
             style="margin-top: 13px"

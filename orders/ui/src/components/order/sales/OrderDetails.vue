@@ -199,11 +199,8 @@
                       label="Coleta não Realizada"
                       @click="backToWaitingRetrieve"
                       :loading="isUpdating"
-                    />
-                    <q-btn
-                      v-if="
-                        ['open', 'pending'].includes(orderStatus.realStatus)
-                      "
+                    />                    
+                    <q-btn                      
                       color="negative"
                       label="Cancelar Pedido"
                       @click="cancelOrder"
