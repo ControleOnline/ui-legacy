@@ -2,7 +2,7 @@
   <!-- eslint-disable -->
   <q-btn-dropdown
     outline
-    v-if="isMultipleCompanies() == true"
+    v-if="isMultipleCompanies() == true && !dialog"
     color="primary"
     text-color="white"
     :label="currentCompany !== null ? currentCompany.name : 'Loading...'"
@@ -23,13 +23,36 @@
       </q-item>
     </q-list>
   </q-btn-dropdown>
+
+  <q-dialog v-else v-model="dialog">
+    <q-card style="width: 700px; max-width: 80vw">
+      <q-card-section class="row items-center">
+        <div class="text-h6">Nova empresa</div>
+        <q-space />
+        <q-btn icon="close" flat round dense v-close-popup />
+      </q-card-section>
+      <q-card-section>
+        <FormCompany
+          @saved="onSaved"
+          :person="false"
+          :companyFields="companyFields"
+          address="bycep"
+          saveBtn="Salvar"
+        />
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
 /* eslint-disable */
 import { mapActions, mapGetters } from "vuex";
+import FormCompany from "@controleonline/quasar-login-ui/src/components/user/signup/Company";
 
 export default {
+  components: {
+    FormCompany,
+  },
   props: {
     selected: {
       type: Number,
@@ -40,6 +63,7 @@ export default {
 
   data() {
     return {
+      dialog: false,
       myCompanies: [],
       currentCompany: null,
       menuOpen: false,
@@ -54,7 +78,12 @@ export default {
     ...mapGetters({
       myCompany: "people/currentCompany",
       companies: "people/companies",
+      signUpCustomBg: "auth/signUpCustomBg",
+      signUpFields: "auth/signUpFields",
     }),
+    companyFields() {
+      return this.signUpFields?.company || [];
+    },
   },
 
   watch: {
@@ -63,6 +92,7 @@ export default {
     },
 
     companies(companies) {
+      this.dialog = companies.length > 0 ? false : true;
       this.setCompanies(companies);
     },
   },
@@ -71,7 +101,14 @@ export default {
     ...mapActions({
       getCompanies: "people/myCompanies",
       setCompany: "people/currentCompany",
+      save: "people/company",
     }),
+
+    onSaved(hasErrors) {
+      if (hasErrors == false) {
+        this.dialog;
+      }
+    },
     isMultipleCompanies() {
       return this.myCompanies.length > 1 ? true : false;
     },
@@ -84,7 +121,7 @@ export default {
 
         if (item.logo !== null) {
           logo = "https://" + item.logo.domain + item.logo.url;
-        }        
+        }
         data.push({
           id: item.id,
           name: item.alias,
