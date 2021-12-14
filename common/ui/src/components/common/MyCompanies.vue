@@ -27,9 +27,8 @@
   <q-dialog v-else v-model="dialog">
     <q-card style="width: 700px; max-width: 80vw">
       <q-card-section class="row items-center">
-        <div class="text-h6">Nova empresa</div>
-        <q-space />
-        <q-btn icon="close" flat round dense v-close-popup />
+        <div class="text-h6">Adicionar dados da Empresa</div>
+        <q-space />        
       </q-card-section>
       <q-card-section>
         <FormCompany
@@ -89,8 +88,7 @@ export default {
   watch: {
     myCompany(company) {
       this.$emit("selected", company);
-    },
-
+    },    
     companies(companies) {
       this.dialog = companies.length > 0 ? false : true;
       this.setCompanies(companies);
@@ -106,7 +104,8 @@ export default {
 
     onSaved(hasErrors) {
       if (hasErrors == false) {
-        this.dialog;
+        //this.dialog = false;
+        location.reload();
       }
     },
     isMultipleCompanies() {
