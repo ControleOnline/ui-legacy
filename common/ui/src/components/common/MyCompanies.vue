@@ -24,7 +24,7 @@
     </q-list>
   </q-btn-dropdown>
 
-  <q-dialog v-else v-model="dialog">
+  <q-dialog v-else v-model="dialog" persistent>
     <q-card style="width: 700px; max-width: 80vw">
       <q-card-section class="row items-center">
         <div class="text-h6">Adicionar dados da Empresa</div>
