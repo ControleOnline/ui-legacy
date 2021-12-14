@@ -51,7 +51,21 @@
             :style="{ color: props.row.color_status }"
             class="full-width"
           />
-          <q-icon v-if="props.row.task.length > 0" name="priority_high" color="red" />
+          <q-icon
+            v-if="hasClosedTasks(props.row.task) == true"
+            name="priority_high"
+            color="green"
+          />
+          <q-icon
+            v-if="hasPendingTasks(props.row.task) == true"
+            name="priority_high"
+            color="yellow"
+          />
+          <q-icon
+            v-if="hasOpenedTasks(props.row.task) == true"
+            name="priority_high"
+            color="red"
+          />
         </q-td>
         <q-td key="notaFiscal" :props="props">{{ props.row.notaFiscal }}</q-td>
         <q-td key="dataPedido" :props="props">{{ props.cols[2].value }}</q-td>
@@ -311,7 +325,7 @@ export default {
           status: item.orderStatus.status,
           color_status: item.orderStatus.color,
           task: item.task,
-          fornecedor: item.client?item.client.alias:null,
+          fornecedor: item.client ? item.client.alias : null,
           coleta: item.retrievePeople !== null ? item.retrievePeople.name : "",
           localColeta:
             item.quote !== null
@@ -371,7 +385,33 @@ export default {
         this.loadingStatuses = false;
       });
     },
-
+    hasPendingTasks(tasks) {
+      let has = false;
+      tasks.forEach((task) => {
+        if (task.taskStatus.match(/^\/task_statuses\/([a-z0-9-]*)$/)[1] == 3) {
+          has = true;
+        }
+      });
+      return has;
+    },
+    hasOpenedTasks(tasks) {
+      let has = false;
+      tasks.forEach((task) => {
+        if (task.taskStatus.match(/^\/task_statuses\/([a-z0-9-]*)$/)[1] == 1) {
+          has = true;
+        }
+      });
+      return has;
+    },
+    hasClosedTasks(tasks) {
+      let has = false;
+      tasks.forEach((task) => {
+        if (task.taskStatus.match(/^\/task_statuses\/([a-z0-9-]*)$/)[1] == 2) {
+          has = true;
+        }
+      });
+      return has;
+    },
     onRequest(props) {
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
         props.pagination;
@@ -387,12 +427,12 @@ export default {
       if (this.filters.status != null && this.filters.status.value != -1) {
         params["orderStatus"] = this.filters.status.value;
       } else {
-
-        
-        params["orderStatus.realStatus"] = 
-        (this.defaultCompany.configs && typeof this.defaultCompany.configs.salesOrdersStartRealStatus  != 'undefined')
-          ? JSON.parse(this.defaultCompany.configs.salesOrdersStartRealStatus)
-          : ["pending"];
+        params["orderStatus.realStatus"] =
+          this.defaultCompany.configs &&
+          typeof this.defaultCompany.configs.salesOrdersStartRealStatus !=
+            "undefined"
+            ? JSON.parse(this.defaultCompany.configs.salesOrdersStartRealStatus)
+            : ["pending"];
       }
 
       if (this.filters.company != null) {
