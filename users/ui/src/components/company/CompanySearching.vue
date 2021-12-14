@@ -81,6 +81,7 @@
           <FormCompany
             @saved  ="onSaved"
             :person ="false"
+            :companyFields="companyFields"
             address ="bycep"
             saveBtn ="Salvar"
           />
@@ -95,6 +96,8 @@
 import { mapActions, mapGetters } from 'vuex';
 import FormCompany                from '@controleonline/quasar-login-ui/src/components/user/signup/Company';
 import { formatDocument }         from '@controleonline/quasar-common-ui/src/utils/formatter';
+
+
 
 export default {
   components: {
@@ -117,13 +120,20 @@ export default {
   computed: {
     ...mapGetters({
       user: 'auth/user',
+      signUpCustomBg: "auth/signUpCustomBg",
+      signUpFields: "auth/signUpFields",
     }),
 
     userTypeCapitalized() {
       return this.user ?
         `${this.user.type.charAt(0).toUpperCase()}${this.user.type.slice(1)}`
         : 'Guest';
-    }
+    },
+
+    companyFields() {
+      return this.signUpFields?.company || [];
+    },
+
   },
 
   methods: {
