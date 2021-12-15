@@ -59,7 +59,9 @@
               />
             </q-td>
             <q-td key="name" :props="props">{{ props.row.name }}</q-td>
-            <q-td key="status" :props="props">{{ props.row.status }}</q-td>
+            <q-td key="status" :props="props">{{
+              $t("tasks.status." + props.row.status)
+            }}</q-td>
             <q-td key="taskFor" :props="props">{{ props.row.taskFor }}</q-td>
             <q-td key="dueDate" :props="props">{{ props.cols[4].value }}</q-td>
           </q-tr>
@@ -111,7 +113,7 @@ export default {
     FormTasks,
   },
   data() {
-    let statuses = [{ label: "Todos", value: -1 }];
+    let statuses = [{ label: $t("tasks.status." + "All"), value: -1 }];
 
     return {
       API: new Api(this.$store.getters["auth/user"].token),
@@ -275,7 +277,7 @@ export default {
           for (let index in statuses.members) {
             let item = statuses.members[index];
             this.statuses.push({
-              label: item.name,
+              label: this.$t("tasks.status." + item.name),
               value: item.id,
             });
           }

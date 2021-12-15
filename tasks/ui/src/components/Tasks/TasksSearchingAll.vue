@@ -59,7 +59,9 @@
               />
             </q-td>
             <q-td key="name" :props="props">{{ props.row.name }}</q-td>
-            <q-td key="status" :props="props">{{ props.row.status }}</q-td>
+            <q-td key="status" :props="props">{{
+              $t("tasks.status." + props.row.status)
+            }}</q-td>
             <q-td key="taskFor" :props="props">{{ props.row.taskFor }}</q-td>
             <q-td key="dueDate" :props="props">{{ props.cols[4].value }}</q-td>
           </q-tr>
@@ -111,7 +113,7 @@ export default {
     FormTasks,
   },
   data() {
-    let statuses = [{ label: "Todos", value: -1 }];
+    let statuses = [{ label: $t("tasks.status." + "All"), value: -1 }];
 
     return {
       API: new Api(this.$store.getters["auth/user"].token),
@@ -215,10 +217,10 @@ export default {
     // store method
     getTasks(params) {
       params.provider = this.myCompany.id;
-      if (this.orderId){
+      if (this.orderId) {
         params.order = this.orderId;
       }
-      
+
       if (this.client) {
         params.client = this.client.id;
       }
@@ -277,7 +279,7 @@ export default {
           for (let index in statuses.members) {
             let item = statuses.members[index];
             this.statuses.push({
-              label: item.name,
+              label: this.$t("tasks.status." + item.name),
               value: item.id,
             });
           }
@@ -297,7 +299,7 @@ export default {
 
       if (this.filters.status && this.filters.status.value > 0) {
         params.taskStatus = this.filters.status.value;
-      }      
+      }
 
       this.getTasks(params)
         .then((data) => {

@@ -11,6 +11,11 @@ export const translate = {
     information   : 'Detalhes da Ocorrências',
     interactions  : 'Interações',
     categoryInfo  : 'Detalhes da Categoria',
-    newInteraction: 'Nova Interação'
+    newInteraction: 'Nova Interação',
+    status:{
+      Open:    'Aberta',
+      Closed:  'Fechada',
+      Pending: 'Pendente',
+    }
   }
 }
