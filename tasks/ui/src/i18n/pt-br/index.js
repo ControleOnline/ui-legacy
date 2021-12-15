@@ -16,6 +16,7 @@ export const translate = {
       Open:    'Aberta',
       Closed:  'Fechada',
       Pending: 'Pendente',
+      All:     'Todas',
     }
   }
 }
