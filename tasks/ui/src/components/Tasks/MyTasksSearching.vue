@@ -68,7 +68,7 @@ import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/f
 
 export default {
   data() {
-    let statuses = [{ label: $t("tasks.status." + "All"), value: -1 }];
+    let statuses = [{ label: this.$t("tasks.status." + "All"), value: -1 }];
 
     return {
       API: new Api(this.$store.getters["auth/user"].token),
