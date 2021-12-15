@@ -170,7 +170,11 @@ const SETTINGS = {
       field: "precoReal",
       align: "left",
       format: (val, row) => {
-        return formatMoney(val, "BRL", "pt-br");
+        if (isNaN(val)) {
+          return val;
+        } else {
+          return formatMoney(val, "BRL", "pt-br");
+        }
       },
       label: "Preço Real",
     },
@@ -282,7 +286,7 @@ export default {
               : "",
           transportadora: item.quote !== null ? item.quote.carrier.name : "",
           preco: item.price,
-          precoReal: this.getRealPrice(item.invoice),
+          precoReal: this.getRealPrice(item),
           _bussy: false,
         });
       }
@@ -299,12 +303,13 @@ export default {
     }),
     getRealPrice(invoice) {
       let price = 0;
-      invoice.forEach((element) => {
+      invoice.invoice.forEach((element) => {
         if (element.invoice.id == this.invoiceId) {
           price = element.realPrice;
         }
       });
-      return price;
+      console.log(invoice.price);
+      return price == invoice.price ? "-----" : price;
     },
     removeItem(item) {
       if (window.confirm("Tem certeza que deseja eliminar este registro?")) {
