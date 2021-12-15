@@ -1,48 +1,61 @@
 <template>
   <q-table
-    :loading        ="isLoading"
-    :data           ="data"
-    :columns        ="settings.columns"
+    :loading="isLoading"
+    :data="data"
+    :columns="settings.columns"
     :pagination.sync="pagination"
-    @request        ="onRequest"
-    row-key         ="@id"
+    @request="onRequest"
+    row-key="@id"
     :visible-columns="settings.visibleColumns"
-    style           ="min-height: 90vh;"
-  >    
+    style="min-height: 90vh"
+  >
     <template v-slot:body="props">
       <q-tr :props="props">
-        <q-td key="id"                :props="props">
-          <q-btn outline dense
-            :to   ="{ name: 'OrderDetails', params: { id: props.row.id }}"
+        <q-td key="id" :props="props">
+          <q-btn
+            outline
+            dense
+            :to="{ name: 'OrderDetails', params: { id: props.row.id } }"
             :label="`#${props.row.id}`"
-            :style="{color:props.row.color_status}"
-            class ="full-width"
-          />		  
+            :style="{ color: props.row.color_status }"
+            class="full-width"
+          />
         </q-td>
-        <q-td key="notaFiscal"        :props="props">{{ props.row.notaFiscal }}</q-td>        
-        <q-td key="dataPedido"        :props="props">{{ props.cols[2].value }}</q-td>
-        <q-td key="ultimaModificacao" :props="props">{{ props.cols[3].value }}</q-td>
-        <q-td key="status"            :props="props" :style="{color:props.row.color_status}">
+        <q-td key="notaFiscal" :props="props">{{ props.row.notaFiscal }}</q-td>
+        <q-td key="dataPedido" :props="props">{{ props.cols[2].value }}</q-td>
+        <q-td key="ultimaModificacao" :props="props">{{
+          props.cols[3].value
+        }}</q-td>
+        <q-td
+          key="status"
+          :props="props"
+          :style="{ color: props.row.color_status }"
+        >
           {{ $t(`order.statuses.${props.row.status}`) }}
         </q-td>
-        <q-td key="coleta"            :props="props">
-          {{ props.row.localColeta  }}<br/>{{ props.row.coleta  }}
+        <q-td key="coleta" :props="props">
+          {{ props.row.localColeta }}<br />{{ props.row.coleta }}
         </q-td>
-        <q-td key="entrega"           :props="props">
-          {{ props.row.localEntrega }}<br/>{{ props.row.entrega }}
+        <q-td key="entrega" :props="props">
+          {{ props.row.localEntrega }}<br />{{ props.row.entrega }}
         </q-td>
-        <q-td key="transportadora"    :props="props">
+        <q-td key="transportadora" :props="props">
           {{ props.row.transportadora }}
-        </q-td>        
-        <q-td key="preco"             :props="props">{{ props.cols[8].value }}</q-td>
-        <q-td auto-width
+        </q-td>
+        <q-td key="preco" :props="props">{{ props.cols[8].value }}</q-td>
+        <q-td key="precoReal" :props="props">{{ props.cols[9].value }}</q-td>
+        <q-td
+          auto-width
           v-if="invoice.status === 'pending' || invoice.billet === false"
-          key ="removeAction"
+          key="removeAction"
         >
-          <q-btn flat round dense
-            color   ="red"
-            icon    ="delete"
-            @click  ="removeItem(props.row)"
+          <q-btn
+            flat
+            round
+            dense
+            color="red"
+            icon="delete"
+            @click="removeItem(props.row)"
             :loading="props.row._bussy"
           />
         </q-td>
@@ -52,103 +65,116 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import { date }                   from 'quasar';
-import { formatMoney  }           from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { mapActions, mapGetters } from "vuex";
+import { date } from "quasar";
+import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 const SETTINGS = {
   visibleColumns: [
-    'id'               ,
-    'notaFiscal'       ,
-    'dataPedido'       ,
-    'ultimaModificacao',
-    'status'           ,
-    'coleta'           ,
-    'entrega'          ,
-    'transportadora'   ,    
-    'preco'            ,
-    'removeAction'     ,
+    "id",
+    "notaFiscal",
+    "dataPedido",
+    "ultimaModificacao",
+    "status",
+    "coleta",
+    "entrega",
+    "transportadora",
+    "preco",
+    "precoReal",
+    "removeAction",
   ],
-  columns       : [
+  columns: [
     {
-      name  : 'id',
-      field : 'id',
-      align : 'left',
-      label : 'ID'
+      name: "id",
+      field: "id",
+      align: "left",
+      label: "ID",
     },
     {
-      name : 'notaFiscal',
-      field: 'notaFiscal',
-      align: 'left',
-      label: 'Nota Fiscal',
+      name: "notaFiscal",
+      field: "notaFiscal",
+      align: "left",
+      label: "Nota Fiscal",
       format: (val, row) => {
-        return val?'#'+val:''
+        return val ? "#" + val : "";
       },
-    },    
+    },
     {
-      name  : 'dataPedido',
-      field : 'dataPedido',
-      align : 'left',
+      name: "dataPedido",
+      field: "dataPedido",
+      align: "left",
       format: (val, row) => {
-        return val.replace(/^(\d{4})\-(\d{2})\-(\d{2})T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}$/g,"\$3\/\$2\/\$1")
+        return val.replace(
+          /^(\d{4})\-(\d{2})\-(\d{2})T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}$/g,
+          "$3/$2/$1"
+        );
       },
-      label : 'Data do pedido'
+      label: "Data do pedido",
     },
     {
-      name  : 'ultimaModificacao',
-      field : 'ultimaModificacao',
-      align : 'left',
+      name: "ultimaModificacao",
+      field: "ultimaModificacao",
+      align: "left",
       format: (val, row) => {
-        return date.formatDate(val, 'DD/MM/YYYY HH:mm:ss')
+        return date.formatDate(val, "DD/MM/YYYY HH:mm:ss");
       },
-      label : 'Ultima alteração'
+      label: "Ultima alteração",
     },
     {
-      name  : 'status',
-      field : 'status',
-      align : 'left',
-      label : 'Status'
+      name: "status",
+      field: "status",
+      align: "left",
+      label: "Status",
     },
     {
-      name : 'coleta',
-      field: 'coleta',
-      align: 'left',
-      label: 'Coleta'
+      name: "coleta",
+      field: "coleta",
+      align: "left",
+      label: "Coleta",
     },
     {
-      name : 'localColeta',
-      field: 'localColeta',
-      align: 'left',
-      label: 'Local de coleta'
+      name: "localColeta",
+      field: "localColeta",
+      align: "left",
+      label: "Local de coleta",
     },
     {
-      name : 'entrega',
-      field: 'entrega',
-      align: 'left',
-      label: 'Entrega'
+      name: "entrega",
+      field: "entrega",
+      align: "left",
+      label: "Entrega",
     },
     {
-      name : 'localEntrega',
-      field: 'localEntrega',
-      align: 'left',
-      label: 'Local de entrega'
+      name: "localEntrega",
+      field: "localEntrega",
+      align: "left",
+      label: "Local de entrega",
     },
     {
-      name : 'transportadora',
-      field: 'transportadora',
-      align: 'left',
-      label: 'Transportadora'
-    },    
+      name: "transportadora",
+      field: "transportadora",
+      align: "left",
+      label: "Transportadora",
+    },
     {
-      name  : 'preco',
-      field : 'preco',
-      align : 'left',
+      name: "preco",
+      field: "preco",
+      align: "left",
       format: (val, row) => {
-        return formatMoney(val, 'BRL', 'pt-br');
+        return formatMoney(val, "BRL", "pt-br");
       },
-      label: 'Preço'
+      label: "Preço",
     },
-    { name: 'removeAction' },
+    {
+      name: "precoReal",
+      field: "precoReal",
+      align: "left",
+      format: (val, row) => {
+        return formatMoney(val, "BRL", "pt-br");
+      },
+      label: "Preço Real",
+    },
+    { name: "removeAction" },
   ],
 };
 
@@ -157,14 +183,14 @@ Object.freeze(SETTINGS);
 export default {
   props: {
     invoiceId: {
-      type    : String,
+      type: String,
       required: false,
-      default : null,
+      default: null,
     },
-    invoice  : {
-      type    : Object,
+    invoice: {
+      type: Object,
       required: true,
-    }
+    },
   },
 
   created() {
@@ -172,7 +198,7 @@ export default {
       this.filters.company = this.myCompany;
       this.onRequest({
         pagination: this.pagination,
-        filter    : this.filters,
+        filter: this.filters,
       });
     }
   },
@@ -183,29 +209,29 @@ export default {
 
   data() {
     return {
-      settings  : SETTINGS,
-      data      : [],
-      filters   : {
+      settings: SETTINGS,
+      data: [],
+      filters: {
         company: null,
       },
       pagination: {
-        sortBy     : 'ultimaModificacao',
-        descending : false,
-        page       : 1,
+        sortBy: "ultimaModificacao",
+        descending: false,
+        page: 1,
         rowsPerPage: 10,
-        rowsNumber : 10,
+        rowsNumber: 10,
       },
-    }
+    };
   },
 
   computed: {
     ...mapGetters({
-      isLoading : 'salesOrder/isLoading' ,
-      error     : 'salesOrder/error'     ,
-      violations: 'salesOrder/violations',
-      items     : 'salesOrder/items'     ,
-      totalItems: 'salesOrder/totalItems',
-      myCompany : 'people/currentCompany',
+      isLoading: "salesOrder/isLoading",
+      error: "salesOrder/error",
+      violations: "salesOrder/violations",
+      items: "salesOrder/items",
+      totalItems: "salesOrder/totalItems",
+      myCompany: "people/currentCompany",
     }),
   },
 
@@ -215,7 +241,7 @@ export default {
         this.filters.company = company;
         this.onRequest({
           pagination: this.pagination,
-          filter    : this.filters,
+          filter: this.filters,
         });
       }
     },
@@ -225,8 +251,7 @@ export default {
     },
 
     items(items) {
-      if (!items)
-        return;
+      if (!items) return;
 
       let data = [];
 
@@ -234,21 +259,31 @@ export default {
         let item = items[index];
 
         data.push({
-          '@id'              : item['@id'],
-          'id'               : item['@id'].match(/^\/sales\/orders\/([a-z0-9-]*)$/)[1],
-          'notaFiscal'       : item.invoiceTax.length > 0 ? '#'+item.invoiceTax[0].invoiceTax.invoiceNumber : '',
-          'dataPedido'       : item.orderDate,
-          'ultimaModificacao': item.alterDate,
-          'status'           : item.orderStatus.status,
-          'color_status'     : item.orderStatus.color,
-          'fornecedor'       : item.client.alias,
-          'coleta'           : item.retrievePeople !== null ? item.retrievePeople.name : '',
-          'localColeta'      : item.quote !== null ? `${item.quote.cityOrigin.city} / ${item.quote.cityOrigin.state.uf}` : '',
-          'entrega'          : item.deliveryPeople !== null ? item.deliveryPeople.name : '',
-          'localEntrega'     : item.quote !== null ? `${item.quote.cityDestination.city} / ${item.quote.cityDestination.state.uf}` : '',
-          'transportadora'   : item.quote !== null ? item.quote.carrier.name : '',          
-          'preco'            : item.price,
-          '_bussy'           : false,
+          "@id": item["@id"],
+          id: item["@id"].match(/^\/sales\/orders\/([a-z0-9-]*)$/)[1],
+          notaFiscal:
+            item.invoiceTax.length > 0
+              ? "#" + item.invoiceTax[0].invoiceTax.invoiceNumber
+              : "",
+          dataPedido: item.orderDate,
+          ultimaModificacao: item.alterDate,
+          status: item.orderStatus.status,
+          color_status: item.orderStatus.color,
+          fornecedor: item.client.alias,
+          coleta: item.retrievePeople !== null ? item.retrievePeople.name : "",
+          localColeta:
+            item.quote !== null
+              ? `${item.quote.cityOrigin.city} / ${item.quote.cityOrigin.state.uf}`
+              : "",
+          entrega: item.deliveryPeople !== null ? item.deliveryPeople.name : "",
+          localEntrega:
+            item.quote !== null
+              ? `${item.quote.cityDestination.city} / ${item.quote.cityDestination.state.uf}`
+              : "",
+          transportadora: item.quote !== null ? item.quote.carrier.name : "",
+          preco: item.price,
+          precoReal: this.getRealPrice(item.invoice),
+          _bussy: false,
         });
       }
 
@@ -258,33 +293,41 @@ export default {
 
   methods: {
     ...mapActions({
-      getItems   : 'salesOrder/getItems',
-      reset      : 'salesOrder/reset'   ,
-      removeOrder: 'receiveInvoice/deleteInvoiceOrder',
+      getItems: "salesOrder/getItems",
+      reset: "salesOrder/reset",
+      removeOrder: "receiveInvoice/deleteInvoiceOrder",
     }),
-
+    getRealPrice(invoice) {
+      let price = 0;
+      invoice.forEach((element) => {
+        if (element.invoice.id == this.invoiceId) {
+          price = element.realPrice;
+        }
+      });
+      return price;
+    },
     removeItem(item) {
-      if (window.confirm('Tem certeza que deseja eliminar este registro?')) {
+      if (window.confirm("Tem certeza que deseja eliminar este registro?")) {
         item._bussy = true;
 
         this.removeOrder({
-          invoiceId: this.invoice['@id'],
-          orderId  : item.id,
-          params   : {
-            myCompany: this.myCompany.id
-          }
+          invoiceId: this.invoice["@id"],
+          orderId: item.id,
+          params: {
+            myCompany: this.myCompany.id,
+          },
         })
-          .then(result => {
+          .then((result) => {
             this.onRequest({
               pagination: this.pagination,
-              filter    : this.filters,
+              filter: this.filters,
             });
           })
-          .catch(error => {
+          .catch((error) => {
             this.$q.notify({
-              message : error.message,
-              position: 'bottom',
-              type    : 'negative',
+              message: error.message,
+              position: "bottom",
+              type: "negative",
             });
           })
           .finally(() => {
@@ -294,36 +337,29 @@ export default {
     },
 
     onRequest(props) {
-      if (this.isLoading)
-        return;
+      if (this.isLoading) return;
 
-      let {
-          page,
-          rowsPerPage,
-          rowsNumber,
-          sortBy,
-          descending
-      }          = props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
+        props.pagination;
       let filter = props.filter;
       let params = { itemsPerPage: rowsPerPage, page };
 
       if (this.filters.company != null) {
-        params['myCompany'] = this.filters.company.id;
+        params["myCompany"] = this.filters.company.id;
       }
 
       if (this.invoiceId !== null) {
-        params['invoice.invoice'] = this.invoiceId;
+        params["invoice.invoice"] = this.invoiceId;
       }
 
-      params['order[alterDate]'] = 'desc';
+      params["order[alterDate]"] = "desc";
 
-      this.getItems(params)
-        .then(() => {
-          this.pagination.page        = page;
-          this.pagination.rowsPerPage = rowsPerPage;
-          this.pagination.sortBy      = sortBy;
-          this.pagination.descending  = descending;
-        });
+      this.getItems(params).then(() => {
+        this.pagination.page = page;
+        this.pagination.rowsPerPage = rowsPerPage;
+        this.pagination.sortBy = sortBy;
+        this.pagination.descending = descending;
+      });
     },
   },
 };
