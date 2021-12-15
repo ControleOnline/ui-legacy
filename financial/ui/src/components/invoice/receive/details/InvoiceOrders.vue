@@ -307,9 +307,8 @@ export default {
         if (element.invoice.id == this.invoiceId) {
           price = element.realPrice;
         }
-      });
-      console.log(invoice.price);
-      return price == invoice.price ? "-----" : price;
+      });      
+      return price == invoice.price || price == 0  ? "-----" : price;
     },
     removeItem(item) {
       if (window.confirm("Tem certeza que deseja eliminar este registro?")) {
