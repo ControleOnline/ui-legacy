@@ -137,6 +137,7 @@ export default {
       if (quote) {
         this.order.choose = quote.id;
         this.order.price = quote.price;
+        this.contact = this.order.contact;
       }
 
       this.dialog = true;
