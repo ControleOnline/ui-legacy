@@ -43,11 +43,11 @@ export const company = ({ commit }, values) => {
     });
 };
 
-export const contact = ({ commit }, { id, params = {} }) => {
+export const contact = ({ commit }, { params = {} }) => {
   commit(types.SET_ERROR, '');
   commit(types.SET_ISLOADING);
 
-  return fetch(`${RESOURCE_ENDPOINT}/${id}/contact`, { params })
+  return fetch(`${RESOURCE_ENDPOINT}/contact`, { params })
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
