@@ -10,10 +10,10 @@
           </div>
 
           <div class="col-12">
-            <ChecklistDetails 
-            :wheels_options="wheels_options" 
-            :accessories_options="accessories_options" 
-            :carcase_options="carcase_options"
+            <ChecklistDetails
+                :wheels_options="wheels_options"
+                :accessories_options="accessories_options"
+                :carcase_options="carcase_options"
             />
           </div>
         </div>
@@ -29,11 +29,10 @@ export default {
   components: {
     ChecklistDetails,
   },
-
   data() {
     return {
-      carcase_options:[
-                {
+      carcase_options: [
+        {
           label: "Bom",
           value: "good",
         },
@@ -46,7 +45,7 @@ export default {
           value: "poor",
         }
       ],
-      accessories_options:[
+      accessories_options: [
         {
           label: "Sim",
           value: "yes",
