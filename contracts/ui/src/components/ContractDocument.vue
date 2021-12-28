@@ -2,7 +2,18 @@
   <div class="row q-pa-md">
     <div class="col-12">
       <div class="row q-mb-lg justify-end">
-        <q-btn v-if="isIps()"
+        <q-btn-toggle
+          v-model="paymentType"
+          toggle-color="primary"
+          push
+          glossy
+          class="q-ml-md"
+          :options="paymentOptions"
+        >
+        </q-btn-toggle>
+
+        <q-btn
+          v-if="isIps()"
           class="demonstrativa"
           color="primary"
           label="Gerar aula demonstrativa"
@@ -10,6 +21,7 @@
           :loading="isRequesting"
           :disable="!contract.canEdit()"
         />
+
         <q-btn
           color="primary"
           :label="$t('contracts.request_signatures')"
@@ -40,7 +52,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 import configurable from "./../mixins/configurable";
 import Contract from "./../entity/Contract";
 import { formatBRDocument } from "./../library/formatter";
@@ -68,30 +80,87 @@ export default {
 
   data() {
     return {
+      paymentOptions: [
+        { label: this.$t("Payment.Options.Today"), value: 1 },
+        { label: this.$t("Payment.Options.Before"), value: 5 },
+        { label: this.$t("Payment.Options.Slice"), value: 2 },
+        { label: this.$t("Payment.Options.Half"), value: 4 },
+        { label: this.$t("Payment.Options.Card"), value: 3 },
+      ],
+      paymentType: null,
       participants: [],
       isRequesting: false,
       isLoading: false,
     };
   },
-
-
   computed: {
-
-     ...mapGetters({
-      defaultCompany: 'people/defaultCompany'
+    ...mapGetters({
+      defaultCompany: "people/defaultCompany",
     }),
 
     logged() {
-    return this.$store.getters["auth/user"];
+      return this.$store.getters["auth/user"];
+    },
   },
-  },
-  
-  methods: {
+  watch: {
+    paymentType(paymentType) {
+      let params = {
+        method: "PUT",
+        body: JSON.stringify({ paymentType: paymentType }),
+        headers: new Headers(),
+      };
 
+      params.headers.set("API-TOKEN", this.logged.token);
+
+      this.isLoading = true;
+
+      fetch("/contracts/" + this.contract.id + "/change/payment", params)
+        .then((response) => response.json())
+        .then(
+          ((data) => {
+            this.isLoading = false;
+
+            if (
+              data.response &&
+              data.response.success &&
+              data.response.data.contractId
+            ) {
+              this.$q.notify({
+                message: "Contrato atualizado com sucesso",
+                position: "bottom",
+                type: "positive",
+              });
+              this.loadDocument();
+            } else {
+              this.$q.notify({
+                message: "Não foi possível atualizar o contrato neste momento!",
+                position: "bottom",
+                type: "negative",
+              });
+            }
+
+            return data;
+          }).bind(this)
+        )
+        .catch((e) => {
+          this.isLoading = false;
+
+          this.$q.notify({
+            message: "Não foi possível atualizar o contrato neste momento!",
+            position: "bottom",
+            type: "negative",
+          });
+
+          if (e instanceof SubmissionError) {
+            return e.errors._error;
+          }
+          return e.message;
+        });
+    },
+  },
+  methods: {
     isIps() {
-      const ipsTypes = [
-        'ips'
-      ];
+      const ipsTypes = ["ips"];
 
       return ipsTypes.indexOf(this.defaultCompany.domainType) > -1;
     },
@@ -192,7 +261,6 @@ export default {
     },
 
     onDemonstrativaClick() {
-    
       let params = {
         method: "PUT",
         body: JSON.stringify({}),
@@ -203,10 +271,7 @@ export default {
 
       this.isLoading = true;
 
-      fetch(
-        "/contracts/" + this.contract.id + "/status/Active",
-        params
-      )
+      fetch("/contracts/" + this.contract.id + "/status/Active", params)
         .then((response) => response.json())
         .then(
           ((data) => {
@@ -218,13 +283,12 @@ export default {
               data.response.data.contractId
             ) {
               this.$q.notify({
-                message : 'Contrato atualizado com sucesso',
-                position: 'bottom',
-                type    : 'positive',
+                message: "Contrato atualizado com sucesso",
+                position: "bottom",
+                type: "positive",
               });
 
               location.reload();
-
             } else {
               this.$q.notify({
                 message: "Não foi possível atualizar o contrato neste momento!",
@@ -252,19 +316,16 @@ export default {
         });
     },
   },
-
-  
 };
 </script>
 
 <style lang="sass">
-
 .demonstrativa
   margin-right: 10px
 
 .contract-document
   margin-top: 20px
-  overflow  : auto
+  overflow: auto
   text-align: justify
 
   & div
