@@ -27,7 +27,7 @@
           :label="$t('contracts.request_signatures')"
           @click="requestSignatures"
           :loading="isRequesting"
-          :disable="!contract.canEdit()"
+          :disable="!contract.canSign()"
         />
       </div>
     </div>

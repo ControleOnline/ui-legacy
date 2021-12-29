@@ -24,4 +24,10 @@ export default class Contract {
   canEdit() {
     return this.status === 'Draft';
   }
+
+  canSign() {
+    return this.status !== 'Waiting signatures';
+  }
+
+  
 }
