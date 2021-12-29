@@ -1,5 +1,5 @@
 import Resource from './../../library/resource'
-import Errors   from './../../library/errors'
+import Errors from './../../library/errors'
 
 export default class RequestSignatures extends Resource {
   constructor(client) {
@@ -18,11 +18,14 @@ export default class RequestSignatures extends Resource {
         else {
           return response.json()
             .then(responseJson => {
-              if (responseJson['@type'] === 'hydra:Error') {
-                let message = responseJson['hydra:description'];
+              if (responseJson.response && responseJson.response.error) {
+                throw new Errors.ValidationError(responseJson.response.error);
+              } else
+                if (responseJson['@type'] === 'hydra:Error') {
+                  let message = responseJson['hydra:description'];
 
-                throw new Errors.ValidationError(message);
-              }
+                  throw new Errors.ValidationError(message);
+                }
 
               throw new Error('Unknown error');
             });
