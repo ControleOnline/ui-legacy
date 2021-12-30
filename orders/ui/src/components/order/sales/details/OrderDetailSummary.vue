@@ -167,7 +167,7 @@
                       size="sm"
                       color="primary"
                       label="Detalhes da coleta"
-                      @click="seeDetails(retrieve)"
+                      @click="seeDetails(retrieve, 'retrieve')"
                     />
                   </td>
                 </tr>
@@ -233,7 +233,7 @@
                       size="sm"
                       color="primary"
                       label="Detalhes da entrega"
-                      @click="seeDetails(delivery)"
+                      @click="seeDetails(delivery, 'delivery')"
                     />
                   </td>
                 </tr>
@@ -322,7 +322,7 @@
         transition-show="scale"
         transition-hide="scale"
       >
-        <q-card class="text-white" style="background-color: #00519b">
+        <q-card class="">
           <q-card-section>
             <div class="row items-center">
               <div class="text-h6">Detalhes</div>
@@ -339,49 +339,119 @@
           </q-card-section>
 
           <q-card-section class="q-pt-none">
-            <q-markup-table>
-              <tbody>
-                <tr>
-                  <td class="text-left">Nome</td>
-                  <td class="text-left">{{ dialogs.details.data.name }}</td>
-                </tr>
-                <tr>
-                  <td class="text-left">Email</td>
-                  <td class="text-left">{{ dialogs.details.data.email }}</td>
-                </tr>
-                <tr>
-                  <td class="text-left">Telefone</td>
-                  <td class="text-left">{{ dialogs.details.data.phone }}</td>
-                </tr>
-                <tr>
-                  <td class="text-left">Estado</td>
-                  <td class="text-left">{{ dialogs.details.data.state }}</td>
-                </tr>
-                <tr>
-                  <td class="text-left">Cidade</td>
-                  <td class="text-left">{{ dialogs.details.data.city }}</td>
-                </tr>
-                <tr>
-                  <td class="text-left">Bairro</td>
-                  <td class="text-left">{{ dialogs.details.data.district }}</td>
-                </tr>
-                <tr>
-                  <td class="text-left">CEP</td>
-                  <td class="text-left">
-                    {{ dialogs.details.data.postal_code }}
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-left">Rua</td>
-                  <td class="text-left">{{ dialogs.details.data.street }}</td>
-                </tr>
-                <tr>
-                  <td class="text-left">Número</td>
-                  <td class="text-left">{{ dialogs.details.data.number }}</td>
-                </tr>
-                <tr></tr>
-              </tbody>
-            </q-markup-table>
+            <div class="row q-col-gutter-xs q-pb-xs">
+              <div class="col-xs-12 text-subtitle1 text-left">
+                Digite o endereço na caixa de busca
+              </div>
+              <div class="col-xs-12 q-mb-sm">
+                <ListAutocomplete
+                  :source="getGeoPlaces"
+                  :isLoading="isSearching"
+                  label="Busca de endereço"
+                  @selected="onSelect"
+                  placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                />
+              </div>
+            </div>
+
+            <div class="row q-col-gutter-sm q-pb-xs">
+              <div class="col-xs-12 col-sm-grow q-mb-sm">
+                <q-input
+                  stack-label
+                  lazy-rules
+                  unmasked-value
+                  hide-bottom-space
+                  v-model="dialogs.details.data.postal_code"
+                  type="text"
+                  :label="$t('CEP')"
+                  mask="#####-###"
+                  :rules="[isInvalid('postal_code')]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-grow q-mb-sm">
+                <q-input
+                  stack-label
+                  lazy-rules
+                  hide-bottom-space
+                  v-model="dialogs.details.data.street"
+                  type="text"
+                  :label="$t('Rua')"
+                  :rules="[isInvalid('street')]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-grow q-mb-sm">
+                <q-input
+                  stack-label
+                  lazy-rules
+                  hide-bottom-space
+                  v-model="dialogs.details.data.number"
+                  type="text"
+                  :label="$t('Número')"
+                  :rules="[isInvalid('number')]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-grow q-mb-sm">
+                <q-input
+                  stack-label
+                  hide-bottom-space
+                  v-model="dialogs.details.data.complement"
+                  type="text"
+                  :label="$t('Complemento')"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-grow q-mb-sm">
+                <q-input
+                  stack-label
+                  lazy-rules
+                  hide-bottom-space
+                  v-model="dialogs.details.data.district"
+                  type="text"
+                  :label="$t('Bairro')"
+                  :rules="[isInvalid('district')]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-grow q-mb-sm">
+                <q-input
+                  stack-label
+                  lazy-rules
+                  hide-bottom-space
+                  v-model="dialogs.details.data.city"
+                  type="text"
+                  :label="$t('Cidade')"
+                  :rules="[isInvalid('city')]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-grow q-mb-sm">
+                <q-input
+                  stack-label
+                  lazy-rules
+                  hide-bottom-space
+                  v-model="dialogs.details.data.state"
+                  type="text"
+                  :label="$t('UF')"
+                  mask="AA"
+                  :rules="[isInvalid('state')]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-grow q-mb-sm">
+                <q-input
+                  stack-label
+                  lazy-rules
+                  hide-bottom-space
+                  v-model="dialogs.details.data.country"
+                  type="text"
+                  :label="$t('País')"
+                  :rules="[isInvalid('country')]"
+                />
+              </div>
+
+              <q-btn
+                size="sm"
+                color="primary"
+                label="Salvar"
+                @click="saveAddress()"
+              />
+            </div>
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -390,6 +460,7 @@
 </template>
 
 <script>
+import params from "@controleonline/quasar-contracts-ui/src/mixins/params";
 import { mapActions, mapGetters } from "vuex";
 import {
   formatDocument,
@@ -426,6 +497,7 @@ export default {
 
   data() {
     return {
+      isSearching: false,
       summary: null,
       isLoading: false,
       options: [],
@@ -689,10 +761,34 @@ export default {
   methods: {
     ...mapActions({
       getSummary: "salesOrder/getDetailSummary",
+      changeAddress: "salesOrder/changeAddress",
       sendProposta: "quote/sendProposta",
       updateStatus: "salesOrder/updateRemote",
       getStatus: "salesOrder/getDetailStatus",
+      geoplace: "gmaps/geoplace",
     }),
+    isInvalid(key) {
+      return (val) => {
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
+
+        if (key == "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
+          return this.$t("messages.emailInvalid");
+
+        if (key == "phone" && !/^\d{10,11}$/.test(val))
+          return this.$t("messages.phoneInvalid");
+
+        return true;
+      };
+    },
+    onSelect(item) {
+      this.dialogs.details.data.country = item.country;
+      this.dialogs.details.data.state = item.state;
+      this.dialogs.details.data.city = item.city;
+      this.dialogs.details.data.district = item.district;
+      this.dialogs.details.data.postal_code = item.postal_code;
+      this.dialogs.details.data.street = item.street;
+      this.dialogs.details.data.number = item.number;
+    },
 
     getOrderStatus(orderId) {
       this.getStatus({ orderId })
@@ -912,6 +1008,30 @@ export default {
     onCompanySelect(item) {
       this.updatedCompanyId = item;
     },
+    getGeoPlaces(input) {
+      this.isSearching = true;
+
+      return this.geoplace(input).then((result) => {
+        this.isSearching = false;
+
+        if (result.success) {
+          let items = [];
+          for (let i = 0; i < result.data.length; i++) {
+            items.push({
+              label: result.data[i].description,
+              value: result.data[i],
+            });
+          }
+          return items;
+        } else {
+          this.$q.notify({
+            message: this.$t("messages.gmapsReqNoData"),
+            type: "negative",
+            position: "bottom",
+          });
+        }
+      });
+    },
 
     onSaveCompany() {
       if (this.updatedCompanyId !== null) {
@@ -1019,8 +1139,24 @@ export default {
       const id = this.delivery.id;
       this.$router.push({ name: "ClientsDetails", params: { id } });
     },
+    saveAddress() {
+      this.isLoading = true;
+      let address = this.dialogs.details.data;
+      let orderId = this.orderId;
 
-    seeDetails(data) {
+      this.changeAddress({
+        id: orderId,
+        values: address,
+      })
+        .then((response) => {
+          this.isLoading = false;
+          console.log(response);
+        })
+        .catch((error) => {
+          this.isLoading = false;
+        });
+    },
+    seeDetails(data, type) {
       this.dialogs.details.data.name = data.contact.name;
       this.dialogs.details.data.email = data.contact.email;
       this.dialogs.details.data.phone = formatPhone(data.contact.phone);
@@ -1032,6 +1168,8 @@ export default {
       );
       this.dialogs.details.data.street = data.address.street;
       this.dialogs.details.data.number = data.address.number;
+
+      this.dialogs.details.data.type = type;
 
       this.dialogs.details.visible = true;
     },

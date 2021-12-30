@@ -36,6 +36,9 @@ export const reset = ({ commit }) => {
   commit(types.RESET);
 };
 
+
+
+
 export const getStatuses = ({ commit }, params = {}) => {
   return fetch('/order_statuses', { params })
     .then(response => response.json())
@@ -120,6 +123,24 @@ export const removeInvoiceTax = ({ commit }, { id, values, params = {} }) => {
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
   return fetch(`${RESOURCE_ENDPOINT}/${id}/remove-invoice-tax`, options)
+    .then(response => response.json())
+    .then(data => {
+
+      return data;
+
+    });
+};
+
+
+export const changeAddress = ({ commit }, { id, values }) => {
+  let options = {
+    method: 'PUT',
+    body: JSON.stringify(values),
+  };
+
+  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+
+  return fetch(`${RESOURCE_ENDPOINT}/${id}/add-address`, options)
     .then(response => response.json())
     .then(data => {
 
