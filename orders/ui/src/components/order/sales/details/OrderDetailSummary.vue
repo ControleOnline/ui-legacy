@@ -339,7 +339,19 @@
           </q-card-section>
 
           <q-card-section class="q-pt-none">
-            <div class="row q-col-gutter-xs q-pb-xs">
+            <div v-if="isCeg()" class="row q-col-gutter-xs q-pb-xs">
+              <div class="col-xs-12 text-subtitle1 text-left"></div>
+              <div class="col-xs-12 q-mb-sm">
+                <q-select
+                  outlined
+                  @input="changeAddressType"
+                  v-model="dialogs.details.data.address_type"
+                  :options="address_type"
+                  label="Tipo de embarque"
+                />
+              </div>
+            </div>
+            <div v-if="showByAddressType" class="row q-col-gutter-xs q-pb-xs">
               <div class="col-xs-12 text-subtitle1 text-left">
                 Digite o endereço na caixa de busca
               </div>
@@ -355,7 +367,10 @@
             </div>
 
             <div class="row q-col-gutter-sm q-pb-xs">
-              <div class="col-xs-12 col-sm-grow q-mb-sm">
+              <div
+                v-if="showByAddressType"
+                class="col-xs-12 col-sm-grow q-mb-sm"
+              >
                 <q-input
                   stack-label
                   lazy-rules
@@ -368,7 +383,10 @@
                   :rules="[isInvalid('postal_code')]"
                 />
               </div>
-              <div class="col-xs-12 col-sm-grow q-mb-sm">
+              <div
+                v-if="showByAddressType"
+                class="col-xs-12 col-sm-grow q-mb-sm"
+              >
                 <q-input
                   stack-label
                   lazy-rules
@@ -379,7 +397,10 @@
                   :rules="[isInvalid('street')]"
                 />
               </div>
-              <div class="col-xs-12 col-sm-grow q-mb-sm">
+              <div
+                v-if="showByAddressType"
+                class="col-xs-12 col-sm-grow q-mb-sm"
+              >
                 <q-input
                   stack-label
                   lazy-rules
@@ -390,7 +411,10 @@
                   :rules="[isInvalid('number')]"
                 />
               </div>
-              <div class="col-xs-12 col-sm-grow q-mb-sm">
+              <div
+                v-if="showByAddressType"
+                class="col-xs-12 col-sm-grow q-mb-sm"
+              >
                 <q-input
                   stack-label
                   hide-bottom-space
@@ -399,7 +423,10 @@
                   :label="$t('Complemento')"
                 />
               </div>
-              <div class="col-xs-12 col-sm-grow q-mb-sm">
+              <div
+                v-if="showByAddressType"
+                class="col-xs-12 col-sm-grow q-mb-sm"
+              >
                 <q-input
                   stack-label
                   lazy-rules
@@ -410,7 +437,10 @@
                   :rules="[isInvalid('district')]"
                 />
               </div>
-              <div class="col-xs-12 col-sm-grow q-mb-sm">
+              <div
+                v-if="showByAddressType"
+                class="col-xs-12 col-sm-grow q-mb-sm"
+              >
                 <q-input
                   stack-label
                   lazy-rules
@@ -421,7 +451,10 @@
                   :rules="[isInvalid('city')]"
                 />
               </div>
-              <div class="col-xs-12 col-sm-grow q-mb-sm">
+              <div
+                v-if="showByAddressType"
+                class="col-xs-12 col-sm-grow q-mb-sm"
+              >
                 <q-input
                   stack-label
                   lazy-rules
@@ -433,7 +466,10 @@
                   :rules="[isInvalid('state')]"
                 />
               </div>
-              <div class="col-xs-12 col-sm-grow q-mb-sm">
+              <div
+                v-if="showByAddressType"
+                class="col-xs-12 col-sm-grow q-mb-sm"
+              >
                 <q-input
                   stack-label
                   lazy-rules
@@ -444,13 +480,14 @@
                   :rules="[isInvalid('country')]"
                 />
               </div>
-
-              <q-btn
-                size="sm"
-                color="primary"
-                label="Salvar"
-                @click="saveAddress()"
-              />
+              <div class="col-xs-12 col-sm-grow q-mb-sm">
+                <q-btn
+                  size="sm"
+                  color="primary"
+                  label="Salvar"
+                  @click="saveAddress()"
+                />
+              </div>
             </div>
           </q-card-section>
         </q-card>
@@ -505,6 +542,11 @@ export default {
       orderStatus: null,
       editable: false,
       payerContact: null,
+      showByAddressType: false,
+      address_type: [
+        { label: "Guincho", value: "winch" },
+        { label: "Ponto de Encontro", value: "meeting" },
+      ],
       labels: {
         productTypeLabel: "Tipo do Produto",
         invoiceTaxLabel: "Valor da Nota",
@@ -789,7 +831,16 @@ export default {
       this.dialogs.details.data.street = item.street;
       this.dialogs.details.data.number = item.number;
     },
-
+    changeAddressType() {
+      if (
+        this.dialogs.details.data.address_type &&
+        this.dialogs.details.data.address_type.value == "winch"
+      ) {
+        this.showByAddressType = true;
+      } else {
+        this.showByAddressType = false;
+      }
+    },
     getOrderStatus(orderId) {
       this.getStatus({ orderId })
         .then((data) => {
@@ -1163,12 +1214,13 @@ export default {
       this.dialogs.details.data.state = data.address.state;
       this.dialogs.details.data.city = data.address.city;
       this.dialogs.details.data.district = data.address.district;
+
       this.dialogs.details.data.postal_code = formatCEP(
         data.address.postal_code
       );
+
       this.dialogs.details.data.street = data.address.street;
       this.dialogs.details.data.number = data.address.number;
-
       this.dialogs.details.data.type = type;
 
       this.dialogs.details.visible = true;
