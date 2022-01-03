@@ -838,7 +838,7 @@ export default {
       ) {
         this.showByAddressType = true;
       } else {
-        this.showByAddressType = false;
+        this.showByAddressType = true;
       }
     },
     getOrderStatus(orderId) {
