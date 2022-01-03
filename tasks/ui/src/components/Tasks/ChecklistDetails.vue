@@ -222,6 +222,60 @@
             <q-separator/>
           </div>
         </div>
+        <div class="row">
+          <h5>Fotos</h5>
+          <q-separator class="clear"/>
+          <template>
+            <div class="q-pa-md q-pt-lg q-pb-none">
+              <q-uploader
+                  ref="qup"
+                  field-name="file"
+                  label="Selecione JPG ou PNG fotos"
+                  auto-upload
+                  :url="qUpUrlUpload"
+                  multiple
+                  square
+                  flat
+                  accept="image/jpeg,image/png"
+                  @finish="qUpFinishUploadAll"
+                  @uploaded="qUploaded"
+                  @added="qUpAddFiles"
+                  @rejected="qUpRejected"
+              />
+            </div>
+          </template>
+        </div>
+
+        <div class="row q-ml-md" style="position: relative;">
+
+          <q-card v-for="(field, i) in photoGallery" :key="i"
+                  flat
+                  bordered
+                  class="my-card q-ml-sm q-mb-sm"
+          >
+            <q-card-section>
+              <div>
+                <q-select
+                    v-model="galleryModels.region['photoId' + field.id]"
+                    :options="region"
+                    label="Região"
+                    :rules="[isInvalid('service_location')]"
+                />
+              </div>
+            </q-card-section>
+            <q-img
+                style="cursor: pointer;"
+                :src="field.path_thumb"
+                :ratio="4/3"
+                @click="openModalViewPhoto(field.path_real_size, field.id)"
+            />
+          </q-card>
+
+          <q-inner-loading :showing="loading.galerry">
+            <q-spinner-gears size="120px" color="blue-grey-6"/>
+          </q-inner-loading>
+
+        </div>
 
         <div class="row">
           <h5>Observações</h5>
@@ -258,6 +312,24 @@
         </div>
       </q-form>
     </div>
+    <q-dialog v-model="modalViewPhoto" transition-show="rotate" transition-hide="rotate">
+      <q-card style="width: 100%;max-width: unset;">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6" v-html="dialogModalTextTop"></div>
+          <q-space/>
+          <q-btn icon="close" flat round dense v-close-popup/>
+        </q-card-section>
+
+        <q-card-section class="q-pt-sm">
+          <q-img
+              :src="urlPhotoModal"
+              spinner-color="red"
+              style="width: 100%; min-height: 200px;"
+          />
+        </q-card-section>
+
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -287,6 +359,11 @@ export default {
   },
   data() {
     return {
+      dialogModalTextTop: null,
+      urlPhotoModal: null,
+      modalViewPhoto: false,
+      photoGallery: null,
+      qUpUrlUpload: null,
       generalContentVisible: true,
       generalWarningVisible: false,
       htmlGeneralFailureWarning: null,
@@ -303,11 +380,15 @@ export default {
       loading: {
         surveyor_name_inp: false,
         service_location_inp: true,
-        btn_save: false
+        btn_save: false,
+        galerry: false
       },
       readonly: {
         surveyor_name_inp: true,
         service_location_inp: true
+      },
+      galleryModels: {
+        region: {}
       },
       surveyor_validations: { // Monitora status para preenchimento automático do campo do Vistoriador (nome) com base no email informado
         mail_validate_ok: false,
@@ -412,6 +493,62 @@ export default {
           label: "Tapeçaria",
           value: "tapestry",
         },
+      ],
+      region: [
+        {
+          label: 'Frente',
+          value: 'front'
+        },
+        {
+          label: 'Lateral Esquerda',
+          value: 'left_side'
+        },
+        {
+          label: 'Lateral Direita',
+          value: 'right_side'
+        },
+        {
+          label: 'Traseira',
+          value: 'rear'
+        },
+        {
+          label: 'Painel',
+          value: 'panel'
+        },
+        {
+          label: 'Motor',
+          value: 'motor'
+        },
+        {
+          label: 'Outros',
+          value: 'others'
+        }
+      ],
+      breakdown: [
+        {
+          label: 'Amassado',
+          value: 'kneaded'
+        },
+        {
+          label: 'Falta',
+          value: 'absence'
+        },
+        {
+          label: 'Pique',
+          value: 'chop'
+        },
+        {
+          label: 'Quebrado',
+          value: 'broke'
+        },
+        {
+          label: 'Riscado',
+          value: 'scratched'
+        },
+        {
+          label: 'Trincado',
+          value: 'cracked'
+        }
       ],
       accessories_fields: [
         {
@@ -556,13 +693,103 @@ export default {
     }
   },
   methods: {
+    openModalViewPhoto(urlPhoto, idPhoto) {
+
+      if (typeof this.galleryModels.region['photoId' + idPhoto] !== 'undefined') {
+        let labelRegion = this.galleryModels.region['photoId' + idPhoto].label;
+        this.dialogModalTextTop = labelRegion;
+      } else {
+        this.dialogModalTextTop = null;
+      }
+
+      this.urlPhotoModal = urlPhoto;
+      this.modalViewPhoto = true;
+
+    },
+    qUpRejected(rejectedEntries) { // Quando algum arquivo é rejeitado pelo motivos diversos, neste caso por não ser um JPG ou PNG
+      rejectedEntries.forEach((log) => {
+        let tmpData = log.file
+        let msg = `${tmpData.name} - Não Aceito - ${tmpData.type}`;
+        this.alertNotify(msg, 'n');
+      });
+      //console.log (rejectedEntries);
+      //this.$refs.qup.reset();
+    },
+    qUpAddFiles(files) { // Quando os arquivos são selecionados para Upload Único ou Múltiplo
+      this.loading.galerry = true;
+      //console.log (files);
+
+    },
+    qUploaded(info) { // Quando cada arquivo da lista é concluído
+      let fileName = info.files[0].name;
+      let response = JSON.parse(info.xhr.response);
+      response = response.response;
+      if (!response.success) {
+        if (response.error_code === 311) { // Quando o arquivo foi apagado ou nunca existiu
+          this.alertNotify(response.message, 'n');
+        }
+      }
+    },
+    qUpFinishUploadAll() { // Quando o upload da lista chega a 100%, tendo ou não falhas.
+      this.callAjaxGetAllPhotoGallery(); // Atualiza a galeria de imagens
+      this.$refs.qup.reset();
+    },
     onSubmit() {
 
       if (this.loading.btn_save) {
         return;
       }
+      if (this.loading.galerry) {
+        this.alertNotify('Aguarde primeiramente o carregamento das imagens', 'n');
+        return;
+      }
+      if (this.photoGallery === null) {
+        this.alertNotify('Você deve enviar ao menos 1 Foto do veículo.', 'n');
+        return;
+      }
       this.loading.btn_save = true;
       this.callAjaxSaveSurveyDataById();
+
+    },
+    callAjaxGetAllPhotoGallery() {
+
+      let idSurvey = this.route.tasksSurveys_id;
+
+      axios({
+        url: ENTRYPOINT + `/tasks_surveys/${idSurvey}/getphotogallery?timestamp=${new Date().getTime()}`,
+        method: 'get'
+      }).then((response) => {
+
+        let data = response.data.response;
+
+        if (!data.success) { // Quando falha o retorno dos dados
+          // --- 344 erro de imagens inexistentes na galeria
+          if (data.error_code !== 344) { // Qualquer erro que não seja o erro de imagens inexistentes será apresentado
+            this.alertNotify(data.message, 'n');
+          }
+        }
+
+        if (data.success) { // Quando os dados são retornados com êxito
+
+          this.photoGallery = data.data;
+
+          // ------------------------------- Atualiza a galeria de imagens
+          data.data.forEach((value) => {
+            let photoId = value.id;
+            let regionValue = value.region;
+            // Reatividade para propriedades de array ou objeto inseridos após a montagem, usar o this.$set
+            this.$set(this.galleryModels.region, 'photoId' + photoId, findIn(this.region, regionValue));
+          });
+          // --------------------------------------------------------------
+
+        }
+
+        this.loading.galerry = false;
+        this.$nextTick(() => {
+          this.$refs.myForm.resetValidation();
+        });
+
+      });
 
     },
     callAjaxGetOneSurveyById() {
@@ -630,10 +857,13 @@ export default {
             this.group = dado.group;
           }
 
+          this.qUpUrlUpload = ENTRYPOINT + '/tasks_surveys/' + id_local + '/filesimages'; // Defini a URL de upload do componente q-uploader
+
+          this.callAjaxGetAllPhotoGallery(); // Carrega, se já existir a galeria de imagens
+
         }
 
         this.$q.loading.hide();
-        console.log(data);
 
       });
 
@@ -654,7 +884,8 @@ export default {
           'selectedTrainedId': this.main_data_survey.service_location.selectedTrainedId,
           'selectedAddressId': this.main_data_survey.service_location.selectedAddressId,
           'comments': this.main_data_survey.comments,
-          'group': this.group
+          'group': this.group,
+          'galleryModels': this.galleryModels
         }
       }).then((response) => {
 
@@ -669,8 +900,6 @@ export default {
         }
 
         this.loading.btn_save = false;
-
-        //console.log(data);
 
       });
 
@@ -771,14 +1000,12 @@ export default {
             }
             break;
           case 'vehicle_km':
-            console.log("val vehicle_km: " + val);
             return this.validateEmpty(val);
             break;
           case 'surveyor_name':
             return this.validateEmpty(val);
             break;
           case 'belongings_removed':
-            console.log("val belongings_removed: " + val);
             if (val === null) {
               return 'Deve ser selecionado';
             }
@@ -788,7 +1015,7 @@ export default {
               return 'Selecione o Tipo de Vistoria';
             }
             break;
-          case 'service_location':
+          case 'service_location': // Usado também para o Select da região de cada foto
             if (val === null || typeof val === 'undefined') {
               return 'Deve ser selecionado';
             }
@@ -827,7 +1054,6 @@ export default {
     checkMailSurveyorOnBd(disable_focus) { // Usando no evento BLUR no campo E-MAIL do Vistoriador
       if (this.surveyor_validations.mail_validate_ok && !this.surveyor_validations.mail_existis_bd) {
         if (this.surveyor_validations.lastMailVerifiedInBD !== this.main_data_survey.surveyor_email) {
-          console.log('asdasdasdsad');
           this.loading.surveyor_name_inp = true;
           this.callAjaxSearchMailSurveyor(disable_focus);
         }
@@ -998,7 +1224,6 @@ export default {
       this.intervalo = setInterval(() => {
         if (this.defaultCompany !== null) {
           this.storage.defaultCompanyId = this.defaultCompany.id;
-          console.log('Capturou LocalStorage uma única vez');
           this.callAjaxGetAllPeopleTrainerByDefaultCompanyId(this.storage.defaultCompanyId).then((data) => {
             //this.preencheTeste();
             this.callAjaxGetOneSurveyById();
@@ -1022,6 +1247,11 @@ export default {
 </style>
 
 <style scoped>
+
+.my-card {
+  width: 100%;
+  max-width: 230px;
+}
 
 .aviso_alerta {
   display: flex;

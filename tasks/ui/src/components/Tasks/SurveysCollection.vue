@@ -336,6 +336,7 @@ export default {
             this.addDisable = false;
             this.alertNotify(data.message, 'n');
           }
+          this.data = [];
         }
 
         if (data.success) { // Quando os dados são retornados com êxito
