@@ -339,7 +339,7 @@
           </q-card-section>
 
           <q-card-section class="q-pt-none">
-            <div v-if="isCeg()" class="row q-col-gutter-xs q-pb-xs">
+            <div :class="!isCeg() ? 'hidden' : 'row q-col-gutter-xs q-pb-xs'">
               <div class="col-xs-12 text-subtitle1 text-left"></div>
               <div class="col-xs-12 q-mb-sm">
                 <q-select
@@ -641,6 +641,9 @@ export default {
     myCompany(company) {
       if (company !== null) {
         this.requestSummary(this.orderId);
+        if (!this.isCeg()) {
+          this.changeAddressType();
+        }
       }
     },
 
