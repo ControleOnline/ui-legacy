@@ -1200,8 +1200,7 @@ export default {
         values: address,
       })
         .then((response) => {
-          this.isLoading = false;
-          console.log(response);
+          this.isLoading = false;          
         })
         .catch((error) => {
           this.isLoading = false;
