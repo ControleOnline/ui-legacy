@@ -641,9 +641,6 @@ export default {
     myCompany(company) {
       if (company !== null) {
         this.requestSummary(this.orderId);
-        if (!this.isCeg()) {
-          this.changeAddressType();
-        }
       }
     },
 
@@ -1227,6 +1224,10 @@ export default {
       this.dialogs.details.data.type = type;
 
       this.dialogs.details.visible = true;
+
+      if (!this.isCeg()) {
+        this.changeAddressType();
+      }
     },
 
     requestSummary(orderId) {
