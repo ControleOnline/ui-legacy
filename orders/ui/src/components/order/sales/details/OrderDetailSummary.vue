@@ -351,7 +351,10 @@
                 />
               </div>
             </div>
-            <div v-if="showByAddressType" class="row q-col-gutter-xs q-pb-xs">
+            <div
+              v-if="showByAddressType && !forceHidden"
+              class="row q-col-gutter-xs q-pb-xs"
+            >
               <div class="col-xs-12 text-subtitle1 text-left">
                 Digite o endereço na caixa de busca
               </div>
@@ -368,7 +371,7 @@
 
             <div class="row q-col-gutter-sm q-pb-xs">
               <div
-                v-if="showByAddressType"
+                v-if="showByAddressType && !forceHidden"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -384,7 +387,7 @@
                 />
               </div>
               <div
-                v-if="showByAddressType"
+                v-if="showByAddressType && !forceHidden"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -398,7 +401,7 @@
                 />
               </div>
               <div
-                v-if="showByAddressType"
+                v-if="showByAddressType && !forceHidden"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -412,7 +415,7 @@
                 />
               </div>
               <div
-                v-if="showByAddressType"
+                v-if="showByAddressType && !forceHidden"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -424,7 +427,7 @@
                 />
               </div>
               <div
-                v-if="showByAddressType"
+                v-if="showByAddressType && !forceHidden"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -467,7 +470,7 @@
                 />
               </div>
               <div
-                v-if="showByAddressType"
+                v-if="showByAddressType && !forceHidden"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -543,6 +546,7 @@ export default {
       editable: false,
       payerContact: null,
       showByAddressType: false,
+      forceHidden: false,
       address_type: [
         { label: "Guincho", value: "winch" },
         { label: "Ponto de Encontro", value: "meeting" },
@@ -839,6 +843,16 @@ export default {
         this.showByAddressType = true;
       } else {
         this.showByAddressType = true;
+      }
+
+      if (
+        this.dialogs.details.data.address_type &&
+        this.dialogs.details.data.address_type.value == "meeting" &&
+        this.isCeg() == true
+      ) {
+        this.forceHidden = true;
+      } else {
+        this.forceHidden = false;
       }
     },
     getOrderStatus(orderId) {
@@ -1200,7 +1214,7 @@ export default {
         values: address,
       })
         .then((response) => {
-          this.isLoading = false;          
+          this.isLoading = false;
         })
         .catch((error) => {
           this.isLoading = false;
