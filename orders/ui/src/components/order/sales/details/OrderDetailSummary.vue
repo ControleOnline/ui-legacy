@@ -142,6 +142,26 @@
                   </td>
                 </tr>
                 <tr>
+                  <td class="text-left text-bold">E-Mail</td>
+                  <td class="text-left">
+                    {{
+                      this.retrieve.email
+                        ? this.retrieve.email
+                        : this.retrieve.contact.email
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">Telefone</td>
+                  <td class="text-left">
+                    {{
+                      this.retrieve.phone
+                        ? this.retrieve.phone
+                        : this.retrieve.contact.phone
+                    }}
+                  </td>
+                </tr>
+                <tr>
                   <td class="text-left text-bold">Documento</td>
                   <td class="text-left">
                     {{ formatDoc(this.retrieve.document) }}
@@ -204,6 +224,26 @@
                       this.delivery.name
                         ? this.delivery.name
                         : this.delivery.contact.name
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">E-Mail</td>
+                  <td class="text-left">
+                    {{
+                      this.delivery.email
+                        ? this.delivery.email
+                        : this.delivery.contact.email
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">Telefone</td>
+                  <td class="text-left">
+                    {{
+                      this.delivery.phone
+                        ? this.delivery.phone
+                        : this.delivery.contact.phone
                     }}
                   </td>
                 </tr>
