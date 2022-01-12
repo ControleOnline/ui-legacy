@@ -163,7 +163,7 @@ import ClientOrderDetailNotaFiscal from "./details/ClientOrderDetailNotaFiscal";
 import ClientOrderDetailInvoice from "./details/ClientOrderDetailInvoice";
 import ClientOrderDetailTracking from "./details/ClientOrderTracking";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/client/TasksSearchingAll";
 
 export default {
   components: {
