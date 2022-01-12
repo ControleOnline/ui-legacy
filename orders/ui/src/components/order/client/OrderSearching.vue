@@ -308,7 +308,7 @@ export default {
       this.loadingStatuses = true;
       this.getStatuses({
         'visibility': 'public',
-        'realStatus': ['open', 'pending', 'closed'],
+        'realStatus': ['open', 'pending', 'closed','canceled'],
       })
         .then(statuses => {
           if (statuses.length) {
