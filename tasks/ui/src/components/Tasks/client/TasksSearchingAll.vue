@@ -1,5 +1,6 @@
 <template>
   <div class="row">
+    <!--
     <div class="col-12">
       <div class="row justify-end q-mb-md">
         <q-btn
@@ -12,7 +13,7 @@
         />
       </div>
     </div>
-    <div class="col-sm-6 col-xs-12 q-pa-md"></div>
+    -->
     <div class="col-sm-6 col-xs-12 q-pa-md">
       <q-select
         stack-label
@@ -74,8 +75,7 @@
             <div class="text-h6">{{ $t("Add") }}</div>
             <q-space />
             <q-btn icon="close" flat round dense v-close-popup />
-          </q-card-section>
-          <!--
+          </q-card-section>          
           <q-card-section>            
             <FormTasks
               ref="myForm"
@@ -86,8 +86,7 @@
               :client="client"
               @saved="onTaskSave"
             />
-          </q-card-section>
-          -->
+          </q-card-section>          
         </q-card>
       </q-dialog>
     </div>
