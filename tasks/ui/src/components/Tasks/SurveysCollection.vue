@@ -44,7 +44,7 @@
                 outline
                 dense
                 type="a"
-                :href="'task/checklist/id/' + props.row.id"
+                :href="'task/checklist/id/' + props.row.id + '/' + props.row.token_url"
                 target="_blank"
                 :label="`#${props.row.id}`"
                 class="full-width"
@@ -55,17 +55,27 @@
           <q-td key="date" :props="props">{{ props.row.date }}</q-td>
           <q-td key="type_survey" :props="props">{{ props.cols[4].value }}</q-td>
           <q-td key="status" :props="props">
-            <q-badge :color="props.cols[5].value==='Completo' ? 'green' : 'blue-grey-6'" class="q-pa-xs">
+            <q-badge :color="colorStatus(props.row.status)" class="q-pa-xs" style="padding-left: 10px;">
               {{ props.cols[5].value }}
+              <q-btn
+                  class="mypersonalized"
+                  size="8px"
+                  rounded
+                  flat
+                  style="margin-left: 8px;margin-right: 2px; padding: 0px 0px;"
+                  @click="editStatus(props.row.status, props.row.id)"
+              >
+                <q-icon name="mode_edit" class="green-3" style="font-size: 17px;"/>
+              </q-btn>
             </q-badge>
           </q-td>
           <q-td key="acoes" :props="props">
-            <div class="row q-gutter-xs items-center justify-center">
+            <div v-if="props.row.status !== 'canceled'" class="row q-gutter-xs items-center justify-center">
               <q-btn
                   color="red"
-                  label="Apagar"
+                  label="Cancelar"
                   size="sm"
-                  @click="deleteConfirm(props.row.id)"
+                  @click="cancelConfirm(props.row.id)"
                   :loading="false"
               />
             </div>
@@ -74,23 +84,57 @@
       </template>
     </q-table>
     <q-dialog
-        v-model="confirmDelete"
+        v-model="confirmCancel"
         persistent>
       <q-card style="width: 600px;">
         <q-card-section class="row items-center q-pb-none">
           <q-avatar icon="delete" color="red" text-color="white"/>
           <div class="text-h6 q-ml-md">
-            Apagar Registro
+            Cancelar Registro de Vistoria
           </div>
           <q-space/>
           <q-btn icon="close" @click="setClassRow(idRowToDelete, false);" flat round dense v-close-popup/>
         </q-card-section>
         <q-card-section class="row items-center">
-          <span class="q-ml-sm" v-html="msgDelete"></span>
+          <span class="q-ml-sm" v-html="msgCancel"></span>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat label="Cancelar" color="primary" @click="setClassRow(idRowToDelete, false);" v-close-popup/>
-          <q-btn flat label="Sim" color="primary" @click="nowDelete(idRowToDelete);" v-close-popup/>
+          <q-btn flat label="Desistir" color="primary" @click="setClassRow(idRowToDelete, false);" v-close-popup/>
+          <q-btn flat label="Sim" color="primary"
+                 @click="changeStatusSurvey(idRowToDelete, 'canceled', 'dialogDelete');" v-close-popup/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <q-dialog
+        v-model="editDialog.visible"
+        persistent>
+      <q-card style="width: 600px;">
+        <q-card-section class="row items-center q-pb-none">
+          <q-avatar icon="mode_edit" color="blue-8" text-color="white"/>
+          <div class="text-h6 q-ml-md">
+            Alterar Status da Vistoria - ID: #{{ editDialog.msgId }}
+          </div>
+          <q-space/>
+          <q-btn icon="close" @click="setClassRow(idRowToDelete, false);" flat round dense v-close-popup/>
+        </q-card-section>
+        <q-card-section class="row items-center justify-center">
+          <q-select
+              outlined
+              v-model="editDialog.status"
+              :options="status_survey"
+              label="Selecione o Novo Status"
+              style="width: 200px;"
+          />
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn
+              icon="save"
+              label="Salvar"
+              size="md"
+              color="primary"
+              :loading="editDialog.saveButtonIsLoading"
+              @click="changeStatusSurvey(editDialog.idRowChangeStatus, editDialog.status.value, 'dialogChange');"
+              v-close-popup/>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -123,8 +167,15 @@ export default {
     let statuses = [{label: "Todos", value: -1}];
     return {
       idRowToDelete: null,
-      msgDelete: null,
-      confirmDelete: false,
+      msgCancel: null,
+      editDialog: {
+        visible: false,
+        saveButtonIsLoading: false,
+        msgId: '',
+        idRowChangeStatus: null,
+        status: []
+      },
+      confirmCancel: false,
       addLoading: false,
       addDisable: true,
       visibleQtable: true,
@@ -222,18 +273,70 @@ export default {
         {
           label: 'Pendente',
           value: 'pending'
+        },
+        {
+          label: 'Cancelado',
+          value: 'canceled'
         }
-      ],
+      ]
     }
   },
   methods: {
-    nowDelete(id) {
+    isInvalid(key) {
+      return val => {
+        switch (key) {
+          case 'status':
+            if (val === null) {
+              return 'Deve ser selecionado';
+            }
+            break;
+          default:
+            if (!(val && val.length > 0))
+              return 'Este campo é obrigatório';
+        }
+      }
+    },
+    editStatus(currentStatus, id) {
+      this.editDialog.msgId = id;
+      this.editDialog.idRowChangeStatus = id;
+      this.editDialog.status = this.status_survey.find(c => c.value === currentStatus);
+      this.editDialog.visible = true;
+      this.setClassRow(id, true, 'bg-cyan-6 text-white');
+      console.log("currentStatus: " + currentStatus);
+    },
+    colorStatus(status) {
+      switch (status) {
+        case 'complete':
+          return 'green';
+          break;
+        case 'pending':
+          return 'blue-grey-6';
+          break;
+        case 'canceled':
+          return 'red-6';
+          break;
+        default:
+          break;
+      }
+    },
+    /**
+     *
+     * @param id
+     * @param status
+     * @param origem ('dialogDelete','dialogChange')
+     */
+    changeStatusSurvey(id, status, origem) {
 
       this.isLoading = true;
 
+      let params = {
+        status: status
+      }
+
       axios({
         url: ENTRYPOINT + `/tasks_surveys/${id}/surveys?timestamp=${new Date().getTime()}`,
-        method: 'DELETE',
+        params,
+        method: 'PUT',
         headers: {'api-token': this.api.token}
       }).then((response) => {
 
@@ -242,36 +345,37 @@ export default {
         if (!data.success) { // Quando Falha
           this.alertNotify(data.message, 'n');
           this.isLoading = false;
+          this.setClassRow(id, false);
         }
 
         if (data.success) { // Quando tem Êxito
-          this.callAjaxGetCollection(this.taskId);
-          this.alertNotify(data.message, 'p');
+          this.callAjaxGetCollection(this.taskId).then((response) => {
+            this.alertNotify(`Vistoria de ID:${id} teve o status alterado para: ` + this.status_survey[this.status_survey.indexOf(this.status_survey.find(c => c.value === status))].label, 'p');
+            this.setClassRow(id, false);
+          });
         }
-
-        this.setClassRow(id, false);
 
       });
 
     },
-    setClassRow(id, action) {
+    setClassRow(id, action, classe) {
       if (action) {
         this.idRowToDelete = id;
-        this.$refs['linha' + id].$el.classList.value = 'bg-deep-orange-10 text-white';
+        this.$refs['linha' + id].$el.classList.value = classe;
       } else {
         this.idRowToDelete = null;
         this.$refs['linha' + id].$el.classList.value = '';
       }
     },
-    deleteConfirm(id) {
+    cancelConfirm(id) {
       let data = this.data.find(i => i.id === id);
-      this.setClassRow(id, true);
+      this.setClassRow(id, true, 'bg-deep-orange-10 text-white');
       let company = data.company;
       let msg = ''
-      msg += 'Você deseja realmente Excluir a Vistoria:<br>';
+      msg += 'Você deseja realmente Cancelar a Vistoria:<br>';
       msg += `ID: ${id}`;
-      this.msgDelete = msg;
-      this.confirmDelete = true;
+      this.msgCancel = msg;
+      this.confirmCancel = true;
     },
     addSurvey() {
       this.addLoading = true;
@@ -319,7 +423,7 @@ export default {
     },
     callAjaxGetCollection(taskId) {
       this.isLoading = true;
-      axios({
+      return axios({
         url: ENTRYPOINT + `/tasks_surveys/${taskId}/surveys?timestamp=${new Date().getTime()}`,
         method: 'get',
         headers: {'api-token': this.api.token}
@@ -355,6 +459,7 @@ export default {
             let item = data.data[index];
             _data.push({
               id: item.id,
+              token_url: item.token_url,
               client_name: item.client_name,
               vehicle: item.vehicle,
               date: item.date,
@@ -379,6 +484,12 @@ export default {
   }
 }
 </script>
+
+<style>
+.mypersonalized .q-btn__wrapper {
+  padding: 4px 4px !important;
+}
+</style>
 
 <style scoped>
 

@@ -23,10 +23,10 @@ export const routes = [
     path     : '/task/',
     component: () => import('../../../../../src/layouts/MainLayout.vue'),
     children : [
-      
+
       {
         name     : 'ChecklistDetails',
-        path     : 'checklist/id/:id',
+        path     : 'checklist/id/:id/:token_url',
         component: () => import('../pages/Tasks/ChecklistDetails.vue')
       },
     ]

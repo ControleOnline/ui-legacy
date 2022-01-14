@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position: relative;">
     <div
         v-if="generalWarningVisible"
         class="aviso_alerta">
@@ -14,8 +14,27 @@
     <div v-if="generalContentVisible">
       <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
         <div class="row q-pb-lg">
-          <h5>Dados Principais</h5>
+          <h5>Dados Principais - Vistoria ID: #{{ route.tasksSurveys_id }}</h5>
           <q-separator class="clear"/>
+        </div>
+        <div class="row">
+          <q-input
+              :bg-color="status.bgColor"
+              label-color="white"
+              input-style="color: white;"
+              class="res_q_imp text_width_double"
+              v-model="main_data_survey.status"
+              standout label="Status"
+              tabindex="-1"
+              readonly
+          />
+          <q-input
+              class="res_q_imp"
+              borderless
+              v-model="main_data_survey.updated_at" label="Data/Hora"
+              tabindex="-1"
+              readonly
+          />
         </div>
         <div class="row">
           <q-input
@@ -70,13 +89,8 @@
               :options="options_type_survey"
               label="Tipo Vistoria"
               :rules="[isInvalid('type_survey')]"
-          />
-          <q-input
-              class="res_q_imp"
-              borderless
-              v-model="main_data_survey.updated_at" label="Data/Hora"
-              tabindex="-1"
-              readonly
+              :readonly="generalLock.readOnly"
+              :bg-color="generalLock.bgColor"
           />
         </div>
         <div class="row">
@@ -89,6 +103,8 @@
               debounce="300"
               @input="surveyorEmailInputChangeValue"
               autocomplete="off"
+              :readonly="generalLock.readOnly"
+              :bg-color="generalLock.bgColor"
           >
             <template v-slot:prepend>
               <q-icon name="mail"/>
@@ -100,12 +116,13 @@
               class="res_q_imp"
               v-model="main_data_survey.surveyor_name"
               outlined label="Nome Vistoriador"
-              :readonly="readonly.surveyor_name_inp"
+              :readonly="readonly.surveyor_name_inp || generalLock.readOnly"
               @click="clickSurveyorTextField"
               @focus="onFocus('surveyor_name_inp')"
               :loading="loading.surveyor_name_inp"
               autocomplete="off"
               :rules="[isInvalid('surveyor_name')]"
+              :bg-color="generalLock.bgColor"
           />
         </div>
         <div class="row">
@@ -117,6 +134,8 @@
               label="Km Odômetro"
               suffix="Km"
               :rules="[isInvalid('vehicle_km')]"
+              :readonly="generalLock.readOnly"
+              :bg-color="generalLock.bgColor"
           />
           <q-select
               class="res_q_imp res_q_select"
@@ -125,6 +144,8 @@
               :options="options_no_yes"
               label="Pertences Retirados"
               :rules="[isInvalid('belongings_removed')]"
+              :readonly="generalLock.readOnly"
+              :bg-color="generalLock.bgColor"
           />
         </div>
 
@@ -141,9 +162,10 @@
               @filter="serviceLocationFilterFn"
               @filter-abort="serviceLocationAbortFilterFn"
               @input="serviceLocationGetSelection"
-              :readonly="readonly.service_location_inp"
+              :readonly="readonly.service_location_inp || generalLock.readOnly"
               :loading="loading.service_location_inp"
               :rules="[isInvalid('service_location')]"
+              :bg-color="generalLock.bgColor"
           >
             <template v-slot:no-option>
               <q-item>
@@ -165,12 +187,15 @@
                 dense
                 v-model="group[field.value]"
                 :rules="[isInvalidOptions('carcase_fields_' + i)]"
+                :bg-color="generalLock.bgColor"
             >
               <q-option-group
                   v-model="group[field.value]"
                   :options="carcase_options"
                   color="primary"
                   inline
+                  :disable="generalLock.readOnly"
+                  class="q-pr-sm-md"
               />
             </q-field>
             <q-separator/>
@@ -187,6 +212,7 @@
                 dense
                 v-model="group[field.value]"
                 :rules="[isInvalidOptions('wheels_fields_' + i)]"
+                :bg-color="generalLock.bgColor"
             >
               <q-option-group
                   required
@@ -194,6 +220,8 @@
                   :options="wheels_options"
                   color="primary"
                   inline
+                  :disable="generalLock.readOnly"
+                  class="q-pr-sm-md"
               />
             </q-field>
             <q-separator/>
@@ -202,7 +230,8 @@
         <div class="row">
           <h5>Acessórios</h5>
           <q-separator class="clear"/>
-          <div v-for="(field, i) in accessories_fields" :key="i" class="q-px-xs-none q-px-sm-lg q-pt-lg ajuste_mob_option">
+          <div v-for="(field, i) in accessories_fields" :key="i"
+               class="q-px-xs-none q-px-sm-lg q-pt-lg ajuste_mob_option">
             <span :id="'accessories_fields_' + i"> {{ field.label }}</span>
             <q-field
                 class="qfield_aqui"
@@ -210,6 +239,7 @@
                 dense
                 v-model="group[field.value]"
                 :rules="[isInvalidOptions('accessories_fields_' + i)]"
+                :bg-color="generalLock.bgColor"
             >
               <q-option-group
                   required
@@ -217,6 +247,8 @@
                   :options="accessories_options"
                   color="primary"
                   inline
+                  :disable="generalLock.readOnly"
+                  class="q-pr-sm-md"
               />
             </q-field>
             <q-separator/>
@@ -226,7 +258,7 @@
           <h5>Fotos</h5>
           <q-separator class="clear"/>
           <template>
-            <div class="q-pa-md q-pt-lg q-pb-none">
+            <div class="q-pa-sm-md q-pt-sm-lg q-pb-sm-none">
               <q-uploader
                   ref="qup"
                   field-name="file"
@@ -241,17 +273,18 @@
                   @uploaded="qUploaded"
                   @added="qUpAddFiles"
                   @rejected="qUpRejected"
+                  :disable="generalLock.readOnly"
               />
             </div>
           </template>
         </div>
 
-        <div class="row q-ml-md" style="position: relative;">
+        <div class="row q-ml-sm-md" style="position: relative;">
 
           <q-card v-for="(field, i) in photoGallery" :key="i"
                   flat
                   bordered
-                  class="my-card q-ml-sm q-mb-sm"
+                  class="my-card q-ml-sm-sm q-mb-lg"
           >
             <q-card-section>
               <div>
@@ -259,7 +292,10 @@
                     v-model="galleryModels.region['photoId' + field.id]"
                     :options="region"
                     label="Região"
+                    :outlined="generalLock.readOnly"
                     :rules="[isInvalid('service_location')]"
+                    :readonly="generalLock.readOnly"
+                    :bg-color="generalLock.bgColor"
                 />
               </div>
             </q-card-section>
@@ -269,6 +305,19 @@
                 :ratio="4/3"
                 @click="openModalViewPhoto(field.path_real_size, field.id)"
             />
+            <q-card-section>
+              <div>
+                <q-select
+                    v-model="galleryModels.breakdown['photoId' + field.id]"
+                    :options="breakdown"
+                    label="Avaria"
+                    :outlined="generalLock.readOnly"
+                    :rules="[isInvalid('service_location')]"
+                    :readonly="generalLock.readOnly"
+                    :bg-color="generalLock.bgColor"
+                />
+              </div>
+            </q-card-section>
           </q-card>
 
           <q-inner-loading :showing="loading.galerry">
@@ -282,13 +331,19 @@
           <q-separator class="clear"/>
           <textarea
               v-model="main_data_survey.comments"
-              class="full-width" rows="10" style="padding: 7px;"></textarea>
+              class="full-width my_text_area" rows="10"
+              v-bind:style="generalLock.readOnly ? 'background-color: #ECEFF1;padding: 7px;' : 'padding: 7px;'"
+              :readonly="generalLock.readOnly"
+          >
+
+          </textarea>
         </div>
         <div class="row">
           <q-checkbox
               class="q-py-lg"
               v-model="group.dirty"
               label="Veículo muito sujo, sem condições de apuração detalhada da lataria, não nos responsabilizamos por arranhões que venham a ser identificados após a lavagem."
+              :disable="generalLock.readOnly"
           />
           <span>
         A empresa não se responsabiliza pelos seguintes defeitos do veículo:
@@ -308,6 +363,7 @@
               color="primary"
               class="q-mt-md"
               :loading="loading.btn_save"
+              :disable="generalLock.readOnly"
           />
         </div>
       </q-form>
@@ -359,6 +415,13 @@ export default {
   },
   data() {
     return {
+      generalLock: {
+        readOnly: false,
+        bgColor: null
+      },
+      status: {
+        bgColor: null
+      },
       dialogModalTextTop: null,
       urlPhotoModal: null,
       modalViewPhoto: false,
@@ -372,7 +435,8 @@ export default {
         defaultCompanyId: null
       },
       route: {
-        tasksSurveys_id: this.$route.params.id
+        tasksSurveys_id: this.$route.params.id,
+        token_url: this.$route.params.token_url
       },
       tabIndexInp: {
         surveyor_name: -1
@@ -388,7 +452,8 @@ export default {
         service_location_inp: true
       },
       galleryModels: {
-        region: {}
+        region: {},
+        breakdown: {}
       },
       surveyor_validations: { // Monitora status para preenchimento automático do campo do Vistoriador (nome) com base no email informado
         mail_validate_ok: false,
@@ -398,6 +463,7 @@ export default {
         foundMailInDatabase: false
       },
       main_data_survey: {
+        status: null,
         comments: null,
         surveyor_people_id: null,
         updated_at: null,
@@ -420,6 +486,20 @@ export default {
           options: []
         },
       },
+      status_survey: [
+        {
+          label: 'Completo',
+          value: 'complete'
+        },
+        {
+          label: 'Pendente',
+          value: 'pending'
+        },
+        {
+          label: 'Cancelado',
+          value: 'canceled'
+        }
+      ],
       options_type_survey: [
         {
           label: 'Coleta',
@@ -525,6 +605,10 @@ export default {
         }
       ],
       breakdown: [
+        {
+          label: 'Nenhuma',
+          value: 'none'
+        },
         {
           label: 'Amassado',
           value: 'kneaded'
@@ -693,13 +777,44 @@ export default {
     }
   },
   methods: {
+    addEventClickOnlyLockCondition() { // No bloqueio, adiciona evento de click aos campos de edição para alerta de falha
+
+      var elements = document.querySelectorAll(".q-field__inner,.my_text_area");
+
+      var myFunction = () => {
+        let msg = 'Bloqueado quando o Status foi igual a <strong>Completo</strong> ou <strong>Cancelado</strong>';
+        this.alertNotify(msg, 'n', true);
+      };
+
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('click', myFunction, false);
+      }
+
+    },
     openModalViewPhoto(urlPhoto, idPhoto) {
+
+      let labelTmpRegion = null;
+      let labelTmpBreakdown = null;
+      let labelSplit = null;
 
       if (typeof this.galleryModels.region['photoId' + idPhoto] !== 'undefined') {
         let labelRegion = this.galleryModels.region['photoId' + idPhoto].label;
-        this.dialogModalTextTop = labelRegion;
+        labelTmpRegion = labelRegion;
       } else {
-        this.dialogModalTextTop = null;
+        labelTmpRegion = '';
+      }
+      if (typeof this.galleryModels.breakdown['photoId' + idPhoto] !== 'undefined') {
+        let labelBreakdown = this.galleryModels.breakdown['photoId' + idPhoto].label;
+        labelTmpBreakdown = labelBreakdown;
+      } else {
+        labelTmpBreakdown = '';
+      }
+      labelSplit = (labelTmpRegion !== '' && labelTmpBreakdown !== '') ? ' - ' : '';
+
+      if (labelTmpRegion || labelTmpBreakdown) {
+        this.dialogModalTextTop = labelTmpRegion + labelSplit + labelTmpBreakdown;
+      } else {
+        this.dialogModalTextTop = '';
       }
 
       this.urlPhotoModal = urlPhoto;
@@ -712,26 +827,50 @@ export default {
         let msg = `${tmpData.name} - Não Aceito - ${tmpData.type}`;
         this.alertNotify(msg, 'n');
       });
-      //console.log (rejectedEntries);
-      //this.$refs.qup.reset();
     },
     qUpAddFiles(files) { // Quando os arquivos são selecionados para Upload Único ou Múltiplo
       this.loading.galerry = true;
-      //console.log (files);
-
     },
     qUploaded(info) { // Quando cada arquivo da lista é concluído
       let fileName = info.files[0].name;
       let response = JSON.parse(info.xhr.response);
       response = response.response;
-      if (!response.success) {
-        if (response.error_code === 311) { // Quando o arquivo foi apagado ou nunca existiu
+      if (!response.success) { // --- Quando algum erro ocorre
+        if (response.error_code === 311) { // Quando o registro de vistoria não foi localizado
           this.alertNotify(response.message, 'n');
         }
+        if (response.error_code === 253) { // Quando a Vistoria já está com Status de 'Completo' ou 'Cancelado'
+          this.$refs.qup.reset(); // Cancela o andamento dos demais arquivos
+          this.lockAndReloadSurvey(true, true);
+          this.alertNotify(response.message, 'n');
+        }
+      } else { // Quando obtêm sucesso na conclusão do upload de foto
+
+        let surveyId = response.data.survey_id;
+        let surveyFilesId = response.data.survey_files_id;
+
+        let objImg = {
+          id: surveyFilesId,
+          region: null,
+          breakdown: null,
+          path_real_size: ENTRYPOINT + `/tasks_surveys/${surveyId}/${surveyFilesId}/viewphoto/realsize`,
+          path_thumb: ENTRYPOINT + `/tasks_surveys/${surveyId}/${surveyFilesId}/viewphoto/thumb`
+        }
+
+        if (this.photoGallery === null) {
+          this.photoGallery = [];
+        }
+
+        this.photoGallery.unshift(objImg); // Adiciona a nova foto no começo do array de fotos.
+
       }
+
     },
     qUpFinishUploadAll() { // Quando o upload da lista chega a 100%, tendo ou não falhas.
-      this.callAjaxGetAllPhotoGallery(); // Atualiza a galeria de imagens
+      this.loading.galerry = false;
+      this.$nextTick(() => {
+        this.$refs.myForm.resetValidation();
+      });
       this.$refs.qup.reset();
     },
     onSubmit() {
@@ -754,9 +893,10 @@ export default {
     callAjaxGetAllPhotoGallery() {
 
       let idSurvey = this.route.tasksSurveys_id;
+      let tokenUrl = this.route.token_url;
 
-      axios({
-        url: ENTRYPOINT + `/tasks_surveys/${idSurvey}/getphotogallery?timestamp=${new Date().getTime()}`,
+      return axios({
+        url: ENTRYPOINT + `/tasks_surveys/${idSurvey}/${tokenUrl}/getphotogallery?timestamp=${new Date().getTime()}`,
         method: 'get'
       }).then((response) => {
 
@@ -777,8 +917,10 @@ export default {
           data.data.forEach((value) => {
             let photoId = value.id;
             let regionValue = value.region;
+            let breakdownValue = value.breakdown;
             // Reatividade para propriedades de array ou objeto inseridos após a montagem, usar o this.$set
             this.$set(this.galleryModels.region, 'photoId' + photoId, findIn(this.region, regionValue));
+            this.$set(this.galleryModels.breakdown, 'photoId' + photoId, findIn(this.breakdown, breakdownValue));
           });
           // --------------------------------------------------------------
 
@@ -792,12 +934,28 @@ export default {
       });
 
     },
+    colorStatus(status) {
+      switch (status) {
+        case 'complete':
+          return 'green';
+          break;
+        case 'pending':
+          return 'blue-grey-6';
+          break;
+        case 'canceled':
+          return 'red-6';
+          break;
+        default:
+          break;
+      }
+    },
     callAjaxGetOneSurveyById() {
 
       let id_local = this.route.tasksSurveys_id;
+      let token_url = this.route.token_url;
 
       axios({
-        url: ENTRYPOINT + `/tasks_surveys/${id_local}/getonesurvey?timestamp=${new Date().getTime()}`,
+        url: ENTRYPOINT + `/tasks_surveys/${id_local}/${token_url}/getonesurvey?timestamp=${new Date().getTime()}`,
         method: 'get'
       }).then((response) => {
 
@@ -808,6 +966,7 @@ export default {
           this.htmlGeneralFailureWarning = data.message;
           this.generalContentVisible = false;
           this.generalWarningVisible = true;
+          this.$q.loading.hide();
         }
 
         if (data.success) { // Quando os dados são retornados com êxito
@@ -819,6 +978,11 @@ export default {
           if (dado.type_survey !== null) {
             this.main_data_survey.type_survey = findIn(this.options_type_survey, dado.type_survey);
           }
+          // --------------- Defini Status e Cor e Alerta de Edição bloqueada
+          let objStatus = findIn(this.status_survey, dado.status);
+          this.main_data_survey.status = objStatus.label;
+          this.status.bgColor = this.colorStatus(objStatus.value);
+          // ------------------------------------------------------------
           this.main_data_survey.surveyor_email = dado.surveyor_email;
           this.main_data_survey.surveyor_name = dado.surveyor_name;
           this.surveyor_validations.lastMailVerifiedInBD = dado.surveyor_email;
@@ -857,23 +1021,37 @@ export default {
             this.group = dado.group;
           }
 
-          this.qUpUrlUpload = ENTRYPOINT + '/tasks_surveys/' + id_local + '/filesimages'; // Defini a URL de upload do componente q-uploader
+          this.qUpUrlUpload = ENTRYPOINT + '/tasks_surveys/' + id_local + '/' + token_url + '/filesimages'; // Define a URL de upload do componente q-uploader
 
-          this.callAjaxGetAllPhotoGallery(); // Carrega, se já existir a galeria de imagens
+          this.callAjaxGetAllPhotoGallery().then((response) => { // Carrega, se já existir a galeria de imagens
+            if (objStatus.value === 'complete' || objStatus.value === 'canceled') { // Anexa evento para alerta de Status bloqueado para edição quando o usuário tentar clicar em algum campo
+              this.lockAndReloadSurvey(true, false);
+            }
+            this.$q.loading.hide();
+          });
 
         }
-
-        this.$q.loading.hide();
 
       });
 
     },
+    lockAndReloadSurvey(lock, reload) {
+      if (lock && !this.generalLock.readOnly) { // Apenas trava a vistoria contra edição
+        this.generalLock.readOnly = true;
+        this.generalLock.bgColor = 'blue-grey-1';
+        this.addEventClickOnlyLockCondition();
+      }
+      if (reload) { // Recarrega os dados da vistoria
+        this.callAjaxGetOneSurveyById();
+      }
+    },
     callAjaxSaveSurveyDataById() {
 
       let id_local = this.route.tasksSurveys_id;
+      let token_url = this.route.token_url;
 
       axios({
-        url: ENTRYPOINT + `/tasks_surveys/${id_local}/survey?action=save&timestamp=${new Date().getTime()}`,
+        url: ENTRYPOINT + `/tasks_surveys/${id_local}/${token_url}/survey?action=save&timestamp=${new Date().getTime()}`,
         method: 'put',
         data: {
           'type_survey': this.main_data_survey.type_survey.value,
@@ -892,10 +1070,16 @@ export default {
         let data = response.data.response;
 
         if (!data.success) { // Quando dá um erro no salvamento
+          if (data.error_code === 253) { // Vistoria já está com Status de 'Completo' ou 'Cancelado'
+            this.lockAndReloadSurvey(true, true);
+          }
           this.alertNotify(data.message, 'n');
         }
 
         if (data.success) { // Quando o salvamento é executado com Êxito
+          if (data.data.status === 'complete' || data.data.status === 'canceled') {
+            this.lockAndReloadSurvey(true, true);
+          }
           this.alertNotify('Dados Salvos com Êxito.', 'p');
         }
 
@@ -1143,15 +1327,29 @@ export default {
      * @param msg
      * @param tipo ('n','p')
      */
-    alertNotify(msg, tipo) {
+    alertNotify(msg, tipo, group) {
+      let actionsVar = [];
+      if (typeof group === 'undefined') {
+        group = false;
+        actionsVar = [];
+      } else {
+        actionsVar = [
+          {
+            label: 'Fechar', color: 'yellow', handler: () => {
+
+            }
+          }
+        ]
+      }
       let status = (tipo === 'n') ? 'negative' : 'positive';
       this.$q.notify({
         message: msg,
         html: true,
-        group: false,
+        group: group,
         multiLine: true,
         position: 'bottom',
         type: status,
+        actions: actionsVar
       });
     },
     preencheTeste() {
@@ -1297,6 +1495,10 @@ h5 {
 @media (max-width: 599px) {
   .ajuste_mob_option {
     width: 100% !important;
+  }
+
+  .my-card {
+    max-width: unset;
   }
 }
 
