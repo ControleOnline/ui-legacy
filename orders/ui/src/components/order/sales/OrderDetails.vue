@@ -199,8 +199,8 @@
                       label="Coleta não Realizada"
                       @click="backToWaitingRetrieve"
                       :loading="isUpdating"
-                    />                    
-                    <q-btn                      
+                    />
+                    <q-btn
                       color="negative"
                       label="Cancelar Pedido"
                       @click="cancelOrder"
@@ -459,7 +459,7 @@ export default {
           });
         });
     },
-    backToWaitingRetrieve(){
+    backToWaitingRetrieve() {
       let params = {
         myCompany: this.myCompany.id,
       };
@@ -669,14 +669,14 @@ export default {
       }
       this.quoteDetails = quoteDetails;
     },
-    onSaveDeadline() {
+    onSaveDeadline(input) {
       let params = {
         myCompany: this.myCompany.id,
       };
       this.isUpdating = true;
       this.updateDeadline({
         id: this.orderId,
-        newDeadline: this.inputDeadline,
+        newDeadline: input,
         params,
       })
         .then((result) => {
