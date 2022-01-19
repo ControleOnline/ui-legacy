@@ -293,8 +293,8 @@ export default {
         status: statuses[0],
         company: null,
         date: {
-          from: null,
-          to: null,
+          from: date.formatDate(Date.now(), "01/MM/YYYY"),
+          to: date.formatDate(Date.now(), "31/MM/YYYY"),
         },
       },
       pagination: {
