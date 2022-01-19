@@ -12,8 +12,8 @@ export const company = ({ commit }, values) => {
 
   if (values.origin.country == null) {
     values.origin.country = values.address.country;
-    values.origin.city    = values.address.city;
-    values.origin.state   = values.address.state;
+    values.origin.city = values.address.city;
+    values.origin.state = values.address.state;
   }
 
   return fetch('companies', { method: 'POST', body: JSON.stringify(values) })
@@ -40,6 +40,36 @@ export const company = ({ commit }, values) => {
         throw new Error(e.errors._error);
 
       throw new Error(e.message);
+    });
+};
+
+export const searchPeople = ({ commit }, search) => {
+  commit(types.SET_ISLOADING);
+
+  let params = {
+    method: 'GET',
+    params: { input: search }
+  };
+
+  return fetch('people/search', params)
+    .then(response => response.json())
+    .then(data => {
+
+      commit(types.SET_ISLOADING, false);
+
+      return data.response ? data.response : null;
+
+    }).catch(e => {
+      commit(types.SET_ISLOADING, false);
+
+      if (e instanceof SubmissionError) {
+        commit(types.SET_VIOLATIONS, e.errors);
+        // eslint-disable-next-line
+        commit(types.SET_ERROR, e.errors._error);
+        return;
+      }
+
+      commit(types.SET_ERROR, e.message);
     });
 };
 
@@ -156,7 +186,7 @@ export const mySaleCompanies = ({ commit }) => {
 };
 
 export const defaultCompany = ({ commit, dispatch }) => {
-  commit(types.SET_ISLOADING);  
+  commit(types.SET_ISLOADING);
 
   return fetch(`${RESOURCE_ENDPOINT}/default-company?domain=` + DOMAIN)
     .then(response => response.json())
@@ -206,7 +236,7 @@ export const getClientContact = ({ commit }, document) => {
     .then(response => response.json())
     .then(data => {
       if (data.response) {
-          return data.response;
+        return data.response;
       }
 
       return null;
@@ -218,7 +248,7 @@ export const getCloseProfessionals = ({ commit }, values) => {
     .then(response => response.json())
     .then(data => {
       if (data.response) {
-          return data.response;
+        return data.response;
       }
 
       return null;
