@@ -23,6 +23,12 @@
               @click="dialogs.expense.visible = true"
             />
           </div>
+          <DataFilter
+            :fromDate="fromDate"
+            :toDate="toDate"
+            :showButton="false"
+            @dateChanged="dateChanged"
+          />
         </div>
         <div class="col-sm-6 col-xs-12 q-pa-md">
           <q-input
@@ -162,10 +168,13 @@ import {
   formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import CreateExpense from "../expense/CreateExpense";
+import DataFilter from "@controleonline/quasar-common-ui/src/components/common/DataFilter.vue";
+import { date } from "quasar";
 
 export default {
   components: {
     CreateExpense,
+    DataFilter,
   },
 
   props: {
@@ -200,6 +209,11 @@ export default {
     let statuses = [{ label: "Todos", value: -1 }];
 
     return {
+      fromDate: date.formatDate(
+        date.subtractFromDate(Date.now(), { month: 1 }),
+        "DD/MM/YYYY"
+      ),
+      toDate: date.formatDate(Date.now(), "DD/MM/YYYY"),
       settings: Object.freeze({
         columns: [
           {
@@ -278,6 +292,10 @@ export default {
         text: null,
         status: statuses[0],
         company: null,
+        date: {
+          from: null,
+          to: null,
+        },
       },
       pagination: {
         sortBy: "dataVencimento",
@@ -371,6 +389,20 @@ export default {
       getStatuses: "payInvoice/getStatuses",
     }),
 
+    formatDate(dateString) {
+      return date.formatDate(
+        date.extractDate(dateString, "DD/MM/YYYY"),
+        "YYYY-MM-DD"
+      );
+    },
+
+    dateChanged(item) {
+      this.filters.date = item;
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
     seeOrdersList(ordersId, invoiceId) {
       this.dialogs.orders.items = ordersId;
       this.dialogs.orders.invoice = invoiceId;
@@ -402,6 +434,8 @@ export default {
         props.pagination;
       let filter = props.filter;
       let params = { itemsPerPage: rowsPerPage, page };
+      params.from = this.formatDate(filter.date.from);
+      params.to = this.formatDate(filter.date.to);
 
       if (this.filters.text != null && this.filters.text.length > 0) {
         if (this.filters.text.length < 2) return;
