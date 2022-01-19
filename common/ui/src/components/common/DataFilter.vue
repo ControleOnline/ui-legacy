@@ -52,7 +52,7 @@
         </div>
       </div>
     </q-card-section>
-    <q-card-actions align="center">
+    <q-card-actions v-if="showButton === true" align="center">
       <q-btn
         flat
         :loading="isLoading"
@@ -74,12 +74,16 @@ export default {
       type: String,
       required: true,
     },
+    showButton: {
+      type: Boolean,
+      required: false,
+    },
   },
 
   watch: {
-      date(item) {
-      this.$emit('dateChanged', item);
-    }
+    date(item) {
+      this.$emit("dateChanged", item);
+    },
   },
 
   data() {
