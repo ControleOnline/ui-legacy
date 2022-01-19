@@ -3,6 +3,7 @@
     <DataFilter
       :fromDate="fromDate"
       :toDate="toDate"
+      :showButton="true"
       @dateChanged="dateChanged"
     />
     <q-card class="q-pa-md q-mb-sm">
@@ -39,7 +40,7 @@
 
 <script>
 import DataFilter from "@controleonline/quasar-common-ui/src/components/common/DataFilter.vue";
-import configurable from "./../mixins/configurable";
+import configurable from "../mixins/configurable";
 import { date } from "quasar";
 
 export default {
