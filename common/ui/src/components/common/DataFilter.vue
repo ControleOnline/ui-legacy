@@ -5,7 +5,7 @@
         <div class="col-xs-12 col-sm-6 q-pa-sm">
           <q-input
             stack-label
-            v-model="toDate"
+            v-model="date.from"
             :label="$t('dashboard.from_date')"
             mask="##/##/####"
           >
@@ -81,8 +81,11 @@ export default {
   },
 
   watch: {
-    date(item) {
-      this.$emit("dateChanged", item);
+    "date.to"() {
+      this.$emit("dateChanged", this.date);
+    },
+    "date.from"() {
+      this.$emit("dateChanged", this.date);
     },
   },
 
