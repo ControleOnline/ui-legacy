@@ -281,6 +281,7 @@ export default {
 
   data() {
     return {
+      isSearching:false,
       saving: false,
       item: {
         parent: null,
@@ -360,7 +361,7 @@ export default {
       });
     },
     onSelectClient(item) {
-      this.clientSelected = item;
+      this.item.provider = item.id;
     },
 
     searchPeople(input) {
@@ -501,7 +502,7 @@ export default {
         values: {
           company: this.myCompany.id,
           category: parseInt(this.item.category.replace(/\D/g, "")),
-          provider: parseInt(this.item.provider.replace(/\D/g, "")),
+          provider: parseInt(this.item.provider),
           paymentMode:
             this.item.recurrence == "monthly" ? 0 : this.item.parcels,
           amount: parseFloat(this.item.amount.replace(",", ".")),
