@@ -213,7 +213,10 @@ export default {
         date.subtractFromDate(Date.now(), { month: 1 }),
         "DD/MM/YYYY"
       ),
-      toDate: date.formatDate(Date.now(), "DD/MM/YYYY"),
+      toDate: date.formatDate(
+        date.sumFromDate(Date.now(), { month: 1 }),
+        "DD/MM/YYYY"
+      ),
       settings: Object.freeze({
         columns: [
           {
@@ -293,8 +296,14 @@ export default {
         status: statuses[0],
         company: null,
         date: {
-          from: date.formatDate(Date.now(), "01/MM/YYYY"),
-          to: date.formatDate(Date.now(), "31/MM/YYYY"),
+          from: date.formatDate(
+            date.subtractFromDate(Date.now(), { month: 1 }),
+            "DD/MM/YYYY"
+          ),
+          to: date.formatDate(
+            date.sumFromDate(Date.now(), { month: 1 }),
+            "DD/MM/YYYY"
+          ),
         },
       },
       pagination: {
