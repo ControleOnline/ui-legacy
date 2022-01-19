@@ -24,12 +24,13 @@
         />
       </div>
       <div class="col-xs-12 q-mb-md">
-        <q-select stack-label emit-value map-options lazy-rules
-          v-model ="item.provider"
-          :label  ="$t('Fornecedor')"
-          :options="providers"
-          :rules  ="[val => val !== null || 'Selecione um fornecedor']"
-        />
+          <PeopleAutocomplete
+            :source="searchPeople"
+            :isLoading="isSearching"
+            label="Definir o fornecedor"
+            @selected="onSelectClient"
+            placeholder="Pesquisar..."
+          />
       </div>
       <div class="col-xs-12 q-mb-md">
         <q-input lazy-rules stack-label reverse-fill-mask
