@@ -94,56 +94,22 @@
 
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
-        <q-input
-          outlined
-          stack-label
-          v-model="searchTaskFor"
-          type="text"
-          label="Definir para * "
-          :loading="isSearchingTaskFor"
-          debounce="700"
-          placeholder="Digite um e-mail ou documento..."
-          class="q-mb-sm"
-          :readonly="taskForSelected !== '' || isSearchingTaskFor"
-          :rules="[isInvalid('taskFor')]"
-        >
-          <template v-slot:append>
-            <q-btn
-              round
-              flat
-              v-if="taskForSelected !== ''"
-              @click="removeTaskForClick()"
-            >
-              <q-icon name="close" />
-            </q-btn>
-          </template>
-        </q-input>
+        <PeopleAutocomplete
+          :source="searchPeople"
+          :isLoading="isSearching"
+          label="Definir o responsável"
+          @selected="onSelectTaskFor"
+          placeholder="Pesquisar..."
+        />
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-input
-          outlined
-          stack-label
-          v-model="searchClient"
-          type="text"
-          label="Definir cliente *"
-          :loading="isSearchingClient"
-          debounce="700"
-          placeholder="Digite um e-mail ou documento..."
-          class="q-mb-sm"
-          :readonly="clientSelected !== '' || isSearchingClient"
-          :rules="[isInvalid('client')]"
-        >
-          <template v-slot:append>
-            <q-btn
-              round
-              flat
-              v-if="clientSelected !== ''"
-              @click="removeClientClick()"
-            >
-              <q-icon name="close" />
-            </q-btn>
-          </template>
-        </q-input>
+        <PeopleAutocomplete
+          :source="searchPeople"
+          :isLoading="isSearching"
+          label="Definir o cliente"
+          @selected="onSelectClient"
+          placeholder="Pesquisar..."
+        />
       </div>
     </div>
 
@@ -197,12 +163,16 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import { mapGetters } from "vuex";
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
+import { mapGetters, mapActions } from "vuex";
 import { date } from "quasar";
 
 export default {
+  components: {
+    PeopleAutocomplete,
+  },
   props: {
     api: {
       type: Api,
@@ -239,6 +209,7 @@ export default {
       searchTaskFor: "",
       timeSearch: "",
       taskForSelected: "",
+      isSearching: false,
       isSearchingTaskFor: false,
       searchClient: "",
       clientSelected: "",
@@ -369,42 +340,7 @@ export default {
         this.categoryArray = itens;
       }
     },
-    searchTaskFor: function (search) {
-      if (this.taskForSelected === "") {
-        if (this.timeSearch !== "") {
-          this.isSearchingTaskFor = false;
-          this.isSearchingClient = false;
-
-          this.isSearchingOrder = false;
-
-          clearTimeout(this.timeSearch);
-          this.timeSearch = "";
-        }
-
-        this.timeSearch = setTimeout(
-          (() => this.searchData.bind(this)(search, "taskFor")).bind(this),
-          2000
-        );
-      }
-    },
-    searchClient: function (search) {
-      if (this.clientSelected === "") {
-        if (this.timeSearch !== "") {
-          this.isSearchingTaskFor = false;
-          this.isSearchingClient = false;
-
-          this.isSearchingOrder = false;
-
-          clearTimeout(this.timeSearch);
-          this.timeSearch = "";
-        }
-
-        this.timeSearch = setTimeout(
-          (() => this.searchData.bind(this)(search, "client")).bind(this),
-          2000
-        );
-      }
-    },
+    
 
     searchOrder: function (search) {
       if (this.orderSelected === "") {
@@ -427,6 +363,10 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      search: "people/searchPeople",
+    }),
+
     removeDueDateClick() {
       this.item.dueDate = "";
     },
@@ -446,7 +386,45 @@ export default {
       this.searchOrder = "";
       this.item.order = "";
     },
+    onSelectTaskFor(item) {
+      this.taskForSelected = item;
+    },
 
+    onSelectClient(item) {
+      this.clientSelected = item;
+    },
+
+    searchPeople(input) {
+      this.isSearching = true;
+
+      return this.search(input).then((result) => {
+        this.isSearching = false;
+
+        if (result && result.success) {
+          let items = [];
+          for (let i = 0; i < result.data.length; i++) {
+            items.push({
+              label:
+                result.data[i].id +
+                " - " +
+                result.data[i].name +
+                " - " +
+                result.data[i].alias,
+              value: result.data[i],
+            });
+          }
+          return items;
+        } else {
+          this.isSearching = false;
+          this.$q.notify({
+            message: this.$t("messages.gmapsReqNoData"),
+            position: "bottom",
+            type: "negative",
+          });
+        }
+      });
+    },
+    getGeoPlaces(input) {},
     getPeople(params) {
       return this.api
         .private("/people/client-company", { params })
@@ -491,13 +469,7 @@ export default {
       this.timeSearch = "";
 
       if (search) {
-        switch (fromField) {
-          case "taskFor":
-            this.isSearchingTaskFor = true;
-            break;
-          case "client":
-            this.isSearchingClient = true;
-            break;
+        switch (fromField) {          
           case "order":
             this.isSearchingOrder = true;
             break;
@@ -524,12 +496,7 @@ export default {
 
         var reset = () => {
           switch (fromField) {
-            case "taskFor":
-              this.searchTaskFor = "";
-              break;
-            case "client":
-              this.searchClient = "";
-              break;
+            
             case "order":
               this.searchOrder = "";
               break;
@@ -543,19 +510,8 @@ export default {
                 "(#" + result.members.id + ") " + result.members.name;
 
               switch (fromField) {
-                case "taskFor":
-                  this.taskForSelected = result.members;
-                  this.searchTaskFor = inputVal;
-                  this.item.taskFor = result.members.id;
-                  break;
-                case "client":
-                  this.clientSelected = result.members;
-                  this.searchClient = inputVal;
-                  this.item.client = result.members.id;
-                  break;
                 case "order":
                   var orderId = result.members["@id"].split("/")[3];
-
                   inputVal =
                     "(#" +
                     orderId +
@@ -571,11 +527,9 @@ export default {
               reset();
             }
 
-            this.isSearchingTaskFor = false;
-            this.isSearchingClient = false;
 
-            this.isSearchingOrder = false;
-          })
+
+            this.isSearchingOrder = false;          })
           .catch((e) => {
             this.$q.notify({
               message: "Não foi possível encontrar...",
@@ -585,8 +539,7 @@ export default {
 
             reset();
 
-            this.isSearchingTaskFor = false;
-            this.isSearchingClient = false;
+  
 
             this.isSearchingOrder = false;
           });
