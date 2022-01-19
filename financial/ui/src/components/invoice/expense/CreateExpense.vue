@@ -178,7 +178,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="dialogs.provider.visible" @before-hide="loadProviders">
+    <q-dialog v-model="dialogs.provider.visible">
       <q-card style="width: 700px; max-width: 80vw">
         <q-card-section class="row items-center">
           <div class="text-h6">Cadastro de fornecedor</div>
@@ -342,24 +342,7 @@ export default {
       this.dialogs.category.expense.parent = null;
     },
 
-    loadProviders() {
-      this.getProviders({
-        params: {
-          myCompany: this.myCompany.id,
-        },
-      }).then((members) => {
-        if (members.length) {
-          let items = [];
-          members.forEach((item, i) => {
-            items.push({
-              label: item.name,
-              value: item["@id"],
-            });
-          });
-          this.providers = items;
-        }
-      });
-    },
+
     onSelectClient(item) {
       this.item.provider = item.id;
     },
@@ -407,8 +390,7 @@ export default {
       // load categories
       this.loadCategories();
 
-      // load providers
-      this.loadProviders();
+  
     },
 
     addCategory() {
