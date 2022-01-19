@@ -211,11 +211,11 @@ export default {
     return {
       fromDate: date.formatDate(
         date.subtractFromDate(Date.now(), { month: 1 }),
-        "DD/MM/YYYY"
+        "01/MM/YYYY"
       ),
       toDate: date.formatDate(
-        date.sumFromDate(Date.now(), { month: 1 }),
-        "DD/MM/YYYY"
+        date.addToDate(Date.now(), { month: 1 }),
+        "31/MM/YYYY"
       ),
       settings: Object.freeze({
         columns: [
@@ -298,11 +298,11 @@ export default {
         date: {
           from: date.formatDate(
             date.subtractFromDate(Date.now(), { month: 1 }),
-            "DD/MM/YYYY"
+            "01/MM/YYYY"
           ),
           to: date.formatDate(
-            date.sumFromDate(Date.now(), { month: 1 }),
-            "DD/MM/YYYY"
+            date.addToDate(Date.now(), { month: 1 }),
+            "31/MM/YYYY"
           ),
         },
       },
