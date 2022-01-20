@@ -117,7 +117,7 @@ export default {
           for (let index in categories.members) {
             let item = categories.members[index];
             this.categories.push({
-              label: $t("tasks.status." + item.name),
+              label: this.$t("tasks.status." + item.name),
               value: item.id,
             });
           }
