@@ -92,6 +92,7 @@
         <div class="col-6 col-sm-2">
           <q-btn
             dense
+            v-if="orderStatus.status == 'quote' || orderStatus.status == 'proposal sent'"
             style="margin-top: 13px"
             color="primary"
             @click="onPropostaClick()"
