@@ -64,25 +64,28 @@ export default {
     },
   },
   methods: {
-    dateChanged(date) {      
-      this.fromDate = date.from;
-      this.toDate = date.to;
-      this.filters = date;
+    dateChanged(date) {
+      if (date.from && date.to) {
+        this.fromDate = date.from;
+        this.toDate = date.to;
+        this.filters.from = date.from;
+        this.filters.to = date.to;
+      }
       this.$emit("refresh");
     },
   },
   computed: {},
   data() {
     return {
-      filters: {
-        from: this.fromDate,
-        to: this.toDate,
-      },
       fromDate: date.formatDate(
         date.subtractFromDate(Date.now(), { month: 1 }),
         "DD/MM/YYYY"
       ),
       toDate: date.formatDate(Date.now(), "DD/MM/YYYY"),
+      filters: {
+        from: this.fromDate,
+        to: this.toDate,
+      },
       isLoading: false,
     };
   },
