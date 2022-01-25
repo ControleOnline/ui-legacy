@@ -58,7 +58,7 @@
         :loading="isLoading"
         :label="$t('dashboard.request')"
         color="primary"
-        @click="$emit('dateChanged')"
+        @click="$emit('dateChanged', date)"
       />
     </q-card-actions>
   </q-card>
@@ -82,10 +82,14 @@ export default {
 
   watch: {
     "date.to"() {
-      this.$emit("dateChanged", this.date);
+      if (!this.showButton) {
+        this.$emit("dateChanged", this.date);
+      }
     },
     "date.from"() {
-      this.$emit("dateChanged", this.date);
+      if (!this.showButton) {
+        this.$emit("dateChanged", this.date);
+      }
     },
   },
 

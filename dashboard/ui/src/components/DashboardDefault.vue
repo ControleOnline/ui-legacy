@@ -64,21 +64,20 @@ export default {
     },
   },
   methods: {
-    dateChanged() {
+    dateChanged(date) {      
+      this.fromDate = date.from;
+      this.toDate = date.to;
+      this.filters = date;
       this.$emit("refresh");
     },
   },
-  computed: {
-    filters() {
-      return {
-        from: this.fromDate,
-        to: this.toDate,
-      };
-    },
-  },
-
+  computed: {},
   data() {
     return {
+      filters: {
+        from: this.fromDate,
+        to: this.toDate,
+      },
       fromDate: date.formatDate(
         date.subtractFromDate(Date.now(), { month: 1 }),
         "DD/MM/YYYY"
