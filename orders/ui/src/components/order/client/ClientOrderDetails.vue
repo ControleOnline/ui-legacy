@@ -99,7 +99,7 @@
             <q-tab name="quotation" label="Cotação" />
             <q-tab name="notafiscal" label="Nota Fiscal" />
             <q-tab name="invoice" label="Fatura" />
-            <q-tab name="tasks" label="Ocorrências" />
+            <!--<q-tab name="tasks" label="Ocorrências" />-->
             <q-tab name="tracking" label="Rastreamento" />
           </q-tabs>
 
@@ -129,9 +129,11 @@
             <q-tab-panel name="invoice" class="q-pa-none">
               <ClientOrderDetailInvoice :orderId="orderId" />
             </q-tab-panel>
+            <!--
             <q-tab-panel name="tasks" class="q-pa-none">
               <OrderTasks :orderId="orderId" :client="client" />
             </q-tab-panel>
+            -->
             <q-tab-panel name="tracking" class="q-pa-none">
               <ClientOrderDetailTracking :orderId="orderId" />
             </q-tab-panel>
@@ -172,7 +174,7 @@ export default {
     ClientOrderDetailNotaFiscal,
     ClientOrderDetailInvoice,
     ClientOrderDetailTracking,
-    OrderTasks
+    OrderTasks,
   },
 
   created() {
@@ -186,6 +188,7 @@ export default {
 
   data() {
     return {
+      client: null,
       currentTab: "resumo",
       orderId: null,
       orderStatus: null,
@@ -244,7 +247,7 @@ export default {
           });
         });
     },
-    setQuoteDetails(quoteDetails) {      
+    setQuoteDetails(quoteDetails) {
       this.quoteDetails = quoteDetails;
     },
     remakeQuote() {

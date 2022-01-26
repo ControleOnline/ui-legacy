@@ -62,9 +62,43 @@
                   </td>
                 </tr>
                 <tr>
+                  <td class="text-left text-bold">E-Mail</td>
+                  <td class="text-left">
+                    {{ `${this.retrieve.contact.email}` }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">Telefone</td>
+                  <td class="text-left">
+                    {{ this.formatPhone(this.retrieve.contact.phone) }}
+                  </td>
+                </tr>
+                <tr>
                   <td class="text-left text-bold">Documento</td>
                   <td class="text-left">
-                    {{ formatDoc(this.retrieve.document) }}
+                    {{ this.formatDoc(this.retrieve.document) }}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="text-left text-bold">CEP</td>
+                  <td class="text-left">
+                    {{ this.formatCEP(this.retrieve.address.postal_code) }}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="text-left text-bold">Endereço</td>
+                  <td class="text-left">
+                    {{
+                      `${this.retrieve.address.street}, ${this.retrieve.address.number} ${this.retrieve.address.complement}`
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">Bairro</td>
+                  <td class="text-left">
+                    {{ `${this.retrieve.address.district}` }}
                   </td>
                 </tr>
                 <tr>
@@ -73,16 +107,6 @@
                     {{
                       `${this.retrieve.address.city} / ${this.retrieve.address.state}`
                     }}
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2" class="text-right">
-                    <q-btn
-                      size="sm"
-                      color="primary"
-                      label="Detalhes da coleta"
-                      @click="seeDetails(retrieve)"
-                    />
                   </td>
                 </tr>
               </tbody>
@@ -118,9 +142,43 @@
                   </td>
                 </tr>
                 <tr>
+                  <td class="text-left text-bold">E-Mail</td>
+                  <td class="text-left">
+                    {{ `${this.delivery.contact.email}` }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">Telefone</td>
+                  <td class="text-left">
+                    {{ this.formatPhone(this.delivery.contact.phone) }}
+                  </td>
+                </tr>
+                <tr>
                   <td class="text-left text-bold">Documento</td>
                   <td class="text-left">
-                    {{ formatDoc(this.delivery.document) }}
+                    {{ this.formatDoc(this.delivery.document) }}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="text-left text-bold">CEP</td>
+                  <td class="text-left">
+                    {{ this.formatCEP(this.delivery.address.postal_code) }}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="text-left text-bold">Endereço</td>
+                  <td class="text-left">
+                    {{
+                      `${this.delivery.address.street}, ${this.delivery.address.number} ${this.delivery.address.complement}`
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">Bairro</td>
+                  <td class="text-left">
+                    {{ `${this.delivery.address.district}` }}
                   </td>
                 </tr>
                 <tr>
@@ -129,16 +187,6 @@
                     {{
                       `${this.delivery.address.city} / ${this.delivery.address.state}`
                     }}
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2" class="text-right">
-                    <q-btn
-                      size="sm"
-                      color="primary"
-                      label="Detalhes da entrega"
-                      @click="seeDetails(delivery)"
-                    />
                   </td>
                 </tr>
               </tbody>
@@ -352,6 +400,7 @@ export default {
           number: "",
           city: "",
           state: "",
+          complement:"",
         },
       },
       delivery: {
@@ -370,6 +419,7 @@ export default {
           number: "",
           city: "",
           state: "",
+          complement:"",
         },
       },
       dialogs: {
@@ -624,7 +674,12 @@ export default {
 
       return opts;
     },
-
+    formatPhone(document) {
+      return formatPhone(document);
+    },
+    formatCEP(document) {
+      return formatCEP(document);
+    },
     formatDoc(document) {
       return formatDocument(document);
     },
