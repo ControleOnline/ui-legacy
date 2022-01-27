@@ -92,7 +92,10 @@
         <div class="col-6 col-sm-2">
           <q-btn
             dense
-            v-if="orderStatus.status == 'quote' || orderStatus.status == 'proposal sent'"
+            v-if="
+              orderStatus.status == 'quote' ||
+              orderStatus.status == 'proposal sent'
+            "
             style="margin-top: 13px"
             color="primary"
             @click="onPropostaClick()"
@@ -132,43 +135,53 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr v-if="this.retrieve.name">
                   <td class="text-left text-bold">Nome</td>
                   <td class="text-left">
-                    {{
-                      this.retrieve.name
-                        ? this.retrieve.name
-                        : this.retrieve.contact.name
-                    }}
+                    {{ this.retrieve.name }}
                   </td>
                 </tr>
-                <tr>
+                <tr v-if="this.retrieve.contact.email">
                   <td class="text-left text-bold">E-Mail</td>
                   <td class="text-left">
-                    {{
-                      this.retrieve.email
-                        ? this.retrieve.email
-                        : this.retrieve.contact.email
-                    }}
+                    {{ `${this.retrieve.contact.email}` }}
                   </td>
                 </tr>
-                <tr>
+                <tr v-if="this.retrieve.contact.phone">
                   <td class="text-left text-bold">Telefone</td>
                   <td class="text-left">
+                    {{ this.formatPhone(this.retrieve.contact.phone) }}
+                  </td>
+                </tr>
+                <tr v-if="this.retrieve.document">
+                  <td class="text-left text-bold">Documento</td>
+                  <td class="text-left">
+                    {{ this.formatDoc(this.retrieve.document) }}
+                  </td>
+                </tr>
+
+                <tr v-if="this.retrieve.address.postal_code">
+                  <td class="text-left text-bold">CEP</td>
+                  <td class="text-left">
+                    {{ this.formatCEP(this.retrieve.address.postal_code) }}
+                  </td>
+                </tr>
+
+                <tr v-if="this.retrieve.address.street">
+                  <td class="text-left text-bold">Endereço</td>
+                  <td class="text-left">
                     {{
-                      this.retrieve.phone
-                        ? this.retrieve.phone
-                        : this.retrieve.contact.phone
+                      `${this.retrieve.address.street}, ${this.retrieve.address.number} ${this.retrieve.address.complement}`
                     }}
                   </td>
                 </tr>
-                <tr>
-                  <td class="text-left text-bold">Documento</td>
+                <tr v-if="this.retrieve.address.district">
+                  <td class="text-left text-bold">Bairro</td>
                   <td class="text-left">
-                    {{ formatDoc(this.retrieve.document) }}
+                    {{ `${this.retrieve.address.district}` }}
                   </td>
                 </tr>
-                <tr>
+                <tr v-if="this.retrieve.address.city">
                   <td class="text-left text-bold">Cidade</td>
                   <td class="text-left">
                     {{
@@ -218,43 +231,53 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr v-if="this.delivery.name">
                   <td class="text-left text-bold">Nome</td>
                   <td class="text-left">
-                    {{
-                      this.delivery.name
-                        ? this.delivery.name
-                        : this.delivery.contact.name
-                    }}
+                    {{ this.delivery.name }}
                   </td>
                 </tr>
-                <tr>
+                <tr v-if="this.delivery.contact.email">
                   <td class="text-left text-bold">E-Mail</td>
                   <td class="text-left">
-                    {{
-                      this.delivery.email
-                        ? this.delivery.email
-                        : this.delivery.contact.email
-                    }}
+                    {{ `${this.delivery.contact.email}` }}
                   </td>
                 </tr>
-                <tr>
+                <tr v-if="this.delivery.contact.phone">
                   <td class="text-left text-bold">Telefone</td>
                   <td class="text-left">
+                    {{ this.formatPhone(this.delivery.contact.phone) }}
+                  </td>
+                </tr>
+                <tr v-if="this.delivery.document">
+                  <td class="text-left text-bold">Documento</td>
+                  <td class="text-left">
+                    {{ this.formatDoc(this.delivery.document) }}
+                  </td>
+                </tr>
+
+                <tr v-if="this.delivery.address.postal_code">
+                  <td class="text-left text-bold">CEP</td>
+                  <td class="text-left">
+                    {{ this.formatCEP(this.delivery.address.postal_code) }}
+                  </td>
+                </tr>
+
+                <tr v-if="this.delivery.address.street">
+                  <td class="text-left text-bold">Endereço</td>
+                  <td class="text-left">
                     {{
-                      this.delivery.phone
-                        ? this.delivery.phone
-                        : this.delivery.contact.phone
+                      `${this.delivery.address.street}, ${this.delivery.address.number} ${this.delivery.address.complement}`
                     }}
                   </td>
                 </tr>
-                <tr>
-                  <td class="text-left text-bold">Documento</td>
+                <tr v-if="this.delivery.address.district">
+                  <td class="text-left text-bold">Bairro</td>
                   <td class="text-left">
-                    {{ formatDoc(this.delivery.document) }}
+                    {{ `${this.delivery.address.district}` }}
                   </td>
                 </tr>
-                <tr>
+                <tr v-if="this.delivery.address.city">
                   <td class="text-left text-bold">Cidade</td>
                   <td class="text-left">
                     {{
