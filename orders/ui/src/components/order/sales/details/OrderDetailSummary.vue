@@ -191,7 +191,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="2" class="text-right">
+                  <td v-if="this.retrieve.id" colspan="2" class="text-right">
                     <q-btn
                       size="sm"
                       color="primary bt-edit"
@@ -287,7 +287,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="2" class="text-right">
+                  <td v-if="this.delivery.id" colspan="2" class="text-right">
                     <q-btn
                       size="sm"
                       color="primary bt-edit"
