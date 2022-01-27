@@ -647,6 +647,7 @@ export default {
           number: "",
           city: "",
           state: "",
+          complement: "",
         },
       },
       delivery: {
@@ -665,6 +666,7 @@ export default {
           number: "",
           city: "",
           state: "",
+          complement: "",
         },
       },
       dialogs: {
@@ -763,6 +765,8 @@ export default {
           this.summary.retrievePeople.address.number;
         this.retrieve.address.city = this.summary.retrievePeople.address.city;
         this.retrieve.address.state = this.summary.retrievePeople.address.state;
+        this.retrieve.address.complement =
+          this.summary.retrievePeople.address.complement;
       } else {
         if (data.quote !== null) {
           this.retrieve.address.city = data.quote.origin.city;
@@ -797,6 +801,8 @@ export default {
           this.summary.deliveryPeople.address.number;
         this.delivery.address.city = this.summary.deliveryPeople.address.city;
         this.delivery.address.state = this.summary.deliveryPeople.address.state;
+        this.delivery.address.complement =
+          this.summary.deliveryPeople.address.complement;
       } else {
         if (data.quote !== null) {
           this.delivery.address.city = data.quote.destination.city;
