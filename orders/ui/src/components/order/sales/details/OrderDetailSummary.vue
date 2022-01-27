@@ -93,8 +93,9 @@
           <q-btn
             dense
             v-if="
-              orderStatus.status == 'quote' ||
-              orderStatus.status == 'proposal sent'
+              orderStatus &&
+              (orderStatus.status == 'quote' ||
+                orderStatus.status == 'proposal sent')
             "
             style="margin-top: 13px"
             color="primary"
@@ -572,6 +573,7 @@ import {
   formatPhone,
   formatCEP,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
+
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/common/ListAutocomplete.vue";
 import ContactForm from "@controleonline/quasar-common-ui/src/components/common/ContactForm.vue";
 import fetch from "@controleonline/quasar-common-ui/src/utils/fetch";
@@ -950,7 +952,19 @@ export default {
         this.labels.invoiceTaxLabel = "Valor do Seguro";
       }
     },
+    formatPhone(document) {
+      return formatPhone(document);
+    },
+    formatCEP(document) {
+      return formatCEP(document);
+    },
+    formatDoc(document) {
+      return formatDocument(document);
+    },
 
+    formatMoney(value) {
+      return formatMoney(value, "BRL", "pt-br");
+    },
     createNewContract() {
       if (this.summary.contractId) {
         this.$router.push({
