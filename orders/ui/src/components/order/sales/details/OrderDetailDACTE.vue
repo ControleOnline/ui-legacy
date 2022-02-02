@@ -13,6 +13,19 @@
 
       <div class="col-12" v-else>
         <div class="row" v-if="invoiceTax === null">
+          <div v-if="defaultCompany.domainType == 'ceg'" class="col-12">
+            <div class="row justify-end q-mb-md">
+              <q-btn
+                label="Emitir DACTE"
+                icon="add"
+                size="md"
+                color="primary"
+                class="q-ml-sm"
+                @click="DACTEGenerator"
+              />
+            </div>
+          </div>
+
           <!-- DACTE FORM -->
 
           <div class="col-12" v-if="dacteMode == 'fields'">
@@ -97,7 +110,7 @@
 
         <div class="row" v-else>
           <div class="col-12">
-            <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">              
+            <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
               <h6 class="q-mb-md q-mt-md">
                 DACTE: #{{ invoiceTax.invoice_number }}
               </h6>
@@ -175,6 +188,7 @@ export default {
     ...mapGetters({
       isLoading: "salesOrder/isLoading",
       myCompany: "people/currentCompany",
+      defaultCompany: "people/defaultCompany",
     }),
 
     updEndpoint() {
@@ -205,7 +219,38 @@ export default {
       getItem: "salesOrder/getDetailOrder",
       removeInvoiceTax: "salesOrder/removeInvoiceTax",
     }),
+    DACTEGenerator() {
+      if (this.isSaving) return;
 
+      this.isSaving = true;
+
+      let options = {
+        method: "POST",
+        body: JSON.stringify({
+          order: this.orderId,
+        }),
+        params: {
+          myCompany: this.myCompany.id,
+        },
+      };
+
+      return fetch(`sales/orders/${this.orderId}/detail/create-dacte`, options)
+        .then((response) => response.json())
+        .then((order) => {
+          if (order !== null) {
+            this.$q.notify({
+              message: "DACTE emitido com sucesso",
+              position: "bottom",
+              type: "positive",
+            });
+
+            this.onRequest();
+          }
+        })
+        .finally(() => {
+          this.isSaving = false;
+        });
+    },
     updateDacte() {
       if (this.isSaving) return;
 
@@ -284,7 +329,7 @@ export default {
             });
           } else {
             location.reload();
-          }                    
+          }
         })
         .catch((error) => {
           this.$q.notify({
