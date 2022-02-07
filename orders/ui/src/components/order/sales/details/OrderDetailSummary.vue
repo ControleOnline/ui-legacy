@@ -95,7 +95,8 @@
             v-if="
               orderStatus &&
               (orderStatus.status == 'quote' ||
-                orderStatus.status == 'proposal sent')
+                orderStatus.status == 'proposal sent' ||
+                orderStatus.status == 'waiting client invoice tax')
             "
             style="margin-top: 13px"
             color="primary"
