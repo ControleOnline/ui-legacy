@@ -192,7 +192,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td v-if="this.retrieve.id" colspan="2" class="text-right">
+                  <td colspan="2" class="text-right">
                     <q-btn
                       size="sm"
                       color="primary bt-edit"
@@ -200,6 +200,7 @@
                       @click="btEditRem()"
                     />
                     <q-btn
+                      v-if="this.retrieve.id"
                       size="sm"
                       color="primary"
                       label="Detalhes da coleta"
@@ -288,7 +289,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td v-if="this.delivery.id" colspan="2" class="text-right">
+                  <td colspan="2" class="text-right">
                     <q-btn
                       size="sm"
                       color="primary bt-edit"
@@ -296,6 +297,7 @@
                       @click="btEditDest()"
                     />
                     <q-btn
+                      v-if="this.delivery.id"
                       size="sm"
                       color="primary"
                       label="Detalhes da entrega"
