@@ -194,13 +194,13 @@
                 <tr>
                   <td colspan="2" class="text-right">
                     <q-btn
+                      v-if="this.retrieve.id"
                       size="sm"
                       color="primary bt-edit"
                       label="Editar"
                       @click="btEditRem()"
                     />
                     <q-btn
-                      v-if="this.retrieve.id"
                       size="sm"
                       color="primary"
                       label="Detalhes da coleta"
@@ -291,13 +291,13 @@
                 <tr>
                   <td colspan="2" class="text-right">
                     <q-btn
+                      v-if="this.delivery.id"
                       size="sm"
                       color="primary bt-edit"
                       label="Editar"
                       @click="btEditDest()"
                     />
                     <q-btn
-                      v-if="this.delivery.id"
                       size="sm"
                       color="primary"
                       label="Detalhes da entrega"
