@@ -92,12 +92,6 @@
         <div class="col-6 col-sm-2">
           <q-btn
             dense
-            v-if="
-              orderStatus &&
-              (orderStatus.status == 'quote' ||
-                orderStatus.status == 'proposal sent' ||
-                orderStatus.status == 'waiting client invoice tax')
-            "
             style="margin-top: 13px"
             color="primary"
             @click="onPropostaClick()"
