@@ -25,6 +25,58 @@
             />
           </div>
         </div>
+        <div class="col-12">
+          <center>
+            <q-btn
+              v-if="orderStatus.realStatus == 'canceled'"
+              color="positive"
+              label="Revalidar Cotação"
+              @click="remakeQuote"
+              :loading="isUpdating"
+            />
+            <q-btn
+              v-if="orderStatus.status == 'analysis'"
+              color="positive"
+              label="Aprovar Pedido"
+              @click="approveOrder"
+              :loading="isUpdating"
+            />
+            <q-btn
+              v-if="orderStatus.status == 'waiting retrieve'"
+              color="positive"
+              label="Coleta realizada"
+              @click="addRetrieve"
+              :loading="isUpdating"
+            />
+            <q-btn
+              v-if="orderStatus.status == 'on the way'"
+              color="positive"
+              label="Entrega realizada"
+              @click="addDelivered"
+              :loading="isUpdating"
+            />
+            <q-btn
+              v-if="orderStatus.status == 'retrieved'"
+              color="negative"
+              label="Coleta não Realizada"
+              @click="backToWaitingRetrieve"
+              :loading="isUpdating"
+            />
+            <q-btn
+              color="negative"
+              label="Cancelar Pedido"
+              @click="cancelOrder"
+              :loading="isUpdating"
+            />
+            <q-btn
+              v-if="['waiting payment'].includes(orderStatus.status)"
+              color="positive"
+              label="Liberar Pagamento"
+              @click="releasePayment"
+              :loading="isUpdating"
+            />
+          </center>
+        </div>
         <div class="col-xs-12 col-sm-4">
           <q-markup-table flat dense separator="none" class="bg-grey-4">
             <tbody>
@@ -146,7 +198,7 @@
             </tbody>
           </q-markup-table>
         </div>
-        <div class="col-xs-12 col-sm-8">
+        <div class="col-xs-12 col-sm-4">
           <q-markup-table
             flat
             dense
@@ -162,58 +214,46 @@
                   </div>
                 </td>
               </tr>
+            </tbody>
+          </q-markup-table>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <q-markup-table flat dense separator="none" class="bg-grey-4">
+            <tbody>
               <tr>
-                <td class="text-center text-bold">
-                  <div class="row items-center justify-around">
-                    <q-btn
-                      v-if="orderStatus.realStatus == 'canceled'"
-                      color="positive"
-                      label="Revalidar Cotação"
-                      @click="remakeQuote"
-                      :loading="isUpdating"
-                    />
-                    <q-btn
-                      v-if="orderStatus.status == 'analysis'"
-                      color="positive"
-                      label="Aprovar Pedido"
-                      @click="approveOrder"
-                      :loading="isUpdating"
-                    />
-                    <q-btn
-                      v-if="orderStatus.status == 'waiting retrieve'"
-                      color="positive"
-                      label="Coleta realizada"
-                      @click="addRetrieve"
-                      :loading="isUpdating"
-                    />
-                    <q-btn
-                      v-if="orderStatus.status == 'on the way'"
-                      color="positive"
-                      label="Entrega realizada"
-                      @click="addDelivered"
-                      :loading="isUpdating"
-                    />
-                    <q-btn
-                      v-if="orderStatus.status == 'retrieved'"
-                      color="negative"
-                      label="Coleta não Realizada"
-                      @click="backToWaitingRetrieve"
-                      :loading="isUpdating"
-                    />
-                    <q-btn
-                      color="negative"
-                      label="Cancelar Pedido"
-                      @click="cancelOrder"
-                      :loading="isUpdating"
-                    />
-                    <q-btn
-                      v-if="['waiting payment'].includes(orderStatus.status)"
-                      color="positive"
-                      label="Liberar Pagamento"
-                      @click="releasePayment"
-                      :loading="isUpdating"
-                    />
-                  </div>
+                <td class="text-left text-bold">Data do pedido</td>
+                <td class="text-left">
+                  {{
+                    this.orderDate
+                      ? this.formatDate(this.orderDate, "DD/MM/YYYY")
+                      : "-"
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td class="text-left text-bold">Última alteração</td>
+                <td class="text-left">
+                  {{
+                    this.alterDate
+                      ? this.formatDate(this.alterDate, "DD/MM/YYYY")
+                      : "-"
+                  }}
+                </td>
+              </tr>
+              <tr v-if="clientInvoiceTax">
+                <td class="text-left text-bold">Nota Fiscal</td>
+                <td class="text-left">
+                  #{{
+                    this.clientInvoiceTax
+                      ? this.clientInvoiceTax.invoiceNumber
+                      : "-"
+                  }}
+                </td>
+              </tr>
+              <tr v-if="invoiceTax">
+                <td class="text-left text-bold">CTE</td>
+                <td class="text-left">
+                  #{{ this.invoiceTax ? this.invoiceTax.invoiceNumber : "-" }}
                 </td>
               </tr>
             </tbody>
@@ -318,8 +358,10 @@ import OrderDetailDACTE from "./details/OrderDetailDACTE";
 import OrderDetailTracking from "./details/OrderTracking";
 import OrderDetailTag from "./details/OrderDetailTag";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
-
-import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import {
+  formatMoney,
+  formatDateYmdTodmY,
+} from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 export default {
   components: {
@@ -350,6 +392,10 @@ export default {
       orderId: null,
       orderStatus: null,
       deliveryDueDate: null,
+      clientInvoiceTax: null,
+      orderDate: null,
+      alterDate: null,
+      invoiceTax: null,
       invoices: [],
       client: {
         name: "",
@@ -403,7 +449,9 @@ export default {
       email: "people/email",
       contact: "people/createContact",
     }),
-
+    formatDate(date) {
+      return formatDateYmdTodmY(date, true);
+    },
     releasePayment() {
       let params = {
         myCompany: this.myCompany.id,
@@ -635,6 +683,19 @@ export default {
             this.price = data.price;
             this.mainPrice = data.mainPrice;
             this.realPecentage = data.realPecentage;
+            this.orderDate = data.orderDate;
+            this.alterDate = data.alterDate;
+
+            data.invoiceTax.forEach((invoice) => {
+              if (invoice.invoiceType == 55) {
+                this.clientInvoiceTax = invoice;
+              }
+
+              if (invoice.invoiceType == 57) {
+                this.invoiceTax = invoice;
+              }
+            });
+
             this.correctValue = data.correctValue;
             this.correctPercentage = data.correctPercentage;
             this.mainOrderId = data.mainOrderId;
