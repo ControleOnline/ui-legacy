@@ -51,6 +51,18 @@
             :style="{ color: props.row.color_status }"
             class="full-width"
           />
+
+          <q-icon
+            v-if="
+              props.row.app == 'app' ||
+              props.row.app == 'Cota Fácil' ||
+              props.row.app == 'Gestor'
+            "
+            name="touch_app"
+            color="blue"
+          />
+          <q-icon v-else name="electrical_services" color="green" />
+
           <q-icon
             v-if="hasClosedTasks(props.row.task) == true"
             name="priority_high"
@@ -315,6 +327,7 @@ export default {
         data.push({
           "@id": item["@id"],
           id: item["@id"].match(/^\/sales\/orders\/([a-z0-9-]*)$/)[1],
+          app: item.app,
           notaFiscal:
             item.invoiceTax.length > 0
               ? "#" + item.invoiceTax[0].invoiceTax.invoiceNumber

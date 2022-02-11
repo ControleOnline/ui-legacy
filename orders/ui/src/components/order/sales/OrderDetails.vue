@@ -77,187 +77,225 @@
             />
           </center>
         </div>
-        <div class="col-xs-12 col-sm-4">
-          <q-markup-table flat dense separator="none" class="bg-grey-4">
-            <tbody>
-              <tr>
-                <td class="text-left text-bold">Número do pedido</td>
-                <td class="text-left">
-                  {{ `#${this.orderId}` }}
-                </td>
-              </tr>
-              <tr>
-                <td class="text-left text-bold">Valor do pedido</td>
-                <td class="text-left">
-                  {{ formatMoney(this.price) }}
-                </td>
-              </tr>
-              <tr v-if="this.mainOrderId">
-                <td class="text-left text-bold">
-                  Valor do fornecedor
-                  <router-link
-                    v-bind:to="'/purchasing/order/id/' + this.mainOrderId"
-                  >
-                    (#{{ this.mainOrderId }})
-                  </router-link>
-                </td>
-                <td class="text-left">
-                  {{ formatMoney(this.mainPrice) }}
-                </td>
-              </tr>
-              <tr v-if="this.mainOrderId">
-                <td
-                  :class="
-                    this.price - this.mainPrice < this.correctValue
-                      ? 'red text-left text-bold'
-                      : 'green text-left text-bold'
-                  "
-                >
-                  Valor do ticket
-                </td>
-                <td
-                  :class="
-                    this.price - this.mainPrice < this.correctValue
-                      ? 'red text-left text-bold'
-                      : 'green text-left text-bold'
-                  "
-                >
-                  {{ formatMoney(this.price - this.mainPrice) }}
-                  ({{ parseFloat(this.realPecentage).toFixed(2) }}
-                  %)
-                </td>
-              </tr>
-              <tr v-if="this.mainOrderId">
-                <td class="text-left text-bold">Valor correto do ticket</td>
-                <td class="text-left">
-                  {{ formatMoney(this.correctValue) }}
-                  ({{ parseFloat(this.correctPercentage).toFixed(2) }}
-                  %)
-                </td>
-              </tr>
-              <tr>
-                <td class="text-left text-bold">Previsão de entrega</td>
-                <td class="text-left">
-                  {{ this.deliveryDueDate || "-" }}
-                  <q-btn
-                    v-if="deliveryDueDate && isEditable"
-                    class="btn-edit"
-                    icon="edit"
-                    color="black"
-                    flat
-                    round
-                    dense
-                  />
-                  <q-popup-edit
-                    v-if="deliveryDueDate && isEditable"
-                    v-model="inputDeadline"
-                    @save="onSaveDeadline"
-                  >
-                    <template
-                      v-slot="{
-                        initialValue,
-                        value,
-                        emitValue,
-                        validate,
-                        set,
-                        cancel,
-                      }"
+        <div class="col-12 row bg-grey-4">
+          <div class="col-xs-12 col-sm-4">
+            <q-markup-table flat dense separator="none" class="bg-grey-4">
+              <tbody>
+                <tr>
+                  <td class="text-left text-bold">Número do pedido</td>
+                  <td class="text-left">
+                    {{ `#${this.orderId}` }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">Valor do pedido</td>
+                  <td class="text-left">
+                    {{ formatMoney(this.price) }}
+                  </td>
+                </tr>
+                <tr v-if="this.mainOrderId">
+                  <td class="text-left text-bold">
+                    Valor do fornecedor
+                    <router-link
+                      v-bind:to="'/purchasing/order/id/' + this.mainOrderId"
                     >
-                      <q-input
-                        autofocus
-                        dense
-                        :value="inputDeadline"
-                        @input="emitValue"
-                        mask="##/##/####"
+                      (#{{ this.mainOrderId }})
+                    </router-link>
+                  </td>
+                  <td class="text-left">
+                    {{ formatMoney(this.mainPrice) }}
+                  </td>
+                </tr>
+                <tr v-if="this.mainOrderId">
+                  <td
+                    :class="
+                      this.price - this.mainPrice < this.correctValue
+                        ? 'red text-left text-bold'
+                        : 'green text-left text-bold'
+                    "
+                  >
+                    Valor do ticket
+                  </td>
+                  <td
+                    :class="
+                      this.price - this.mainPrice < this.correctValue
+                        ? 'red text-left text-bold'
+                        : 'green text-left text-bold'
+                    "
+                  >
+                    {{ formatMoney(this.price - this.mainPrice) }}
+                    ({{ parseFloat(this.realPecentage).toFixed(2) }}
+                    %)
+                  </td>
+                </tr>
+                <tr v-if="this.mainOrderId">
+                  <td class="text-left text-bold">Valor correto do ticket</td>
+                  <td class="text-left">
+                    {{ formatMoney(this.correctValue) }}
+                    ({{ parseFloat(this.correctPercentage).toFixed(2) }}
+                    %)
+                  </td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <q-markup-table
+              flat
+              dense
+              separator="none"
+              class="text-white"
+              :style="`background-color: ${this.orderStatus.color}`"
+            >
+              <tbody>
+                <tr>
+                  <td class="text-center">
+                    <div class="text-h6">
+                      {{ $t(`order.statuses.${orderStatus.status}`) }}
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+            <q-markup-table
+              flat
+              dense
+              separator="none"
+              v-if="this.carrier"
+              style="background-color: transparent"
+            >
+              <tbody>
+                <tr>
+                  <td class="text-center">
+                    <q-btn
+                      flat
+                      dense
+                      :to="{
+                        name: 'CarrierDetails',
+                        params: { id: carrier.id },
+                      }"
+                      :label="carrier.alias"
+                      class="full-width"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">
+                    <q-icon
+                      v-if="
+                        app == 'app' || app == 'Cota Fácil' || app == 'Gestor'
+                      "
+                      name="touch_app"
+                      color="blue"
+                    />
+                    <q-icon v-else name="electrical_services" color="green" />
+                  </td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <q-markup-table flat dense separator="none" class="bg-grey-4">
+              <tbody>
+                <tr>
+                  <td class="text-left text-bold">Data do pedido</td>
+                  <td class="text-left">
+                    {{
+                      this.orderDate
+                        ? this.formatDate(this.orderDate, "DD/MM/YYYY")
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">Última alteração</td>
+                  <td class="text-left">
+                    {{
+                      this.alterDate
+                        ? this.formatDate(this.alterDate, "DD/MM/YYYY")
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">Previsão de entrega</td>
+                  <td class="text-left">
+                    {{ this.deliveryDueDate || "-" }}
+                    <q-btn
+                      v-if="deliveryDueDate && isEditable"
+                      class="btn-edit"
+                      icon="edit"
+                      color="black"
+                      flat
+                      round
+                      dense
+                    />
+                    <q-popup-edit
+                      v-if="deliveryDueDate && isEditable"
+                      v-model="inputDeadline"
+                      @save="onSaveDeadline"
+                    >
+                      <template
+                        v-slot="{
+                          initialValue,
+                          value,
+                          emitValue,
+                          validate,
+                          set,
+                          cancel,
+                        }"
                       >
-                        <template v-slot:after>
-                          <q-btn
-                            flat
-                            dense
-                            color="negative"
-                            icon="cancel"
-                            @click.stop="cancel"
-                          />
-                          <q-btn
-                            flat
-                            dense
-                            color="positive"
-                            icon="check_circle"
-                            @click.stop="set"
-                            :disable="
-                              validate(value) === false ||
-                              initialValue === value
-                            "
-                          />
-                        </template>
-                      </q-input>
-                    </template>
-                  </q-popup-edit>
-                </td>
-              </tr>
-            </tbody>
-          </q-markup-table>
-        </div>
-        <div class="col-xs-12 col-sm-4">
-          <q-markup-table
-            flat
-            dense
-            separator="none"
-            class="text-white"
-            :style="`background-color: ${this.orderStatus.color}`"
-          >
-            <tbody>
-              <tr>
-                <td class="text-center">
-                  <div class="text-h6">
-                    {{ $t(`order.statuses.${orderStatus.status}`) }}
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </q-markup-table>
-        </div>
-        <div class="col-xs-12 col-sm-4">
-          <q-markup-table flat dense separator="none" class="bg-grey-4">
-            <tbody>
-              <tr>
-                <td class="text-left text-bold">Data do pedido</td>
-                <td class="text-left">
-                  {{
-                    this.orderDate
-                      ? this.formatDate(this.orderDate, "DD/MM/YYYY")
-                      : "-"
-                  }}
-                </td>
-              </tr>
-              <tr>
-                <td class="text-left text-bold">Última alteração</td>
-                <td class="text-left">
-                  {{
-                    this.alterDate
-                      ? this.formatDate(this.alterDate, "DD/MM/YYYY")
-                      : "-"
-                  }}
-                </td>
-              </tr>
-              <tr v-if="clientInvoiceTax">
-                <td class="text-left text-bold">Nota Fiscal</td>
-                <td class="text-left">
-                  #{{
-                    this.clientInvoiceTax
-                      ? this.clientInvoiceTax.invoiceNumber
-                      : "-"
-                  }}
-                </td>
-              </tr>
-              <tr v-if="invoiceTax">
-                <td class="text-left text-bold">CTE</td>
-                <td class="text-left">
-                  #{{ this.invoiceTax ? this.invoiceTax.invoiceNumber : "-" }}
-                </td>
-              </tr>
-            </tbody>
-          </q-markup-table>
+                        <q-input
+                          autofocus
+                          dense
+                          :value="inputDeadline"
+                          @input="emitValue"
+                          mask="##/##/####"
+                        >
+                          <template v-slot:after>
+                            <q-btn
+                              flat
+                              dense
+                              color="negative"
+                              icon="cancel"
+                              @click.stop="cancel"
+                            />
+                            <q-btn
+                              flat
+                              dense
+                              color="positive"
+                              icon="check_circle"
+                              @click.stop="set"
+                              :disable="
+                                validate(value) === false ||
+                                initialValue === value
+                              "
+                            />
+                          </template>
+                        </q-input>
+                      </template>
+                    </q-popup-edit>
+                  </td>
+                </tr>
+                <tr v-if="clientInvoiceTax">
+                  <td class="text-left text-bold">Nota Fiscal</td>
+                  <td class="text-left">
+                    #{{
+                      this.clientInvoiceTax
+                        ? this.clientInvoiceTax.invoiceNumber
+                        : "-"
+                    }}
+                  </td>
+                </tr>
+                <tr v-if="invoiceTax">
+                  <td class="text-left text-bold">CTE</td>
+                  <td class="text-left">
+                    #{{ this.invoiceTax ? this.invoiceTax.invoiceNumber : "-" }}
+                  </td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+          </div>
         </div>
       </div>
 
@@ -274,8 +312,10 @@
             <q-tab name="notafiscal" label="Nota Fiscal" />
             <q-tab name="invoice" label="Fatura" />
             <q-tab v-if="showDacteTab" name="dacte" label="DACTE" />
+
             <q-tab name="tasks" label="Ocorrências" />
             <q-tab name="tracking" label="Rastreamento" />
+
             <q-tab name="tag" label="Etiqueta" />
           </q-tabs>
 
@@ -396,6 +436,8 @@ export default {
       orderDate: null,
       alterDate: null,
       invoiceTax: null,
+      carrier: null,
+      app: null,
       invoices: [],
       client: {
         name: "",
@@ -685,6 +727,8 @@ export default {
             this.realPecentage = data.realPecentage;
             this.orderDate = data.orderDate;
             this.alterDate = data.alterDate;
+            this.carrier = data.carrier;
+            this.app = data.app;
 
             data.invoiceTax.forEach((invoice) => {
               if (invoice.invoiceType == 55) {
