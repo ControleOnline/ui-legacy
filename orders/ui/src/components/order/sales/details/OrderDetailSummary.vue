@@ -969,6 +969,10 @@ export default {
       return formatMoney(value, "BRL", "pt-br");
     },
     createNewContract() {
+
+
+console.log(this.summary);
+
       if (this.summary.contractId) {
         this.$router.push({
           name: "ContractDetails",
