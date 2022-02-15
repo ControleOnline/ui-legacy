@@ -3,7 +3,7 @@
     <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row items-center">
-          <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
+          <q-avatar icon="receipt" color="primary" text-color="white" />
           <span class="q-ml-sm">Deseja gerar um novo número de fatura?</span>
         </q-card-section>
 
