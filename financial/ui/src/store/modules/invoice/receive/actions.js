@@ -63,6 +63,25 @@ export const getInvoice = ({ commit }, { invoiceId, params }) => {
         });
 };
 
+
+export const renewInvoice = ({ commit }, { invoiceId, params }) => {
+
+    let options = {
+        method: 'PUT',
+        body: JSON.stringify({ params })
+    };
+    return fetch(`/finance/receive/${invoiceId}/renew`, options)
+        .then(response => response.json())
+        .then(data => {
+
+            if (!data.response || data.response.success === false) {
+                throw Error(data.response.error);
+            }
+
+            return data;
+        });
+};
+
 export const bankItau = ({ commit }, { invoiceId, operation, params = {} }) => {
     return fetch(`/finance/receive/${invoiceId}/bank/itau/${operation}`, { params })
         .then(response => response.json())
