@@ -262,8 +262,8 @@ export default {
         .then((data) => {
           this.isLoading = false;
 
-          if (data["@id"]) {
-            this.invoice = data;
+          if (data.id) {
+            this.invoice = requestInvoice(data.id);
             this.notFound = false;
 
             // format date
