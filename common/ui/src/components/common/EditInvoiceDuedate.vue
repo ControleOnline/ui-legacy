@@ -76,8 +76,8 @@ export default {
       pay    : 'payInvoice/updateInvoiceDuedate'    ,
     }),
 
-    onSave() {
-      const dueDate = this.dueDateValue
+    onSave(newDate) {
+      const dueDate = newDate
         .replace(/^(\d{2})\/(\d{2})\/(\d{4})$/, "\$3\-\$2\-\$1");
 
       this.isSaving = true;
