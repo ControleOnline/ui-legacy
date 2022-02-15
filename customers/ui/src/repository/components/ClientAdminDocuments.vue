@@ -34,8 +34,7 @@
               <q-btn flat round dense
                 color   ="red"
                 icon    ="delete"
-                @click  ="removeItem(props.row)"
-                :disable="items.length == 1"
+                @click  ="removeItem(props.row)"                
                 :loading="props.row._bussy"
               />
             </q-td>
