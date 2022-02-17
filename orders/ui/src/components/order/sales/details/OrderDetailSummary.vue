@@ -156,14 +156,14 @@
                   </td>
                 </tr>
 
-                <tr v-if="this.retrieve.address.postal_code">
+                <tr v-if="this.retrieve.address && this.retrieve.address.postal_code">
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
                     {{ this.formatCEP(this.retrieve.address.postal_code) }}
                   </td>
                 </tr>
 
-                <tr v-if="this.retrieve.address.street">
+                <tr v-if="this.retrieve.address && this.retrieve.address.street">
                   <td class="text-left text-bold">Endereço</td>
                   <td class="text-left">
                     {{
@@ -171,13 +171,13 @@
                     }}
                   </td>
                 </tr>
-                <tr v-if="this.retrieve.address.district">
+                <tr v-if="this.retrieve.address && this.retrieve.address.district">
                   <td class="text-left text-bold">Bairro</td>
                   <td class="text-left">
                     {{ `${this.retrieve.address.district}` }}
                   </td>
                 </tr>
-                <tr v-if="this.retrieve.address.city">
+                <tr v-if="this.retrieve.address && this.retrieve.address.city">
                   <td class="text-left text-bold">Cidade</td>
                   <td class="text-left">
                     {{
@@ -253,14 +253,14 @@
                   </td>
                 </tr>
 
-                <tr v-if="this.delivery.address.postal_code">
+                <tr v-if="this.delivery.address && this.delivery.address.postal_code">
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
                     {{ this.formatCEP(this.delivery.address.postal_code) }}
                   </td>
                 </tr>
 
-                <tr v-if="this.delivery.address.street">
+                <tr v-if="this.delivery.address && this.delivery.address.street">
                   <td class="text-left text-bold">Endereço</td>
                   <td class="text-left">
                     {{
@@ -268,13 +268,13 @@
                     }}
                   </td>
                 </tr>
-                <tr v-if="this.delivery.address.district">
+                <tr v-if="this.delivery.address && this.delivery.address.district">
                   <td class="text-left text-bold">Bairro</td>
                   <td class="text-left">
                     {{ `${this.delivery.address.district}` }}
                   </td>
                 </tr>
-                <tr v-if="this.delivery.address.city">
+                <tr v-if="this.delivery.address && this.delivery.address.city">
                   <td class="text-left text-bold">Cidade</td>
                   <td class="text-left">
                     {{
