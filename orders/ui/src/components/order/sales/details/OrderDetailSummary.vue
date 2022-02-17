@@ -156,14 +156,20 @@
                   </td>
                 </tr>
 
-                <tr v-if="this.retrieve.address && this.retrieve.address.postal_code">
+                <tr
+                  v-if="
+                    this.retrieve.address && this.retrieve.address.postal_code
+                  "
+                >
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
                     {{ this.formatCEP(this.retrieve.address.postal_code) }}
                   </td>
                 </tr>
 
-                <tr v-if="this.retrieve.address && this.retrieve.address.street">
+                <tr
+                  v-if="this.retrieve.address && this.retrieve.address.street"
+                >
                   <td class="text-left text-bold">Endereço</td>
                   <td class="text-left">
                     {{
@@ -171,7 +177,9 @@
                     }}
                   </td>
                 </tr>
-                <tr v-if="this.retrieve.address && this.retrieve.address.district">
+                <tr
+                  v-if="this.retrieve.address && this.retrieve.address.district"
+                >
                   <td class="text-left text-bold">Bairro</td>
                   <td class="text-left">
                     {{ `${this.retrieve.address.district}` }}
@@ -253,14 +261,20 @@
                   </td>
                 </tr>
 
-                <tr v-if="this.delivery.address && this.delivery.address.postal_code">
+                <tr
+                  v-if="
+                    this.delivery.address && this.delivery.address.postal_code
+                  "
+                >
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
                     {{ this.formatCEP(this.delivery.address.postal_code) }}
                   </td>
                 </tr>
 
-                <tr v-if="this.delivery.address && this.delivery.address.street">
+                <tr
+                  v-if="this.delivery.address && this.delivery.address.street"
+                >
                   <td class="text-left text-bold">Endereço</td>
                   <td class="text-left">
                     {{
@@ -268,7 +282,9 @@
                     }}
                   </td>
                 </tr>
-                <tr v-if="this.delivery.address && this.delivery.address.district">
+                <tr
+                  v-if="this.delivery.address && this.delivery.address.district"
+                >
                   <td class="text-left text-bold">Bairro</td>
                   <td class="text-left">
                     {{ `${this.delivery.address.district}` }}
@@ -752,18 +768,22 @@ export default {
         this.retrieve.contact.name = `${this.summary.retrievePeople.contact.name} ${this.summary.retrievePeople.contact.alias}`;
         this.retrieve.contact.email = this.summary.retrievePeople.contact.email;
         this.retrieve.contact.phone = this.summary.retrievePeople.contact.phone;
-        this.retrieve.address.district =
-          this.summary.retrievePeople.address.district;
-        this.retrieve.address.postal_code =
-          this.summary.retrievePeople.address.postalCode;
-        this.retrieve.address.street =
-          this.summary.retrievePeople.address.street;
-        this.retrieve.address.number =
-          this.summary.retrievePeople.address.number;
-        this.retrieve.address.city = this.summary.retrievePeople.address.city;
-        this.retrieve.address.state = this.summary.retrievePeople.address.state;
-        this.retrieve.address.complement =
-          this.summary.retrievePeople.address.complement;
+
+        if (this.summary.retrievePeople.address) {
+          this.retrieve.address.district =
+            this.summary.retrievePeople.address.district;
+          this.retrieve.address.postal_code =
+            this.summary.retrievePeople.address.postalCode;
+          this.retrieve.address.street =
+            this.summary.retrievePeople.address.street;
+          this.retrieve.address.number =
+            this.summary.retrievePeople.address.number;
+          this.retrieve.address.city = this.summary.retrievePeople.address.city;
+          this.retrieve.address.state =
+            this.summary.retrievePeople.address.state;
+          this.retrieve.address.complement =
+            this.summary.retrievePeople.address.complement;
+        }
       } else {
         if (data.quote !== null) {
           this.retrieve.address.city = data.quote.origin.city;
@@ -788,18 +808,21 @@ export default {
         this.delivery.contact.name = `${this.summary.deliveryPeople.contact.name} ${this.summary.deliveryPeople.contact.alias}`;
         this.delivery.contact.email = this.summary.deliveryPeople.contact.email;
         this.delivery.contact.phone = this.summary.deliveryPeople.contact.phone;
-        this.delivery.address.district =
-          this.summary.deliveryPeople.address.district;
-        this.delivery.address.postal_code =
-          this.summary.deliveryPeople.address.postalCode;
-        this.delivery.address.street =
-          this.summary.deliveryPeople.address.street;
-        this.delivery.address.number =
-          this.summary.deliveryPeople.address.number;
-        this.delivery.address.city = this.summary.deliveryPeople.address.city;
-        this.delivery.address.state = this.summary.deliveryPeople.address.state;
-        this.delivery.address.complement =
-          this.summary.deliveryPeople.address.complement;
+        if (this.summary.deliveryPeople.address) {
+          this.delivery.address.district =
+            this.summary.deliveryPeople.address.district;
+          this.delivery.address.postal_code =
+            this.summary.deliveryPeople.address.postalCode;
+          this.delivery.address.street =
+            this.summary.deliveryPeople.address.street;
+          this.delivery.address.number =
+            this.summary.deliveryPeople.address.number;
+          this.delivery.address.city = this.summary.deliveryPeople.address.city;
+          this.delivery.address.state =
+            this.summary.deliveryPeople.address.state;
+          this.delivery.address.complement =
+            this.summary.deliveryPeople.address.complement;
+        }
       } else {
         if (data.quote !== null) {
           this.delivery.address.city = data.quote.destination.city;
