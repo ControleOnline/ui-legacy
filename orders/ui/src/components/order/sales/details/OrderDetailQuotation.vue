@@ -13,6 +13,7 @@
     <!-- QUOTE TABLE RESULTS  -->
     <div class="col-12" v-if="order !== null">
       <QuoteTable
+        :key="componentKey"
         :order="order"
         :header="false"
         :footer="false"
@@ -79,6 +80,7 @@ export default {
 
   data() {
     return {
+      componentKey: 0,
       contact: {},
       order: null,
       isLoading: false,
@@ -183,6 +185,7 @@ export default {
 
       return this.getQuotation({ orderId, params })
         .then((response) => {
+          this.componentKey += 1;
           this.isLoading = false;
 
           if (!response) {
@@ -193,7 +196,6 @@ export default {
 
           if (response.success) {
             this.quotation = response.data;
-
             return true;
           }
 
