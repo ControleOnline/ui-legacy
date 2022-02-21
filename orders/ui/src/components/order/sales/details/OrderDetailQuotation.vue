@@ -135,18 +135,17 @@ export default {
     }),
     onAlter(quote) {
       if (quote && this.order) {
-        console.log(this.order);
-        console.log(
-          this.alterQuotation({
-            id: this.orderId,
-            values: {
-              params: {
-                order: this.order.id,
-                quote: quote.id,
-              },
+        this.alterQuotation({
+          id: this.orderId,
+          values: {
+            params: {
+              order: this.order.id,
+              quote: quote.id,
             },
-          })
-        );
+          },
+        }).then((result) => {
+          this.onFinished();
+        });
       }
     },
     onChoose(quote) {
