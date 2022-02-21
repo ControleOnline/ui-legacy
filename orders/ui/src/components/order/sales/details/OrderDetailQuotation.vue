@@ -17,13 +17,13 @@
         :header="false"
         :footer="false"
         @choose="onChoose"
+        @alterQuote="onAlter"
       />
     </div>
 
     <!-- ORDER STEP TO STEP -->
     <q-dialog
       maximized
-      
       no-backdrop-dismiss
       v-model="dialog"
       transition-show="slide-left"
@@ -32,7 +32,7 @@
       <CheckoutPage
         :order="order"
         :quoteContact="contact"
-        @finished="onFinished"        
+        @finished="onFinished"
       />
     </q-dialog>
 
@@ -79,7 +79,7 @@ export default {
 
   data() {
     return {
-      contact:{},
+      contact: {},
       order: null,
       isLoading: false,
       editable: false,
@@ -131,8 +131,24 @@ export default {
   methods: {
     ...mapActions({
       getQuotation: "salesOrder/getDetailQuotation",
+      alterQuotation: "salesOrder/alterQuotation",
     }),
-
+    onAlter(quote) {
+      if (quote && this.order) {
+        console.log(this.order);
+        console.log(
+          this.alterQuotation({
+            id: this.orderId,
+            values: {
+              params: {
+                order: this.order.id,
+                quote: quote.id,
+              },
+            },
+          })
+        );
+      }
+    },
     onChoose(quote) {
       if (quote) {
         this.order.choose = quote.id;

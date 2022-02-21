@@ -37,6 +37,24 @@ export const reset = ({ commit }) => {
 };
 
 
+export const alterQuotation = ({ commit }, { id, values, params = {} }) => {
+  let options = {
+    method: 'PUT',
+    body: JSON.stringify(values),
+    params: params
+  };
+
+  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+
+  return fetch(`${RESOURCE_ENDPOINT}/${id}/alter/quote`, options)
+    .then(response => response.json())
+    .then(data => {
+
+      return data;
+
+    });
+};
+
 
 
 export const getStatuses = ({ commit }, params = {}) => {
