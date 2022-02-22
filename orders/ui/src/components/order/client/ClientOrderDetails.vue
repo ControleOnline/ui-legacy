@@ -101,6 +101,7 @@
             <q-tab name="invoice" label="Fatura" />
             <!--<q-tab name="tasks" label="Ocorrências" />-->
             <q-tab name="tracking" label="Rastreamento" />
+            <q-tab name="tag" label="Etiqueta" />
           </q-tabs>
 
           <q-separator />
@@ -137,6 +138,9 @@
             <q-tab-panel name="tracking" class="q-pa-none">
               <ClientOrderDetailTracking :orderId="orderId" />
             </q-tab-panel>
+            <q-tab-panel name="tag" class="q-pa-none">
+              <OrderDetailTag :orderId="orderId" :orderStatus="orderStatus" />
+            </q-tab-panel>
           </q-tab-panels>
         </div>
       </div>
@@ -166,6 +170,7 @@ import ClientOrderDetailInvoice from "./details/ClientOrderDetailInvoice";
 import ClientOrderDetailTracking from "./details/ClientOrderTracking";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/client/TasksSearchingAll";
+import OrderDetailTag from "./details/OrderDetailTag";
 
 export default {
   components: {
@@ -175,6 +180,7 @@ export default {
     ClientOrderDetailInvoice,
     ClientOrderDetailTracking,
     OrderTasks,
+    OrderDetailTag,
   },
 
   created() {
