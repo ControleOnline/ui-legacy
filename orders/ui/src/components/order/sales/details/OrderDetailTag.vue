@@ -28,12 +28,18 @@
 
       <div class="row" v-if="orderStatus.realStatus != 'closed'">
         <div class="col-12">
-          <h6 class="q-mb-md q-mt-md">Pedido: #{{ orderId }}</h6>
+          <q-input
+            v-model.number="pkgs"
+            type="number"
+            :min="1"
+            filled
+            label="Total de volumes"
+          />
           <div class="row justify-center">
             <iframe
               v-if="!isJadlog"
               ref="docviewer"
-              :src="urlCarrierTag"
+              :src="urlCarrierTagInit"
               name="carrier-tag"
               class="carrier-tag"
               width="100%"
@@ -74,26 +80,32 @@ export default {
       required: false,
     },
   },
-
+  watch: {
+    pkgs(pkgs) {
+      let p = pkgs > 0 ? pkgs : this.total_packages;            
+      this.urlCarrierTag(p);      
+      return p;
+    },
+  },
   created() {
     this.isJadlog = this.integrationType === "jadlog";
   },
 
   data() {
     return {
+      pkgs: this.total_packages,
       isLoading: false,
       isJadlog: false,
     };
   },
 
   computed: {
-    urlCarrierTag() {
+    urlCarrierTagInit() {
       return `${ENTRYPOINT}${
         ENTRYPOINT.endsWith("/") ? "" : "/"
       }vendor/pdf.js/web/viewer.html?file=/carrier_tags/${
         this.orderId
       }/download-tag/pkg-total/${this.total_packages}`;
-
     },
   },
 
@@ -101,7 +113,13 @@ export default {
     ...mapActions({
       createNewLabelTag: "salesOrder/createNewLabelTag",
     }),
-
+    urlCarrierTag(pkg) {
+      this.$refs.docviewer.src = `${ENTRYPOINT}${
+        ENTRYPOINT.endsWith("/") ? "" : "/"
+      }vendor/pdf.js/web/viewer.html?file=/carrier_tags/${
+        this.orderId
+      }/download-tag/pkg-total/${pkg}`;
+    },
     onCreateTagClick() {
       if (this.isJadlog) {
         this.createNewLabelTag({ id: this.orderId }).then((result) => {
