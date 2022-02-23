@@ -101,7 +101,7 @@ export default {
 
   computed: {
     urlCarrierTagInit() {
-      let url = encodeURI(
+      let url = encodeURIComponent(
         `/carrier_tags/${this.orderId}/download-tag?pkg-total=${this.total_packages}`
       );
       return `${ENTRYPOINT}${
@@ -115,7 +115,7 @@ export default {
       createNewLabelTag: "salesOrder/createNewLabelTag",
     }),
     urlCarrierTag(pkg) {
-      let url = encodeURI(
+      let url = encodeURIComponent(
         `/carrier_tags/${this.orderId}/download-tag?pkg-total=${pkg}`
       );
       this.$refs.docviewer.src = `${ENTRYPOINT}${
