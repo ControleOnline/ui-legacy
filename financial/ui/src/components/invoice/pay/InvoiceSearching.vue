@@ -441,7 +441,7 @@ export default {
     onRequest(props) {
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
         props.pagination;
-      let filter = props.filter;
+      let filter = props.filter ? props.filter : this.filters;
       let params = { itemsPerPage: rowsPerPage, page };
       params.from = this.formatDate(filter.date.from);
       params.to = this.formatDate(filter.date.to);
