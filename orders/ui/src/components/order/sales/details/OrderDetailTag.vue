@@ -82,8 +82,8 @@ export default {
   },
   watch: {
     pkgs(pkgs) {
-      let p = pkgs > 0 ? pkgs : this.total_packages;            
-      this.urlCarrierTag(p);      
+      let p = pkgs > 0 ? pkgs : this.total_packages;
+      this.urlCarrierTag(p);
       return p;
     },
   },
@@ -101,11 +101,12 @@ export default {
 
   computed: {
     urlCarrierTagInit() {
+      let url = encodeURI(
+        `/carrier_tags/${this.orderId}/download-tag?pkg-total=${this.total_packages}`
+      );
       return `${ENTRYPOINT}${
         ENTRYPOINT.endsWith("/") ? "" : "/"
-      }vendor/pdf.js/web/viewer.html?file=/carrier_tags/${
-        this.orderId
-      }/download-tag/pkg-total/${this.total_packages}`;
+      }vendor/pdf.js/web/viewer.html?file=${url}`;
     },
   },
 
@@ -114,11 +115,12 @@ export default {
       createNewLabelTag: "salesOrder/createNewLabelTag",
     }),
     urlCarrierTag(pkg) {
+      let url = encodeURI(
+        `/carrier_tags/${this.orderId}/download-tag?pkg-total=${pkg}`
+      );
       this.$refs.docviewer.src = `${ENTRYPOINT}${
         ENTRYPOINT.endsWith("/") ? "" : "/"
-      }vendor/pdf.js/web/viewer.html?file=/carrier_tags/${
-        this.orderId
-      }/download-tag/pkg-total/${pkg}`;
+      }vendor/pdf.js/web/viewer.html?file=${url}`;
     },
     onCreateTagClick() {
       if (this.isJadlog) {
