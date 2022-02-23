@@ -362,6 +362,7 @@
 
             <q-tab-panel name="tag" class="q-pa-none">
               <OrderDetailTag
+                :total_packages="total_packages"
                 :orderId="orderId"
                 :orderStatus="orderStatus"
                 :integrationType="integrationType"
@@ -438,6 +439,7 @@ export default {
       invoiceTax: null,
       carrier: null,
       app: null,
+      total_packages: null,
       invoices: [],
       client: {
         name: "",
@@ -729,6 +731,7 @@ export default {
             this.alterDate = data.alterDate;
             this.carrier = data.carrier;
             this.app = data.app;
+            this.total_packages = data.total_packages;
 
             data.invoiceTax.forEach((invoice) => {
               if (invoice.invoiceType == 55) {

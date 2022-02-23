@@ -139,7 +139,11 @@
               <ClientOrderDetailTracking :orderId="orderId" />
             </q-tab-panel>
             <q-tab-panel name="tag" class="q-pa-none">
-              <OrderDetailTag :orderId="orderId" :orderStatus="orderStatus" />
+              <OrderDetailTag
+                :total_packages="total_packages"
+                :orderId="orderId"
+                :orderStatus="orderStatus"
+              />
             </q-tab-panel>
           </q-tab-panels>
         </div>
@@ -170,7 +174,7 @@ import ClientOrderDetailInvoice from "./details/ClientOrderDetailInvoice";
 import ClientOrderDetailTracking from "./details/ClientOrderTracking";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/client/TasksSearchingAll";
-import OrderDetailTag from "./details/OrderDetailTag";
+import OrderDetailTag from "../sales/details/OrderDetailTag";
 
 export default {
   components: {
@@ -194,6 +198,7 @@ export default {
 
   data() {
     return {
+      total_packages: null,
       client: null,
       currentTab: "resumo",
       orderId: null,
@@ -313,6 +318,7 @@ export default {
             this.orderStatus = data;
             this.deliveryDueDate = data.deliveryDueDate;
             this.notFound = false;
+            this.total_packages = data.total_packages;
           }
         })
         .catch((error) => {

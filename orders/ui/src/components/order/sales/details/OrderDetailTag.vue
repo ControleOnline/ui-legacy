@@ -69,6 +69,10 @@ export default {
       type: String,
       required: false,
     },
+    total_packages: {
+      type: Number,
+      required: false,
+    },
   },
 
   created() {
@@ -88,7 +92,8 @@ export default {
         ENTRYPOINT.endsWith("/") ? "" : "/"
       }vendor/pdf.js/web/viewer.html?file=/carrier_tags/${
         this.orderId
-      }/download-tag`;
+      }/download-tag/pkg-total/${this.total_packages}`;
+
     },
   },
 
