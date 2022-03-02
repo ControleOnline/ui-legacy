@@ -39,7 +39,7 @@
           </template>
         </q-select>
       </div>
-      <div class="col-sm-12 col-xs-12 q-pa-md">
+      <div class="col-sm-12 col-xs-12">
         <DataFilter
           :fromDate="filters.from"
           :toDate="filters.to"
