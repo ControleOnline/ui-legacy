@@ -153,7 +153,7 @@ export default {
       return formatter.format(value);
     },
 
-    loadData() {
+    loadData() {      
       if (!this.Params.Company.get()) {
         return;
       }

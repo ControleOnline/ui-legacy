@@ -62,6 +62,17 @@ export default {
         return [];
       },
     },
+
+    filters: {
+      type: Object,
+      required: false,
+      default: function () {
+        return {
+          from: this.fromDate,
+          to: this.toDate,
+        };
+      },
+    },
   },
   methods: {
     dateChanged(date) {
@@ -70,7 +81,7 @@ export default {
         this.toDate = date.to;
         this.filters.from = date.from;
         this.filters.to = date.to;
-      }
+      }      
       this.$emit("refresh");
     },
   },
@@ -82,10 +93,7 @@ export default {
         "DD/MM/YYYY"
       ),
       toDate: date.formatDate(Date.now(), "DD/MM/YYYY"),
-      filters: {
-        from: this.fromDate,
-        to: this.toDate,
-      },
+
       isLoading: false,
     };
   },

@@ -5,6 +5,7 @@
       :config="setConfig"
       :elements="elements"
       :charts="charts"
+      :filters="filters"
       @refresh="onRefresh"
     >
       <template v-slot:inactive-customers="{ config, filters }">
@@ -118,6 +119,7 @@
           :to="filters.to"
         />
       </template>
+      <!--
       <template v-slot:chart-sales-money="{ config, filters }">
         <dashboard-chart-sales-money
           ref="chartSalesMoney"
@@ -134,6 +136,7 @@
           :to="filters.to"
         />
       </template>
+      -->
     </dashboard-default>
   </q-page>
 </template>  
@@ -141,6 +144,7 @@
 <script>
 import { ENTRYPOINT } from "../../../../../src/config/entrypoint";
 import { mapActions, mapGetters } from "vuex";
+import { date } from "quasar";
 
 export default {
   data() {
@@ -149,6 +153,15 @@ export default {
       elements: [],
       charts: [],
       companies: [],
+      filters: {
+        from: this.fromDate,
+        to: this.toDate,
+      },
+      fromDate: date.formatDate(
+        date.subtractFromDate(Date.now(), { month: 1 }),
+        "DD/MM/YYYY"
+      ),
+      toDate: date.formatDate(Date.now(), "DD/MM/YYYY"),
     };
   },
 
@@ -160,7 +173,7 @@ export default {
 
   created() {
     this.setDashBoardElements();
-    this.setDashBoardCharts();
+    //this.setDashBoardCharts();
   },
 
   watch: {
@@ -257,7 +270,7 @@ export default {
       this.charts = charts;
     },
 
-    onRefresh() {
+    onRefresh() {      
       this.$refs.inactiveCustomers.reload();
       this.$refs.activeContracts.reload();
       this.$refs.activeCustomers.reload();
@@ -271,8 +284,8 @@ export default {
       this.$refs.operationalProfit.reload();
       this.$refs.administrativeExpenses.reload();
       this.$refs.netProfit.reload();
-      this.$refs.chartSalesMoney.reload();
-      //this.$refs.chartSalesOrder.reload();
+      //this.$refs.chartSalesMoney.reload();
+      //this.$refs.chartSalesOrder.reload();      
     },
   },
 };
