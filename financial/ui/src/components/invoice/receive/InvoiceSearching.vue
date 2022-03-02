@@ -39,6 +39,14 @@
             </template>
           </q-select>
         </div>
+        <div class="col-sm-12 col-xs-12">
+          <DataFilter
+            :fromDate="fromDate"
+            :toDate="toDate"
+            :showButton="false"
+            @dateChanged="dateChanged"
+          />
+        </div>
       </template>
 
       <template v-slot:body="props">
@@ -130,6 +138,8 @@ import {
   formatMoney,
   formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import DataFilter from "@controleonline/quasar-common-ui/src/components/common/DataFilter.vue";
+import { date } from "quasar";
 
 const SETTINGS = {
   visibleColumns: [
@@ -199,6 +209,9 @@ const SETTINGS = {
 Object.freeze(SETTINGS);
 
 export default {
+  components: {
+    DataFilter,
+  },
   props: {
     search: {
       type: Boolean,
@@ -241,6 +254,15 @@ export default {
           invoice: null,
         },
       },
+
+      fromDate: date.formatDate(
+        date.subtractFromDate(Date.now(), { month: 1 }),
+        "01/MM/YYYY"
+      ),
+      toDate: date.formatDate(
+        date.addToDate(Date.now(), { month: 1 }),
+        "31/MM/YYYY"
+      ),
       data: [],
       filters: {
         text: null,
@@ -388,7 +410,19 @@ export default {
         this.loadingStatuses = false;
       });
     },
-
+    dateChanged(item) {
+      this.filters.date = item;
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+    formatDate(dateString) {
+      return date.formatDate(
+        date.extractDate(dateString, "DD/MM/YYYY"),
+        "YYYY-MM-DD"
+      );
+    },
     onRequest(props) {
       if (this.isLoading) return;
 
@@ -396,6 +430,8 @@ export default {
         props.pagination;
       let filter = props.filter;
       let params = { itemsPerPage: rowsPerPage, page };
+      params.from = this.formatDate(filter.date.from);
+      params.to = this.formatDate(filter.date.to);
 
       if (this.filters.text != null && this.filters.text.length > 0) {
         if (this.filters.text.length < 2) return;

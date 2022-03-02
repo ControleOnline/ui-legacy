@@ -23,12 +23,6 @@
               @click="dialogs.expense.visible = true"
             />
           </div>
-          <DataFilter
-            :fromDate="fromDate"
-            :toDate="toDate"
-            :showButton="false"
-            @dateChanged="dateChanged"
-          />
         </div>
         <div class="col-sm-6 col-xs-12 q-pa-md">
           <q-input
@@ -56,6 +50,14 @@
               </q-item>
             </template>
           </q-select>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+          <DataFilter
+            :fromDate="fromDate"
+            :toDate="toDate"
+            :showButton="false"
+            @dateChanged="dateChanged"
+          />
         </div>
       </template>
 
@@ -443,8 +445,8 @@ export default {
         props.pagination;
       let filter = props.filter ? props.filter : this.filters;
       let params = { itemsPerPage: rowsPerPage, page };
-      params.from = this.formatDate(filter.date.from);
-      params.to = this.formatDate(filter.date.to);
+      params.from = this.formatDate(this.fromDate);
+      params.to = this.formatDate(this.toDate);
 
       if (this.filters.text != null && this.filters.text.length > 0) {
         if (this.filters.text.length < 2) return;
