@@ -417,10 +417,11 @@ export default {
       }
     },
     formatDate(dateString) {
-      return date.formatDate(
-        date.extractDate(dateString, "DD/MM/YYYY"),
-        "YYYY-MM-DD"
-      );
+      if (dateString)
+        return date.formatDate(
+          date.extractDate(dateString, "DD/MM/YYYY"),
+          "YYYY-MM-DD"
+        );
     },
     requestStatuses() {
       this.loadingStatuses = true;
