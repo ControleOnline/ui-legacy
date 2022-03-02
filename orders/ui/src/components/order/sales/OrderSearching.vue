@@ -11,6 +11,7 @@
   >
     <template v-slot:top v-if="search === true">
       <div class="col-xs-12 q-pb-md text-h6">Pedidos de venda</div>
+
       <div class="col-sm-6 col-xs-12 q-pa-md">
         <q-input
           stack-label
@@ -37,6 +38,14 @@
             </q-item>
           </template>
         </q-select>
+      </div>
+      <div class="col-sm-12 col-xs-12 q-pa-md">
+        <DataFilter
+          :fromDate="filters.from"
+          :toDate="filters.to"
+          :showButton="false"
+          @dateChanged="dateChanged"
+        />
       </div>
     </template>
 
@@ -111,6 +120,7 @@
 import { mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import DataFilter from "@controleonline/quasar-common-ui/src/components/common/DataFilter.vue";
 
 const SETTINGS = {
   visibleColumns: [
@@ -222,6 +232,9 @@ const SETTINGS = {
 Object.freeze(SETTINGS);
 
 export default {
+  components: {
+    DataFilter,
+  },
   props: {
     search: {
       type: Boolean,
@@ -262,6 +275,8 @@ export default {
         status: statuses[0],
         company: null,
         defaultCompany: null,
+        from: "",
+        to: "",
       },
       pagination: {
         sortBy: "ultimaModificacao",
@@ -370,6 +385,19 @@ export default {
         filter: this.filters,
       });
     },
+
+    "filters.from"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+    "filters.to"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
   },
 
   methods: {
@@ -378,7 +406,22 @@ export default {
       reset: "salesOrder/reset",
       getStatuses: "salesOrder/getStatuses",
     }),
-
+    dateChanged(date) {
+      if (date.from || date.to) {
+        this.filters.from = date.from;
+        this.filters.to = date.to;
+        this.onRequest({
+          pagination: this.pagination,
+          filter: this.filters,
+        });
+      }
+    },
+    formatDate(dateString) {
+      return date.formatDate(
+        date.extractDate(dateString, "DD/MM/YYYY"),
+        "YYYY-MM-DD"
+      );
+    },
     requestStatuses() {
       this.loadingStatuses = true;
       this.getStatuses({
@@ -447,6 +490,8 @@ export default {
             ? JSON.parse(this.defaultCompany.configs.salesOrdersStartRealStatus)
             : ["pending"];
       }
+      params.fromDate = this.formatDate(this.filters.from);
+      params.toDate = this.formatDate(this.filters.to);
 
       if (this.filters.company != null) {
         params["myCompany"] = this.filters.company.id;
