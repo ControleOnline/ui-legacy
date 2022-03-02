@@ -5,21 +5,26 @@ function formatDate(dateString) {
 }
 
 export default {
-  props : {
-    from: {
-      type    : String,
-      required: false,
-    },
-    to  : {
-      type    : String,
-      required: false,
+  props: {
+    filters: {
+      type: Object,
+      required: true,
+      default: function () {
+        return {
+          from: date.formatDate(
+            date.subtractFromDate(Date.now(), { month: 1 }),
+            "DD/MM/YYYY"
+          ),
+          to: date.formatDate(Date.now(), "DD/MM/YYYY"),
+        };
+      },
     },
   },
 
   data() {
     return {
-      query    : null,
-      data     : {},
+      query: null,
+      data: {},
       isLoading: false,
     }
   },
@@ -41,51 +46,51 @@ export default {
           '/dashboards',
           {
             method: 'POST',
-            body  : JSON.stringify({
-            	"query"   : this.query,
-            	"fromDate": formatDate(this.from),
-            	"toDate"  : formatDate(this.to),
-            	"company" : this.Params.Company.get(),
-            	"viewType": this.Params.ViewType.get(),
+            body: JSON.stringify({
+              "query": this.query,
+              "fromDate": formatDate(this.filters.from),
+              "toDate": formatDate(this.filters.to),
+              "company": this.Params.Company.get(),
+              "viewType": this.Params.ViewType.get(),
             })
           }
         )
-         .then(response => {
-           if (response.ok) {
-             return response.json()
-               .then(data => {
-                 if (data.response) {
-                   if (data.response.success) {
-                     return data.response.data;
-                   }
-                   else {
-                     throw new Error(data.response.error);
-                   }
-                 }
+        .then(response => {
+          if (response.ok) {
+            return response.json()
+              .then(data => {
+                if (data.response) {
+                  if (data.response.success) {
+                    return data.response.data;
+                  }
+                  else {
+                    throw new Error(data.response.error);
+                  }
+                }
 
-                 return null;
-               });
-           }
-           else {
-             return response.json()
-               .then(responseJson => {
-                 throw new Error('Unknown error');
-               });
-           }
-         })
-         .then(data => {
-           this.data = data;
-         })
-         .catch(error => {
+                return null;
+              });
+          }
+          else {
+            return response.json()
+              .then(responseJson => {
+                throw new Error('Unknown error');
+              });
+          }
+        })
+        .then(data => {
+          this.data = data;
+        })
+        .catch(error => {
 
-         })
-         .finally(() => {
-           this.isLoading = false;
-         })
-      ;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        })
+        ;
     },
 
-    reload() {      
+    reload() {
       this.loadData();
     }
   },

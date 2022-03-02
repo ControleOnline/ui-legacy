@@ -12,24 +12,21 @@
         <dashboard-inactive-customers
           ref="inactiveCustomers"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"          
         />
       </template>
       <template v-slot:active-contracts="{ config, filters }">
         <dashboard-active-contracts
           ref="activeContracts"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
       <template v-slot:active-customers="{ config, filters }">
         <dashboard-active-customers
           ref="activeCustomers"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
 
@@ -37,8 +34,7 @@
         <dashboard-new-customers
           ref="newCustomers"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
 
@@ -46,8 +42,7 @@
         <dashboard-prospective-customers
           ref="prospectiveCustomers"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
 
@@ -55,8 +50,7 @@
         <dashboard-quote-totals
           ref="quoteTotals"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
 
@@ -64,8 +58,7 @@
         <dashboard-sales-totals
           ref="salesTotals"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+            :filters="filters"   
         />
       </template>
 
@@ -73,8 +66,7 @@
         <dashboard-average-ticket
           ref="averageTicket"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
 
@@ -82,8 +74,7 @@
         <dashboard-comission-totals
           ref="comissionTotals"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
 
@@ -91,32 +82,28 @@
         <dashboard-operational-expenses
           ref="operationalExpenses"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
       <template v-slot:operational-profit="{ config, filters }">
         <dashboard-operational-profit
           ref="operationalProfit"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
       <template v-slot:administrative-expenses="{ config, filters }">
         <dashboard-administrative-expenses
           ref="administrativeExpenses"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
       <template v-slot:net-profit="{ config, filters }">
         <dashboard-net-profit
           ref="netProfit"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
       <!--
@@ -124,16 +111,14 @@
         <dashboard-chart-sales-money
           ref="chartSalesMoney"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
       <template v-slot:chart-sales-order="{ config, filters }">
         <dashboard-chart-sales-order
           ref="chartSalesOrder"
           :config="config"
-          :from="filters.from"
-          :to="filters.to"
+          :filters="filters"   
         />
       </template>
       -->
@@ -154,14 +139,12 @@ export default {
       charts: [],
       companies: [],
       filters: {
-        from: this.fromDate,
-        to: this.toDate,
-      },
-      fromDate: date.formatDate(
+        from: date.formatDate(
         date.subtractFromDate(Date.now(), { month: 1 }),
         "DD/MM/YYYY"
       ),
-      toDate: date.formatDate(Date.now(), "DD/MM/YYYY"),
+        to: date.formatDate(Date.now(), "DD/MM/YYYY"),
+      },
     };
   },
 
