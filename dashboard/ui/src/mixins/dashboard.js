@@ -8,16 +8,7 @@ export default {
   props: {
     filters: {
       type: Object,
-      required: true,
-      default: function () {
-        return {
-          from: date.formatDate(
-            date.subtractFromDate(Date.now(), { month: 1 }),
-            "DD/MM/YYYY"
-          ),
-          to: date.formatDate(Date.now(), "DD/MM/YYYY"),
-        };
-      },
+      required: true
     },
   },
 
