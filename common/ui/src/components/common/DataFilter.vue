@@ -1,6 +1,6 @@
 <template>
-  <q-card class="q-mb-sm">
-    <q-card-section>
+  <q-card class="no-border">
+    <q-card-section class="q-pa-none">
       <div class="row">
         <div class="col-xs-12 col-sm-6 q-pa-sm">
           <q-input
@@ -106,3 +106,12 @@ export default {
   methods: {},
 };
 </script>
+<style scoped>
+.no-border {
+  box-shadow: none !important;
+}
+.q-pa-none {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+</style>
