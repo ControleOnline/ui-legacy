@@ -237,14 +237,19 @@ export default {
       return fetch(`sales/orders/${this.orderId}/detail/create-dacte`, options)
         .then((response) => response.json())
         .then((order) => {
-          if (order !== null) {
+          if (order && order.response && order.response.success) {
             this.$q.notify({
               message: "DACTE emitido com sucesso",
               position: "bottom",
               type: "positive",
             });
-
             this.onRequest();
+          } else {
+            this.$q.notify({
+              message: order.response.error,
+              position: "bottom",
+              type: "negative",
+            });
           }
         })
         .finally(() => {
