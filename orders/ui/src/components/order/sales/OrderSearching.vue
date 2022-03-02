@@ -422,6 +422,7 @@ export default {
           date.extractDate(dateString, "DD/MM/YYYY"),
           "YYYY-MM-DD"
         );
+      else return null;
     },
     requestStatuses() {
       this.loadingStatuses = true;
@@ -491,8 +492,8 @@ export default {
             ? JSON.parse(this.defaultCompany.configs.salesOrdersStartRealStatus)
             : ["pending"];
       }
-      params.fromDate = this.formatDate(this.filters.from);
-      params.toDate = this.formatDate(this.filters.to);
+      params.fromDate = this.formatDate(this.filters.from) || "";
+      params.toDate = this.formatDate(this.filters.to) || "";
 
       if (this.filters.company != null) {
         params["myCompany"] = this.filters.company.id;
