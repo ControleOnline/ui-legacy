@@ -272,12 +272,20 @@ export default {
           value: null,
         },
         {
-          label: "Venda",
-          value: "sale",
+          label: "Comissão",
+          value: "comission",
+        },
+        {
+          label: "Compra",
+          value: "purchase",
         },
         {
           label: "Royalties",
           value: "royalties",
+        },
+        {
+          label: "Venda",
+          value: "sale",
         },
       ],
       dialogs: {
