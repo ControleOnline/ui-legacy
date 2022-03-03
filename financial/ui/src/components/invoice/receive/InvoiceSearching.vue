@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Filters :filters="filters" @onRequest="onRequest" />
     <q-table
       :loading="isLoading"
       :data="data"
@@ -10,63 +11,6 @@
       :visible-columns="settings.visibleColumns"
       style="min-height: 90vh"
     >
-      <template v-slot:top v-if="search === true">
-        <div class="col-xs-12 q-pb-md text-h6">Faturas</div>
-        <div class="col-sm-6 col-xs-12 q-pa-md">
-          <q-input
-            stack-label
-            label="Buscar por"
-            debounce="1000"
-            v-model="filters.text"
-            class="full-width"
-          />
-        </div>
-        <div class="col-sm-6 col-xs-12 q-pa-md">
-          <q-select
-            stack-label
-            label="Status da fatura"
-            v-model="filters.status"
-            :options="statuses"
-            class="full-width"
-            :loading="loadingStatuses"
-          >
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey">
-                  Sem resultados
-                </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6">
-          <q-select
-            stack-label
-            label="Tipo de Fatura"
-            v-model="filters.orderType"
-            :options="orderType"
-            class="full-width"
-            :loading="loadingOrderType"
-          >
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey">
-                  Sem resultados
-                </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-        </div>
-        <div class="col-6">
-          <DataFilter
-            :fromDate="filters.date.from"
-            :toDate="filters.date.to"
-            :showButton="false"
-            @dateChanged="dateChanged"
-          />
-        </div>
-      </template>
-
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="id" :props="props">
@@ -156,8 +100,9 @@ import {
   formatMoney,
   formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import DataFilter from "@controleonline/quasar-common-ui/src/components/common/DataFilter.vue";
+
 import { date } from "quasar";
+import Filters from "../../common/Filters.vue";
 
 const SETTINGS = {
   visibleColumns: [
@@ -228,14 +173,9 @@ Object.freeze(SETTINGS);
 
 export default {
   components: {
-    DataFilter,
+    Filters,
   },
   props: {
-    search: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
     orderId: {
       type: String,
       required: false,
@@ -246,12 +186,8 @@ export default {
   created() {
     if (this.myCompany !== null) {
       this.filters.company = this.myCompany;
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
+      this.onRequest();
     }
-    this.requestStatuses();
   },
 
   beforeDestroy() {
@@ -263,9 +199,6 @@ export default {
 
     return {
       settings: SETTINGS,
-      statuses: statuses,
-      loadingStatuses: false,
-      loadingOrderType: false,
       orderType: [
         {
           label: "Todos",
@@ -334,10 +267,7 @@ export default {
     myCompany(company) {
       if (company !== null) {
         this.filters.company = company;
-        this.onRequest({
-          pagination: this.pagination,
-          filter: this.filters,
-        });
+        this.onRequest();
       }
     },
 
@@ -395,25 +325,6 @@ export default {
 
       this.data = data;
     },
-
-    "filters.text"() {
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
-    },
-    "filters.orderType"() {
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
-    },
-    "filters.status"() {
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
-    },
   },
 
   methods: {
@@ -429,39 +340,6 @@ export default {
       this.dialogs.orders.visible = true;
     },
 
-    requestStatuses() {
-      this.loadingStatuses = true;
-      this.getStatuses({
-        visibility: "public",
-        realStatus: ["open", "pending", "canceled", "closed"],
-      }).then((statuses) => {
-        if (statuses.length) {
-          let data = [];
-
-          data.push({
-            label: "Todos",
-            value: null,
-          });
-
-          for (let index in statuses) {
-            data.push({
-              label: this.$t(`invoice.statuses.${statuses[index].status}`),
-              value: statuses[index]["@id"].replace(/[^0-9]/g, ""),
-            });
-          }
-
-          this.statuses = data;
-        }
-        this.loadingStatuses = false;
-      });
-    },
-    dateChanged(item) {
-      this.filters.date = item;
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
-    },
     formatDate(dateString) {
       if (dateString)
         return date.formatDate(
@@ -470,12 +348,12 @@ export default {
         );
       else return null;
     },
-    onRequest(props) {
+    onRequest() {
       if (this.isLoading) return;
 
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
-      let filter = props.filter;
+        this.pagination;
+
       let params = { itemsPerPage: rowsPerPage, page };
 
       params.from = this.formatDate(this.filters.date.from) || "";
