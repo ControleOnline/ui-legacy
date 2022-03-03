@@ -477,9 +477,10 @@ export default {
         props.pagination;
       let filter = props.filter;
       let params = { itemsPerPage: rowsPerPage, page };
-      params.from = this.formatDate(filter.date.from) || "";
-      params.to = this.formatDate(filter.date.to) || "";
-      params.orderType = filter.orderType.value || "";
+
+      params.from = this.formatDate(this.filters.date.from) || "";
+      params.to = this.formatDate(this.filters.date.to) || "";
+      params.orderType = this.filters.orderType.value || "";
 
       if (this.filters.text != null && this.filters.text.length > 0) {
         if (this.filters.text.length < 2) return;
