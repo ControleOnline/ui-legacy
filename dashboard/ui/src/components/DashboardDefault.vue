@@ -1,8 +1,8 @@
 <template>
   <div>
     <DataFilter
-      :fromDate="fromDate"
-      :toDate="toDate"
+      :fromDate="filters.from"
+      :toDate="filters.to"
       :showButton="true"
       @dateChanged="dateChanged"
     />
@@ -66,12 +66,6 @@ export default {
     filters: {
       type: Object,
       required: false,
-      default: function () {
-        return {
-          from: this.fromDate,
-          to: this.toDate,
-        };
-      },
     },
   },
   methods: {
@@ -88,14 +82,6 @@ export default {
   computed: {},
   data() {
     return {
-      fromDate: date.formatDate(
-        new Date(Date.now().getFullYear(), Date.now().getMonth(), 1),
-        "DD/MM/YYYY"
-      ),
-      toDate: date.formatDate(
-        new Date(Date.now().getFullYear(), Date.now().getMonth() + 1, 0),
-        "DD/MM/YYYY"
-      ),
       isLoading: false,
     };
   },
