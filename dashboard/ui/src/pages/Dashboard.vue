@@ -141,16 +141,16 @@ export default {
       filters: {
         from: date.formatDate(
           new Date(
-            date.subtractFromDate(Date.now(), { month: 1 }).getFullYear(),
-            date.subtractFromDate(Date.now(), { month: 1 }).getMonth(),
+            date.subtractFromDate(Date.now(), { month: 0 }).getFullYear(),
+            date.subtractFromDate(Date.now(), { month: 0 }).getMonth(),
             1
           ),
           "DD/MM/YYYY"
         ),
         to: date.formatDate(
           new Date(
-            date.addToDate(Date.now(), { month: 1 }).getFullYear(),
-            date.addToDate(Date.now(), { month: 1 }).getMonth() + 1,
+            date.addToDate(Date.now(), { month: 0 }).getFullYear(),
+            date.addToDate(Date.now(), { month: 0 }).getMonth() + 1,
             0
           ),
           "DD/MM/YYYY"
@@ -163,11 +163,6 @@ export default {
     ...mapGetters({
       myCompany: "people/currentCompany",
     }),
-  },
-
-  created() {
-    this.setDashBoardElements();
-    //this.setDashBoardCharts();
   },
 
   watch: {
@@ -263,24 +258,17 @@ export default {
 
       this.charts = charts;
     },
-
     onRefresh() {
-      this.$refs.inactiveCustomers.reload();
-      this.$refs.activeContracts.reload();
-      this.$refs.activeCustomers.reload();
-      this.$refs.newCustomers.reload();
-      this.$refs.prospectiveCustomers.reload();
-      this.$refs.quoteTotals.reload();
-      this.$refs.salesTotals.reload();
-      this.$refs.averageTicket.reload();
-      this.$refs.comissionTotals.reload();
-      this.$refs.operationalExpenses.reload();
-      this.$refs.operationalProfit.reload();
-      this.$refs.administrativeExpenses.reload();
-      this.$refs.netProfit.reload();
-      //this.$refs.chartSalesMoney.reload();
-      //this.$refs.chartSalesOrder.reload();
+      for (var prop in this.$refs) {
+        var e = this.$refs[prop];
+        if (typeof e.reload == "function") e.reload();
+      }
     },
+  },
+  created() {
+    this.setDashBoardElements();
+    //this.setDashBoardCharts();
+    this.onRefresh();
   },
 };
 </script>
