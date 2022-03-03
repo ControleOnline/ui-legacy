@@ -289,24 +289,13 @@ export default {
       },
       data: [],
       filters: {
-        orderType: null,
+        orderType: {
+          label: "Todos",
+          value: null,
+        },
         date: {
-          from: date.formatDate(
-            new Date(
-              date.subtractFromDate(Date.now(), { month: 1 }).getFullYear(),
-              date.subtractFromDate(Date.now(), { month: 1 }).getMonth(),
-              1
-            ),
-            "DD/MM/YYYY"
-          ),
-          to: date.formatDate(
-            new Date(
-              date.addToDate(Date.now(), { month: 1 }).getFullYear(),
-              date.addToDate(Date.now(), { month: 1 }).getMonth() + 1,
-              0
-            ),
-            "DD/MM/YYYY"
-          ),
+          from: "",
+          to: "",
         },
         text: null,
         status: statuses[0],
@@ -466,10 +455,12 @@ export default {
       });
     },
     formatDate(dateString) {
-      return date.formatDate(
-        date.extractDate(dateString, "DD/MM/YYYY"),
-        "YYYY-MM-DD"
-      );
+      if (dateString)
+        return date.formatDate(
+          date.extractDate(dateString, "DD/MM/YYYY"),
+          "YYYY-MM-DD"
+        );
+      else return null;
     },
     onRequest(props) {
       if (this.isLoading) return;
@@ -478,10 +469,10 @@ export default {
         props.pagination;
       let filter = props.filter;
       let params = { itemsPerPage: rowsPerPage, page };
-      params.from = this.formatDate(filter.date.from);
-      params.to = this.formatDate(filter.date.to);      
-      params.orderType = filter.orderType.value;
-      
+      params.from = this.formatDate(filter.date.from) || "";
+      params.to = this.formatDate(filter.date.to) || "";
+      params.orderType = filter.orderType.value || "";
+
       if (this.filters.text != null && this.filters.text.length > 0) {
         if (this.filters.text.length < 2) return;
 
