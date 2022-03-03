@@ -81,7 +81,7 @@ export default {
         this.toDate = date.to;
         this.filters.from = date.from;
         this.filters.to = date.to;
-      }      
+      }
       this.$emit("refresh");
     },
   },
@@ -89,11 +89,13 @@ export default {
   data() {
     return {
       fromDate: date.formatDate(
-        date.subtractFromDate(Date.now(), { month: 1 }),
+        new Date(Date.now().getFullYear(), Date.now().getMonth(), 1),
         "DD/MM/YYYY"
       ),
-      toDate: date.formatDate(Date.now(), "DD/MM/YYYY"),
-
+      toDate: date.formatDate(
+        new Date(Date.now().getFullYear(), Date.now().getMonth() + 1, 0),
+        "DD/MM/YYYY"
+      ),
       isLoading: false,
     };
   },

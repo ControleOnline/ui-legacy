@@ -12,21 +12,21 @@
         <dashboard-inactive-customers
           ref="inactiveCustomers"
           :config="config"
-          :filters="filters"          
+          :filters="filters"
         />
       </template>
       <template v-slot:active-contracts="{ config, filters }">
         <dashboard-active-contracts
           ref="activeContracts"
           :config="config"
-          :filters="filters"   
+          :filters="filters"
         />
       </template>
       <template v-slot:active-customers="{ config, filters }">
         <dashboard-active-customers
           ref="activeCustomers"
           :config="config"
-          :filters="filters"   
+          :filters="filters"
         />
       </template>
 
@@ -34,7 +34,7 @@
         <dashboard-new-customers
           ref="newCustomers"
           :config="config"
-          :filters="filters"   
+          :filters="filters"
         />
       </template>
 
@@ -42,7 +42,7 @@
         <dashboard-prospective-customers
           ref="prospectiveCustomers"
           :config="config"
-          :filters="filters"   
+          :filters="filters"
         />
       </template>
 
@@ -50,7 +50,7 @@
         <dashboard-quote-totals
           ref="quoteTotals"
           :config="config"
-          :filters="filters"   
+          :filters="filters"
         />
       </template>
 
@@ -58,7 +58,7 @@
         <dashboard-sales-totals
           ref="salesTotals"
           :config="config"
-            :filters="filters"   
+          :filters="filters"
         />
       </template>
 
@@ -66,7 +66,7 @@
         <dashboard-average-ticket
           ref="averageTicket"
           :config="config"
-          :filters="filters"   
+          :filters="filters"
         />
       </template>
 
@@ -74,7 +74,7 @@
         <dashboard-comission-totals
           ref="comissionTotals"
           :config="config"
-          :filters="filters"   
+          :filters="filters"
         />
       </template>
 
@@ -82,28 +82,28 @@
         <dashboard-operational-expenses
           ref="operationalExpenses"
           :config="config"
-          :filters="filters"   
+          :filters="filters"
         />
       </template>
       <template v-slot:operational-profit="{ config, filters }">
         <dashboard-operational-profit
           ref="operationalProfit"
           :config="config"
-          :filters="filters"   
+          :filters="filters"
         />
       </template>
       <template v-slot:administrative-expenses="{ config, filters }">
         <dashboard-administrative-expenses
           ref="administrativeExpenses"
           :config="config"
-          :filters="filters"   
+          :filters="filters"
         />
       </template>
       <template v-slot:net-profit="{ config, filters }">
         <dashboard-net-profit
           ref="netProfit"
           :config="config"
-          :filters="filters"   
+          :filters="filters"
         />
       </template>
       <!--
@@ -140,10 +140,21 @@ export default {
       companies: [],
       filters: {
         from: date.formatDate(
-        date.subtractFromDate(Date.now(), { month: 1 }),
-        "DD/MM/YYYY"
-      ),
-        to: date.formatDate(Date.now(), "DD/MM/YYYY"),
+          new Date(
+            date.subtractFromDate(Date.now(), { month: 1 }).getFullYear(),
+            date.subtractFromDate(Date.now(), { month: 1 }).getMonth(),
+            1
+          ),
+          "DD/MM/YYYY"
+        ),
+        to: date.formatDate(
+          new Date(
+            date.addToDate(Date.now(), { month: 1 }).getFullYear(),
+            date.addToDate(Date.now(), { month: 1 }).getMonth() + 1,
+            0
+          ),
+          "DD/MM/YYYY"
+        ),
       },
     };
   },
@@ -253,7 +264,7 @@ export default {
       this.charts = charts;
     },
 
-    onRefresh() {      
+    onRefresh() {
       this.$refs.inactiveCustomers.reload();
       this.$refs.activeContracts.reload();
       this.$refs.activeCustomers.reload();
@@ -268,7 +279,7 @@ export default {
       this.$refs.administrativeExpenses.reload();
       this.$refs.netProfit.reload();
       //this.$refs.chartSalesMoney.reload();
-      //this.$refs.chartSalesOrder.reload();      
+      //this.$refs.chartSalesOrder.reload();
     },
   },
 };
