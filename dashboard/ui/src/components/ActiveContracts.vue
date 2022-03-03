@@ -37,7 +37,7 @@ export default {
 
   computed: {
     active_contracts() {
-      return this.data.active_contracts ? this.data.active_contracts : {}
+      return this.data.active_contracts ? this.data.active_contracts : 0
     }
   },
 };

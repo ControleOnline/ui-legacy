@@ -39,7 +39,7 @@ export default {
 
   computed: {
     sales_order_totals() {
-      return this.data.sales_order_totals ? this.data.sales_order_totals : {}
+      return this.data.sales_order_totals ? this.data.sales_order_totals : 0
     }
   },
 };

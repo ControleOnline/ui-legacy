@@ -42,10 +42,10 @@ export default {
     operational_profit_percent() {
       return this.data.operational_profit_percent
         ? this.data.operational_profit_percent
-        : {};
+        : 0;
     },
     operational_profit() {
-      return this.data.operational_profit ? this.data.operational_profit : {};
+      return this.data.operational_profit ? this.data.operational_profit : 0;
     },
   },
 };

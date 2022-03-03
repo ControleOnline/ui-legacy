@@ -39,7 +39,7 @@ export default {
 
   computed: {
     comission_order_totals() {
-      return this.data.comission_totals ? this.data.comission_totals : {}
+      return this.data.comission_totals ? this.data.comission_totals : 0
     }
   },
 };

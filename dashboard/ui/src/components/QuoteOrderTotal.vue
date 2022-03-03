@@ -39,7 +39,7 @@ export default {
 
   computed: {
     quote_order_totals() {
-      return this.data.quote_order_totals ? this.data.quote_order_totals : {}
+      return this.data.quote_order_totals ? this.data.quote_order_totals : 0
     }
   },
 };

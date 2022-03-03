@@ -266,8 +266,8 @@ export default {
     },
   },
   created() {
-    this.setDashBoardElements();
     //this.setDashBoardCharts();
+    this.setDashBoardElements();
     this.onRefresh();
   },
 };

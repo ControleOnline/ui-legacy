@@ -37,10 +37,10 @@ export default {
 
   computed: {
     net_profit_percent() {
-      return this.data.net_profit_percent ? this.data.net_profit_percent : {};
+      return this.data.net_profit_percent ? this.data.net_profit_percent : 0;
     },
     net_profit() {
-      return this.data.net_profit ? this.data.net_profit : {};
+      return this.data.net_profit ? this.data.net_profit : 0;
     },
   },
 };

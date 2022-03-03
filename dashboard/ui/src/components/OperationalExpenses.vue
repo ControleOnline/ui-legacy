@@ -42,15 +42,15 @@ export default {
     purchasing_order_count() {
       return this.data.purchasing_order_count
         ? this.data.purchasing_order_count
-        : {};
+        : 0;
     },
     purchasing_order_totals() {
       return this.data.purchasing_order_totals
         ? this.data.purchasing_order_totals
-        : {};
+        : 0;
     },
     purchasing_percent() {
-      return this.data.purchasing_percent ? this.data.purchasing_percent : {};
+      return this.data.purchasing_percent ? this.data.purchasing_percent : 0;
     },
   },
 };

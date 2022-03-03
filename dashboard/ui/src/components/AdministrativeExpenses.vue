@@ -39,7 +39,7 @@ export default {
 
   computed: {
     administrative_expenses() {
-      return this.data.administrative_expenses ? this.data.administrative_expenses : {}
+      return this.data.administrative_expenses ? this.data.administrative_expenses : 0
     }
   },
 };
