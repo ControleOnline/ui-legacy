@@ -299,12 +299,20 @@ export default {
         company: null,
         date: {
           from: date.formatDate(
-            date.subtractFromDate(Date.now(), { month: 1 }),
-            "01/MM/YYYY"
+            new Date(
+              date.subtractFromDate(Date.now(), { month: 1 }).getFullYear(),
+              date.subtractFromDate(Date.now(), { month: 1 }).getMonth(),
+              1
+            ),
+            "DD/MM/YYYY"
           ),
           to: date.formatDate(
-            date.addToDate(Date.now(), { month: 1 }),
-            "31/MM/YYYY"
+            new Date(
+              date.addToDate(Date.now(), { month: 1 }).getFullYear(),
+              date.addToDate(Date.now(), { month: 1 }).getMonth() + 1,
+              0
+            ),
+            "DD/MM/YYYY"
           ),
         },
       },

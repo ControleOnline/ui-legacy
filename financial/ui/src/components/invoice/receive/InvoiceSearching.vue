@@ -39,10 +39,28 @@
             </template>
           </q-select>
         </div>
-        <div class="col-sm-12 col-xs-12">
+        <div class="col-6">
+          <q-select
+            stack-label
+            label="Tipo de Fatura"
+            v-model="filters.orderType"
+            :options="orderType"
+            class="full-width"
+            :loading="loadingOrderType"
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  Sem resultados
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-6">
           <DataFilter
-            :fromDate="fromDate"
-            :toDate="toDate"
+            :fromDate="filters.date.from"
+            :toDate="filters.date.to"
             :showButton="false"
             @dateChanged="dateChanged"
           />
@@ -247,6 +265,21 @@ export default {
       settings: SETTINGS,
       statuses: statuses,
       loadingStatuses: false,
+      loadingOrderType: false,
+      orderType: [
+        {
+          label: "Todos",
+          value: null,
+        },
+        {
+          label: "Venda",
+          value: "sale",
+        },
+        {
+          label: "Royalties",
+          value: "royalties",
+        },
+      ],
       dialogs: {
         orders: {
           visible: false,
@@ -254,17 +287,27 @@ export default {
           invoice: null,
         },
       },
-
-      fromDate: date.formatDate(
-        date.subtractFromDate(Date.now(), { month: 1 }),
-        "01/MM/YYYY"
-      ),
-      toDate: date.formatDate(
-        date.addToDate(Date.now(), { month: 1 }),
-        "31/MM/YYYY"
-      ),
       data: [],
       filters: {
+        orderType: null,
+        date: {
+          from: date.formatDate(
+            new Date(
+              date.subtractFromDate(Date.now(), { month: 1 }).getFullYear(),
+              date.subtractFromDate(Date.now(), { month: 1 }).getMonth(),
+              1
+            ),
+            "DD/MM/YYYY"
+          ),
+          to: date.formatDate(
+            new Date(
+              date.addToDate(Date.now(), { month: 1 }).getFullYear(),
+              date.addToDate(Date.now(), { month: 1 }).getMonth() + 1,
+              0
+            ),
+            "DD/MM/YYYY"
+          ),
+        },
         text: null,
         status: statuses[0],
         company: null,
@@ -362,7 +405,12 @@ export default {
         filter: this.filters,
       });
     },
-
+    "filters.orderType"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
     "filters.status"() {
       this.onRequest({
         pagination: this.pagination,
@@ -431,8 +479,9 @@ export default {
       let filter = props.filter;
       let params = { itemsPerPage: rowsPerPage, page };
       params.from = this.formatDate(filter.date.from);
-      params.to = this.formatDate(filter.date.to);
-
+      params.to = this.formatDate(filter.date.to);      
+      params.orderType = filter.orderType.value;
+      
       if (this.filters.text != null && this.filters.text.length > 0) {
         if (this.filters.text.length < 2) return;
 
