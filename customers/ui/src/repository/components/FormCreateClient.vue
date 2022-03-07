@@ -2,6 +2,7 @@
   <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
     <div class="row justify-center q-pb-md">
       <q-btn-toggle
+        v-if="!pjOnly"
         no-caps
         v-model="personType"
         toggle-color="primary"
@@ -96,6 +97,9 @@ import Api from "@controleonline/quasar-common-ui/src/utils/api";
 export default {
   props: {
     employeeId: {
+      required: false,
+    },
+    pjOnly: {
       required: false,
     },
     api: {

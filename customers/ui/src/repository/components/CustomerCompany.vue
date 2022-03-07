@@ -82,6 +82,7 @@
             ref="myForm"
             :api="api"
             :employeeId="id"
+            :pjOnly="true"
             @saved="
               (data) => {
                 this.$q.notify({
