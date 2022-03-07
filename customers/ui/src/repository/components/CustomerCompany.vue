@@ -91,7 +91,7 @@
                   type: 'positive',
                 });
 
-                if (this.events.onSaved) {
+                if (this.events && this.events.onSaved) {
                   this.events.onSaved(data);
                 }
               }
