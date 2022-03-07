@@ -294,7 +294,7 @@
                       size="sm"
                       color="primary bt-edit"
                       label="Editar"
-                      @click="btEditDesr()"
+                      @click="btEditDest()"
                     />
                   </td>
                 </tr>
