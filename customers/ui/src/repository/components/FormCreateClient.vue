@@ -136,7 +136,7 @@ export default {
     saveCustomer(values) {
       let params = {};
 
-      values.employeeId = this.employeeId;
+      params.employeeId = this.employeeId;
 
       this.$emit("before", params);
 
