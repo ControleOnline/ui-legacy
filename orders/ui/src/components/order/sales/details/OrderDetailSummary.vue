@@ -121,16 +121,14 @@
             <q-markup-table
               flat
               separator="none"
-              class="bg-grey-2 q-mb-md full-height"
+              class="bg-grey-2 q-mb-md"
             >
-              <thead>
-                <tr>
-                  <th colspan="2">
-                    <div class="text-subtitle2 text-blue">Dados da coleta</div>
-                  </th>
-                </tr>
-              </thead>
               <tbody>
+                <tr>
+                  <td colspan="2">
+                    <div class="text-subtitle2 text-blue">Dados da coleta</div>
+                  </td>
+                </tr>
                 <tr v-if="this.retrieve.name">
                   <td class="text-left text-bold">Nome</td>
                   <td class="text-left">
@@ -155,7 +153,37 @@
                     {{ this.formatDoc(this.retrieve.document) }}
                   </td>
                 </tr>
-
+                <tr
+                  v-if="
+                    this.retrieve.address && this.retrieve.address.postal_code
+                  "
+                >
+                  <td colspan="2" class="text-right">
+                    <q-btn
+                      v-if="this.retrieve.id"
+                      size="sm"
+                      color="primary bt-edit"
+                      label="Editar"
+                      @click="btEditRem()"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+            <q-markup-table
+              v-if="this.retrieve.address && this.retrieve.address.postal_code"
+              flat
+              separator="none"
+              class="bg-grey-2 q-mb-md "
+            >
+              <tbody>
+                <tr>
+                  <td colspan="2">
+                    <div class="text-subtitle2 text-blue">
+                      Endereço da coleta
+                    </div>
+                  </td>
+                </tr>
                 <tr
                   v-if="
                     this.retrieve.address && this.retrieve.address.postal_code
@@ -193,19 +221,16 @@
                     }}
                   </td>
                 </tr>
-                <tr>
+                <tr
+                  v-if="
+                    this.retrieve.address && this.retrieve.address.postal_code
+                  "
+                >
                   <td colspan="2" class="text-right">
-                    <q-btn
-                      v-if="this.retrieve.id"
-                      size="sm"
-                      color="primary bt-edit"
-                      label="Editar"
-                      @click="btEditRem()"
-                    />
                     <q-btn
                       size="sm"
                       color="primary"
-                      label="Detalhes da coleta"
+                      label="Editar"
                       @click="seeDetails(retrieve, 'retrieve')"
                     />
                   </td>
@@ -222,20 +247,18 @@
               />
             </div>
           </div>
-          <div class="col-xs-12 col-sm-5">
+           <div class="col-xs-12 col-sm-5">
             <q-markup-table
               flat
               separator="none"
-              class="bg-grey-2 q-mb-md full-height"
+              class="bg-grey-2 q-mb-md"
             >
-              <thead>
-                <tr>
-                  <th colspan="2">
-                    <div class="text-subtitle2 text-blue">Dados da entrega</div>
-                  </th>
-                </tr>
-              </thead>
               <tbody>
+                <tr>
+                  <td colspan="2">
+                    <div class="text-subtitle2 text-blue">Dados da entrega</div>
+                  </td>
+                </tr>
                 <tr v-if="this.delivery.name">
                   <td class="text-left text-bold">Nome</td>
                   <td class="text-left">
@@ -260,7 +283,37 @@
                     {{ this.formatDoc(this.delivery.document) }}
                   </td>
                 </tr>
-
+                <tr
+                  v-if="
+                    this.delivery.address && this.delivery.address.postal_code
+                  "
+                >
+                  <td colspan="2" class="text-right">
+                    <q-btn
+                      v-if="this.delivery.id"
+                      size="sm"
+                      color="primary bt-edit"
+                      label="Editar"
+                      @click="btEditDesr()"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </q-markup-table>
+            <q-markup-table
+              v-if="this.delivery.address && this.delivery.address.postal_code"
+              flat
+              separator="none"
+              class="bg-grey-2 q-mb-md "
+            >
+              <tbody>
+                <tr>
+                  <td colspan="2">
+                    <div class="text-subtitle2 text-blue">
+                      Endereço da entrega
+                    </div>
+                  </td>
+                </tr>
                 <tr
                   v-if="
                     this.delivery.address && this.delivery.address.postal_code
@@ -298,19 +351,16 @@
                     }}
                   </td>
                 </tr>
-                <tr>
+                <tr
+                  v-if="
+                    this.delivery.address && this.delivery.address.postal_code
+                  "
+                >
                   <td colspan="2" class="text-right">
-                    <q-btn
-                      v-if="this.delivery.id"
-                      size="sm"
-                      color="primary bt-edit"
-                      label="Editar"
-                      @click="btEditDest()"
-                    />
                     <q-btn
                       size="sm"
                       color="primary"
-                      label="Detalhes da entrega"
+                      label="Editar"
                       @click="seeDetails(delivery, 'delivery')"
                     />
                   </td>
