@@ -246,9 +246,7 @@ export default {
         params: params,
       })
         .then((order) => {
-          this.requestOrderStatus(this.orderId).finally((data) => {
-            this.isUpdating = false;
-          });
+          this.requestOrderStatus(this.orderId);
         })
         .catch((error) => {
           this.$q.notify({
@@ -256,6 +254,9 @@ export default {
             position: "bottom",
             type: "negative",
           });
+        })
+        .finally((data) => {
+          this.isUpdating = false;
         });
     },
     setQuoteDetails(quoteDetails) {

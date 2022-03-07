@@ -1,6 +1,6 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch }       from '../../../../../../../../src/boot/myapi';
-import * as types      from './mutation_types';
+import { fetch } from '../../../../../../../../src/boot/myapi';
+import * as types from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/purchasing/orders';
 
@@ -10,10 +10,10 @@ export const getItems = ({ commit }, params = {}) => {
   return fetch(RESOURCE_ENDPOINT, { params })
     .then(response => response.json())
     .then(data => {
-      commit(types.SET_ISLOADING , false);
+      commit(types.SET_ISLOADING, false);
 
-      commit(types.SET_ITEMS     , data['hydra:member']);
-      commit(types.SET_VIEW      , data['hydra:view']);
+      commit(types.SET_ITEMS, data['hydra:member']);
+      commit(types.SET_VIEW, data['hydra:view']);
       commit(types.SET_TOTALITEMS, data['hydra:totalItems']);
 
       return data['hydra:member'];
@@ -31,7 +31,23 @@ export const getItems = ({ commit }, params = {}) => {
       commit(types.SET_ERROR, e.message);
     });
 };
+export const updateStatus = ({ commit }, { id, values, params = {} }) => {
+  let options = {
+    method: 'PUT',
+    body: JSON.stringify(values),
+    params: params
+  };
 
+  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+
+  return fetch(`${RESOURCE_ENDPOINT}/${id}/update-status`, options)
+    .then(response => response.json())
+    .then(data => {
+
+      return data;
+
+    });
+};
 export const reset = ({ commit }) => {
   commit(types.RESET);
 };
