@@ -71,8 +71,7 @@
                 color="red"
                 icon="delete"
                 @click="removeItem(props.row)"
-                :loading="props.row._bussy"
-                :disable="items.length == 1"
+                :loading="props.row._bussy"                
               >
                 <q-tooltip>Remover</q-tooltip>
               </q-btn>
