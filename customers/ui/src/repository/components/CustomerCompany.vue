@@ -58,15 +58,9 @@
                 flat
                 round
                 dense
-                :to="{
-                  name: 'ClientsDetails',
-                  params: {
-                    id: props.row.id,
-                  },
-                }"
+                @click="btEditCompany(props.row.id)"
                 color="primary"
                 icon="edit"
-                :disable="props.row._bussy"
               >
                 <q-tooltip>Editar</q-tooltip>
               </q-btn>
@@ -144,7 +138,10 @@ export default {
     ...mapActions({
       save: "people/company",
     }),
-
+    btEditCompany(id) {
+      this.$router.push({ name: "ClientsDetails", params: { id } });
+      location.reload();
+    },
     onSaved(hasErrors) {
       if (hasErrors == false) {
         this.dialog = false;
