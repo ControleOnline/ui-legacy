@@ -1,214 +1,198 @@
 <template>
-  <div class="row items-center justify-center">
-    <div class="flex flex-center" v-if="isLoading">
-      <q-circular-progress :indeterminate="isLoading"
-        size ="sm"
-        color="primary"
-        class="q-ma-md"
-      />
-      {{ `${$t('loading')}...` }}
-    </div>
-
-    <div class="col-12 q-mt-md" :style="isLoading ? 'visibility:hidden' : 'visibility:visible'">
-      <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
-        <div class="row q-col-gutter-sm">
-          <div class="col-xs-12 col-sm-6">
-            <q-input lazy-rules stack-label unmasked-value outlined
-              v-model="item.document"
-              type   ="text"
-              :label ="$t('CNPJ')"
-              class  ="q-mb-sm"
-              :rules ="[isInvalid('document')]"
-              mask   ="##.###.###/####-##"
-            />
-          </div>
-          <div class="col-xs-12 col-sm-6">
-            <q-input stack-label lazy-rules outlined
-              v-model     ="item.name"
-              type        ="text"
-              class       ="q-mb-sm"
-              :label      ="$t('Razão social')"
-              :placeholder="$t('Informe a razão social')"
-              :rules      ="[isInvalid('name')]"
-            />
-          </div>
-          <div class="col-xs-12 col-sm-6">
-            <q-input stack-label lazy-rules outlined
-              v-model     ="item.alias"
-              type        ="text"
-              class       ="q-mb-sm"
-              :label      ="$t('Nome fantasia')"
-              :placeholder="$t('Informe o nome fantasia')"
-              :rules      ="[isInvalid('alias')]"
+  <q-card class="q-pa-sm">
+    <q-table
+      flat
+      grid
+      hide-header
+      :loading="isLoading"
+      :data="items"
+      @request="onRequest"
+      row-key="id"
+      style="min-height: 90vh"
+    >
+      <template v-slot:top>
+        <div class="col-3 q-mb-md text-h6">Empresas</div>
+        <div class="col-9 q-mb-md">
+          <div class="row justify-end">
+            <q-btn
+              label="Adicionar"
+              icon="add"
+              size="md"
+              color="primary"
+              class="q-ml-sm"
+              @click="dialog = !dialog"
             />
           </div>
         </div>
+      </template>
 
-        <div class="row justify-end">
-          <q-btn
-            :loading="saving"
-            type    ="submit"
-            icon    ="save"
-            :label  ="$t('Salvar')"
-            size    ="md"
-            color   ="primary"
-            class   ="q-mt-md"
+      <template v-slot:item="props">
+        <div class="q-pa-xs col-xs-12 col-sm-4 col-md-3 col-lg-2">
+          <q-card>
+            <q-img
+              :contain="true"
+              src="~assets/business.png"
+              style="height: 100px; max-width: 100%"
+            >
+              <div class="absolute-bottom text-subtitle1 text-center">
+                {{ props.row.name || props.row.alias }}
+              </div>
+            </q-img>
+            <q-card-section>
+              <q-list>
+                <q-item dense>
+                  <q-item-section avatar>
+                    <q-icon name="business" />
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-item-label caption>{{
+                      props.row.document
+                    }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-card-section>
+            <q-separator />
+            <q-card-actions align="around">
+              <q-btn
+                flat
+                round
+                dense
+                :to="{
+                  name: 'ClientsDetails',
+                  params: {
+                    id: props.row.id,
+                  },
+                }"
+                color="primary"
+                icon="edit"
+                :disable="props.row._bussy"
+              >
+                <q-tooltip>Editar</q-tooltip>
+              </q-btn>
+            </q-card-actions>
+          </q-card>
+        </div>
+      </template>
+    </q-table>
+
+    <q-dialog v-model="dialog">
+      <q-card style="width: 700px; max-width: 80vw">
+        <q-card-section class="row items-center">
+          <div class="text-h6">Nova empresa</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section>
+          <FormCompany
+            @saved="onSaved"
+            :person="false"
+            :companyFields="companyFields"
+            address="bycep"
+            saveBtn="Salvar"
           />
-        </div>
-      </q-form>
-    </div>
-  </div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+  </q-card>
 </template>
 
 <script>
-import Api            from '@controleonline/quasar-common-ui/src/utils/api';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
+import FormCompany from "@controleonline/quasar-login-ui/src/components/user/signup/Company";
+import { formatDocument } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
 
 export default {
+  components: {
+    FormCompany,
+    Api,
+  },
   props: {
+    api: {
+      type: Api,
+      required: true,
+    },
     id: {
       required: true,
     },
-    api: {
-      type    : Api,
-      required: true
-    },
   },
-
   data() {
     return {
-      saving     : false,
-      isLoading  : false,
-      item       : {
-        id      : null,
-        document: null,
-        name    : null,
-        alias   : null,
-      }
+      items: [],
+      dialog: false,
+      saving: false,
+      isLoading: false,
     };
-  },
-
-  computed: {
-    ...mapGetters({
-      theCompany: 'people/currentCompany',
-    }),
   },
 
   created() {
     this.onRequest();
   },
 
-  watch: {
-    '$route'(to) {
-      this.$router.go(to);
+  computed: {
+    ...mapGetters({
+      signUpFields: "auth/signUpFields",
+    }),
+
+    companyFields() {
+      return this.signUpFields?.company || [];
     },
   },
 
   methods: {
-    // store method
-    getCompanies() {
-      return this.api.private(`customers/${this.id}/companies`)
-        .then(response => response.json())
-        .then(result => {
-          return result.response.data;
-        });
-    },
+    ...mapActions({
+      save: "people/company",
+    }),
 
-    // store method
-    save(values) {
-      let options = {
-        method : 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify(values),
-        params : { 'company': this.theCompany.id }
-      };
-
-      let endpoint = `customers/${this.id}/companies`;
-      return this.api.private(endpoint, options)
-        .then(response => response.json())
-        .then(data => {
-          if (data.response) {
-            if (data.response.success === false)
-              throw new Error(data.response.error);
-
-            return data.response.data;
-          }
-
-          return null;
-        });
-    },
-
-    onSubmit() {
-      this.saving = true;
-
-      let payload = {};
-
-      if (this.item.id !== null) {
-        payload = {
-          update: {
-            "id"      : this.item.id,
-            "document": this.item.document,
-            "name"    : this.item.name,
-            "alias"   : this.item.alias,
-          }
-        };
+    onSaved(hasErrors) {
+      if (hasErrors == false) {
+        this.dialog = false;
+        this.onRequest();
       }
-      else {
-        payload = {
-          "document": this.item.document,
-          "name"    : this.item.name,
-          "alias"   : this.item.alias,
-        };
+    },
+
+    setCompanies(companies) {
+      let _companies = [];
+
+      for (let index in companies) {
+        _companies.push({
+          id: companies[index].id,
+          alias: companies[index].alias,
+          logo: companies[index].logo
+            ? `https://${companies[index].logo.domain}${companies[index].logo.url}`
+            : null,
+          document: companies[index].document
+            ? formatDocument(companies[index].document)
+            : null,
+          _bussy: false,
+        });
       }
 
-      this.save(payload)
-        .then (data => {
-          if (data) {
-            this.item.id = data.id;
-            this.$emit('saved', data);
-          }
-        })
-        .catch(error => {
-          this.$emit('error', { message: error.message });
-        })
-        .finally(() => {
-          this.saving = false;
+      this.items = _companies;
+    },
+    getItems() {
+      return this.api
+        .private(`customers/${this.id}/companies`)
+        .then((response) => response.json())
+        .then((result) => {
+          return result.response;
         });
     },
-
     onRequest() {
-      if (this.isLoading)
-        return;
+      this.items = [];
 
       this.isLoading = true;
 
-      this.getCompanies()
-        .then(data => {
-          if (data.members.length) {
-            this.item.id       = data.members[0].id;
-            this.item.document = data.members[0].document;
-            this.item.name     = data.members[0].name;
-            this.item.alias    = data.members[0].alias;
-          }
-          else {
-            this.item.id       = null;
-            this.item.document = null;
-            this.item.name     = null;
-            this.item.alias    = null;
+      this.getItems()
+        .then((response) => {
+          if (response.data) {
+            this.setCompanies(response.data.members);
           }
         })
         .finally(() => {
           this.isLoading = false;
-        })
-    },
-
-    isInvalid(key) {
-      return val => {
-        if (!(val && val.length > 0))
-          return this.$t('messages.fieldRequired');
-
-        return true;
-      };
+        });
     },
   },
 };
