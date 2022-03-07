@@ -78,12 +78,32 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <FormCompany
-            @saved="onSaved"
-            :person="false"
-            :companyFields="companyFields"
-            address="bycep"
-            saveBtn="Salvar"
+          <FormCreateClient
+            ref="myForm"
+            :api="api"
+            :employeeId="id"
+            @saved="
+              (data) => {
+                this.$q.notify({
+                  message: 'Os dados foram salvos com sucesso',
+                  position: 'bottom',
+                  type: 'positive',
+                });
+
+                if (this.events.onSaved) {
+                  this.events.onSaved(data);
+                }
+              }
+            "
+            @error="
+              (error) => {
+                this.$q.notify({
+                  message: error.message,
+                  position: 'bottom',
+                  type: 'warning',
+                });
+              }
+            "
           />
         </q-card-section>
       </q-card>
@@ -93,13 +113,13 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import FormCompany from "@controleonline/quasar-login-ui/src/components/user/signup/Company";
+import FormCreateClient from "./FormCreateClient.vue";
 import { formatDocument } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 
 export default {
   components: {
-    FormCompany,
+    FormCreateClient,
     Api,
   },
   props: {
@@ -148,7 +168,6 @@ export default {
         this.onRequest();
       }
     },
-
     setCompanies(companies) {
       let _companies = [];
 
