@@ -189,7 +189,7 @@
               <tbody>
                 <tr>
                   <td colspan="2">
-                    <div class="text-subtitle2 text-blue">Dados da coleta</div>
+                    <div class="text-subtitle2 text-blue">Responsável pela coleta</div>
                   </td>
                 </tr>
                 <tr v-if="this.retrieve.name">
@@ -316,7 +316,7 @@
               <tbody>
                 <tr>
                   <td colspan="2">
-                    <div class="text-subtitle2 text-blue">Dados da entrega</div>
+                    <div class="text-subtitle2 text-blue">Responsável pela entrega</div>
                   </td>
                 </tr>
                 <tr v-if="this.delivery.name">
