@@ -94,6 +94,8 @@
                 if (this.events && this.events.onSaved) {
                   this.events.onSaved(data);
                 }
+                this.dialog = false;
+                this.onRequest();
               }
             "
             @error="
