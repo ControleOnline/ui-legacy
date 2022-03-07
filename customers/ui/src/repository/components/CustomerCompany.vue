@@ -64,6 +64,18 @@
               >
                 <q-tooltip>Editar</q-tooltip>
               </q-btn>
+              <q-btn
+                flat
+                round
+                dense
+                color="red"
+                icon="delete"
+                @click="removeItem(props.row)"
+                :loading="props.row._bussy"
+                :disable="items.length == 1"
+              >
+                <q-tooltip>Remover</q-tooltip>
+              </q-btn>
             </q-card-actions>
           </q-card>
         </div>
@@ -171,11 +183,63 @@ export default {
         this.onRequest();
       }
     },
+    // store method
+    delete(id) {
+      let options = {
+        method: "DELETE",
+        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        body: JSON.stringify({ id }),
+      };
+
+      let endpoint = `customers/${this.id}/employees`;
+      return this.api
+        .private(endpoint, options)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.response) {
+            if (data.response.success === false)
+              throw new Error(data.response.error);
+
+            return data.response.data;
+          }
+
+          return null;
+        });
+    },
+    removeItem(item) {
+      if (
+        window.confirm(this.$t("Are you sure about to remove this element?"))
+      ) {
+        item._bussy = true;
+        console.log(item);
+        this.delete(item.people_company_id)
+          .then((data) => {
+            if (data) {
+              this.cleanItem(item.id);
+            }
+          })
+          .catch((error) => {
+            this.$emit("error", { message: error.message });
+          })
+          .finally(() => {
+            item._bussy = false;
+          });
+      }
+    },
+    cleanItem(id) {
+      let item = this.items.find((obj) => obj["id"] == id);
+      let indx = this.items.indexOf(item);
+      this.items = [
+        ...this.items.slice(0, indx),
+        ...this.items.slice(indx + 1),
+      ];
+    },
     setCompanies(companies) {
       let _companies = [];
 
       for (let index in companies) {
         _companies.push({
+          people_company_id: companies[index].people_company_id,
           id: companies[index].id,
           alias: companies[index].alias,
           logo: companies[index].logo
