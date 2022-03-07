@@ -153,7 +153,10 @@ export default {
   created() {
     if (this.myCompany !== null) {
       this.filters.company = this.myCompany;
-      this.onRequest();
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
     }
   },
 
@@ -276,7 +279,10 @@ export default {
     myCompany(company) {
       if (company !== null) {
         this.filters.company = company;
-        this.onRequest();
+        this.onRequest({
+          pagination: this.pagination,
+          filter: this.filters,
+        });
       }
     },
 
@@ -341,11 +347,12 @@ export default {
       this.dialogs.orders.visible = true;
     },
 
-    onRequest() {
+    onRequest(props) {
       if (this.isLoading) return;
 
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        this.pagination;
+      let pagination = props ? props.pagination : this.pagination;
+
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = pagination;
 
       let params = { itemsPerPage: rowsPerPage, page };
 
