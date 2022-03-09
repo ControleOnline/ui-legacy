@@ -112,6 +112,7 @@ export default {
       this.order = {
         id: data.id,
         quotes: data.quotes,
+        other_informations: data.other_informations,
         quote: data.quote,
         status: data.status,
         choose: null,
