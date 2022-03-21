@@ -119,7 +119,10 @@
         <div class="row justify-center items-stretch q-mt-lg">
           <div class="col-xs-12 col-sm-5">
             <q-markup-table
-              v-if="this.retrieve.address && this.retrieve.address.postal_code"
+              v-if="
+                (this.retrieve.address && this.retrieve.address.postal_code) ||
+                isCeg()
+              "
               flat
               separator="none"
               class="bg-grey-2 q-mb-md"
@@ -171,7 +174,9 @@
                 </tr>
                 <tr
                   v-if="
-                    this.retrieve.address && this.retrieve.address.postal_code
+                    (this.retrieve.address &&
+                      this.retrieve.address.postal_code) ||
+                    isCeg()
                   "
                 >
                   <td colspan="2" class="text-right">
@@ -189,7 +194,9 @@
               <tbody>
                 <tr>
                   <td colspan="2">
-                    <div class="text-subtitle2 text-blue">Responsável pela coleta</div>
+                    <div class="text-subtitle2 text-blue">
+                      Responsável pela coleta
+                    </div>
                   </td>
                 </tr>
                 <tr v-if="this.retrieve.name">
@@ -216,11 +223,7 @@
                     {{ this.formatDoc(this.retrieve.document) }}
                   </td>
                 </tr>
-                <tr
-                  v-if="
-                    this.retrieve.address && this.retrieve.address.postal_code
-                  "
-                >
+                <tr v-if="this.retrieve && this.retrieve.id">
                   <td colspan="2" class="text-right">
                     <q-btn
                       v-if="this.retrieve.id"
@@ -245,7 +248,10 @@
           </div>
           <div class="col-xs-12 col-sm-5">
             <q-markup-table
-              v-if="this.delivery.address && this.delivery.address.postal_code"
+              v-if="
+                (this.delivery.address && this.delivery.address.postal_code) ||
+                isCeg()
+              "
               flat
               separator="none"
               class="bg-grey-2 q-mb-md"
@@ -297,7 +303,9 @@
                 </tr>
                 <tr
                   v-if="
-                    this.delivery.address && this.delivery.address.postal_code
+                    (this.delivery.address &&
+                      this.delivery.address.postal_code) ||
+                    isCeg()
                   "
                 >
                   <td colspan="2" class="text-right">
@@ -316,7 +324,9 @@
               <tbody>
                 <tr>
                   <td colspan="2">
-                    <div class="text-subtitle2 text-blue">Responsável pela entrega</div>
+                    <div class="text-subtitle2 text-blue">
+                      Responsável pela entrega
+                    </div>
                   </td>
                 </tr>
                 <tr v-if="this.delivery.name">
@@ -343,11 +353,7 @@
                     {{ this.formatDoc(this.delivery.document) }}
                   </td>
                 </tr>
-                <tr
-                  v-if="
-                    this.delivery.address && this.delivery.address.postal_code
-                  "
-                >
+                <tr v-if="this.delivery && this.delivery.id">
                   <td colspan="2" class="text-right">
                     <q-btn
                       v-if="this.delivery.id"
@@ -808,9 +814,13 @@ export default {
         this.retrieve.id = this.summary.retrievePeople.id;
         this.retrieve.name = retrieveName;
         this.retrieve.document = retrieveDocs;
-        this.retrieve.contact.name = `${this.summary.retrievePeople.contact.name} ${this.summary.retrievePeople.contact.alias}`;
-        this.retrieve.contact.email = this.summary.retrievePeople.contact.email;
-        this.retrieve.contact.phone = this.summary.retrievePeople.contact.phone;
+        if (this.summary.retrievePeople.contact) {
+          this.retrieve.contact.name = `${this.summary.retrievePeople.contact.name} ${this.summary.retrievePeople.contact.alias}`;
+          this.retrieve.contact.email =
+            this.summary.retrievePeople.contact.email;
+          this.retrieve.contact.phone =
+            this.summary.retrievePeople.contact.phone;
+        }
 
         if (this.summary.retrievePeople.address) {
           this.retrieve.address.district =
@@ -848,9 +858,13 @@ export default {
         this.delivery.id = this.summary.deliveryPeople.id;
         this.delivery.name = deliveryName;
         this.delivery.document = deliveryDocs;
-        this.delivery.contact.name = `${this.summary.deliveryPeople.contact.name} ${this.summary.deliveryPeople.contact.alias}`;
-        this.delivery.contact.email = this.summary.deliveryPeople.contact.email;
-        this.delivery.contact.phone = this.summary.deliveryPeople.contact.phone;
+        if (this.summary.deliveryPeople.contact) {
+          this.delivery.contact.name = `${this.summary.deliveryPeople.contact.name} ${this.summary.deliveryPeople.contact.alias}`;
+          this.delivery.contact.email =
+            this.summary.deliveryPeople.contact.email;
+          this.delivery.contact.phone =
+            this.summary.deliveryPeople.contact.phone;
+        }
         if (this.summary.deliveryPeople.address) {
           this.delivery.address.district =
             this.summary.deliveryPeople.address.district;
