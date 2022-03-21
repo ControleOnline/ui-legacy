@@ -193,7 +193,7 @@ export const defaultCompany = ({ commit, dispatch }) => {
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
-      commit(types.SET_DEFAULT_COMPANY, data.response.data[0]);
+      commit(types.SET_DEFAULT_COMPANY, data.response.data);
 
       return data.response;
 
