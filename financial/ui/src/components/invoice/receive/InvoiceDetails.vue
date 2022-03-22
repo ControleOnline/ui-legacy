@@ -261,7 +261,6 @@ export default {
       this.renewInvoice({ invoiceId, params })
         .then((data) => {
           this.isLoading = false;
-
           if (data.id) {
             this.invoice = requestInvoice(data.id);
             this.notFound = false;
@@ -279,6 +278,14 @@ export default {
               );
               this.client.name = this.invoice.order[0].order.client.name;
             }
+            this.$router.push({
+              name: "ReceiveDetails",
+              params: {
+                id: data.id,
+              },
+            });
+
+            //location.reload();
           }
         })
         .catch((error) => {
