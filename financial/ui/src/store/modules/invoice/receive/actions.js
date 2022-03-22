@@ -78,7 +78,7 @@ export const renewInvoice = ({ commit }, { invoiceId, params }) => {
                 throw Error(data.response.error);
             }
 
-            return data;
+            return data.response;
         });
 };
 

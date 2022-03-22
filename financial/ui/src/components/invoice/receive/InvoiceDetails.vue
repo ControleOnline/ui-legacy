@@ -258,38 +258,18 @@ export default {
       let params = {};
       this.isLoading = true;
 
-      this.renewInvoice({ invoiceId, params })
-        .then((response) => response.json())
-        .then((data) => {
-          this.isLoading = false;
-          console.log(data);
-          if (response.response.data.id) {
-            this.invoice = requestInvoice(data.id);
-            this.notFound = false;
-
-            // format date
-            if (this.invoice.dueDate) {
-              this.invoice.dueDate = formatDateYmdTodmY(this.invoice.dueDate);
-            }
-
-            // set order
-            if (this.invoice.order.length > 0) {
-              this.orderId = this.invoice.order[0].order["@id"].replace(
-                /[^0-9]/g,
-                ""
-              );
-              this.client.name = this.invoice.order[0].order.client.name;
-            }
+      this.renewInvoice({ invoiceId, params })        
+        .then((response) => {
+          this.isLoading = false;          
+          if (response.data.id) {            
             this.$router.push({
               name: "ReceiveDetails",
               params: {
-                id: response.response.data.id,
+                id: response.data.id,
               },
             });
-
-            //location.reload();
-          }
-          console.log(data);
+            location.reload();
+          }          
         })
         .catch((error) => {
           this.client.name = "";
