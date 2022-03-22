@@ -259,10 +259,11 @@ export default {
       this.isLoading = true;
 
       this.renewInvoice({ invoiceId, params })
+        .then((response) => response.json())
         .then((data) => {
           this.isLoading = false;
           console.log(data);
-          if (data.id) {
+          if (response.response.data.id) {
             this.invoice = requestInvoice(data.id);
             this.notFound = false;
 
@@ -282,7 +283,7 @@ export default {
             this.$router.push({
               name: "ReceiveDetails",
               params: {
-                id: data.id,
+                id: response.response.data.id,
               },
             });
 
