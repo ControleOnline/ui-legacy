@@ -890,7 +890,6 @@ export default {
           this.retrieve.address.state =
             this.summary.quote.destination.state ||
             data.quote.destination.state;
-            
         }
       } else {
         if (data.quote !== null) {
