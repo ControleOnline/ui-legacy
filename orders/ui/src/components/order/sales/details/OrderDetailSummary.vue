@@ -836,6 +836,11 @@ export default {
             this.summary.retrievePeople.address.state;
           this.retrieve.address.complement =
             this.summary.retrievePeople.address.complement;
+        } else {
+          this.retrieve.address.city =
+            this.summary.quote.origin.city || data.quote.origin.city;
+          this.retrieve.address.state =
+            this.summary.quote.origin.state || data.quote.origin.state;
         }
       } else {
         if (data.quote !== null) {
@@ -879,6 +884,13 @@ export default {
             this.summary.deliveryPeople.address.state;
           this.delivery.address.complement =
             this.summary.deliveryPeople.address.complement;
+        } else {
+          this.retrieve.address.city =
+            this.summary.quote.destination.city || data.quote.destination.city;
+          this.retrieve.address.state =
+            this.summary.quote.destination.state ||
+            data.quote.destination.state;
+            
         }
       } else {
         if (data.quote !== null) {

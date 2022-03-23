@@ -501,8 +501,14 @@ export default {
           this.summary.retrievePeople.address.street;
         this.retrieve.address.number =
           this.summary.retrievePeople.address.number;
-        this.retrieve.address.city = this.summary.retrievePeople.address.city;
-        this.retrieve.address.state = this.summary.retrievePeople.address.state;
+        this.retrieve.address.city =
+          this.summary.retrievePeople.address.city ||
+          data.quote.origin.city ||
+          this.summary.quote.origin.city;
+        this.retrieve.address.state =
+          this.summary.retrievePeople.address.state ||
+          data.quote.origin.state ||
+          this.summary.quote.origin.state;
       } else {
         if (data.quote !== null) {
           this.retrieve.address.city = data.quote.origin.city;
@@ -535,8 +541,14 @@ export default {
           this.summary.deliveryPeople.address.street;
         this.delivery.address.number =
           this.summary.deliveryPeople.address.number;
-        this.delivery.address.city = this.summary.deliveryPeople.address.city;
-        this.delivery.address.state = this.summary.deliveryPeople.address.state;
+        this.delivery.address.city =
+          this.summary.deliveryPeople.address.city ||
+          data.quote.destination.city ||
+          this.summary.quote.destination.city;
+        this.delivery.address.state =
+          this.summary.deliveryPeople.address.state ||
+          data.quote.destination.state ||
+          this.summary.quote.destination.state;
       } else {
         if (data.quote !== null) {
           this.delivery.address.city = data.quote.destination.city;
