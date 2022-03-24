@@ -121,7 +121,7 @@
             <q-markup-table
               v-if="
                 (this.retrieve.address && this.retrieve.address.postal_code) ||
-                isCeg()
+                isCeg() || this.summary.quote.origin.city
               "
               flat
               separator="none"
@@ -176,7 +176,7 @@
                   v-if="
                     (this.retrieve.address &&
                       this.retrieve.address.postal_code) ||
-                    isCeg()
+                    isCeg() || this.summary.quote.origin.city
                   "
                 >
                   <td colspan="2" class="text-right">
@@ -250,7 +250,7 @@
             <q-markup-table
               v-if="
                 (this.delivery.address && this.delivery.address.postal_code) ||
-                isCeg()
+                isCeg() || this.summary.quote.destination.city
               "
               flat
               separator="none"
@@ -305,7 +305,7 @@
                   v-if="
                     (this.delivery.address &&
                       this.delivery.address.postal_code) ||
-                    isCeg()
+                    isCeg() || this.summary.quote.origin.city
                   "
                 >
                   <td colspan="2" class="text-right">
