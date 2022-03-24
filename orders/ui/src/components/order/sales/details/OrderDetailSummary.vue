@@ -842,11 +842,9 @@ export default {
           this.retrieve.address.state =
             this.summary.quote.origin.state || data.quote.origin.state;
         }
-      } else {
-        if (data.quote !== null) {
-          this.retrieve.address.city = data.quote.origin.city;
-          this.retrieve.address.state = data.quote.origin.state;
-        }
+      } else if (data.quote !== null) {
+        this.retrieve.address.city = data.quote.origin.city;
+        this.retrieve.address.state = data.quote.origin.state;
       }
 
       if (this.summary.deliveryPeople != null) {
