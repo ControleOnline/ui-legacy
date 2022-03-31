@@ -54,13 +54,13 @@
             label="Responsável pelo pedido"
             :disable="true"
           />
-          <ListAutocomplete
+          <q-select
             v-else
-            :source="getCompaniesSelect"
+            :options="CompaniesSelect"
             :isLoading="false"
             label="Responsável pelo pedido"
             placeholder="Digite o nome da empresa responsável..."
-            @selected="onCompanySelect"
+            v-model="updatedCompanyId"
           />
         </div>
         <div class="col-2 col-sm-1">
@@ -121,7 +121,8 @@
             <q-markup-table
               v-if="
                 (this.retrieve.address && this.retrieve.address.postal_code) ||
-                isCeg() || this.summary.quote.origin.city
+                isCeg() ||
+                this.summary.quote.origin.city
               "
               flat
               separator="none"
@@ -176,7 +177,8 @@
                   v-if="
                     (this.retrieve.address &&
                       this.retrieve.address.postal_code) ||
-                    isCeg() || this.summary.quote.origin.city
+                    isCeg() ||
+                    this.summary.quote.origin.city
                   "
                 >
                   <td colspan="2" class="text-right">
@@ -250,7 +252,8 @@
             <q-markup-table
               v-if="
                 (this.delivery.address && this.delivery.address.postal_code) ||
-                isCeg() || this.summary.quote.destination.city
+                isCeg() ||
+                this.summary.quote.destination.city
               "
               flat
               separator="none"
@@ -305,7 +308,8 @@
                   v-if="
                     (this.delivery.address &&
                       this.delivery.address.postal_code) ||
-                    isCeg() || this.summary.quote.origin.city
+                    isCeg() ||
+                    this.summary.quote.origin.city
                   "
                 >
                   <td colspan="2" class="text-right">
@@ -675,6 +679,7 @@ export default {
       payerContact: null,
       showByAddressType: false,
       forceHidden: false,
+      CompaniesSelect: [],
       address_type: [
         { label: "Guincho", value: "winch" },
         { label: "Ponto de Encontro", value: "meeting" },
@@ -932,6 +937,7 @@ export default {
         productTotalPrice: this.product.totalPrice,
         productType: this.product.type,
       });
+      this.getCompaniesSelect();
     },
 
     payer(payerId) {
@@ -1218,30 +1224,17 @@ export default {
       const blob = new Blob(byteArrays, { type: contentType });
       return blob;
     },
-    getCompaniesSelect(input) {
-      return new Promise((success) => {
-        const result = [];
-
+    getCompaniesSelect() {
+      if (this.CompaniesSelect.length == 0) {
         for (const item of this.myCompanies) {
-          var value = input.trim().toLowerCase();
-
-          if (
-            item.alias.toLowerCase().indexOf(value) > -1 ||
-            item.document.toLowerCase().indexOf(value) > -1
-          ) {
-            result.push({
+          if (item.id) {
+            this.CompaniesSelect.push({
               label: item.alias + " (" + item.document + ")",
               value: item.id,
             });
           }
         }
-
-        success(result);
-      });
-    },
-
-    onCompanySelect(item) {
-      this.updatedCompanyId = item;
+      }
     },
     getGeoPlaces(input) {
       this.isSearching = true;
@@ -1269,18 +1262,18 @@ export default {
     },
 
     onSaveCompany() {
-      if (this.updatedCompanyId !== null) {
+      if (this.updatedCompanyId && this.updatedCompanyId.value !== null) {
         this.isLoading = true;
 
         this.updateStatus({
           id: this.orderId,
-          providerId: this.updatedCompanyId,
+          providerId: this.updatedCompanyId.value,
           params: {
             myCompany: this.myCompany.id,
           },
         }).then((data) => {
           const companyData = this.myCompanies.find(
-            (comp) => comp.id === this.updatedCompanyId
+            (comp) => comp.id === this.updatedCompanyId.value
           );
 
           if (companyData) {
