@@ -136,6 +136,8 @@ export default {
 
       this.myCompanies = data;
 
+      this.$emit('setMyCompanies', this.myCompanies);
+
       if (this.selected != -1) {
         let _company = data.find((companies) => companies.id === this.selected);
 
