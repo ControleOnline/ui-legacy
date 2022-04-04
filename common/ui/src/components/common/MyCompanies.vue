@@ -14,7 +14,9 @@
         v-close-popup
         dense
         v-for="(company, index) in myCompanies"
-        :disable="company.enabled ? false : true"
+        :disable="
+          company.enabled && company.user.employee_enabled ? false : true
+        "
         :key="index"
         @click="onCompanySelection(company)"
       >
