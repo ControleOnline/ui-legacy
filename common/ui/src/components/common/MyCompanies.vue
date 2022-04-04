@@ -14,6 +14,7 @@
         v-close-popup
         dense
         v-for="(company, index) in myCompanies"
+        :disable="company.enabled ? false : true"
         :key="index"
         @click="onCompanySelection(company)"
       >
@@ -28,7 +29,7 @@
     <q-card style="width: 700px; max-width: 80vw">
       <q-card-section class="row items-center">
         <div class="text-h6">Adicionar dados da Empresa</div>
-        <q-space />        
+        <q-space />
       </q-card-section>
       <q-card-section>
         <FormCompany
@@ -88,7 +89,7 @@ export default {
   watch: {
     myCompany(company) {
       this.$emit("selected", company);
-    },    
+    },
     companies(companies) {
       this.dialog = companies.length > 0 ? false : true;
       this.setCompanies(companies);
@@ -123,6 +124,7 @@ export default {
         }
         data.push({
           id: item.id,
+          enabled: item.enabled,
           name: item.alias,
           logo: logo || null,
           commission: item.commission,
@@ -131,12 +133,13 @@ export default {
           document: item.document,
           domains: item.domains,
           permission: item.permission,
+          user: item.user,
         });
       }
 
       this.myCompanies = data;
 
-      this.$emit('setMyCompanies', this.myCompanies);
+      this.$emit("setMyCompanies", this.myCompanies);
 
       if (this.selected != -1) {
         let _company = data.find((companies) => companies.id === this.selected);
@@ -158,7 +161,6 @@ export default {
 
     onCompanySelection(company) {
       this.currentCompany = company;
-
       this.setCompany(company);
     },
   },
