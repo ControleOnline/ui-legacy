@@ -276,7 +276,7 @@
         <q-tab-panel name="orders">
           <CustomerOrders
             :api="api"
-            :id="clientId"
+            :client_id="clientId"
             @error="
               (error) => {
                 this.$q.notify({
@@ -369,7 +369,9 @@ import ClientAdminPhones from "../../components/ClientAdminPhones.vue";
 import ClientAdminDocuments from "../../components/ClientAdminDocuments.vue";
 import ClientAdminEmployees from "../../components/ClientAdminEmployees.vue";
 import ClientAdminBilling from "../../components/ClientAdminBilling.vue";
-import CustomerOrders from "../../components/CustomerOrders.vue";
+
+import CustomerOrders from "@controleonline/quasar-orders-ui/src/components/order/sales/OrderSearching.vue";
+
 import CustomerContracts from "../../components/CustomerContracts.vue";
 import CustomerSummary from "../../components/CustomerSummary.vue";
 import CustomerSalesman from "../../components/CustomerSalesman.vue";
