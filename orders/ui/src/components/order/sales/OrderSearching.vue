@@ -267,7 +267,10 @@ export default {
   },
 
   data() {
-    let statuses = [{ label: "Todos", value: -1 }];
+    let statuses = [
+      { label: "Abertos", value: -1 },
+      { label: "Todos", value: 0 },
+    ];
 
     return {
       settings: SETTINGS,
@@ -485,15 +488,18 @@ export default {
         params["searchBy"] = this.filters.text;
       }
 
-      if (this.filters.status != null && this.filters.status.value != -1) {
-        params["orderStatus"] = this.filters.status.value;
-      } else {
+      if (this.filters.status != null && this.filters.status.value == -1) {
         params["orderStatus.realStatus"] =
           this.defaultCompany.configs &&
           typeof this.defaultCompany.configs.salesOrdersStartRealStatus !=
             "undefined"
             ? JSON.parse(this.defaultCompany.configs.salesOrdersStartRealStatus)
             : ["pending"];
+      } else if (
+        this.filters.status != null &&
+        this.filters.status.value != 0
+      ) {
+        params["orderStatus"] = this.filters.status.value;
       }
       params.fromDate = this.formatDate(this.filters.from) || "";
       params.toDate = this.formatDate(this.filters.to) || "";
