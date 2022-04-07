@@ -236,6 +236,9 @@ export default {
     DataFilter,
   },
   props: {
+    client_id: {
+      required: false,
+    },
     search: {
       type: Boolean,
       required: false,
@@ -504,6 +507,10 @@ export default {
       }
 
       params["order[alterDate]"] = "desc";
+
+      if (this.client_id) {
+        params["client"] = this.client_id;
+      }
 
       this.getItems(params).then(() => {
         this.pagination.page = page;
