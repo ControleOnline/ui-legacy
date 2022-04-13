@@ -37,19 +37,8 @@
             />
           </q-td>
           <q-td key="tipo" :props="props">{{ props.cols[1].value }}</q-td>
-          <q-td key="pedidos" :props="props">
-            <q-btn
-              outline
-              dense
-              :label="
-                props.row.pedidos.length > 1
-                  ? `${props.row.pedidos.length} ${$t('finance.orders')}`
-                  : `1 ${$t('finance.order')}`
-              "
-              color="primary"
-              @click="seeOrdersList(props.row.pedidos, props.row.id)"
-              class="full-width"
-            />
+          <q-td key="description" :props="props">
+            {{ props.row.description }}
           </q-td>
           <q-td key="dataVencimento" :props="props">{{
             props.cols[3].value
@@ -186,10 +175,10 @@ export default {
             label: "Tipo",
           },
           {
-            name: "pedidos",
+            name: "description",
             align: "left",
-            field: "pedidos",
-            label: this.$t("finance.orders"),
+            field: "description",
+            label: this.$t("finance.description"),
           },
           {
             name: "dataVencimento",
@@ -312,6 +301,7 @@ export default {
           id: item["@id"].match(/^\/finance\/pay\/([a-z0-9-]*)$/)[1],
           tipo: this.$t(item.invoice_type),
           pedidos: orders,
+          description: item.description,
           color_status: item.invoiceStatus.color,
           dataVencimento: item.dueDate,
           fornecedor: `${item.order[0].order.provider.name} ${item.order[0].order.provider.alias}`,

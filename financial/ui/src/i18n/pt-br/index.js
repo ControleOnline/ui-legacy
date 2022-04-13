@@ -8,7 +8,8 @@ export const translate = {
   royalties: 'Royalties',
   finance: {
     orders: 'Pedidos',
-    order: 'Pedido'
+    order: 'Pedido',
+    description: 'Descrição'
   },
   invoice: {
     statuses: {
