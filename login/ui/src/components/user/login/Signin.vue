@@ -1,48 +1,39 @@
 <template>
-  <q-form @submit="onSubmit">
-    <label class="q-input-label">{{ $t("login.yourUser") }}</label>
+  <q-form @submit="onSubmit" class="q-gutter-y-lg">
     <q-input
-      outlined
       id="inputUsername"
       ref="username"
+      outlined
       v-model="item.username"
-      type="text"
-      :placeholder="$t('login.enterYourUsername')"
-      :rules="[
-        (val) => !!val || $t('messages.fieldRequired'),
-        isInvalid('username'),
-      ]"
+      color="primary"
+      :label="$t('login.yourUser')"
     />
 
-    <label class="q-input-label">{{ $t("login.yourPass") }}</label>
     <q-input
+      class="q-pt-md"
       outlined
+      :type="isPwd ? 'password' : 'text'"
       id="inputPassword"
       ref="password"
       v-model="item.password"
-      type="password"
-      :placeholder="$t('login.enterYourPass')"
-      :rules="[
-        (val) => !!val || $t('messages.fieldRequired'),
-        isInvalid('password'),
-      ]"
-    />
+      :label="$t('login.yourPass')"
+    >
+      <template v-slot:append>
+        <q-icon
+          :name="isPwd ? 'visibility_off' : 'visibility'"
+          class="cursor-pointer"
+          @click="isPwd = !isPwd"
+        />
+      </template>
+    </q-input>
 
-    <div class="text-right">
+    <div class="column q-pt-md">
       <q-btn
-        type="submit"
+        unelevated color="primary"
         :loading="isLoading"
+        type="submit"
         :label="$t('login.send')"
-        size="lg"
-        color="primary"
-        class="q-mt-md login-submit-button"
       />
-    </div>
-
-    <div class="text-right">
-      <a href="#" class="recovery-link" @click="$emit('recovery')">
-        {{ $t("login.lostPass") }}
-      </a>
     </div>
   </q-form>
 </template>
@@ -53,6 +44,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
+      isPwd: true,
       item: {
         username: null,
         password: null,

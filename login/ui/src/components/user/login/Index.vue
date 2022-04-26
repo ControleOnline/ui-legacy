@@ -1,46 +1,44 @@
 <template>
-  <div class="login-page row justify-center items-center">
-    <div class="text-right full-width">
-      <h5 class="login-app-name">{{ $t("app.name") }}</h5>
-    </div>
+  <div class="container text-center q-gutter-y-xl">
+    <q-img 
+      :src="defaultLogo"
+      width="220px"
+      height="97.78px"
+    />
 
-    <q-card class="login-form">
-      <q-card-section>
+    <q-card class="q-px-lg">
+      <q-card-section class="q-pt-xl">
         <div class="text-h6">
-          <h4 class="login-label">{{ $t("login.title") }}</h4>
+          <h4 class="q-ma-none login-label">{{ $t("login.title") }}</h4>
         </div>
       </q-card-section>
 
       <q-card-section>
         <LoginForm
           @authenticated="onAuthenticated"
-          @recovery="recovery = true"
         />
       </q-card-section>
 
-      <label
-        class="register-link-label"
-        v-if="
-          $t('login.registerLabel') !== 'login.registerLabel' &&
-          signinDialogStatus === false
-        "
-      >
-        {{ $t("login.registerLabel") }}
-      </label>
-      <q-card-actions align="left" class="q-pa-md">
-        <a
+      <div class="column q-px-md q-gutter-y-sm q-pb-xl">
+        <q-btn
+          unelevated
+          color="grey-7"
+          outline
+          :label="$t('login.register')"
           v-if="signinDialogStatus === false"
-          href="#"
-          class="register-link"
           @click="onSignUp"
-        >
-          {{ $t("login.register") }}
-        </a>
-      </q-card-actions>
+        />
+
+        <q-btn
+          style="color: #19AFBD; text-transform: none; text-decoration: underline;"
+          label="Esqueci a senha"
+          flat
+          @click="recovery = !recovery"
+        />
+      </div>
     </q-card>
 
     <q-dialog
-       
       no-backdrop-dismiss
       v-model="recovery"
       transition-show="scale"
@@ -64,6 +62,7 @@
 <script>
 import LoginForm from "./Signin";
 import RecoveryForm from "./Recovery";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -81,10 +80,17 @@ export default {
   data() {
     return {
       recovery: false,
+      defaultCompany: {},
+      defaultLogo: '',
     };
   },
 
   methods: {
+    ...mapActions({
+      config: "config/appConfig",
+      peopleDefaultCompany: "people/defaultCompany",
+    }),
+
     onAuthenticated(user) {
       this.$emit("logged", user);
     },
@@ -92,24 +98,73 @@ export default {
     onSignUp() {
       this.$emit("signup");
     },
+
+    discoveryDefaultCompany() {
+      this.peopleDefaultCompany().then((response) => {
+        let data = [];
+
+        if (response.success === true && response.data) {
+          let item = response.data;
+          let logo = null;
+
+          if (item.logo !== null) {
+            logo =
+              "https://" +
+              item.logo.domain +
+              "/files/" +
+              item.logo.id +
+              "/image.png";
+          }
+
+          data.push({
+            id: item.id,
+            name: item.alias,
+            logo: logo || null,
+          });
+
+          this.defaultLogo = logo;
+        }
+        this.defaultCompany = data;
+      });
+    },
+  },
+
+  computed: {
+    ...mapGetters({
+      getPeopleDefaultCompany: "people/defaultCompany",
+    }),
+  },
+
+  created() {
+    this.discoveryDefaultCompany();
+    if (this.getPeopleDefaultCompany) {
+      this.pageLoading = false;
+    }
   },
 };
 </script>
 
-<style lang="stylus" scoped>
-.login-page
-  background-position: center    !important
-  background-repeat  : no-repeat !important
-  background-size    : cover     !important
-  padding-left       : 30px
-  padding-right      : 30px
+<style lang="scss" scoped>
+.container {
+  width: 408px;
+  align-self: center;
+}
 
-.login-form
-  width: 100%;
-  max-width: 320px;
 
-@media (max-width: $breakpoint-xs-max)
-  .login-page
-    padding-left : 20px
-    padding-right: 20px
+.login-label { 
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 30px;
+  letter-spacing: 0.15px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+@media (max-width: 500px) {
+  .container {
+    width: 300px;
+    align-self: center;
+  }
+}
 </style>
