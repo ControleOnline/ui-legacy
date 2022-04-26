@@ -15,7 +15,6 @@ import comissionInvoice from "@controleonline/quasar-financial-ui/src/store/modu
 import payInvoice from "@controleonline/quasar-financial-ui/src/store/modules/invoice/pay";
 import expense from "@controleonline/quasar-financial-ui/src/store/modules/invoice/expense";
 import support from "@controleonline/quasar-support-ui/src/store/support";
-import coupon from "@freteclick/quasar-coupon-ui/src/store/coupon";
 
 export const modules = {
   auth,
@@ -33,6 +32,5 @@ export const modules = {
   comissionInvoice,
   payInvoice,
   expense,
-  support,
-  coupon
+  support
 };

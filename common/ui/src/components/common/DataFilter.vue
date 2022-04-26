@@ -1,67 +1,62 @@
 <template>
-  <q-card class="no-border">
-    <q-card-section class="q-pa-none">
-      <div class="row">
-        <div class="col-xs-12 col-sm-6 q-pa-sm">
-          <q-input
-            stack-label
-            v-model="date.from"
-            :label="$t('dashboard.from_date')"
-            mask="##/##/####"
+  <div class="row q-py-md q-gutter-x-md container-filter" style="justify-content: right;">
+    <q-input
+      outlined
+      id="date-initial"
+      stack-label
+      class="bg-transparent margin-filter element-filter"
+      v-model="date.from"
+      :label="$t('dashboard.from_date')"
+      mask="##/##/####"
+    >
+      <template v-slot:append>
+        <q-icon name="event" class="cursor-pointer">
+          <q-popup-proxy
+            ref="qDateProxy1"
+            transition-show="scale"
+            transition-hide="scale"
           >
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy
-                  ref="qDateProxy1"
-                  transition-show="scale"
-                  transition-hide="scale"
-                >
-                  <q-date
-                    v-model="date.from"
-                    mask="DD/MM/YYYY"
-                    @input="() => $refs.qDateProxy1.hide()"
-                  />
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-        </div>
-        <div class="col-xs-12 col-sm-6 q-pa-sm">
-          <q-input
-            stack-label
-            v-model="date.to"
-            :label="$t('dashboard.to_date')"
-            mask="##/##/####"
+            <q-date
+              v-model="date.from"
+              mask="DD/MM/YYYY"
+              @input="() => $refs.qDateProxy1.hide()"
+            />
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>
+    <q-input
+      outlined
+      stack-label
+      class="bg-transparent margin-filter element-filter"
+      v-model="date.to"
+      :label="$t('dashboard.to_date')"
+      mask="##/##/####"
+    >
+      <template v-slot:append>
+        <q-icon name="event" class="cursor-pointer">
+          <q-popup-proxy
+            ref="qDateProxy2"
+            transition-show="scale"
+            transition-hide="scale"
           >
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy
-                  ref="qDateProxy2"
-                  transition-show="scale"
-                  transition-hide="scale"
-                >
-                  <q-date
-                    v-model="date.to"
-                    mask="DD/MM/YYYY"
-                    @input="() => $refs.qDateProxy2.hide()"
-                  />
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-        </div>
-      </div>
-    </q-card-section>
-    <q-card-actions v-if="showButton === true" align="center">
-      <q-btn
-        flat
-        :loading="isLoading"
-        :label="$t('dashboard.request')"
-        color="primary"
-        @click="$emit('dateChanged', date)"
-      />
-    </q-card-actions>
-  </q-card>
+            <q-date
+              v-model="date.to"
+              mask="DD/MM/YYYY"
+              @input="() => $refs.qDateProxy2.hide()"
+            />
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>
+    <q-btn
+      :loading="isLoading"
+      :label="$t('dashboard.request')"
+      class="element-filter margin-filter"
+      color="primary"
+      @click="$emit('dateChanged', date)"
+    />
+  </div>
 </template>    
 <script>
 export default {
@@ -106,12 +101,20 @@ export default {
   methods: {},
 };
 </script>
-<style scoped>
-.no-border {
-  box-shadow: none !important;
-}
-.q-pa-none {
-  padding-left: 10px !important;
-  padding-right: 10px !important;
+
+<style lang="scss" scoped>
+@media (max-width: 630px) {
+  .container-filter {
+    max-width: 100%;
+    display: inherit;
+  }
+
+  .margin-filter {
+    margin-top: 10px;
+  }
+
+  .element-filter {
+    width: 100%;
+  }
 }
 </style>
