@@ -1,16 +1,15 @@
 <template>
   <div>
     <div class="col-12">
-      <div class="row justify-end q-mb-md q-mt-md">
+      <div class="row q-mb-md">
         <q-btn
-            :loading="addLoading"
-            :disable="addDisable"
-            label="Adicionar"
-            icon="add"
-            size="md"
-            color="primary"
-            class="q-ml-sm"
-            @click="addSurvey"
+          :loading="addLoading"
+          :disable="addDisable"
+          label="Adicionar"
+          icon="add"
+          color="primary"
+          class="full-width"
+          @click="addSurvey"
         />
       </div>
     </div>
@@ -41,14 +40,15 @@
         <q-tr :props="props" :ref="'linha' + props.row.id">
           <q-td key="id" :props="props">
             <q-btn
-                outline
-                dense
-                type="a"
-                :href="'task/checklist/id/' + props.row.id + '/' + props.row.token_url"
-                target="_blank"
-                :label="`#${props.row.id}`"
-                class="full-width"
+              outline
+              dense
+              type="a"
+              :href="'task/checklist/id/' + props.row.id + '/' + props.row.token_url"
+              target="_blank"
+              icon-right="visibility"
+              class="q-mr-sm"
             />
+            #{{props.row.id}}
           </q-td>
           <q-td key="client_name" :props="props">{{ props.row.client_name }}</q-td>
           <q-td key="vehicle" :props="props">{{ props.row.vehicle }}</q-td>
@@ -191,7 +191,7 @@ export default {
           {
             name: "id",
             field: "id",
-            align: "center",
+            align: "left",
             label: "ID",
           },
           {

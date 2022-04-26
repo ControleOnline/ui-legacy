@@ -1,7 +1,6 @@
 <template>
   <div class="row">
-
-    <div class="col-12" v-for="interaction of interactions" :key="interaction.id">
+    <div class="col-12 q-mb-md" v-for="interaction of interactions" :key="interaction.id">
         <q-card :style="isMyInteraction(interaction) ? 'background: #e9e9e9' : ''">
             <q-card-section>
                 <div>

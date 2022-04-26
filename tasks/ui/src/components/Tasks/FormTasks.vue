@@ -1,5 +1,5 @@
 <template>
-  <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
+  <q-form @submit="onSubmit" ref="myForm">
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
         <q-input
@@ -114,7 +114,7 @@
     </div>
 
     <div class="row q-col-gutter-sm">
-      <div class="col-xs-12 col-sm-6">
+      <div class="col-xs-12">
         <q-input
           outlined
           stack-label
@@ -124,7 +124,7 @@
           :loading="isSearchingOrder"
           debounce="700"
           placeholder="Digite o id do pedido"
-          class="q-mb-sm"
+          class="q-my-md"
           :readonly="orderSelected !== '' || isSearchingOrder"
         >
           <template v-slot:append>

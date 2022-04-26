@@ -18,6 +18,7 @@
                 align="justify"
                 v-model="currentTab"
                 class="bg-white text-primary"
+                dense
             >
               <q-tab
                   name="summary"

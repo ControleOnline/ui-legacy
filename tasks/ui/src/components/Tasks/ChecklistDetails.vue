@@ -9,391 +9,459 @@
     </div>
     <div v-if="generalContentVisible">
       <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
-        <div class="row q-pb-lg">
-          <h5>Dados Principais - Vistoria ID: #{{ route.tasksSurveys_id }}</h5>
-          <q-separator class="clear" />
-        </div>
-        <div class="row">
-          <q-input
-            :bg-color="status.bgColor"
-            label-color="white"
-            input-style="color: white;"
-            class="res_q_imp text_width_double"
-            v-model="main_data_survey.status"
-            standout
-            label="Status"
-            tabindex="-1"
-            readonly
-          />
-          <q-input
-            class="res_q_imp"
-            borderless
-            v-model="main_data_survey.updated_at"
-            label="Data/Hora"
-            tabindex="-1"
-            readonly
-          />
-        </div>
-        <div class="row">
-          <q-input
-            class="res_q_imp text_width_double"
-            v-model="main_data_survey.customer"
-            standout
-            label="Cliente Nome"
-            tabindex="-1"
-            readonly
-          />
-          <q-input
-            class="res_q_imp text_width_double"
-            v-model="main_data_survey.customer_email"
-            standout
-            label="Email do Cliente"
-            tabindex="-1"
-            readonly
-          >
-            <template v-slot:prepend>
-              <q-icon name="mail" />
-            </template>
-          </q-input>
-        </div>
-        <div class="row">
-          <q-input
-            class="res_q_imp text_width_620px"
-            v-model="main_data_survey.vehicle_name"
-            standout
-            label="Veiculo"
-            tabindex="-1"
-            readonly
-          />
-        </div>
-        <div class="row">
-          <q-input
-            class="res_q_imp"
-            v-model="main_data_survey.vehicle_plate"
-            standout
-            label="Placa"
-            tabindex="-1"
-            readonly
-          />
-          <q-input
-            class="res_q_imp"
-            v-model="main_data_survey.vehicle_color"
-            standout
-            label="Cor"
-            tabindex="-1"
-            readonly
-          />
-        </div>
-        <div class="row">
-          <q-select
-            class="res_q_imp res_q_select"
-            outlined
-            v-model="main_data_survey.type_survey"
-            :options="options_type_survey"
-            label="Tipo Vistoria"
-            :rules="[isInvalid('type_survey')]"
-            :readonly="generalLock.readOnly"
-            :bg-color="generalLock.bgColor"
-          />
-        </div>
-        <div class="row">
-          <q-input
-            class="res_q_imp res_q_select"
-            v-model="main_data_survey.surveyor_email"
-            outlined
-            label="E-Mail Vistoriador"
-            :rules="[isInvalid('email')]"
-            @blur="onBlur('surveyor_email_inp')"
-            debounce="300"
-            @input="surveyorEmailInputChangeValue"
-            autocomplete="off"
-            :readonly="generalLock.readOnly"
-            :bg-color="generalLock.bgColor"
-          >
-            <template v-slot:prepend>
-              <q-icon name="mail" />
-            </template>
-          </q-input>
-          <q-input
-            ref="surveyor_name_inp"
-            :tabindex="tabIndexInp.surveyor_name"
-            class="res_q_imp"
-            v-model="main_data_survey.surveyor_name"
-            outlined
-            label="Nome Vistoriador"
-            :readonly="readonly.surveyor_name_inp || generalLock.readOnly"
-            @click="clickSurveyorTextField"
-            @focus="onFocus('surveyor_name_inp')"
-            :loading="loading.surveyor_name_inp"
-            autocomplete="off"
-            :rules="[isInvalid('surveyor_name')]"
-            :bg-color="generalLock.bgColor"
-          />
-        </div>
-        <div class="row">
-          <q-input
-            type="number"
-            class="res_q_imp text_width_206px"
-            v-model="main_data_survey.vehicle_km"
-            outlined
-            label="Km Odômetro"
-            suffix="Km"
-            :rules="[isInvalid('vehicle_km')]"
-            :readonly="generalLock.readOnly"
-            :bg-color="generalLock.bgColor"
-          />
-
-          <q-select
-            class="res_q_imp res_q_select"
-            outlined
-            v-model="main_data_survey.vehicle_fuel"
-            :options="fuel_options"
-            label="Combustível"            
-            :rules="[isInvalid('vehicle_fuel')]"
-            :readonly="generalLock.readOnly"
-            :bg-color="generalLock.bgColor"
-          />
-
-          <q-select
-            class="res_q_imp res_q_select"
-            outlined
-            v-model="main_data_survey.belongings_removed"
-            :options="options_no_yes"
-            label="Pertences Retirados"
-            :rules="[isInvalid('belongings_removed')]"
-            :readonly="generalLock.readOnly"
-            :bg-color="generalLock.bgColor"
-          />
-        </div>
-
-        <div class="row">
-          <q-select
-            class="res_q_imp text_width_620px"
-            outlined
-            v-model="main_data_survey.service_location.model"
-            use-input
-            use-chips
-            input-debounce="0"
-            label="Local Atendimento"
-            :options="main_data_survey.service_location.options"
-            @filter="serviceLocationFilterFn"
-            @filter-abort="serviceLocationAbortFilterFn"
-            @input="serviceLocationGetSelection"
-            :readonly="readonly.service_location_inp || generalLock.readOnly"
-            :loading="loading.service_location_inp"
-            :rules="[isInvalid('service_location')]"
-            :bg-color="generalLock.bgColor"
-          >
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey">
-                  Sem resultado
-                </q-item-section>
-              </q-item>
-            </template>
-          </q-select>
-        </div>
-        <div class="row">
-          <h5>Condições Gerais</h5>
-          <q-separator class="clear" />
-          <div
-            v-for="(field, i) in carcase_fields"
-            :key="i"
-            class="q-px-xs-none q-px-sm-lg q-pt-lg ajuste_mob_option"
-          >
-            <span :id="'carcase_fields_' + i"> {{ field.label }}</span>
-            <q-field
-              class="qfield_aqui"
-              borderless
-              dense
-              v-model="group[field.value]"
-              :rules="[isInvalidOptions('carcase_fields_' + i)]"
-              :bg-color="generalLock.bgColor"
-            >
-              <q-option-group
-                v-model="group[field.value]"
-                :options="carcase_options"
-                color="primary"
-                inline
-                :disable="generalLock.readOnly"
-                class="q-pr-sm-md"
-              />
-            </q-field>
-            <q-separator />
+        <div class="q-pb-lg">
+          <div class="row justify-center">
+            <h5 class="no-padding no-margin">Vistoria ID: #{{ route.tasksSurveys_id }}</h5>
           </div>
         </div>
-        <div class="row">
-          <h5>Rodas</h5>
-          <q-separator class="clear" />
-          <div
-            v-for="(field, i) in wheels_fields"
-            :key="i"
-            class="q-px-xs-none q-px-sm-lg q-pt-lg ajuste_mob_option"
+
+        <q-list bordered class="rounded-borders">
+          <q-expansion-item
+            expand-separator
+            group="somegroup"
+            default-opened
           >
-            <span :id="'wheels_fields_' + i"> {{ field.label }}</span>
-            <q-field
-              class="qfield_aqui"
-              borderless
-              dense
-              v-model="group[field.value]"
-              :rules="[isInvalidOptions('wheels_fields_' + i)]"
-              :bg-color="generalLock.bgColor"
-            >
-              <q-option-group
-                required
-                v-model="group[field.value]"
-                :options="wheels_options"
-                color="primary"
-                inline
-                :disable="generalLock.readOnly"
-                class="q-pr-sm-md"
-              />
-            </q-field>
-            <q-separator />
-          </div>
-        </div>
-        <div class="row">
-          <h5>Acessórios</h5>
-          <q-separator class="clear" />
-          <div
-            v-for="(field, i) in accessories_fields"
-            :key="i"
-            class="q-px-xs-none q-px-sm-lg q-pt-lg ajuste_mob_option"
+            <template v-slot:header >
+              <q-item-section avatar class="avatar_margin">
+                <q-avatar icon="source" size="48px"/>
+              </q-item-section>
+              <q-item-section>
+                Dados Principais
+              </q-item-section>
+              <q-item-section side>
+                <div class="row items-center">
+                  <q-badge :color="status.bgColor" class="text-subtitle1 q-mr-md">
+                    {{main_data_survey.status}}
+                  </q-badge>
+                </div>
+              </q-item-section>
+            </template>
+
+            <div class="row q-px-md q-pt-md q-col-gutter-md">
+              <div class="col-12 text-center" v-if="main_data_survey.updated_at">
+                {{main_data_survey.updated_at}}
+              </div>
+              <div class="col-sm-6 col-12">
+                <q-input
+                  class="full-width"
+                  v-model="main_data_survey.customer"
+                  standout
+                  label="Cliente Nome"
+                  tabindex="-1"
+                  readonly
+                />
+              </div>
+              <div class="col-sm-6 col-12">
+                <q-input
+                  class="full-width"
+                  v-model="main_data_survey.customer_email"
+                  standout
+                  label="Email do Cliente"
+                  tabindex="-1"
+                  readonly
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="mail" />
+                  </template>
+                </q-input>
+              </div>
+            </div>
+
+            <div class="row q-pa-md q-col-gutter-md">
+              <div class="col-sm-4 col-12">
+                <q-input
+                  class="full-width"
+                  v-model="main_data_survey.vehicle_name"
+                  standout
+                  label="Veiculo"
+                  tabindex="-1"
+                  readonly
+                />
+              </div>
+              <div class="col-sm-4 col-12">
+                <q-input
+                  class="full-width"
+                  v-model="main_data_survey.vehicle_plate"
+                  standout
+                  label="Placa"
+                  tabindex="-1"
+                  readonly
+                />
+              </div>
+              <div class="col-sm-4 col-12">
+                <q-input
+                  class="full-width"
+                  v-model="main_data_survey.vehicle_color"
+                  standout
+                  label="Cor"
+                  tabindex="-1"
+                  readonly
+                />
+              </div>
+
+            </div>
+
+            <div class="row q-pa-md q-col-gutter-md">
+              <div class="col-sm-4 col-12">
+                <q-select
+                  class="full-width"
+                  outlined
+                  v-model="main_data_survey.type_survey"
+                  :options="options_type_survey"
+                  label="Tipo Vistoria"
+                  :rules="[isInvalid('type_survey')]"
+                  :readonly="generalLock.readOnly"
+                  :bg-color="generalLock.bgColor"
+                />
+              </div>
+
+              <div class="col-sm-4 col-12">
+                <q-input
+                  class="full-width"
+                  v-model="main_data_survey.surveyor_email"
+                  outlined
+                  label="E-Mail Vistoriador"
+                  :rules="[isInvalid('email')]"
+                  @blur="onBlur('surveyor_email_inp')"
+                  debounce="300"
+                  @input="surveyorEmailInputChangeValue"
+                  autocomplete="off"
+                  :readonly="generalLock.readOnly"
+                  :bg-color="generalLock.bgColor"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="mail" />
+                  </template>
+                </q-input>
+              </div>
+
+              <div class="col-sm-4 col-12">
+                <q-input
+                  ref="surveyor_name_inp"
+                  :tabindex="tabIndexInp.surveyor_name"
+                  class="full-width"
+                  v-model="main_data_survey.surveyor_name"
+                  outlined
+                  label="Nome Vistoriador"
+                  :readonly="readonly.surveyor_name_inp || generalLock.readOnly"
+                  @click="clickSurveyorTextField"
+                  @focus="onFocus('surveyor_name_inp')"
+                  :loading="loading.surveyor_name_inp"
+                  autocomplete="off"
+                  :rules="[isInvalid('surveyor_name')]"
+                  :bg-color="generalLock.bgColor"
+                />
+              </div>
+            </div>
+
+            <div class="row q-px-md q-pb-md q-col-gutter-md">
+              <div class="col-sm-4 col-12">
+                <q-input
+                  type="number"
+                  class="full-width"
+                  v-model="main_data_survey.vehicle_km"
+                  outlined
+                  label="Km Odômetro"
+                  suffix="Km"
+                  :rules="[isInvalid('vehicle_km')]"
+                  :readonly="generalLock.readOnly"
+                  :bg-color="generalLock.bgColor"
+                />
+              </div>
+              <div class="col-sm-4 col-12">
+                <q-select
+                  class="full-width"
+                  outlined
+                  v-model="main_data_survey.vehicle_fuel"
+                  :options="fuel_options"
+                  label="Combustível"            
+                  :rules="[isInvalid('vehicle_fuel')]"
+                  :readonly="generalLock.readOnly"
+                  :bg-color="generalLock.bgColor"
+                />
+              </div>
+              <div class="col-sm-4 col-12">
+                <q-select
+                  class="full-width"
+                  outlined
+                  v-model="main_data_survey.belongings_removed"
+                  :options="options_no_yes"
+                  label="Pertences Retirados"
+                  :rules="[isInvalid('belongings_removed')]"
+                  :readonly="generalLock.readOnly"
+                  :bg-color="generalLock.bgColor"
+                />
+              </div>
+            </div>
+
+
+            <div class="row q-px-md q-pb-md q-col-gutter-md">
+              <div class="col-12">
+                <q-select
+                  class="full-width"
+                  outlined
+                  v-model="main_data_survey.service_location.model"
+                  use-input
+                  use-chips
+                  input-debounce="0"
+                  label="Local Atendimento"
+                  :options="main_data_survey.service_location.options"
+                  @filter="serviceLocationFilterFn"
+                  @filter-abort="serviceLocationAbortFilterFn"
+                  @input="serviceLocationGetSelection"
+                  :readonly="readonly.service_location_inp || generalLock.readOnly"
+                  :loading="loading.service_location_inp"
+                  :rules="[isInvalid('service_location')]"
+                  :bg-color="generalLock.bgColor"
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey">
+                        Sem resultado
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+              </div>
+            </div>
+
+          </q-expansion-item>
+
+          <q-expansion-item
+            expand-separator
+            icon="verified"
+            group="somegroup"
+            label="Condições Gerais"
           >
-            <span :id="'accessories_fields_' + i"> {{ field.label }}</span>
-            <q-field
-              class="qfield_aqui"
-              borderless
-              dense
-              v-model="group[field.value]"
-              :rules="[isInvalidOptions('accessories_fields_' + i)]"
-              :bg-color="generalLock.bgColor"
-            >
-              <q-option-group
-                required
-                v-model="group[field.value]"
-                :options="accessories_options"
-                color="primary"
-                inline
-                :disable="generalLock.readOnly"
-                class="q-pr-sm-md"
-              />
-            </q-field>
-            <q-separator />
-          </div>
-        </div>
-        <div class="row">
-          <h5>Fotos</h5>
-          <q-separator class="clear" />
-          <template>
-            <div class="q-pa-sm-md q-pt-sm-lg q-pb-sm-none">
-              <q-uploader
-                ref="qup"
-                field-name="file"
-                label="Selecione JPG ou PNG fotos"
-                auto-upload
-                :url="qUpUrlUpload"
-                multiple
-                square
+            <div class="row">
+              <div
+                v-for="(field, i) in carcase_fields"
+                :key="i"
+                class="col-sm-4 col-12 text-center"
+              >
+                <span :id="'carcase_fields_' + i" class="text-bold"> {{ field.label }}</span>
+                <q-field
+                  borderless
+                  dense
+                  v-model="group[field.value]"
+                  :rules="[isInvalidOptions('carcase_fields_' + i)]"
+                  :bg-color="generalLock.bgColor"
+                >
+                  <q-option-group
+                    v-model="group[field.value]"
+                    :options="carcase_options"
+                    inline
+                    :disable="generalLock.readOnly"
+                    class="full-width text-center q-pr-sm"
+                  />
+                </q-field>
+                <q-separator />
+              </div>
+            </div>
+          </q-expansion-item>
+
+          <q-expansion-item
+            expand-separator
+            icon="drive_eta"
+            label="Rodas"
+            group="somegroup"
+          >
+            <div class="row">
+              <div
+                v-for="(field, i) in wheels_fields"
+                :key="i"
+                class="col-sm-4 col-12 text-center"
+              >
+                <span :id="'wheels_fields_' + i" class="text-bold"> {{ field.label }}</span>
+                <q-field
+                  class="qfield_aqui"
+                  borderless
+                  dense
+                  v-model="group[field.value]"
+                  :rules="[isInvalidOptions('wheels_fields_' + i)]"
+                  :bg-color="generalLock.bgColor"
+                >
+                  <q-option-group
+                    required
+                    v-model="group[field.value]"
+                    :options="wheels_options"
+                    inline
+                    :disable="generalLock.readOnly"
+                    class="full-width text-center q-pr-sm"
+                  />
+                </q-field>
+                <q-separator />
+              </div>
+            </div>
+
+
+          </q-expansion-item>
+
+          <q-expansion-item
+            expand-separator
+            icon="tungsten"
+            label="Acessórios"
+            group="somegroup"
+          >
+            <div class="row">
+              <div
+                v-for="(field, i) in accessories_fields"
+                :key="i"
+                class="col-sm-3 col-12 text-center"
+
+              >
+                <span :id="'accessories_fields_' + i" class="text-bold"> {{ field.label }}</span>
+                <q-field
+                  class="qfield_aqui"
+                  borderless
+                  dense
+                  v-model="group[field.value]"
+                  :rules="[isInvalidOptions('accessories_fields_' + i)]"
+                  :bg-color="generalLock.bgColor"
+                >
+                  <q-option-group
+                    required
+                    v-model="group[field.value]"
+                    :options="accessories_options"
+                    color="primary"
+                    inline
+                    :disable="generalLock.readOnly"
+                    class="full-width text-center q-pr-sm"
+                  />
+                </q-field>
+                <q-separator />
+              </div>
+            </div>
+          </q-expansion-item>
+
+          <q-expansion-item
+            expand-separator
+            icon="image"
+            label="Fotos"
+            group="somegroup"
+          >
+            <div class="row">
+              <template>
+                <div class="q-pa-sm-md q-pt-sm-lg q-pb-sm-none">
+                  <q-uploader
+                    ref="qup"
+                    field-name="file"
+                    label="Selecione JPG ou PNG fotos"
+                    auto-upload
+                    :url="qUpUrlUpload"
+                    multiple
+                    square
+                    flat
+                    accept="image/jpeg,image/png"
+                    @finish="qUpFinishUploadAll"
+                    @uploaded="qUploaded"
+                    @added="qUpAddFiles"
+                    @rejected="qUpRejected"
+                    :disable="generalLock.readOnly"
+                  />
+                </div>
+              </template>
+            </div>
+
+            <div class="row q-ml-sm-md" style="position: relative">
+              <q-card
+                v-for="(field, i) in photoGallery"
+                :key="i"
                 flat
-                accept="image/jpeg,image/png"
-                @finish="qUpFinishUploadAll"
-                @uploaded="qUploaded"
-                @added="qUpAddFiles"
-                @rejected="qUpRejected"
+                bordered
+                class="my-card q-ml-sm-sm q-mb-lg"
+              >
+                <q-card-section>
+                  <div>
+                    <q-select
+                      v-model="galleryModels.region['photoId' + field.id]"
+                      :options="region"
+                      label="Região"
+                      :outlined="generalLock.readOnly"
+                      :rules="[isInvalid('service_location')]"
+                      :readonly="generalLock.readOnly"
+                      :bg-color="generalLock.bgColor"
+                    />
+                  </div>
+                </q-card-section>
+                <q-img
+                  style="cursor: pointer"
+                  :src="field.path_thumb"
+                  :ratio="4 / 3"
+                  @click="openModalViewPhoto(field.path_real_size, field.id)"
+                />
+                <q-card-section>
+                  <div>
+                    <q-select
+                      v-model="galleryModels.breakdown['photoId' + field.id]"
+                      :options="breakdown"
+                      label="Avaria"
+                      :outlined="generalLock.readOnly"
+                      :rules="[isInvalid('service_location')]"
+                      :readonly="generalLock.readOnly"
+                      :bg-color="generalLock.bgColor"
+                    />
+                  </div>
+                </q-card-section>
+              </q-card>
+
+              <q-inner-loading :showing="loading.galerry">
+                <q-spinner-gears size="120px" color="blue-grey-6" />
+              </q-inner-loading>
+            </div>
+
+          </q-expansion-item>
+
+          <q-expansion-item
+            expand-separator
+            icon="info"
+            label="Observações"
+            group="somegroup"
+          >
+            <div class="row q-pa-md">
+              <h6 class="no-margin">Observações</h6>
+              <textarea
+                v-model="main_data_survey.comments"
+                class="full-width my_text_area"
+                rows="10"
+                v-bind:style="
+                  generalLock.readOnly
+                    ? 'background-color: #ECEFF1;padding: 7px;'
+                    : 'padding: 7px;'
+                "
+                :readonly="generalLock.readOnly"
+              >
+              </textarea>
+            </div>
+            <div class="row q-pa-md">
+              <q-checkbox
+                class="q-py-lg"
+                v-model="group.dirty"
+                label="Veículo muito sujo, sem condições de apuração detalhada da lataria, não nos responsabilizamos por arranhões que venham a ser identificados após a lavagem."
                 :disable="generalLock.readOnly"
               />
             </div>
-          </template>
-        </div>
+          </q-expansion-item>
 
-        <div class="row q-ml-sm-md" style="position: relative">
-          <q-card
-            v-for="(field, i) in photoGallery"
-            :key="i"
-            flat
-            bordered
-            class="my-card q-ml-sm-sm q-mb-lg"
-          >
-            <q-card-section>
-              <div>
-                <q-select
-                  v-model="galleryModels.region['photoId' + field.id]"
-                  :options="region"
-                  label="Região"
-                  :outlined="generalLock.readOnly"
-                  :rules="[isInvalid('service_location')]"
-                  :readonly="generalLock.readOnly"
-                  :bg-color="generalLock.bgColor"
-                />
-              </div>
-            </q-card-section>
-            <q-img
-              style="cursor: pointer"
-              :src="field.path_thumb"
-              :ratio="4 / 3"
-              @click="openModalViewPhoto(field.path_real_size, field.id)"
-            />
-            <q-card-section>
-              <div>
-                <q-select
-                  v-model="galleryModels.breakdown['photoId' + field.id]"
-                  :options="breakdown"
-                  label="Avaria"
-                  :outlined="generalLock.readOnly"
-                  :rules="[isInvalid('service_location')]"
-                  :readonly="generalLock.readOnly"
-                  :bg-color="generalLock.bgColor"
-                />
-              </div>
-            </q-card-section>
-          </q-card>
-
-          <q-inner-loading :showing="loading.galerry">
-            <q-spinner-gears size="120px" color="blue-grey-6" />
-          </q-inner-loading>
+        </q-list>
+        
+        <div class="q-pa-md">
+          A empresa não se responsabiliza pelos seguintes defeitos do veículo:
+          Descarga da bateria, total ou parcial, queima de farol, luzes ou
+          celibim, ou qualquer mal funcionamento do motor, vazamento do
+          radiador, mangueiras ou correias arrebentadas, caixa escapando,
+          disco platinado, objetos de valor, dinheiro, jóias, armas e
+          documentos sob hipótese alguma.
         </div>
 
         <div class="row">
-          <h5>Observações</h5>
-          <q-separator class="clear" />
-          <textarea
-            v-model="main_data_survey.comments"
-            class="full-width my_text_area"
-            rows="10"
-            v-bind:style="
-              generalLock.readOnly
-                ? 'background-color: #ECEFF1;padding: 7px;'
-                : 'padding: 7px;'
-            "
-            :readonly="generalLock.readOnly"
-          >
-          </textarea>
-        </div>
-        <div class="row">
-          <q-checkbox
-            class="q-py-lg"
-            v-model="group.dirty"
-            label="Veículo muito sujo, sem condições de apuração detalhada da lataria, não nos responsabilizamos por arranhões que venham a ser identificados após a lavagem."
-            :disable="generalLock.readOnly"
-          />
-          <span>
-            A empresa não se responsabiliza pelos seguintes defeitos do veículo:
-            Descarga da bateria, total ou parcial, queima de farol, luzes ou
-            celibim, ou qualquer mal funcionamento do motor, vazamento do
-            radiador, mangueiras ou correias arrebentadas, caixa escapando,
-            disco platinado, objetos de valor, dinheiro, jóias, armas e
-            documentos sob hipótese alguma.
-          </span>
-        </div>
-        <div class="row justify-end">
           <q-btn
             type="submit"
             icon="save"
             label="Salvar"
             size="md"
             color="primary"
-            class="q-mt-md"
+            class="q-mt-md full-width"
             :loading="loading.btn_save"
             :disable="generalLock.readOnly"
           />
@@ -1595,6 +1663,18 @@ export default {
     this.$q.loading.show();
   },
   mounted() {
+    // this.carcase_options[0].color = "green";
+    // this.carcase_options[1].color = "yellow";
+    // this.carcase_options[2].color = "red";
+
+    // this.wheels_options[0].color = "green";
+    // this.wheels_options[1].color = "yellow";
+    // this.wheels_options[2].color = "red";
+    // this.wheels_options[3].color = "grey";
+
+    // this.accessories_options[0].color = "green";
+    // this.accessories_options[1].color = "red";
+
     if (!this.intervalo && !this.storage.defaultCompanyId) {
       this.intervalo = setInterval(() => {
         if (this.defaultCompany !== null) {
@@ -1614,9 +1694,8 @@ export default {
 </script>
 
 <style>
-.qfield_aqui .q-field__bottom {
-  font-size: 15px !important;
-  padding-top: 0;
+.avatar_margin {
+  margin-left: -10px !important;
 }
 </style>
 
@@ -1634,54 +1713,10 @@ export default {
   flex-direction: column;
 }
 
-.clear {
-  clear: both;
-  width: 100%;
-}
-
-h5 {
-  margin: 0;
-  margin-top: 50px;
-  font-weight: 500;
-}
-
-.res_q_imp {
-  padding-right: 24px;
-  padding-bottom: 24px;
-}
-
-.res_q_select {
-  width: 413.68px;
-}
-
-.text_width_206px {
-  width: 206.84px;
-}
-
-.text_width_620px {
-  width: 620px;
-}
-
-.text_width_double {
-  width: 310px;
-}
-
-/* XS -> Extra Small */
 @media (max-width: 599px) {
-  .ajuste_mob_option {
-    width: 100% !important;
-  }
-
   .my-card {
     max-width: unset;
   }
 }
 
-/* SM -> Small devices (landscape phones, less than 768px) */
-@media (max-width: 767.98px) {
-  .res_q_imp {
-    width: 100%;
-    padding-right: unset;
-  }
-}
 </style>
