@@ -485,12 +485,12 @@ export default {
     },
     hasSchedule(other_informations) {
       let has = false;
-      if (other_informations) {
-        other_informations.forEach((information) => {
-          if (information.schedule && information.schedule.retrieve) {
-            has = true;
-          }
-        });
+      if (
+        other_informations &&
+        other_informations.schedule &&
+        other_informations.schedule.retrieve
+      ) {
+        has = true;
       }
       return has;
     },
