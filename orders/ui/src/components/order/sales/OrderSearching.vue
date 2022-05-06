@@ -73,6 +73,12 @@
           <q-icon v-else name="electrical_services" color="green" />
 
           <q-icon
+            v-if="hasSchedule(props.row.other_informations) == true"
+            name="schedule"
+            color="blue"
+          />
+
+          <q-icon
             v-if="hasClosedTasks(props.row.task) == true"
             name="priority_high"
             color="green"
@@ -359,6 +365,7 @@ export default {
           status: item.orderStatus.status,
           color_status: item.orderStatus.color,
           task: item.task,
+          other_informations: item.otherInformations,
           fornecedor: item.client ? item.client.alias : null,
           coleta: item.retrievePeople !== null ? item.retrievePeople.name : "",
           localColeta:
@@ -471,6 +478,15 @@ export default {
       let has = false;
       tasks.forEach((task) => {
         if (task.taskStatus.match(/^\/task_statuses\/([a-z0-9-]*)$/)[1] == 2) {
+          has = true;
+        }
+      });
+      return has;
+    },
+    hasSchedule(other_informations) {
+      let has = false;
+      other_informations.forEach((information) => {
+        if (information.schedule && information.schedule.retrieve) {
           has = true;
         }
       });
