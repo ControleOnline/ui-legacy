@@ -207,6 +207,25 @@
                     }}
                   </td>
                 </tr>
+                <tr
+                  v-if="
+                    other_informations &&
+                    other_informations.schedule &&
+                    other_informations.schedule.retrieve
+                  "
+                >
+                  <td class="text-left text-bold text-red">
+                    Agendamento de Coleta
+                  </td>
+                  <td class="text-left text-bold text-red">
+                    {{
+                      this.formatDate(
+                        this.other_informations.schedule.retrieve,
+                        "DD/MM/YYYY"
+                      )
+                    }}
+                  </td>
+                </tr>
                 <tr>
                   <td class="text-left text-bold">Última alteração</td>
                   <td class="text-left">
@@ -436,6 +455,7 @@ export default {
       clientInvoiceTax: null,
       orderDate: null,
       alterDate: null,
+      other_informations: null,
       invoiceTax: null,
       carrier: null,
       app: null,
@@ -729,6 +749,7 @@ export default {
             this.realPecentage = data.realPecentage;
             this.orderDate = data.orderDate;
             this.alterDate = data.alterDate;
+            this.other_informations = data.other_informations;
             this.carrier = data.carrier;
             this.app = data.app;
             this.total_packages = data.total_packages;
