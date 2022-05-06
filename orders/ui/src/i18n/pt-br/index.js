@@ -13,7 +13,7 @@ export const translate = {
       'analysis': 'Em análise',
       'waiting payment': 'Aguardando pagamento',
       'waiting retrieve': 'Aguardando coleta',
-      'on the way': 'Em viagem',
+      'on the way': 'Pátio',
       'waiting invoice tax': 'Aguardando fatura',
       'delivered': 'Entregue',
       'waiting billing': 'Gerando NF',
