@@ -398,7 +398,6 @@ export default {
       });
     },
     callAjaxAddNewSurvey(taskId) {
-
       axios({
         url: ENTRYPOINT + `/tasks_surveys/${taskId}/surveys?timestamp=${new Date().getTime()}`,
         method: 'POST',
@@ -417,7 +416,6 @@ export default {
         }
 
         this.addLoading = false;
-
       });
 
     },

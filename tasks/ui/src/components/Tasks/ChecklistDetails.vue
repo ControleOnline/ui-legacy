@@ -33,6 +33,9 @@
                   <q-badge :color="status.bgColor" class="text-subtitle1 q-mr-md">
                     {{main_data_survey.status}}
                   </q-badge>
+                  <q-badge v-if="!verifyAllFields('main_data')" color="red" class="text-subtitle1 q-mr-md">
+                    Campos vazios
+                  </q-badge>
                 </div>
               </q-item-section>
             </template>
@@ -98,7 +101,6 @@
                   readonly
                 />
               </div>
-
             </div>
 
             <div class="row q-pa-md q-col-gutter-md">
@@ -233,6 +235,22 @@
             group="somegroup"
             label="Condições Gerais"
           >
+            <template v-slot:header >
+              <q-item-section avatar class="avatar_margin">
+                <q-avatar icon="source" size="48px"/>
+              </q-item-section>
+              <q-item-section>
+                Condições Gerais
+              </q-item-section>
+              <q-item-section side>
+                <div class="row items-center">
+                  <q-badge v-if="!verifyAllFields('general_conditions')" color="red" class="text-subtitle1 q-mr-md">
+                    Campos vazios
+                  </q-badge>
+                </div>
+              </q-item-section>
+            </template>
+
             <div class="row">
               <div
                 v-for="(field, i) in carcase_fields"
@@ -266,6 +284,22 @@
             label="Rodas"
             group="somegroup"
           >
+            <template v-slot:header >
+              <q-item-section avatar class="avatar_margin">
+                <q-avatar icon="source" size="48px"/>
+              </q-item-section>
+              <q-item-section>
+                Rodas
+              </q-item-section>
+              <q-item-section side>
+                <div class="row items-center">
+                  <q-badge v-if="!verifyAllFields('wheels')" color="red" class="text-subtitle1 q-mr-md">
+                    Campos vazios
+                  </q-badge>
+                </div>
+              </q-item-section>
+            </template>
+
             <div class="row">
               <div
                 v-for="(field, i) in wheels_fields"
@@ -303,6 +337,21 @@
             label="Acessórios"
             group="somegroup"
           >
+            <template v-slot:header >
+              <q-item-section avatar class="avatar_margin">
+                <q-avatar icon="source" size="48px"/>
+              </q-item-section>
+              <q-item-section>
+                Acessórios
+              </q-item-section>
+              <q-item-section side>
+                <div class="row items-center">
+                  <q-badge v-if="!verifyAllFields('accessories')" color="red" class="text-subtitle1 q-mr-md">
+                    Campos vazios
+                  </q-badge>
+                </div>
+              </q-item-section>
+            </template>
             <div class="row">
               <div
                 v-for="(field, i) in accessories_fields"
@@ -894,6 +943,14 @@ export default {
     ...mapGetters({
       defaultCompany: "people/defaultCompany",
     }),
+    contextField() {
+      return {
+        main_data: [],
+        general_conditions: [],
+        wheels: [],
+        accessories: [],
+      };
+    },
   },
   watch: {
     deep: true,
@@ -909,6 +966,59 @@ export default {
     },
   },
   methods: {
+    verifyAllFields(context) {
+      switch (context) {
+        case 'main_data':
+          return this.main_data_survey.type_survey
+            && this.main_data_survey.surveyor_email
+            && this.main_data_survey.surveyor_name
+            && this.main_data_survey.vehicle_km
+            && this.main_data_survey.belongings_removed
+            && this.main_data_survey.service_location.model
+          break;
+        case 'general_conditions':
+          return this.group.paint
+            && this.group.lining
+            && this.group.tapestry
+          break;
+        case 'wheels':
+          return this.group.left_front_tire
+            && this.group.right_front_tire
+            && this.group.left_rear_tire
+            && this.group.right_rear_tire
+            && this.group.spare
+          break;
+        case 'accessories':
+          return this.group.cigarette_lighter
+            && this.group.air_conditioning
+            && this.group.common_antenna
+            && this.group.horn
+            && this.group.seat_belt
+            && this.group.carpets
+            && this.group.battery
+            && this.group.speaker
+            && this.group.hubcap
+            && this.group.hitch
+            && this.group.auxiliary_headlight
+            && this.group.common_wheel
+            && this.group.special_wheel
+            && this.group.radio_cd
+            && this.group.radio_fm
+            && this.group.document
+            && this.group.manual
+            && this.group.keys
+            && this.group.extra_key
+            && this.group.back_cap
+            && this.group.extinguisher
+            && this.group.triangle
+            && this.group.jack
+            && this.group.tire_iron
+            && this.group.screwdriver
+          break;
+        default:
+          break;
+      }
+    },
     addEventClickOnlyLockCondition() {
       // No bloqueio, adiciona evento de click aos campos de edição para alerta de falha
 

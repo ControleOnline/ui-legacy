@@ -1,14 +1,12 @@
 <template>
     <q-card>
-        <q-card-actions>
-            <div class="row" style="width: 100%">
-                <div class="col-12">
+        <q-card-actions class="row">
+            <div class="col-12">
+                <div>
                     <q-input 
                         v-model ="message"
-                        style   ="width: 100%"
                         type    ="textarea"
                         :loading="isSaving"
-                        
                     >
                         <template v-slot:append>
                             <q-btn round flat @click="sendAttachment">

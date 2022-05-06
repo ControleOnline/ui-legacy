@@ -114,30 +114,68 @@
     </div>
 
     <div class="row q-col-gutter-sm">
-      <div class="col-xs-12">
-        <q-input
-          outlined
-          stack-label
-          v-model="searchOrder"
-          type="text"
-          label="Definir Pedido"
-          :loading="isSearchingOrder"
-          debounce="700"
-          placeholder="Digite o id do pedido"
-          class="q-my-md"
-          :readonly="orderSelected !== '' || isSearchingOrder"
-        >
-          <template v-slot:append>
+      <div class="col-xs-12 col-md-6 flex items-center">
+        <div class="row items-center full-width q-col-gutter-sm">
+          <div class="col-auto q-pl-none">
             <q-btn
-              round
               flat
-              v-if="orderSelected !== ''"
-              @click="removeOrderClick()"
+              class="bg-primary q-py-sm"
+              color="white"
+              icon="north_west"
+              @click="goContract()"
             >
-              <q-icon name="close" />
+              <q-tooltip>Ver contrato</q-tooltip>
             </q-btn>
-          </template>
-        </q-input>
+          </div>
+          <div class="col">
+            <q-input
+              v-model="taskData.order.contract.id"
+              label="Definir Contrato"
+              class="q-my-md"
+              outlined
+              prefix="#"
+              disable
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6 flex items-center">
+        <div class="row items-center full-width q-col-gutter-sm">
+          <div class="col-auto q-pl-none">
+            <q-btn
+              flat
+              class="bg-primary q-py-sm"
+              color="white"
+              icon="north_west"
+              @click="goOrder()"
+            >
+              <q-tooltip>Ver pedido</q-tooltip>
+            </q-btn>
+          </div>
+          <div class="col">
+            <q-select
+              v-model="searchOrder"
+              :options="searchOrder"
+              :loading="isSearchingOrder"
+              label="Definir Pedido"
+              class="q-my-md"
+              outlined
+              placeholder="Digite o id do pedido"
+              :disabled="!editTask"
+            />
+          </div>
+          <div class="col-auto q-pr-none">
+            <q-btn
+              flat
+              class="q-py-sm"
+              color="primary"
+              :icon="editTask ? 'cancel' : 'edit'"
+              @click="editTask = !editTask"
+            >
+              <q-tooltip>Editar</q-tooltip>
+            </q-btn>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -157,7 +195,7 @@
     </div>
 
     <div class="row justify-end q-mt-lg">
-      <q-btn type="submit" color="primary" label="Salvar" :loading="isSaving" />
+      <q-btn class="col-xs-12 col-md-2" type="submit" color="primary" label="Salvar" :loading="isSaving" />
     </div>
   </q-form>
 </template>
@@ -206,6 +244,7 @@ export default {
 
   data() {
     return {
+      editTask: false,
       searchTaskFor: "",
       timeSearch: "",
       taskForSelected: "",
@@ -366,6 +405,14 @@ export default {
     ...mapActions({
       search: "people/searchPeople",
     }),
+
+    goContract() {
+      this.$router.push({ name: 'ContractDetails', params: { id: this.taskData.order.contract.id }})
+    },
+
+    goOrder() {
+      this.$router.push({ name: 'OrderDetails', params: { id: this.item.order }})
+    },
 
     removeDueDateClick() {
       this.item.dueDate = "";
