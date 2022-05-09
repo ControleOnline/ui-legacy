@@ -215,7 +215,7 @@
                   "
                 >
                   <td class="text-left text-bold text-red">
-                    Agendamento de Coleta
+                    Retirada à partir de
                   </td>
                   <td class="text-left text-bold text-red">
                     {{
