@@ -1,6 +1,13 @@
 <template>
   <div>
-    <q-card v-if="contract !== null" class="q-pa-md q-mb-sm">
+    <div v-if="!contract" class="q-pa-md">
+      <div class="q-gutter-y-md">
+        <q-skeleton bordered />
+        <q-skeleton bordered square />
+      </div>
+    </div>
+
+    <q-card v-else-if="contract !== null" class="q-pa-md q-mb-sm">
       <div class="row">
         <div class="col-xs-12 col-sm-3">
           <div :class="statusStyle">
@@ -45,8 +52,8 @@
       </q-stepper>
     </div>
 
-    <q-card
-      v-else
+    <!-- <q-card
+      v-else-if="!contract"
       class="row items-center justify-center"
       style="min-height: 90vh"
     >
@@ -56,7 +63,7 @@
         </template>
         {{ $t("Contrato não encontrado") }}
       </q-banner>
-    </q-card>
+    </q-card> -->
   </div>
 </template>
 
