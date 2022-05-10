@@ -115,7 +115,10 @@
 
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-md-6 flex items-center">
-        <div class="row items-center full-width q-col-gutter-sm">
+        <div
+          v-if="taskData.order.contract"
+          class="row items-center full-width q-col-gutter-sm"
+        >
           <div class="col-auto q-pl-none">
             <q-btn
               flat
@@ -195,7 +198,13 @@
     </div>
 
     <div class="row justify-end q-mt-lg">
-      <q-btn class="col-xs-12 col-md-2" type="submit" color="primary" label="Salvar" :loading="isSaving" />
+      <q-btn
+        class="col-xs-12 col-md-2"
+        type="submit"
+        color="primary"
+        label="Salvar"
+        :loading="isSaving"
+      />
     </div>
   </q-form>
 </template>
@@ -379,7 +388,6 @@ export default {
         this.categoryArray = itens;
       }
     },
-    
 
     searchOrder: function (search) {
       if (this.orderSelected === "") {
@@ -407,11 +415,17 @@ export default {
     }),
 
     goContract() {
-      this.$router.push({ name: 'ContractDetails', params: { id: this.taskData.order.contract.id }})
+      this.$router.push({
+        name: "ContractDetails",
+        params: { id: this.taskData.order.contract.id },
+      });
     },
 
     goOrder() {
-      this.$router.push({ name: 'OrderDetails', params: { id: this.item.order }})
+      this.$router.push({
+        name: "OrderDetails",
+        params: { id: this.item.order },
+      });
     },
 
     removeDueDateClick() {
@@ -516,7 +530,7 @@ export default {
       this.timeSearch = "";
 
       if (search) {
-        switch (fromField) {          
+        switch (fromField) {
           case "order":
             this.isSearchingOrder = true;
             break;
@@ -543,7 +557,6 @@ export default {
 
         var reset = () => {
           switch (fromField) {
-            
             case "order":
               this.searchOrder = "";
               break;
@@ -574,9 +587,8 @@ export default {
               reset();
             }
 
-
-
-            this.isSearchingOrder = false;          })
+            this.isSearchingOrder = false;
+          })
           .catch((e) => {
             this.$q.notify({
               message: "Não foi possível encontrar...",
@@ -585,8 +597,6 @@ export default {
             });
 
             reset();
-
-  
 
             this.isSearchingOrder = false;
           });
