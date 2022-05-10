@@ -214,7 +214,7 @@ export default {
   data() {
     return {
       confirm: false,
-      currentTab: "invoice",
+      currentTab: "orders",
       invoiceId: null,
       orderId: null,
       invoice: null,
