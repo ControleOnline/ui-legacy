@@ -116,7 +116,7 @@
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-md-6 flex items-center">
         <div
-          v-if="taskData.order && taskData.order.contract"
+          v-if="taskData && taskData.order && taskData.order.contract"
           class="row items-center full-width q-col-gutter-sm"
         >
           <div class="col-auto q-pl-none">
