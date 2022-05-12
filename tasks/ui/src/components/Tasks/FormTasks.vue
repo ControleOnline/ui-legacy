@@ -132,7 +132,7 @@
           </div>
           <div class="col">
             <q-input
-              v-model="taskData.order.contract.id"
+              v-model="item.id"
               label="Definir Contrato"
               class="q-my-md"
               outlined
