@@ -2,8 +2,6 @@
   <div class="container text-center q-gutter-y-xl">
     <q-img 
       :src="defaultLogo"
-      width="220px"
-      height="97.78px"
     />
 
     <q-card class="q-px-lg">
