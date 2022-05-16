@@ -35,10 +35,17 @@
               :loading="isUpdating"
             />
             <q-btn
-              v-else
+              v-if="orderStatus.realStatus != 'canceled'"
               color="positive"
               label="Gerar Reentrega"
               @click="remakeRoute"
+              :loading="isUpdating"
+            />
+            <q-btn
+              v-if="orderStatus.realStatus != 'canceled'"
+              color="warning"
+              label="Gerar Devolução"
+              @click="devolutionQuote"
               :loading="isUpdating"
             />
             <q-btn
@@ -743,9 +750,10 @@ export default {
     },
     devolutionQuote() {
       this.isUpdating = true;
-      this.quoteDetails.quote_type = "devolution";
+      let details = Object.assign(this.quoteDetails);
+      details.quote_type = "devolution";
       this.quote({
-        values: this.quoteDetails,
+        values: details,
       })
         .then((response) => {
           this.$router.push({
@@ -766,9 +774,10 @@ export default {
     },
     remakeRoute() {
       this.isUpdating = true;
-      this.quoteDetails.quote_type = "re-delivery";
+      let details = Object.assign(this.quoteDetails);
+      details.quote_type = "re-delivery";
       this.quote({
-        values: this.quoteDetails,
+        values: details,
       })
         .then((response) => {
           this.$router.push({
@@ -909,12 +918,9 @@ export default {
         });
     },
     setQuoteDetails(quoteDetails) {
-      if (
-        this.orderStatus.status == "canceled" ||
-        this.orderStatus.status == "expired"
-      ) {
-        this.showQuoteDetails = true;
-      }
+      //if (this.orderStatus.status == "canceled" ||this.orderStatus.status == "expired") {
+      this.showQuoteDetails = true;
+      //}
       this.quoteDetails = quoteDetails;
     },
     onSaveDeadline(input) {
