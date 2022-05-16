@@ -563,6 +563,11 @@ export default {
         this.requestOrderStatus(this.orderId);
       }
     },
+    $route(to, from) {
+      if (from.fullPath != to.fullPath) {
+        location.reload();
+      }
+    },
   },
 
   methods: {
@@ -723,8 +728,7 @@ export default {
           this.$router.push({
             name: "OrderDetails",
             params: { id: response.response.data.order.id },
-          });
-          location.reload();
+          });          
         })
         .catch((error) => {
           this.$q.notify({
@@ -747,8 +751,7 @@ export default {
           this.$router.push({
             name: "OrderDetails",
             params: { id: response.response.data.order.id },
-          });
-          location.reload();
+          });          
         })
         .catch((error) => {
           this.$q.notify({

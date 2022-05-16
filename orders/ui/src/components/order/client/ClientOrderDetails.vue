@@ -222,6 +222,11 @@ export default {
         this.requestOrderStatus(this.orderId);
       }
     },
+    $route(to, from) {
+      if (from.fullPath != to.fullPath) {
+        location.reload();
+      }
+    },
   },
 
   methods: {
