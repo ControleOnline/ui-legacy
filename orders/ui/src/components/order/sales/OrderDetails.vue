@@ -728,7 +728,7 @@ export default {
           this.$router.push({
             name: "OrderDetails",
             params: { id: response.response.data.order.id },
-          });          
+          });
         })
         .catch((error) => {
           this.$q.notify({
@@ -741,9 +741,9 @@ export default {
           this.isUpdating = false;
         });
     },
-
-    remakeRoute() {
+    devolutionQuote() {
       this.isUpdating = true;
+      this.quoteDetails.quote_type = "devolution";
       this.quote({
         values: this.quoteDetails,
       })
@@ -751,7 +751,30 @@ export default {
           this.$router.push({
             name: "OrderDetails",
             params: { id: response.response.data.order.id },
-          });          
+          });
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: "O status do pedido não pode ser refeito",
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally((data) => {
+          this.isUpdating = false;
+        });
+    },
+    remakeRoute() {
+      this.isUpdating = true;
+      this.quoteDetails.quote_type = "re-delivery";
+      this.quote({
+        values: this.quoteDetails,
+      })
+        .then((response) => {
+          this.$router.push({
+            name: "OrderDetails",
+            params: { id: response.response.data.order.id },
+          });
         })
         .catch((error) => {
           this.$q.notify({
