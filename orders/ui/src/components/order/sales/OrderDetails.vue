@@ -35,6 +35,13 @@
               :loading="isUpdating"
             />
             <q-btn
+              v-else
+              color="positive"
+              label="Gerar Reentrega"
+              @click="remakeQuote"
+              :loading="isUpdating"
+            />
+            <q-btn
               v-if="orderStatus.status == 'analysis'"
               color="positive"
               label="Aprovar Pedido"
@@ -95,6 +102,46 @@
                   <td class="text-left text-bold">Número do pedido</td>
                   <td class="text-left">
                     {{ `#${this.orderId}` }}
+                  </td>
+                </tr>
+                <tr v-if="this.childOrders.length > 0">
+                  <td class="text-left text-bold">Pedidos vinculados</td>
+                  <td class="text-left text-bold">
+                    <router-link
+                      v-for="order in childOrders"
+                      :key="order.id"
+                      v-ripple
+                      v-bind:to="'/sales/order/id/' + order.id"
+                    >
+                      (#{{ order.id }})
+                    </router-link>
+                  </td>
+                </tr>
+
+                <tr v-if="this.royaltiesOrders.length > 0">
+                  <td class="text-left text-bold">Royalties</td>
+                  <td class="text-left text-bold">
+                    <router-link
+                      v-for="order in royaltiesOrders"
+                      :key="order.id"
+                      v-ripple
+                      v-bind:to="'/sales/order/id/' + order.id"
+                    >
+                      (#{{ order.id }})
+                    </router-link>
+                  </td>
+                </tr>
+                <tr v-if="this.comissionOrders.length > 0">
+                  <td class="text-left text-bold">Comissões</td>
+                  <td class="text-left text-bold">
+                    <router-link
+                      v-for="order in comissionOrders"
+                      :key="order.id"
+                      v-ripple
+                      v-bind:to="'/sales/order/id/' + order.id"
+                    >
+                      (#{{ order.id }})
+                    </router-link>
                   </td>
                 </tr>
                 <tr>
@@ -471,6 +518,9 @@ export default {
       invoiceTax: null,
       carrier: null,
       mainOrderId: null,
+      childOrders: null,
+      royaltiesOrders: null,
+      comissionOrders: null,
       app: null,
       total_packages: null,
       invoices: [],
@@ -781,6 +831,10 @@ export default {
             this.correctPercentage = data.correctPercentage;
             this.purchasingOrderId = data.purchasingOrderId;
             this.mainOrderId = data.mainOrderId;
+            this.childOrders = data.childOrders;
+            this.royaltiesOrders = data.royaltiesOrders;
+            this.comissionOrders = data.comissionOrders;
+
             this.notFound = false;
             this.isEditable =
               data.orderStatus.status === "delivered" ||
