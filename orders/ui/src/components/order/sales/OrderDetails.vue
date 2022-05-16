@@ -81,6 +81,16 @@
           <div class="col-xs-12 col-sm-4">
             <q-markup-table flat dense separator="none" class="bg-grey-4">
               <tbody>
+                <tr v-if="this.mainOrderId">
+                  <td class="text-left text-bold">Pedido de Origem</td>
+                  <td class="text-left text-bold">
+                    <router-link
+                      v-bind:to="'/sales/order/id/' + this.mainOrderId"
+                    >
+                      (#{{ this.mainOrderId }})
+                    </router-link>
+                  </td>
+                </tr>
                 <tr>
                   <td class="text-left text-bold">Número do pedido</td>
                   <td class="text-left">
@@ -93,23 +103,25 @@
                     {{ formatMoney(this.price) }}
                   </td>
                 </tr>
-                <tr v-if="this.mainOrderId">
+                <tr v-if="this.purchasingOrderId">
                   <td class="text-left text-bold">
                     Valor do fornecedor
                     <router-link
-                      v-bind:to="'/purchasing/order/id/' + this.mainOrderId"
+                      v-bind:to="
+                        '/purchasing/order/id/' + this.purchasingOrderId
+                      "
                     >
-                      (#{{ this.mainOrderId }})
+                      (#{{ this.purchasingOrderId }})
                     </router-link>
                   </td>
                   <td class="text-left">
-                    {{ formatMoney(this.mainPrice) }}
+                    {{ formatMoney(this.purchasingPrice) }}
                   </td>
                 </tr>
-                <tr v-if="this.mainOrderId">
+                <tr v-if="this.purchasingOrderId">
                   <td
                     :class="
-                      this.price - this.mainPrice < this.correctValue
+                      this.price - this.purchasingPrice < this.correctValue
                         ? 'red text-left text-bold'
                         : 'green text-left text-bold'
                     "
@@ -118,17 +130,17 @@
                   </td>
                   <td
                     :class="
-                      this.price - this.mainPrice < this.correctValue
+                      this.price - this.purchasingPrice < this.correctValue
                         ? 'red text-left text-bold'
                         : 'green text-left text-bold'
                     "
                   >
-                    {{ formatMoney(this.price - this.mainPrice) }}
+                    {{ formatMoney(this.price - this.purchasingPrice) }}
                     ({{ parseFloat(this.realPecentage).toFixed(2) }}
                     %)
                   </td>
                 </tr>
-                <tr v-if="this.mainOrderId">
+                <tr v-if="this.purchasingOrderId">
                   <td class="text-left text-bold">Valor correto do ticket</td>
                   <td class="text-left">
                     {{ formatMoney(this.correctValue) }}
@@ -458,6 +470,7 @@ export default {
       other_informations: null,
       invoiceTax: null,
       carrier: null,
+      mainOrderId: null,
       app: null,
       total_packages: null,
       invoices: [],
@@ -470,9 +483,9 @@ export default {
       correctPercentage: 0,
       isEditable: false,
       inputDeadline: date.formatDate(Date.now(), "DD/MM/YYYY"),
-      mainPrice: null,
+      purchasingPrice: null,
       realPecentage: null,
-      mainOrderId: null,
+      purchasingOrderId: null,
       notFound: false,
       isLoading: false,
       isUpdating: false,
@@ -745,7 +758,7 @@ export default {
             this.deliveryDueDate = data.deliveryDueDate;
             this.client = data.client;
             this.price = data.price;
-            this.mainPrice = data.mainPrice;
+            this.purchasingPrice = data.purchasingPrice;
             this.realPecentage = data.realPecentage;
             this.orderDate = data.orderDate;
             this.alterDate = data.alterDate;
@@ -766,6 +779,7 @@ export default {
 
             this.correctValue = data.correctValue;
             this.correctPercentage = data.correctPercentage;
+            this.purchasingOrderId = data.purchasingOrderId;
             this.mainOrderId = data.mainOrderId;
             this.notFound = false;
             this.isEditable =
