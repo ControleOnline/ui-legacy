@@ -38,7 +38,7 @@
               v-else
               color="positive"
               label="Gerar Reentrega"
-              @click="remakeQuote"
+              @click="remakeRoute"
               :loading="isUpdating"
             />
             <q-btn
@@ -724,6 +724,31 @@ export default {
             name: "OrderDetails",
             params: { id: response.response.data.order.id },
           });
+          location.reload();
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: "O status do pedido não pode ser refeito",
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally((data) => {
+          this.isUpdating = false;
+        });
+    },
+
+    remakeRoute() {
+      this.isUpdating = true;
+      this.quote({
+        values: this.quoteDetails,
+      })
+        .then((response) => {
+          this.$router.push({
+            name: "OrderDetails",
+            params: { id: response.response.data.order.id },
+          });
+          location.reload();
         })
         .catch((error) => {
           this.$q.notify({
