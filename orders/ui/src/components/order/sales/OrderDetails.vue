@@ -43,6 +43,13 @@
             />
             <q-btn
               v-if="orderStatus.realStatus != 'canceled'"
+              color="positive"
+              label="Gerar Reenvio"
+              @click="resendQuote"
+              :loading="isUpdating"
+            />
+            <q-btn
+              v-if="orderStatus.realStatus != 'canceled'"
               color="warning"
               label="Gerar Devolução"
               @click="devolutionQuote"
@@ -772,6 +779,32 @@ export default {
           this.isUpdating = false;
         });
     },
+
+    resendQuote() {
+      this.isUpdating = true;
+      let details = Object.assign(this.quoteDetails);
+      details.quote_type = "resend";
+      this.quote({
+        values: details,
+      })
+        .then((response) => {
+          this.$router.push({
+            name: "OrderDetails",
+            params: { id: response.response.data.order.id },
+          });
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: "O status do pedido não pode ser refeito",
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally((data) => {
+          this.isUpdating = false;
+        });
+    },
+
     remakeRoute() {
       this.isUpdating = true;
       let details = Object.assign(this.quoteDetails);
