@@ -758,7 +758,7 @@ export default {
     devolutionQuote() {
       this.isUpdating = true;
       let details = Object.assign(this.quoteDetails);
-      details.quote_type = "devolution";
+      details.quoteType = "devolution";
       this.quote({
         values: details,
       })
@@ -783,7 +783,7 @@ export default {
     resendQuote() {
       this.isUpdating = true;
       let details = Object.assign(this.quoteDetails);
-      details.quote_type = "resend";
+      details.quoteType = "resend";
       this.quote({
         values: details,
       })
@@ -808,7 +808,7 @@ export default {
     remakeRoute() {
       this.isUpdating = true;
       let details = Object.assign(this.quoteDetails);
-      details.quote_type = "re-delivery";
+      details.quoteType = "re-delivery";
       this.quote({
         values: details,
       })
