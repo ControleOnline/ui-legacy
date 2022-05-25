@@ -66,7 +66,7 @@ export const translate = {
   Number: 'Número',
   Summary: 'Resumo',
   Users: 'Usuários',
-  Username: 'Username',  
+  Username: 'Username',
   common: {
     labels: {
       close: 'Fechar',
@@ -91,6 +91,7 @@ export const translate = {
     tables: 'Tabelas',
     home: 'Home',
     news: 'Artigos',
+    import: 'Importador',
   },
   messages: {
     fieldRequired: 'Este campo é obrigatório',
