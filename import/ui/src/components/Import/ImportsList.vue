@@ -37,7 +37,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <q-uploader ref="uploader" no-thumbnails square flat :url="uploadEndpoint + '?tableid=' + tableId"
+          <q-uploader ref="uploader" no-thumbnails square flat :url="uploadEndpoint + '?tableId=' + tableId"
             :headers="uploadHeaders" :accept="uploadAccepted" field-name="file" color="white" @uploaded="fileUploaded"
             @failed="uploadFailed" :multiple="false" :class="myClass" :auto-upload="true">
             <template v-slot:header="scope">
