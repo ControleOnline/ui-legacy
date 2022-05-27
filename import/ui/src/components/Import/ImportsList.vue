@@ -6,6 +6,19 @@
         <template v-slot:top>
           <div class="col-12 q-mb-md">
             <div class="row justify-end">
+              <q-select stack-label label="Status do pedido" v-model="filters.status" :options="statuses"
+                class="full-width">
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey">
+                      Sem resultados
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+
+            <div class="row justify-end">
               <q-btn label="Adicionar" icon="add" size="md" color="primary" class="q-ml-sm" @click="() => {
                 dialog = !dialog;
               }" />
@@ -137,7 +150,12 @@ const SETTINGS = {
 Object.freeze(SETTINGS);
 
 export default {
-
+  watch: {
+    'filters.status': function () {
+      console.log('d');
+      this.getItems(this.params);
+    },
+  },
   props: {
     tableId: {
       type: [String, Number],
@@ -151,6 +169,18 @@ export default {
 
   data() {
     return {
+      filters: {
+        status: { label: "Abertos", value: -1 }
+      },
+      statuses: [
+        { label: "Abertos", value: -1 },
+        { label: "Todos", value: 0 },
+        { label: this.$t('import.statuses.' + 'waiting'), value: 'waiting' },
+        { label: this.$t('import.statuses.' + 'importing'), value: 'importing' },
+        { label: this.$t('import.statuses.' + 'imported'), value: 'imported' },
+        { label: this.$t('import.statuses.' + 'error'), value: 'error' },
+        { label: this.$t('import.statuses.' + 'failed'), value: 'failed' },
+      ],
       items: [],
       dialog: false,
       settings: SETTINGS,
@@ -196,6 +226,9 @@ export default {
 
       if (this.tableId)
         params.tableParam = this.tableId;
+
+      params.status = this.filters.status.value;
+
 
       return this.api.private(endpoint, { params })
         .then(response => response.json())
