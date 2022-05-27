@@ -152,8 +152,10 @@ Object.freeze(SETTINGS);
 export default {
   watch: {
     'filters.status': function () {
-      console.log('d');
-      this.getItems(this.params);
+      this.onRequest({
+        pagination: this.pagination
+      });
+
     },
   },
   props: {
