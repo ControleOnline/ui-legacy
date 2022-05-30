@@ -67,6 +67,7 @@
               <q-td key="id" :props="props">{{ props.row.id }}</q-td>
               <q-td key="fileName" :props="props">{{ props.row.fileName }}</q-td>
               <q-td key="status" :props="props">{{ $t(`import.statuses.${props.row.statusLabel}`) }}</q-td>
+              <q-td key="import_type" :props="props">{{ props.row.typesLabel }}</q-td>
               <q-td key="feedback" :props="props">{{ props.row.feedback }}</q-td>
               <q-td key="uploadDate" :props="props">{{ props.row.uploadDate }}</q-td>
               <q-td auto-width>
@@ -171,6 +172,12 @@ const SETTINGS = {
       label: 'Status'
     },
     {
+      name: 'import_type',
+      field: row => row.importType,
+      align: 'left',
+      label: 'Tipo de Importação'
+    },
+    {
       name: 'feedback',
       field: row => row.feedback,
       align: 'left',
@@ -228,7 +235,7 @@ export default {
         { label: this.$t('import.statuses.' + 'failed'), value: 'failed' },
       ],
       importTypes: {
-        import_type: { label: "DACTE", value: "DACTE" }
+        import_type: { label: "Dacte", value: "DACTE" }
       },
       importStatuses: [
         { label: "Tabela", value: "table" },
@@ -283,6 +290,8 @@ export default {
         params.status = this.filters.status.value;
 
         params.import_type = this.importTypes.import_type.value;
+
+        console.log(params);
 
       return this.api.private(endpoint, { params })
         .then(response => response.json())
@@ -365,17 +374,18 @@ export default {
 
             for (let index in data.imports) {
               const row = data.imports[index];
-
               _items.push({
                 id: row.id,
-                fileName: row.fileName,
+                fileName: row.Name,
                 statusLabel: row.status,
+                typesLabel: row.importType,
                 status: row.status,
                 tableName: row.tableName,
                 feedback: /[0-9]/g.test(row.feedback) ? row.feedback : this.$t('import.feedback.' + row.feedback),
                 uploadDate: formatDateYmdTodmY(row.uploadDate),
                 _bussy: false,
               });
+              console.log(row)
             }
           }
 
