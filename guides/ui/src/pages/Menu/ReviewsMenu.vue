@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '../../components/Header/MenuDefaultHeader';
-import ToolsFooter from '../../components/Footer/ToolsFooter';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
+import ToolsFooter from '@controleonline/quasar-common-ui/src/components/Footer/ToolsFooter';
 
 export default {
   components: {

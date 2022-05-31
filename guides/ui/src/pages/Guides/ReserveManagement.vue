@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '../../components/Header/MenuDefaultHeader';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 
 export default {
   components: {

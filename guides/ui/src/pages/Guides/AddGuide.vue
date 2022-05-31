@@ -548,10 +548,10 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '../../components/Header/MenuDefaultHeader';
-import UploadMultipleArchivesDialog from '../../components/Dialog/UploadMultipleArchivesDialog';
-import DefaultAddDialog from '../../components/Dialog/DefaultAddDialog';
-import AdditionalDialog from '../../components/Dialog/AdditionalDialog';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
+import UploadMultipleArchivesDialog from '@controleonline/quasar-common-ui/src/components/Dialog/UploadMultipleArchivesDialog';
+import DefaultAddDialog from '@controleonline/quasar-common-ui/src/components/Dialog/DefaultAddDialog';
+import AdditionalDialog from '@controleonline/quasar-common-ui/src/components/Dialog/AdditionalDialog';
 
 export default {
   components: {

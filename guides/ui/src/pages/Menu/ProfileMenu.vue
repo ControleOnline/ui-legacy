@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import ProfileHeader from '../../components/Header/ProfileHeader';
-import ToolsFooter from '../../components/Footer/ToolsFooter';
-import ChangePasswordDialog from '../../components/Dialog/ChangePasswordDialog';
+import ProfileHeader from '@controleonline/quasar-common-ui/src/components/Header/ProfileHeader';
+import ToolsFooter from '@controleonline/quasar-common-ui/src/components/Footer/ToolsFooter';
+import ChangePasswordDialog from '@controleonline/quasar-common-ui/src/components/Dialog/ChangePasswordDialog';
 
 export default {
   components: {

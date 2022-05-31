@@ -363,7 +363,7 @@
 </template>
 
 <script>
-import GuideDetailsHeader from '../../components/Header/GuideDetailsHeader';
+import GuideDetailsHeader from '@controleonline/quasar-common-ui/src/components/Header/GuideDetailsHeader';
 
 export default {
   components: {
