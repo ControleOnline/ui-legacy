@@ -47,7 +47,7 @@
 
             <div class="col-sm-6 col-xs-12 q-pa-md">
               <div class="row justify-end">
-                <q-select stack-label label="Tipo de Importação" v-model="importTypes.import_type" :options="importStatuses"
+                <q-select stack-label label="Tipo de Importação" v-model="importType.import_type" :options="importStatuses"
                   class="full-width">
                   <template v-slot:no-option>
                     <q-item>
@@ -65,9 +65,9 @@
           <template v-slot:body="props">
             <q-tr :props="props">
               <q-td key="id" :props="props">{{ props.row.id }}</q-td>
-              <q-td key="fileName" :props="props">{{ props.row.fileName }}</q-td>
-              <q-td key="status" :props="props">{{ $t(`import.statuses.${props.row.statusLabel}`) }}</q-td>
-              <q-td key="import_type" :props="props">{{ props.row.typesLabel }}</q-td>
+              <q-td key="fileName" :props="props"> {{ props.row.fileName }}  </q-td>
+              <q-td key="import_type" :props="props">{{ $t(`import.importStatuses.${props.row.typeLabel}`) }}</q-td>
+              <q-td key="status" :props="props">{{ $t(`import.statuses.${props.row.statusLabel}`) }}</q-td>              
               <q-td key="feedback" :props="props">{{ props.row.feedback }}</q-td>
               <q-td key="uploadDate" :props="props">{{ props.row.uploadDate }}</q-td>
               <q-td auto-width>
@@ -145,8 +145,6 @@
 </template>
 
 <script>
-import { log } from 'console'
-import { type } from 'os'
 import { formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
@@ -166,16 +164,16 @@ const SETTINGS = {
       label: 'Nome do arquivo'
     },
     {
+      name: 'import_type',
+      field: row => row.importType,
+      align: 'left',
+      label: 'Tipo'
+    },
+    {
       name: 'status',
       field: row => row.status,
       align: 'left',
       label: 'Status'
-    },
-    {
-      name: 'import_type',
-      field: row => row.importType,
-      align: 'left',
-      label: 'Tipo de Importação'
     },
     {
       name: 'feedback',
@@ -204,7 +202,7 @@ export default {
 
     },
 
-    'importTypes.import_type': function () {
+    'importType.import_type': function () {
       this.onRequest({
         pagination: this.pagination
       });
@@ -234,12 +232,12 @@ export default {
         { label: this.$t('import.statuses.' + 'imported'), value: 'imported' },
         { label: this.$t('import.statuses.' + 'failed'), value: 'failed' },
       ],
-      importTypes: {
-        import_type: { label: "Dacte", value: "DACTE" }
+      importType: {
+        import_type: { label: this.$t('import.importStatuses.' + 'DACTE'), value: "DACTE"  }
       },
       importStatuses: [
-        { label: "Tabela", value: "table" },
-        { label: "Dacte", value: "DACTE" }
+        { label: this.$t('import.importStatuses.' + 'table'), value: "table" },
+        { label: this.$t('import.importStatuses.' + 'DACTE'), value: "DACTE" }
       ],
       items: [],
       dialog: false,
@@ -285,13 +283,10 @@ export default {
       }
 
       if (this.tableId)
-        params.tableParam = this.tableId;
-
-        params.status = this.filters.status.value;
-
-        params.import_type = this.importTypes.import_type.value;
-
-        console.log(params);
+      
+        params.tableParam   = this.tableId;
+        params.status       = this.filters.status.value;
+        params.import_type  = this.importType.import_type.value;
 
       return this.api.private(endpoint, { params })
         .then(response => response.json())
@@ -377,8 +372,8 @@ export default {
               _items.push({
                 id: row.id,
                 fileName: row.Name,
-                statusLabel: row.status,
-                typesLabel: row.importType,
+                typeLabel: row.importType,
+                statusLabel: row.status,                
                 status: row.status,
                 tableName: row.tableName,
                 feedback: /[0-9]/g.test(row.feedback) ? row.feedback : this.$t('import.feedback.' + row.feedback),

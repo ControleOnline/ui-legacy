@@ -12,6 +12,10 @@ export const translate = {
             'error': 'Erro',
             'invalid_format': 'Formato Inválido'
         },
+        importStatuses: {
+            'table': 'TABELA',
+            'DACTE': 'DACTE'
+        },
         feedback: {
             'waiting to import': 'Aguardando para importar',
             'import has started': 'A importação foi iniciada',
