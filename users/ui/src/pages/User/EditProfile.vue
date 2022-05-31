@@ -305,10 +305,10 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '../../components/Header/MenuDefaultHeader';
-import OptionsLangDialog from '../../components/Dialog/OptionsLangDialog';
-import OptionsActDialog from '../../components/Dialog/OptionsActDialog';
-import UploadArchiveDialog from '../../components/Dialog/UploadArchiveDialog';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
+import OptionsLangDialog from '@controleonline/quasar-common-ui/src/components/Dialog/OptionsLangDialog';
+import OptionsActDialog from '@controleonline/quasar-common-ui/src/components/Dialog/OptionsActDialog';
+import UploadArchiveDialog from '@controleonline/quasar-common-ui/src/components/Dialog/UploadArchiveDialog';
 
 export default {
   components: {

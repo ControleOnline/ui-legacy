@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import LangSwitch from '../../components/UI/LangSwitch';
+import LangSwitch from '@controleonline/quasar-common-ui/src/components/UI/LangSwitch';
 
 export default {
   name: 'PageIndex',

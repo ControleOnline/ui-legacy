@@ -49,9 +49,9 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '../../components/Header/MenuDefaultHeader';
-import CardNotifications from '../../components/Card/CardNotifications';
-import NotificationDialog from '../../components/Dialog/NotificationDialog';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
+import CardNotifications from '@controleonline/quasar-common-ui/src/components/Card/CardNotifications';
+import NotificationDialog from '@controleonline/quasar-common-ui/src/components/Dialog/NotificationDialog';
 
 export default {
   components: {
