@@ -1,112 +1,152 @@
 <template>
-  <div class="row">
-    <div class="col-12 q-mt-md">
-      <q-table flat :data="items" :columns="settings.columns" row-key="id" :loading="isLoading"
-        :pagination.sync="pagination" @request="onRequest">
-        <template v-slot:top>
-          <div class="col-12 q-mb-md">
-            <div class="row justify-end">
-              <q-select stack-label label="Status do pedido" v-model="filters.status" :options="statuses"
-                class="full-width">
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey">
-                      Sem resultados
-                    </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
+  <main class="q-page q-layout-padding">
+    <div class="row">
+      <div class="col-12">
+        <q-table flat 
+          :data="items" 
+          :columns="settings.columns" 
+          row-key="id" 
+          :loading="isLoading"
+          :pagination.sync="pagination" 
+          @request="onRequest"
+          >
+          
+          <template v-slot:top>
+            <div class="col-3 q-mb-md text-h6">
+                Importador
             </div>
 
-            <div class="row justify-end">
-              <q-btn label="Adicionar" icon="add" size="md" color="primary" class="q-ml-sm" @click="() => {
-                dialog = !dialog;
-              }" />
-            </div>
-          </div>
-        </template>
-
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">{{ props.row.id }}</q-td>
-            <q-td key="fileName" :props="props">{{ props.row.fileName }}</q-td>
-            <q-td key="status" :props="props">{{ $t(`import.statuses.${props.row.statusLabel}`) }}</q-td>
-            <q-td key="feedback" :props="props">{{ props.row.feedback }}</q-td>
-            <q-td key="uploadDate" :props="props">{{ props.row.uploadDate }}</q-td>
-            <q-td auto-width>
-              <q-btn v-if="props.row.status === 'waiting'" flat round dense color="red" icon="delete"
-                @click="removeItem(props.row)" :loading="props.row._bussy" />
-            </q-td>
-          </q-tr>
-        </template>
-      </q-table>
-
-    </div>
-    <q-dialog v-model="dialog">
-      <q-card style="width: 700px; max-width: 80vw;">
-        <q-card-section class="row items-center">
-          <div class="text-h6">Importar taxas</div>
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
-        </q-card-section>
-        <q-card-section>
-          <q-uploader ref="uploader" no-thumbnails square flat :url="uploadEndpoint + '?tableId=' + tableId"
-            :headers="uploadHeaders" :accept="uploadAccepted" field-name="file" color="white" @uploaded="fileUploaded"
-            @failed="uploadFailed" :multiple="false" :class="myClass" :auto-upload="true">
-            <template v-slot:header="scope">
-              <div class="row no-wrap items-center justify-end q-pa-sm q-gutter-xs">
-                <q-spinner v-if="scope.isUploading" color="primary" class="q-uploader__spinner" />
-                <q-btn flat dense rounded v-if="scope.canAddFiles" type="a" icon="add_box" color="primary">
-                  <q-uploader-add-trigger />
-                  <q-tooltip>Selecione o arquivo</q-tooltip>
-                </q-btn>
-                <q-btn v-if="scope.isUploading" round dense flat icon="clear" color="red" @click="scope.abort">
-                  <q-tooltip>Cancelar upload</q-tooltip>
-                </q-btn>
+            <div class="col-9 q-mb-md">
+              <div class="row justify-end">
+                <q-btn flat
+                  label  ="Adicionar"
+                  icon    ="add"
+                  color   ="primary"
+                  class   ="q-ml-sm"
+                  @click="() => {
+                    dialog = !dialog;
+                  }"
+                />
               </div>
-            </template>
+            </div>
 
-            <template v-slot:list="scope">
-              <div class="row items-center" style="min-height: 100%">
-                <div v-if="scope.files.length == 0" class="text-center text-camelcase"
-                  style="min-width: 100%; min-height: 100%">
-                  <span class="text-bold text-uppercase">Area de upload</span>
-                  <br>
-                  Clique no botão "mais" ou arraste seu arquivo até esta caixa
+            <div class="col-sm-6 col-xs-12 q-pa-md">
+              <div class="row justify-end">
+                <q-select stack-label label="Status" v-model="filters.status" :options="statuses"
+                  class="full-width">
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey">
+                        Sem resultados
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+              </div>
+            </div>
+
+            <div class="col-sm-6 col-xs-12 q-pa-md">
+              <div class="row justify-end">
+                <q-select stack-label label="Tipo de Importação" v-model="importTypes.import_type" :options="importStatuses"
+                  class="full-width">
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey">
+                        Sem resultados
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+              </div>
+            </div>
+
+          </template>
+
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td key="id" :props="props">{{ props.row.id }}</q-td>
+              <q-td key="fileName" :props="props">{{ props.row.fileName }}</q-td>
+              <q-td key="status" :props="props">{{ $t(`import.statuses.${props.row.statusLabel}`) }}</q-td>
+              <q-td key="import_type" :props="props">{{ props.row.typesLabel }}</q-td>
+              <q-td key="feedback" :props="props">{{ props.row.feedback }}</q-td>
+              <q-td key="uploadDate" :props="props">{{ props.row.uploadDate }}</q-td>
+              <q-td auto-width>
+                <q-btn v-if="props.row.status === 'waiting'" flat round dense color="red" icon="delete"
+                  @click="removeItem(props.row)" :loading="props.row._bussy" />
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
+
+      </div>
+      <q-dialog v-model="dialog">
+        <q-card style="width: 700px; max-width: 80vw;">
+          <q-card-section class="row items-center">
+            <div class="text-h6">Importar taxas</div>
+            <q-space />
+            <q-btn icon="close" flat round dense v-close-popup />
+          </q-card-section>
+          <q-card-section>
+            <q-uploader ref="uploader" no-thumbnails square flat :url="uploadEndpoint + '?tableId=' + tableId"
+              :headers="uploadHeaders" :accept="uploadAccepted" field-name="file" color="white" @uploaded="fileUploaded"
+              @failed="uploadFailed" :multiple="false" :class="myClass" :auto-upload="true">
+              <template v-slot:header="scope">
+                <div class="row no-wrap items-center justify-end q-pa-sm q-gutter-xs">
+                  <q-spinner v-if="scope.isUploading" color="primary" class="q-uploader__spinner" />
+                  <q-btn flat dense rounded v-if="scope.canAddFiles" type="a" icon="add_box" color="primary">
+                    <q-uploader-add-trigger />
+                    <q-tooltip>Selecione o arquivo</q-tooltip>
+                  </q-btn>
+                  <q-btn v-if="scope.isUploading" round dense flat icon="clear" color="red" @click="scope.abort">
+                    <q-tooltip>Cancelar upload</q-tooltip>
+                  </q-btn>
                 </div>
+              </template>
 
-                <q-list separator v-if="scope.files.length > 0" style="min-width: 100%">
-                  <q-item v-for="file in scope.files" :key="file.name">
-                    <q-item-section>
-                      <q-item-label class="full-width ellipsis">
-                        {{ file.name }}
-                      </q-item-label>
+              <template v-slot:list="scope">
+                <div class="row items-center" style="min-height: 100%">
+                  <div v-if="scope.files.length == 0" class="text-center text-camelcase"
+                    style="min-width: 100%; min-height: 100%">
+                    <span class="text-bold text-uppercase">Area de upload</span>
+                    <br>
+                    Clique no botão "mais" ou arraste seu arquivo até esta caixa
+                  </div>
 
-                      <q-item-label caption>
-                        Status: {{ file.__status }}
-                      </q-item-label>
+                  <q-list separator v-if="scope.files.length > 0" style="min-width: 100%">
+                    <q-item v-for="file in scope.files" :key="file.name">
+                      <q-item-section>
+                        <q-item-label class="full-width ellipsis">
+                          {{ file.name }}
+                        </q-item-label>
 
-                      <q-item-label caption>
-                        {{ file.__sizeLabel }} / {{ file.__progressLabel }}
-                      </q-item-label>
-                    </q-item-section>
+                        <q-item-label caption>
+                          Status: {{ file.__status }}
+                        </q-item-label>
 
-                    <q-item-section top side>
-                      <q-btn flat dense round class="gt-xs" size="12px" icon="clear" color="red"
-                        @click="scope.removeFile(file)" />
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </div>
-            </template>
-          </q-uploader>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-  </div>
+                        <q-item-label caption>
+                          {{ file.__sizeLabel }} / {{ file.__progressLabel }}
+                        </q-item-label>
+                      </q-item-section>
+
+                      <q-item-section top side>
+                        <q-btn flat dense round class="gt-xs" size="12px" icon="clear" color="red"
+                          @click="scope.removeFile(file)" />
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </div>
+              </template>
+            </q-uploader>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+    </div>
+  </main>
 </template>
 
 <script>
+import { log } from 'console'
+import { type } from 'os'
 import { formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
@@ -130,6 +170,12 @@ const SETTINGS = {
       field: row => row.status,
       align: 'left',
       label: 'Status'
+    },
+    {
+      name: 'import_type',
+      field: row => row.importType,
+      align: 'left',
+      label: 'Tipo de Importação'
     },
     {
       name: 'feedback',
@@ -157,6 +203,12 @@ export default {
       });
 
     },
+
+    'importTypes.import_type': function () {
+      this.onRequest({
+        pagination: this.pagination
+      });
+    },
   },
   props: {
     tableId: {
@@ -180,8 +232,14 @@ export default {
         { label: this.$t('import.statuses.' + 'waiting'), value: 'waiting' },
         { label: this.$t('import.statuses.' + 'importing'), value: 'importing' },
         { label: this.$t('import.statuses.' + 'imported'), value: 'imported' },
-        { label: this.$t('import.statuses.' + 'error'), value: 'error' },
         { label: this.$t('import.statuses.' + 'failed'), value: 'failed' },
+      ],
+      importTypes: {
+        import_type: { label: "Dacte", value: "DACTE" }
+      },
+      importStatuses: [
+        { label: "Tabela", value: "table" },
+        { label: "Dacte", value: "DACTE" }
       ],
       items: [],
       dialog: false,
@@ -229,8 +287,11 @@ export default {
       if (this.tableId)
         params.tableParam = this.tableId;
 
-      params.status = this.filters.status.value;
+        params.status = this.filters.status.value;
 
+        params.import_type = this.importTypes.import_type.value;
+
+        console.log(params);
 
       return this.api.private(endpoint, { params })
         .then(response => response.json())
@@ -313,17 +374,18 @@ export default {
 
             for (let index in data.imports) {
               const row = data.imports[index];
-
               _items.push({
                 id: row.id,
-                fileName: row.fileName,
+                fileName: row.Name,
                 statusLabel: row.status,
+                typesLabel: row.importType,
                 status: row.status,
                 tableName: row.tableName,
                 feedback: /[0-9]/g.test(row.feedback) ? row.feedback : this.$t('import.feedback.' + row.feedback),
                 uploadDate: formatDateYmdTodmY(row.uploadDate),
                 _bussy: false,
               });
+              console.log(row)
             }
           }
 
