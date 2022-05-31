@@ -1,0 +1,58 @@
+<template>
+  <q-page>
+    <Search @emit-search="emitSearch" :logo="true"></Search>
+    <CardListHome
+      v-for="category in list"
+      :key="category.name_category"
+      :title_category="$t(category.name_category)"
+      :id_category="category.id"
+      :list_items="filteredList(category.items, $t(category.name_category))"
+    >
+    </CardListHome>
+    <ToolsFooter></ToolsFooter>
+  </q-page>
+</template>
+
+<script>
+import Search from '../../components/Header/Search';
+import ToolsFooter from '../../components/Footer/ToolsFooter';
+import CardListHome from '../../components/Card/CardListHome';
+
+export default {
+  name: 'CategoriesList',
+
+  components: {
+    Search,
+    ToolsFooter,
+    CardListHome,
+  },
+
+  data() {
+    return {
+      value: '',
+    };
+  },
+
+  computed: {
+    list: {
+      get() { return this.$store.getters['Categories/getCategoryList']; },
+      set(value) { this.$store.commit('Categories/setCategoryList', { list: value }); },
+    },
+  },
+
+  methods: {
+    emitSearch(value) {
+      this.value = value;
+    },
+    filteredList(items, category) {
+      const listItems = JSON.parse(JSON.stringify(items));
+
+      if (!this.value) return listItems;
+
+      return listItems.filter((item) => [this.$t(item.name_item), category].join(' ')
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+        .includes(this.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()));
+    },
+  },
+};
+</script>
