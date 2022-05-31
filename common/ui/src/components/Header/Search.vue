@@ -5,7 +5,7 @@
         <div v-if="logo" class="row full-width items-center">
           <div class="col text-left">
             <q-img
-              src="../../assets/logo_textoBranco.png"
+              src="../../../../../../src/assets/logo_textoBranco.png"
               width="10.479rem"
               class="q-mb-sm"
             >
