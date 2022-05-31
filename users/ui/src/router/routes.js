@@ -1,8 +1,35 @@
 export const routes = [
   {
     path: '/user/',
-    component: () => import('../../../../../src/layouts/AdminLayout.vue'),
-    children: [
+    component: () => import('../../../../../src/layouts/AdminLayout.vue'),    children: [      {
+        path: '/view-profile',
+        name: 'view-profile',
+        component: () => import('../pages/User/ViewProfile.vue'),
+      },
+
+      {
+        path: '/personal-data',
+        name: 'personal-data',
+        component: () => import('../pages/User/PersonalData.vue'),
+      },
+
+      {
+        path: '/edit-profile',
+        name: 'edit-profile',
+        component: () => import('../pages/User/EditProfile.vue'),
+      },
+
+      {
+        path: '/your-favorites',
+        name: 'your-favorites',
+        component: () => import('../pages/User/YourFavorites.vue'),
+      },
+
+      {
+        path: '/notifications-user',
+        name: 'notifications-user',
+        component: () => import('src/pages/User/NotificationsUser.vue'),
+      },
       { name: 'UserProfile', path: 'profile', component: () => import('../pages/User/Profile.vue') },
     ]
   },
@@ -11,8 +38,8 @@ export const routes = [
     component: () => import('../../../../../src/layouts/AdminLayout.vue'),
     children: [
       {
-        path     : 'id/:id/employees/:employeeId',
-        name     : 'CompanyEmployee',
+        path: 'id/:id/employees/:employeeId',
+        name: 'CompanyEmployee',
         component: () => import('../pages/admin/Company/Employee.vue')
       },
       {
