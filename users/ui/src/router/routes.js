@@ -28,7 +28,7 @@ export const routes = [
       {
         path: '/notifications-user',
         name: 'notifications-user',
-        component: () => import('src/pages/User/NotificationsUser.vue'),
+        component: () => import('../pages/User/NotificationsUser.vue'),
       },
       { name: 'UserProfile', path: 'profile', component: () => import('../pages/User/Profile.vue') },
     ]
