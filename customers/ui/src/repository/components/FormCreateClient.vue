@@ -26,7 +26,6 @@
           :rules="[isInvalid('email')]"
           :outlined="true"
           :loading="isSearching"
-          @input="searchCustomerById"
           debounce="800"
         />
       </div>
@@ -45,11 +44,11 @@
           :placeholder="'Digite o CNPJ'"
           :rules="[isInvalid('document')]"
           :loading="isSearching"
-          @input="searchCustomerById"
+          
         />
       </div>
     </div>
-
+    <!--@input="searchCustomerById"-->
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
         <q-input
@@ -142,7 +141,7 @@ export default {
 
       let options = {
         method: "POST",
-        body: JSON.stringify(values),
+        body: JSON.stringify(values),      
         params: params,
       };
 
@@ -174,40 +173,6 @@ export default {
           }
 
           return null;
-        });
-    },
-
-    searchCustomerById(id) {
-      if (!id.length) {
-        return;
-      }
-
-      let searchBy = (() => {
-        return this.personType == "PJ" ? { document: id } : { email: id };
-      })();
-
-      if (searchBy.document) {
-        if (searchBy.document.length !== 14) return;
-      }
-
-      if (searchBy.email) {
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(searchBy.email)) return;
-      }
-
-      this.isSearching = true;
-
-      this.searchCustomer(searchBy)
-        .then((data) => {
-          this.item.id = data.id;
-          this.item.name = data.name;
-          this.item.alias = data.alias;
-          this.item.type = data.type;
-        })
-        .catch((error) => {
-          this.$emit("error", { message: error.message });
-        })
-        .finally(() => {
-          this.isSearching = false;
         });
     },
 
