@@ -1,5 +1,5 @@
 <template>
-  <div class="row items-center justify-center">
+  <div class="row items-center justify-center form q-pa-md">
     <div class="flex flex-center" v-if="isLoading">
       <q-circular-progress
         :indeterminate="isLoading"
@@ -11,13 +11,16 @@
     </div>
 
     <div
-      class="col-12 q-mt-md"
+      class="col-12"
       :style="isLoading ? 'visibility:hidden' : 'visibility:visible'"
     >
-      <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
+      <div class="text-subtitle1 text-left">Resumo</div>
+
+      <q-form @submit="onSubmit" ref="myForm">
         <div class="row q-col-gutter-sm">
           <div class="col-xs-12 col-sm-12">
             <q-option-group
+              inline
               type="radio"
               v-model="item.type"
               :options="[
@@ -27,7 +30,7 @@
             />
           </div>
 
-          <div class="col-xs-12 col-sm-6">
+          <div :class="item.type == 'J' ? 'col-xs-12 col-sm-6' : 'col-xs-12'">
             <q-input
               stack-label
               lazy-rules
@@ -35,14 +38,14 @@
               v-model="item.name"
               type="text"
               class="q-mb-sm"
-              :label="item.type == 'J' ? $t('Razão social') : $t('Nome')"
+              :label="item.type == 'J' ? $t('Razão social') : $t('Nome completo')"
               :placeholder="
-                item.type == 'J' ? 'Digite a Razão social' : 'Digite o nome'
+                item.type == 'J' ? 'Digite a Razão social' : 'Digite o nome completo'
               "
               :rules="[isInvalid('name')]"
             />
           </div>
-          <div class="col-xs-12 col-sm-6">
+          <div class="col-xs-12 col-sm-6" v-if="item.type == 'J'">
             <q-input
               stack-label
               lazy-rules
@@ -50,7 +53,7 @@
               v-model="item.alias"
               type="text"
               class="q-mb-sm"
-              :label="item.type == 'J' ? $t('Nome Fantasia') : $t('Sobrenome')"
+              :label="$t('Nome Fantasia')"
               :placeholder="
                 item.type == 'J'
                   ? 'Digite o Nome fantasia'
@@ -110,13 +113,14 @@
 
         <div class="row justify-end">
           <q-btn
+            unelevated
+            no-caps
             :loading="saving"
             type="submit"
             icon="save"
             label="Salvar"
             size="md"
             color="primary"
-            class="q-mt-md"
           />
         </div>
       </q-form>
@@ -335,3 +339,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.form {
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.24);
+}
+</style>

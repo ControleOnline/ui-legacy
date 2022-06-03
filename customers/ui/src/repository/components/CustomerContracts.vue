@@ -2,6 +2,7 @@
   <div class="row">
     <div class="col-12 q-mt-md">
       <q-table
+        bordered
         :loading        ="isLoading"
         :data           ="items"
         :columns        ="settings.columns"
@@ -9,7 +10,6 @@
         @request        ="onRequest"
         row-key         ="id"
         :visible-columns="settings.visibleColumns"
-        style           ="min-height: 90vh;"
       >
         <template v-slot:body="props">
           <q-tr :props="props">

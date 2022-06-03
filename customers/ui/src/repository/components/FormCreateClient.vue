@@ -4,6 +4,7 @@
       <q-btn-toggle
         v-if="!pjOnly"
         no-caps
+        unelevated
         v-model="personType"
         toggle-color="primary"
         :options="[
@@ -14,19 +15,30 @@
     </div>
 
     <div class="row q-col-gutter-sm">
-      <div v-if="personType == 'PF'" class="col-xs-12">
+      <div v-if="personType == 'PF'" class="col-xs-12 row">
         <q-input
           stack-label
           lazy-rules
           v-model="item.email"
           type="text"
-          class="q-mb-sm"
+          class="q-pr-sm"
+          :class="personType !== 'PF' ? 'col-xs-12' : 'col-8'"
           :label="$t('Email')"
           placeholder="Digite o email"
           :rules="[isInvalid('email')]"
           :outlined="true"
           :loading="isSearching"
           debounce="800"
+        />
+        <q-input
+          outlined
+          class="col-4"
+          label="Telefone"
+          stack-label
+          v-model="item.phone"
+          type="text"
+          placeholder="Digite um telefone"
+          mask="(##) #####-####"
         />
       </div>
 
@@ -38,32 +50,44 @@
           unmasked-value
           v-model="item.document"
           type="text"
-          class="q-mb-sm"
           :label="$t('CNPJ')"
           :mask="'##.###.###/####-##'"
           :placeholder="'Digite o CNPJ'"
           :rules="[isInvalid('document')]"
           :loading="isSearching"
-          
         />
       </div>
     </div>
     <!--@input="searchCustomerById"-->
-    <div class="row q-col-gutter-sm">
-      <div class="col-xs-12 col-sm-6">
+    <div class="row q-col-gutter-x-sm">
+      <div :class="personType == 'PJ' ? 'col-xs-12 col-sm-6' : 'col-8'">
         <q-input
           stack-label
           lazy-rules
           v-model="item.name"
           type="text"
-          class="q-mb-sm"
-          :label="personType == 'PJ' ? $t('Razão social') : $t('Nome')"
+          :label="personType == 'PJ' ? $t('Razão social') : $t('Nome Completo')"
           :placeholder="
-            personType == 'PJ' ? 'Digite a Razão social' : 'Digite seu nome'
+            personType == 'PJ' ? 'Digite a Razão social' : 'Digite seu nome Completo'
           "
           :rules="[isInvalid('name')]"
           :outlined="true"
         />
+      </div>
+      <div v-if="personType !== 'PJ'" class="col-4">
+        <q-input
+          stack-label
+          lazy-rules
+          v-model="item.alias"
+          type="text"
+          label="Nome social"
+          placeholder="Nome social ou apelido"
+          :rules="[isInvalid('alias')]"
+          :outlined="true"
+        />
+      </div>
+      <div v-if="personType !== 'PJ'" class="col-xs-12">
+        <q-select outlined v-model="item.contact_origin" :options="contact_origin_options" label="Origem do contato" />
       </div>
       <div class="col-xs-12 col-sm-6">
         <q-input
@@ -71,21 +95,21 @@
           lazy-rules
           v-model="item.alias"
           type="text"
-          class="q-mb-sm"
-          :label="personType == 'PJ' ? $t('Nome Fantasia') : $t('Sobrenome')"
+          :label="$t('Nome Fantasia')"
+          v-if="personType == 'PJ'"
           :placeholder="
             personType == 'PJ'
               ? 'Digite o Nome fantasia'
               : 'Digite seu sobrenome'
           "
           :rules="[isInvalid('alias')]"
-          :outlined="true"
+          outlined
         />
       </div>
     </div>
 
     <div class="row justify-end q-mt-lg">
-      <q-btn type="submit" color="primary" label="Salvar" :loading="isSaving" />
+      <q-btn type="submit" color="primary" label="Salvar" :loading="isSaving" unelevated no-caps />
     </div>
   </q-form>
 </template>
@@ -118,10 +142,14 @@ export default {
         alias: null,
         document: null,
         email: null,
+        phone: null,
+        contact_origin: null,
+        unity: null,
       },
       isSaving: false,
       isSearching: false,
       particulars: [],
+      contact_origin_options: ['Whatsapp', 'E-mail', 'Evo', 'Outros'],
     };
   },
 

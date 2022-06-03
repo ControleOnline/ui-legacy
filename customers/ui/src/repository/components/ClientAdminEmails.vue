@@ -1,39 +1,44 @@
 <template>
-  <div class="row">
+  <div class="row form q-pa-md">
+    <div class="col-3 text-h6">
+      <div class="text-subtitle1 text-left">Lista de emails</div>
+    </div>
+    <div class="col-9">
+      <div class="row justify-end">
+        <q-btn
+          unelevated
+          no-caps
+          label ="Adicionar"
+          icon  ="add"
+          size  ="md"
+          color ="primary"
+          class ="q-ml-sm"
+          @click="dialog = !dialog"
+        />
+      </div>
+    </div>
     <div class="col-12 q-mt-md">
-      <q-table flat
-        :data           ="items"
-        :columns        ="settings.columns"
+      <q-table
+        flat
+        :data="items"
+        :columns="settings.columns"
         :visible-columns="settings.visibleColumns"
-        row-key         ="id"
-        :loading        ="isLoading"
+        row-key="id"
+        :loading="isLoading"
+        bordered
       >
-        <template v-slot:top>
-          <div class="col-3 q-mb-md text-h6">
-            Lista de emails
-          </div>
-          <div class="col-9 q-mb-md">
-            <div class="row justify-end">
-              <q-btn
-                label ="Adicionar"
-                icon  ="add"
-                size  ="md"
-                color ="primary"
-                class ="q-ml-sm"
-                @click="dialog = !dialog"
-              />
-            </div>
-          </div>
-        </template>
-
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="email" :props="props">{{ props.cols[0].value }}</q-td>
             <q-td auto-width>
-              <q-btn flat round dense
-                color   ="red"
-                icon    ="delete"
-                @click  ="removeItem(props.row)"                
+              <q-btn
+                flat
+                round
+                dense
+                unelevated
+                color="red"
+                icon="delete"
+                @click="removeItem(props.row)"                
                 :loading="props.row._bussy"
               />
             </q-td>
@@ -47,7 +52,7 @@
         <q-card-section class="row items-center">
           <div class="text-h6">Novo email</div>
           <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
+          <q-btn icon="close" unelevated flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
@@ -56,6 +61,7 @@
               type   ="text"
               label  ="Email"
               class  ="q-mt-md"
+              outlined
               :rules ="[isInvalid('email')]"
             />
 
@@ -63,11 +69,13 @@
               <q-btn
                 :loading="saving"
                 icon    ="save"
+                no-caps
                 type    ="submit"
                 label   ="Salvar"
                 size    ="md"
                 color   ="primary"
                 class   ="q-mt-md"
+                unelevated
               />
             </div>
           </q-form>
@@ -282,3 +290,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.form {
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.24);
+}
+</style>

@@ -1,16 +1,12 @@
 <template>
   <q-page padding>
-    <q-card style="min-height: 90vh;">
-      <q-card-section>
-        <ClientPage
-          :id    ="clientId"
-          :config="{
-            endpoint: endpoint,
-            token   : $store.getters['auth/user'].token
-          }"
-        />
-      </q-card-section>
-    </q-card>
+    <ClientPage
+      :id    ="clientId"
+      :config="{
+        endpoint: endpoint,
+        token   : $store.getters['auth/user'].token
+      }"
+    />
   </q-page>
 </template>
 

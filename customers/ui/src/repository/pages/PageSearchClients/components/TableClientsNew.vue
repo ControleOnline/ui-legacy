@@ -7,85 +7,114 @@
       @request        ="onRequest"
       row-key         ="id"
       :visible-columns="settings.visibleColumns"
-      style           ="min-height: 90vh;"
       :flat           ="true"
+      bordered
   >
     <template v-slot:body="props">
       <q-tr :props="props">
-        <q-td key="id"                :props="props">
-          <q-btn outline dense
-            :label="`#${props.row.id}`"
-            :style="{color:props.row.color_status}"
-            class ="full-width"
-            @click="$emit('selected', props.row.id)"
-          />		  
+        <q-td key="info" :props="props">
+          <q-btn flat dense class="bg-grey-4 text-grey-9" icon="info">
+            <q-tooltip>
+              Ver detalhes
+            </q-tooltip>
+          </q-btn>
         </q-td>
-        <q-td key="cnpj"  :props="props">{{ props.cols[1].value }}</q-td>
-        <q-td key="alias" :props="props">{{ props.row.alias     }}</q-td>
-        <q-td key="name"  :props="props">{{ props.row.name      }}</q-td>
-        <q-td key="email" :props="props">{{ props.row.email     }}</q-td>
-        <q-td key="phone" :props="props">{{ props.cols[5].value }}</q-td>
+        <q-td key="id" :props="props">{{ props.row.id }}</q-td>
+        <q-td key="cnpj"  :props="props">{{ props.cols[2].value }}</q-td>
+        <q-td key="alias" :props="props">{{ props.row.alias }}</q-td>
+        <q-td key="name"  :props="props">{{ props.row.name }}</q-td>
+        <q-td key="email" :props="props">{{ props.row.email }}</q-td>
+        <q-td key="phone" :props="props">{{ props.cols[6].value }}</q-td>
+        <q-td key="info" :props="props">
+          <q-btn
+            flat
+            dense
+            class="bg-grey-4 text-grey-9 q-mr-sm" icon="edit"
+            @click="$emit('selected', props.row.id)"
+          />
+          <q-btn
+            flat
+            dense
+            class="text-grey-3"
+            :class="!props.row.enable ? 'bg-red-6' : 'bg-green-6'"
+            :icon="!props.row.enable ? 'toggle_off' : 'toggle_on'"
+          />
+        </q-td>
       </q-tr>
     </template>
   </q-table>
 </template>
 
 <script>
-import { date }                        from 'quasar';
+import { date } from 'quasar';
 import { formatDocument, formatPhone } from '@controleonline/quasar-common-ui/src/utils/formatter';
-import Api                             from '@controleonline/quasar-common-ui/src/utils/api';
+import Api from '@controleonline/quasar-common-ui/src/utils/api';
 
 const SETTINGS = {
   visibleColumns: [
+    'info',
     'id'   ,
     'cnpj' ,
     'alias',
     'name' ,
     'email',
     'phone',
+    'actions',
   ],
-  columns       : [
+  columns: [
     {
-      name  : 'id',
-      field : 'id',
-      align : 'left',
-      label : 'ID'
+      name: 'info',
+      field: 'info',
+      align: 'left',
+      label: 'Info'
     },
     {
-      name  : 'cnpj',
-      field : 'cnpj',
-      align : 'left',
+      name: 'id',
+      field: 'id',
+      align: 'left',
+      label: 'ID'
+    },
+    {
+      name: 'cnpj',
+      field: 'cnpj',
+      align: 'left',
       format: (val, row) => {
         return formatDocument(val);
       },
-      label : 'CNPJ'
+      label: 'CNPJ'
     },
     {
-      name  : 'alias',
-      field : 'alias',
-      align : 'left',
-      label : 'Nome fantasia'
+      name: 'alias',
+      field: 'alias',
+      align: 'left',
+      label: 'Nome fantasia'
     },
     {
-      name : 'name',
+      name: 'name',
       field: 'name',
       align: 'left',
       label: 'Razão social'
     },
     {
-      name : 'email',
+      name: 'email',
       field: 'email',
       align: 'left',
       label: 'Email'
     },
     {
-      name  : 'phone',
-      field : 'phone',
-      align : 'left',
+      name: 'phone',
+      field: 'phone',
+      align: 'left',
       format: (val, row) => {
         return formatPhone(val);
       },
-      label : 'Telefone'
+      label: 'Telefone'
+    },
+    {
+      name: 'actions',
+      field: 'actions',
+      align: 'left',
+      label: 'Ações'
     },
   ],
 };

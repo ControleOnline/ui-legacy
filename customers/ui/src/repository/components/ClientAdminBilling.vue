@@ -9,27 +9,28 @@
       Carregando...
     </div>
 
-    <div class="col-12 q-mt-md" :style="isLoading ? 'visibility:hidden' : 'visibility:visible'">
-      <q-markup-table v-if="item !== null">
-        <tbody>
-          <tr>
-            <td class="text-left text-bold">Faturamento</td>
-            <td class="text-left">
+    <div class="col-12" :style="isLoading ? 'visibility:hidden' : 'visibility:visible'">
+      <div v-if="item !== null">
+        <div class="row form q-mt-md q-pa-md q-col-gutter-x-md">
+          <div class="col">
+            <div class="text-left text-bold">Faturamento</div>
+            <div class="text-left">
               <q-input lazy-rules stack-label reverse-fill-mask
                 v-model  ="item.billing"
+                outlined
                 prefix   ="R$"
                 type     ="text"
-                class    ="q-mt-md"
                 :rules   ="[isInvalid('money')]"
                 mask     ="#,##"
                 fill-mask="0"
               />
-            </td>
-          </tr>
-          <tr>
-            <td class="text-left text-bold">Fechamento</td>
-            <td class="text-left">
+            </div>
+          </div>
+          <div class="col">
+            <div class="text-left text-bold">Fechamento</div>
+            <div class="text-left">
               <q-select stack-label map-options
+                outlined
                 v-model ="item.billingDays"
                 :options="settings.select.periods"
               >
@@ -41,25 +42,26 @@
                   </q-item>
                 </template>
               </q-select>
-            </td>
-          </tr>
-          <tr>
-            <td class="text-left text-bold">Prazo de pagamento</td>
-            <td class="text-left">
+            </div>
+          </div>
+          <div class="col">
+            <div class="text-left text-bold">Prazo de pagamento</div>
+            <div class="text-left">
               <q-input lazy-rules stack-label reverse-fill-mask
                 v-model="item.paymentTerm"
+                outlined
                 type   ="text"
-                class  ="q-mt-md"
                 :rules ="[isInvalid('monthday')]"
                 mask   ="#"
               />
-            </td>
-          </tr>
-        </tbody>
-      </q-markup-table>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="row justify-end">
         <q-btn
+          unelevated
           :loading="saving"
           icon    ="save"
           label   ="Salvar"
@@ -226,3 +228,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.form {
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.24);
+}
+</style>

@@ -1,5 +1,21 @@
 <template>
-  <div class="row">
+  <div class="row q-py-md">
+    <div class="col-3 text-h6">
+      <div class="text-subtitle1 text-left">Lista de usuários</div>
+    </div>
+    <div class="col-9">
+      <div class="row justify-end">
+        <q-btn
+          unelevated
+          label ="Adicionar"
+          icon  ="add"
+          size  ="md"
+          color ="primary"
+          class ="q-ml-sm"
+          @click="dialog = !dialog"
+        />
+      </div>
+    </div>
     <div class="col-12 q-mt-md">
       <q-table flat
         :data           ="items"
@@ -7,25 +23,8 @@
         :visible-columns="settings.visibleColumns"
         row-key         ="id"
         :loading        ="isLoading"
+        bordered
       >
-        <template v-slot:top>
-          <div class="col-3 q-mb-md text-h6">
-            Lista de usuários
-          </div>
-          <div class="col-9 q-mb-md">
-            <div class="row justify-end">
-              <q-btn
-                label ="Adicionar"
-                icon  ="add"
-                size  ="md"
-                color ="primary"
-                class ="q-ml-sm"
-                @click="dialog = !dialog"
-              />
-            </div>
-          </div>
-        </template>
-
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="username" :props="props">{{ props.cols[0].value }}</q-td>

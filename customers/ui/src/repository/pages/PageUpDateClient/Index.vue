@@ -1,22 +1,24 @@
 <template>
   <div class="row">
-    <div class="col-12 q-pa-md text-h6">Atualização de cadastro de cliente</div>
+    <div class="col-12 q-py-xs text-h6">Atualização cadastral do cliente</div>
 
-    <div class="col-12">
-      <div class="q-pa-md text-subtitle1 text-center">
+    <div class="q-pb-xs col-12">
+      <div class="text-subtitle1 text-left">
         {{ client.name }}
       </div>
     </div>
 
     <div class="col-12">
       <q-tabs
-        align="justify"
+        align="start"
         v-model="currentTab"
-        class="bg-white text-primary"
+        no-caps
+        class="bg-transparent text-primary"
+        dense
       >
         <q-tab v-if="client.type === 'F'" name="companies" label="Empresas" />
 
-        <q-tab name="summary" label="Resumo" />
+        <q-tab name="summary" label="Detalhes" />
         <q-tab name="tasks" label="Ocorrências" />
         <q-tab name="salesman" label="Vendedor" />
         <q-tab
@@ -24,11 +26,7 @@
           name="employees"
           label="Funcionários"
         />
-        <q-tab name="address" label="Endereços" />
-        <q-tab name="documents" label="Documentos" />
-        <q-tab v-if="client.type === 'F'" name="emails" label="Emails" />
         <q-tab v-if="client.type === 'F'" name="users" label="Usuários" />
-        <q-tab v-if="client.type === 'F'" name="phones" label="Telefones" />
         <q-tab name="billing" label="Financeiro" />
         <q-tab name="orders" :label="$t('menu.salesorders')" />
         <q-tab name="contracts" label="Contratos" />
@@ -36,30 +34,136 @@
 
       <q-separator />
 
-      <q-tab-panels v-model="currentTab">
-        <q-tab-panel name="summary">
-          <CustomerSummary
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
+      <q-tab-panels v-model="currentTab" class="bg-transparent">
+        <q-tab-panel name="summary" class="q-px-none row q-col-gutter-y-lg">
+          <div class="col-12">
+            <CustomerSummary
+              :api="api"
+              :id="clientId"
+              @error="
+                (error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+              "
+              @saved="
+                (data) => {
+                  this.$q.notify({
+                    message: 'Data successfully saved',
+                    position: 'bottom',
+                    type: 'positive',
+                  });
+                }
+              "
+            />
+          </div>
+
+          <div class="col-12">
+            <ClientAdminAddresses
+              :api="api"
+              :id="clientId"
+              @error="
+                (error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+              "
+              @saved="
+                (data) => {
+                  this.$q.notify({
+                    message: 'Data successfully saved',
+                    position: 'bottom',
+                    type: 'positive',
+                  });
+                }
+              "
+            />
+          </div>
+
+          <div class="col-12 row">
+            <div class="col-xs-12 col-sm-6">
+              <ClientAdminEmails
+                class="full-height"
+                :api="api"
+                :id="clientId"
+                @error="
+                  (error) => {
+                    this.$q.notify({
+                      message: error.message,
+                      position: 'bottom',
+                      type: 'negative',
+                    });
+                  }
+                "
+                @saved="
+                  (data) => {
+                    this.$q.notify({
+                      message: 'Data successfully saved',
+                      position: 'bottom',
+                      type: 'positive',
+                    });
+                  }
+                "
+              />
+            </div>
+
+            <div class="col-xs-12 col-sm-6 q-pl-lg">
+              <ClientAdminPhones  
+                class="full-height"
+                :api="api"
+                :id="clientId"
+                @error="
+                  (error) => {
+                    this.$q.notify({
+                      message: error.message,
+                      position: 'bottom',
+                      type: 'negative',
+                    });
+                  }
+                "
+                @saved="
+                  (data) => {
+                    this.$q.notify({
+                      message: 'Data successfully saved',
+                      position: 'bottom',
+                      type: 'positive',
+                    });
+                  }
+                "
+              />
+            </div>
+          </div>
+
+          <div class="col-12">
+            <ClientAdminDocuments
+              :api="api"
+              :id="clientId"
+              @error="
+                (error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+              "
+              @saved="
+                (data) => {
+                  this.$q.notify({
+                    message: 'Data successfully saved',
+                    position: 'bottom',
+                    type: 'positive',
+                  });
+                }
+              "
+            />
+          </div>
         </q-tab-panel>
 
         <q-tab-panel name="tasks" class="q-pa-none">
@@ -91,108 +195,8 @@
           />
         </q-tab-panel>
 
-        <q-tab-panel name="emails">
-          <ClientAdminEmails
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
-        </q-tab-panel>
-
-        <q-tab-panel name="users">
+        <q-tab-panel name="users" class="q-pa-none">
           <ClientAdminUsers
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
-        </q-tab-panel>
-
-        <q-tab-panel name="address">
-          <ClientAdminAddresses
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
-        </q-tab-panel>
-
-        <q-tab-panel name="phones">
-          <ClientAdminPhones
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
-        </q-tab-panel>
-
-        <q-tab-panel name="documents">
-          <ClientAdminDocuments
             :api="api"
             :id="clientId"
             @error="
@@ -248,7 +252,7 @@
           />
         </q-tab-panel>
 
-        <q-tab-panel name="billing">
+        <q-tab-panel name="billing" class="q-pr-none">
           <ClientAdminBilling
             :api="api"
             :id="clientId"
@@ -273,10 +277,10 @@
           />
         </q-tab-panel>
 
-        <q-tab-panel name="orders">
+        <q-tab-panel name="orders" class="q-px-xs">
           <CustomerOrders
             :api="api"
-            :client_id="clientId"
+            :id="clientId"
             @error="
               (error) => {
                 this.$q.notify({
@@ -298,7 +302,7 @@
           />
         </q-tab-panel>
 
-        <q-tab-panel name="contracts">
+        <q-tab-panel name="contracts" class="q-px-xs">
           <CustomerContracts
             :api="api"
             :id="clientId"
@@ -369,9 +373,7 @@ import ClientAdminPhones from "../../components/ClientAdminPhones.vue";
 import ClientAdminDocuments from "../../components/ClientAdminDocuments.vue";
 import ClientAdminEmployees from "../../components/ClientAdminEmployees.vue";
 import ClientAdminBilling from "../../components/ClientAdminBilling.vue";
-
-import CustomerOrders from "@controleonline/quasar-orders-ui/src/components/order/sales/OrderSearching.vue";
-
+import CustomerOrders from "../../components/CustomerOrders.vue";
 import CustomerContracts from "../../components/CustomerContracts.vue";
 import CustomerSummary from "../../components/CustomerSummary.vue";
 import CustomerSalesman from "../../components/CustomerSalesman.vue";

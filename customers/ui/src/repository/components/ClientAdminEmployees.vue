@@ -13,6 +13,8 @@
           <div class="col-12 q-mb-md">
             <div class="row justify-end">
               <q-btn
+                unelevated
+                no-caps
                 :label="$t('Adicionar')"
                 icon="add"
                 size="md"
@@ -47,6 +49,8 @@
               <q-separator />
               <q-card-actions align="around">
                 <q-btn
+                  unelevated
+                  no-caps
                   flat
                   round
                   dense
@@ -65,6 +69,8 @@
 
                 <q-btn
                   flat
+                  unelevated
+                  no-caps
                   round
                   dense
                   color="red"
@@ -86,7 +92,7 @@
         <q-card-section class="row items-center">
           <div class="text-h6">Novo funcionário</div>
           <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
+          <q-btn unelevated icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
@@ -130,6 +136,8 @@
 
             <div class="row justify-end">
               <q-btn
+                unelevated
+                no-caps
                 :loading="saving"
                 icon="save"
                 type="submit"

@@ -1,34 +1,30 @@
 <template>
   <q-page padding>
-    <q-card style="min-height: 90vh;">
-      <q-card-section>
-        <ClientsPage
-          ref    ="clientPageRef"
-          :config="{
-            endpoint: endpoint,
-            token   : $store.getters['auth/user'].token
-          }"
-          :fetchs="{
-            loadClients : {
-              before: this.onBeforeLoadClients
-            },
-            createClient: {
-              before: this.onBeforeCreateClient
+    <ClientsPage
+      ref="clientPageRef"
+      :config="{
+        endpoint: endpoint,
+        token: $store.getters['auth/user'].token
+      }"
+      :fetchs="{
+        loadClients: {
+          before: this.onBeforeLoadClients
+        },
+        createClient: {
+          before: this.onBeforeCreateClient
+        }
+      }"
+      :events="{
+        onSaved: (data) => {
+          $router.push({
+            name: 'ClientsDetails',
+            params: {
+              id: data.customerId
             }
-          }"
-          :events="{
-            onSaved: (data) => {
-              $router.push({
-                name  : 'ClientsDetails',
-                params: {
-                  id: data.customerId
-                }
-              });
-            },
-          }"
-        />
-      </q-card-section>
-    </q-card>
+          });
+        },
+      }"
+    />
   </q-page>
 </template>
 

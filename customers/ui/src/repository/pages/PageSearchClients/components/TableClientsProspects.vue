@@ -12,19 +12,34 @@
   >
     <template v-slot:body="props">
       <q-tr :props="props">
-        <q-td key="id"                :props="props">
-          <q-btn outline dense
-            :label="`#${props.row.id}`"
-            :style="{color:props.row.color_status}"
-            class ="full-width"
-            @click="$emit('selected', props.row.id)"
-          />		  
+        <q-td key="info" :props="props">
+          <q-btn flat dense class="bg-grey-4 text-grey-9" icon="info">
+            <q-tooltip>
+              Ver detalhes
+            </q-tooltip>
+          </q-btn>
         </q-td>
-        <q-td key="cnpj"  :props="props">{{ props.cols[1].value }}</q-td>
-        <q-td key="alias" :props="props">{{ props.row.alias     }}</q-td>
-        <q-td key="name"  :props="props">{{ props.row.name      }}</q-td>
-        <q-td key="email" :props="props">{{ props.row.email     }}</q-td>
-        <q-td key="phone" :props="props">{{ props.cols[5].value }}</q-td>
+        <q-td key="id" :props="props">{{ props.row.id }}</q-td>
+        <q-td key="cnpj"  :props="props">{{ props.cols[2].value }}</q-td>
+        <q-td key="alias" :props="props">{{ props.row.alias }}</q-td>
+        <q-td key="name"  :props="props">{{ props.row.name }}</q-td>
+        <q-td key="email" :props="props">{{ props.row.email }}</q-td>
+        <q-td key="phone" :props="props">{{ props.cols[6].value }}</q-td>
+        <q-td key="info" :props="props">
+          <q-btn
+            flat
+            dense
+            class="bg-grey-4 text-grey-9 q-mr-sm" icon="edit"
+            @click="$emit('selected', props.row.id)"
+          />
+          <q-btn
+            flat
+            dense
+            class="text-grey-3"
+            :class="!props.row.enable ? 'bg-red-6' : 'bg-green-6'"
+            :icon="!props.row.enable ? 'toggle_off' : 'toggle_on'"
+          />
+        </q-td>
       </q-tr>
     </template>
   </q-table>
@@ -37,14 +52,22 @@ import Api                             from '@controleonline/quasar-common-ui/sr
 
 const SETTINGS = {
   visibleColumns: [
+    'info',
     'id'   ,
     'cnpj' ,
     'alias',
     'name' ,
     'email',
     'phone',
+    'actions',
   ],
   columns       : [
+    {
+      name: 'info',
+      field: 'info',
+      align: 'left',
+      label: 'Info'
+    },
     {
       name  : 'id',
       field : 'id',
@@ -87,6 +110,12 @@ const SETTINGS = {
       },
       label : 'Telefone'
     },
+    {
+      name: 'actions',
+      field: 'actions',
+      align: 'left',
+      label: 'Ações'
+    },
   ],
 };
 
@@ -127,7 +156,7 @@ export default {
         sortBy     : 'cnpj',
         descending : false,
         page       : 1,
-        rowsPerPage: 30,
+        rowsPerPage: 8,
         rowsNumber : 10,
       },
     };

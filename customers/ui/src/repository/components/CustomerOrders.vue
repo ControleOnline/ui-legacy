@@ -9,7 +9,6 @@
           @request        ="onRequest"
           row-key         ="id"
           :visible-columns="settings.visibleColumns"
-          style           ="min-height: 90vh;"
       >    
         <template v-slot:body="props">
           <q-tr :props="props">
