@@ -261,8 +261,6 @@
           <h6>
             <q-icon name="fmd_bad" size="30px" /> {{ $t(`order.warning.dificult`) }}
           </h6>
-
-          hasDificult
         </div>
       </div>
 
