@@ -39,6 +39,7 @@
 
           <q-icon v-if="hasSchedule(props.row.other_informations) == true" name="schedule" color="blue" />
           <q-icon v-if="hasRural(props.row.other_informations) == true" name="agriculture" color="red" />
+          <q-icon v-if="hasDificult(props.row.other_informations) == true" name="fmd_bad" color="red" />
           <q-icon v-if="hasClosedTasks(props.row.task) == true" name="priority_high" color="green" />
           <q-icon v-if="hasPendingTasks(props.row.task) == true" name="priority_high" color="yellow" />
           <q-icon v-if="hasOpenedTasks(props.row.task) == true" name="priority_high" color="red" />
@@ -440,6 +441,20 @@ export default {
       }
       return has;
     },
+
+    hasDificult(o_i) {
+      let other_informations = JSON.parse(o_i);
+
+      let has = false;
+      if (
+        other_informations &&
+        other_informations.dificult
+      ) {
+        has = true;
+      }
+      return has;
+    },
+
     hasRural(o_i) {
       let other_informations = JSON.parse(o_i);
 

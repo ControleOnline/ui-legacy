@@ -66,6 +66,11 @@
             <q-icon name="agriculture" size="30px" /> {{ $t(`order.warning.rural`) }}
           </h6>
         </div>
+        <div v-if="hasDificult(other_informations) == true" class="row warning  q-pa-sm q-col-gutter-sm">
+          <h6>
+            <q-icon name="fmd_bad" size="30px" /> {{ $t(`order.warning.dificult`) }}
+          </h6>
+        </div>
       </div>
 
       <div v-if="orderStatus !== null" class="row" key="order_tabs">
@@ -196,6 +201,17 @@ export default {
       getStatus: "purchasingOrder/getDetailStatus",
       updateStatus: "purchasingOrder/updateStatus",
     }),
+
+    hasDificult(other_informations) {
+      let has = false;
+      if (
+        other_informations &&
+        other_informations.dificult
+      ) {
+        has = true;
+      }
+      return has;
+    },
 
     hasRural(other_informations) {
       let has = false;

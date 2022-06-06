@@ -155,6 +155,7 @@
                 <tr>
                   <td class="text-center">
                     <q-icon v-if="hasRural(other_informations) == true" name="agriculture" color="red" size="30px" />
+                    <q-icon v-if="hasDificult(other_informations) == true" name="fmd_bad" color="red" size="30px" />
                     <q-icon v-if="app == 'app' || app == 'Cota Fácil' || app == 'Gestor'" name="touch_app" color="blue"
                       size="30px" />
                     <q-icon v-else name="electrical_services" color="green" size="30px" />
@@ -255,6 +256,13 @@
           <h6>
             <q-icon name="agriculture" size="30px" /> {{ $t(`order.warning.rural`) }}
           </h6>
+        </div>
+        <div v-if="hasDificult(other_informations) == true" class="row warning">
+          <h6>
+            <q-icon name="fmd_bad" size="30px" /> {{ $t(`order.warning.dificult`) }}
+          </h6>
+
+          hasDificult
         </div>
       </div>
 
@@ -439,6 +447,17 @@ export default {
     }),
     formatDate(date) {
       return formatDateYmdTodmY(date, true);
+    },
+
+    hasDificult(other_informations) {
+      let has = false;
+      if (
+        other_informations &&
+        other_informations.dificult
+      ) {
+        has = true;
+      }
+      return has;
     },
     hasRural(other_informations) {
       let has = false;
