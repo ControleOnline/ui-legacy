@@ -1,35 +1,15 @@
 <template>
-  <q-table
-    :loading="isLoading"
-    :data="data"
-    :columns="settings.columns"
-    :pagination.sync="pagination"
-    @request="onRequest"
-    row-key="id"
-    :visible-columns="settings.visibleColumns"
-    style="min-height: 90vh"
-  >
+  <q-table :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
+    @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" style="min-height: 90vh">
     <template v-slot:top v-if="search === true">
       <div class="col-xs-12 q-pb-md text-h6">Pedidos de venda</div>
 
       <div class="col-sm-6 col-xs-12 q-pa-md">
-        <q-input
-          stack-label
-          label="Buscar por"
-          debounce="1000"
-          v-model="filters.text"
-          class="full-width"
-        />
+        <q-input stack-label label="Buscar por" debounce="1000" v-model="filters.text" class="full-width" />
       </div>
       <div class="col-sm-6 col-xs-12 q-pa-md">
-        <q-select
-          stack-label
-          label="Status do pedido"
-          v-model="filters.status"
-          :options="statuses"
-          class="full-width"
-          :loading="loadingStatuses"
-        >
+        <q-select stack-label label="Status do pedido" v-model="filters.status" :options="statuses" class="full-width"
+          :loading="loadingStatuses">
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
@@ -40,71 +20,36 @@
         </q-select>
       </div>
       <div class="col-sm-12 col-xs-12">
-        <DataFilter
-          :fromDate="filters.from"
-          :toDate="filters.to"
-          :showButton="false"
-          @dateChanged="dateChanged"
-        />
+        <DataFilter :fromDate="filters.from" :toDate="filters.to" :showButton="false" @dateChanged="dateChanged" />
       </div>
     </template>
 
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="id" :props="props">
-          <q-btn
-            outline
-            dense
-            :to="{ name: 'OrderDetails', params: { id: props.row.id } }"
-            :label="`#${props.row.id}`"
-            :style="{ color: props.row.color_status }"
-            class="full-width"
-          />
+          <q-btn outline dense :to="{ name: 'OrderDetails', params: { id: props.row.id } }" :label="`#${props.row.id}`"
+            :style="{ color: props.row.color_status }" class="full-width" />
 
-          <q-icon
-            v-if="
-              props.row.app == 'app' ||
-              props.row.app == 'Cota Fácil' ||
-              props.row.app == 'Gestor'
-            "
-            name="touch_app"
-            color="blue"
-          />
+          <q-icon v-if="
+            props.row.app == 'app' ||
+            props.row.app == 'Cota Fácil' ||
+            props.row.app == 'Gestor'
+          " name="touch_app" color="blue" />
           <q-icon v-else name="electrical_services" color="green" />
 
-          <q-icon
-            v-if="hasSchedule(props.row.other_informations) == true"
-            name="schedule"
-            color="blue"
-          />
-
-          <q-icon
-            v-if="hasClosedTasks(props.row.task) == true"
-            name="priority_high"
-            color="green"
-          />
-          <q-icon
-            v-if="hasPendingTasks(props.row.task) == true"
-            name="priority_high"
-            color="yellow"
-          />
-          <q-icon
-            v-if="hasOpenedTasks(props.row.task) == true"
-            name="priority_high"
-            color="red"
-          />
+          <q-icon v-if="hasSchedule(props.row.other_informations) == true" name="schedule" color="blue" />
+          <q-icon v-if="hasRural(props.row.other_informations) == true" name="agriculture" color="red" />
+          <q-icon v-if="hasClosedTasks(props.row.task) == true" name="priority_high" color="green" />
+          <q-icon v-if="hasPendingTasks(props.row.task) == true" name="priority_high" color="yellow" />
+          <q-icon v-if="hasOpenedTasks(props.row.task) == true" name="priority_high" color="red" />
         </q-td>
         <q-td key="notaFiscal" :props="props">{{ props.row.notaFiscal }}</q-td>
         <q-td key="dataPedido" :props="props">{{ props.cols[2].value }}</q-td>
         <q-td key="dataEntrega" :props="props">{{ props.cols[3].value }}</q-td>
         <q-td key="ultimaModificacao" :props="props">{{
-          props.cols[4].value
+            props.cols[4].value
         }}</q-td>
-        <q-td
-          key="status"
-          :props="props"
-          :style="{ color: props.row.color_status }"
-        >
+        <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
           {{ $t(`order.statuses.${props.row.status}`) }}
         </q-td>
         <q-td key="coleta" :props="props">
@@ -494,6 +439,16 @@ export default {
       }
       return has;
     },
+    hasRural(other_informations) {
+      let has = false;
+      if (
+        other_informations &&
+        other_informations.rural
+      ) {
+        has = true;
+      }
+      return has;
+    },
     onRequest(props) {
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
         props.pagination;
@@ -509,7 +464,7 @@ export default {
       if (this.filters.status != null && this.filters.status.value == -1) {
         params["orderStatus.realStatus"] =
           this.defaultCompany.configs &&
-          typeof this.defaultCompany.configs.salesOrdersStartRealStatus !=
+            typeof this.defaultCompany.configs.salesOrdersStartRealStatus !=
             "undefined"
             ? JSON.parse(this.defaultCompany.configs.salesOrdersStartRealStatus)
             : ["pending"];
