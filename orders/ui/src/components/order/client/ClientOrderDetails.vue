@@ -4,16 +4,8 @@
       <q-spinner-gears size="50px" color="primary" />
     </q-inner-loading>
 
-    <transition-group
-      appear
-      enter-active-class="animated fadeIn"
-      leave-active-class="animated fadeOut"
-    >
-      <div
-        v-if="orderStatus !== null"
-        class="row q-pa-sm q-col-gutter-sm"
-        key="order_status"
-      >
+    <transition-group appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+      <div v-if="orderStatus !== null" class="row q-pa-sm q-col-gutter-sm" key="order_status">
         <div class="col-xs-12 col-sm-4">
           <q-markup-table flat dense separator="none" class="bg-grey-4">
             <tbody>
@@ -21,11 +13,10 @@
                 <td class="text-left text-bold">Número do pedido</td>
                 <td class="text-left">
                   {{
-                    `#${
-                      this.orderStatus["@id"].match(
+                      `#${this.orderStatus["@id"].match(
                         /^\/purchasing\/orders\/([a-z0-9-]*)$/
                       )[1]
-                    }`
+                      }`
                   }}
                 </td>
               </tr>
@@ -45,13 +36,8 @@
           </q-markup-table>
         </div>
         <div class="col-xs-12 col-sm-8">
-          <q-markup-table
-            flat
-            dense
-            separator="none"
-            class="text-white"
-            :style="`background-color: ${this.orderStatus.orderStatus.color}`"
-          >
+          <q-markup-table flat dense separator="none" class="text-white"
+            :style="`background-color: ${this.orderStatus.orderStatus.color}`">
             <tbody>
               <tr>
                 <td class="text-center">
@@ -63,38 +49,28 @@
               <tr>
                 <td class="text-center text-bold">
                   <div class="row q-gutter-xs items-center justify-center">
-                    <q-btn
-                      v-if="orderStatus.orderStatus.realStatus == 'canceled'"
-                      color="positive"
-                      label="Revalidar Cotação"
-                      @click="remakeQuote"
-                      :loading="isUpdating"
-                    />
-                    <q-btn
-                      v-if="
-                        orderStatus.orderStatus.status == 'waiting retrieve'
-                      "
-                      color="positive"
-                      label="Coleta realizada"
-                      @click="addRetrieve"
-                      :loading="isUpdating"
-                    />
+                    <q-btn v-if="orderStatus.orderStatus.realStatus == 'canceled'" color="positive"
+                      label="Revalidar Cotação" @click="remakeQuote" :loading="isUpdating" />
+                    <q-btn v-if="
+                      orderStatus.orderStatus.status == 'waiting retrieve'
+                    " color="positive" label="Coleta realizada" @click="addRetrieve" :loading="isUpdating" />
                   </div>
                 </td>
               </tr>
             </tbody>
           </q-markup-table>
+
+        </div>
+        <div v-if="hasRural(other_informations) == true" class="row warning  q-pa-sm q-col-gutter-sm">
+          <h6>
+            {{ $t(`order.warning.rural`) }}
+          </h6>
         </div>
       </div>
 
       <div v-if="orderStatus !== null" class="row" key="order_tabs">
         <div class="col-12">
-          <q-tabs
-            :horizontal="$q.screen.gt.xs"
-            align="justify"
-            v-model="currentTab"
-            class="bg-white text-primary"
-          >
+          <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
             <q-tab name="resumo" label="Resumo" />
             <q-tab name="quotation" label="Cotação" />
             <q-tab name="notafiscal" label="Nota Fiscal" />
@@ -108,24 +84,15 @@
 
           <q-tab-panels v-model="currentTab">
             <q-tab-panel name="resumo" class="q-pa-none">
-              <ClientOrderDetailsummary
-                @quote-details="setQuoteDetails"
-                :orderId="orderId"
-              />
+              <ClientOrderDetailsummary @quote-details="setQuoteDetails" :orderId="orderId" />
             </q-tab-panel>
 
             <q-tab-panel name="quotation" class="q-pa-none">
-              <ClientOrderDetailQuotation
-                :orderId="orderId"
-                @finished="onCheckoutFinished"
-              />
+              <ClientOrderDetailQuotation :orderId="orderId" @finished="onCheckoutFinished" />
             </q-tab-panel>
 
             <q-tab-panel name="notafiscal" class="q-pa-none">
-              <ClientOrderDetailNotaFiscal
-                :orderId="orderId"
-                @fileUploaded="onInvoiceTaxUploaded"
-              />
+              <ClientOrderDetailNotaFiscal :orderId="orderId" @fileUploaded="onInvoiceTaxUploaded" />
             </q-tab-panel>
             <q-tab-panel name="invoice" class="q-pa-none">
               <ClientOrderDetailInvoice :orderId="orderId" />
@@ -139,22 +106,14 @@
               <ClientOrderDetailTracking :orderId="orderId" />
             </q-tab-panel>
             <q-tab-panel name="tag" class="q-pa-none">
-              <OrderDetailTag
-                :total_packages="total_packages"
-                :orderId="orderId"
-                :orderStatus="orderStatus"
-              />
+              <OrderDetailTag :total_packages="total_packages" :orderId="orderId" :orderStatus="orderStatus" />
             </q-tab-panel>
           </q-tab-panels>
         </div>
       </div>
     </transition-group>
 
-    <div
-      v-if="orderStatus === null && notFound"
-      class="row items-center justify-center"
-      style="min-height: 90vh"
-    >
+    <div v-if="orderStatus === null && notFound" class="row items-center justify-center" style="min-height: 90vh">
       <q-banner class="text-white bg-red text-center text-h3" rounded>
         <template v-slot:avatar>
           <q-icon name="error" color="white" />
@@ -198,6 +157,7 @@ export default {
 
   data() {
     return {
+      other_informations: [],
       total_packages: null,
       client: null,
       currentTab: "resumo",
@@ -236,6 +196,17 @@ export default {
       getStatus: "purchasingOrder/getDetailStatus",
       updateStatus: "purchasingOrder/updateStatus",
     }),
+
+    hasRural(other_informations) {
+      let has = false;
+      if (
+        other_informations &&
+        other_informations.rural
+      ) {
+        has = true;
+      }
+      return has;
+    },
     addRetrieve() {
       let params = {
         myCompany: this.myCompany.id,
@@ -325,6 +296,7 @@ export default {
             this.deliveryDueDate = data.deliveryDueDate;
             this.notFound = false;
             this.total_packages = data.total_packages;
+            this.other_informations = data.other_informations;
           }
         })
         .catch((error) => {
@@ -337,3 +309,27 @@ export default {
   },
 };
 </script>
+<style scoped>
+.red {
+  color: red !important;
+}
+
+.green {
+  color: rgb(75, 110, 5) !important;
+}
+
+.warning {
+  background-color: red;
+  width: 100%;
+  color: white;
+  padding: 0;
+  margin: auto;
+  margin-left: 8px;
+  border-radius: 3px;
+}
+
+.warning h6 {
+  padding: 10px !important;
+  margin: 0 auto !important;
+}
+</style>
