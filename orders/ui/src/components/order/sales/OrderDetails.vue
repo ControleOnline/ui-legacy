@@ -252,9 +252,9 @@
           </div>
         </div>
         <div v-if="hasRural(other_informations) == true" class="row warning">
-          <h6>            
-            {{ $t(`order.warning.rural`) }}
-            </h6>
+          <h6>
+            <q-icon name="agriculture" size="30px" /> {{ $t(`order.warning.rural`) }}
+          </h6>
         </div>
       </div>
 
