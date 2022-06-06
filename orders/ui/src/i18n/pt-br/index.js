@@ -3,6 +3,9 @@
 
 export const translate = {
   order: {
+    warning: {
+      rural: 'Pedido sujeito a cobrança de taxas adicionais devido a possibilidade de classificação como ÁREA RURAL pelo transportador',
+    },
     inMyCompany: 'Em minha Empresa',
     inOtherPlace: 'Em outro Local',
     inOtherPlaceDelivery: 'Em outro Local',

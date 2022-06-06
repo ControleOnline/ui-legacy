@@ -154,13 +154,10 @@
                 </tr>
                 <tr>
                   <td class="text-center">
-                    <q-icon v-if="
-                      app == 'app' || app == 'Cota Fácil' || app == 'Gestor'
-                    " name="touch_app" color="blue" />
-                    <q-icon v-else name="electrical_services" color="green" />
-
-                    <q-icon v-if="hasRural(other_informations) == true" name="agriculture" color="red" />
-
+                    <q-icon v-if="hasRural(other_informations) == true" name="agriculture" color="red" size="30px" />
+                    <q-icon v-if="app == 'app' || app == 'Cota Fácil' || app == 'Gestor'" name="touch_app" color="blue"
+                      size="30px" />
+                    <q-icon v-else name="electrical_services" color="green" size="30px" />
                   </td>
                 </tr>
               </tbody>
@@ -253,6 +250,11 @@
               </tbody>
             </q-markup-table>
           </div>
+        </div>
+        <div v-if="hasRural(other_informations) == true" class="row warning">
+          <h6>            
+            {{ $t(`order.warning.rural`) }}
+            </h6>
         </div>
       </div>
 
@@ -841,5 +843,18 @@ export default {
 
 .green {
   color: rgb(75, 110, 5) !important;
+}
+
+.warning {
+  background-color: red;
+  width: 100%;
+  color: white;
+  padding: 0;
+  margin: auto;
+}
+
+.warning h6 {
+  padding: 10px !important;
+  margin: 0 auto !important;
 }
 </style>
