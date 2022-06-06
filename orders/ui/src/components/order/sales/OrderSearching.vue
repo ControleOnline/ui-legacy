@@ -428,7 +428,8 @@ export default {
       });
       return has;
     },
-    hasSchedule(other_informations) {
+    hasSchedule(o_i) {
+      let other_informations = JSON.parse(o_i);
       let has = false;
       if (
         other_informations &&
@@ -439,7 +440,9 @@ export default {
       }
       return has;
     },
-    hasRural(other_informations) {
+    hasRural(o_i) {
+      let other_informations = JSON.parse(o_i);
+
       let has = false;
       if (
         other_informations &&
