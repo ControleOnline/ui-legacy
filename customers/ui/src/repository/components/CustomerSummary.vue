@@ -23,6 +23,7 @@
               inline
               type="radio"
               v-model="item.type"
+              @input="changeType()"
               :options="[
                 { label: 'Pessoa Física', value: 'F' },
                 { label: 'Pessoa Jurídica', value: 'J' },
@@ -161,6 +162,35 @@ export default {
   },
 
   methods: {
+    changeType() {
+      this.isLoading = true;
+
+      return this.getParticulars()
+        .then((types) => {
+          let _types = [];
+
+          types.forEach((type) => {
+            let item = {
+              id: null,
+              typeId: type["@id"].replace(/\D/g, ""),
+              label: type.typeValue,
+              value: null,
+              required:
+                type.required === null
+                  ? false
+                  : type.required.split(":").includes("clients"),
+              type: type.fieldType,
+              _updated: false,
+            };
+
+            _types.push(item);
+          });
+          this.particulars = _types;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
     // store method
     getSummary() {
       return this.api

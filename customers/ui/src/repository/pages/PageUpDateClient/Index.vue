@@ -30,6 +30,7 @@
         <q-tab name="billing" label="Financeiro" />
         <q-tab name="orders" :label="$t('menu.salesorders')" />
         <q-tab name="contracts" label="Contratos" />
+        <q-tab name="calls" label="Atendimentos" />
       </q-tabs>
 
       <q-separator />
@@ -327,6 +328,10 @@
           />
         </q-tab-panel>
 
+        <q-tab-panel name="calls" class="q-px-xs">
+          <Calls />
+        </q-tab-panel>
+
         <q-tab-panel name="companies">
           <CustomerCompany
             :api="api"
@@ -366,6 +371,7 @@
 <script>
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
+import Calls from "@controleonline/quasar-crm-ui/src/pages/CustomerServices";
 import ClientAdminEmails from "../../components/ClientAdminEmails.vue";
 import ClientAdminUsers from "../../components/ClientAdminUsers.vue";
 import ClientAdminAddresses from "../../components/ClientAdminAddresses.vue";
@@ -404,6 +410,7 @@ export default {
     CustomerSalesman,
     CustomerCompany,
     OrderTasks,
+    Calls,
   },
 
   created() {
