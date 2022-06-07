@@ -447,7 +447,8 @@ export default {
       return formatDateYmdTodmY(date, true);
     },
 
-    hasDificult(other_informations) {
+    hasDificult(o_i) {
+      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
       let has = false;
       if (
         other_informations &&
@@ -457,7 +458,8 @@ export default {
       }
       return has;
     },
-    hasRural(other_informations) {
+    hasRural(o_i) {
+      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
       let has = false;
       if (
         other_informations &&

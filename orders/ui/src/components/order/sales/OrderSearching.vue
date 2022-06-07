@@ -430,7 +430,7 @@ export default {
       return has;
     },
     hasSchedule(o_i) {
-      let other_informations = JSON.parse(o_i);
+      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
       let has = false;
       if (
         other_informations &&
@@ -443,7 +443,7 @@ export default {
     },
 
     hasDificult(o_i) {
-      let other_informations = JSON.parse(o_i);
+      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
 
       let has = false;
       if (
@@ -456,7 +456,7 @@ export default {
     },
 
     hasRural(o_i) {
-      let other_informations = JSON.parse(o_i);
+      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
 
       let has = false;
       if (
