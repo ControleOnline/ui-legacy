@@ -1,6 +1,6 @@
 export const routes = [
   {
-    path     : '/customer-services/',
+    path     : '/crm/',
     component: () => import('../../../../../src/layouts/AdminLayout.vue'),
     children : [
       {
