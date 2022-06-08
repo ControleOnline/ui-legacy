@@ -92,6 +92,8 @@ export const translate = {
     home: 'Home',
     news: 'Artigos',
     import: 'Importador',
+    crm: 'CRM',
+    coupon: 'Cupons de Desconto'
   },
   messages: {
     fieldRequired: 'Este campo é obrigatório',
