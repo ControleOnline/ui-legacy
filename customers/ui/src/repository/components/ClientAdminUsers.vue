@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-py-md">
+  <div class="row form q-pa-md">
     <div class="col-3 text-h6">
       <div class="text-subtitle1 text-left">Lista de usuários</div>
     </div>
@@ -318,3 +318,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.form {
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.24);
+}
+</style>

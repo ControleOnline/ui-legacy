@@ -11,7 +11,7 @@
 
     <div class="col-12" :style="isLoading ? 'visibility:hidden' : 'visibility:visible'">
       <div v-if="item !== null">
-        <div class="row form q-mt-md q-pa-md q-col-gutter-x-md">
+        <div class="row form q-mt-md q-pa-md">
           <div class="col">
             <div class="text-left text-bold">Faturamento</div>
             <div class="text-left">
@@ -26,7 +26,8 @@
               />
             </div>
           </div>
-          <div class="col">
+
+          <div class="col q-px-md">
             <div class="text-left text-bold">Fechamento</div>
             <div class="text-left">
               <q-select stack-label map-options
@@ -44,6 +45,7 @@
               </q-select>
             </div>
           </div>
+
           <div class="col">
             <div class="text-left text-bold">Prazo de pagamento</div>
             <div class="text-left">
@@ -56,20 +58,20 @@
               />
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="row justify-end">
-        <q-btn
-          unelevated
-          :loading="saving"
-          icon    ="save"
-          label   ="Salvar"
-          size    ="md"
-          color   ="primary"
-          class   ="q-mt-md"
-          @click  ="onSubmit"
-        />
+          <div class="col-12 text-right">
+            <q-btn
+              unelevated
+              :loading="saving"
+              icon    ="save"
+              label   ="Salvar"
+              size    ="md"
+              color   ="primary"
+              class   ="q-mt-md"
+              @click  ="onSubmit"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
