@@ -1,48 +1,78 @@
 <template>
-  <q-table
-      :loading        ="isLoading"
-      :data           ="data"
-      :columns        ="settings.columns"
-      :pagination.sync="pagination"
-      @request        ="onRequest"
-      row-key         ="id"
-      :visible-columns="settings.visibleColumns"
-      :flat           ="true"
-      bordered
-  >
-    <template v-slot:body="props">
-      <q-tr :props="props">
-        <q-td key="info" :props="props">
-          <q-btn flat dense class="bg-grey-4 text-grey-9" icon="info">
-            <q-tooltip>
-              Ver detalhes
-            </q-tooltip>
-          </q-btn>
-        </q-td>
-        <q-td key="id" :props="props">{{ props.row.id }}</q-td>
-        <q-td key="cnpj"  :props="props">{{ props.cols[2].value }}</q-td>
-        <q-td key="alias" :props="props">{{ props.row.alias }}</q-td>
-        <q-td key="name"  :props="props">{{ props.row.name }}</q-td>
-        <q-td key="email" :props="props">{{ props.row.email }}</q-td>
-        <q-td key="phone" :props="props">{{ props.cols[6].value }}</q-td>
-        <q-td key="info" :props="props">
-          <q-btn
-            flat
-            dense
-            class="bg-grey-4 text-grey-9 q-mr-sm" icon="edit"
-            @click="$emit('selected', props.row.id)"
-          />
-          <q-btn
-            flat
-            dense
-            class="text-grey-3"
-            :class="!props.row.enable ? 'bg-red-6' : 'bg-green-6'"
-            :icon="!props.row.enable ? 'toggle_off' : 'toggle_on'"
-          />
-        </q-td>
-      </q-tr>
-    </template>
-  </q-table>
+  <div class="row q-col-gutter-md">
+    <div v-if="isLoading" class="row col-12 q-col-gutter-md">
+      <div v-for="n in 6" :key="n" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <q-card>
+          <q-item>
+            <q-item-section>
+              <q-item-label>
+                <q-skeleton type="text" />
+              </q-item-label>
+              <q-item-label caption>
+                <q-skeleton type="text" />
+              </q-item-label>
+              <q-item-label caption>
+                <q-skeleton type="text" />
+              </q-item-label>
+              <q-item-label caption>
+                <q-skeleton type="text" />
+              </q-item-label>
+              <q-item-label caption>
+                <q-skeleton type="text" />
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-card>
+      </div>
+    </div>
+
+    <div v-else v-for="client in data" :key="client.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <q-card class="column full-height">
+        <q-card-section class="col">
+          <div class="row items-center justify-between">
+            <div class="text-subtitle1 text-bold col">
+              ID: #{{ client.id }}
+            </div>
+          </div>
+          <div class="text-body2">
+            <b>{{ client.people_type !== 'F' ? 'CNPJ:' : 'CPF:' }}</b> {{ client.cnpj }}
+          </div>
+          <div class="text-body2">
+            <b>{{ client.people_type !== 'F' ? 'Nome fantasia:' : 'Nome completo' }}</b> {{ client.name }}
+          </div>
+          <div class="text-body2">
+            <b>{{ client.people_type !== 'F' ? 'Razão social:' : 'Nome social:' }}</b> {{ client.alias }}
+          </div>
+          <div class="text-body2"><b>E-mail:</b> {{ client.email }}</div>
+          <div class="text-body2"><b>Tel:</b> {{ client.phone }}</div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions align="right" class="row q-pa-none">
+          <div class="col-6 text-center">
+            <q-btn @click="$emit('selected', client.id)" class="full-width q-py-xs" flat no-caps color="grey-9" icon="edit" label="Editar" />
+          </div>
+
+          <div class="col-6 text-center">
+            <q-toggle v-model="client.enable" checked-icon="check" color="green" :label="!client.enable ? 'Habilitar' : 'Desabilitar'" unchecked-icon="clear" />
+          </div>
+        </q-card-actions>
+      </q-card>
+    </div>
+
+    <div class="col-12">
+      <q-card class="flex flex-center q-pa-md q-mt-md">
+        <q-pagination
+          v-model="page"
+          :max-pages="6"
+          :max="maxPages"
+          :boundary-numbers="maxPages > 9"
+          direction-links
+        />
+      </q-card>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -149,6 +179,7 @@ export default {
 
   data() {
     return {
+      maxPages: 5,
       settings       : SETTINGS,
       data           : [],
       isLoading      : false,
@@ -245,7 +276,9 @@ export default {
               'alias': item.alias,
               'name' : item.name,
               'email': item.email,
-              'phone': item.phone
+              'phone': item.phone,
+              'enable': item.enable,
+              'people_type': item.people_type,
             };
 
             _data.push(client);

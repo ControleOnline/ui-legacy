@@ -1,5 +1,6 @@
 <template>
   <div class="row">
+    <q-btn no-caps color="grey-3" icon="arrow_back" class="text-grey-9" unelevated label="Voltar" @click="goBack"/>
     <div class="col-12 q-py-xs text-h6">Atualização cadastral do cliente</div>
 
     <div class="q-pb-xs col-12">
@@ -16,20 +17,10 @@
         class="bg-transparent text-primary"
         dense
       >
-        <q-tab v-if="client.type === 'F'" name="companies" label="Empresas" />
-
         <q-tab name="summary" label="Detalhes" />
         <q-tab name="tasks" label="Ocorrências" />
-        <q-tab name="salesman" label="Vendedor" />
-        <q-tab
-          v-if="client.type === 'J'"
-          name="employees"
-          label="Funcionários"
-        />
-        <q-tab v-if="client.type === 'F'" name="users" label="Usuários" />
-        <q-tab name="billing" label="Financeiro" />
-        <q-tab name="orders" :label="$t('menu.salesorders')" />
-        <q-tab name="contracts" label="Contratos" />
+        <q-tab name="employees" label="Colaboradores" />
+        <q-tab name="billing" label="Comercial" />
         <q-tab name="calls" label="Atendimentos" />
       </q-tabs>
 
@@ -165,203 +156,207 @@
               "
             />
           </div>
+
+          <div class="col-12" v-if="client.type === 'F'">
+            <ClientAdminUsers
+              :api="api"
+              :id="clientId"
+              @error="
+                (error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+              "
+              @saved="
+                (data) => {
+                  this.$q.notify({
+                    message: 'Data successfully saved',
+                    position: 'bottom',
+                    type: 'positive',
+                  });
+                }
+              "
+            />
+          </div>
         </q-tab-panel>
 
         <q-tab-panel name="tasks" class="q-pa-none">
           <OrderTasks :client="people" />
         </q-tab-panel>
 
-        <q-tab-panel name="salesman">
-          <CustomerSalesman
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
-        </q-tab-panel>
-
-        <q-tab-panel name="users" class="q-pa-none">
-          <ClientAdminUsers
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
-        </q-tab-panel>
-
-        <q-tab-panel name="employees">
-          <ClientAdminEmployees
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-
-                if (data.id) {
-                  this.$router.push({
-                    name: 'ClientsDetails',
-                    params: { id: data.id },
+        <q-tab-panel name="employees" class="q-px-none row q-col-gutter-y-lg">
+          <div class="col-12" v-if="client.type === 'J'">
+            <ClientAdminEmployees
+              :api="api"
+              :id="clientId"
+              @error="
+                (error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
                   });
                 }
-              }
-            "
-          />
+              "
+              @saved="
+                (data) => {
+                  this.$q.notify({
+                    message: 'Data successfully saved',
+                    position: 'bottom',
+                    type: 'positive',
+                  });
+
+                  if (data.id) {
+                    this.$router.push({
+                      name: 'ClientsDetails',
+                      params: { id: data.id },
+                    });
+                  }
+                }
+              "
+            />
+          </div>
+
+          <div class="col-12">
+            <CustomerSalesman
+              :api="api"
+              :id="clientId"
+              @error="
+                (error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+              "
+              @saved="
+                (data) => {
+                  this.$q.notify({
+                    message: 'Data successfully saved',
+                    position: 'bottom',
+                    type: 'positive',
+                  });
+                }
+              "
+            />
+          </div>
+
+          <div class="col-12" v-if="client.type === 'F'">
+            <CustomerCompany
+              :api="api"
+              :id="clientId"
+              @error="
+                (error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+              "
+              @saved="
+                (data) => {
+                  this.$q.notify({
+                    message: 'Data successfully saved',
+                    position: 'bottom',
+                    type: 'positive',
+                  });
+
+                  if (data.id) {
+                    this.$router.push({
+                      name: 'ClientsDetails',
+                      params: { id: data.id },
+                    });
+                  }
+                }
+              "
+            />
+          </div>
         </q-tab-panel>
 
-        <q-tab-panel name="billing" class="q-pr-none">
-          <ClientAdminBilling
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
-        </q-tab-panel>
+        <q-tab-panel name="billing" class="q-px-none row q-col-gutter-y-lg">
+          <div class="col-12">
+            <ClientAdminBilling
+              :api="api"
+              :id="clientId"
+              @error="
+                (error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+              "
+              @saved="
+                (data) => {
+                  this.$q.notify({
+                    message: 'Data successfully saved',
+                    position: 'bottom',
+                    type: 'positive',
+                  });
+                }
+              "
+            />
+          </div>
 
-        <q-tab-panel name="orders" class="q-px-xs">
-          <CustomerOrders
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
-        </q-tab-panel>
+          <div class="col-12">
+            <CustomerContracts
+              :api="api"
+              :id="clientId"
+              @error="
+                (error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+              "
+              @saved="
+                (data) => {
+                  this.$q.notify({
+                    message: 'Data successfully saved',
+                    position: 'bottom',
+                    type: 'positive',
+                  });
+                }
+              "
+            />
+          </div>
 
-        <q-tab-panel name="contracts" class="q-px-xs">
-          <CustomerContracts
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
+          <div class="col-12">
+            <CustomerOrders
+              :api="api"
+              :id="clientId"
+              @error="
+                (error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+              "
+              @saved="
+                (data) => {
+                  this.$q.notify({
+                    message: 'Data successfully saved',
+                    position: 'bottom',
+                    type: 'positive',
+                  });
+                }
+              "
+            />
+          </div>
         </q-tab-panel>
 
         <q-tab-panel name="calls" class="q-px-xs">
           <Calls />
-        </q-tab-panel>
-
-        <q-tab-panel name="companies">
-          <CustomerCompany
-            :api="api"
-            :id="clientId"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Data successfully saved',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-
-                if (data.id) {
-                  this.$router.push({
-                    name: 'ClientsDetails',
-                    params: { id: data.id },
-                  });
-                }
-              }
-            "
-          />
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -424,6 +419,7 @@ export default {
       people:{},
       currentTab: "summary",
       api: null,
+      goBackRoute: null,
       clientId: this.id,
       client: {
         name: "Carregando...",
@@ -433,6 +429,15 @@ export default {
   },
 
   methods: {
+    goBack() {
+      if(this.goBackRoute) {
+        this.$router.push(this.goBackRoute);
+        return
+      }
+
+      this.$router.push({ name: 'ClientsIndex' });
+    },
+
     getClient() {
       return this.api
         .private(`people/${this.clientId}`)

@@ -90,9 +90,9 @@
 
       <q-tab-panels
         v-model="currentTab"
-        class="q-mt-sm"
+        class="q-mt-sm bg-transparent"
       >
-        <q-tab-panel name="allClients" class="q-pa-none">
+        <q-tab-panel name="allClients" class="q-pa-xs">
           <TableAllClients
             ref="allClients"
             :api="api"
@@ -108,7 +108,7 @@
           />
         </q-tab-panel>      
 
-        <q-tab-panel name="inactiveClient" class="q-pa-none">
+        <q-tab-panel name="inactiveClient" class="q-pa-xs">
           <TableClientsInactive
             ref      ="inactiveClient"
             :api     ="api"
@@ -124,7 +124,7 @@
           />
         </q-tab-panel>
 
-        <q-tab-panel name="prospectsClient" class="q-pa-none">
+        <q-tab-panel name="prospectsClient" class="q-pa-xs">
           <TableClientsProspects
             ref      ="prospectsClient"
             :api     ="api"
@@ -140,7 +140,7 @@
           />
         </q-tab-panel>
 
-        <q-tab-panel name="activeClient" class="q-pa-none">
+        <q-tab-panel name="activeClient" class="q-pa-xs">
           <TableClientsActive
             ref      ="activeClient"
             :api     ="api"
@@ -156,7 +156,7 @@
           />
         </q-tab-panel>
 
-        <q-tab-panel name="newClient" class="q-pa-none">
+        <q-tab-panel name="newClient" class="q-pa-xs">
           <TableClientsNew
             ref="newClient"
             :api="api"
