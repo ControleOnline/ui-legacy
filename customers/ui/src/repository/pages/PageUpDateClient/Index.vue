@@ -19,7 +19,7 @@
       >
         <q-tab name="summary" label="Detalhes" />
         <q-tab name="tasks" label="Ocorrências" />
-        <q-tab name="employees" label="Colaboradores" />
+        <q-tab name="employees" label="Colaboradores" v-if="client.type === 'J'" />
         <q-tab name="billing" label="Comercial" />
         <q-tab name="calls" label="Atendimentos" />
       </q-tabs>
@@ -181,6 +181,38 @@
               "
             />
           </div>
+
+          <div class="col-12" v-if="client.type === 'F'">
+            <CustomerCompany
+              :api="api"
+              :id="clientId"
+              @error="
+                (error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+              "
+              @saved="
+                (data) => {
+                  this.$q.notify({
+                    message: 'Data successfully saved',
+                    position: 'bottom',
+                    type: 'positive',
+                  });
+
+                  if (data.id) {
+                    this.$router.push({
+                      name: 'ClientsDetails',
+                      params: { id: data.id },
+                    });
+                  }
+                }
+              "
+            />
+          </div>
         </q-tab-panel>
 
         <q-tab-panel name="tasks" class="q-pa-none">
@@ -244,38 +276,6 @@
               "
             />
           </div>
-
-          <div class="col-12" v-if="client.type === 'F'">
-            <CustomerCompany
-              :api="api"
-              :id="clientId"
-              @error="
-                (error) => {
-                  this.$q.notify({
-                    message: error.message,
-                    position: 'bottom',
-                    type: 'negative',
-                  });
-                }
-              "
-              @saved="
-                (data) => {
-                  this.$q.notify({
-                    message: 'Data successfully saved',
-                    position: 'bottom',
-                    type: 'positive',
-                  });
-
-                  if (data.id) {
-                    this.$router.push({
-                      name: 'ClientsDetails',
-                      params: { id: data.id },
-                    });
-                  }
-                }
-              "
-            />
-          </div>
         </q-tab-panel>
 
         <q-tab-panel name="billing" class="q-px-none row q-col-gutter-y-lg">
@@ -305,7 +305,7 @@
           </div>
 
           <div class="col-12">
-            <CustomerContracts
+            <CustomerOrders
               :api="api"
               :id="clientId"
               @error="
@@ -330,7 +330,7 @@
           </div>
 
           <div class="col-12">
-            <CustomerOrders
+            <CustomerContracts
               :api="api"
               :id="clientId"
               @error="
