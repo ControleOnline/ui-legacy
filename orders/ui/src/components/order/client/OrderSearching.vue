@@ -322,11 +322,29 @@ export default {
         params['searchBy'] = this.filters.text;
       }
 
-      if (this.filters.status != null && this.filters.status.value != -1) {
-        params['orderStatus'] = this.filters.status.value;
-      }
-      else {
-        params['orderStatus.realStatus'] = ['pending'];
+
+      /*
+            if (this.filters.status != null && this.filters.status.value != -1) {
+              params['orderStatus'] = this.filters.status.value;
+            }
+            else {
+              params['orderStatus.realStatus'] = ['pending'];
+            }
+      */
+
+
+      if (this.filters.status != null && this.filters.status.value == -1) {
+        params["orderStatus.realStatus"] =
+          this.defaultCompany.configs &&
+            typeof this.defaultCompany.configs.salesOrdersStartRealStatus !=
+            "undefined"
+            ? JSON.parse(this.defaultCompany.configs.salesOrdersStartRealStatus)
+            : ["pending"];
+      } else if (
+        this.filters.status != null &&
+        this.filters.status.value != 0
+      ) {
+        params["orderStatus"] = this.filters.status.value;
       }
 
       if (this.filters.company != null) {
