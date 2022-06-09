@@ -1,34 +1,35 @@
 <template>
-  <div class="row">
-    <div class="col-12">
-      <div class="row justify-end q-mb-md">
+  <div class="row q-col-gutter-y-md q-pt-md">
+    <div class="col-12 row justify-between">
+      <div class="col-sm-6 col-xs-12">
+        <q-select
+          stack-label
+          outlined
+          label="Status"
+          v-model="filters.status"
+          :options="statuses"
+          class="full-width"
+          :loading="loadingStatuses"
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> Sem resultados </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+      </div>
+
+      <div class="col-sm-auto col-xs-12">
         <q-btn
           :label="$t('Add')"
           icon="add"
           size="md"
           color="primary"
-          class="q-ml-sm"
           @click="dialog = !dialog"
         />
       </div>
     </div>
-    <div class="col-sm-6 col-xs-12 q-pa-md"></div>
-    <div class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select
-        stack-label
-        label="Status"
-        v-model="filters.status"
-        :options="statuses"
-        class="full-width"
-        :loading="loadingStatuses"
-      >
-        <template v-slot:no-option>
-          <q-item>
-            <q-item-section class="text-grey"> Sem resultados </q-item-section>
-          </q-item>
-        </template>
-      </q-select>
-    </div>
+
     <div class="col-12">
       <q-table
         :loading="isLoading"
@@ -38,9 +39,9 @@
         @request="onRequest"
         row-key="id"
         :visible-columns="settings.visibleColumns"
-        style="min-height: 90vh"
         :flat="true"
         :rows-per-page-options="[5, 10, 15, 20, 25, 50]"
+        bordered
       >
         <template v-slot:body="props">
           <q-tr :props="props">
