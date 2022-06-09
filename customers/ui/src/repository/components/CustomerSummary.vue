@@ -18,17 +18,23 @@
 
       <q-form @submit="onSubmit" ref="myForm">
         <div class="row q-col-gutter-sm">
-          <div class="col-xs-12 col-sm-12">
-            <q-option-group
-              inline
-              type="radio"
-              v-model="item.type"
-              @input="changeType()"
-              :options="[
-                { label: 'Pessoa Física', value: 'F' },
-                { label: 'Pessoa Jurídica', value: 'J' },
-              ]"
-            />
+          <div class="row col-xs-12 col-sm-12 justify-between">
+            <div class="col">
+              <q-option-group
+                inline
+                type="radio"
+                v-model="item.type"
+                @input="changeType()"
+                :options="[
+                  { label: 'Pessoa Física', value: 'F' },
+                  { label: 'Pessoa Jurídica', value: 'J' },
+                ]"
+              />
+            </div>
+
+            <div class="col text-right">
+              <q-toggle v-model="item.active" checked-icon="check" color="green" :label="!item.active ? 'Desativado' : 'Ativado'" unchecked-icon="clear" />
+            </div>
           </div>
 
           <div :class="item.type == 'J' ? 'col-xs-12 col-sm-6' : 'col-xs-12'">
@@ -46,6 +52,7 @@
               :rules="[isInvalid('name')]"
             />
           </div>
+
           <div class="col-xs-12 col-sm-6" v-if="item.type == 'J'">
             <q-input
               stack-label

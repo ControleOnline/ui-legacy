@@ -1,7 +1,7 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">Empresas</div>
+      <div class="text-subtitle1 text-left">Lista de empresas</div>
     </div>
     <div class="col-9">
       <div class="row justify-end">
@@ -282,3 +282,12 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.form {
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.24);
+}
+</style>
+

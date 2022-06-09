@@ -55,7 +55,7 @@
           </div>
 
           <div class="col-6 text-center">
-            <q-toggle v-model="client.enable" checked-icon="check" color="green" :label="!client.enable ? 'Habilitar' : 'Desabilitar'" unchecked-icon="clear" />
+            <q-toggle v-model="client.enable" checked-icon="check" color="green" :label="!client.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear" />
           </div>
         </q-card-actions>
       </q-card>
