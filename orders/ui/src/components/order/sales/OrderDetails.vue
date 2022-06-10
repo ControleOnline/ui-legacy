@@ -257,8 +257,8 @@
               <q-btn v-if="(orderStatus.realStatus == 'open' || orderStatus.realStatus == 'pending') &&
               orderStatus.status != 'pending'" color="negative" label="Aguardar Documentação" @click="stopOrder"
                 :loading="isUpdating" />
-              <q-btn v-if="orderStatus.status == 'pending'" color="positive" label="Prosseguir" @click="restartOrder"
-                :loading="isUpdating" />
+              <q-btn v-if="orderStatus.status == 'pending'" color="positive" label="Aprovar Pedido"
+                @click="restartOrder" :loading="isUpdating" />
             </center>
           </div>
           <div class="col-xs-12 col-sm-4">
