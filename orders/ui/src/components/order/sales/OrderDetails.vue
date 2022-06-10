@@ -253,6 +253,12 @@
                 @click="backToWaitingRetrieve" :loading="isUpdating" />
               <q-btn v-if="['waiting payment'].includes(orderStatus.status)" color="positive" label="Liberar Pagamento"
                 @click="releasePayment" :loading="isUpdating" />
+
+              <q-btn v-if="(orderStatus.realStatus == 'open' || orderStatus.realStatus == 'pending') &&
+              orderStatus.status != 'pending'" color="negative" label="Aguardar Documentação" @click="stopOrder"
+                :loading="isUpdating" />
+              <q-btn v-if="orderStatus.status == 'pending'" color="positive" label="Prosseguir" @click="restartOrder"
+                :loading="isUpdating" />
             </center>
           </div>
           <div class="col-xs-12 col-sm-4">
@@ -262,8 +268,6 @@
                 <q-card class="bg-primary">
                   <q-card-section>
                     <center>
-                      <q-btn v-if="orderStatus.realStatus == 'canceled'" color="positive" label="Revalidar Cotação"
-                        @click="remakeQuote" :loading="isUpdating" />
                       <q-btn v-if="orderStatus.realStatus != 'canceled'" color="positive" label="Gerar Reentrega"
                         @click="remakeRoute" :loading="isUpdating" />
                       <q-btn v-if="orderStatus.realStatus != 'canceled'" color="positive" label="Gerar Reenvio"
@@ -278,7 +282,10 @@
           </div>
           <div class="col-xs-12 col-sm-4">
             <center>
-              <q-btn color="negative" label="Cancelar Pedido" @click="cancelOrder" :loading="isUpdating" />
+              <q-btn v-if="orderStatus.realStatus == 'canceled'" color="positive" label="Revalidar Cotação"
+                @click="remakeQuote" :loading="isUpdating" />
+              <q-btn v-if="orderStatus.realStatus != 'canceled'" color="negative" label="Cancelar Pedido"
+                @click="cancelOrder" :loading="isUpdating" />
             </center>
           </div>
         </div>
@@ -490,6 +497,64 @@ export default {
       }
       return has;
     },
+    stopOrder() {
+
+
+      let params = {
+        myCompany: this.myCompany.id,
+      };
+
+      this.isUpdating = true;
+
+      this.updateStatus({
+        id: this.orderId,
+        values: {
+          update: "stop_order",
+        },
+        params: params,
+      })
+        .then((order) => {
+          this.requestOrderStatus(this.orderId).finally((data) => {
+            this.isUpdating = false;
+          });
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: "O status do pedido não pode ser atualizado",
+            position: "bottom",
+            type: "negative",
+          });
+        });
+
+    },
+    restartOrder() {
+
+      let params = {
+        myCompany: this.myCompany.id,
+      };
+
+      this.isUpdating = true;
+
+      this.updateStatus({
+        id: this.orderId,
+        values: {
+          update: "restart_order",
+        },
+        params: params,
+      })
+        .then((order) => {
+          this.requestOrderStatus(this.orderId).finally((data) => {
+            this.isUpdating = false;
+          });
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: "O status do pedido não pode ser atualizado",
+            position: "bottom",
+            type: "negative",
+          });
+        });
+    },
     releasePayment() {
       let params = {
         myCompany: this.myCompany.id,
@@ -517,7 +582,6 @@ export default {
           });
         });
     },
-
     cancelOrder() {
       let params = {
         myCompany: this.myCompany.id,
