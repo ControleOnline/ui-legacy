@@ -27,7 +27,8 @@ export const translate = {
       'retrieved': 'Coletado',
       'entered the base': "Entrou na Base",
       'boarded': "Embarcou",
-      'expired': "Expirado"
+      'expired': "Expirado",
+      'pending': "Aguardando Documentação"
     },
   },
 }

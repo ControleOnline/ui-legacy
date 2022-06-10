@@ -82,6 +82,7 @@ export const translate = {
     profissionals: 'Profissionais',
     providers: 'Fonecedores',
     serviceorders: 'Ordens de Serviço',
+    tasks: 'Ocorrências',
     purchasingorders: 'Pedidos de Compra',
     financepay: 'Contas à Pagar',
     financereceive: 'Contas à Receber',
