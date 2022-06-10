@@ -12,29 +12,6 @@
               class="full-width" />
           </div>
         </div>
-        <div class="col-12">
-          <center>
-            <q-btn v-if="orderStatus.realStatus == 'canceled'" color="positive" label="Revalidar Cotação"
-              @click="remakeQuote" :loading="isUpdating" />
-            <q-btn v-if="orderStatus.realStatus != 'canceled'" color="positive" label="Gerar Reentrega"
-              @click="remakeRoute" :loading="isUpdating" />
-            <q-btn v-if="orderStatus.realStatus != 'canceled'" color="positive" label="Gerar Reenvio"
-              @click="resendQuote" :loading="isUpdating" />
-            <q-btn v-if="orderStatus.realStatus != 'canceled'" color="warning" label="Gerar Devolução"
-              @click="devolutionQuote" :loading="isUpdating" />
-            <q-btn v-if="orderStatus.status == 'analysis'" color="positive" label="Aprovar Pedido" @click="approveOrder"
-              :loading="isUpdating" />
-            <q-btn v-if="orderStatus.status == 'waiting retrieve'" color="positive" label="Coleta realizada"
-              @click="addRetrieve" :loading="isUpdating" />
-            <q-btn v-if="orderStatus.status == 'on the way'" color="positive" label="Entrega realizada"
-              @click="addDelivered" :loading="isUpdating" />
-            <q-btn v-if="orderStatus.status == 'retrieved'" color="negative" label="Coleta não Realizada"
-              @click="backToWaitingRetrieve" :loading="isUpdating" />
-            <q-btn color="negative" label="Cancelar Pedido" @click="cancelOrder" :loading="isUpdating" />
-            <q-btn v-if="['waiting payment'].includes(orderStatus.status)" color="positive" label="Liberar Pagamento"
-              @click="releasePayment" :loading="isUpdating" />
-          </center>
-        </div>
         <div class="col-12 row bg-grey-4">
           <div class="col-xs-12 col-sm-4">
             <q-markup-table flat dense separator="none" class="bg-grey-4">
@@ -251,6 +228,7 @@
               </tbody>
             </q-markup-table>
           </div>
+
         </div>
         <div v-if="hasRural(other_informations) == true" class="row warning">
           <h6>
@@ -261,6 +239,48 @@
           <h6>
             <q-icon name="fmd_bad" size="30px" /> {{ $t(`order.warning.dificult`) }}
           </h6>
+        </div>
+        <div class="row items-center justify-center buttons-container bg-primary">
+          <div class="col-xs-12 col-sm-4">
+            <center>
+              <q-btn v-if="orderStatus.status == 'analysis'" color="positive" label="Aprovar Pedido"
+                @click="approveOrder" :loading="isUpdating" />
+              <q-btn v-if="orderStatus.status == 'waiting retrieve'" color="positive" label="Coleta realizada"
+                @click="addRetrieve" :loading="isUpdating" />
+              <q-btn v-if="orderStatus.status == 'on the way'" color="positive" label="Entrega realizada"
+                @click="addDelivered" :loading="isUpdating" />
+              <q-btn v-if="orderStatus.status == 'retrieved'" color="negative" label="Coleta não Realizada"
+                @click="backToWaitingRetrieve" :loading="isUpdating" />
+              <q-btn v-if="['waiting payment'].includes(orderStatus.status)" color="positive" label="Liberar Pagamento"
+                @click="releasePayment" :loading="isUpdating" />
+            </center>
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <q-list padding bordered class="rounded-borders">
+              <q-expansion-item dense dense-toggle expand-separator icon="receipt" header-class="text-white"
+                label="Novos pedidos">
+                <q-card class="bg-primary">
+                  <q-card-section>
+                    <center>
+                      <q-btn v-if="orderStatus.realStatus == 'canceled'" color="positive" label="Revalidar Cotação"
+                        @click="remakeQuote" :loading="isUpdating" />
+                      <q-btn v-if="orderStatus.realStatus != 'canceled'" color="positive" label="Gerar Reentrega"
+                        @click="remakeRoute" :loading="isUpdating" />
+                      <q-btn v-if="orderStatus.realStatus != 'canceled'" color="positive" label="Gerar Reenvio"
+                        @click="resendQuote" :loading="isUpdating" />
+                      <q-btn v-if="orderStatus.realStatus != 'canceled'" color="warning" label="Gerar Devolução"
+                        @click="devolutionQuote" :loading="isUpdating" />
+                    </center>
+                  </q-card-section>
+                </q-card>
+              </q-expansion-item>
+            </q-list>
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <center>
+              <q-btn color="negative" label="Cancelar Pedido" @click="cancelOrder" :loading="isUpdating" />
+            </center>
+          </div>
         </div>
       </div>
 
@@ -325,6 +345,7 @@
         O pedido não foi encontrado
       </q-banner>
     </div>
+
   </q-card>
 </template>
 
@@ -875,5 +896,9 @@ export default {
 .warning h6 {
   padding: 10px !important;
   margin: 0 auto !important;
+}
+
+.buttons-container {
+  width: 100%;
 }
 </style>
