@@ -33,7 +33,7 @@
             </div>
 
             <div class="col text-right">
-              <q-toggle v-model="item.active" checked-icon="check" color="green" :label="!item.active ? 'Desativado' : 'Ativado'" unchecked-icon="clear" />
+              <q-toggle v-model="item.enabled" checked-icon="check" color="green" :label="!item.enabled ? 'Desativado' : 'Ativado'" unchecked-icon="clear" />
             </div>
           </div>
 
@@ -160,6 +160,7 @@ export default {
         name: null,
         alias: null,
         birthday: null,
+        enabled: null,
       },
     };
   },
@@ -268,6 +269,7 @@ export default {
               value: field.value,
             };
           }),
+        enabled: this.item.enabled,
       })
         .then((data) => {
           if (data) {
@@ -299,6 +301,7 @@ export default {
           /^(\d{4})\-(\d{2})\-(\d{2})[\W\w\d]*$/g,
           "$3-$2-$1"
         );
+        this.item.enabled = data.enabled;
 
         this.getParticulars()
           .then((types) => {

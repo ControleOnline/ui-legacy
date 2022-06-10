@@ -27,7 +27,7 @@
     </div>
 
     <div v-else v-for="client in data" :key="client.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <q-card class="column full-height">
+      <q-card class="column full-height" :class="client.active ? 'bg-red' : ''">
         <q-card-section class="col">
           <div class="row items-center justify-between">
             <div class="text-subtitle1 text-bold col">
@@ -171,6 +171,17 @@ export default {
     },
   },
 
+  computed: {
+    page: {
+      get() {
+        return this.$route.query.page || 1;
+      },
+      set(value){
+        this.$router.push({ ...this.$route.name, query: { ...this.$route.query, page: value }})
+      }
+    },
+  },
+
   mounted() {
     this.onRequest({
       pagination: this.pagination
@@ -207,6 +218,17 @@ export default {
     },
 
     searchBy(text) {
+      this.onRequest({
+        pagination: this.pagination
+      });
+    },
+
+    page(value) {
+      this.pagination = {
+        ...this.pagination,
+        page: value
+      };
+
       this.onRequest({
         pagination: this.pagination
       });
@@ -258,7 +280,7 @@ export default {
       params['type']  = 'inactive';
       params['from']  = this.formatDate(this.fromDate);
       params['to']    = this.formatDate(this.toDate  );
-      params['page']  = page;
+      params['page']  = this.page;
       params['limit'] = rowsPerPage;
 
       if (this.searchBy.length > 1)
@@ -289,11 +311,12 @@ export default {
           }
 
           this.data                   = _data;
-          this.pagination.page        = page;
+          this.pagination.page        = this.page;
           this.pagination.rowsPerPage = rowsPerPage;
           this.pagination.sortBy      = sortBy;
           this.pagination.descending  = descending;
           this.pagination.rowsNumber  = data.totalItems;
+          this.maxPages = Math.ceil(data.totalItems / 8);
         })
         .finally(() => {
           this.isLoading = false;

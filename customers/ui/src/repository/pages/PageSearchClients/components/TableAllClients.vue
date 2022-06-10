@@ -27,7 +27,7 @@
     </div>
 
     <div v-else v-for="client in data" :key="client.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <q-card class="column full-height">
+      <q-card class="column full-height" :class="client.active ? 'bg-red' : ''">
         <q-card-section class="col">
           <div class="row items-center justify-between">
             <div class="text-subtitle1 text-bold col">
@@ -84,7 +84,7 @@ import { mapGetters } from 'vuex';
 const SETTINGS = {
   visibleColumns: [
     'info',
-    'id'   ,
+    'id',
     'cnpj' ,
     'alias',
     'name' ,
@@ -93,7 +93,7 @@ const SETTINGS = {
     'register_date',
     'actions',
   ],
-  columns       : [
+  columns: [
     {
       name: 'info',
       field: 'info',
@@ -164,22 +164,32 @@ export default {
     ...mapGetters({
       myProvider: 'people/currentCompany',
     }),
+
+    page: {
+      get() {
+        return this.$route.query.page || 1;
+      },
+      set(value){
+        this.$router.push({ ...this.$route.name, query: { ...this.$route.query, page: value }})
+      }
+    },
   },
+
   props: {
-    api     : {
-      type    : Api,
+    api: {
+      type: Api,
       required: true
     },
     fromDate: {
-      type    : String,
+      type: String,
       required: false,
     },
-    toDate  : {
-      type    : String,
+    toDate: {
+      type: String,
       required: false,
     },
     searchBy: {
-      type    : String,
+      type: String,
       required: false,
     },
   },
@@ -193,15 +203,15 @@ export default {
   data() {
     return {
       maxPages: 5,
-      settings       : SETTINGS,
-      data           : [],
-      isLoading      : false,
-      pagination     : {
-        sortBy     : 'cnpj',
-        descending : false,
-        page       : 1,
+      settings: SETTINGS,
+      data: [],
+      isLoading: false,
+      pagination: {
+        sortBy: 'cnpj',
+        descending: false,
+        page: 1,
         rowsPerPage: 8,
-        rowsNumber : 10,
+        rowsNumber: 10,
       },
     };
   },
@@ -217,13 +227,24 @@ export default {
       });
     },
 
-    toDate  () {
+    toDate() {
       this.onRequest({
         pagination: this.pagination
       });
     },
 
     searchBy(text) {
+      this.onRequest({
+        pagination: this.pagination
+      });
+    },
+
+    page(value) {
+      this.pagination = {
+        ...this.pagination,
+        page: value
+      };
+
       this.onRequest({
         pagination: this.pagination
       });
@@ -238,7 +259,7 @@ export default {
         .then(response => response.json())
         .then(result => {
           return {
-            members   : result.response.data.members,
+            members: result.response.data.members,
             totalItems: result.response.data.total
           };
         });
@@ -267,20 +288,20 @@ export default {
       this.isLoading = true;
 
       let {
-          page,
-          rowsPerPage,
-          rowsNumber,
-          sortBy,
-          descending
-      }          = props.pagination;
+        page,
+        rowsPerPage,
+        rowsNumber,
+        sortBy,
+        descending
+      } = props.pagination;
+
       let params = {};
 
-      params['type']  = 'all';
-      params['from']  = this.formatDate(this.fromDate);
-      params['to']    = this.formatDate(this.toDate  );
-      params['page']  = page;
+      params['type'] = 'all';
+      params['from'] = this.formatDate(this.fromDate);
+      params['to'] = this.formatDate(this.toDate);
+      params['page'] = this.page;
       params['limit'] = rowsPerPage;
-      
 
       if (this.searchBy.length > 1)
         params['searchBy'] = this.searchBy;
@@ -292,14 +313,14 @@ export default {
           let _data = [];
 
           for (let index in data.members) {
-            let item   = data.members[index];
+            let item = data.members[index];
             let client = {};
 
             client = {
-              'id'   : item.id,
-              'cnpj' : item.document,
+              'id': item.id,
+              'cnpj': item.document,
               'alias': item.alias,
-              'name' : item.name,
+              'name': item.name,
               'email': item.email,
               'phone': item.phone,
               'enable': item.enable,
@@ -310,12 +331,13 @@ export default {
             _data.push(client);
           }
 
-          this.data                   = _data;
-          this.pagination.page        = page;
+          this.data = _data;
+          this.pagination.page = this.page;
           this.pagination.rowsPerPage = rowsPerPage;
-          this.pagination.sortBy      = sortBy;
-          this.pagination.descending  = descending;
-          this.pagination.rowsNumber  = data.totalItems;
+          this.pagination.sortBy = sortBy;
+          this.pagination.descending = descending;
+          this.pagination.rowsNumber = data.totalItems;
+          this.maxPages = Math.ceil(data.totalItems / 8);
         })
         .finally(() => {
           this.isLoading = false;
