@@ -291,7 +291,6 @@ export default {
       })
         .then(statuses => {
           if (statuses.length) {
-            let data = [];
             for (let index in statuses) {
               let item = statuses[index];
               this.statuses.push({
@@ -299,6 +298,9 @@ export default {
                 'value': item['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1],
               });
             }
+            this.statuses.sort(function (a, b) {
+              return (a.label > b.label) - (a.label < b.label);
+            });
           }
           this.loadingStatuses = false;
         });

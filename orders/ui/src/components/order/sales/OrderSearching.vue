@@ -389,8 +389,7 @@ export default {
         visibility: "public",
         realStatus: ["open", "pending", "closed", "canceled"],
       }).then((statuses) => {
-        if (statuses.length) {
-          let data = [];
+        if (statuses.length) {          
           for (let index in statuses) {
             let item = statuses[index];
             this.statuses.push({
@@ -398,6 +397,9 @@ export default {
               value: item["@id"].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1],
             });
           }
+          this.statuses.sort(function (a, b) {
+            return (a.label > b.label) - (a.label < b.label);
+          });
         }
         this.loadingStatuses = false;
       });

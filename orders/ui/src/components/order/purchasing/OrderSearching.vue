@@ -1,70 +1,49 @@
 <template>
-  <q-table
-      :loading        ="isLoading"
-      :data           ="data"
-      :columns        ="settings.columns"
-      :pagination.sync="pagination"
-      @request        ="onRequest"
-      row-key         ="id"
-      style           ="min-height: 90vh;"
-  >
+  <q-table :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
+    @request="onRequest" row-key="id" style="min-height: 90vh;">
     <template v-slot:top v-if="search === true">
       <div class="col-xs-12 q-pb-md text-h6">
-          Pedidos de compra
+        Pedidos de compra
       </div>
       <div class="col-sm-6 col-xs-12 q-pa-md">
-        <q-input stack-label
-            label   ="Buscar por"
-            debounce="1000"
-            v-model ="filters.text"
-            class   ="full-width"
-        />
+        <q-input stack-label label="Buscar por" debounce="1000" v-model="filters.text" class="full-width" />
       </div>
       <div class="col-sm-6 col-xs-12 q-pa-md">
-        <q-select stack-label
-            label   ="Status do pedido"
-            v-model ="filters.status"
-            :options="statuses"
-            class   ="full-width"
-            :loading="loadingStatuses"
-        >
-            <template v-slot:no-option>
-                <q-item>
-                    <q-item-section class="text-grey">
-                    Sem resultados
-                    </q-item-section>
-                </q-item>
-            </template>
+        <q-select stack-label label="Status do pedido" v-model="filters.status" :options="statuses" class="full-width"
+          :loading="loadingStatuses">
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                Sem resultados
+              </q-item-section>
+            </q-item>
+          </template>
         </q-select>
       </div>
     </template>
 
     <template v-slot:body="props">
       <q-tr :props="props">
-        <q-td key="id"                :props="props">
-          <q-btn outline dense
-            :to   ="{ name: 'PurchasingOrderDetails', params: { id: props.row.id }}"
-            :label="`#${props.row.id}`"
-            :style="{color:props.row.color_status}"
-            class ="full-width"
-          />
+        <q-td key="id" :props="props">
+          <q-btn outline dense :to="{ name: 'PurchasingOrderDetails', params: { id: props.row.id } }"
+            :label="`#${props.row.id}`" :style="{ color: props.row.color_status }" class="full-width" />
         </q-td>
-        <q-td key="notaFiscal"        :props="props">{{ props.row.notaFiscal }}</q-td>
-        <q-td key="dataPedido"        :props="props">{{ props.cols[2].value }}</q-td>
+        <q-td key="notaFiscal" :props="props">{{ props.row.notaFiscal }}</q-td>
+        <q-td key="dataPedido" :props="props">{{ props.cols[2].value }}</q-td>
         <q-td key="ultimaModificacao" :props="props">{{ props.cols[3].value }}</q-td>
-        <q-td key="status"            :props="props" :style="{color:props.row.color_status}">
+        <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
           {{ $t(`order.statuses.${props.row.status}`) }}
         </q-td>
-        <q-td key="coleta"            :props="props">
-          {{ props.row.localColeta  }}<br/>{{ props.row.coleta  }}
+        <q-td key="coleta" :props="props">
+          {{ props.row.localColeta }}<br />{{ props.row.coleta }}
         </q-td>
-        <q-td key="entrega"           :props="props">
-          {{ props.row.localEntrega }}<br/>{{ props.row.entrega }}
+        <q-td key="entrega" :props="props">
+          {{ props.row.localEntrega }}<br />{{ props.row.entrega }}
         </q-td>
-        <q-td key="transportadora"    :props="props">
+        <q-td key="transportadora" :props="props">
           {{ props.row.transportadora }}
         </q-td>
-        <q-td key="preco"             :props="props">{{ props.cols[8].value }}</q-td>
+        <q-td key="preco" :props="props">{{ props.cols[8].value }}</q-td>
       </q-tr>
     </template>
   </q-table>
@@ -72,84 +51,84 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { date }                   from 'quasar';
-import { formatMoney }            from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { date } from 'quasar';
+import { formatMoney } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 const SETTINGS = {
-  columns       : [
+  columns: [
     {
-      name  : 'id',
-      field : 'id',
-      align : 'left',
-      label : 'ID'
+      name: 'id',
+      field: 'id',
+      align: 'left',
+      label: 'ID'
     },
     {
-      name : 'notaFiscal',
+      name: 'notaFiscal',
       field: 'notaFiscal',
       align: 'left',
       label: 'Nota Fiscal',
       format: (val, row) => {
-        return val?'#'+val:''
+        return val ? '#' + val : ''
       },
     },
     {
-      name  : 'dataPedido',
-      field : 'dataPedido',
-      align : 'left',
+      name: 'dataPedido',
+      field: 'dataPedido',
+      align: 'left',
       format: (val, row) => {
         return date.formatDate(val, 'DD/MM/YYYY')
       },
-      label : 'Data do pedido'
+      label: 'Data do pedido'
     },
     {
-      name  : 'ultimaModificacao',
-      field : 'ultimaModificacao',
-      align : 'left',
+      name: 'ultimaModificacao',
+      field: 'ultimaModificacao',
+      align: 'left',
       format: (val, row) => {
         return date.formatDate(val, 'DD/MM/YYYY HH:mm:ss')
       },
-      label : 'Ultima alteração'
+      label: 'Ultima alteração'
     },
     {
-      name  : 'status',
-      field : 'status',
-      align : 'left',
-      label : 'Status'
+      name: 'status',
+      field: 'status',
+      align: 'left',
+      label: 'Status'
     },
     {
-      name : 'coleta',
+      name: 'coleta',
       field: 'coleta',
       align: 'left',
       label: 'Coleta'
     },
     {
-      name : 'localColeta',
+      name: 'localColeta',
       field: 'localColeta',
       align: 'left',
       label: 'Local de coleta'
     },
     {
-      name : 'entrega',
+      name: 'entrega',
       field: 'entrega',
       align: 'left',
       label: 'Entrega'
     },
     {
-      name : 'localEntrega',
+      name: 'localEntrega',
       field: 'localEntrega',
       align: 'left',
       label: 'Local de entrega'
     },
     {
-      name : 'transportadora',
+      name: 'transportadora',
       field: 'transportadora',
       align: 'left',
       label: 'Transportadora'
     },
     {
-      name  : 'preco',
-      field : 'preco',
-      align : 'left',
+      name: 'preco',
+      field: 'preco',
+      align: 'left',
       format: (val, row) => {
         return formatMoney(val, 'BRL', 'pt-br');
       },
@@ -162,15 +141,15 @@ Object.freeze(SETTINGS);
 
 export default {
   props: {
-    search   : {
-      type    : Boolean,
+    search: {
+      type: Boolean,
       required: false,
-      default : true,
+      default: true,
     },
     invoiceId: {
-      type    : String,
+      type: String,
       required: false,
-      default : null,
+      default: null,
     },
   },
 
@@ -179,7 +158,7 @@ export default {
       this.filters.company = this.myCompany;
       this.onRequest({
         pagination: this.pagination,
-        filter    : this.filters,
+        filter: this.filters,
       });
     }
     this.requestStatuses();
@@ -195,20 +174,20 @@ export default {
     ];
 
     return {
-      settings       : SETTINGS,
-      data           : [],
-      statuses       : statuses,
-      filters        : {
-        text   : null,
-        status : statuses[0],
+      settings: SETTINGS,
+      data: [],
+      statuses: statuses,
+      filters: {
+        text: null,
+        status: statuses[0],
         company: null,
       },
-      pagination     : {
-        sortBy     : 'ultimaModificacao',
-        descending : false,
-        page       : 1,
+      pagination: {
+        sortBy: 'ultimaModificacao',
+        descending: false,
+        page: 1,
         rowsPerPage: 10,
-        rowsNumber : 10,
+        rowsNumber: 10,
       },
       loadingStatuses: false,
     }
@@ -216,12 +195,12 @@ export default {
 
   computed: {
     ...mapGetters({
-      isLoading : 'purchasingOrder/isLoading' ,
-      error     : 'purchasingOrder/error'     ,
+      isLoading: 'purchasingOrder/isLoading',
+      error: 'purchasingOrder/error',
       violations: 'purchasingOrder/violations',
-      items     : 'purchasingOrder/items'     ,
+      items: 'purchasingOrder/items',
       totalItems: 'purchasingOrder/totalItems',
-      myCompany : 'people/currentCompany',
+      myCompany: 'people/currentCompany',
     }),
   },
 
@@ -231,7 +210,7 @@ export default {
         this.filters.company = company;
         this.onRequest({
           pagination: this.pagination,
-          filter    : this.filters,
+          filter: this.filters,
         });
       }
     },
@@ -250,20 +229,20 @@ export default {
         let item = items[index];
 
         data.push({
-          '@id'              : item['@id'],
-          'id'               : item['@id'].match(/^\/purchasing\/orders\/([a-z0-9-]*)$/)[1],
-          'notaFiscal'       : item.invoiceTax.length > 0 ? '#'+item.invoiceTax[0].invoiceTax.invoiceNumber : '',
-          'dataPedido'       : item.orderDate,
+          '@id': item['@id'],
+          'id': item['@id'].match(/^\/purchasing\/orders\/([a-z0-9-]*)$/)[1],
+          'notaFiscal': item.invoiceTax.length > 0 ? '#' + item.invoiceTax[0].invoiceTax.invoiceNumber : '',
+          'dataPedido': item.orderDate,
           'ultimaModificacao': item.alterDate,
-          'status'           : item.orderStatus.status,
-          'color_status'     : item.orderStatus.color,
-          'fornecedor'       : item.client.alias,
-          'coleta'           : item.retrievePeople !== null ? item.retrievePeople.name : '',
-          'localColeta'      : item.quote !== null ? `${item.quote.cityOrigin.city} / ${item.quote.cityOrigin.state.uf}` : '',
-          'entrega'          : item.deliveryPeople !== null ? item.deliveryPeople.name : '',
-          'localEntrega'     : item.quote !== null ? `${item.quote.cityDestination.city} / ${item.quote.cityDestination.state.uf}` : '',
-          'transportadora'   : item.quote !== null ? item.quote.carrier.name : '',
-          'preco'            : item.price,
+          'status': item.orderStatus.status,
+          'color_status': item.orderStatus.color,
+          'fornecedor': item.client.alias,
+          'coleta': item.retrievePeople !== null ? item.retrievePeople.name : '',
+          'localColeta': item.quote !== null ? `${item.quote.cityOrigin.city} / ${item.quote.cityOrigin.state.uf}` : '',
+          'entrega': item.deliveryPeople !== null ? item.deliveryPeople.name : '',
+          'localEntrega': item.quote !== null ? `${item.quote.cityDestination.city} / ${item.quote.cityDestination.state.uf}` : '',
+          'transportadora': item.quote !== null ? item.quote.carrier.name : '',
+          'preco': item.price,
         });
       }
 
@@ -273,22 +252,22 @@ export default {
     'filters.text'() {
       this.onRequest({
         pagination: this.pagination,
-        filter    : this.filters,
+        filter: this.filters,
       });
     },
 
     'filters.status'() {
       this.onRequest({
         pagination: this.pagination,
-        filter    : this.filters,
+        filter: this.filters,
       });
     },
   },
 
   methods: {
     ...mapActions({
-      getItems   : 'purchasingOrder/getItems'   ,
-      reset      : 'purchasingOrder/reset'      ,
+      getItems: 'purchasingOrder/getItems',
+      reset: 'purchasingOrder/reset',
       getStatuses: 'purchasingOrder/getStatuses',
     }),
 
@@ -308,6 +287,9 @@ export default {
                 'value': item['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1],
               });
             }
+            this.statuses.sort(function (a, b) {
+              return (a.label > b.label) - (a.label < b.label);
+            });
           }
           this.loadingStatuses = false;
         });
@@ -315,12 +297,12 @@ export default {
 
     onRequest(props) {
       let {
-          page,
-          rowsPerPage,
-          rowsNumber,
-          sortBy,
-          descending
-      }          = props.pagination;
+        page,
+        rowsPerPage,
+        rowsNumber,
+        sortBy,
+        descending
+      } = props.pagination;
       let filter = props.filter;
       let params = { itemsPerPage: rowsPerPage, page };
 
@@ -350,10 +332,10 @@ export default {
 
       this.getItems(params)
         .then(() => {
-          this.pagination.page        = page;
+          this.pagination.page = page;
           this.pagination.rowsPerPage = rowsPerPage;
-          this.pagination.sortBy      = sortBy;
-          this.pagination.descending  = descending;
+          this.pagination.sortBy = sortBy;
+          this.pagination.descending = descending;
         });
     },
   },
