@@ -90,7 +90,6 @@ export default {
             logo =
               "https://" +
               item.logo.domain +
-              "/files/" +
               item.logo.url;
           }
 
