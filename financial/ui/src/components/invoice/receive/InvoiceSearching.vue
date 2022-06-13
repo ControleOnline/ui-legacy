@@ -1,68 +1,37 @@
 <template>
   <div>
     <Filters :filters="filters" @onRequest="onRequest" />
-    <q-table
-      :loading="isLoading"
-      :data="data"
-      :columns="settings.columns"
-      :pagination.sync="pagination"
-      @request="onRequest"
-      row-key="id"
-      :visible-columns="settings.visibleColumns"
-      style="min-height: 90vh"
-    >
+    <q-table :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
+      @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" style="min-height: 90vh">
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="id" :props="props">
-            <q-btn
-              outline
-              dense
-              :to="{ name: 'ReceiveDetails', params: { id: props.row.id } }"
-              :label="props.cols[0].value"
-              :style="{ color: props.row.color_status }"
-              class="full-width"
-            />
+            <q-btn outline dense :to="{ name: 'ReceiveDetails', params: { id: props.row.id } }"
+              :label="props.cols[0].value" :style="{ color: props.row.color_status }" class="full-width" />
           </q-td>
           <q-td key="tipo" :props="props">{{ props.cols[1].value }}</q-td>
           <q-td key="pedidos" :props="props">
-            <q-btn
-              outline
-              dense
-              :label="
-                props.row.pedidos.length > 1
-                  ? `${props.row.pedidos.length} Pedidos`
-                  : '1 Pedido'
-              "
-              color="primary"
-              @click="seeOrdersList(props.row.pedidos, props.row.id)"
-              class="full-width"
-            />
+            <q-btn outline dense :label="
+              props.row.pedidos.length > 1
+                ? `${props.row.pedidos.length} Pedidos`
+                : '1 Pedido'
+            " color="primary" @click="seeOrdersList(props.row.pedidos, props.row.id)" class="full-width" />
           </q-td>
           <q-td key="dataVencimento" :props="props">{{
-            props.cols[3].value
+              props.cols[3].value
           }}</q-td>
-          <q-td key="client" :props="props">{{ props.cols[4].value }}</q-td>
-          <q-td
-            key="status"
-            :props="props"
-            :style="{ color: props.row.color_status }"
-          >
+          <q-td key="payer" :props="props">{{ props.cols[4].value }}</q-td>
+          <q-td key="client" :props="props">{{ props.cols[5].value }}</q-td>
+          <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
             {{ $t(`invoice.statuses.${props.row.status}`) }}
           </q-td>
-          <q-td key="preco" :props="props">{{ props.cols[6].value }}</q-td>
+          <q-td key="preco" :props="props">{{ props.cols[7].value }}</q-td>
         </q-tr>
       </template>
     </q-table>
 
-    <q-dialog
-      v-model="dialogs.orders.visible"
-      transition-show="scale"
-      transition-hide="scale"
-    >
-      <q-card
-        class="text-white"
-        style="background-color: #00519b; width: 300px"
-      >
+    <q-dialog v-model="dialogs.orders.visible" transition-show="scale" transition-hide="scale">
+      <q-card class="text-white" style="background-color: #00519b; width: 300px">
         <q-card-section>
           <div class="row items-center">
             <div class="text-h6">
@@ -78,12 +47,8 @@
             <tbody>
               <tr v-for="(orderId, index) in dialogs.orders.items" :key="index">
                 <td class="text-center">
-                  <q-btn
-                    flat
-                    color="primary"
-                    :label="`Ver pedido #${orderId}`"
-                    :to="{ name: 'OrderDetails', params: { id: orderId } }"
-                  />
+                  <q-btn flat color="primary" :label="`Ver pedido #${orderId}`"
+                    :to="{ name: 'OrderDetails', params: { id: orderId } }" />
                 </td>
               </tr>
             </tbody>
@@ -110,6 +75,7 @@ const SETTINGS = {
     "tipo",
     "pedidos",
     "dataVencimento",
+    "payer",
     "client",
     "status",
     "preco",
@@ -144,6 +110,12 @@ const SETTINGS = {
         return formatDateYmdTodmY(val);
       },
       label: "Data vencimento",
+    },
+    {
+      name: "payer",
+      field: "payer",
+      align: "left",
+      label: "Pagador",
     },
     {
       name: "client",
@@ -295,26 +267,7 @@ export default {
         }
 
         var clientName = item.order[0].order.client.name;
-
-        if (!clientName) {
-          clientName = item.order[0].order.client.alias;
-        } else if (
-          clientName.toLowerCase().indexOf(" ltda") == -1 &&
-          clientName.toLowerCase().indexOf(" eireli") == -1 &&
-          clientName.toLowerCase().indexOf(" comercio") == -1 &&
-          clientName.toLowerCase().indexOf(" comércio") == -1 &&
-          clientName.toLowerCase().indexOf(" comercial") == -1 &&
-          clientName.toLowerCase().indexOf(" industria") == -1 &&
-          clientName.toLowerCase().indexOf(" indústria") == -1 &&
-          clientName.toLowerCase().indexOf(" soluções") == -1 &&
-          clientName.toLowerCase().indexOf(" importação") == -1 &&
-          clientName.toLowerCase().indexOf(" solutions") == -1 &&
-          clientName.toLowerCase().indexOf(" me") == -1 &&
-          clientName.toLowerCase().trim() !=
-            item.order[0].order.client.alias.toLowerCase().trim()
-        ) {
-          clientName += " " + item.order[0].order.client.alias;
-        }
+        var payerName = item.order[0].order.payer.name;
 
         data.push({
           "@id": item["@id"],
@@ -323,6 +276,7 @@ export default {
           pedidos: orders,
           color_status: item.invoiceStatus.color,
           dataVencimento: item.dueDate,
+          payer: payerName,
           client: clientName,
           status: item.invoiceStatus.status,
           preco: item.price,
