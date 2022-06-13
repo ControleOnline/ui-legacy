@@ -50,7 +50,6 @@
             <div class="text-body2"><b>Status: </b> {{ item.status }}</div>
             <div class="text-body2"><b>Motivo de abertura: </b> {{ item.reason }}</div>
             <div class="text-body2"><b>Motivo de recusa: </b> {{ item.dropoutReason || '-' }}</div>
-            
           </q-card-section>
 
           <q-separator />
@@ -98,6 +97,14 @@ export default {
     showCreateModal: false,
     maxPages: 5,
     loadingSave: false,
+    isLoading: false,
+    pagination: {
+      sortBy: "name",
+      descending: false,
+      page: 1,
+      rowsPerPage: 10,
+      rowsNumber: 10,
+    },
     data: [
       {
         id: 1,
@@ -229,6 +236,60 @@ export default {
     fetchData() {
       console.log('Buscar dados da pagina', this.page);
       console.log('Buscar dados da pagina pesquisa: ', this.query);
+      this.onRequest({
+        pagination: this.pagination,
+      });
+    },
+
+    getTasks(params) {
+      const api = new Api(this.$store.getters["auth/user"].token);
+
+      return api.private("/tasks", { params })
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+            totalItems: result["hydra:totalItems"],
+          };
+        });
+    },
+
+    onRequest(props) {
+      if (this.isLoading) return;
+
+      this.isLoading = true;
+
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
+        props.pagination;
+
+      let params = { itemsPerPage: rowsPerPage, page: this.page, task_type: 'relationship' };
+
+      this.getTasks(params)
+        .then((data) => {
+          let _data = [];
+
+          for (let index in data.members) {
+            let item = data.members[index];
+
+            _data.push({
+              id: item.id,
+              name: item.name,
+              status: item.taskStatus.name,
+              taskFor: item.taskFor.name,
+              dueDate: item.dueDate,
+            });
+          }
+
+          this.data = _data;
+          this.pagination.page = this.page;
+          this.pagination.rowsPerPage = rowsPerPage;
+          this.pagination.sortBy = sortBy;
+          this.pagination.descending = descending;
+          this.pagination.rowsNumber = data.totalItems;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
 
     deleteItem(data) {
