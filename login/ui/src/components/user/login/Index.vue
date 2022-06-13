@@ -1,8 +1,6 @@
 <template>
   <div class="container text-center q-gutter-y-xl">
-    <q-img 
-      :src="defaultLogo"
-    />
+    <q-img :src="defaultLogo" />
 
     <q-card class="q-px-lg">
       <q-card-section class="q-pt-xl">
@@ -12,36 +10,19 @@
       </q-card-section>
 
       <q-card-section>
-        <LoginForm
-          @authenticated="onAuthenticated"
-        />
+        <LoginForm @authenticated="onAuthenticated" />
       </q-card-section>
 
       <div class="column q-px-md q-gutter-y-sm q-pb-xl">
-        <q-btn
-          unelevated
-          color="grey-7"
-          outline
-          :label="$t('login.register')"
-          v-if="signinDialogStatus === false"
-          @click="onSignUp"
-        />
+        <q-btn unelevated color="grey-7" outline :label="$t('login.register')" v-if="signinDialogStatus === false"
+          @click="onSignUp" />
 
-        <q-btn
-          style="color: #19AFBD; text-transform: none; text-decoration: underline;"
-          label="Esqueci a senha"
-          flat
-          @click="recovery = !recovery"
-        />
+        <q-btn style="color: #19AFBD; text-transform: none; text-decoration: underline;" label="Esqueci a senha" flat
+          @click="recovery = !recovery" />
       </div>
     </q-card>
 
-    <q-dialog
-      no-backdrop-dismiss
-      v-model="recovery"
-      transition-show="scale"
-      transition-hide="scale"
-    >
+    <q-dialog no-backdrop-dismiss v-model="recovery" transition-show="scale" transition-hide="scale">
       <q-card>
         <q-card-section class="row items-center">
           <div class="text-h6">{{ $t("login.dontRemember") }}</div>
@@ -110,8 +91,7 @@ export default {
               "https://" +
               item.logo.domain +
               "/files/" +
-              item.logo.id +
-              "/image.png";
+              item.logo.url;
           }
 
           data.push({
@@ -149,7 +129,7 @@ export default {
 }
 
 
-.login-label { 
+.login-label {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
