@@ -256,8 +256,14 @@ export default {
               );
               this.client.name = this.invoice.order[0].order.client.name;
               this.payer.name = this.invoice.order[0].order.payer.name;
-              this.payer.id = this.invoice.order[0].order.payer.id;
-              this.client.id = this.invoice.order[0].order.client.id;
+              this.payer.id = this.invoice.order[0].order.payer["@id"].replace(
+                /[^0-9]/g,
+                ""
+              );
+              this.client.id = this.invoice.order[0].order.client["@id"].replace(
+                /[^0-9]/g,
+                ""
+              );
 
             }
           }
