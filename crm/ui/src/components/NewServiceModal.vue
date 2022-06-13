@@ -10,7 +10,16 @@
       <q-card-section class="col">
         <q-form @submit="$emit('confirmNew', formData)" ref="newServiceForm">
           <div class="row q-col-gutter-x-md q-col-gutter-y-sm">
-            <q-select v-model="formData.customer" class="col-12" type="textarea" outlined label="Cliente" lazy-rules="ondemand" :rules="[val => !!val || 'Campo de preenchimento obrigatório']"/>
+            <PeopleAutocomplete
+              :source="searchPeople"
+              class="col-12 q-mb-md"
+              :isLoading="isSearching"
+              label="Definir o cliente"
+              @selected="onSelectClient"
+              placeholder="Pesquisar..."
+              lazy-rules="ondemand"
+              :rules="[val => !!val || 'Campo de preenchimento obrigatório']"
+            />
             <q-select v-model="formData.reason" class="col-12" outlined label="Motivo" :options="reasonOptions" lazy-rules="ondemand" :rules="[val => !!val || 'Campo de preenchimento obrigatório']"/>
             <q-select v-model="formData.status" class="col-12" outlined label="Status" :options="statusOptions" lazy-rules="ondemand" :rules="[val => !!val || 'Campo de preenchimento obrigatório']"/>
           </div>
@@ -19,7 +28,16 @@
 
       <q-card-actions align="right" class="q-px-md q-pb-md q-pt-none">
         <q-btn label="Cancelar" no-caps flat v-close-popup color="primary" class="q-mr-sm"  padding="sm lg"/>
-        <q-btn label="Confirmar" no-caps color="primary" unelevated :disabled="!disable" :loading="loadingAction" @click="$refs.newServiceForm.submit()" padding="sm lg"/>
+        <q-btn
+          label="Confirmar"
+          no-caps
+          color="primary"
+          unelevated
+          :disabled="!disable"
+          :loading="loadingAction"
+          @click="$refs.newServiceForm.submit()"
+          padding="sm lg"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -27,8 +45,14 @@
 
 <script>
 import { date } from 'quasar';
+import { mapActions } from "vuex";
+import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 
 export default {
+  components: {
+    PeopleAutocomplete,
+  },
+
   props: {
     value: {
       type: Boolean,
@@ -45,6 +69,8 @@ export default {
   data: () => ({
     model: true,
     disable: true,
+    isSearching: false,
+    clientSelected: "",
     formData: {
       customer: '',
       reason: '',
@@ -55,6 +81,43 @@ export default {
   }),
 
   methods: {
+    onSelectClient(item) {
+      this.clientSelected = item;
+      this.formData.customer = item.name;
+    },
+    ...mapActions({
+      search: "people/searchPeople",
+    }),
+    searchPeople(input) {
+      this.isSearching = true;
+
+      return this.search(input).then((result) => {
+        this.isSearching = false;
+
+        if (result && result.success) {
+          let items = [];
+          for (let i = 0; i < result.data.length; i++) {
+            items.push({
+              label:
+                result.data[i].id +
+                " - " +
+                result.data[i].name +
+                " - " +
+                result.data[i].alias,
+              value: result.data[i],
+            });
+          }
+          return items;
+        } else {
+          this.isSearching = false;
+          this.$q.notify({
+            message: this.$t("messages.gmapsReqNoData"),
+            position: "bottom",
+            type: "negative",
+          });
+        }
+      });
+    },
     formatDate(dateString) {
       return date.formatDate(date.extractDate(dateString, 'DD-MM-YYYY'), 'YYYY-MM-DD');
     },
