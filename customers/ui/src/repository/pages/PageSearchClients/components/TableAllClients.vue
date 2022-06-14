@@ -160,7 +160,6 @@ Object.freeze(SETTINGS);
 export default {
   computed: {
     ...mapGetters({
-      myProvider: 'people/currentCompany',
     }),
 
     page: {
@@ -190,10 +189,20 @@ export default {
       type: String,
       required: false,
     },
+    provider: {
+      required: true,
+    },
     pageType: {
       type: String,
       required: true,
     }
+  },
+
+  created() {
+    if (this.provider !== null)
+      this.onRequest({
+        pagination: this.pagination
+      });
   },
 
   data() {
@@ -265,11 +274,11 @@ export default {
         });
     },
     onBeforeLoadClients(params) {
-      params['myProvider'] = this.myProvider.id;
+      params['myProvider'] = this.provider.id;
     },
 
     onBeforeCreateClient(params) {
-      params['myProvider'] = this.myProvider.id;
+      params['myProvider'] = this.provider.id;
     },
     formatDate(dateString) {
       return date.formatDate(date.extractDate(dateString, 'DD-MM-YYYY'), 'YYYY-MM-DD');
