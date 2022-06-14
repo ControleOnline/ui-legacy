@@ -8,11 +8,7 @@
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">
-                  <q-date
-                    v-model="dateFrom"
-                    mask="DD-MM-YYYY"
-                    @input="() => $refs.qDateProxy1.hide()"
-                  />
+                  <q-date v-model="dateFrom" mask="DD-MM-YYYY" @input="() => $refs.qDateProxy1.hide()" />
                 </q-popup-proxy>
               </q-icon>
             </template>
@@ -23,24 +19,14 @@
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy2" transition-show="scale" transition-hide="scale">
-                  <q-date
-                    v-model="dateTo"
-                    mask="DD-MM-YYYY"
-                    @input="() => $refs.qDateProxy2.hide()"
-                  />
+                  <q-date v-model="dateTo" mask="DD-MM-YYYY" @input="() => $refs.qDateProxy2.hide()" />
                 </q-popup-proxy>
               </q-icon>
             </template>
           </q-input>
         </div>
         <div class="col-xs-12 col-sm-4">
-          <q-input stack-label
-            label="Buscar por"
-            debounce="1000"
-            v-model="searchBy"
-            class="full-width"
-            outlined
-          >
+          <q-input stack-label label="Buscar por" debounce="1000" v-model="searchBy" class="full-width" outlined>
             <template v-slot:append>
               <q-icon name="search" class="cursor-pointer" />
             </template>
@@ -51,126 +37,63 @@
     <!-- search results -->
     <div class="col-12 q-mt-md">
       <div class="row">
-        <q-tabs
-          :horizontal="$q.screen.gt.xs"
-          align="justify"
-          v-model="currentTab"
-          class="bg-transparent text-primary col-auto"
-          dense
-        >
-          <q-tab
-            name="allClients"
-            label="Clientes"
-            class="text-capitalize"
-          />
-          <q-tab
-            name="inactiveClient"
-            label="Clientes inativos"
-            class="text-capitalize"
-          />
-          <q-tab
-            name="prospectsClient"
-            label="Prospects"
-            class="text-capitalize"
-          />
-          <q-tab
-            name="activeClient"
-            label="Clientes ativos"
-            class="text-capitalize"
-          />
-          <q-tab
-            name="newClient"
-            label="Clientes novos"
-            class="text-capitalize"
-          />
+        <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab"
+          class="bg-transparent text-primary col-auto" dense>
+          <q-tab name="allClients" label="Clientes" class="text-capitalize" />
+          <q-tab name="inactiveClient" label="Clientes inativos" class="text-capitalize" />
+          <q-tab name="prospectsClient" label="Prospects" class="text-capitalize" />
+          <q-tab name="activeClient" label="Clientes ativos" class="text-capitalize" />
+          <q-tab name="newClient" label="Clientes novos" class="text-capitalize" />
         </q-tabs>
       </div>
 
       <q-separator />
 
-      <q-tab-panels
-        v-model="currentTab"
-        class="q-mt-sm bg-transparent"
-      >
+      <q-tab-panels v-model="currentTab" class="q-mt-sm bg-transparent">
         <q-tab-panel name="allClients" class="q-pa-xs">
-          <TableAllClients
-            ref="allClients"
-            :api="api"
-            :fromDate="dateFrom"
-            :toDate="dateTo"
-            :searchBy="searchBy"
-            @selected="onClientSelected"
-            @before="(params) => {
+          <TableAllClients ref="allClients" :pageType="all" :api="api" :fromDate="dateFrom" :toDate="dateTo"
+            :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
               }
-            }"
-          />
-        </q-tab-panel>      
+            }" />
+        </q-tab-panel>
 
         <q-tab-panel name="inactiveClient" class="q-pa-xs">
-          <TableClientsInactive
-            ref      ="inactiveClient"
-            :api     ="api"
-            :fromDate="dateFrom"
-            :toDate  ="dateTo"
-            :searchBy="searchBy"
-            @selected="onClientSelected"
-            @before  ="(params) => {
+          <TableAllClients ref="inactiveClient" :pageType="inactive" :api="api" :fromDate="dateFrom" :toDate="dateTo"
+            :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
               }
-            }"
-          />
+            }" />
         </q-tab-panel>
 
         <q-tab-panel name="prospectsClient" class="q-pa-xs">
-          <TableClientsProspects
-            ref      ="prospectsClient"
-            :api     ="api"
-            :fromDate="dateFrom"
-            :toDate  ="dateTo"
-            :searchBy="searchBy"
-            @selected="onClientSelected"
-            @before  ="(params) => {
+          <TableAllClients ref="prospectsClient" :pageType="all" :api="prospect" :fromDate="dateFrom" :toDate="dateTo"
+            :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
               }
-            }"
-          />
+            }" />
         </q-tab-panel>
 
         <q-tab-panel name="activeClient" class="q-pa-xs">
-          <TableClientsActive
-            ref      ="activeClient"
-            :api     ="api"
-            :fromDate="dateFrom"
-            :toDate  ="dateTo"
-            :searchBy="searchBy"
-            @selected="onClientSelected"
-            @before  ="(params) => {
+          <TableAllClients ref="activeClient" :pageType="active" :api="api" :fromDate="dateFrom" :toDate="dateTo"
+            :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
               }
-            }"
-          />
+            }" />
         </q-tab-panel>
 
         <q-tab-panel name="newClient" class="q-pa-xs">
-          <TableClientsNew
-            ref="newClient"
-            :api="api"
-            :fromDate="dateFrom"
-            :toDate  ="dateTo"
-            :searchBy="searchBy"
-            @selected="onClientSelected"
-            @before  ="(params) => {
+          <TableAllClients ref="newClient" :pageType="new" :api="api" :fromDate="dateFrom" :toDate="dateTo"
+            :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
               }
-            }"
-          />
-        </q-tab-panel>        
+            }" />
+        </q-tab-panel>
       </q-tab-panels>
     </div>
   </div>
@@ -178,11 +101,6 @@
 
 <script>
 import { date } from 'quasar';
-
-import TableClientsInactive from './components/TableClientsInactive.vue';
-import TableClientsProspects from './components/TableClientsProspects.vue';
-import TableClientsActive from './components/TableClientsActive.vue';
-import TableClientsNew from './components/TableClientsNew.vue';
 import TableAllClients from './components/TableAllClients.vue';
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
 
@@ -200,7 +118,7 @@ export default {
 
   components: {
     TableAllClients,
-    TableClientsInactive ,
+    TableClientsInactive,
     TableClientsProspects,
     TableClientsActive,
     TableClientsNew,
@@ -212,7 +130,7 @@ export default {
     );
   },
 
-  data () {
+  data() {
     return {
       currentTab: 'allClients',
       dateFrom: date.formatDate(date.subtractFromDate(Date.now(), { month: 1 }), 'DD-MM-YYYY'),
@@ -232,7 +150,7 @@ export default {
         return;
 
       this.$router.push({
-        name : 'ClientsDetails',
+        name: 'ClientsDetails',
         params: {
           id: clientId
         }

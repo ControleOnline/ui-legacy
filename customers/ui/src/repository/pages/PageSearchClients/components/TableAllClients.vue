@@ -192,6 +192,10 @@ export default {
       type: String,
       required: false,
     },
+    pageType: {
+      type: String,
+      required: true,
+    }
   },
 
   created() {
@@ -297,7 +301,7 @@ export default {
 
       let params = {};
 
-      params['type'] = 'all';
+      params['type'] = this.pageType;
       params['from'] = this.formatDate(this.fromDate);
       params['to'] = this.formatDate(this.toDate);
       params['page'] = this.page;
