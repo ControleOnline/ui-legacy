@@ -1,8 +1,6 @@
 <template>
   <div class="row">
     <q-btn no-caps color="grey-3" icon="arrow_back" class="text-grey-9" unelevated label="Voltar" @click="goBack" />
-    <div class="col-12 q-py-xs text-h6">Atualização cadastral do cliente</div>
-
     <div class="q-pb-xs col-12">
       <div class="text-subtitle1 text-left">
         {{ client.name }}
@@ -11,11 +9,11 @@
 
     <div class="col-12">
       <q-tabs align="start" v-model="currentTab" no-caps class="bg-transparent text-primary" dense>
-        <q-tab name="summary" label="Detalhes" />
-        <q-tab name="tasks" label="Ocorrências" />
-        <q-tab name="employees" label="Colaboradores" v-if="client.type === 'J'" />
-        <q-tab name="billing" label="Comercial" />
-        <q-tab name="calls" label="Atendimentos" />
+        <q-tab name="summary" :label="$t('Details')" />
+        <q-tab name="tasks" :label="$t('Tasks')" />
+        <q-tab name="employees" :label="$t('Employees')" v-if="client.type === 'J'" />
+        <q-tab name="billing" :label="$t('Billing')" />
+        <q-tab name="calls" :label="$t('Calls')" />
       </q-tabs>
       <q-separator />
       <q-tab-panels v-model="currentTab" class="bg-transparent">
@@ -286,7 +284,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="calls" class="q-px-xs">
-          <Calls />
+          <Calls :client="clientId" />
         </q-tab-panel>
       </q-tab-panels>
     </div>
