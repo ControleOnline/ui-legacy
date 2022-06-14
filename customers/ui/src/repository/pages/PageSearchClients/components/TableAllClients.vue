@@ -28,34 +28,38 @@
 
     <div v-else v-for="client in data" :key="client.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <q-card class="column full-height" :class="client.active ? 'bg-red' : ''">
-        <q-card-section class="col">
-          <div class="row items-center justify-between">
-            <div class="text-subtitle1 text-bold col">
-              ID: #{{ client.id }}
-            </div>
+        <q-card-actions align="center" class="row q-pa-none">
+          <div class="col-12 text-center text-bold">
+            <q-icon v-if="client.people_type == 'F'" name="person" class="icon" color="blue" />
+            <q-icon v-else name="factory" class="icon" color="green" />
+            {{ client.name }}
           </div>
-          <div class="text-body2">
-            <b>{{ client.people_type !== 'F' ? 'CNPJ:' : 'CPF:' }}</b> {{ client.cnpj }}
-          </div>
-          <div class="text-body2">
-            <b>{{ client.people_type !== 'F' ? 'Nome fantasia:' : 'Nome completo' }}</b> {{ client.name }}
-          </div>
-          <div class="text-body2">
-            <b>{{ client.people_type !== 'F' ? 'Razão social:' : 'Nome social:' }}</b> {{ client.alias }}
-          </div>
-          <div class="text-body2"><b>E-mail:</b> {{ client.email }}</div>
-          <div class="text-body2"><b>Tel:</b> {{ client.phone }}</div>
-        </q-card-section>
-
+        </q-card-actions>
         <q-separator />
-
+        <q-card-section class="col">
+          <div v-if="client.name != client.alias" class="text-body2">
+            {{ client.alias }}
+          </div>
+          <div v-if="client.cnpj" class="text-body2">
+            {{ client.cnpj }}
+          </div>
+          <div class="text-body2 text-bold">
+            <q-icon name="phone" />
+            {{ client.phone }}
+          </div>
+          <div class="text-body2">
+            <q-icon name="mail" /> {{ client.email }}
+          </div>
+        </q-card-section>
+        <q-separator />
         <q-card-actions align="right" class="row q-pa-none">
           <div class="col-6 text-center">
-            <q-btn @click="$emit('selected', client.id)" class="full-width q-py-xs" flat no-caps color="grey-9" icon="edit" label="Editar" />
+            <q-btn outline dense :to="{ name: 'ClientsDetails', params: { id: client.id } }" flat no-caps color="grey-9"
+              icon="edit" :label="`#${client.id}`" class="full-width q-py-xs" />
           </div>
-
           <div class="col-6 text-center">
-            <q-toggle v-model="client.enable" checked-icon="check" color="green" :label="!client.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear" />
+            <q-toggle v-model="client.enable" checked-icon="check" color="green"
+              :label="!client.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear" />
           </div>
         </q-card-actions>
       </q-card>
@@ -63,13 +67,7 @@
 
     <div class="col-12">
       <q-card class="flex flex-center q-pa-md q-mt-md">
-        <q-pagination
-          v-model="page"
-          :max-pages="6"
-          :max="maxPages"
-          :boundary-numbers="maxPages > 9"
-          direction-links
-        />
+        <q-pagination v-model="page" :max-pages="6" :max="maxPages" :boundary-numbers="maxPages > 9" direction-links />
       </q-card>
     </div>
   </div>
@@ -85,9 +83,9 @@ const SETTINGS = {
   visibleColumns: [
     'info',
     'id',
-    'cnpj' ,
+    'cnpj',
     'alias',
-    'name' ,
+    'name',
     'email',
     'phone',
     'register_date',
@@ -101,52 +99,52 @@ const SETTINGS = {
       label: 'Info'
     },
     {
-      name  : 'id',
-      field : 'id',
-      align : 'left',
-      label : 'ID'
+      name: 'id',
+      field: 'id',
+      align: 'left',
+      label: 'ID'
     },
     {
-      name  : 'cnpj',
-      field : 'cnpj',
-      align : 'left',
+      name: 'cnpj',
+      field: 'cnpj',
+      align: 'left',
       format: (val, row) => {
         return formatDocument(val);
       },
-      label : 'CNPJ'
+      label: 'CNPJ'
     },
     {
-      name  : 'alias',
-      field : 'alias',
-      align : 'left',
-      label : 'Nome fantasia'
+      name: 'alias',
+      field: 'alias',
+      align: 'left',
+      label: 'Nome fantasia'
     },
     {
-      name : 'name',
+      name: 'name',
       field: 'name',
       align: 'left',
       label: 'Razão social'
     },
     {
-      name : 'email',
+      name: 'email',
       field: 'email',
       align: 'left',
       label: 'Email'
     },
     {
-      name  : 'phone',
-      field : 'phone',
-      align : 'left',
+      name: 'phone',
+      field: 'phone',
+      align: 'left',
       format: (val, row) => {
         return formatPhone(val);
       },
-      label : 'Telefone'
+      label: 'Telefone'
     },
     {
-      name  : 'register_date',
-      field : 'register_date',
-      align : 'left',      
-      label : 'Data do Registro'
+      name: 'register_date',
+      field: 'register_date',
+      align: 'left',
+      label: 'Data do Registro'
     },
     {
       name: 'actions',
@@ -169,8 +167,8 @@ export default {
       get() {
         return this.$route.query.page || 1;
       },
-      set(value){
-        this.$router.push({ ...this.$route.name, query: { ...this.$route.query, page: value }})
+      set(value) {
+        this.$router.push({ ...this.$route.name, query: { ...this.$route.query, page: value } })
       }
     },
   },
@@ -220,10 +218,10 @@ export default {
     };
   },
 
-  watch: {  
+  watch: {
     myProvider(provider) {
       //if (provider !== null)
-        //this.$refs.clientPageRef.loadClientsDataRows();
+      //this.$refs.clientPageRef.loadClientsDataRows();
     },
     fromDate() {
       this.onRequest({
@@ -322,11 +320,11 @@ export default {
 
             client = {
               'id': item.id,
-              'cnpj': item.document,
+              'cnpj': formatDocument(item.document),
               'alias': item.alias,
               'name': item.name,
               'email': item.email,
-              'phone': item.phone,
+              'phone': formatPhone(item.phone),
               'enable': item.enable,
               'people_type': item.people_type,
               'register_date': date.formatDate(item.register_date, "DD/MM/YYYY H:m:s")
