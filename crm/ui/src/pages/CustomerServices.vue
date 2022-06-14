@@ -32,7 +32,33 @@
       </div>
     </div>
 
-    <div class="row q-col-gutter-md">
+    <div v-if="isLoading" class="row col-12 q-col-gutter-md">
+      <div v-for="n in 6" :key="n" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <q-card>
+          <q-item>
+            <q-item-section>
+              <q-item-label>
+                <q-skeleton type="text" />
+              </q-item-label>
+              <q-item-label caption>
+                <q-skeleton type="text" />
+              </q-item-label>
+              <q-item-label caption>
+                <q-skeleton type="text" />
+              </q-item-label>
+              <q-item-label caption>
+                <q-skeleton type="text" />
+              </q-item-label>
+              <q-item-label caption>
+                <q-skeleton type="text" />
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-card>
+      </div>
+    </div>
+
+    <div v-else class="row q-col-gutter-md">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" v-for="item in data" :key="item.id">
         <q-card>
           <q-card-section>
@@ -44,12 +70,18 @@
 
             <div class="text-body2"><b>Cliente ID: </b> #{{ item.customer.id }}</div>
             <div class="text-body2"><b>Nome: </b> {{ item.customer.name }}</div>
-            <div class="text-body2"><b>Data e hora: </b> {{ formatDate(item.createdAt) }}</div>
-            <div class="text-body2"><b>Origem: </b> {{ item.origin.city + ' - ' + item.origin.state }}</div>
-            <div class="text-body2"><b>Destino: </b> {{ item.destination.city + ' - ' + item.destination.state }}</div>
-            <div class="text-body2"><b>Status: </b> {{ item.status }}</div>
-            <div class="text-body2"><b>Motivo de abertura: </b> {{ item.reason }}</div>
-            <div class="text-body2"><b>Motivo de recusa: </b> {{ item.dropoutReason || '-' }}</div>
+            <div class="text-body2"><b>Data e hora:
+              </b> {{ !item.createdAt ? 'Não informado' : formatDate(item.createdAt) }}
+            </div>
+            <div class="text-body2"><b>Origem:
+              </b> {{ !item.origin ? 'Não informado' : item.origin.city + ' - ' + item.origin.state }}
+            </div>
+            <div class="text-body2"><b>Destino:
+              </b> {{ !item.destination ? 'Não informado' : item.destination.city + ' - ' + item.destination.state }}
+            </div>
+            <div class="text-body2"><b>Status: </b> {{ !item.status ? 'Não informado' : item.status }}</div>
+            <div class="text-body2"><b>Motivo de abertura: </b> {{ !item.reason ? 'Não informado' : item.reason }}</div>
+            <div class="text-body2"><b>Motivo de recusa: </b> {{ !item.dropoutReason ? 'Não informado' : item.dropoutReason || '-' }}</div>
           </q-card-section>
 
           <q-separator />
@@ -67,6 +99,7 @@
       </div>
 
     </div>
+
     <q-card class="full-width flex flex-center q-pa-md q-mt-md">
       <q-pagination
         v-model="page"
@@ -102,53 +135,10 @@ export default {
       sortBy: "name",
       descending: false,
       page: 1,
-      rowsPerPage: 10,
+      rowsPerPage: 6,
       rowsNumber: 10,
     },
-    data: [
-      {
-        id: 1,
-        customer: {
-            id: 7269,
-            name: "Teste",
-            register_date: "2022-06-01 19:58:02",
-            alias: "Teste",
-            enable: true,
-            active: true,
-            document: "31342452424242",
-            email: null,
-            phone: null
-        },
-        origin: {
-          id: "ChIJX48DsG31xZQR8qfMVhqfeas",
-          description: "Rua Vergueiro Steidel - Aparecida, 11040271, SP, Brasil",
-          country: "Brasil",
-          state: "SP",
-          city: "Santos",
-          district: "Aparecida",
-          street: "Rua Vergueiro Steidel",
-          number: "",
-          postal_code: "11040271",
-          provider: "viacep"
-        },
-        destination: {
-          id: "ChIJX48DsG31xZQR8qfMVhqfeas",
-          description: "Rua Vergueiro Steidel - Aparecida, 11040271, SP, Brasil",
-          country: "Brasil",
-          state: "SP",
-          city: "Santos",
-          district: "Aparecida",
-          street: "Rua Vergueiro Steidel",
-          number: "",
-          postal_code: "11040271",
-          provider: "viacep"
-        },
-        status: 'Em andamento',
-        createdAt: '2022-06-01 19:58:02',
-        reason: 'Compra de veículo',
-        dropoutReason: null,
-      },
-    ]
+    data: []
   }),
 
   computed: {
@@ -233,10 +223,10 @@ export default {
       return date.formatDate(date.extractDate(dateString, 'YYYY-MM-DD HH:mm'), 'DD/MM/YYYY HH:mm');
     },
 
-    fetchData() {
+    async fetchData() {
       console.log('Buscar dados da pagina', this.page);
       console.log('Buscar dados da pagina pesquisa: ', this.query);
-      this.onRequest({
+      await this.onRequest({
         pagination: this.pagination,
       });
     },
@@ -254,9 +244,7 @@ export default {
         });
     },
 
-    onRequest(props) {
-      if (this.isLoading) return;
-
+    async onRequest(props) {
       this.isLoading = true;
 
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
@@ -264,7 +252,7 @@ export default {
 
       let params = { itemsPerPage: rowsPerPage, page: this.page, task_type: 'relationship' };
 
-      this.getTasks(params)
+      await this.getTasks(params)
         .then((data) => {
           let _data = [];
 
@@ -272,11 +260,14 @@ export default {
             let item = data.members[index];
 
             _data.push({
-              id: item.id,
-              name: item.name,
-              status: item.taskStatus.name,
-              taskFor: item.taskFor.name,
-              dueDate: item.dueDate,
+              id: item?.id,
+              customer: item?.client,
+              origin: item?.origin ?? null,
+              detination: item?.detination ?? null,
+              createdAt: item?.dueDate ?? null,
+              reason: item?.taskCategory.name ?? null,
+              status: item?.taskStatus.name ?? null,
+              dropoutReason: item?.taskCategory.name ?? null,
             });
           }
 
@@ -310,8 +301,8 @@ export default {
     }
   },
 
-  mounted() {
-    this.fetchData();
+  async mounted() {
+    await this.fetchData();
   }
 }
 </script>
