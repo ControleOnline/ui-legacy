@@ -51,7 +51,7 @@
 
       <q-tab-panels v-model="currentTab" class="q-mt-sm bg-transparent">
         <q-tab-panel name="allClients" class="q-pa-xs">
-          <TableAllClients ref="allClients" :pageType="all" :api="api" :fromDate="dateFrom" :toDate="dateTo"
+          <TableAllClients ref="allClients" :pageType="'all'" :api="api" :fromDate="dateFrom" :toDate="dateTo"
             :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
@@ -60,7 +60,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="inactiveClient" class="q-pa-xs">
-          <TableAllClients ref="inactiveClient" :pageType="inactive" :api="api" :fromDate="dateFrom" :toDate="dateTo"
+          <TableAllClients ref="inactiveClient" :pageType="'inactive'" :api="api" :fromDate="dateFrom" :toDate="dateTo"
             :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
@@ -69,7 +69,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="prospectsClient" class="q-pa-xs">
-          <TableAllClients ref="prospectsClient" :pageType="all" :api="prospect" :fromDate="dateFrom" :toDate="dateTo"
+          <TableAllClients ref="prospectsClient" :pageType="'prospect'" :api="api" :fromDate="dateFrom" :toDate="dateTo"
             :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
@@ -78,7 +78,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="activeClient" class="q-pa-xs">
-          <TableAllClients ref="activeClient" :pageType="active" :api="api" :fromDate="dateFrom" :toDate="dateTo"
+          <TableAllClients ref="activeClient" :pageType="'active'" :api="api" :fromDate="dateFrom" :toDate="dateTo"
             :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
