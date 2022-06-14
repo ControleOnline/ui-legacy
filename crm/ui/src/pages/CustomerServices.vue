@@ -242,7 +242,9 @@ export default {
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
         props.pagination;
 
-      let params = { itemsPerPage: rowsPerPage, page: this.page, task_type: 'relationship', client: this.client };
+      let params = { itemsPerPage: rowsPerPage, page: this.page, task_type: 'relationship' };
+      if (this.client)
+        params.client = this.client;
 
       await this.getTasks(params)
         .then((data) => {
