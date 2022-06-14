@@ -118,10 +118,6 @@ export default {
 
   components: {
     TableAllClients,
-    TableClientsInactive,
-    TableClientsProspects,
-    TableClientsActive,
-    TableClientsNew,
   },
 
   created() {
