@@ -4,22 +4,11 @@
       <div class="text-subtitle1 text-left">Lista de vendedores</div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table flat grid hide-header hide-pagination
-        :loading="isLoading"
-        :data   ="items"
-        row-key ="id"
-      >
+      <q-table flat grid hide-header hide-pagination :loading="isLoading" :data="items" row-key="id">
         <template v-slot:top>
           <div class="col-12 q-mb-md">
             <div class="row justify-end">
-              <q-btn
-                label ="Adicionar"
-                icon  ="add"
-                size  ="md"
-                color ="primary"
-                class ="q-ml-sm"
-                @click="dialog = !dialog"
-              />
+              <q-btn icon="add" size="sm" color="positive" class="q-ml-sm" @click="dialog = !dialog" />
             </div>
           </div>
         </template>
@@ -65,16 +54,11 @@
                 </q-btn>
                 -->
 
-                <q-btn flat round dense
-                  color   ="red"
-                  icon    ="delete"
-                  @click  ="removeItem(props.row)"
-                  :loading="props.row._bussy"
-                  :disable="props.row.isProvider"
-                >
+                <q-btn flat round dense color="red" icon="delete" @click="removeItem(props.row)"
+                  :loading="props.row._bussy" :disable="props.row.isProvider">
                   <q-tooltip>Eliminar</q-tooltip>
                 </q-btn>
-              </q-card-actions>             
+              </q-card-actions>
             </q-card>
           </div>
         </template>
@@ -92,51 +76,24 @@
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
             <div class="row q-col-gutter-sm">
               <div class="col-xs-12">
-                <q-input outlined stack-label lazy-rules unmasked-value
-                  v-model     ="item.document"
-                  type        ="text"
-                  class       ="q-mb-sm"
-                  :label      ="$t('CNPJ')"
-                  :mask       ="'##.###.###/####-##'"
-                  :placeholder="'Digite o CNPJ'"
-                  :rules      ="[isInvalid('document')]"
-                  :loading    ="searching"
-                  @input      ="searchSalesman"
-                />
+                <q-input outlined stack-label lazy-rules unmasked-value v-model="item.document" type="text"
+                  class="q-mb-sm" :label="$t('CNPJ')" :mask="'##.###.###/####-##'" :placeholder="'Digite o CNPJ'"
+                  :rules="[isInvalid('document')]" :loading="searching" @input="searchSalesman" />
               </div>
               <div class="col-xs-12 col-sm-6">
-                <q-input stack-label lazy-rules
-                  v-model     ="item.name"
-                  type        ="text"
-                  class       ="q-mb-sm"
-                  :label      ="$t('Razão social')"
-                  :placeholder="'Razão social'"
-                  :rules      ="[isInvalid('name')]"
-                  :outlined   ="true"
-                />
+                <q-input stack-label lazy-rules v-model="item.name" type="text" class="q-mb-sm"
+                  :label="$t('Razão social')" :placeholder="'Razão social'" :rules="[isInvalid('name')]"
+                  :outlined="true" />
               </div>
               <div class="col-xs-12 col-sm-6">
-                <q-input stack-label lazy-rules
-                  v-model     ="item.alias"
-                  type        ="text"
-                  class       ="q-mb-sm"
-                  :label      ="$t('Nome Fantasia')"
-                  :placeholder="'Nome fantasia'"
-                  :rules      ="[isInvalid('alias')]"
-                  :outlined   ="true"
-                />
+                <q-input stack-label lazy-rules v-model="item.alias" type="text" class="q-mb-sm"
+                  :label="$t('Nome Fantasia')" :placeholder="'Nome fantasia'" :rules="[isInvalid('alias')]"
+                  :outlined="true" />
               </div>
             </div>
             <div class="row justify-end">
-              <q-btn
-                :loading="saving"
-                icon    ="save"
-                type    ="submit"
-                label   ="Salvar"
-                size    ="md"
-                color   ="primary"
-                class   ="q-mt-md"
-              />
+              <q-btn :loading="saving" icon="save" type="submit" label="Salvar" size="md" color="primary"
+                class="q-mt-md" />
             </div>
           </q-form>
         </q-card-section>
@@ -146,10 +103,10 @@
 </template>
 
 <script>
-import Api                from '@controleonline/quasar-common-ui/src/utils/api';
+import Api from '@controleonline/quasar-common-ui/src/utils/api';
 import { formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
-import md5                from 'md5';
-import { mapGetters }     from 'vuex';
+import md5 from 'md5';
+import { mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -157,22 +114,22 @@ export default {
       required: true,
     },
     api: {
-      type    : Api,
+      type: Api,
       required: true
     },
   },
 
   data() {
     return {
-      items    : [],
-      dialog   : false,
-      saving   : false,
+      items: [],
+      dialog: false,
+      saving: false,
       isLoading: false,
       searching: false,
-      item     : {
+      item: {
         document: '',
-        name    : '',
-        alias   : '',
+        name: '',
+        alias: '',
       }
     };
   },
@@ -200,10 +157,10 @@ export default {
     // store method
     save(values) {
       let options = {
-        method : 'PUT',
+        method: 'PUT',
         headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify(values),
-        params : {
+        body: JSON.stringify(values),
+        params: {
           myProvider: this.myProvider.id
         }
       };
@@ -225,9 +182,9 @@ export default {
     // store method
     delete(id) {
       let options = {
-        method : 'DELETE',
+        method: 'DELETE',
         headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify({ id }),
+        body: JSON.stringify({ id }),
       };
 
       return this.api.private(`customers/${this.id}/salesman`, options)
@@ -270,7 +227,7 @@ export default {
       this.getSalesman(this.item.document)
         .then(data => {
           if (data) {
-            this.item.name  = data.name;
+            this.item.name = data.name;
             this.item.alias = data.alias;
           }
         })
@@ -294,10 +251,10 @@ export default {
 
             this.save({
               "document": this.item.document,
-              "name"    : this.item.name,
-              "alias"   : this.item.alias,
+              "name": this.item.name,
+              "alias": this.item.alias,
             })
-              .then (data => {
+              .then(data => {
                 if (data) {
                   this.$refs.myForm.reset();
 
@@ -315,7 +272,7 @@ export default {
                 this.saving = false;
               });
           }
-      })
+        })
     },
 
     removeItem(item) {
@@ -323,23 +280,23 @@ export default {
         item._bussy = true;
 
         this.delete(item.id)
-        .then (data => {
-          if (data) {
-            this.cleanItem(item.id);
-          }
-        })
-        .catch(error => {
-          this.$emit('error', { message: error.message });
-        })
-        .finally(() => {
-          item._bussy = false;
-        });
+          .then(data => {
+            if (data) {
+              this.cleanItem(item.id);
+            }
+          })
+          .catch(error => {
+            this.$emit('error', { message: error.message });
+          })
+          .finally(() => {
+            item._bussy = false;
+          });
       }
     },
 
     cleanItem(id) {
-      let item   = this.items.find(obj => obj['id'] == id);
-      let indx   = this.items.indexOf(item);
+      let item = this.items.find(obj => obj['id'] == id);
+      let indx = this.items.indexOf(item);
       this.items = [...this.items.slice(0, indx), ...this.items.slice(indx + 1)];
     },
 
@@ -361,13 +318,13 @@ export default {
               }
 
               _items.push({
-                id        : data.members[index].id,
-                name      : data.members[index].type == 'J' ? data.members[index].name : `${data.members[index].name} ${data.members[index].alias}`,
-                image     : image,
-                email     : data.members[index].email,
-                document  : formatDocument(data.members[index].document),
+                id: data.members[index].id,
+                name: data.members[index].type == 'J' ? data.members[index].name : `${data.members[index].name} ${data.members[index].alias}`,
+                image: image,
+                email: data.members[index].email,
+                document: formatDocument(data.members[index].document),
                 isProvider: data.members[index].is_provider,
-                _bussy    : false,
+                _bussy: false,
               });
             }
           }

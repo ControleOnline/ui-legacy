@@ -1,41 +1,20 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">Lista de empresas</div>
+      <div class="text-subtitle1 text-left">{{ $t('Companies') }}</div>
     </div>
     <div class="col-9">
       <div class="row justify-end">
-        <q-btn
-          unelevated
-          label="Adicionar"
-          icon="add"
-          size="md"
-          color="primary"
-          class="q-ml-sm"
-          @click="dialog = !dialog"
-        />
+        <q-btn icon="add" size="sm" color="positive" class="q-ml-sm" @click="dialog = !dialog" />
       </div>
     </div>
 
     <div class="col-12">
-      <q-table
-        flat
-        bordered
-        grid
-        hide-header
-        :loading="isLoading"
-        :data="items"
-        @request="onRequest"
-        row-key="id"
-      >
+      <q-table flat bordered grid hide-header :loading="isLoading" :data="items" @request="onRequest" row-key="id">
         <template v-slot:item="props">
           <div class="q-pa-xs col-xs-12 col-sm-4 col-md-3 col-lg-2">
             <q-card>
-              <q-img
-                :contain="true"
-                src="~assets/business.png"
-                style="height: 100px; max-width: 100%"
-              >
+              <q-img :contain="true" src="~assets/business.png" style="height: 100px; max-width: 100%">
                 <div class="absolute-bottom text-subtitle1 text-center">
                   {{ props.row.name || props.row.alias }}
                 </div>
@@ -48,7 +27,7 @@
                     </q-item-section>
                     <q-item-section side>
                       <q-item-label caption>{{
-                        props.row.document
+                          props.row.document
                       }}</q-item-label>
                     </q-item-section>
                   </q-item>
@@ -56,25 +35,11 @@
               </q-card-section>
               <q-separator />
               <q-card-actions align="around">
-                <q-btn
-                  flat
-                  round
-                  dense
-                  @click="btEditCompany(props.row.id)"
-                  color="primary"
-                  icon="edit"
-                >
+                <q-btn flat round dense @click="btEditCompany(props.row.id)" color="primary" icon="edit">
                   <q-tooltip>Editar</q-tooltip>
                 </q-btn>
-                <q-btn
-                  flat
-                  round
-                  dense
-                  color="red"
-                  icon="delete"
-                  @click="removeItem(props.row)"
-                  :loading="props.row._bussy"                
-                >
+                <q-btn flat round dense color="red" icon="delete" @click="removeItem(props.row)"
+                  :loading="props.row._bussy">
                   <q-tooltip>Remover</q-tooltip>
                 </q-btn>
               </q-card-actions>
@@ -91,36 +56,29 @@
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
           <q-card-section>
-            <FormCreateClient
-              ref="myForm"
-              :api="api"
-              :employeeId="id"
-              :pjOnly="true"
-              @saved="
-                (data) => {
-                  this.$q.notify({
-                    message: 'Os dados foram salvos com sucesso',
-                    position: 'bottom',
-                    type: 'positive',
-                  });
-
-                  if (this.events && this.events.onSaved) {
-                    this.events.onSaved(data);
-                  }
-                  this.dialog = false;
-                  this.onRequest();
+            <FormCreateClient ref="myForm" :api="api" :employeeId="id" :pjOnly="true" @saved="
+              (data) => {
+                this.$q.notify({
+                  message: 'Os dados foram salvos com sucesso',
+                  position: 'bottom',
+                  type: 'positive',
+                });
+            
+                if (this.events && this.events.onSaved) {
+                  this.events.onSaved(data);
                 }
-              "
-              @error="
-                (error) => {
-                  this.$q.notify({
-                    message: error.message,
-                    position: 'bottom',
-                    type: 'warning',
-                  });
-                }
-              "
-            />
+                this.dialog = false;
+                this.onRequest();
+              }
+            " @error="
+  (error) => {
+    this.$q.notify({
+      message: error.message,
+      position: 'bottom',
+      type: 'warning',
+    });
+  }
+" />
           </q-card-section>
         </q-card>
       </q-dialog>

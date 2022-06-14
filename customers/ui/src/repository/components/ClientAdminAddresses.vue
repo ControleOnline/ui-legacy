@@ -1,56 +1,32 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">Lista de endereços</div>
+      <div class="text-subtitle1 text-left">
+        {{ $t('Address') }}
+      </div>
     </div>
     <div class="col-9">
       <div class="row justify-end">
-        <q-btn
-          unelevated
-          no-caps
-          label ="Adicionar"
-          icon  ="add"
-          size  ="md"
-          color ="primary"
-          class ="q-ml-sm"
-          @click="dialog = !dialog"
-        />
+        <q-btn  no-caps icon="add" size="sm" color="positive" class="q-ml-sm" @click="dialog = !dialog" />
       </div>
     </div>
     <div class="col-12">
-      <q-table
-        flat
-        :data="items"
-        :columns="settings.columns"
-        :visible-columns="settings.visibleColumns"
-        row-key="id"
-        :loading="isLoading"
-        bordered
-        class="q-mt-md"
-      >
+      <q-table flat :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+        :loading="isLoading" bordered class="q-mt-md">
         <template v-slot:body="props">
           <q-tr :props="props">
-            <q-td key="nickname" :props="props">{{ props.row.nickname    }}</q-td>
-            <q-td key="postalCode" :props="props">{{ props.cols[1].value   }}</q-td>
-            <q-td key="street" :props="props">{{ props.row.street      }}</q-td>
-            <q-td key="number" :props="props">{{ props.row.number      }}</q-td>
-            <q-td key="complement" :props="props">{{ props.row.complement  }}</q-td>
-            <q-td key="district" :props="props">{{ props.row.district    }}</q-td>
-            <q-td key="city" :props="props">{{ props.row.city        }}</q-td>
-            <q-td key="state" :props="props">{{ props.row.state       }}</q-td>
-            <q-td key="country" :props="props">{{ props.row.country     }}</q-td>
+            <q-td key="nickname" :props="props">{{ props.row.nickname }}</q-td>
+            <q-td key="postalCode" :props="props">{{ props.cols[1].value }}</q-td>
+            <q-td key="street" :props="props">{{ props.row.street }}</q-td>
+            <q-td key="number" :props="props">{{ props.row.number }}</q-td>
+            <q-td key="complement" :props="props">{{ props.row.complement }}</q-td>
+            <q-td key="district" :props="props">{{ props.row.district }}</q-td>
+            <q-td key="city" :props="props">{{ props.row.city }}</q-td>
+            <q-td key="state" :props="props">{{ props.row.state }}</q-td>
+            <q-td key="country" :props="props">{{ props.row.country }}</q-td>
             <q-td auto-width>
-              <q-btn
-                flat
-                round
-                dense
-                unelevated
-                color="red"
-                icon="delete"
-                @click="removeItem(props.row)"
-                :disable="items.length == 1"
-                :loading="props.row._bussy"
-              />
+              <q-btn flat round dense unelevated color="red" icon="delete" @click="removeItem(props.row)"
+                :disable="items.length == 1" :loading="props.row._bussy" />
             </q-td>
           </q-tr>
         </template>
@@ -65,121 +41,56 @@
           <q-btn unelevated icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <q-form
-            ref    ="myForm"
-            @submit="onSubmit"
-          >
+          <q-form ref="myForm" @submit="onSubmit">
             <div class="row q-col-gutter-xs q-pb-xs">
               <div class="col-xs-12">
-                <q-input stack-label lazy-rules
-                  v-model    ="item.nickname"
-                  type       ="text"
-                  :label     ="$t('Apelido')"
-                  :rules     ="[isInvalid('nickname')]"
-                  class      ="q-mb-sm"
-                  :outlined  ="true"
-                />
+                <q-input stack-label lazy-rules v-model="item.nickname" type="text" :label="$t('Apelido')"
+                  :rules="[isInvalid('nickname')]" class="q-mb-sm" :outlined="true" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <SearchCEPAddress
-                  :api  ="api"
-                  @found="onCEPFound"
-                  @error="(error) => {
-                    this.item.postalCode = error.postalCode;
-
-                    this.$q.notify({
-                      message : error.message,
-                      position: 'bottom',
-                      type    : 'warning',
-                    });
-                  }"
-                />
+                <SearchCEPAddress :api="api" @found="onCEPFound" @error="(error) => {
+                  this.item.postalCode = error.postalCode;
+                
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'warning',
+                  });
+                }" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input stack-label lazy-rules
-                  v-model    ="item.street"
-                  type       ="text"
-                  :label     ="$t('Rua')"
-                  :rules     ="[isInvalid('street')]"
-                  class      ="q-mb-sm"
-                  :outlined  ="true"
-                />
+                <q-input stack-label lazy-rules v-model="item.street" type="text" :label="$t('Rua')"
+                  :rules="[isInvalid('street')]" class="q-mb-sm" :outlined="true" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input stack-label lazy-rules reverse-fill-mask
-                  v-model    ="item.number"
-                  type       ="text"
-                  :label     ="$t('Número')"
-                  :rules     ="[isInvalid('number')]"
-                  class      ="q-mb-sm"
-                  :outlined  ="true"
-                  mask       ="#"
-                />
+                <q-input stack-label lazy-rules reverse-fill-mask v-model="item.number" type="text"
+                  :label="$t('Número')" :rules="[isInvalid('number')]" class="q-mb-sm" :outlined="true" mask="#" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input stack-label
-                  v-model    ="item.complement"
-                  type       ="text"
-                  :label     ="$t('Complemento')"
-                  class      ="q-mb-sm"
-                  :outlined  ="true"
-                />
+                <q-input stack-label v-model="item.complement" type="text" :label="$t('Complemento')" class="q-mb-sm"
+                  :outlined="true" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input stack-label lazy-rules
-                  v-model    ="item.district"
-                  type       ="text"
-                  :label     ="$t('Bairro')"
-                  :rules     ="[isInvalid('district')]"
-                  class      ="q-mb-sm"
-                  :outlined  ="true"
-                />
+                <q-input stack-label lazy-rules v-model="item.district" type="text" :label="$t('Bairro')"
+                  :rules="[isInvalid('district')]" class="q-mb-sm" :outlined="true" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input stack-label lazy-rules
-                  v-model    ="item.city"
-                  type       ="text"
-                  :label     ="$t('Cidade')"
-                  :rules     ="[isInvalid('city')]"
-                  class      ="q-mb-sm"
-                  :outlined  ="true"
-                />
+                <q-input stack-label lazy-rules v-model="item.city" type="text" :label="$t('Cidade')"
+                  :rules="[isInvalid('city')]" class="q-mb-sm" :outlined="true" />
               </div>
               <div class="col-xs-12 col-sm-4">
-                <q-input stack-label lazy-rules
-                  v-model    ="item.state"
-                  type       ="text"
-                  :label     ="$t('UF')"
-                  mask       ="AA"
-                  :rules     ="[isInvalid('state')]"
-                  class      ="q-mb-sm"
-                  :outlined  ="true"
-                />
+                <q-input stack-label lazy-rules v-model="item.state" type="text" :label="$t('UF')" mask="AA"
+                  :rules="[isInvalid('state')]" class="q-mb-sm" :outlined="true" />
               </div>
               <div class="col-xs-12 col-sm-4">
-                <q-input stack-label lazy-rules
-                  v-model    ="item.country"
-                  type       ="text"
-                  :label     ="$t('País')"
-                  :rules     ="[isInvalid('country')]"
-                  class      ="q-mb-sm"
-                  :outlined  ="true"
-                />
+                <q-input stack-label lazy-rules v-model="item.country" type="text" :label="$t('País')"
+                  :rules="[isInvalid('country')]" class="q-mb-sm" :outlined="true" />
               </div>
             </div>
 
             <div class="row justify-end">
-              <q-btn
-                unelevated
-                no-caps
-                :loading="saving"
-                icon    ="save"
-                type    ="submit"
-                label   ="Salvar"
-                size    ="md"
-                color   ="primary"
-                class   ="q-mt-md"
-              />
+              <q-btn unelevated no-caps :loading="saving" icon="save" type="submit" label="Salvar" size="md"
+                color="primary" class="q-mt-md" />
             </div>
           </q-form>
         </q-card-section>
@@ -189,72 +100,72 @@
 </template>
 
 <script>
-import Api              from '@controleonline/quasar-common-ui/src/utils/api';
-import { formatCEP }    from '@controleonline/quasar-common-ui/src/utils/formatter';
+import Api from '@controleonline/quasar-common-ui/src/utils/api';
+import { formatCEP } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import SearchCEPAddress from './SearchCEPAddress';
 
 const SETTINGS = {
   visibleColumns: [
-    'nickname'  ,
+    'nickname',
     'postalCode',
-    'street'    ,
-    'number'    ,
+    'street',
+    'number',
     'complement',
-    'district'  ,
-    'city'      ,
-    'state'     ,
-    'country'   ,
-    'action'    ,
+    'district',
+    'city',
+    'state',
+    'country',
+    'action',
   ],
-  columns       : [
+  columns: [
     {
-      name : 'nickname',
+      name: 'nickname',
       align: 'left',
       label: 'Apelido'
     },
     {
-      name  : 'postalCode',
-      field : 'postalCode',
+      name: 'postalCode',
+      field: 'postalCode',
       format: (val, row) => {
         return formatCEP(`${val}`);
       },
-      align : 'left',
-      label : 'CEP'
+      align: 'left',
+      label: 'CEP'
     },
     {
-      name : 'street',
+      name: 'street',
       align: 'left',
       label: 'Rua / Avenida'
     },
     {
-      name : 'number',
+      name: 'number',
       align: 'left',
       label: 'Número'
     },
     {
-      name : 'complement',
+      name: 'complement',
       align: 'left',
       label: 'Complemento'
     },
     {
-      name : 'district',
+      name: 'district',
       align: 'left',
       label: 'Bairro'
     },
     {
-      name : 'city',
+      name: 'city',
       field: row => row.city,
       align: 'left',
       label: 'Cidade'
     },
     {
-      name : 'state',
+      name: 'state',
       field: row => row.state,
       align: 'left',
       label: 'Estado'
     },
     {
-      name : 'country',
+      name: 'country',
       field: row => row.country,
       align: 'left',
       label: 'País'
@@ -271,7 +182,7 @@ export default {
       required: true,
     },
     api: {
-      type    : Api,
+      type: Api,
       required: true
     },
   },
@@ -282,20 +193,20 @@ export default {
 
   data() {
     return {
-      items    : [],
-      dialog   : false,
-      settings : SETTINGS,
-      saving   : false,
+      items: [],
+      dialog: false,
+      settings: SETTINGS,
+      saving: false,
       isLoading: false,
-      item     : {
-        nickname  : '',
-        country   : '',
-        state     : '',
-        city      : '',
-        district  : '',
+      item: {
+        nickname: '',
+        country: '',
+        state: '',
+        city: '',
+        district: '',
         postalCode: '',
-        street    : '',
-        number    : '',
+        street: '',
+        number: '',
         complement: '',
       },
     };
@@ -319,9 +230,9 @@ export default {
     // store method
     save(values) {
       let options = {
-        method : 'PUT',
+        method: 'PUT',
         headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify(values),
+        body: JSON.stringify(values),
       };
 
       let endpoint = `customers/${this.id}/addresses`;
@@ -342,9 +253,9 @@ export default {
     // store method
     delete(id) {
       let options = {
-        method : 'DELETE',
+        method: 'DELETE',
         headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify({ id }),
+        body: JSON.stringify({ id }),
       };
 
       let endpoint = `customers/${this.id}/addresses`;
@@ -369,17 +280,17 @@ export default {
             this.saving = true;
 
             this.save({
-              nickname   : this.item.nickname,
-              country    : this.item.country,
-              state      : this.item.state,
-              city       : this.item.city,
-              district   : this.item.district,
+              nickname: this.item.nickname,
+              country: this.item.country,
+              state: this.item.state,
+              city: this.item.city,
+              district: this.item.district,
               postal_code: this.item.postalCode,
-              street     : this.item.street,
-              number     : this.item.number,
-              complement : this.item.complement,
+              street: this.item.street,
+              number: this.item.number,
+              complement: this.item.complement,
             })
-              .then (data => {
+              .then(data => {
                 if (data) {
                   this.$refs.myForm.reset();
 
@@ -397,7 +308,7 @@ export default {
                 this.saving = false;
               });
           }
-      })
+        })
     },
 
     removeItem(item) {
@@ -405,7 +316,7 @@ export default {
         item._bussy = true;
 
         this.delete(item.id)
-          .then (data => {
+          .then(data => {
             if (data) {
               this.cleanItem(item.id);
             }
@@ -420,8 +331,8 @@ export default {
     },
 
     cleanItem(id) {
-      let item   = this.items.find(obj => obj['id'] == id);
-      let indx   = this.items.indexOf(item);
+      let item = this.items.find(obj => obj['id'] == id);
+      let indx = this.items.indexOf(item);
       this.items = [...this.items.slice(0, indx), ...this.items.slice(indx + 1)];
     },
 
@@ -438,17 +349,17 @@ export default {
           if (data.members.length) {
             for (let index in data.members) {
               _items.push({
-                id        : data.members[index].id,
-                nickname  : data.members[index].nickname,
-                country   : data.members[index].country,
-                state     : data.members[index].state,
-                city      : data.members[index].city,
-                district  : data.members[index].district,
+                id: data.members[index].id,
+                nickname: data.members[index].nickname,
+                country: data.members[index].country,
+                state: data.members[index].state,
+                city: data.members[index].city,
+                district: data.members[index].district,
                 postalCode: data.members[index].postalCode,
-                street    : data.members[index].street,
-                number    : data.members[index].number,
+                street: data.members[index].street,
+                number: data.members[index].number,
                 complement: data.members[index].complement,
-                _bussy    : false,
+                _bussy: false,
               });
             }
           }
@@ -461,32 +372,32 @@ export default {
     },
 
     onCEPFound(address) {
-      this.item.id         = null;
-      this.item.country    = address.country;
-      this.item.state      = address.state;
-      this.item.city       = address.city;
-      this.item.district   = address.district;
+      this.item.id = null;
+      this.item.country = address.country;
+      this.item.state = address.state;
+      this.item.city = address.city;
+      this.item.district = address.district;
       this.item.postalCode = address.postalCode;
-      this.item.street     = address.street;
-      this.item.number     = '';
+      this.item.street = address.street;
+      this.item.number = '';
       this.item.complement = '';
     },
 
     isInvalid(key) {
       return val => {
         switch (key) {
-          case 'email'   :
+          case 'email':
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
               return 'O email informado não é válido';
-          break;
+            break;
           case 'password':
             if (!val || val.length < 6)
               return 'A senha deve ser no mínimo de 6 caracteres';
-          break;
-          case 'confirm' :
+            break;
+          case 'confirm':
             if (this.item.password != this.item.confirm)
               return 'As senhas não coincidem';
-          break;
+            break;
           default:
             if (!(val && val.length > 0))
               return 'Este campo é obrigatório';

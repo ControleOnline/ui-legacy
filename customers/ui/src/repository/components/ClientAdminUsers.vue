@@ -1,42 +1,23 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">Lista de usuários</div>
+      <div class="text-subtitle1 text-left">{{ $t('Users') }}</div>
     </div>
     <div class="col-9">
       <div class="row justify-end">
-        <q-btn
-          unelevated
-          label ="Adicionar"
-          icon  ="add"
-          size  ="md"
-          color ="primary"
-          class ="q-ml-sm"
-          @click="dialog = !dialog"
-        />
+        <q-btn icon="add" size="sm" color="positive" class="q-ml-sm" @click="dialog = !dialog" />
       </div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table flat
-        :data           ="items"
-        :columns        ="settings.columns"
-        :visible-columns="settings.visibleColumns"
-        row-key         ="id"
-        :loading        ="isLoading"
-        bordered
-      >
+      <q-table flat :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+        :loading="isLoading" bordered>
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="username" :props="props">{{ props.cols[0].value }}</q-td>
-            <q-td key="apikey"   :props="props">{{ props.cols[1].value }}</q-td>
+            <q-td key="apikey" :props="props">{{ props.cols[1].value }}</q-td>
             <q-td auto-width>
-              <q-btn flat round dense
-                color   ="red"
-                icon    ="delete"
-                @click  ="removeItem(props.row)"
-                :disable="items.length == 1"
-                :loading="props.row._bussy"
-              />
+              <q-btn flat round dense color="red" icon="delete" @click="removeItem(props.row)"
+                :disable="items.length == 1" :loading="props.row._bussy" />
             </q-td>
           </q-tr>
         </template>
@@ -52,40 +33,18 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-input lazy-rules stack-label
-              v-model="item.username"
-              type   ="text"
-              label  ="Nome de usuário"
-              class  ="q-mt-md"
-              :rules ="[isInvalid('username')]"
-            />
+            <q-input lazy-rules stack-label v-model="item.username" type="text" label="Nome de usuário" class="q-mt-md"
+              :rules="[isInvalid('username')]" />
 
-            <q-input lazy-rules stack-label
-              v-model="item.password"
-              type   ="password"
-              label  ="Senha"
-              class  ="q-mt-md"
-              :rules ="[isInvalid('password')]"
-            />
+            <q-input lazy-rules stack-label v-model="item.password" type="password" label="Senha" class="q-mt-md"
+              :rules="[isInvalid('password')]" />
 
-            <q-input lazy-rules stack-label
-              v-model="item.confirm"
-              type   ="password"
-              label  ="Confirme sua senha"
-              class  ="q-mt-md"
-              :rules ="[isInvalid('confirm')]"
-            />
+            <q-input lazy-rules stack-label v-model="item.confirm" type="password" label="Confirme sua senha"
+              class="q-mt-md" :rules="[isInvalid('confirm')]" />
 
             <div class="row justify-end">
-              <q-btn
-                :loading="saving"
-                icon    ="save"
-                type    ="submit"
-                label   ="Salvar"
-                size    ="md"
-                color   ="primary"
-                class   ="q-mt-md"
-              />
+              <q-btn :loading="saving" icon="save" type="submit" label="Salvar" size="md" color="primary"
+                class="q-mt-md" />
             </div>
           </q-form>
         </q-card-section>
@@ -100,18 +59,18 @@ import Api from '@controleonline/quasar-common-ui/src/utils/api';
 const SETTINGS = {
   visibleColumns: [
     'username',
-    'apikey'  ,
-    'action'  ,
+    'apikey',
+    'action',
   ],
-  columns       : [
+  columns: [
     {
-      name : 'username',
+      name: 'username',
       field: row => row.username,
       align: 'left',
       label: 'Nome de usuário'
     },
     {
-      name : 'apikey',
+      name: 'apikey',
       field: row => row.apikey,
       align: 'left',
       label: 'Chave da API'
@@ -128,22 +87,22 @@ export default {
       required: true,
     },
     api: {
-      type    : Api,
+      type: Api,
       required: true
     },
   },
 
   data() {
     return {
-      items    : [],
-      dialog   : false,
-      settings : SETTINGS,
-      saving   : false,
+      items: [],
+      dialog: false,
+      settings: SETTINGS,
+      saving: false,
       isLoading: false,
-      item     : {
+      item: {
         username: null,
         password: null,
-        confirm : null,
+        confirm: null,
       }
     };
   },
@@ -166,9 +125,9 @@ export default {
     // store method
     save(values) {
       let options = {
-        method : 'PUT',
+        method: 'PUT',
         headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify(values),
+        body: JSON.stringify(values),
       };
 
       let endpoint = `customers/${this.id}/users`;
@@ -189,9 +148,9 @@ export default {
     // store method
     delete(id) {
       let options = {
-        method : 'DELETE',
+        method: 'DELETE',
         headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify({ id }),
+        body: JSON.stringify({ id }),
       };
 
       let endpoint = `customers/${this.id}/users`;
@@ -219,7 +178,7 @@ export default {
               "username": this.item.username,
               "password": this.item.password
             })
-              .then (data => {
+              .then(data => {
                 if (data) {
                   this.$refs.myForm.reset();
 
@@ -237,7 +196,7 @@ export default {
                 this.saving = false;
               });
           }
-      })
+        })
     },
 
     removeItem(item) {
@@ -245,7 +204,7 @@ export default {
         item._bussy = true;
 
         this.save(item.id)
-          .then (data => {
+          .then(data => {
             if (data) {
               this.cleanItem(item.id);
             }
@@ -260,8 +219,8 @@ export default {
     },
 
     cleanItem(id) {
-      let item   = this.items.find(obj => obj['id'] == id);
-      let indx   = this.items.indexOf(item);
+      let item = this.items.find(obj => obj['id'] == id);
+      let indx = this.items.indexOf(item);
       this.items = [...this.items.slice(0, indx), ...this.items.slice(indx + 1)];
     },
 
@@ -278,10 +237,10 @@ export default {
           if (data.members.length) {
             for (let index in data.members) {
               _items.push({
-                id      : data.members[index].id,
+                id: data.members[index].id,
                 username: data.members[index].username,
-                apikey  : data.members[index].apiKey,
-                _bussy  : false,
+                apikey: data.members[index].apiKey,
+                _bussy: false,
               });
             }
           }
@@ -296,18 +255,18 @@ export default {
     isInvalid(key) {
       return val => {
         switch (key) {
-          case 'email'   :
+          case 'email':
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
               return 'O email informado não é válido';
-          break;
+            break;
           case 'password':
             if (!val || val.length < 6)
               return 'A senha deve ser no mínimo de 6 caracteres';
-          break;
-          case 'confirm' :
+            break;
+          case 'confirm':
             if (this.item.password != this.item.confirm)
               return 'As senhas não coincidem';
-          break;
+            break;
           default:
             if (!(val && val.length > 0))
               return 'Este campo é obrigatório';

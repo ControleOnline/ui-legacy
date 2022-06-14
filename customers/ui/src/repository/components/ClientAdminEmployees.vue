@@ -1,30 +1,14 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">Lista de funcionários</div>
+      <div class="text-subtitle1 text-left">{{ $t('Employees') }}</div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table
-        flat
-        grid
-        hide-header
-        :loading="isLoading"
-        :data="items"
-        row-key="id"
-      >
+      <q-table flat grid hide-header :loading="isLoading" :data="items" row-key="id">
         <template v-slot:top>
           <div class="col-12 q-mb-md">
             <div class="row justify-end">
-              <q-btn
-                unelevated
-                no-caps
-                :label="$t('Adicionar')"
-                icon="add"
-                size="md"
-                color="primary"
-                class="q-ml-sm"
-                @click="dialog = !dialog"
-              />
+              <q-btn no-caps icon="add" size="sm" color="positive" class="q-ml-sm" @click="dialog = !dialog" />
             </div>
           </div>
         </template>
@@ -51,36 +35,17 @@
               </q-card-section>
               <q-separator />
               <q-card-actions align="around">
-                <q-btn
-                  unelevated
-                  no-caps
-                  flat
-                  round
-                  dense
-                  :to="{
-                    name: 'ClientsDetails',
-                    params: {
-                      id: props.row.id,
-                    },
-                  }"
-                  color="primary"
-                  icon="edit"
-                  :disable="props.row._bussy"
-                >
+                <q-btn unelevated no-caps flat round dense :to="{
+                  name: 'ClientsDetails',
+                  params: {
+                    id: props.row.id,
+                  },
+                }" color="primary" icon="edit" :disable="props.row._bussy">
                   <q-tooltip>Editar</q-tooltip>
                 </q-btn>
 
-                <q-btn
-                  flat
-                  unelevated
-                  no-caps
-                  round
-                  dense
-                  color="red"
-                  icon="delete"
-                  @click="removeItem(props.row)"
-                  :loading="props.row._bussy"
-                >
+                <q-btn flat unelevated no-caps round dense color="red" icon="delete" @click="removeItem(props.row)"
+                  :loading="props.row._bussy">
                   <q-tooltip>Eliminar</q-tooltip>
                 </q-btn>
               </q-card-actions>
@@ -102,53 +67,22 @@
             <div class="row q-col-gutter-xs q-pb-xs">
               <h6 class="col-xs-12 q-mt-sm q-mb-sm">Dados pessoais</h6>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input
-                  stack-label
-                  lazy-rules
-                  unmasked-value
-                  hide-bottom-space
-                  v-model="item.name"
-                  type="text"
-                  label="Nome"
-                  :rules="[isInvalid('name')]"
-                />
+                <q-input stack-label lazy-rules unmasked-value hide-bottom-space v-model="item.name" type="text"
+                  label="Nome" :rules="[isInvalid('name')]" />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input
-                  stack-label
-                  lazy-rules
-                  hide-bottom-space
-                  v-model="item.lastname"
-                  type="text"
-                  label="Sobrenome"
-                  :rules="[isInvalid('lastname')]"
-                />
+                <q-input stack-label lazy-rules hide-bottom-space v-model="item.lastname" type="text" label="Sobrenome"
+                  :rules="[isInvalid('lastname')]" />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input
-                  stack-label
-                  lazy-rules
-                  hide-bottom-space
-                  v-model="item.email"
-                  type="text"
-                  label="Email"
-                  :rules="[isInvalid('email')]"
-                />
+                <q-input stack-label lazy-rules hide-bottom-space v-model="item.email" type="text" label="Email"
+                  :rules="[isInvalid('email')]" />
               </div>
             </div>
 
             <div class="row justify-end">
-              <q-btn
-                unelevated
-                no-caps
-                :loading="saving"
-                icon="save"
-                type="submit"
-                :label="$t('Save')"
-                size="md"
-                color="primary"
-                class="q-mt-md"
-              />
+              <q-btn unelevated no-caps :loading="saving" icon="save" type="submit" :label="$t('Save')" size="md"
+                color="primary" class="q-mt-md" />
             </div>
           </q-form>
         </q-card-section>

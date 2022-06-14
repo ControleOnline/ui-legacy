@@ -1,48 +1,23 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">Lista de documentos</div>
+      <div class="text-subtitle1 text-left">{{ $t('Documents') }}</div>
     </div>
     <div class="col-9">
       <div class="row justify-end">
-        <q-btn
-          unelevated
-          no-caps
-          label="Adicionar"
-          icon="add"
-          size="md"
-          color="primary"
-          class="q-ml-sm"
-          @click="dialog = !dialog"
-          unelevated
-        />
+        <q-btn no-caps icon="add" size="sm" color="positive" class="q-ml-sm" @click="dialog = !dialog" />
       </div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table
-        flat
-        :data="items"
-        :columns="settings.columns"
-        :visible-columns="settings.visibleColumns"
-        row-key="id"
-        :loading="isLoading"
-        bordered
-      >
+      <q-table flat :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+        :loading="isLoading" bordered>
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="type" :props="props">{{ props.cols[0].value }}</q-td>
             <q-td key="document" :props="props">{{ props.cols[1].value }}</q-td>
             <q-td auto-width>
-              <q-btn
-                flat
-                round
-                dense
-                unelevated
-                color="red"
-                icon="delete"
-                @click="removeItem(props.row)"                
-                :loading="props.row._bussy"
-              />
+              <q-btn flat round dense unelevated color="red" icon="delete" @click="removeItem(props.row)"
+                :loading="props.row._bussy" />
             </q-td>
           </q-tr>
         </template>
@@ -58,40 +33,21 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-select stack-label
-              label   ="Tipo de documento"
-              v-model="item.type"
-              :options="settings.select.doctypes"
-            >
+            <q-select stack-label label="Tipo de documento" v-model="item.type" :options="settings.select.doctypes">
               <template v-slot:no-option>
                 <q-item>
                   <q-item-section class="text-grey">
-                  Sem resultados
+                    Sem resultados
                   </q-item-section>
                 </q-item>
               </template>
             </q-select>
-            <q-input lazy-rules stack-label unmasked-value
-              v-model="item.document"
-              type   ="text"
-              label  ="Documento"
-              class  ="q-mt-md"
-              :rules ="[isInvalid('document')]"
-              :mask  ="docMask"
-            />
+            <q-input lazy-rules stack-label unmasked-value v-model="item.document" type="text" label="Documento"
+              class="q-mt-md" :rules="[isInvalid('document')]" :mask="docMask" />
 
             <div class="row justify-end">
-              <q-btn
-                unelevated
-                no-caps
-                :loading="saving"
-                icon    ="save"
-                type    ="submit"
-                label   ="Salvar"
-                size    ="md"
-                color   ="primary"
-                class   ="q-mt-md"
-              />
+              <q-btn unelevated no-caps :loading="saving" icon="save" type="submit" label="Salvar" size="md"
+                color="primary" class="q-mt-md" />
             </div>
           </q-form>
         </q-card-section>
@@ -101,34 +57,34 @@
 </template>
 
 <script>
-import Api                from '@controleonline/quasar-common-ui/src/utils/api';
+import Api from '@controleonline/quasar-common-ui/src/utils/api';
 import { formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 const SETTINGS = {
   visibleColumns: [
-    'type'    ,
+    'type',
     'document',
-    'action'  ,
+    'action',
   ],
-  columns       : [
+  columns: [
     {
-      name : 'type',
+      name: 'type',
       field: row => row.type,
       align: 'left',
       label: 'Tipo de documento'
     },
     {
-      name  : 'document',
-      field : row => row.document,
-      align : 'left',
+      name: 'document',
+      field: row => row.document,
+      align: 'left',
       format: (val) => {
         return formatDocument(val);
       },
-      label : 'Documento'
+      label: 'Documento'
     },
     { name: 'action' },
   ],
-  select        : {
+  select: {
     doctypes: [
       {
         label: 'R.G.',
@@ -154,21 +110,21 @@ export default {
       required: true,
     },
     api: {
-      type    : Api,
+      type: Api,
       required: true
     },
   },
 
   data() {
     return {
-      items    : [],
-      dialog   : false,
-      settings : SETTINGS,
-      saving   : false,
+      items: [],
+      dialog: false,
+      settings: SETTINGS,
+      saving: false,
       isLoading: false,
-      docMask  : '',
-      item     : {
-        type    : null,
+      docMask: '',
+      item: {
+        type: null,
         document: null,
       }
     };
@@ -208,9 +164,9 @@ export default {
     // store method
     save(values) {
       let options = {
-        method : 'PUT',
+        method: 'PUT',
         headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify(values),
+        body: JSON.stringify(values),
       };
 
       let endpoint = `customers/${this.id}/documents`;
@@ -231,9 +187,9 @@ export default {
     // store method
     delete(id) {
       let options = {
-        method : 'DELETE',
+        method: 'DELETE',
         headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify({ id }),
+        body: JSON.stringify({ id }),
       };
 
       let endpoint = `customers/${this.id}/documents`;
@@ -258,10 +214,10 @@ export default {
             this.saving = true;
 
             this.save({
-              "type"    : this.item.type.value,
+              "type": this.item.type.value,
               "document": this.item.document,
             })
-              .then (data => {
+              .then(data => {
                 if (data) {
                   this.$refs.myForm.reset();
 
@@ -279,7 +235,7 @@ export default {
                 this.saving = false;
               });
           }
-      })
+        })
     },
 
     removeItem(item) {
@@ -287,23 +243,23 @@ export default {
         item._bussy = true;
 
         this.delete(item.id)
-        .then (data => {
-          if (data) {
-            this.cleanItem(item.id);
-          }
-        })
-        .catch(error => {
-          this.$emit('error', { message: error.message });
-        })
-        .finally(() => {
-          item._bussy = false;
-        });
+          .then(data => {
+            if (data) {
+              this.cleanItem(item.id);
+            }
+          })
+          .catch(error => {
+            this.$emit('error', { message: error.message });
+          })
+          .finally(() => {
+            item._bussy = false;
+          });
       }
     },
 
     cleanItem(id) {
-      let item   = this.items.find(obj => obj['id'] == id);
-      let indx   = this.items.indexOf(item);
+      let item = this.items.find(obj => obj['id'] == id);
+      let indx = this.items.indexOf(item);
       this.items = [...this.items.slice(0, indx), ...this.items.slice(indx + 1)];
     },
 
@@ -320,10 +276,10 @@ export default {
           if (data.members.length) {
             for (let index in data.members) {
               _items.push({
-                id      : data.members[index].id,
-                type    : data.members[index].type,
+                id: data.members[index].id,
+                type: data.members[index].type,
                 document: data.members[index].document,
-                _bussy  : false,
+                _bussy: false,
               });
             }
           }
