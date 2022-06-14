@@ -196,12 +196,6 @@ export default {
     }
   },
 
-  created() {
-    this.onRequest({
-      pagination: this.pagination
-    });
-  },
-
   data() {
     return {
       maxPages: 5,
@@ -220,8 +214,12 @@ export default {
 
   watch: {
     myProvider(provider) {
-      //if (provider !== null)
       //this.$refs.clientPageRef.loadClientsDataRows();
+      if (provider !== null)
+        this.onRequest({
+          pagination: this.pagination
+        });
+
     },
     fromDate() {
       this.onRequest({
