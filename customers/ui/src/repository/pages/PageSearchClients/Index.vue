@@ -87,7 +87,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="newClient" class="q-pa-xs">
-          <TableAllClients ref="newClient" :pageType="new" :api="api" :fromDate="dateFrom" :toDate="dateTo"
+          <TableAllClients ref="newClient" :pageType="'new'" :api="api" :fromDate="dateFrom" :toDate="dateTo"
             :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
