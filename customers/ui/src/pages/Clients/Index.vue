@@ -48,12 +48,11 @@ export default {
 
   watch: {
     myProvider(provider) {
-      if (provider !== null) {
-        //this.$refs.clientPageRef.loadClientsDataRows();        
-      }
+      //if (provider !== null)
+      //this.$refs.clientPageRef.loadClientsDataRows();        
+      return provider;
     },
   },
-
   methods: {
     onBeforeLoadClients(params) {
       params['myProvider'] = this.myProvider.id;
