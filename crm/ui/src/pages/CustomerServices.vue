@@ -4,14 +4,8 @@
 
     <div class="row q-col-gutter-x-md justify-between q-mb-lg">
       <div class="col-xs-12 col-sm-grow">
-        <q-input
-          class="customer-services__search-input"
-          outlined
-          label="Pesquisar"
-          v-model.trim="query"
-          :debounce="350"
-          clearable
-        >
+        <q-input class="customer-services__search-input" outlined label="Pesquisar" v-model.trim="query" :debounce="350"
+          clearable>
           <template #prepend>
             <q-icon name="search" />
           </template>
@@ -20,15 +14,8 @@
 
       <div class="text-right col-xs-12 col-sm-auto">
         <q-space />
-        <q-btn
-          icon="add"
-          color="primary"
-          unelevated
-          no-caps
-          label="Novo Atendimento"
-          class="full-height"
-          @click="showCreateModal = true"
-        />
+        <q-btn icon="add" color="primary" unelevated no-caps label="Novo Atendimento" class="full-height"
+          @click="showCreateModal = true" />
       </div>
     </div>
 
@@ -81,18 +68,22 @@
             </div>
             <div class="text-body2"><b>Status: </b> {{ !item.status ? 'Não informado' : item.status }}</div>
             <div class="text-body2"><b>Motivo de abertura: </b> {{ !item.reason ? 'Não informado' : item.reason }}</div>
-            <div class="text-body2"><b>Motivo de recusa: </b> {{ !item.dropoutReason ? 'Não informado' : item.dropoutReason || '-' }}</div>
+            <div class="text-body2"><b>Motivo de recusa: </b> {{ !item.dropoutReason ? 'Não informado' :
+                item.dropoutReason || '-'
+            }}</div>
           </q-card-section>
 
           <q-separator />
 
           <q-card-actions class="row q-pa-none">
             <div class="col">
-              <q-btn class="full-width q-py-xs" flat no-caps color="grey-9" label="Editar" icon="edit" @click="editItem(item)"/>
+              <q-btn class="full-width q-py-xs" flat no-caps color="grey-9" label="Editar" icon="edit"
+                @click="editItem(item)" />
             </div>
 
             <div class="col">
-              <q-btn class="full-width q-py-xs" flat no-caps color="red-5" label="Excluir" icon="delete" @click="deleteItem(item)"/>
+              <q-btn class="full-width q-py-xs" flat no-caps color="red-5" label="Excluir" icon="delete"
+                @click="deleteItem(item)" />
             </div>
           </q-card-actions>
         </q-card>
@@ -101,13 +92,7 @@
     </div>
 
     <q-card class="full-width flex flex-center q-pa-md q-mt-md">
-      <q-pagination
-        v-model="page"
-        :max-pages="6"
-        :max="maxPages"
-        :boundary-numbers="maxPages > 9"
-        direction-links
-      />
+      <q-pagination v-model="page" :max-pages="6" :max="maxPages" :boundary-numbers="maxPages > 9" direction-links />
     </q-card>
 
     <NewServiceModal v-model="showCreateModal" @confirmNew="saveCall($event)" :loadingAction="loadingSave" />
@@ -121,6 +106,13 @@ import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { date } from 'quasar';
 
 export default {
+
+  props: {
+    client: {
+      required: false
+    },
+  },
+
   components: {
     NewServiceModal,
   },
@@ -150,22 +142,22 @@ export default {
       get() {
         return Number(this.$route.query.page) || 1;
       },
-      set(value){
-        this.$router.push({ ...this.$route.name, query: { ...this.$route.query, page: value }});
+      set(value) {
+        this.$router.push({ ...this.$route.name, query: { ...this.$route.query, page: value } });
       }
     },
     query: {
       get() {
         return this.$route.query.q;
       },
-      set(value){
-        if(value) {
-          this.$router.push({ ...this.$route.name, query: { ...this.$route.query, q: value }});
+      set(value) {
+        if (value) {
+          this.$router.push({ ...this.$route.name, query: { ...this.$route.query, q: value } });
           return
         }
 
-        const { q, ...rest } = this.$route.query; 
-        this.$router.push({ ...this.$route.name, query: { ...rest }});
+        const { q, ...rest } = this.$route.query;
+        this.$router.push({ ...this.$route.name, query: { ...rest } });
       }
     },
   },
@@ -250,7 +242,7 @@ export default {
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
         props.pagination;
 
-      let params = { itemsPerPage: rowsPerPage, page: this.page, task_type: 'relationship' };
+      let params = { itemsPerPage: rowsPerPage, page: this.page, task_type: 'relationship', client: this.client };
 
       await this.getTasks(params)
         .then((data) => {
@@ -312,12 +304,13 @@ export default {
   .action_column {
     max-width: 50px;
   }
+
   &__search-input {
     width: 100%;
     margin-bottom: 1rem;
   }
 
-  @media (min-width:  $breakpoint-sm-min) {
+  @media (min-width: $breakpoint-sm-min) {
     &__search-input {
       width: 100%;
       max-width: 400px;
