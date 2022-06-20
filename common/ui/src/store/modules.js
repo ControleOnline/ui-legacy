@@ -20,6 +20,7 @@ import guides from "@controleonline/quasar-guides-ui/src/store/guides";
 import categories from "@controleonline/quasar-common-ui/src/store/categories";
 import menu from "@controleonline/quasar-common-ui/src/store/menu";
 import users from "@controleonline/quasar-common-ui/src/store/users";
+import categories from "@controleonline/quasar-common-ui/src/store/categories";
 
 export const modules = {
   auth,
@@ -42,5 +43,6 @@ export const modules = {
   guides,
   categories,
   menu,
-  users
+  users,
+  categories
 };
