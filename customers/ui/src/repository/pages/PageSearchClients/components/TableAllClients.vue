@@ -59,7 +59,7 @@
           </div>
           <div class="col-6 text-center">
             <q-toggle v-model="client.enable" checked-icon="check" color="green"
-              :label="!client.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear" />
+              :label="!client.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear" @input="changeEnable(client)" />
           </div>
         </q-card-actions>
       </q-card>
@@ -160,6 +160,7 @@ Object.freeze(SETTINGS);
 export default {
   computed: {
     ...mapGetters({
+      theCompany: "people/currentCompany",
     }),
 
     page: {
@@ -261,6 +262,24 @@ export default {
   },
 
   methods: {
+    changeEnable(client) {
+      const options = {
+        method: 'PUT',
+        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        body: JSON.stringify(client.enable),
+        params: { company: this.theCompany.id },
+      }
+
+      return this.api.private(`/client/${client.people_client_id}/change-status/${client.enable}`, options)
+        .then(response => response.json())
+        .then(result => {
+          return this.$q.notify({
+            message: "Alterado com sucesso.",
+            position: "bottom",
+            type: "positive",
+          });
+        });
+    },
     // store method
     getCustomers(params) {
       this.onBeforeLoadClients(params);
@@ -331,6 +350,7 @@ export default {
               'alias': item.alias,
               'name': item.name,
               'email': item.email,
+              'people_client_id': item.people_client_id,
               'phone': formatPhone(item.phone),
               'enable': item.enable,
               'people_type': item.people_type,
