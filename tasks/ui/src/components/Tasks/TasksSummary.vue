@@ -89,7 +89,7 @@ export default {
   methods: {
     getCategories() {
       return this.api
-        .private(ENTRYPOINT + "/task_categories")
+        .private(ENTRYPOINT + "/categories")
         .then((response) => response.json())
         .then((result) => {
           return {

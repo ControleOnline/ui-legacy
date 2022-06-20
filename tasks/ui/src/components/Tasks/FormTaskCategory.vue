@@ -66,7 +66,7 @@ export default {
   methods: {
 
     saveCategory(payload) {
-      return this.api.private('/task_categories' + (this.categoryId ? "/" + this.categoryId : ""), { 
+      return this.api.private('/categories' + (this.categoryId ? "/" + this.categoryId : ""), { 
         body: JSON.stringify(payload),
         method: this.categoryId ? "PUT" : "POST"
        })

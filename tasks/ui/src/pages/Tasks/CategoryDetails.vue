@@ -50,7 +50,7 @@ export default {
   
   methods: {
     getCategory() {
-      return this.API.private(`task_categories/${this.categoryId}`)
+      return this.API.private(`categories/${this.categoryId}`)
         .then(response => response.json())
         .then(data => {
           if (data['@id']) {

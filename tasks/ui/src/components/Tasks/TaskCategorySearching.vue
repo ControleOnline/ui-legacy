@@ -129,8 +129,9 @@ export default {
 
   methods: {
     // store method
-    getTaskCategories(params) {
-      return this.API.private('/task_categories', { params })
+    getCategories(params) {
+      params.context='support';
+      return this.API.private('/categories', { params })
         .then(response => response.json())
         .then(result => {
           return {
@@ -154,8 +155,8 @@ export default {
           descending
       }          = props.pagination;
       let params = { limit: rowsPerPage, page };
-
-      this.getTaskCategories(params)
+      params.context='support';
+      this.getCategories(params)
         .then(data => {
           let _data = [];
 

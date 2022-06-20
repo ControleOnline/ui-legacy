@@ -234,7 +234,7 @@ export default {
     },
 
     getCategories() {
-      return this.API.private("/task_categories")
+      return this.API.private("/categories")
         .then((response) => response.json())
         .then((result) => {
           return {
