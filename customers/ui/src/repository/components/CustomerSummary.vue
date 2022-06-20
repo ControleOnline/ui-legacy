@@ -33,7 +33,7 @@
             </div>
 
             <div class="col text-right">
-              <q-toggle v-model="item.enabled" checked-icon="check" color="green" :label="!item.enabled ? 'Desativado' : 'Ativado'" unchecked-icon="clear" />
+              <q-toggle v-model="item.enabled" checked-icon="check" color="green" :label="!item.enabled ? 'Desativado' : 'Ativado'" unchecked-icon="clear" @input="changeEnable(item)" />
             </div>
           </div>
 
@@ -138,6 +138,7 @@
 
 <script>
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
+import { mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -169,7 +170,31 @@ export default {
     this.onRequest();
   },
 
+  computed: {
+    ...mapGetters({
+      theCompany: "people/currentCompany",
+    }),
+  },
+
   methods: {
+    changeEnable(client) {
+      const options = {
+        method: 'PUT',
+        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        body: JSON.stringify(client.enabled),
+        params: { company: this.theCompany.id },
+      }
+
+      return this.api.private(`/customers/${client.people_client_id}/change-status/${client.enabled}`, options)
+        .then(response => response.json())
+        .then(result => {
+          return this.$q.notify({
+            message: "Alterado com sucesso.",
+            position: "bottom",
+            type: "positive",
+          });
+        });
+    },
     changeType() {
       this.isLoading = true;
 

@@ -20,8 +20,28 @@
               lazy-rules="ondemand"
               :rules="[val => !!val || 'Campo de preenchimento obrigatório']"
             />
-            <q-select v-model="formData.reason" class="col-12" outlined label="Motivo" :options="reasonOptions" lazy-rules="ondemand" :rules="[val => !!val || 'Campo de preenchimento obrigatório']"/>
-            <q-select v-model="formData.status" class="col-12" outlined label="Status" :options="statusOptions" lazy-rules="ondemand" :rules="[val => !!val || 'Campo de preenchimento obrigatório']"/>
+            <q-select
+              v-model="formData.reason"
+              class="col-12"
+              outlined
+              emit-value
+              map-options
+              label="Motivo"
+              :options="categories"
+              lazy-rules="ondemand"
+              :rules="[val => !!val || 'Campo de preenchimento obrigatório']"
+            />
+            <q-select
+              v-model="formData.status"
+              class="col-12"
+              outlined
+              emit-value
+              map-options
+              label="Status"
+              :options="statuses"
+              lazy-rules="ondemand"
+              :rules="[val => !!val || 'Campo de preenchimento obrigatório']"
+            />
           </div>
         </q-form>
       </q-card-section>
@@ -46,6 +66,7 @@
 <script>
 import { date } from 'quasar';
 import { mapActions } from "vuex";
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 
 export default {
@@ -76,14 +97,64 @@ export default {
       reason: '',
       status: '',
     },
-    reasonOptions: ['Compra de Veículo', 'Mudança', 'Transferência', 'Outros'],
-    statusOptions: ['Em andamento', 'Vendido', 'Recusado'],
+    categories: [],
+    statuses: [],
   }),
 
   methods: {
+    getStatuses() {
+      const api = new Api(this.$store.getters["auth/user"].token);
+
+      return api.private("/task_statuses")
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+            totalItems: result["hydra:totalItems"],
+          };
+        });
+    },
+    requestStatuses() {
+      this.getStatuses().then((statuses) => {
+        if (statuses.totalItems) {
+          for (let index in statuses.members) {
+            let item = statuses.members[index];
+            this.statuses.push({
+              label: this.$t("tasks.status." + item.name),
+              value: item.id,
+            });
+          }
+        }
+      });
+    },
+    getCategories() {
+      const api = new Api(this.$store.getters["auth/user"].token);
+
+      return api.private("/task_categories")
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+            totalItems: result["hydra:totalItems"],
+          };
+        });
+    },
+    requestCategories() {
+      this.getCategories().then((categories) => {
+        if (categories.totalItems) {
+          for (let index in categories.members) {
+            let item = categories.members[index];
+            this.categories.push({
+              label: item.name,
+              value: item.id,
+            });
+          }
+        }
+      });
+    },
     onSelectClient(item) {
       this.clientSelected = item;
-      this.formData.customer = item.name;
+      this.formData.customer = item;
     },
     ...mapActions({
       search: "people/searchPeople",
@@ -121,6 +192,11 @@ export default {
     formatDate(dateString) {
       return date.formatDate(date.extractDate(dateString, 'DD-MM-YYYY'), 'YYYY-MM-DD');
     },
+  },
+
+  created() {
+    this.requestCategories();
+    this.requestStatuses();
   }
 }
 </script>
