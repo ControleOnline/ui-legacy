@@ -3,7 +3,7 @@
     <h4 class="text-h4 q-mt-none q-mb-lg text-weight-medium">Atendimentos</h4>
 
     <div class="row q-col-gutter-x-md justify-between q-mb-lg">
-      <div class="col-xs-12 col-sm-grow">
+      <div class="col-xs-12 col-sm-auto">
         <q-input class="customer-services__search-input" outlined label="Pesquisar" v-model.trim="query" :debounce="350"
           clearable>
           <template #prepend>
@@ -12,6 +12,22 @@
         </q-input>
       </div>
 
+      <div class="col-xs-12 col-md">
+        <q-select
+          class="customer-services__search-input"
+          outlined
+          label="Filtrar por status"
+          :options="statuses"
+          v-model="filters.status"
+        >
+          <template #prepend>
+            <q-icon name="filter_alt" />
+          </template>
+        </q-select>
+      </div>
+
+      <q-space />
+
       <div class="text-right col-xs-12 col-sm-auto">
         <q-space />
         <q-btn icon="add" color="primary" unelevated no-caps label="Novo Atendimento" class="full-height"
@@ -19,35 +35,30 @@
       </div>
     </div>
 
-    <div v-if="isLoading" class="row col-12 q-col-gutter-md">
-      <div v-for="n in 6" :key="n" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <q-card>
-          <q-item>
-            <q-item-section>
-              <q-item-label>
-                <q-skeleton type="text" />
-              </q-item-label>
-              <q-item-label caption>
-                <q-skeleton type="text" />
-              </q-item-label>
-              <q-item-label caption>
-                <q-skeleton type="text" />
-              </q-item-label>
-              <q-item-label caption>
-                <q-skeleton type="text" />
-              </q-item-label>
-              <q-item-label caption>
-                <q-skeleton type="text" />
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-card>
+    <div v-if="loading" class="row q-col-gutter-md">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" v-for="item in 6" :key="item">
+				<q-skeleton height="12rem" />
+			</div>
+		</div>
+
+    <div v-else-if="error" class="column flex-center q-py-xl text-grey-8">
+      <div class="text-center q-mb-md">
+        <q-icon size="3rem" name="error"/>
       </div>
+      Não foi possível carregar a página, tente novamente mais tarde.
     </div>
 
     <div v-else class="row q-col-gutter-md">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" v-for="item in data" :key="item.id">
         <q-card>
+          <q-card-actions align="center" class="row q-pa-none">
+            <div class="col-12 text-center text-bold">
+              <q-icon v-if="item.customer.people_type == 'F'" name="person" class="icon" color="blue" />
+              <q-icon v-else name="factory" class="icon" color="green" />
+              {{ item.customer.name }}
+            </div>
+          </q-card-actions>
+          <q-separator />
           <q-card-section>
             <div class="row items-center justify-between">
               <div class="text-subtitle1 text-bold col">
@@ -55,29 +66,40 @@
               </div>
             </div>
 
-            <div class="text-body2"><b>Cliente ID: </b> #{{ item.customer.id }}</div>
-            <div class="text-body2"><b>Nome: </b> {{ item.customer.name }}</div>
-            <div class="text-body2"><b>Data e hora:
-              </b> {{ !item.createdAt ? 'Não informado' : formatDate(item.createdAt) }}
+            <div class="text-body2">
+              <q-icon name="person" color="grey-9" />
+              {{ item.customer.alias }}
             </div>
-            <div class="text-body2"><b>Origem:
-              </b> {{ !item.origin ? 'Não informado' : item.origin.city + ' - ' + item.origin.state }}
+            <div class="text-body2">
+              <q-icon name="calendar_month" color="grey-9" />
+              {{ !item.createdAt ? 'Não informado' : formatDate(item.createdAt) }}
             </div>
-            <div class="text-body2"><b>Destino:
-              </b> {{ !item.destination ? 'Não informado' : item.destination.city + ' - ' + item.destination.state }}
+            <div class="text-body2">
+              <q-icon name="place" color="grey-9" />
+              {{ !item.origin ? 'Não informado' : item.origin.city + ' - ' + item.origin.state }}
             </div>
-            <div class="text-body2"><b>Status: </b> {{ !item.status ? 'Não informado' : item.status }}</div>
-            <div class="text-body2"><b>Motivo de abertura: </b> {{ !item.reason ? 'Não informado' : item.reason }}</div>
-            <div class="text-body2"><b>Motivo de recusa: </b> {{ !item.dropoutReason ? 'Não informado' :
-                item.dropoutReason || '-'
-            }}</div>
+            <div class="text-body2">
+              <q-icon name="where_to_vote" color="grey-9" />
+              {{ !item.destination ? 'Não informado' : item.destination.city + ' - ' + item.destination.state }}
+            </div>
+            <div class="text-body2">
+              <q-icon name="schedule" color="grey-9" />
+              {{ !item.status ? 'Não informado' : item.status }}</div>
+            <div class="text-body2">
+              <q-icon name="task_alt" color="grey-9" />
+              {{ !item.reason ? 'Não informado' : item.reason }}
+            </div>
+            <div class="text-body2">
+              <q-icon name="highlight_off" color="grey-9" />
+              {{ !item.dropoutReason ? 'Não informado' : item.dropoutReason || '-' }}
+            </div>
           </q-card-section>
 
           <q-separator />
 
           <q-card-actions class="row q-pa-none">
             <div class="col">
-              <q-btn class="full-width q-py-xs" flat no-caps color="grey-9" label="Editar" icon="edit"
+              <q-btn class="full-width q-py-xs" flat no-caps color="grey-9" :label="`#${item.customer.id}`" icon="edit"
                 @click="editItem(item)" />
             </div>
 
@@ -100,6 +122,7 @@
 </template>
 
 <script>
+import { name } from '@controleonline/quasar-dashboard-ui'
 import NewServiceModal from '../components/NewServiceModal.vue';
 import { mapGetters } from "vuex";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
@@ -118,6 +141,12 @@ export default {
   },
 
   data: () => ({
+    loading: false,
+    error: false,
+    filters: {
+      status: '',
+    },
+    statuses: [],
     searchTerm: '',
     showCreateModal: false,
     maxPages: 5,
@@ -165,16 +194,53 @@ export default {
   watch: {
     page(newValue) {
       this.fetchData();
-    }
+    },
+    "filters.status"() {
+      this.fetchData();
+    },
   },
 
   methods: {
+    getStatuses() {
+      const api = new Api(this.$store.getters["auth/user"].token);
+
+      return api.private("/task_statuses")
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+            totalItems: result["hydra:totalItems"],
+          };
+        });
+    },
+    requestStatuses() {
+      this.getStatuses().then((statuses) => {
+        if (statuses.totalItems) {
+          for (let index in statuses.members) {
+            let item = statuses.members[index];
+            this.statuses.push({
+              label: this.$t("tasks.status." + item.name),
+              value: item.id,
+            });
+          }
+        }
+      });
+    },
     saveCall(payload) {
       this.loadingSave = true;
 
       const api = new Api(this.$store.getters["auth/user"].token);
 
       payload.task_type = 'relationship';
+
+      payload = {
+        description: '',
+        name: payload.customer.name,
+        taskCategory: payload.reason,
+        taskStatus: payload.status,
+        client: payload.customer.id,
+        provider: this.myCompany.id
+      }
 
       return api
         .private("/task", {
@@ -191,6 +257,12 @@ export default {
             this.loadingSave = false;
             this.showCreateModal = false;
 
+            this.$q.notify({
+              message: "Cadastrado com sucesso.",
+              position: "bottom",
+              type: "positive",
+            });
+
             return {
               success: true,
               id: result.response.data.id,
@@ -198,11 +270,6 @@ export default {
           } else {
             this.loadingSave = false;
             this.showCreateModal = false;
-            this.$q.notify({
-              message: "Cadastrado com sucesso.",
-              position: "bottom",
-              type: "positive",
-            });
 
             return {
               success: false,
@@ -216,10 +283,9 @@ export default {
     },
 
     async fetchData() {
-      console.log('Buscar dados da pagina', this.page);
-      console.log('Buscar dados da pagina pesquisa: ', this.query);
       await this.onRequest({
         pagination: this.pagination,
+        filter: this.filters,
       });
     },
 
@@ -237,12 +303,21 @@ export default {
     },
 
     async onRequest(props) {
-      this.isLoading = true;
+      this.loading = true;
 
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
         props.pagination;
 
-      let params = { itemsPerPage: rowsPerPage, page: this.page, task_type: 'relationship' };
+      let params = {
+        itemsPerPage: rowsPerPage,
+        page: this.page,
+        task_type: 'relationship' 
+      };
+
+      if (this.filters.status.value) {
+        params.taskStatus = this.filters.status.value;
+      }
+
       if (this.client)
         params.client = this.client;
 
@@ -271,9 +346,16 @@ export default {
           this.pagination.sortBy = sortBy;
           this.pagination.descending = descending;
           this.pagination.rowsNumber = data.totalItems;
+          this.maxPages = Math.ceil(data.totalItems / 6);
         })
         .finally(() => {
-          this.isLoading = false;
+          this.error = false;
+
+          if (this.data.length == 0) {
+            this.error = true;
+          }
+
+          this.loading = false;
         });
     },
 
@@ -296,6 +378,7 @@ export default {
   },
 
   async mounted() {
+    await this.requestStatuses();
     await this.fetchData();
   }
 }
