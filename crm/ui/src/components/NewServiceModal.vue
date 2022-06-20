@@ -10,54 +10,23 @@
       <q-card-section class="col">
         <q-form @submit="$emit('confirmNew', formData)" ref="newServiceForm">
           <div class="row q-col-gutter-x-md q-col-gutter-y-sm">
-            <PeopleAutocomplete
-              :source="searchPeople"
-              class="col-12 q-mb-md"
-              :isLoading="isSearching"
-              label="Definir o cliente"
-              @selected="onSelectClient"
-              placeholder="Pesquisar..."
-              lazy-rules="ondemand"
-              :rules="[val => !!val || 'Campo de preenchimento obrigatório']"
-            />
-            <q-select
-              v-model="formData.reason"
-              class="col-12"
-              outlined
-              emit-value
-              map-options
-              label="Motivo"
-              :options="categories"
-              lazy-rules="ondemand"
-              :rules="[val => !!val || 'Campo de preenchimento obrigatório']"
-            />
-            <q-select
-              v-model="formData.status"
-              class="col-12"
-              outlined
-              emit-value
-              map-options
-              label="Status"
-              :options="statuses"
-              lazy-rules="ondemand"
-              :rules="[val => !!val || 'Campo de preenchimento obrigatório']"
-            />
+            <PeopleAutocomplete :source="searchPeople" class="col-12 q-mb-md" :isLoading="isSearching"
+              label="Definir o cliente" @selected="onSelectClient" placeholder="Pesquisar..." lazy-rules="ondemand"
+              :rules="[val => !!val || 'Campo de preenchimento obrigatório']" />
+            <q-select v-model="formData.reason" class="col-12" outlined emit-value map-options label="Motivo"
+              :options="categories" lazy-rules="ondemand"
+              :rules="[val => !!val || 'Campo de preenchimento obrigatório']" />
+            <q-select v-model="formData.status" class="col-12" outlined emit-value map-options label="Status"
+              :options="statuses" lazy-rules="ondemand"
+              :rules="[val => !!val || 'Campo de preenchimento obrigatório']" />
           </div>
         </q-form>
       </q-card-section>
 
       <q-card-actions align="right" class="q-px-md q-pb-md q-pt-none">
-        <q-btn label="Cancelar" no-caps flat v-close-popup color="primary" class="q-mr-sm"  padding="sm lg"/>
-        <q-btn
-          label="Confirmar"
-          no-caps
-          color="primary"
-          unelevated
-          :disabled="!disable"
-          :loading="loadingAction"
-          @click="$refs.newServiceForm.submit()"
-          padding="sm lg"
-        />
+        <q-btn label="Cancelar" no-caps flat v-close-popup color="primary" class="q-mr-sm" padding="sm lg" />
+        <q-btn label="Confirmar" no-caps color="primary" unelevated :disabled="!disable" :loading="loadingAction"
+          @click="$refs.newServiceForm.submit()" padding="sm lg" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -82,12 +51,13 @@ export default {
     loadingAction: {
       type: Boolean,
       required: false,
-    }, 
+    },
   },
 
   emits: ['confirmNew', 'input'],
 
   data: () => ({
+    context: 'relationship',
     model: true,
     disable: true,
     isSearching: false,
@@ -102,6 +72,11 @@ export default {
   }),
 
   methods: {
+
+    ...mapActions({
+      getCategories: 'categories/getCategories',
+    }),
+
     getStatuses() {
       const api = new Api(this.$store.getters["auth/user"].token);
 
@@ -127,20 +102,12 @@ export default {
         }
       });
     },
-    getCategories() {
-      const api = new Api(this.$store.getters["auth/user"].token);
-
-      return api.private("/task_categories")
-        .then((response) => response.json())
-        .then((result) => {
-          return {
-            members: result["hydra:member"],
-            totalItems: result["hydra:totalItems"],
-          };
-        });
-    },
     requestCategories() {
-      this.getCategories().then((categories) => {
+      this.getCategories({
+        params: {
+          'context': this.context,
+        }
+      }).then((categories) => {
         if (categories.totalItems) {
           for (let index in categories.members) {
             let item = categories.members[index];
