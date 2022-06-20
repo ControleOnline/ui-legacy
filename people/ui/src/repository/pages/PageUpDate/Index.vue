@@ -1,12 +1,28 @@
 <template>
   <div class="row">
     <q-btn no-caps color="grey-3" icon="arrow_back" class="text-grey-9" unelevated label="Voltar" @click="goBack" />
+
+
+
     <div class="q-pb-xs col-12">
       <div class="text-subtitle1 text-left">
         {{ client.name }}
       </div>
+      <q-card-section v-if="client.type === 'J'" align="right" class="q-pt-none">
+        <q-rating v-model="client.averageRating" size="2.9em" color="yellow" class="justify-center" />
+      </q-card-section>
     </div>
 
+    <div class="col-12 q-pa-md text-center">
+      <PersonAvatar :url="client.avatar" :upload="`${baseUrl}/${people_type}/${this.$route.params.id}/upload-logo`"
+        @uploaded="
+          (data) => {
+            if (data.url) {
+              this.client.avatar = `${this.baseUrl}/files/${data.id}/image.jpg`;
+            }
+          }
+        " />
+    </div>
     <div class="col-12">
       <q-tabs align="start" v-model="currentTab" no-caps class="bg-transparent text-primary" dense>
         <q-tab name="summary" :label="$t('Details')" />
@@ -291,6 +307,7 @@
   </div>
 </template>
 
+
 <script>
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
@@ -307,6 +324,10 @@ import CustomerContracts from "../../components/Contracts.vue";
 import CustomerSummary from "../../components/Summary.vue";
 import CustomerSalesman from "../../components/Salesman.vue";
 import CustomerCompany from "../../components/Company.vue";
+import { ENTRYPOINT } from "../../../../../../../src/config/entrypoint";
+import PersonAvatar from "@controleonline/quasar-common-ui/src/components/common/PersonAvatar";
+
+
 
 export default {
   props: {
@@ -316,6 +337,10 @@ export default {
     config: {
       type: Object,
       required: true,
+    },
+    people_type: {
+      type: String,
+      required: true
     },
   },
 
@@ -334,6 +359,7 @@ export default {
     CustomerCompany,
     OrderTasks,
     Calls,
+    PersonAvatar
   },
 
   created() {
@@ -344,12 +370,14 @@ export default {
 
   data() {
     return {
+      baseUrl: ENTRYPOINT,
       people: {},
       currentTab: "summary",
       api: null,
       goBackRoute: null,
       clientId: this.id,
       client: {
+        averageRating: 4,
         name: "Carregando...",
         type: null,
       },
@@ -374,6 +402,13 @@ export default {
           if (data["@id"]) {
             this.people = data;
             this.people.id = this.clientId;
+            this.averageRating = data.averageRating;
+
+            this.people.avatar =
+              data.file !== null
+                ? `${ENTRYPOINT}/files/${data.file.id}/image.png`
+                : null;
+
             this.client.name =
               data.peopleType === "J"
                 ? data.alias
