@@ -54,8 +54,9 @@
         <q-separator />
         <q-card-actions align="right" class="row q-pa-none">
           <div class="col-6 text-center">
-            <q-btn outline dense :to="{ name: 'ClientsDetails', params: { id: client.id } }" flat no-caps color="grey-9"
-              icon="edit" :label="`#${client.id}`" class="full-width q-py-xs" />
+            <q-btn outline dense :to="{
+              name: getRoute(), params: { id: client.id }
+            }" flat no-caps color="grey-9" icon="edit" :label="`#${client.id}`" class="full-width q-py-xs" />
           </div>
           <div class="col-6 text-center">
             <q-toggle v-model="client.enable" checked-icon="check" color="green"
@@ -205,7 +206,6 @@ export default {
   },
 
   created() {
-    console.log(this.people_type);
     this.peopleType = this.people_type;
     if (this.provider !== null)
       this.onRequest({
@@ -270,6 +270,11 @@ export default {
   },
 
   methods: {
+    getRoute() {
+      let route = this.people_type.charAt(0).toUpperCase() + this.people_type.slice(1);
+      route = route.substring(0, route.length - 1) + 'Details';
+      return route;
+    },
     changeEnable(client) {
       const options = {
         method: 'PUT',
