@@ -302,11 +302,11 @@ import ClientAdminPhones from "../../components/AdminPhones.vue";
 import ClientAdminDocuments from "../../components/AdminDocuments.vue";
 import ClientAdminEmployees from "../../components/AdminEmployees.vue";
 import ClientAdminBilling from "../../components/AdminBilling.vue";
-import CustomerOrders from "../../components/CustomerOrders.vue";
-import CustomerContracts from "../../components/CustomerContracts.vue";
-import CustomerSummary from "../../components/CustomerSummary.vue";
-import CustomerSalesman from "../../components/CustomerSalesman.vue";
-import CustomerCompany from "../../components/CustomerCompany.vue";
+import CustomerOrders from "../../components/Orders.vue";
+import CustomerContracts from "../../components/Contracts.vue";
+import CustomerSummary from "../../components/Summary.vue";
+import CustomerSalesman from "../../components/Salesman.vue";
+import CustomerCompany from "../../components/Company.vue";
 
 export default {
   props: {
