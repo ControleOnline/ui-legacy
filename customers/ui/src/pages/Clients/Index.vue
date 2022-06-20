@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <ClientsPage v-if="this.myProvider != null" ref="clientPageRef" :provider="myProvider"     
-    :people_type="'customer'"
+    :people_type="'customers'"
     :config="{
       endpoint: endpoint,
       token: $store.getters['auth/user'].token,

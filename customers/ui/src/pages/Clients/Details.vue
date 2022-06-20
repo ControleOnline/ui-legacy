@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <ClientPage :people_type="'customer'" :id="clientId" :config="{
+    <ClientPage :people_type="'customers'" :id="clientId" :config="{
       endpoint: endpoint,
       token: $store.getters['auth/user'].token
     }" />
