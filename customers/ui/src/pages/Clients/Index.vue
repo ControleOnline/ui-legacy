@@ -1,6 +1,8 @@
 <template>
   <q-page padding>
-    <ClientsPage v-if="this.myProvider != null" ref="clientPageRef" :provider="myProvider" :config="{
+    <ClientsPage v-if="this.myProvider != null" ref="clientPageRef" :provider="myProvider"     
+    :people_type="'customer'"
+    :config="{
       endpoint: endpoint,
       token: $store.getters['auth/user'].token,
     }" :fetchs="{
@@ -25,7 +27,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ClientsPage from '../../repository/pages/PageAdminClients/Index.vue';
+import ClientsPage from '@controleonline/quasar-people-ui/src/repository/pages/PageAdmin/Index.vue';
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 

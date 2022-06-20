@@ -1,18 +1,16 @@
 <template>
   <q-page padding>
-    <ClientPage
-      :id    ="clientId"
-      :config="{
-        endpoint: endpoint,
-        token   : $store.getters['auth/user'].token
-      }"
-    />
+    <ClientPage :people_type="'customer'" :id="clientId" :config="{
+      endpoint: endpoint,
+      token: $store.getters['auth/user'].token
+    }" />
   </q-page>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import ClientPage     from '../../repository/pages/PageUpDateClient/Index.vue';
+import ClientPage from '@controleonline/quasar-people-ui/src/repository/pages/PageUpDate/Index.vue';
+
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 export default {
@@ -31,7 +29,7 @@ export default {
     }),
   },
 
-  data () {
+  data() {
     return {
       endpoint: ENTRYPOINT,
       clientId: null,
