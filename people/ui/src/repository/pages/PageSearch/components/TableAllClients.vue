@@ -59,7 +59,8 @@
           </div>
           <div class="col-6 text-center">
             <q-toggle v-model="client.enable" checked-icon="check" color="green"
-              :label="!client.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear" @input="changeEnable(client)" />
+              :label="!client.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear"
+              @input="changeEnable(client)" />
           </div>
         </q-card-actions>
       </q-card>
@@ -193,6 +194,10 @@ export default {
     provider: {
       required: true,
     },
+    people_type: {
+      type: String,
+      required: true
+    },
     pageType: {
       type: String,
       required: true,
@@ -200,6 +205,8 @@ export default {
   },
 
   created() {
+    console.log(this.people_type);
+    this.peopleType = this.people_type;
     if (this.provider !== null)
       this.onRequest({
         pagination: this.pagination
@@ -208,6 +215,7 @@ export default {
 
   data() {
     return {
+      peopleType: null,
       maxPages: 5,
       settings: SETTINGS,
       data: [],
@@ -270,7 +278,7 @@ export default {
         params: { company: this.theCompany.id },
       }
 
-      return this.api.private(`/client/${client.people_client_id}/change-status/${client.enable}`, options)
+      return this.api.private(`/${this.peopleType}/${client.people_client_id}/change-status/${client.enable}`, options)
         .then(response => response.json())
         .then(result => {
           return this.$q.notify({
@@ -283,7 +291,7 @@ export default {
     // store method
     getCustomers(params) {
       this.onBeforeLoadClients(params);
-      return this.api.private('/customers', { params })
+      return this.api.private(`/${this.peopleType}`, { params })
         .then(response => response.json())
         .then(result => {
           return {

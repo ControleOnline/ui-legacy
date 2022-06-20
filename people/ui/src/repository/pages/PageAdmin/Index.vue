@@ -7,7 +7,7 @@
     </div>
 
     <div class="col-12">
-      <PageSearchClient  ref="searchPageRef" :config="{
+      <PageSearchClient ref="searchPageRef" :people_type="people_type" :config="{
         endpoint: config.endpoint,
         token: config.token
       }" :provider="provider" :fetchs="fetchs" />
@@ -21,7 +21,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <FormCreateClient ref="myForm" :api="api" @before="(params) => {
+          <FormCreateClient ref="myForm" :people_type="people_type" :api="api" @before="(params) => {
             if (this.fetchs.createClient) {
               this.fetchs.createClient
                 .before(params);
@@ -67,6 +67,10 @@ export default {
     provider: {
       required: false,
     },
+    people_type: {
+      type: String,
+      required: true
+    },
     events: {
       type: Object,
       required: false,
@@ -80,6 +84,7 @@ export default {
   },
 
   created() {
+
     this.api = new Api(
       this.config.token
     );

@@ -51,8 +51,8 @@
 
       <q-tab-panels v-model="currentTab" class="q-mt-sm bg-transparent">
         <q-tab-panel name="allClients" class="q-pa-xs">
-          <TableAllClients :provider="provider" ref="allClients" :pageType="'all'" :api="api" :fromDate="dateFrom" :toDate="dateTo"
-            :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
+          <TableAllClients :provider="provider" ref="allClients" :people_type="people_type" :pageType="'all'" :api="api"
+            :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
               }
@@ -60,8 +60,8 @@
         </q-tab-panel>
 
         <q-tab-panel name="inactiveClient" class="q-pa-xs">
-          <TableAllClients :provider="provider" ref="inactiveClient" :pageType="'inactive'" :api="api" :fromDate="dateFrom" :toDate="dateTo"
-            :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
+          <TableAllClients :provider="provider" ref="inactiveClient" :people_type="people_type" :pageType="'inactive'"
+            :api="api" :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
               }
@@ -69,8 +69,8 @@
         </q-tab-panel>
 
         <q-tab-panel name="prospectsClient" class="q-pa-xs">
-          <TableAllClients :provider="provider" ref="prospectsClient" :pageType="'prospect'" :api="api" :fromDate="dateFrom" :toDate="dateTo"
-            :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
+          <TableAllClients :provider="provider" ref="prospectsClient" :people_type="people_type" :pageType="'prospect'"
+            :api="api" :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
               }
@@ -78,8 +78,8 @@
         </q-tab-panel>
 
         <q-tab-panel name="activeClient" class="q-pa-xs">
-          <TableAllClients :provider="provider" ref="activeClient" :pageType="'active'" :api="api" :fromDate="dateFrom" :toDate="dateTo"
-            :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
+          <TableAllClients :provider="provider" ref="activeClient" :people_type="people_type" :pageType="'active'"
+            :api="api" :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
               }
@@ -87,8 +87,8 @@
         </q-tab-panel>
 
         <q-tab-panel name="newClient" class="q-pa-xs">
-          <TableAllClients :provider="provider" ref="newClient" :pageType="'new'" :api="api" :fromDate="dateFrom" :toDate="dateTo"
-            :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
+          <TableAllClients :provider="provider" ref="newClient" :people_type="people_type" :pageType="'new'" :api="api"
+            :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
               if (this.fetchs.loadClients) {
                 this.fetchs.loadClients.before(params);
               }
@@ -110,7 +110,11 @@ export default {
       type: Object,
       required: true
     },
-    provider:{
+    provider: {
+      required: true
+    },
+    people_type: {
+      type: String,
       required: true
     },
     fetchs: {
