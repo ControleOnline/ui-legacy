@@ -329,7 +329,7 @@ export default {
   methods: {
     ...mapActions({
       getStatuses: "payInvoice/getStatuses",
-      getCategories: "expense/getCategories",
+      getCategories : 'categories/getCategories',      
       getProviders: "expense/getProviders",
       createExpense: "expense/createExpense",
       createCategory: "expense/createCategory",

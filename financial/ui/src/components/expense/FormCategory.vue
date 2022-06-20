@@ -51,6 +51,10 @@ export default {
       type    : Api,
       required: true
     },
+    context:{
+      type    : String,
+      required: true
+    }
   },
 
   created() {
@@ -60,7 +64,7 @@ export default {
       this.getItem(this.id)
         .then(item => {
           this.item.name    = item.name;
-          this.item.context = item.context;
+          this.item.context = this.context;
           this.item.parent  = item.parent !== null ? item.parent['@id'] : null;
         });
     }
@@ -72,7 +76,7 @@ export default {
       item  : {
         "id"     : this.id,
         "name"   : null,
-        "context": "expense",
+        "context": this.context,
         "parent" : null
       },
       categories : [],
@@ -87,8 +91,8 @@ export default {
 
   methods: {
     ...mapActions({
-      getCategories : 'expense/getCategories',
-      createCategory: 'expense/createCategory',
+      getCategories : 'categories/getCategories',
+      createCategory: 'categories/createCategory',
     }),
 
     // store method
@@ -162,7 +166,7 @@ export default {
     loadCategories() {
       this.getCategories({
         params: {
-          'context': 'expense',
+          'context': this.context,
           'company': this.myCompany.id,
         }
       }).then(members => {

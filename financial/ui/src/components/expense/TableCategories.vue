@@ -1,46 +1,27 @@
 <template>
   <div>
-    <q-table flat
-        :loading        ="isLoading"
-        :data           ="items"
-        :columns        ="settings.columns"
-        :pagination.sync="pagination"
-        @request        ="onRequest"
-        row-key         ="id"
-        style           ="min-height: 90vh;"
-        :rows-per-page-options="[5, 10, 15, 20, 25, 50]"
-    >
+    <q-table flat :loading="isLoading" :data="items" :columns="settings.columns" :pagination.sync="pagination"
+      @request="onRequest" row-key="id" style="min-height: 90vh;" :rows-per-page-options="[5, 10, 15, 20, 25, 50]">
       <template v-slot:top>
         <div class="col-xs-12 q-mb-md">
           <div class="row justify-end">
-            <q-btn
-              :label  ="$t('Adicionar categoria')"
-              icon    ="add"
-              size    ="md"
-              color   ="primary"
-              class   ="q-ml-sm"
-              @click="() => {
-                dialogs.category.id      = null;
-                dialogs.category.visible = true;
-              }"
-            />
+            <q-btn :label="$t('Adicionar categoria')" icon="add" size="md" color="primary" class="q-ml-sm" @click="() => {
+              dialogs.category.id = null;
+              dialogs.category.visible = true;
+            }" />
           </div>
         </div>
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="id"                :props="props">
-            <q-btn outline dense
-              :label="`#${props.row.id}`"
-              :style="{color:props.row.color_status}"
-              class ="full-width"
-              @click="() => {
-                dialogs.category.id      = props.row.id;
+          <q-td key="id" :props="props">
+            <q-btn outline dense :label="`#${props.row.id}`" :style="{ color: props.row.color_status }"
+              class="full-width" @click="() => {
+                dialogs.category.id = props.row.id;
                 dialogs.category.visible = true;
-              }"
-            />
+              }" />
           </q-td>
-          <q-td key="name"   :props="props">{{ props.row.name   }}</q-td>
+          <q-td key="name" :props="props">{{ props.row.name }}</q-td>
           <q-td key="parent" :props="props">{{ props.row.parent }}</q-td>
         </q-tr>
       </template>
@@ -52,10 +33,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <FormCategory
-            :id ="dialogs.category.id"
-            :api="api"
-          />
+          <FormCategory :id="dialogs.category.id" :api="api" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -64,26 +42,26 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Api            from '@controleonline/quasar-common-ui/src/utils/api';
-import FormCategory   from './FormCategory';
+import Api from '@controleonline/quasar-common-ui/src/utils/api';
+import FormCategory from './FormCategory';
 
 const SETTINGS = {
-  columns       : [
+  columns: [
     {
-      name  : 'id',
-      field : 'id',
-      align : 'left',
-      label : 'ID'
+      name: 'id',
+      field: 'id',
+      align: 'left',
+      label: 'ID'
     },
     {
-      name  : 'name',
-      align : 'left',
-      label : 'Categoria'
+      name: 'name',
+      align: 'left',
+      label: 'Categoria'
     },
     {
-      name  : 'parent',
-      align : 'left',
-      label : 'Categoria pai'
+      name: 'parent',
+      align: 'left',
+      label: 'Categoria pai'
     },
   ],
 };
@@ -93,9 +71,14 @@ Object.freeze(SETTINGS);
 export default {
   props: {
     api: {
-      type    : Api,
+      type: Api,
       required: true
     },
+    context: {
+      type: String,
+      required: true
+    }
+
   },
 
   components: {
@@ -111,17 +94,17 @@ export default {
 
   data() {
     return {
-      settings       : SETTINGS,
-      items          : [],
-      pagination     : {
-        page       : 1,
+      settings: SETTINGS,
+      items: [],
+      pagination: {
+        page: 1,
         rowsPerPage: 30,
-        rowsNumber : 10,
+        rowsNumber: 10,
       },
-      isLoading      : false,
-      dialogs        : {
+      isLoading: false,
+      dialogs: {
         category: {
-          id     : null,
+          id: null,
           visible: false,
         },
       },
@@ -152,7 +135,7 @@ export default {
         .then(response => {
           return {
             members: response['hydra:member'],
-            total  : response['hydra:totalItems'],
+            total: response['hydra:totalItems'],
           };
         });
     },
@@ -222,14 +205,14 @@ export default {
         return;
 
       let {
-          page,
-          rowsPerPage,
-          rowsNumber,
-          sortBy,
-          descending
-      }          = props.pagination;
+        page,
+        rowsPerPage,
+        rowsNumber,
+        sortBy,
+        descending
+      } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
-      params.context = 'expense';
+      params.context = this.context;
       if (this.myCompany != null) {
         params.company = this.myCompany.id;
       }
@@ -243,20 +226,20 @@ export default {
           if (data.members.length) {
             for (let index in data.members) {
               _items.push({
-                id    : data.members[index].id,
-                name  : data.members[index].name,
+                id: data.members[index].id,
+                name: data.members[index].name,
                 parent: data.members[index].parent !== null ? data.members[index].parent.name : null,
                 _bussy: false,
               });
             }
           }
 
-          this.items                  = _items;
-          this.pagination.rowsNumber  = data.total;
-          this.pagination.page        = page;
+          this.items = _items;
+          this.pagination.rowsNumber = data.total;
+          this.pagination.page = page;
           this.pagination.rowsPerPage = rowsPerPage;
-          this.pagination.sortBy      = sortBy;
-          this.pagination.descending  = descending;
+          this.pagination.sortBy = sortBy;
+          this.pagination.descending = descending;
         })
         .finally(() => {
           this.isLoading = false;

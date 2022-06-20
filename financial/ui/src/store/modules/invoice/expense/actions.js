@@ -2,23 +2,12 @@ import SubmissionError from '@controleonline/quasar-common-ui/src/error/Submissi
 import { fetch } from '../../../../../../../../src/boot/myapi';
 
 
-export function getCategories ({ commit }, data) {
-  const options = {
-    method : 'GET',
-    params : data.params ? data.params : {}
-  };
 
-  return fetch('/categories', options)
-    .then(response => response.json())
-    .then(response => {
-      return response['hydra:member'];
-    })
-}
 
-export function getProviders ({ commit }, data) {
+export function getProviders({ commit }, data) {
   const options = {
-    method : 'GET',
-    params : data.params ? data.params : {}
+    method: 'GET',
+    params: data.params ? data.params : {}
   };
 
   return fetch('/providers', options)
@@ -31,7 +20,7 @@ export function getProviders ({ commit }, data) {
 export const createExpense = ({ commit }, data) => {
   let options = {
     method: 'POST',
-    body  : JSON.stringify(data.values),
+    body: JSON.stringify(data.values),
     params: data.params ? data.params : {}
   };
 
@@ -49,31 +38,10 @@ export const createExpense = ({ commit }, data) => {
     });
 }
 
-export const createCategory = ({ commit }, data) => {
-  let options = {
-    method: 'POST',
-    body  : JSON.stringify(data.values),
-    params: data.params ? data.params : {}
-  };
-
-  return fetch('/categories', options)
-    .then(response => response.json())
-    .then(response => {
-      return response;
-    })
-    .catch(e => {
-      if (e instanceof SubmissionError) {
-        throw new Error(e.errors._error);
-      }
-
-      throw new Error(e.message);
-    });
-}
-
 export const createProvider = ({ commit }, data) => {
   let options = {
     method: 'POST',
-    body  : JSON.stringify(data.values),
+    body: JSON.stringify(data.values),
     params: data.params ? data.params : {}
   };
 
@@ -94,7 +62,7 @@ export const createProvider = ({ commit }, data) => {
 export const updateExpense = ({ commit }, data) => {
   let options = {
     method: 'PUT',
-    body  : JSON.stringify(data.values),
+    body: JSON.stringify(data.values),
     params: data.params ? data.params : {}
   };
 
@@ -115,7 +83,7 @@ export const updateExpense = ({ commit }, data) => {
 export const deleteExpense = ({ commit }, data) => {
   let options = {
     method: 'DELETE',
-    body  : JSON.stringify(data.values),
+    body: JSON.stringify(data.values),
     params: data.params ? data.params : {}
   };
 

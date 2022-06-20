@@ -1,133 +1,55 @@
 <template>
   <div>
     <div class="row q-mb-md q-gutter-sm justify-end">
-      <q-btn
-        :label="$t('Cancelar despesa')"
-        icon="cancel"
-        color="negative"
-        @click="removeExpense"
-        :loading="deleting"
-      />
+      <q-btn :label="$t('Cancelar despesa')" icon="cancel" color="negative" @click="removeExpense"
+        :loading="deleting" />
     </div>
     <q-form @submit="editExpense">
       <div class="row">
         <div class="col-xs-12 q-mb-md">
-          <q-select
-            stack-label
-            emit-value
-            map-options
-            lazy-rules
-            v-model="item.category"
-            :label="$t('Categoria da despesa')"
-            :options="categories"
-            :rules="[(val) => val !== null || 'Selecione uma categoria']"
-          />
+          <q-select stack-label emit-value map-options lazy-rules v-model="item.category"
+            :label="$t('Categoria da despesa')" :options="categories"
+            :rules="[(val) => val !== null || 'Selecione uma categoria']" />
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-input
-            lazy-rules
-            stack-label
-            v-model="item.description"
-            type="text"
-            :label="$t('Descrição da despesa')"
-            class="q-mt-md"
-            :rules="[isInvalid()]"
-          />
+          <q-input lazy-rules stack-label v-model="item.description" type="text" :label="$t('Descrição da despesa')"
+            class="q-mt-md" :rules="[isInvalid()]" />
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-select
-            v-if="item.provider"
-            stack-label
-            emit-value
-            map-options
-            lazy-rules
-            v-model="item.provider"
-            :label="$t('Fornecedor')"
-            :options="providers"
-            :rules="[(val) => val !== null || 'Selecione um fornecedor']"
-          />
-          <PeopleAutocomplete
-            v-else
-            :source="searchPeople"
-            option-value="optionValue"
-            :isLoading="isSearching"
-            label="Definir o fornecedor"
-            @selected="onSelectClient"
-            placeholder="Pesquisar..."
-          />
+          <q-select v-if="item.provider" stack-label emit-value map-options lazy-rules v-model="item.provider"
+            :label="$t('Fornecedor')" :options="providers"
+            :rules="[(val) => val !== null || 'Selecione um fornecedor']" />
+          <PeopleAutocomplete v-else :source="searchPeople" option-value="optionValue" :isLoading="isSearching"
+            label="Definir o fornecedor" @selected="onSelectClient" placeholder="Pesquisar..." />
 
-          <q-btn
-            v-if="item.provider"
-            @click="item.provider = null"
-            align="right"
-          >
+          <q-btn v-if="item.provider" @click="item.provider = null" align="right">
             Alterar
           </q-btn>
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-input
-            lazy-rules
-            stack-label
-            reverse-fill-mask
-            v-model="item.amount"
-            prefix="R$"
-            type="text"
-            :label="$t('Valor')"
-            class="q-mt-md"
-            :rules="[isInvalid()]"
-            mask="#,##"
-            fill-mask="0"
-          />
+          <q-input lazy-rules stack-label reverse-fill-mask v-model="item.amount" prefix="R$" type="text"
+            :label="$t('Valor')" class="q-mt-md" :rules="[isInvalid()]" mask="#,##" fill-mask="0" />
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-input
-            stack-label
-            v-model="item.dueDate"
-            :label="$t('Data primeiro vencimento')"
-            mask="##/##/####"
-            class="q-mb-sm"
-            :rules="[isInvalid('date')]"
-          >
+          <q-input stack-label v-model="item.dueDate" :label="$t('Data primeiro vencimento')" mask="##/##/####"
+            class="q-mb-sm" :rules="[isInvalid('date')]">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy
-                  ref="qDateProxy1"
-                  transition-show="scale"
-                  transition-hide="scale"
-                >
-                  <q-date
-                    v-model="item.dueDate"
-                    mask="DD/MM/YYYY"
-                    @input="() => $refs.qDateProxy1.hide()"
-                  />
+                <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="item.dueDate" mask="DD/MM/YYYY" @input="() => $refs.qDateProxy1.hide()" />
                 </q-popup-proxy>
               </q-icon>
             </template>
           </q-input>
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-select
-            stack-label
-            emit-value
-            map-options
-            lazy-rules
-            v-model="item.status"
-            :label="$t('Status')"
-            :options="statuses"
-            :rules="[(val) => val !== null || 'Selecione um status']"
-          />
+          <q-select stack-label emit-value map-options lazy-rules v-model="item.status" :label="$t('Status')"
+            :options="statuses" :rules="[(val) => val !== null || 'Selecione um status']" />
         </div>
       </div>
       <div class="row justify-end">
-        <q-btn
-          :loading="saving"
-          icon="save"
-          type="submit"
-          :label="$t('Salvar')"
-          size="md"
-          color="primary"
-          class="q-mt-md"
-        />
+        <q-btn :loading="saving" icon="save" type="submit" :label="$t('Salvar')" size="md" color="primary"
+          class="q-mt-md" />
       </div>
     </q-form>
   </div>
@@ -184,8 +106,7 @@ export default {
   methods: {
     ...mapActions({
       getStatuses: "payInvoice/getStatuses",
-      getCategories: "expense/getCategories",
-
+      getCategories: 'categories/getCategories',
       getInvoice: "payInvoice/getInvoice",
       createCategory: "expense/createCategory",
       createProvider: "expense/createProvider",
@@ -349,9 +270,9 @@ export default {
           amount: parseFloat(this.item.amount.replace(",", ".")),
           dueDate: this.item.dueDate
             ? this.item.dueDate.replace(
-                /^(\d{2})\/(\d{2})\/(\d{4})$/g,
-                "$3-$2-$1"
-              )
+              /^(\d{2})\/(\d{2})\/(\d{4})$/g,
+              "$3-$2-$1"
+            )
             : null,
           description: this.item.description,
           status: this.item.status,
@@ -447,7 +368,7 @@ export default {
             this.item.status = data.invoiceStatus.status;
           }
         })
-        .catch((error) => {})
+        .catch((error) => { })
         .finally(() => {
           this.isLoading = false;
         });

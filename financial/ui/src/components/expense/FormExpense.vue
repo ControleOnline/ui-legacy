@@ -110,6 +110,10 @@ export default {
       type    : Api,
       required: true
     },
+    context:{
+      type: String,
+      required: true
+    }
   },
 
   created() {
@@ -157,7 +161,7 @@ export default {
   methods: {
     ...mapActions({
       getStatuses  : 'payInvoice/getStatuses',
-      getCategories: 'expense/getCategories',
+      getCategories : 'categories/getCategories',      
       getProviders : 'expense/getProviders',
     }),
 
@@ -241,7 +245,7 @@ export default {
     loadCategories() {
       this.getCategories({
         params: {
-          'context': 'expense',
+          'context': this.context,
           'company': this.myCompany.id,
         }
       }).then(members => {
