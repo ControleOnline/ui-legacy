@@ -7,13 +7,8 @@
         </q-card-section>
         <div class="row">
           <div class="col-12">
-            <q-tabs
-              :horizontal="$q.screen.gt.xs"
-              align="justify"
-              v-model="currentTab"
-              class="bg-white text-primary"
-            >
-            <q-tab name="allTasks" :label="$t('tasks.allTasks')" />
+            <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
+              <q-tab name="allTasks" :label="$t('tasks.allTasks')" />
               <q-tab name="myTasks" :label="$t('tasks.myTasks')" />
               <q-tab name="create" :label="$t('tasks.create')" />
               <q-tab name="category" :label="$t('tasks.category')" />
@@ -30,7 +25,7 @@
                 <TasksSearching />
               </q-tab-panel>
               <q-tab-panel name="category" class="q-px-none">
-                <TaskCategorySearching />
+                <TableCategories :context="'support'" :api="api" />
               </q-tab-panel>
             </q-tab-panels>
           </div>
@@ -41,10 +36,12 @@
 </template>
 
 <script>
-import TaskCategorySearching from "../../components/Tasks/TaskCategorySearching";
 import MyTasksSearching from "../../components/Tasks/MyTasksSearching";
 import TasksSearching from "../../components/Tasks/TasksSearching";
 import TasksSearchingAll from "../../components/Tasks/TasksSearchingAll";
+import Api from '@controleonline/quasar-common-ui/src/utils/api';
+import TableCategories from '@controleonline/quasar-common-ui/src/components/categories/Table.vue';
+
 
 import { mapGetters } from "vuex";
 
@@ -52,14 +49,16 @@ export default {
   name: "TasksIndexPage",
 
   components: {
-    TaskCategorySearching,
+    TableCategories,
     MyTasksSearching,
     TasksSearching,
-    TasksSearchingAll
+    TasksSearchingAll,
+    Api
   },
 
   data() {
     return {
+      api: null,
       currentTab: "myTasks",
     };
   },
@@ -68,6 +67,9 @@ export default {
     ...mapGetters({
       user: "auth/user",
     }),
+  },
+  created() {
+    this.api = new Api(this.$store.getters['auth/user'].token);
   },
 };
 </script>
