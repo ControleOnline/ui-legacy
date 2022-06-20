@@ -144,7 +144,7 @@ export const myCompanies = ({ commit, dispatch }) => {
 
       dispatch('auth/logOut', null, { root: true });
       localStorage.clear();
-      location.reload();
+      //location.reload();
 
       if (e instanceof SubmissionError) {
         commit(types.SET_VIOLATIONS, e.errors);
@@ -202,7 +202,7 @@ export const defaultCompany = ({ commit, dispatch }) => {
 
       dispatch('auth/logOut', null, { root: true });
       localStorage.clear();
-      location.reload();
+      //location.reload();
 
       if (e instanceof SubmissionError) {
         commit(types.SET_VIOLATIONS, e.errors);

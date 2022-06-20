@@ -1,25 +1,11 @@
 <template>
   <!-- eslint-disable -->
-  <q-btn-dropdown
-    outline
-    v-if="isMultipleCompanies() == true && !dialog"
-    color="primary"
-    text-color="white"
-    :label="currentCompany !== null ? currentCompany.name : 'Loading...'"
-    class="ellipsis full-width"
-  >
+  <q-btn-dropdown outline v-if="isMultipleCompanies() == true && !dialog" color="primary" text-color="white"
+    :label="currentCompany !== null ? currentCompany.name : 'Loading...'" class="ellipsis full-width">
     <q-list>
-      <q-item
-        clickable
-        v-close-popup
-        dense
-        v-for="(company, index) in myCompanies"
-        :disable="
-          company.enabled && company.user.employee_enabled ? false : true
-        "
-        :key="index"
-        @click="onCompanySelection(company)"
-      >
+      <q-item clickable v-close-popup dense v-for="(company, index) in myCompanies" :disable="
+        company.enabled && company.user.employee_enabled ? false : true
+      " :key="index" @click="onCompanySelection(company)">
         <q-item-section>
           <q-item-label lines="1">{{ company.name }}</q-item-label>
         </q-item-section>
@@ -34,13 +20,7 @@
         <q-space />
       </q-card-section>
       <q-card-section>
-        <FormCompany
-          @saved="onSaved"
-          :person="false"
-          :companyFields="companyFields"
-          address="bycep"
-          saveBtn="Salvar"
-        />
+        <FormCompany @saved="onSaved" :person="false" :companyFields="companyFields" address="bycep" saveBtn="Salvar" />
       </q-card-section>
     </q-card>
   </q-dialog>
