@@ -1,27 +1,16 @@
 export const routes = [
   {
-    path     : '/customers/',
+    path: '/customers/',
     component: () => import('../../../../../src/layouts/AdminLayout.vue'),
-    children : [
+    children: [
       {
-        name     : 'CustomersIndex',
-        path     : '',
+        name: 'CustomersIndex',
+        path: '',
         component: () => import('../pages/Clients/Index.vue')
       },
       {
-        name     : 'CustomersDetails',
-        path     : 'id/:id',
-        component: () => import('../pages/Clients/Details.vue')
-      },
-
-      {
-        name     : 'CustomersIndex',
-        path     : '',
-        component: () => import('../pages/Clients/Index.vue')
-      },
-      {
-        name     : 'CustomersDetails',
-        path     : 'id/:id',
+        name: 'CustomersDetails',
+        path: 'id/:id',
         component: () => import('../pages/Clients/Details.vue')
       },
     ]
