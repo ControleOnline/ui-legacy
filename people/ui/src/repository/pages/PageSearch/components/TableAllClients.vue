@@ -272,7 +272,7 @@ export default {
   methods: {
     getRoute() {
       let route = this.people_type.charAt(0).toUpperCase() + this.people_type.slice(1);
-      route = route.substring(0, route.length - 1) + 'Details';
+      route = route + 'Details';
       return route;
     },
     changeEnable(client) {
