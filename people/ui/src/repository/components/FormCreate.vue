@@ -105,8 +105,9 @@ export default {
   methods: {
     saveCustomer(values) {
       let params = {};
-
-      params.employeeId = this.employeeId;
+      if (this.employeeId) {
+        params.employeeId = this.employeeId;
+      }
 
       this.$emit("before", params);
 
