@@ -4,12 +4,23 @@ export const routes = [
     component: () => import('../../../../../src/layouts/AdminLayout.vue'),
     children : [
       {
-        name     : 'ClientsIndex',
+        name     : 'CustomersIndex',
         path     : '',
         component: () => import('../pages/Clients/Index.vue')
       },
       {
-        name     : 'ClientsDetails',
+        name     : 'CustomersDetails',
+        path     : 'id/:id',
+        component: () => import('../pages/Clients/Details.vue')
+      },
+
+      {
+        name     : 'CustomersIndex',
+        path     : '',
+        component: () => import('../pages/Clients/Index.vue')
+      },
+      {
+        name     : 'CustomersDetails',
         path     : 'id/:id',
         component: () => import('../pages/Clients/Details.vue')
       },

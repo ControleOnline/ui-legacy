@@ -15,7 +15,7 @@
 }" :events="{
   onSaved: (data) => {
     $router.push({
-      name: 'ClientsDetails',
+      name: 'CustomersDetails',
       params: {
         id: data.customerId
       }
