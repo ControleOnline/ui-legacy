@@ -140,7 +140,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      let endpoint = `${people_type}/${this.id}/billing`;
+      let endpoint = `${this.people_type}/${this.id}/billing`;
       return this.api.private(endpoint)
         .then(response => response.json())
         .then(result => {
@@ -156,7 +156,7 @@ export default {
         body   : JSON.stringify(values),
       };
 
-      let endpoint = `${people_type}/${this.id}/billing`;
+      let endpoint = `${this.people_type}/${this.id}/billing`;
       return this.api.private(endpoint, options)
         .then(response => response.json())
         .then(data => {

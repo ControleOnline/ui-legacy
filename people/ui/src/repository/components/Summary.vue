@@ -166,7 +166,7 @@ export default {
     // store method
     getSummary() {
       return this.api
-        .private(`${people_type}/${this.id}/summary`)
+        .private(`${this.people_type}/${this.id}/summary`)
         .then((response) => response.json())
         .then((result) => {
           return result.response.data;
@@ -181,7 +181,7 @@ export default {
         body: JSON.stringify(values),
       };
 
-      let endpoint = `${people_type}/${this.id}/summary`;
+      let endpoint = `${this.people_type}/${this.id}/summary`;
       return this.api
         .private(endpoint, options)
         .then((response) => response.json())

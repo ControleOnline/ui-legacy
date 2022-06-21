@@ -157,7 +157,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      let endpoint = `${people_type}/${this.id}/documents`;
+      let endpoint = `${this.people_type}/${this.id}/documents`;
       return this.api.private(endpoint)
         .then(response => response.json())
         .then(result => {
@@ -173,7 +173,7 @@ export default {
         body: JSON.stringify(values),
       };
 
-      let endpoint = `${people_type}/${this.id}/documents`;
+      let endpoint = `${this.people_type}/${this.id}/documents`;
       return this.api.private(endpoint, options)
         .then(response => response.json())
         .then(data => {
@@ -196,7 +196,7 @@ export default {
         body: JSON.stringify({ id }),
       };
 
-      let endpoint = `${people_type}/${this.id}/documents`;
+      let endpoint = `${this.people_type}/${this.id}/documents`;
       return this.api.private(endpoint, options)
         .then(response => response.json())
         .then(data => {

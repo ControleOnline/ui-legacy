@@ -155,7 +155,7 @@ export default {
         body: JSON.stringify({ id }),
       };
 
-      let endpoint = `${people_type}/${this.id}/employees`;
+      let endpoint = `${this.people_type}/${this.id}/employees`;
       return this.api
         .private(endpoint, options)
         .then((response) => response.json())
@@ -220,7 +220,7 @@ export default {
     },
     getItems() {
       return this.api
-        .private(`${people_type}/${this.id}/companies`)
+        .private(`${this.people_type}/${this.id}/companies`)
         .then((response) => response.json())
         .then((result) => {
           return result.response;

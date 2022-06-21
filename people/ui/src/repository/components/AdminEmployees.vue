@@ -153,7 +153,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      let endpoint = `${people_type}/${this.id}/employees`;
+      let endpoint = `${this.people_type}/${this.id}/employees`;
       return this.api
         .private(endpoint)
         .then((response) => response.json())
@@ -171,7 +171,7 @@ export default {
         params: { company: this.theCompany.id },
       };
 
-      let endpoint = `${people_type}/${this.id}/employees`;
+      let endpoint = `${this.people_type}/${this.id}/employees`;
       return this.api
         .private(endpoint, options)
         .then((response) => response.json())
@@ -195,7 +195,7 @@ export default {
         body: JSON.stringify({ id }),
       };
 
-      let endpoint = `${people_type}/${this.id}/employees`;
+      let endpoint = `${this.people_type}/${this.id}/employees`;
       return this.api
         .private(endpoint, options)
         .then((response) => response.json())
