@@ -105,6 +105,10 @@ export default {
     id: {
       required: true,
     },
+    people_type: {
+      type: String,
+      required: true
+    },
   },
   data() {
     return {
@@ -151,7 +155,7 @@ export default {
         body: JSON.stringify({ id }),
       };
 
-      let endpoint = `customers/${this.id}/employees`;
+      let endpoint = `${people_type}/${this.id}/employees`;
       return this.api
         .private(endpoint, options)
         .then((response) => response.json())
@@ -216,7 +220,7 @@ export default {
     },
     getItems() {
       return this.api
-        .private(`customers/${this.id}/companies`)
+        .private(`${people_type}/${this.id}/companies`)
         .then((response) => response.json())
         .then((result) => {
           return result.response;

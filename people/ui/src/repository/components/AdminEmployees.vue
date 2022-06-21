@@ -106,6 +106,10 @@ export default {
       type: Api,
       required: true,
     },
+    people_type: {
+      type: String,
+      required: true
+    },
   },
 
   data() {
@@ -149,7 +153,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      let endpoint = `customers/${this.id}/employees`;
+      let endpoint = `${people_type}/${this.id}/employees`;
       return this.api
         .private(endpoint)
         .then((response) => response.json())
@@ -167,7 +171,7 @@ export default {
         params: { company: this.theCompany.id },
       };
 
-      let endpoint = `customers/${this.id}/employees`;
+      let endpoint = `${people_type}/${this.id}/employees`;
       return this.api
         .private(endpoint, options)
         .then((response) => response.json())
@@ -191,7 +195,7 @@ export default {
         body: JSON.stringify({ id }),
       };
 
-      let endpoint = `customers/${this.id}/employees`;
+      let endpoint = `${people_type}/${this.id}/employees`;
       return this.api
         .private(endpoint, options)
         .then((response) => response.json())

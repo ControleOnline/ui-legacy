@@ -76,6 +76,10 @@ export default {
       type: Api,
       required: true
     },
+    people_type: {
+      type: String,
+      required: true
+    },
   },
 
   data() {
@@ -98,7 +102,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      let endpoint = `customers/${this.id}/emails`;
+      let endpoint = `${people_type}/${this.id}/emails`;
       return this.api.private(endpoint)
         .then(response => response.json())
         .then(result => {
@@ -114,7 +118,7 @@ export default {
         body: JSON.stringify(values),
       };
 
-      let endpoint = `customers/${this.id}/emails`;
+      let endpoint = `${people_type}/${this.id}/emails`;
       return this.api.private(endpoint, options)
         .then(response => response.json())
         .then(data => {
@@ -137,7 +141,7 @@ export default {
         body: JSON.stringify({ id }),
       };
 
-      let endpoint = `customers/${this.id}/emails`;
+      let endpoint = `${people_type}/${this.id}/emails`;
       return this.api.private(endpoint, options)
         .then(response => response.json())
         .then(data => {

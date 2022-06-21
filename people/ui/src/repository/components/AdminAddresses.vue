@@ -7,7 +7,7 @@
     </div>
     <div class="col-9">
       <div class="row justify-end">
-        <q-btn  no-caps icon="add" size="sm" color="positive" class="q-ml-sm" @click="dialog = !dialog" />
+        <q-btn no-caps icon="add" size="sm" color="positive" class="q-ml-sm" @click="dialog = !dialog" />
       </div>
     </div>
     <div class="col-12">
@@ -185,6 +185,10 @@ export default {
       type: Api,
       required: true
     },
+    people_type: {
+      type: String,
+      required: true
+    },
   },
 
   components: {
@@ -219,7 +223,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      let endpoint = `customers/${this.id}/addresses`;
+      let endpoint = `${people_type}/${this.id}/addresses`;
       return this.api.private(endpoint)
         .then(response => response.json())
         .then(result => {
@@ -235,7 +239,7 @@ export default {
         body: JSON.stringify(values),
       };
 
-      let endpoint = `customers/${this.id}/addresses`;
+      let endpoint = `${people_type}/${this.id}/addresses`;
       return this.api.private(endpoint, options)
         .then(response => response.json())
         .then(data => {
@@ -258,7 +262,7 @@ export default {
         body: JSON.stringify({ id }),
       };
 
-      let endpoint = `customers/${this.id}/addresses`;
+      let endpoint = `${people_type}/${this.id}/addresses`;
       return this.api.private(endpoint, options)
         .then(response => response.json())
         .then(data => {

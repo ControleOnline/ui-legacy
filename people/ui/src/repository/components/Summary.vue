@@ -1,135 +1,70 @@
 <template>
   <div class="row items-center justify-center form q-pa-md">
     <div class="flex flex-center" v-if="isLoading">
-      <q-circular-progress
-        :indeterminate="isLoading"
-        size="sm"
-        color="primary"
-        class="q-ma-md"
-      />
+      <q-circular-progress :indeterminate="isLoading" size="sm" color="primary" class="q-ma-md" />
       Carregando...
     </div>
 
-    <div
-      class="col-12"
-      :style="isLoading ? 'visibility:hidden' : 'visibility:visible'"
-    >
+    <div class="col-12" :style="isLoading ? 'visibility:hidden' : 'visibility:visible'">
       <div class="text-subtitle1 text-left">Resumo</div>
 
       <q-form @submit="onSubmit" ref="myForm">
         <div class="row q-col-gutter-sm">
           <div class="row col-xs-12 col-sm-12 justify-between">
             <div class="col">
-              <q-option-group
-                inline
-                type="radio"
-                v-model="item.type"
-                @input="changeType()"
-                :options="[
-                  { label: 'Pessoa Física', value: 'F' },
-                  { label: 'Pessoa Jurídica', value: 'J' },
-                ]"
-              />
+              <q-option-group inline type="radio" v-model="item.type" @input="changeType()" :options="[
+                { label: 'Pessoa Física', value: 'F' },
+                { label: 'Pessoa Jurídica', value: 'J' },
+              ]" />
             </div>
 
             <div class="col text-right">
-              <q-toggle v-model="item.enabled" checked-icon="check" color="green" :label="!item.enabled ? 'Desativado' : 'Ativado'" unchecked-icon="clear" @input="changeEnable(item)" />
+              <q-toggle v-model="item.enabled" checked-icon="check" color="green"
+                :label="!item.enabled ? 'Desativado' : 'Ativado'" unchecked-icon="clear" @input="changeEnable(item)" />
             </div>
           </div>
 
           <div :class="item.type == 'J' ? 'col-xs-12 col-sm-6' : 'col-xs-12'">
-            <q-input
-              stack-label
-              lazy-rules
-              outlined
-              v-model="item.name"
-              type="text"
-              class="q-mb-sm"
-              :label="item.type == 'J' ? $t('Razão social') : $t('Nome completo')"
-              :placeholder="
+            <q-input stack-label lazy-rules outlined v-model="item.name" type="text" class="q-mb-sm"
+              :label="item.type == 'J' ? $t('Razão social') : $t('Nome completo')" :placeholder="
                 item.type == 'J' ? 'Digite a Razão social' : 'Digite o nome completo'
-              "
-              :rules="[isInvalid('name')]"
-            />
+              " :rules="[isInvalid('name')]" />
           </div>
 
           <div class="col-xs-12 col-sm-6" v-if="item.type == 'J'">
-            <q-input
-              stack-label
-              lazy-rules
-              outlined
-              v-model="item.alias"
-              type="text"
-              class="q-mb-sm"
-              :label="$t('Nome Fantasia')"
-              :placeholder="
+            <q-input stack-label lazy-rules outlined v-model="item.alias" type="text" class="q-mb-sm"
+              :label="$t('Nome Fantasia')" :placeholder="
                 item.type == 'J'
                   ? 'Digite o Nome fantasia'
                   : 'Digite o sobrenome'
-              "
-              :rules="[isInvalid('alias')]"
-            />
+              " :rules="[isInvalid('alias')]" />
           </div>
         </div>
 
         <div class="row q-col-gutter-sm">
           <div class="col-xs-12 col-sm-grow">
-            <q-input
-              stack-label
-              outlined
-              v-model="item.birthday"
-              mask="##/##/####"
-              :label="
-                item.type == 'F' ? 'Data de nascimento' : 'Data de fundação'
-              "
-            >
+            <q-input stack-label outlined v-model="item.birthday" mask="##/##/####" :label="
+              item.type == 'F' ? 'Data de nascimento' : 'Data de fundação'
+            ">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy
-                    ref="qDateProxy1"
-                    transition-show="scale"
-                    transition-hide="scale"
-                  >
-                    <q-date
-                      v-model="item.birthday"
-                      mask="DD/MM/YYYY"
-                      @input="() => $refs.qDateProxy1.hide()"
-                    />
+                  <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">
+                    <q-date v-model="item.birthday" mask="DD/MM/YYYY" @input="() => $refs.qDateProxy1.hide()" />
                   </q-popup-proxy>
                 </q-icon>
               </template>
             </q-input>
           </div>
-          <div
-            v-for="(field, index) in particulars"
-            :key="index"
-            class="col-xs-12 col-sm-grow"
-          >
-            <q-input
-              stack-label
-              lazy-rules
-              outlined
-              v-model="field.value"
-              type="text"
-              :label="$t(field.label)"
-              :rules="field.required ? [isInvalid('field_text')] : [true]"
-              class="q-mb-sm"
-              @input="field._updated = true"
-            />
+          <div v-for="(field, index) in particulars" :key="index" class="col-xs-12 col-sm-grow">
+            <q-input stack-label lazy-rules outlined v-model="field.value" type="text" :label="$t(field.label)"
+              :rules="field.required ? [isInvalid('field_text')] : [true]" class="q-mb-sm"
+              @input="field._updated = true" />
           </div>
         </div>
 
         <div class="row justify-end">
-          <q-btn
-            unelevated
-            no-caps
-            :loading="saving"
-            type="submit"
-            icon="save"
-            label="Salvar"
-            size="md"
-            color="primary"
-          />
+          <q-btn unelevated no-caps :loading="saving" type="submit" icon="save" label="Salvar" size="md"
+            color="primary" />
         </div>
       </q-form>
     </div>
@@ -148,6 +83,10 @@ export default {
     api: {
       type: Api,
       required: true,
+    },
+    people_type: {
+      type: String,
+      required: true
     },
   },
 
@@ -227,7 +166,7 @@ export default {
     // store method
     getSummary() {
       return this.api
-        .private(`customers/${this.id}/summary`)
+        .private(`${people_type}/${this.id}/summary`)
         .then((response) => response.json())
         .then((result) => {
           return result.response.data;
@@ -242,7 +181,7 @@ export default {
         body: JSON.stringify(values),
       };
 
-      let endpoint = `customers/${this.id}/summary`;
+      let endpoint = `${people_type}/${this.id}/summary`;
       return this.api
         .private(endpoint, options)
         .then((response) => response.json())

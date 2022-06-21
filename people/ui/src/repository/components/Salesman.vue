@@ -117,6 +117,10 @@ export default {
       type: Api,
       required: true
     },
+    people_type: {
+      type: String,
+      required: true
+    },
   },
 
   data() {
@@ -147,7 +151,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      return this.api.private(`customers/${this.id}/salesman`)
+      return this.api.private(`${people_type}/${this.id}/salesman`)
         .then(response => response.json())
         .then(result => {
           return result.response.data;
@@ -165,7 +169,7 @@ export default {
         }
       };
 
-      return this.api.private(`customers/${this.id}/salesman`, options)
+      return this.api.private(`${people_type}/${this.id}/salesman`, options)
         .then(response => response.json())
         .then(data => {
           if (data.response) {
@@ -187,7 +191,7 @@ export default {
         body: JSON.stringify({ id }),
       };
 
-      return this.api.private(`customers/${this.id}/salesman`, options)
+      return this.api.private(`${people_type}/${this.id}/salesman`, options)
         .then(response => response.json())
         .then(data => {
           if (data.response) {

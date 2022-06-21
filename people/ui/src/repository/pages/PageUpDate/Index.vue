@@ -35,7 +35,7 @@
       <q-tab-panels v-model="currentTab" class="bg-transparent">
         <q-tab-panel name="summary" class="q-px-none row q-col-gutter-y-lg">
           <div class="col-12">
-            <CustomerSummary :api="api" :id="clientId" @error="
+            <PeopleSummary :people_type="people_type" :api="api" :id="clientId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -55,7 +55,7 @@
           </div>
 
           <div class="col-12">
-            <ClientAdminAddresses :api="api" :id="clientId" @error="
+            <PeopleAdminAddresses :people_type="people_type" :api="api" :id="clientId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -76,7 +76,7 @@
 
           <div class="col-12 row">
             <div class="col-xs-12 col-sm-6">
-              <ClientAdminEmails class="full-height" :api="api" :id="clientId" @error="
+              <PeopleAdminEmails :people_type="people_type" class="full-height" :api="api" :id="clientId" @error="
                 (error) => {
                   this.$q.notify({
                     message: error.message,
@@ -96,7 +96,7 @@
             </div>
 
             <div class="col-xs-12 col-sm-6 q-pl-lg">
-              <ClientAdminPhones class="full-height" :api="api" :id="clientId" @error="
+              <PeopleAdminPhones :people_type="people_type" class="full-height" :api="api" :id="clientId" @error="
                 (error) => {
                   this.$q.notify({
                     message: error.message,
@@ -117,7 +117,7 @@
           </div>
 
           <div class="col-12">
-            <ClientAdminDocuments :api="api" :id="clientId" @error="
+            <PeopleAdminDocuments :people_type="people_type" :api="api" :id="clientId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -137,7 +137,7 @@
           </div>
 
           <div class="col-12" v-if="client.type === 'F'">
-            <ClientAdminUsers :api="api" :id="clientId" @error="
+            <PeopleAdminUsers :people_type="people_type" :api="api" :id="clientId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -157,7 +157,7 @@
           </div>
 
           <div class="col-12" v-if="client.type === 'F'">
-            <CustomerCompany :api="api" :id="clientId" @error="
+            <PeopleCompany :people_type="people_type" :api="api" :id="clientId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -175,7 +175,7 @@
 
     if (data.id) {
       this.$router.push({
-        name: 'ClientsDetails',
+        name: this.getRoute('Details'),
         params: { id: data.id },
       });
     }
@@ -190,7 +190,7 @@
 
         <q-tab-panel name="employees" class="q-px-none row q-col-gutter-y-lg">
           <div class="col-12" v-if="client.type === 'J'">
-            <ClientAdminEmployees :api="api" :id="clientId" @error="
+            <PeopleAdminEmployees :people_type="people_type" :api="api" :id="clientId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -208,7 +208,7 @@
 
     if (data.id) {
       this.$router.push({
-        name: 'ClientsDetails',
+        name: this.getRoute('Details'),
         params: { id: data.id },
       });
     }
@@ -217,7 +217,7 @@
           </div>
 
           <div class="col-12">
-            <CustomerSalesman :api="api" :id="clientId" @error="
+            <PeopleSalesman :people_type="people_type" :api="api" :id="clientId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -239,7 +239,7 @@
 
         <q-tab-panel name="billing" class="q-px-none row q-col-gutter-y-lg">
           <div class="col-12">
-            <ClientAdminBilling :api="api" :id="clientId" @error="
+            <PeopleAdminBilling :people_type="people_type"  :api="api" :id="clientId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -259,7 +259,7 @@
           </div>
 
           <div class="col-12">
-            <CustomerOrders :api="api" :id="clientId" @error="
+            <PeopleOrders :people_type="people_type" :api="api" :id="clientId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -279,7 +279,7 @@
           </div>
 
           <div class="col-12">
-            <CustomerContracts :api="api" :id="clientId" @error="
+            <PeopleContracts :people_type="people_type"  :api="api" :id="clientId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -300,7 +300,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="calls" class="q-px-xs">
-          <Calls :client="clientId" />
+          <Calls :people_type="people_type"  :client="clientId" />
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -312,18 +312,18 @@
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import Calls from "@controleonline/quasar-crm-ui/src/pages/CustomerServices";
-import ClientAdminEmails from "../../components/AdminEmails.vue";
-import ClientAdminUsers from "../../components/AdminUsers.vue";
-import ClientAdminAddresses from "../../components/AdminAddresses.vue";
-import ClientAdminPhones from "../../components/AdminPhones.vue";
-import ClientAdminDocuments from "../../components/AdminDocuments.vue";
-import ClientAdminEmployees from "../../components/AdminEmployees.vue";
-import ClientAdminBilling from "../../components/AdminBilling.vue";
-import CustomerOrders from "../../components/Orders.vue";
-import CustomerContracts from "../../components/Contracts.vue";
-import CustomerSummary from "../../components/Summary.vue";
-import CustomerSalesman from "../../components/Salesman.vue";
-import CustomerCompany from "../../components/Company.vue";
+import PeopleAdminEmails from "../../components/AdminEmails.vue";
+import PeopleAdminUsers from "../../components/AdminUsers.vue";
+import PeopleAdminAddresses from "../../components/AdminAddresses.vue";
+import PeopleAdminPhones from "../../components/AdminPhones.vue";
+import PeopleAdminDocuments from "../../components/AdminDocuments.vue";
+import PeopleAdminEmployees from "../../components/AdminEmployees.vue";
+import PeopleAdminBilling from "../../components/AdminBilling.vue";
+import PeopleOrders from "../../components/Orders.vue";
+import PeopleContracts from "../../components/Contracts.vue";
+import PeopleSummary from "../../components/Summary.vue";
+import PeopleSalesman from "../../components/Salesman.vue";
+import PeopleCompany from "../../components/Company.vue";
 import { ENTRYPOINT } from "../../../../../../../src/config/entrypoint";
 import PersonAvatar from "@controleonline/quasar-common-ui/src/components/common/PersonAvatar";
 
@@ -345,18 +345,18 @@ export default {
   },
 
   components: {
-    ClientAdminEmails,
-    ClientAdminUsers,
-    ClientAdminAddresses,
-    ClientAdminPhones,
-    ClientAdminDocuments,
-    ClientAdminEmployees,
-    ClientAdminBilling,
-    CustomerOrders,
-    CustomerContracts,
-    CustomerSummary,
-    CustomerSalesman,
-    CustomerCompany,
+    PeopleAdminEmails,
+    PeopleAdminUsers,
+    PeopleAdminAddresses,
+    PeopleAdminPhones,
+    PeopleAdminDocuments,
+    PeopleAdminEmployees,
+    PeopleAdminBilling,
+    PeopleOrders,
+    PeopleContracts,
+    PeopleSummary,
+    PeopleSalesman,
+    PeopleCompany,
     OrderTasks,
     Calls,
     PersonAvatar
@@ -365,7 +365,7 @@ export default {
   created() {
     this.api = new Api(this.config.token);
 
-    this.getClient();
+    this.getPeople();
   },
 
   data() {
@@ -385,16 +385,22 @@ export default {
   },
 
   methods: {
+    getRoute(inc) {
+      let route = this.people_type.charAt(0).toUpperCase() + this.people_type.slice(1);
+      route = route.substring(0, route.length - 1) + inc;
+      return route;
+    },
+
     goBack() {
       if (this.goBackRoute) {
         this.$router.push(this.goBackRoute);
         return
       }
 
-      this.$router.push({ name: 'ClientsIndex' });
+      this.$router.push({ name: this.getRoute('Index') });
     },
 
-    getClient() {
+    getPeople() {
       return this.api
         .private(`people/${this.clientId}`)
         .then((response) => response.json())
