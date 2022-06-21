@@ -10,7 +10,7 @@
     <template v-slot:body-cell-name="props">
       <q-td>
         <q-btn dense          
-          :to   ="{ name: 'ClientsDetails', params: { id: props.row.peopleId } }"
+          :to   ="{ name: 'CustomersDetails', params: { id: props.row.peopleId } }"
           :label="props.value"
           class ="full-width"
         />
