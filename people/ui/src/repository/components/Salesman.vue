@@ -207,7 +207,7 @@ export default {
 
     // store method
     getSalesman(id) {
-      return this.api.private('customers/search-salesman', { params: { document: id } })
+      return this.api.private(`${people_type}/search-salesman`, { params: { document: id } })
         .then(response => response.json())
         .then(data => {
           if (data.response) {

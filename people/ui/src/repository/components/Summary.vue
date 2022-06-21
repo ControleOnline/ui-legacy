@@ -124,7 +124,7 @@ export default {
         params: { company: this.theCompany.id },
       }
 
-      return this.api.private(`/customers/${client.people_client_id}/change-status/${client.enabled}`, options)
+      return this.api.private(`/${people_type}/${client.people_client_id}/change-status/${client.enabled}`, options)
         .then(response => response.json())
         .then(result => {
           return this.$q.notify({

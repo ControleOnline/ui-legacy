@@ -56,7 +56,7 @@
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
           <q-card-section>
-            <FormCreateClient ref="myForm" :api="api" :employeeId="id" :pjOnly="true" @saved="
+            <FormCreateClient ref="myForm" :api="api" :people_type="people_type" :employeeId="id" :pjOnly="true" @saved="
               (data) => {
                 this.$q.notify({
                   message: 'Os dados foram salvos com sucesso',
