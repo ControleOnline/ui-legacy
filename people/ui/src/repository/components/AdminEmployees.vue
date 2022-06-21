@@ -36,7 +36,7 @@
               <q-separator />
               <q-card-actions align="around">
                 <q-btn unelevated no-caps flat round dense :to="{
-                  name: 'ClientsDetails',
+                  name: 'CustomersDetails',
                   params: {
                     id: props.row.id,
                   },

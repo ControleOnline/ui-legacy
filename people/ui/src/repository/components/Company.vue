@@ -138,7 +138,7 @@ export default {
       save: "people/company",
     }),
     btEditCompany(id) {
-      this.$router.push({ name: "ClientsDetails", params: { id } });
+      this.$router.push({ name: "CustomersDetails", params: { id } });
       location.reload();
     },
     onSaved(hasErrors) {

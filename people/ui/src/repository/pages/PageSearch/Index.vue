@@ -153,7 +153,7 @@ export default {
         return;
 
       this.$router.push({
-        name: 'ClientsDetails',
+        name: 'CustomersDetails',
         params: {
           id: clientId
         }
