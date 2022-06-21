@@ -1360,12 +1360,12 @@ export default {
 
     btEditRem() {
       const id = this.retrieve.id;
-      this.$router.push({ name: "ClientsDetails", params: { id } });
+      this.$router.push({ name: "CustomersDetails", params: { id } });
     },
 
     btEditDest() {
       const id = this.delivery.id;
-      this.$router.push({ name: "ClientsDetails", params: { id } });
+      this.$router.push({ name: "CustomersDetails", params: { id } });
     },
     saveAddress() {
       this.isLoading = true;

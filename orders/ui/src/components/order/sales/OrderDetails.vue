@@ -8,7 +8,7 @@
       <div v-if="orderStatus !== null" class="row q-pa-sm q-col-gutter-sm" key="order_status">
         <div class="col-xs-12">
           <div class="text-h5 q-pt-sm q-pb-sm">
-            <q-btn flat dense :to="{ name: 'ClientsDetails', params: { id: client.id } }" :label="client.name"
+            <q-btn flat dense :to="{ name: 'CustomersDetails', params: { id: client.id } }" :label="client.name"
               class="full-width" />
           </div>
         </div>
