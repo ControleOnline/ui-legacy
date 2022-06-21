@@ -39,11 +39,11 @@
       <div class="row">
         <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab"
           class="bg-transparent text-primary col-auto" dense>
-          <q-tab name="allClients" label="Clientes" class="text-capitalize" />
-          <q-tab name="inactiveClient" label="Clientes inativos" class="text-capitalize" />
-          <q-tab name="prospectsClient" label="Prospects" class="text-capitalize" />
-          <q-tab name="activeClient" label="Clientes ativos" class="text-capitalize" />
-          <q-tab name="newClient" label="Clientes novos" class="text-capitalize" />
+          <q-tab name="allClients" :label="$t(people_type)" class="text-capitalize" />
+          <q-tab name="inactiveClient" :label="$t('Inactive') + ' ' + $t(people_type)" class="text-capitalize" />
+          <q-tab name="prospectsClient" :label="$t('Prospects')" class="text-capitalize" />
+          <q-tab name="activeClient" :label="$t('Active') + ' ' + $t(people_type)" class="text-capitalize" />
+          <q-tab name="newClient" :label="$t('New') + ' ' + $t(people_type)" class="text-capitalize" />
         </q-tabs>
       </div>
 
