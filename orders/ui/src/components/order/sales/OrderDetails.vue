@@ -329,7 +329,8 @@
               <OrderDetailDACTE :orderId="orderId" @fileUploaded="onDacteUploaded" />
             </q-tab-panel>
             <q-tab-panel name="tasks" class="q-pa-none">
-              <OrderTasks :orderId="orderId" :client="client" />
+              <OrderTasks :categories="categories" :statuses="statuses" :task_type="'support'" :orderId="orderId"
+                :client="client" />
             </q-tab-panel>
             <q-tab-panel name="tracking" class="q-pa-none">
               <OrderDetailTracking :orderId="orderId" />
@@ -386,7 +387,7 @@ export default {
 
   created() {
     if (this.$route.params.id)
-      this.orderId = decodeURIComponent(this.$route.params.id);
+      this.orderId = parseInt(decodeURIComponent(this.$route.params.id));
 
     if (this.myCompany !== null && this.orderId !== null) {
       this.requestOrderStatus(this.orderId);

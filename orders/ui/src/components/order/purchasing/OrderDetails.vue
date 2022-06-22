@@ -4,25 +4,12 @@
       <q-spinner-gears size="50px" color="primary" />
     </q-inner-loading>
 
-    <transition-group
-      appear
-      enter-active-class="animated fadeIn"
-      leave-active-class="animated fadeOut"
-    >
-      <div
-        v-if="orderStatus !== null"
-        class="row q-pa-sm q-col-gutter-sm"
-        key="order_status"
-      >
+    <transition-group appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+      <div v-if="orderStatus !== null" class="row q-pa-sm q-col-gutter-sm" key="order_status">
         <div class="col-xs-12">
           <div class="text-h5 q-pt-sm q-pb-sm">
-            <q-btn
-              flat
-              dense
-              :to="{ name: 'CarrierDetails', params: { id: provider.id } }"
-              :label="provider.alias"
-              class="full-width"
-            />
+            <q-btn flat dense :to="{ name: 'CarrierDetails', params: { id: provider.id } }" :label="provider.alias"
+              class="full-width" />
           </div>
         </div>
         <div class="col-xs-12 col-sm-4">
@@ -37,9 +24,7 @@
               <tr v-if="this.mainOrderId">
                 <td class="text-left text-bold">
                   Valor do pedido
-                  <router-link
-                    v-bind:to="'/sales/order/id/' + this.mainOrderId"
-                  >
+                  <router-link v-bind:to="'/sales/order/id/' + this.mainOrderId">
                     (#{{ this.mainOrderId }})
                   </router-link>
                 </td>
@@ -54,22 +39,18 @@
                 </td>
               </tr>
               <tr v-if="this.mainOrderId">
-                <td
-                  :class="
-                    this.mainPrice - this.price < this.correctValue
-                      ? 'red text-left text-bold'
-                      : 'green text-left text-bold'
-                  "
-                >
+                <td :class="
+                  this.mainPrice - this.price < this.correctValue
+                    ? 'red text-left text-bold'
+                    : 'green text-left text-bold'
+                ">
                   Valor do ticket
                 </td>
-                <td
-                  :class="
-                    this.mainPrice - this.price < this.correctValue
-                      ? 'red text-left text-bold'
-                      : 'green text-left text-bold'
-                  "
-                >
+                <td :class="
+                  this.mainPrice - this.price < this.correctValue
+                    ? 'red text-left text-bold'
+                    : 'green text-left text-bold'
+                ">
                   {{ formatMoney(this.mainPrice - this.price) }}
                   ({{ parseFloat(this.realPecentage).toFixed(2) }}
                   %)
@@ -87,56 +68,24 @@
                 <td class="text-left text-bold">Previsão de entrega</td>
                 <td class="text-left">
                   {{ this.deliveryDueDate || "-" }}
-                  <q-btn
-                    v-if="deliveryDueDate && isEditable"
-                    class="btn-edit"
-                    icon="edit"
-                    color="black"
-                    flat
-                    round
-                    dense
-                  />
-                  <q-popup-edit
-                    v-if="deliveryDueDate && isEditable"
-                    v-model="inputDeadline"
-                    @save="onSaveDeadline"
-                  >
-                    <template
-                      v-slot="{
-                        initialValue,
-                        value,
-                        emitValue,
-                        validate,
-                        set,
-                        cancel,
-                      }"
-                    >
-                      <q-input
-                        autofocus
-                        dense
-                        :value="inputDeadline"
-                        @input="emitValue"
-                        mask="##/##/####"
-                      >
+                  <q-btn v-if="deliveryDueDate && isEditable" class="btn-edit" icon="edit" color="black" flat round
+                    dense />
+                  <q-popup-edit v-if="deliveryDueDate && isEditable" v-model="inputDeadline" @save="onSaveDeadline">
+                    <template v-slot="{
+                      initialValue,
+                      value,
+                      emitValue,
+                      validate,
+                      set,
+                      cancel,
+                    }">
+                      <q-input autofocus dense :value="inputDeadline" @input="emitValue" mask="##/##/####">
                         <template v-slot:after>
-                          <q-btn
-                            flat
-                            dense
-                            color="negative"
-                            icon="cancel"
-                            @click.stop="cancel"
-                          />
-                          <q-btn
-                            flat
-                            dense
-                            color="positive"
-                            icon="check_circle"
-                            @click.stop="set"
-                            :disable="
-                              validate(value) === false ||
-                              initialValue === value
-                            "
-                          />
+                          <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
+                          <q-btn flat dense color="positive" icon="check_circle" @click.stop="set" :disable="
+                            validate(value) === false ||
+                            initialValue === value
+                          " />
                         </template>
                       </q-input>
                     </template>
@@ -147,13 +96,8 @@
           </q-markup-table>
         </div>
         <div class="col-xs-12 col-sm-8">
-          <q-markup-table
-            flat
-            dense
-            separator="none"
-            class="text-white"
-            :style="`background-color: ${this.orderStatus.color}`"
-          >
+          <q-markup-table flat dense separator="none" class="text-white"
+            :style="`background-color: ${this.orderStatus.color}`">
             <tbody>
               <tr>
                 <td class="text-center">
@@ -165,43 +109,17 @@
               <tr>
                 <td class="text-center text-bold">
                   <div class="row items-center justify-around">
-                    <q-btn
-                      v-if="orderStatus.status == 'analysis'"
-                      color="positive"
-                      label="Aprovar Pedido"
-                      @click="approveOrder"
-                      :loading="isUpdating"
-                    />
-                    <q-btn
-                      v-if="orderStatus.status == 'waiting retrieve'"
-                      color="positive"
-                      label="Coleta realizada"
-                      @click="addRetrieve"
-                      :loading="isUpdating"
-                    />
-                    <q-btn
-                      v-if="orderStatus.status == 'on the way'"
-                      color="positive"
-                      label="Entrega realizada"
-                      @click="addDelivered"
-                      :loading="isUpdating"
-                    />
-                    <q-btn
-                      v-if="
-                        ['open', 'pending'].includes(orderStatus.realStatus)
-                      "
-                      color="negative"
-                      label="Cancelar Pedido"
-                      @click="cancelOrder"
-                      :loading="isUpdating"
-                    />
-                    <q-btn
-                      v-if="['waiting payment'].includes(orderStatus.status)"
-                      color="positive"
-                      label="Liberar Pagamento"
-                      @click="releasePayment"
-                      :loading="isUpdating"
-                    />
+                    <q-btn v-if="orderStatus.status == 'analysis'" color="positive" label="Aprovar Pedido"
+                      @click="approveOrder" :loading="isUpdating" />
+                    <q-btn v-if="orderStatus.status == 'waiting retrieve'" color="positive" label="Coleta realizada"
+                      @click="addRetrieve" :loading="isUpdating" />
+                    <q-btn v-if="orderStatus.status == 'on the way'" color="positive" label="Entrega realizada"
+                      @click="addDelivered" :loading="isUpdating" />
+                    <q-btn v-if="
+                      ['open', 'pending'].includes(orderStatus.realStatus)
+                    " color="negative" label="Cancelar Pedido" @click="cancelOrder" :loading="isUpdating" />
+                    <q-btn v-if="['waiting payment'].includes(orderStatus.status)" color="positive"
+                      label="Liberar Pagamento" @click="releasePayment" :loading="isUpdating" />
                   </div>
                 </td>
               </tr>
@@ -212,12 +130,7 @@
 
       <div v-if="orderStatus !== null" class="row" key="order_tabs">
         <div class="col-12">
-          <q-tabs
-            :horizontal="$q.screen.gt.xs"
-            align="justify"
-            v-model="currentTab"
-            class="bg-white text-primary"
-          >
+          <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
             <q-tab name="resumo" label="Resumo" />
             <q-tab name="quotation" label="Cotação" />
             <q-tab name="notafiscal" label="Nota Fiscal" />
@@ -236,17 +149,11 @@
             </q-tab-panel>
 
             <q-tab-panel name="quotation" class="q-pa-none">
-              <OrderDetailQuotation
-                :orderId="orderId"
-                @finished="onCheckoutFinished"
-              />
+              <OrderDetailQuotation :orderId="orderId" @finished="onCheckoutFinished" />
             </q-tab-panel>
 
             <q-tab-panel name="notafiscal" class="q-pa-none">
-              <OrderDetailNotaFiscal
-                :orderId="orderId"
-                @fileUploaded="onInvoiceTaxUploaded"
-              />
+              <OrderDetailNotaFiscal :orderId="orderId" @fileUploaded="onInvoiceTaxUploaded" />
             </q-tab-panel>
 
             <q-tab-panel name="invoice" class="q-pa-none">
@@ -254,35 +161,25 @@
             </q-tab-panel>
 
             <q-tab-panel v-if="showDacteTab" name="dacte" class="q-pa-none">
-              <OrderDetailDACTE
-                :orderId="orderId"
-                @fileUploaded="onDacteUploaded"
-              />
+              <OrderDetailDACTE :orderId="orderId" @fileUploaded="onDacteUploaded" />
             </q-tab-panel>
             <q-tab-panel name="tasks" class="q-pa-none">
-              <OrderTasks :orderId="orderId" :client="provider" />
+              <OrderTasks :categories="categories" :statuses="statuses" :task_type="'support'" :orderId="orderId"
+                :client="provider" />
             </q-tab-panel>
             <q-tab-panel name="tracking" class="q-pa-none">
               <OrderDetailTracking :orderId="orderId" />
             </q-tab-panel>
 
             <q-tab-panel name="tag" class="q-pa-none">
-              <OrderDetailTag
-                :orderId="orderId"
-                :orderStatus="orderStatus"
-                :integrationType="integrationType"
-              />
+              <OrderDetailTag :orderId="orderId" :orderStatus="orderStatus" :integrationType="integrationType" />
             </q-tab-panel>
           </q-tab-panels>
         </div>
       </div>
     </transition-group>
 
-    <div
-      v-if="orderStatus === null && notFound"
-      class="row items-center justify-center"
-      style="min-height: 90vh"
-    >
+    <div v-if="orderStatus === null && notFound" class="row items-center justify-center" style="min-height: 90vh">
       <q-banner class="text-white bg-red text-center text-h3" rounded>
         <template v-slot:avatar>
           <q-icon name="error" color="white" />
@@ -316,11 +213,12 @@ export default {
     OrderDetailTracking,
     OrderDetailTag,
     OrderTasks,
+
   },
 
   created() {
     if (this.$route.params.id)
-      this.orderId = decodeURIComponent(this.$route.params.id);
+      this.orderId = parseInt(decodeURIComponent(this.$route.params.id));
 
     if (this.myCompany !== null && this.orderId !== null) {
       this.requestOrderStatus(this.orderId);
@@ -624,6 +522,7 @@ export default {
 .red {
   color: red !important;
 }
+
 .green {
   color: rgb(75, 110, 5) !important;
 }

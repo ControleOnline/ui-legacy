@@ -104,7 +104,7 @@
             </q-tab-panel>
             <!--
             <q-tab-panel name="tasks" class="q-pa-none">
-              <OrderTasks :orderId="orderId" :client="client" />
+              <OrderTasks :task_type="'support'" :orderId="orderId" :client="client" />
             </q-tab-panel>
             -->
             <q-tab-panel name="tracking" class="q-pa-none">
@@ -140,6 +140,7 @@ import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatte
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import OrderDetailTag from "../sales/details/OrderDetailTag";
 
+
 export default {
   components: {
     ClientOrderDetailsummary,
@@ -153,7 +154,7 @@ export default {
 
   created() {
     if (this.$route.params.id)
-      this.orderId = decodeURIComponent(this.$route.params.id);
+      this.orderId = parseInt(decodeURIComponent(this.$route.params.id));
 
     if (this.myCompany !== null && this.orderId !== null) {
       this.requestOrderStatus(this.orderId);

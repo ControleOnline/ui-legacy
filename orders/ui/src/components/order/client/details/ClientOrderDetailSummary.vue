@@ -354,7 +354,7 @@ import {
 export default {
   props: {
     orderId: {
-      type: String,
+      type: Number,
       required: true,
     },
   },

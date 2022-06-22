@@ -404,7 +404,7 @@ import fetch from "@controleonline/quasar-common-ui/src/utils/fetch";
 export default {
   props: {
     orderId: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
