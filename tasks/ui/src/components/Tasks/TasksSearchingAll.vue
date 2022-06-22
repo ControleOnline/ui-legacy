@@ -49,7 +49,7 @@ export default {
   props: {
     provider: {
       type: Number,
-      required: true
+      required: false
     },
     task_type: {
       type: String,
@@ -170,20 +170,24 @@ export default {
     },
     // store method
     getTasks(params) {
-      params.provider = this.provider;
+
       params.task_type = this.task_type;
 
       if (this.registeredBy)
         params.registeredBy = this.registeredBy;
+        
       if (this.taskFor)
         params.taskFor = this.taskFor;
 
-      if (this.orderId) {
+      if (this.orderId)
         params.order = this.orderId;
-      }
-      if (this.client) {
+
+      if (params.provider)
+        params.provider = this.provider;
+
+      if (this.client)
         params.client = this.client.id;
-      }      
+
       return this.API.private("/tasks", { params })
         .then((response) => response.json())
         .then((result) => {
