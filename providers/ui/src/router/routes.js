@@ -1,17 +1,17 @@
 export const routes = [
   {
-    path     : '/providers/',
+    path: '/providers/',
     component: () => import('../../../../../src/layouts/AdminLayout.vue'),
-    children : [
+    children: [
       {
-        name     : 'ProvidersIndex',
-        path     : '',
-        component: () => import('../pages/Providers/Index.vue')
+        name: 'ProvidersIndex',
+        path: '',
+        component: () => import('../pages/Provider/Index.vue')
       },
       {
-        name     : 'ProvidersDetails',
-        path     : 'id/:id',
-        component: () => import('../pages/Providers/Details.vue')
+        name: 'ProvidersDetails',
+        path: 'id/:id',
+        component: () => import('../pages/Provider/Details.vue')
       },
     ]
   },

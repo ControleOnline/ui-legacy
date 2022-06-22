@@ -1,27 +1,21 @@
 <template>
   <q-page padding>
-    <q-card style="min-height: 90vh;">
-      <q-card-section>
-        <ProvidersPage
-          :id    ="clientId"
-          :config="{
-            endpoint: endpoint,
-            token   : $store.getters['auth/user'].token
-          }"
-        />
-      </q-card-section>
-    </q-card>
+    <ClientPage :people_type="'providers'" :id="clientId" :config="{
+      endpoint: endpoint,
+      token: $store.getters['auth/user'].token
+    }" />
   </q-page>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import ProvidersPage     from '../../repository/pages/PageUpDateProviders/Index.vue';
+import ClientPage from '@controleonline/quasar-people-ui/src/repository/pages/PageUpDate/Index.vue';
+
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 export default {
   components: {
-    ProvidersPage,
+    ClientPage,
   },
 
   created() {
@@ -35,7 +29,7 @@ export default {
     }),
   },
 
-  data () {
+  data() {
     return {
       endpoint: ENTRYPOINT,
       clientId: null,
