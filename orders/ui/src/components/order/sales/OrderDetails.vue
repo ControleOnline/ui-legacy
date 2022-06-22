@@ -329,7 +329,7 @@
               <OrderDetailDACTE :orderId="orderId" @fileUploaded="onDacteUploaded" />
             </q-tab-panel>
             <q-tab-panel name="tasks" class="q-pa-none">
-              <OrderTasks :categories="categories" :statuses="statuses" :task_type="'support'" :orderId="orderId"
+              <OrderTasks :task_type="'support'" :orderId="orderId"
                 :client="client" />
             </q-tab-panel>
             <q-tab-panel name="tracking" class="q-pa-none">

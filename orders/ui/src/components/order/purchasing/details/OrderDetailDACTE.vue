@@ -127,7 +127,7 @@ import { ENTRYPOINT } from "../../../../../../../../src/config/entrypoint";
 export default {
   props: {
     orderId: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
