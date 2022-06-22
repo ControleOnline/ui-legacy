@@ -363,7 +363,7 @@ export default {
               'alias': item.alias,
               'name': item.name,
               'email': item.email,
-              'people_client_id': item.people_client_id,
+              'people_client_id': item.people_client_id || item.people_carrier_id,
               'phone': formatPhone(item.phone),
               'enable': item.enable,
               'people_type': item.people_type,
