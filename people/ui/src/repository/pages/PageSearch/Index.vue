@@ -39,7 +39,7 @@
       <div class="row">
         <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab"
           class="bg-transparent text-primary col-auto" dense>
-          <q-tab v-if="people_type == 'customers'" name="leads" :label="$t(people_type)" class="text-capitalize" />
+          <q-tab v-if="people_type == 'customers'" name="leads" :label="$t('Leads')" class="text-capitalize" />
           <q-tab name="allClients" :label="$t(people_type)" class="text-capitalize" />
           <q-tab v-if="people_type == 'customers'" name="inactiveClient" :label="$t('Inactive') + ' ' + $t(people_type)"
             class="text-capitalize" />
