@@ -280,10 +280,13 @@ export default {
         method: 'PUT',
         headers: new Headers({ "Content-Type": "application/ld+json" }),
         body: JSON.stringify(client.enable),
-        params: { company: this.theCompany.id },
+        params: {
+          company: this.theCompany.id,
+          enable: client.enable
+        },
       }
 
-      return this.api.private(`/${this.peopleType}/${client.people_client_id}/change-status/${client.enable}`, options)
+      return this.api.private(`/people_${this.peopleType}/${client.people_client_id}/change-status`, options)
         .then(response => response.json())
         .then(result => {
           return this.$q.notify({
