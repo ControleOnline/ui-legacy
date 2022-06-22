@@ -26,42 +26,42 @@
       </div>
     </div>
 
-    <div v-else v-for="client in data" :key="client.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <q-card class="column full-height" :class="client.active ? 'bg-red' : ''">
+    <div v-else v-for="people in data" :key="people.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <q-card class="column full-height" :class="people.active ? 'bg-red' : ''">
         <q-card-actions align="center" class="row q-pa-none">
           <div class="col-12 text-center text-bold">
-            <q-icon v-if="client.people_type == 'F'" name="person" class="icon" color="blue" />
+            <q-icon v-if="people.people_type == 'F'" name="person" class="icon" color="blue" />
             <q-icon v-else name="factory" class="icon" color="green" />
-            {{ client.name }}
+            {{ people.name }}
           </div>
         </q-card-actions>
         <q-separator />
         <q-card-section class="col">
-          <div v-if="client.name != client.alias" class="text-body2">
-            {{ client.alias }}
+          <div v-if="people.name != people.alias" class="text-body2">
+            {{ people.alias }}
           </div>
-          <div v-if="client.cnpj" class="text-body2">
-            {{ client.cnpj }}
+          <div v-if="people.cnpj" class="text-body2">
+            {{ people.cnpj }}
           </div>
           <div class="text-body2 text-bold">
             <q-icon name="phone" />
-            {{ client.phone }}
+            {{ people.phone }}
           </div>
           <div class="text-body2">
-            <q-icon name="mail" /> {{ client.email }}
+            <q-icon name="mail" /> {{ people.email }}
           </div>
         </q-card-section>
         <q-separator />
         <q-card-actions align="right" class="row q-pa-none">
           <div class="col-6 text-center">
             <q-btn outline dense :to="{
-              name: getRoute(), params: { id: client.id }
-            }" flat no-caps color="grey-9" icon="edit" :label="`#${client.id}`" class="full-width q-py-xs" />
+              name: getRoute(), params: { id: people.id }
+            }" flat no-caps color="grey-9" icon="edit" :label="`#${people.id}`" class="full-width q-py-xs" />
           </div>
           <div class="col-6 text-center">
-            <q-toggle v-model="client.enable" checked-icon="check" color="green"
-              :label="!client.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear"
-              @input="changeEnable(client)" />
+            <q-toggle v-model="people.enable" checked-icon="check" color="green"
+              :label="!people.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear"
+              @input="changeEnable(people)" />
           </div>
         </q-card-actions>
       </q-card>
@@ -232,7 +232,7 @@ export default {
 
   watch: {
     myProvider(provider) {
-      //this.$refs.clientPageRef.loadClientsDataRows();
+      //this.$refs.peoplePageRef.loadPeoplesDataRows();
       if (provider !== null)
         this.onRequest({
           pagination: this.pagination
@@ -275,18 +275,18 @@ export default {
       route = route + 'Details';
       return route;
     },
-    changeEnable(client) {
+    changeEnable(people) {
       const options = {
         method: 'PUT',
         headers: new Headers({ "Content-Type": "application/ld+json" }),
-        body: JSON.stringify(client.enable),
+        body: JSON.stringify(people.enable),
         params: {
           company: this.theCompany.id,
-          enable: client.enable
+          enable: people.enable
         },
       }
 
-      return this.api.private(`/people_${this.peopleType}/${client.people_client_id}/change-status`, options)
+      return this.api.private(`/people_${this.peopleType}/${people.people_people_id}/change-status`, options)
         .then(response => response.json())
         .then(result => {
           return this.$q.notify({
@@ -298,7 +298,7 @@ export default {
     },
     // store method
     getCustomers(params) {
-      this.onBeforeLoadClients(params);
+      this.onBeforeLoadPeoples(params);
       return this.api.private(`/${this.peopleType}`, { params })
         .then(response => response.json())
         .then(result => {
@@ -308,11 +308,11 @@ export default {
           };
         });
     },
-    onBeforeLoadClients(params) {
+    onBeforeLoadPeoples(params) {
       params['myProvider'] = this.provider.id;
     },
 
-    onBeforeCreateClient(params) {
+    onBeforeCreatePeople(params) {
       params['myProvider'] = this.provider.id;
     },
     formatDate(dateString) {
@@ -358,22 +358,22 @@ export default {
 
           for (let index in data.members) {
             let item = data.members[index];
-            let client = {};
+            let people = {};
 
-            client = {
+            people = {
               'id': item.id,
               'cnpj': formatDocument(item.document),
               'alias': item.alias,
               'name': item.name,
               'email': item.email,
-              'people_client_id': item.people_client_id || item.people_carrier_id,
+              'people_people_id': item.people_client_id || item.people_carrier_id || item.people_provider_id,
               'phone': formatPhone(item.phone),
               'enable': item.enable,
               'people_type': item.people_type,
               'register_date': date.formatDate(item.register_date, "DD/MM/YYYY H:m:s")
             };
 
-            _data.push(client);
+            _data.push(people);
           }
 
           this.data = _data;

@@ -7,7 +7,7 @@
     </div>
 
     <div class="col-12">
-      <PageSearchClient ref="searchPageRef" :people_type="people_type" :config="{
+      <PageSearchPeople ref="searchPageRef" :people_type="people_type" :config="{
         endpoint: config.endpoint,
         token: config.token
       }" :provider="provider" :fetchs="fetchs" />
@@ -21,9 +21,9 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <FormCreateClient ref="myForm" :people_type="people_type" :api="api" @before="(params) => {
-            if (this.fetchs.createClient) {
-              this.fetchs.createClient
+          <FormCreatePeople ref="myForm" :people_type="people_type" :api="api" @before="(params) => {
+            if (this.fetchs.createPeople) {
+              this.fetchs.createPeople
                 .before(params);
             }
           }" @saved="(data) => {
@@ -51,8 +51,8 @@
 
 <script>
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
-import FormCreateClient from '../../components/FormCreate.vue';
-import PageSearchClient from '../PageSearch/Index.vue';
+import FormCreatePeople from '../../components/FormCreate.vue';
+import PageSearchPeople from '../PageSearch/Index.vue';
 
 export default {
   props: {
@@ -79,8 +79,8 @@ export default {
   },
 
   components: {
-    FormCreateClient,
-    PageSearchClient,
+    FormCreatePeople,
+    PageSearchPeople,
   },
 
   created() {
@@ -98,7 +98,7 @@ export default {
   },
 
   methods: {
-    loadClientsDataRows() {
+    loadPeoplesDataRows() {
       this.$refs.searchPageRef.loadCurrentTabRows();
     },
   },

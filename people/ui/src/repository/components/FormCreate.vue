@@ -76,7 +76,7 @@ export default {
 
   data() {
     return {
-      clientId: null,
+      peopleId: null,
       personType: "PJ",
       item: {
         id: null,
@@ -135,7 +135,7 @@ export default {
 
     searchCustomer(id) {
       return this.api
-        .private("/people/client-company", { params: id })
+        .private("/people/people-company", { params: id })
         .then((response) => response.json())
         .then((data) => {
           if (data.response) {

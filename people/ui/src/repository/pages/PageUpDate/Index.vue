@@ -6,19 +6,19 @@
 
     <div class="q-pb-xs col-12">
       <div class="text-subtitle1 text-left">
-        {{ client.name }}
+        {{ people.name }}
       </div>
-      <q-card-section v-if="client.type === 'J'" align="right" class="q-pt-none">
-        <q-rating v-model="client.averageRating" size="2.9em" color="yellow" class="justify-center" />
+      <q-card-section v-if="people.type === 'J'" align="right" class="q-pt-none">
+        <q-rating v-model="people.averageRating" size="2.9em" color="yellow" class="justify-center" />
       </q-card-section>
     </div>
 
     <div class="col-12 q-pa-md text-center">
-      <PersonAvatar :url="client.avatar" :upload="`${baseUrl}/${people_type}/${this.$route.params.id}/upload-logo`"
+      <PersonAvatar :url="people.avatar" :upload="`${baseUrl}/${people_type}/${this.$route.params.id}/upload-logo`"
         @uploaded="
           (data) => {
             if (data.url) {
-              this.client.avatar = `${this.baseUrl}/files/${data.id}/image.jpg`;
+              this.people.avatar = `${this.baseUrl}/files/${data.id}/image.jpg`;
             }
           }
         " />
@@ -27,7 +27,7 @@
       <q-tabs align="start" v-model="currentTab" no-caps class="bg-transparent text-primary" dense>
         <q-tab name="summary" :label="$t('Details')" />
         <q-tab name="tasks" :label="$t('Tasks')" />
-        <q-tab name="employees" :label="$t('Employees')" v-if="client.type === 'J'" />
+        <q-tab name="employees" :label="$t('Employees')" v-if="people.type === 'J'" />
         <q-tab name="billing" :label="$t('Billing')" />
         <q-tab name="calls" :label="$t('Calls')" />
       </q-tabs>
@@ -35,7 +35,7 @@
       <q-tab-panels v-model="currentTab" class="bg-transparent">
         <q-tab-panel name="summary" class="q-px-none row q-col-gutter-y-lg">
           <div class="col-12">
-            <PeopleSummary :people_type="people_type" :api="api" :id="clientId" @error="
+            <PeopleSummary :people_type="people_type" :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -55,7 +55,7 @@
           </div>
 
           <div class="col-12">
-            <PeopleAdminAddresses :people_type="people_type" :api="api" :id="clientId" @error="
+            <PeopleAdminAddresses :people_type="people_type" :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -76,7 +76,7 @@
 
           <div class="col-12 row">
             <div class="col-xs-12 col-sm-6">
-              <PeopleAdminEmails :people_type="people_type" class="full-height" :api="api" :id="clientId" @error="
+              <PeopleAdminEmails :people_type="people_type" class="full-height" :api="api" :id="peopleId" @error="
                 (error) => {
                   this.$q.notify({
                     message: error.message,
@@ -96,7 +96,7 @@
             </div>
 
             <div class="col-xs-12 col-sm-6 q-pl-lg">
-              <PeopleAdminPhones :people_type="people_type" class="full-height" :api="api" :id="clientId" @error="
+              <PeopleAdminPhones :people_type="people_type" class="full-height" :api="api" :id="peopleId" @error="
                 (error) => {
                   this.$q.notify({
                     message: error.message,
@@ -117,7 +117,7 @@
           </div>
 
           <div class="col-12">
-            <PeopleAdminDocuments :people_type="people_type" :api="api" :id="clientId" @error="
+            <PeopleAdminDocuments :people_type="people_type" :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -136,8 +136,8 @@
 " />
           </div>
 
-          <div class="col-12" v-if="client.type === 'F'">
-            <PeopleAdminUsers :people_type="people_type" :api="api" :id="clientId" @error="
+          <div class="col-12" v-if="people.type === 'F'">
+            <PeopleAdminUsers :people_type="people_type" :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -156,8 +156,8 @@
 " />
           </div>
 
-          <div class="col-12" v-if="client.type === 'F'">
-            <PeopleCompany :people_type="people_type" :api="api" :id="clientId" @error="
+          <div class="col-12" v-if="people.type === 'F'">
+            <PeopleCompany :people_type="people_type" :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -185,12 +185,12 @@
         </q-tab-panel>
 
         <q-tab-panel name="tasks" class="q-pa-none">
-          <OrderTasks :client="people" />
+          <OrderTasks :people="people" />
         </q-tab-panel>
 
         <q-tab-panel name="employees" class="q-px-none row q-col-gutter-y-lg">
-          <div class="col-12" v-if="client.type === 'J'">
-            <PeopleAdminEmployees :people_type="people_type" :api="api" :id="clientId" @error="
+          <div class="col-12" v-if="people.type === 'J'">
+            <PeopleAdminEmployees :people_type="people_type" :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -217,7 +217,7 @@
           </div>
 
           <div class="col-12">
-            <PeopleSalesman :people_type="people_type" :api="api" :id="clientId" @error="
+            <PeopleSalesman :people_type="people_type" :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -239,7 +239,7 @@
 
         <q-tab-panel name="billing" class="q-px-none row q-col-gutter-y-lg">
           <div class="col-12">
-            <PeopleAdminBilling :people_type="people_type"  :api="api" :id="clientId" @error="
+            <PeopleAdminBilling :people_type="people_type"  :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -259,7 +259,7 @@
           </div>
 
           <div class="col-12">
-            <PeopleOrders :people_type="people_type" :api="api" :id="clientId" @error="
+            <PeopleOrders :people_type="people_type" :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -279,7 +279,7 @@
           </div>
 
           <div class="col-12">
-            <PeopleContracts :people_type="people_type"  :api="api" :id="clientId" @error="
+            <PeopleContracts :people_type="people_type"  :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -300,7 +300,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="calls" class="q-px-xs">
-          <Calls :people_type="people_type"  :client="clientId" />
+          <Calls :people_type="people_type"  :people="peopleId" />
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -375,8 +375,8 @@ export default {
       currentTab: "summary",
       api: null,
       goBackRoute: null,
-      clientId: this.id,
-      client: {
+      peopleId: this.id,
+      people: {
         averageRating: 4,
         name: "Carregando...",
         type: null,
@@ -402,12 +402,12 @@ export default {
 
     getPeople() {
       return this.api
-        .private(`people/${this.clientId}`)
+        .private(`people/${this.peopleId}`)
         .then((response) => response.json())
         .then((data) => {
           if (data["@id"]) {
             this.people = data;
-            this.people.id = this.clientId;
+            this.people.id = this.peopleId;
             this.averageRating = data.averageRating;
 
             this.people.avatar =
@@ -415,11 +415,11 @@ export default {
                 ? `${ENTRYPOINT}/files/${data.file.id}/image.png`
                 : null;
 
-            this.client.name =
+            this.people.name =
               data.peopleType === "J"
                 ? data.alias
                 : `${data.name} ${data.alias}`;
-            this.client.type = data.peopleType;
+            this.people.type = data.peopleType;
           }
         });
     },

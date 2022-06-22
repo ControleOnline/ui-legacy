@@ -216,7 +216,7 @@ export default {
         params['myCompany'] = this.myCompany.id;
       }
       if (this.id) {
-        params['client'] = this.id;
+        params['people'] = this.id;
       }
       params['order[alterDate]'] = 'desc';
 
@@ -236,7 +236,7 @@ export default {
               'ultimaModificacao': item.alterDate,
               'status'           : item.orderStatus.status,
               'color_status'     : item.orderStatus.color,
-              'fornecedor'       : item.client.alias,
+              'fornecedor'       : item.people.alias,
               'coleta'           : item.retrievePeople !== null ? item.retrievePeople.name : '',
               'localColeta'      : item.quote !== null ? `${item.quote.cityOrigin.city} / ${item.quote.cityOrigin.state.uf}` : '',
               'entrega'          : item.deliveryPeople !== null ? item.deliveryPeople.name : '',

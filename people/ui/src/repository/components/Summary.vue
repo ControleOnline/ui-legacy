@@ -116,15 +116,15 @@ export default {
   },
 
   methods: {
-    changeEnable(client) {
+    changeEnable(people) {
       const options = {
         method: 'PUT',
         headers: new Headers({ "Content-Type": "application/ld+json" }),
-        body: JSON.stringify(client.enabled),
+        body: JSON.stringify(people.enabled),
         params: { company: this.theCompany.id },
       }
 
-      return this.api.private(`/${people_type}/${client.people_client_id}/change-status/${client.enabled}`, options)
+      return this.api.private(`/${people_type}/${people.people_people_id}/change-status/${people.enabled}`, options)
         .then(response => response.json())
         .then(result => {
           return this.$q.notify({
@@ -150,7 +150,7 @@ export default {
               required:
                 type.required === null
                   ? false
-                  : type.required.split(":").includes("clients"),
+                  : type.required.split(":").includes("peoples"),
               type: type.fieldType,
               _updated: false,
             };
@@ -201,7 +201,7 @@ export default {
     getParticulars() {
       let params = {
         peopleType: this.item.type,
-        context: "clients",
+        context: "peoples",
         fieldType: ["text", "password"],
       };
 
@@ -280,7 +280,7 @@ export default {
                 required:
                   type.required === null
                     ? false
-                    : type.required.split(":").includes("clients"),
+                    : type.required.split(":").includes("peoples"),
                 type: type.fieldType,
                 _updated: false,
               };

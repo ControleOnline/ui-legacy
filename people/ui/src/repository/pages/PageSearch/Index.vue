@@ -40,14 +40,14 @@
         <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab"
           class="bg-transparent text-primary col-auto" dense>
           <q-tab v-if="people_type == 'customers'" name="leads" :label="$t('Leads')" class="text-capitalize" />
-          <q-tab name="allClients" :label="$t(people_type)" class="text-capitalize" />
-          <q-tab v-if="people_type == 'customers'" name="inactiveClient" :label="$t('Inactive') + ' ' + $t(people_type)"
+          <q-tab name="allPeoples" :label="$t(people_type)" class="text-capitalize" />
+          <q-tab v-if="people_type == 'customers'" name="inactivePeople" :label="$t('Inactive') + ' ' + $t(people_type)"
             class="text-capitalize" />
-          <q-tab v-if="people_type == 'customers'" name="prospectsClient" :label="$t('Prospects')"
+          <q-tab v-if="people_type == 'customers'" name="prospectsPeople" :label="$t('Prospects')"
             class="text-capitalize" />
-          <q-tab v-if="people_type == 'customers'" name="activeClient" :label="$t('Active') + ' ' + $t(people_type)"
+          <q-tab v-if="people_type == 'customers'" name="activePeople" :label="$t('Active') + ' ' + $t(people_type)"
             class="text-capitalize" />
-          <q-tab v-if="people_type == 'customers'" name="newClient" :label="$t('New') + ' ' + $t(people_type)"
+          <q-tab v-if="people_type == 'customers'" name="newPeople" :label="$t('New') + ' ' + $t(people_type)"
             class="text-capitalize" />
         </q-tabs>
       </div>
@@ -58,56 +58,56 @@
 
 
         <q-tab-panel name="leads" class="q-pa-xs">
-          <TableAllClients :provider="provider" ref="leads" :people_type="people_type" :pageType="'leads'" :api="api"
-            :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
-              if (this.fetchs.loadClients) {
-                this.fetchs.loadClients.before(params);
+          <TableAllPeoples :provider="provider" ref="leads" :people_type="people_type" :pageType="'leads'" :api="api"
+            :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onPeopleSelected" @before="(params) => {
+              if (this.fetchs.loadPeoples) {
+                this.fetchs.loadPeoples.before(params);
               }
             }" />
         </q-tab-panel>
 
 
-        <q-tab-panel name="allClients" class="q-pa-xs">
-          <TableAllClients :provider="provider" ref="allClients" :people_type="people_type" :pageType="'all'" :api="api"
-            :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
-              if (this.fetchs.loadClients) {
-                this.fetchs.loadClients.before(params);
+        <q-tab-panel name="allPeoples" class="q-pa-xs">
+          <TableAllPeoples :provider="provider" ref="allPeoples" :people_type="people_type" :pageType="'all'" :api="api"
+            :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onPeopleSelected" @before="(params) => {
+              if (this.fetchs.loadPeoples) {
+                this.fetchs.loadPeoples.before(params);
               }
             }" />
         </q-tab-panel>
 
-        <q-tab-panel name="inactiveClient" class="q-pa-xs">
-          <TableAllClients :provider="provider" ref="inactiveClient" :people_type="people_type" :pageType="'inactive'"
-            :api="api" :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
-              if (this.fetchs.loadClients) {
-                this.fetchs.loadClients.before(params);
+        <q-tab-panel name="inactivePeople" class="q-pa-xs">
+          <TableAllPeoples :provider="provider" ref="inactivePeople" :people_type="people_type" :pageType="'inactive'"
+            :api="api" :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onPeopleSelected" @before="(params) => {
+              if (this.fetchs.loadPeoples) {
+                this.fetchs.loadPeoples.before(params);
               }
             }" />
         </q-tab-panel>
 
-        <q-tab-panel name="prospectsClient" class="q-pa-xs">
-          <TableAllClients :provider="provider" ref="prospectsClient" :people_type="people_type" :pageType="'prospect'"
-            :api="api" :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
-              if (this.fetchs.loadClients) {
-                this.fetchs.loadClients.before(params);
+        <q-tab-panel name="prospectsPeople" class="q-pa-xs">
+          <TableAllPeoples :provider="provider" ref="prospectsPeople" :people_type="people_type" :pageType="'prospect'"
+            :api="api" :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onPeopleSelected" @before="(params) => {
+              if (this.fetchs.loadPeoples) {
+                this.fetchs.loadPeoples.before(params);
               }
             }" />
         </q-tab-panel>
 
-        <q-tab-panel name="activeClient" class="q-pa-xs">
-          <TableAllClients :provider="provider" ref="activeClient" :people_type="people_type" :pageType="'active'"
-            :api="api" :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
-              if (this.fetchs.loadClients) {
-                this.fetchs.loadClients.before(params);
+        <q-tab-panel name="activePeople" class="q-pa-xs">
+          <TableAllPeoples :provider="provider" ref="activePeople" :people_type="people_type" :pageType="'active'"
+            :api="api" :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onPeopleSelected" @before="(params) => {
+              if (this.fetchs.loadPeoples) {
+                this.fetchs.loadPeoples.before(params);
               }
             }" />
         </q-tab-panel>
 
-        <q-tab-panel name="newClient" class="q-pa-xs">
-          <TableAllClients :provider="provider" ref="newClient" :people_type="people_type" :pageType="'new'" :api="api"
-            :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
-              if (this.fetchs.loadClients) {
-                this.fetchs.loadClients.before(params);
+        <q-tab-panel name="newPeople" class="q-pa-xs">
+          <TableAllPeoples :provider="provider" ref="newPeople" :people_type="people_type" :pageType="'new'" :api="api"
+            :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onPeopleSelected" @before="(params) => {
+              if (this.fetchs.loadPeoples) {
+                this.fetchs.loadPeoples.before(params);
               }
             }" />
         </q-tab-panel>
@@ -118,7 +118,7 @@
 
 <script>
 import { date } from 'quasar';
-import TableAllClients from './components/TableAllClients.vue';
+import TableAllPeoples from './components/TableAllPeoples.vue';
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
 
 export default {
@@ -141,7 +141,7 @@ export default {
   },
 
   components: {
-    TableAllClients,
+    TableAllPeoples,
   },
 
   created() {
@@ -152,7 +152,7 @@ export default {
 
   data() {
     return {
-      currentTab: 'allClients',
+      currentTab: 'allPeoples',
       dateFrom: date.formatDate(date.subtractFromDate(Date.now(), { month: 1 }), 'DD-MM-YYYY'),
       dateTo: date.formatDate(Date.now(), 'DD-MM-YYYY'),
       searchBy: '',
@@ -165,14 +165,14 @@ export default {
       this.$refs[this.currentTab].reload();
     },
 
-    onClientSelected(clientId) {
-      if (!clientId)
+    onPeopleSelected(peopleId) {
+      if (!peopleId)
         return;
 
       this.$router.push({
         name: 'CustomersDetails',
         params: {
-          id: clientId
+          id: peopleId
         }
       });
     },

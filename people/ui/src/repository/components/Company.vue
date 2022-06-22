@@ -56,7 +56,7 @@
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
           <q-card-section>
-            <FormCreateClient ref="myForm" :api="api" :people_type="people_type" :employeeId="id" :pjOnly="true" @saved="
+            <FormCreatePeople ref="myForm" :api="api" :people_type="people_type" :employeeId="id" :pjOnly="true" @saved="
               (data) => {
                 this.$q.notify({
                   message: 'Os dados foram salvos com sucesso',
@@ -88,13 +88,13 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import FormCreateClient from "./FormCreate.vue";
+import FormCreatePeople from "./FormCreate.vue";
 import { formatDocument } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 
 export default {
   components: {
-    FormCreateClient,
+    FormCreatePeople,
     Api,
   },
   props: {
