@@ -232,7 +232,7 @@ export default {
 
   watch: {
     myProvider(provider) {
-      //this.$refs.peoplePageRef.loadPeoplesDataRows();
+      //this.$refs.peoplePageRef.loadPeopleDataRows();
       if (provider !== null)
         this.onRequest({
           pagination: this.pagination

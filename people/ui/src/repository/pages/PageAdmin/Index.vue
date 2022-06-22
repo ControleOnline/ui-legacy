@@ -98,7 +98,7 @@ export default {
   },
 
   methods: {
-    loadPeoplesDataRows() {
+    loadPeopleDataRows() {
       this.$refs.searchPageRef.loadCurrentTabRows();
     },
   },
