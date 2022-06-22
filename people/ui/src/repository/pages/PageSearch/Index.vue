@@ -39,17 +39,34 @@
       <div class="row">
         <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab"
           class="bg-transparent text-primary col-auto" dense>
+          <q-tab v-if="people_type == 'customers'" name="leads" :label="$t(people_type)" class="text-capitalize" />
           <q-tab name="allClients" :label="$t(people_type)" class="text-capitalize" />
-          <q-tab name="inactiveClient" :label="$t('Inactive') + ' ' + $t(people_type)" class="text-capitalize" />
-          <q-tab name="prospectsClient" :label="$t('Prospects')" class="text-capitalize" />
-          <q-tab name="activeClient" :label="$t('Active') + ' ' + $t(people_type)" class="text-capitalize" />
-          <q-tab name="newClient" :label="$t('New') + ' ' + $t(people_type)" class="text-capitalize" />
+          <q-tab v-if="people_type == 'customers'" name="inactiveClient" :label="$t('Inactive') + ' ' + $t(people_type)"
+            class="text-capitalize" />
+          <q-tab v-if="people_type == 'customers'" name="prospectsClient" :label="$t('Prospects')"
+            class="text-capitalize" />
+          <q-tab v-if="people_type == 'customers'" name="activeClient" :label="$t('Active') + ' ' + $t(people_type)"
+            class="text-capitalize" />
+          <q-tab v-if="people_type == 'customers'" name="newClient" :label="$t('New') + ' ' + $t(people_type)"
+            class="text-capitalize" />
         </q-tabs>
       </div>
 
       <q-separator />
 
       <q-tab-panels v-model="currentTab" class="q-mt-sm bg-transparent">
+
+
+        <q-tab-panel name="leads" class="q-pa-xs">
+          <TableAllClients :provider="provider" ref="leads" :people_type="people_type" :pageType="'leads'" :api="api"
+            :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
+              if (this.fetchs.loadClients) {
+                this.fetchs.loadClients.before(params);
+              }
+            }" />
+        </q-tab-panel>
+
+
         <q-tab-panel name="allClients" class="q-pa-xs">
           <TableAllClients :provider="provider" ref="allClients" :people_type="people_type" :pageType="'all'" :api="api"
             :fromDate="dateFrom" :toDate="dateTo" :searchBy="searchBy" @selected="onClientSelected" @before="(params) => {
