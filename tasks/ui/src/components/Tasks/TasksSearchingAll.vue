@@ -1,8 +1,9 @@
 <template>
   <div class="row">
-    <div class="col-sm-6 col-xs-12 q-pa-md"></div>
+
     <div class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select stack-label label="Status" v-model="filters.status" :options="statuses" class="full-width">
+      <q-select stack-label :label="$t('tasks.status_label')" v-model="filters.status" :options="statuses"
+        class="full-width">
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -10,6 +11,43 @@
         </template>
       </q-select>
     </div>
+    <div class="col-sm-6 col-xs-12 q-pa-md">
+      <q-select stack-label :label="$t('tasks.category')" v-model="filters.category" :options="categories"
+        class="full-width">
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> Sem resultados </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+    </div>
+
+
+    <div class="col-sm-6 col-xs-12 q-pa-md">
+      <q-select stack-label :label="$t('tasks.criticality')" v-model="filters.criticality"
+        :options="categories_criticality" class="full-width">
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> Sem resultados </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+    </div>
+
+    <div class="col-sm-6 col-xs-12 q-pa-md">
+      <q-select stack-label :label="$t('tasks.reason')" v-model="filters.reason" :options="categories_reason"
+        class="full-width">
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> Sem resultados </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+    </div>
+    <div class="col-sm-6 col-xs-12 q-pa-md">
+      <q-option-group v-model="people_filter" :options="people_filter_options" color="primary" inline dense />
+    </div>
+    <div class="col-sm-6 col-xs-12 q-pa-md"></div>
     <div class="col-12">
       <q-table :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
         @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" style="min-height: 90vh"
@@ -35,6 +73,18 @@
           </q-tr>
         </template>
       </q-table>
+      <q-dialog v-model="dialog">
+        <q-card style="width: 700px; max-width: 80vw">
+          <q-card-section class="row items-center">
+            <div class="text-h6">{{ $t("Add") }}</div>
+            <q-space />
+            <q-btn icon="close" flat round dense v-close-popup />
+          </q-card-section>
+          <q-card-section>
+            <FormTasks ref="myForm" :api="API" :statuses="statuses" :categories="categories" @saved="onTaskSave" />
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -43,13 +93,19 @@
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { mapGetters } from "vuex";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import FormTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/FormTasks.vue";
+
 
 export default {
+  components: {
+    Api,
+    FormTasks
+  },
 
   props: {
     provider: {
       type: Number,
-      required: false
+      required: true
     },
     task_type: {
       type: String,
@@ -71,22 +127,13 @@ export default {
       type: Object,
       required: false,
     },
-    statuses: {
-      type: Array,
-      required: true,
-    },
-    categories: {
-      type: Array,
-      required: true,
-    },
   },
 
   data() {
+    let statuses = [{ label: this.$t("tasks.status.All"), value: -1 }];
     return {
       API: new Api(this.$store.getters["auth/user"].token),
-      filters: {
-        status: this.statuses[0],
-      },
+
 
       settings: {
         visibleColumns: ["id", "name", "status", "registeredBy", "dueDate"],
@@ -132,6 +179,32 @@ export default {
       data: [],
       isLoading: false,
       searchBy: "",
+      categories: [],
+      categories_criticality: [],
+      categories_reason: [],
+      people_filter: 'all',
+      people_filter_options: [
+        {
+          label: this.$t('tasks.myTasks'),
+          value: 'my'
+        },
+        {
+          label: this.$t('tasks.allTasks'),
+          value: 'all'
+        },
+
+        {
+          label: this.$t('tasks.create'),
+          value: 'created'
+        }
+      ],
+      statuses: statuses,
+      filters: {
+        //status: this.statuses[0],
+      },
+      loadingStatuses: false,
+      dialog: false,
+      context: this.task_type,
       pagination: {
         sortBy: "name",
         descending: false,
@@ -143,7 +216,8 @@ export default {
   },
 
   created() {
-
+    this.requestStatuses();
+    this.requestCategories();
     this.onRequest({
       pagination: this.pagination,
       filter: this.filters,
@@ -153,6 +227,31 @@ export default {
 
 
   watch: {
+    people_filter() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+    "filters.criticality"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+    "filters.reason"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+    "filters.category"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+
     "filters.status"() {
       this.onRequest({
         pagination: this.pagination,
@@ -168,26 +267,97 @@ export default {
         filter: this.filters,
       });
     },
+
+    getCategories(criticality) {
+      let params = [];
+      params.context = this.context + (criticality || '');
+      params.company = this.provider;
+      params['order[name]'] = 'ASC';
+
+      return this.API.private("/categories", { params })
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+            totalItems: result["hydra:totalItems"],
+          };
+        });
+    },
+    requestCategories() {
+      this.getCategories().then((categories) => {
+        if (categories.totalItems) {
+          for (let index in categories.members) {
+            let item = categories.members[index];
+            this.categories.push({
+              label: item.name,
+              value: item.id,
+            });
+          }
+        }
+      });
+      this.getCategories('-criticality').then((categories) => {
+        if (categories.totalItems) {
+          for (let index in categories.members) {
+            let item = categories.members[index];
+            this.categories_criticality.push({
+              label: item.name,
+              value: item.id,
+            });
+          }
+        }
+      });
+      this.getCategories('-reason').then((categories) => {
+        if (categories.totalItems) {
+          for (let index in categories.members) {
+            let item = categories.members[index];
+            this.categories_reason.push({
+              label: item.name,
+              value: item.id,
+            });
+          }
+        }
+      });
+
+
+    },
+
+
+    getStatuses() {
+      return this.API.private("/task_statuses")
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+            totalItems: result["hydra:totalItems"],
+          };
+        });
+    },
+    requestStatuses() {
+      this.loadingStatuses = true;
+
+      this.getStatuses().then((statuses) => {
+        if (statuses.totalItems) {
+          for (let index in statuses.members) {
+            let item = statuses.members[index];
+            this.statuses.push({
+              label: this.$t("tasks.status." + item.name),
+              value: item.id,
+            });
+          }
+        }
+        this.loadingStatuses = false;
+      });
+    },
+    onTaskSave(id) {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+      this.dialog = false;
+    },
+
     // store method
     getTasks(params) {
-
-      params.task_type = this.task_type;
-
-      if (this.registeredBy)
-        params.registeredBy = this.registeredBy;
-        
-      if (this.taskFor)
-        params.taskFor = this.taskFor;
-
-      if (this.orderId)
-        params.order = this.orderId;
-
-      if (params.provider)
-        params.provider = this.provider;
-
-      if (this.client)
-        params.client = this.client.id;
-
       return this.API.private("/tasks", { params })
         .then((response) => response.json())
         .then((result) => {
@@ -197,9 +367,6 @@ export default {
           };
         });
     },
-
-
-
     onRequest(props) {
       if (this.isLoading) return;
 
@@ -212,6 +379,33 @@ export default {
       if (this.filters.status && this.filters.status.value > 0) {
         params.taskStatus = this.filters.status.value;
       }
+
+      params.task_type = this.task_type;
+
+      if (this.registeredBy && this.people_filter != 'all' && this.people_filter != 'my')
+        params.registeredBy = this.registeredBy;
+
+      if (this.taskFor && this.people_filter != 'all' && this.people_filter != 'created')
+        params.taskFor = this.taskFor;
+
+      if (this.orderId)
+        params.order = this.orderId;
+
+      if (this.provider)
+        params.provider = this.provider;
+
+      if (this.client)
+        params.client = this.client.id;
+
+      if (this.filters.category)
+        params.category = this.filters.category.value;
+
+
+      if (this.filters.criticality)
+        params.criticality = this.filters.criticality.value;
+
+      if (this.filters.reason)
+        params.reason = this.filters.reason.value;
 
       this.getTasks(params)
         .then((data) => {

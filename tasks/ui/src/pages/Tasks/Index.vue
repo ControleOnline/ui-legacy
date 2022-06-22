@@ -12,23 +12,13 @@
           <div class="col-12">
             <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
               <q-tab name="allTasks" :label="$t('tasks.allTasks')" />
-              <q-tab name="myTasks" :label="$t('tasks.myTasks')" />
-              <q-tab name="create" :label="$t('tasks.create')" />
               <q-tab name="category" :label="$t('tasks.category')" />
             </q-tabs>
             <q-separator />
             <q-tab-panels v-model="currentTab">
               <q-tab-panel name="allTasks" class="q-px-none">
-                <TasksSearching :categories="categories" :statuses="statuses" :provider="this.myCompany.id"
-                  :task_type="context" :key="key" />
-              </q-tab-panel>
-              <q-tab-panel name="myTasks" class="q-px-none">
-                <TasksSearching :categories="categories" :statuses="statuses" :provider="this.myCompany.id"
-                  :task_type="context" :taskFor="user.people" :key="key" />
-              </q-tab-panel>
-              <q-tab-panel name="create" class="q-px-none">
-                <TasksSearching :categories="categories" :statuses="statuses" :provider="this.myCompany.id"
-                  :task_type="context" :registeredBy="user.people" :key="key" />
+                <TasksSearching v-if="provider" :provider="provider" :task_type="context" :registeredBy="user.people"
+                  :taskFor="user.people" :key="key" />
               </q-tab-panel>
               <q-tab-panel name="category" class="q-px-none">
                 <TableCategories :context="context" :api="API" />
@@ -38,18 +28,7 @@
         </div>
       </q-card-section>
     </q-card>
-    <q-dialog v-model="dialog">
-      <q-card style="width: 700px; max-width: 80vw">
-        <q-card-section class="row items-center">
-          <div class="text-h6">{{ $t("Add") }}</div>
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
-        </q-card-section>
-        <q-card-section>
-          <FormTasks ref="myForm" :api="API" :statuses="statuses" :categories="categories" @saved="onTaskSave" />
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+
   </q-page>
 </template>
 
@@ -57,8 +36,6 @@
 import TasksSearching from "../../components/Tasks/TasksSearchingAll";
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
 import TableCategories from '@controleonline/quasar-common-ui/src/components/categories/Table.vue';
-import FormTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/FormTasks.vue";
-
 import { mapGetters } from "vuex";
 
 export default {
@@ -67,21 +44,17 @@ export default {
   components: {
     TableCategories,
     TasksSearching,
-    Api,
-    FormTasks
+    Api
   },
 
   data() {
-    let statuses = [{ label: this.$t("tasks.status." + "All"), value: -1 }];
+
     return {
+      key: null,
       context: 'support',
-      key: 0,
-      categories: [],
-      statuses: statuses,
-      loadingStatuses: false,
-      dialog: false,
+      provider: null,
       API: null,
-      currentTab: "myTasks",
+      currentTab: "allTasks",
     };
   },
 
@@ -93,83 +66,16 @@ export default {
   },
   created() {
     this.API = new Api(this.$store.getters['auth/user'].token);
-    this.requestStatuses();
-    this.requestCategories();
   },
 
   watch: {
     myCompany(company) {
       if (company !== null) {
+        this.provider = company.id;
         this.key++;
       }
     },
   },
-  methods: {
-    getCategories() {
-      let params = [];
-      params.context = this.context;
-      if (this.myCompany != null) {
-        params.company = this.myCompany.id;
-      }
-      params['order[name]'] = 'ASC';
 
-      return this.API.private("/categories", { params })
-        .then((response) => response.json())
-        .then((result) => {
-          return {
-            members: result["hydra:member"],
-            totalItems: result["hydra:totalItems"],
-          };
-        });
-    },
-    requestCategories() {
-      this.getCategories().then((categories) => {
-        if (categories.totalItems) {
-          for (let index in categories.members) {
-            let item = categories.members[index];
-            this.categories.push({
-              label: item.name,
-              value: item.id,
-            });
-          }
-        }
-      });
-    },
-
-
-    getStatuses() {
-      return this.API.private("/task_statuses")
-        .then((response) => response.json())
-        .then((result) => {
-          return {
-            members: result["hydra:member"],
-            totalItems: result["hydra:totalItems"],
-          };
-        });
-    },
-    requestStatuses() {
-      this.loadingStatuses = true;
-
-      this.getStatuses().then((statuses) => {
-        if (statuses.totalItems) {
-          for (let index in statuses.members) {
-            let item = statuses.members[index];
-            this.statuses.push({
-              label: this.$t("tasks.status." + item.name),
-              value: item.id,
-            });
-          }
-        }
-        this.loadingStatuses = false;
-      });
-    },
-    onTaskSave(id) {
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
-      this.dialog = false;
-    },
-  }
 };
 </script>
