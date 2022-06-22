@@ -298,7 +298,7 @@ export default {
     },
     // store method
     getCustomers(params) {
-      this.onBeforeLoadPeoples(params);
+      this.onBeforeLoadPeople(params);
       return this.api.private(`/${this.peopleType}`, { params })
         .then(response => response.json())
         .then(result => {
@@ -308,7 +308,7 @@ export default {
           };
         });
     },
-    onBeforeLoadPeoples(params) {
+    onBeforeLoadPeople(params) {
       params['myProvider'] = this.provider.id;
     },
 
