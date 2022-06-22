@@ -183,10 +183,7 @@ export default {
       }
       if (this.client) {
         params.client = this.client.id;
-      }
-
-      console.log(params);
-
+      }      
       return this.API.private("/tasks", { params })
         .then((response) => response.json())
         .then((result) => {

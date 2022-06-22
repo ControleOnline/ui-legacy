@@ -20,18 +20,18 @@
             <q-tab-panels v-model="currentTab">
               <q-tab-panel name="allTasks" class="q-px-none">
                 <TasksSearching :categories="categories" :statuses="statuses" :provider="this.myCompany.id"
-                  :task_type="'support'" :key="key" />
+                  :task_type="context" :key="key" />
               </q-tab-panel>
               <q-tab-panel name="myTasks" class="q-px-none">
                 <TasksSearching :categories="categories" :statuses="statuses" :provider="this.myCompany.id"
-                  :task_type="'support'" :taskFor="user.people" :key="key" />
+                  :task_type="context" :taskFor="user.people" :key="key" />
               </q-tab-panel>
               <q-tab-panel name="create" class="q-px-none">
                 <TasksSearching :categories="categories" :statuses="statuses" :provider="this.myCompany.id"
-                  :task_type="'support'" :registeredBy="user.people" :key="key" />
+                  :task_type="context" :registeredBy="user.people" :key="key" />
               </q-tab-panel>
               <q-tab-panel name="category" class="q-px-none">
-                <TableCategories :context="'support'" :api="API" />
+                <TableCategories :context="context" :api="API" />
               </q-tab-panel>
             </q-tab-panels>
           </div>
@@ -57,6 +57,7 @@
 import TasksSearching from "../../components/Tasks/TasksSearchingAll";
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
 import TableCategories from '@controleonline/quasar-common-ui/src/components/categories/Table.vue';
+import FormTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/FormTasks.vue";
 
 import { mapGetters } from "vuex";
 
@@ -66,12 +67,14 @@ export default {
   components: {
     TableCategories,
     TasksSearching,
-    Api
+    Api,
+    FormTasks
   },
 
   data() {
     let statuses = [{ label: this.$t("tasks.status." + "All"), value: -1 }];
     return {
+      context: 'support',
       key: 0,
       categories: [],
       statuses: statuses,
@@ -102,11 +105,15 @@ export default {
     },
   },
   methods: {
-
-
-
     getCategories() {
-      return this.API.private("/categories")
+      let params = [];
+      params.context = this.context;
+      if (this.myCompany != null) {
+        params.company = this.myCompany.id;
+      }
+      params['order[name]'] = 'ASC';
+
+      return this.API.private("/categories", { params })
         .then((response) => response.json())
         .then((result) => {
           return {
@@ -115,9 +122,6 @@ export default {
           };
         });
     },
-
-
-
     requestCategories() {
       this.getCategories().then((categories) => {
         if (categories.totalItems) {
