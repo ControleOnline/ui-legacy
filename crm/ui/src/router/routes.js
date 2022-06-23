@@ -1,18 +1,18 @@
 export const routes = [
   {
-    path     : '/customer-services/',
+    path     : '/crm/',
     component: () => import('../../../../../src/layouts/AdminLayout.vue'),
     children : [
       {
-        name     : 'customerServices',
+        name     : 'CustomerServices',
         path     : '',
-        component: () => import('../pages/CustomerServices.vue')
+        component: () => import('../pages/CRM/Index.vue')
       },
       {
-        name     : 'customerServiceEdit',
-        path     : 'edit/:id',
-        component: () => import('../pages/CustomerServiceEdit.vue')
-      },
+        name     : 'CrmDetails',
+        path     : 'id/:id',
+        component: () => import('../pages/CRM/Details.vue')
+      }
     ]
-  }
-]
+  } 
+];
