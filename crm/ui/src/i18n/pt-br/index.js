@@ -2,7 +2,7 @@
 // so you can safely delete all default props below
 
 export const translate = {
-  tasks: {
+  relationship: {
     allTasks: 'Todas',
     create: 'Ocorrências Criadas',
     myTasks: 'Minhas Ocorrências',
@@ -13,8 +13,8 @@ export const translate = {
     categoryInfo: 'Detalhes da Categoria',
     newInteraction: 'Nova Interação',
     status_label: 'Status',
-    criticality: 'Criticidade',
-    reason: 'Gerado por',
+    criticality: 'Temperatura',
+    reason: 'Recusa',
     status: {
       Open: 'Aberta',
       Closed: 'Fechada',
