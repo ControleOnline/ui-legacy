@@ -311,7 +311,7 @@
 <script>
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
-import Calls from "@controleonline/quasar-crm-ui/src/pages/CustomerServices";
+import Calls from "@controleonline/quasar-crm-ui/src/pages/CRM/Index.vue";
 import PeopleAdminEmails from "../../components/AdminEmails.vue";
 import PeopleAdminUsers from "../../components/AdminUsers.vue";
 import PeopleAdminAddresses from "../../components/AdminAddresses.vue";
