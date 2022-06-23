@@ -109,7 +109,6 @@ export default {
     task_type: {
       type: String,
       required: true,
-      default: 'support'
     },
     registeredBy: {
       type: Number,
