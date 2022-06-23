@@ -55,7 +55,7 @@
           <q-tr :props="props">
             <q-td key="id" :props="props">
               <q-btn outline dense :to="{
-                name: this.task_type + 'Details',
+                name: task_type + 'Details',
                 params: {
                   id: props.row.id,
                 },
@@ -63,7 +63,7 @@
             </q-td>
             <q-td key="name" :props="props">{{ props.row.name }}</q-td>
             <q-td key="status" :props="props">{{
-                $t(this.task_type + ".status." + props.row.status)
+                $t(task_type + ".status." + props.row.status)
             }}</q-td>
             <q-td key="registeredBy" :props="props">{{
                 props.row.registeredBy

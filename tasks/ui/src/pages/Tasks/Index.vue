@@ -8,8 +8,8 @@
         <div class="row">
           <div class="col-12">
             <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
-              <q-tab name="allTasks" :label="$t('tasks.allTasks')" />
-              <q-tab name="category" :label="$t('tasks.category')" />
+              <q-tab name="allTasks" :label="$t(context + '.allTasks')" />
+              <q-tab name="category" :label="$t(context + '.category')" />
             </q-tabs>
             <q-separator />
             <q-tab-panels v-model="currentTab">

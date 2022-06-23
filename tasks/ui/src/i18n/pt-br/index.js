@@ -2,7 +2,7 @@
 // so you can safely delete all default props below
 
 export const translate = {
-  tasks: {
+  support: {
     allTasks: 'Todas',
     create: 'Ocorrências Criadas',
     myTasks: 'Minhas Ocorrências',
