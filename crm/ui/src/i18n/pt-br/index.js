@@ -14,7 +14,7 @@ export const translate = {
     newInteraction: 'Nova Interação',
     status_label: 'Status',
     criticality: 'Temperatura',
-    reason: 'Recusa',
+    reason: 'Estágio',
     status: {
       Open: 'Aberta',
       Closed: 'Fechada',
