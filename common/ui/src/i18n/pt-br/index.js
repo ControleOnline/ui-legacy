@@ -67,6 +67,12 @@ export const translate = {
   Summary: 'Resumo',
   Users: 'Usuários',
   Username: 'Username',
+  Tasks: 'Ocorrências',
+  Billing: 'Financeiro',
+  Details: 'Detalhes',
+  Calls: 'Atendimentos',
+  Address: 'Endereços',
+  Employees: 'Colaboradores',
   common: {
     labels: {
       close: 'Fechar',
