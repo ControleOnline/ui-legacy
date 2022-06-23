@@ -104,7 +104,7 @@ export default {
   props: {
     provider: {
       type: Number,
-      required: true
+      required: false
     },
     task_type: {
       type: String,
