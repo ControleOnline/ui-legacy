@@ -2,29 +2,12 @@
   <q-form @submit="onSubmit" ref="myForm">
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
-        <q-input
-          stack-label
-          lazy-rules
-          v-model="item.name"
-          type="text"
-          class="q-mb-sm"
-          label="Nome *"
-          placeholder="Digite o nome"
-          :rules="[isInvalid('name')]"
-          :outlined="true"
-        />
+        <q-input stack-label lazy-rules v-model="item.name" type="text" class="q-mb-sm" label="Nome *"
+          placeholder="Digite o nome" :rules="[isInvalid('name')]" :outlined="true" />
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-select
-          stack-label
-          lazy-rules
-          v-model="item.taskCategory"
-          class="q-mb-sm"
-          label="Categoria *"
-          :options="categoryArray"
-          :rules="[isInvalid('category')]"
-          :outlined="true"
-        >
+        <q-select stack-label lazy-rules v-model="item.taskCategory" class="q-mb-sm" label="Categoria *"
+          :options="categoryArray" :rules="[isInvalid('category')]" :outlined="true">
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
@@ -38,16 +21,8 @@
 
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
-        <q-select
-          stack-label
-          lazy-rules
-          v-model="item.taskStatus"
-          class="q-mb-sm"
-          label="Status *"
-          :options="statusArray"
-          :rules="[isInvalid('status')]"
-          :outlined="true"
-        >
+        <q-select stack-label lazy-rules v-model="item.taskStatus" class="q-mb-sm" label="Status *"
+          :options="statusArray" :rules="[isInvalid('status')]" :outlined="true">
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
@@ -58,33 +33,14 @@
         </q-select>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-input
-          stack-label
-          v-model="item.dueDate"
-          label="Data de Vencimento"
-          mask="##/##/####"
-          :outlined="true"
-        >
+        <q-input stack-label v-model="item.dueDate" label="Data de Vencimento" mask="##/##/####" :outlined="true">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy
-                ref="qDateProxy1"
-                transition-show="scale"
-                transition-hide="scale"
-              >
-                <q-date
-                  v-model="item.dueDate"
-                  mask="DD/MM/YYYY"
-                  @input="() => $refs.qDateProxy1.hide()"
-                />
+              <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">
+                <q-date v-model="item.dueDate" mask="DD/MM/YYYY" @input="() => $refs.qDateProxy1.hide()" />
               </q-popup-proxy>
             </q-icon>
-            <q-btn
-              round
-              flat
-              v-if="item.dueDate !== ''"
-              @click="removeDueDateClick()"
-            >
+            <q-btn round flat v-if="item.dueDate !== ''" @click="removeDueDateClick()">
               <q-icon name="close" />
             </q-btn>
           </template>
@@ -94,87 +50,43 @@
 
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
-        <PeopleAutocomplete
-          :source="searchPeople"
-          :isLoading="isSearching"
-          label="Definir o responsável"
-          @selected="onSelectTaskFor"
-          placeholder="Pesquisar..."
-        />
+        <PeopleAutocomplete :source="searchPeople" :isLoading="isSearching" label="Definir o responsável"
+          @selected="onSelectTaskFor" placeholder="Pesquisar..." />
       </div>
       <div class="col-xs-12 col-sm-6">
-        <PeopleAutocomplete
-          :source="searchPeople"
-          :isLoading="isSearching"
-          label="Definir o cliente"
-          @selected="onSelectClient"
-          placeholder="Pesquisar..."
-        />
+        <PeopleAutocomplete :source="searchPeople" :isLoading="isSearching" label="Definir o cliente"
+          @selected="onSelectClient" placeholder="Pesquisar..." />
       </div>
     </div>
 
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-md-6 flex items-center">
-        <div
-          v-if="taskData && taskData.order && taskData.order.contract"
-          class="row items-center full-width q-col-gutter-sm"
-        >
+        <div v-if="taskData && taskData.order && taskData.order.contract"
+          class="row items-center full-width q-col-gutter-sm">
           <div class="col-auto q-pl-none">
-            <q-btn
-              flat
-              class="bg-primary q-py-sm"
-              color="white"
-              icon="north_west"
-              @click="goContract()"
-            >
+            <q-btn flat class="bg-primary q-py-sm" color="white" icon="north_west" @click="goContract()">
               <q-tooltip>Ver contrato</q-tooltip>
             </q-btn>
           </div>
           <div class="col">
-            <q-input
-              v-model="item.id"
-              label="Definir Contrato"
-              class="q-my-md"
-              outlined
-              prefix="#"
-              disable
-            />
+            <q-input v-model="item.id" label="Definir Contrato" class="q-my-md" outlined prefix="#" disable />
           </div>
         </div>
       </div>
       <div class="col-xs-12 col-md-6 flex items-center">
         <div class="row items-center full-width q-col-gutter-sm">
           <div class="col-auto q-pl-none">
-            <q-btn
-              flat
-              class="bg-primary q-py-sm"
-              color="white"
-              icon="north_west"
-              @click="goOrder()"
-            >
+            <q-btn flat class="bg-primary q-py-sm" color="white" icon="north_west" @click="goOrder()">
               <q-tooltip>Ver pedido</q-tooltip>
             </q-btn>
           </div>
           <div class="col">
-            <q-select
-              v-model="searchOrder"
-              :options="searchOrder"
-              :loading="isSearchingOrder"
-              label="Definir Pedido"
-              class="q-my-md"
-              outlined
-              placeholder="Digite o id do pedido"
-              :disabled="!editTask"
-            />
+            <q-select v-model="searchOrder" :options="searchOrder" :loading="isSearchingOrder" label="Definir Pedido"
+              class="q-my-md" outlined placeholder="Digite o id do pedido" :disabled="!editTask" />
           </div>
           <div class="col-auto q-pr-none">
-            <q-btn
-              flat
-              class="q-py-sm"
-              color="primary"
-              :icon="editTask ? 'cancel' : 'edit'"
-              @click="editTask = !editTask"
-            >
+            <q-btn flat class="q-py-sm" color="primary" :icon="editTask ? 'cancel' : 'edit'"
+              @click="editTask = !editTask">
               <q-tooltip>Editar</q-tooltip>
             </q-btn>
           </div>
@@ -184,27 +96,13 @@
 
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-12">
-        <q-input
-          stack-label
-          lazy-rules
-          v-model="item.description"
-          type="textarea"
-          class="q-mb-sm"
-          label="Descrição"
-          placeholder="Digite a descrição"
-          :outlined="true"
-        />
+        <q-input stack-label lazy-rules v-model="item.description" type="textarea" class="q-mb-sm" label="Descrição"
+          placeholder="Digite a descrição" :outlined="true" />
       </div>
     </div>
 
     <div class="row justify-end q-mt-lg">
-      <q-btn
-        class="col-xs-12 col-md-2"
-        type="submit"
-        color="primary"
-        label="Salvar"
-        :loading="isSaving"
-      />
+      <q-btn class="col-xs-12 col-md-2" type="submit" color="primary" label="Salvar" :loading="isSaving" />
     </div>
   </q-form>
 </template>
@@ -452,6 +350,8 @@ export default {
     },
 
     onSelectClient(item) {
+      //client_id
+      this.item.client = item.id;
       this.clientSelected = item;
     },
 
@@ -485,7 +385,7 @@ export default {
         }
       });
     },
-    getGeoPlaces(input) {},
+    getGeoPlaces(input) { },
     getPeople(params) {
       return this.api
         .private("/people/client-company", { params })
