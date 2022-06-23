@@ -6,9 +6,6 @@
           {{ $t("tasks.title") }}
         </q-card-section>
         <div class="row">
-          <div class="col-sm-auto col-xs-12">
-            <q-btn :label="$t('Add')" icon="add" size="md" color="primary" @click="dialog = !dialog" />
-          </div>
           <div class="col-12">
             <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
               <q-tab name="allTasks" :label="$t('tasks.allTasks')" />

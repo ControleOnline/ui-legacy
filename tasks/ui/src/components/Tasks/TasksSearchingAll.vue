@@ -1,6 +1,8 @@
 <template>
   <div class="row">
-
+    <div class="col-12">
+      <q-btn :label="$t('Add')" icon="add" size="md" color="primary" @click="dialog = !dialog" />
+    </div>
     <div class="col-sm-6 col-xs-12 q-pa-md">
       <q-select stack-label :label="$t('tasks.status_label')" v-model="filters.status" :options="statuses"
         class="full-width">
@@ -11,7 +13,7 @@
         </template>
       </q-select>
     </div>
-    <div class="col-sm-6 col-xs-12 q-pa-md">
+    <div v-if="categories.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
       <q-select stack-label :label="$t('tasks.category')" v-model="filters.category" :options="categories"
         class="full-width">
         <template v-slot:no-option>
@@ -21,9 +23,7 @@
         </template>
       </q-select>
     </div>
-
-
-    <div class="col-sm-6 col-xs-12 q-pa-md">
+    <div v-if="categories_criticality.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
       <q-select stack-label :label="$t('tasks.criticality')" v-model="filters.criticality"
         :options="categories_criticality" class="full-width">
         <template v-slot:no-option>
@@ -33,8 +33,7 @@
         </template>
       </q-select>
     </div>
-
-    <div class="col-sm-6 col-xs-12 q-pa-md">
+    <div v-if="categories_reason.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
       <q-select stack-label :label="$t('tasks.reason')" v-model="filters.reason" :options="categories_reason"
         class="full-width">
         <template v-slot:no-option>
