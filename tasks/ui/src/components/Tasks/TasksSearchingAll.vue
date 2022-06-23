@@ -55,7 +55,7 @@
           <q-tr :props="props">
             <q-td key="id" :props="props">
               <q-btn outline dense :to="{
-                name: task_type + 'Details',
+                name: (task_type.charAt(0).toUpperCase() + task_type.slice(1)) + 'Details',
                 params: {
                   id: props.row.id,
                 },
