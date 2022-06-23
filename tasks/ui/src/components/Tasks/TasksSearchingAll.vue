@@ -4,7 +4,7 @@
       <q-btn :label="$t('Add')" icon="add" size="md" color="primary" @click="dialog = !dialog" />
     </div>
     <div class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select stack-label :label="$t('tasks.status_label')" v-model="filters.status" :options="statuses"
+      <q-select stack-label :label="$t(task_type + '.status_label')" v-model="filters.status" :options="statuses"
         class="full-width">
         <template v-slot:no-option>
           <q-item>
@@ -14,7 +14,7 @@
       </q-select>
     </div>
     <div v-if="categories.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select stack-label :label="$t('tasks.category')" v-model="filters.category" :options="categories"
+      <q-select stack-label :label="$t(task_type + '.category')" v-model="filters.category" :options="categories"
         class="full-width">
         <template v-slot:no-option>
           <q-item>
@@ -24,7 +24,7 @@
       </q-select>
     </div>
     <div v-if="categories_criticality.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select stack-label :label="$t('tasks.criticality')" v-model="filters.criticality"
+      <q-select stack-label :label="$t(task_type + '.criticality')" v-model="filters.criticality"
         :options="categories_criticality" class="full-width">
         <template v-slot:no-option>
           <q-item>
@@ -34,7 +34,7 @@
       </q-select>
     </div>
     <div v-if="categories_reason.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select stack-label :label="$t('tasks.reason')" v-model="filters.reason" :options="categories_reason"
+      <q-select stack-label :label="$t(task_type + '.reason')" v-model="filters.reason" :options="categories_reason"
         class="full-width">
         <template v-slot:no-option>
           <q-item>
@@ -55,7 +55,7 @@
           <q-tr :props="props">
             <q-td key="id" :props="props">
               <q-btn outline dense :to="{
-                name: 'TasksDetails',
+                name: this.task_type + 'Details',
                 params: {
                   id: props.row.id,
                 },
@@ -63,7 +63,7 @@
             </q-td>
             <q-td key="name" :props="props">{{ props.row.name }}</q-td>
             <q-td key="status" :props="props">{{
-                $t("tasks.status." + props.row.status)
+                $t(this.task_type + ".status." + props.row.status)
             }}</q-td>
             <q-td key="registeredBy" :props="props">{{
                 props.row.registeredBy
@@ -129,7 +129,7 @@ export default {
   },
 
   data() {
-    let statuses = [{ label: this.$t("tasks.status.All"), value: -1 }];
+    let statuses = [{ label: this.$t(this.task_type + ".status.All"), value: -1 }];
     return {
       API: new Api(this.$store.getters["auth/user"].token),
 
@@ -184,16 +184,16 @@ export default {
       people_filter: 'all',
       people_filter_options: [
         {
-          label: this.$t('tasks.myTasks'),
+          label: this.$t(this.task_type + '.myTasks'),
           value: 'my'
         },
         {
-          label: this.$t('tasks.allTasks'),
+          label: this.$t(this.task_type + '.allTasks'),
           value: 'all'
         },
 
         {
-          label: this.$t('tasks.create'),
+          label: this.$t(this.task_type + '.create'),
           value: 'created'
         }
       ],
@@ -339,7 +339,7 @@ export default {
           for (let index in statuses.members) {
             let item = statuses.members[index];
             this.statuses.push({
-              label: this.$t("tasks.status." + item.name),
+              label: this.$t(this.task_type + ".status." + item.name),
               value: item.id,
             });
           }

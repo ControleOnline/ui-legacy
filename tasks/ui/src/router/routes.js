@@ -4,12 +4,12 @@ export const routes = [
     component: () => import('../../../../../src/layouts/AdminLayout.vue'),
     children : [
       {
-        name     : 'TasksIndex',
+        name     : 'SupportIndex',
         path     : '',
         component: () => import('../pages/Tasks/Index.vue')
       },
       {
-        name     : 'TasksDetails',
+        name     : 'SupportDetails',
         path     : 'id/:id',
         component: () => import('../pages/Tasks/Details.vue')
       }
