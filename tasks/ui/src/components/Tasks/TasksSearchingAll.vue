@@ -104,11 +104,12 @@ export default {
   props: {
     provider: {
       type: Number,
-      required: false
+      required: true
     },
     task_type: {
       type: String,
-      required: true
+      required: true,
+      default: 'support'
     },
     registeredBy: {
       type: Number,
