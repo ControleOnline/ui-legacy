@@ -3,7 +3,7 @@
     <q-card style="min-height: 90vh">
       <q-card-section>
         <q-card-section class="text-h5">
-          {{ $t("tasks.title") }}
+          {{ $t(context + ".title") }}
         </q-card-section>
         <div class="row">
           <div class="col-12">
