@@ -6,7 +6,7 @@ export const translate = {
     allTasks: 'Todas',
     create: 'Ocorrências Criadas',
     myTasks: 'Minhas Ocorrências',
-    category: 'Categorias',
+    category: 'Oportunidade',
     title: 'Ocorrências',
     information: 'Detalhes da Ocorrências',
     interactions: 'Interações',
