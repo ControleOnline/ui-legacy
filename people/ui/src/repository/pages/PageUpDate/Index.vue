@@ -1,9 +1,6 @@
 <template>
   <div class="row">
     <q-btn no-caps color="grey-3" icon="arrow_back" class="text-grey-9" unelevated label="Voltar" @click="goBack" />
-
-
-
     <div class="q-pb-xs col-12">
       <div class="text-subtitle1 text-left">
         {{ people.name }}
@@ -185,7 +182,8 @@
         </q-tab-panel>
 
         <q-tab-panel name="tasks" class="q-pa-none">
-          <OrderTasks :people="people" />
+          <OrderTasks v-if="provider" :provider="provider" :task_type="context" :registeredBy="user.people"
+            :taskFor="user.people" :key="key" />
         </q-tab-panel>
 
         <q-tab-panel name="employees" class="q-px-none row q-col-gutter-y-lg">
@@ -326,8 +324,7 @@ import PeopleSalesman from "../../components/Salesman.vue";
 import PeopleCompany from "../../components/Company.vue";
 import { ENTRYPOINT } from "../../../../../../../src/config/entrypoint";
 import PersonAvatar from "@controleonline/quasar-common-ui/src/components/common/PersonAvatar";
-
-
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -363,6 +360,7 @@ export default {
   },
 
   created() {
+    this.provider = this.myCompany.id;
     this.api = new Api(this.config.token);
 
     this.getPeople();
@@ -376,12 +374,31 @@ export default {
       api: null,
       goBackRoute: null,
       peopleId: this.id,
+      context: 'support',
+      provider: null,
+      key: null,
       people: {
         averageRating: 4,
         name: "Carregando...",
         type: null,
       },
     };
+  },
+
+  watch: {
+    myCompany(company) {
+      if (company !== null) {
+        this.provider = company.id;
+        this.key++;
+      }
+    },
+  },
+
+  computed: {
+    ...mapGetters({
+      user: "auth/user",
+      myCompany: "people/currentCompany",
+    }),
   },
 
   methods: {
