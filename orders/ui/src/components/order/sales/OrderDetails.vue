@@ -124,7 +124,7 @@
                 <tr>
                   <td class="text-center">
                     <q-btn flat dense :to="{
-                      name: 'CarrierDetails',
+                      name: 'CarriersDetails',
                       params: { id: carrier.id },
                     }" :label="carrier.alias" class="full-width" />
                   </td>
