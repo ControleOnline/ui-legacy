@@ -5,14 +5,34 @@
         <q-input stack-label lazy-rules v-model="item.name" type="text" class="q-mb-sm" label="Nome *"
           placeholder="Digite o nome" :rules="[isInvalid('name')]" :outlined="true" />
       </div>
-      <div class="col-xs-12 col-sm-6">
-        <q-select stack-label lazy-rules v-model="item.taskCategory" class="q-mb-sm" label="Categoria *"
-          :options="categoryArray" :rules="[isInvalid('category')]" :outlined="true">
+      <div v-if="categories.length > 0" class="col-xs-12 col-sm-6">
+        <q-select stack-label lazy-rules v-model="item.category" class="q-mb-sm" label="Categoria *"
+          :options="categories" :rules="[isInvalid('category')]" :outlined="true">
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
                 Sem resultados
               </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+      </div>
+      <div v-if="categories_criticality.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
+        <q-select stack-label :label="$t(task_type + '.criticality')" v-model="item.criticality"
+          :options="categories_criticality" class="full-width">
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> Sem resultados </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
+      </div>
+      <div v-if="categories_reason.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
+        <q-select stack-label :label="$t(task_type + '.reason')" v-model="item.reason" :options="categories_reason"
+          class="full-width">
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey"> Sem resultados </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -131,6 +151,18 @@ export default {
       type: Array,
       required: true,
     },
+    categories_criticality: {
+      type: Array,
+      required: true,
+    },
+    task_type: {
+      type: String,
+      required: true,
+    },
+    categories_reason: {
+      type: Array,
+      required: true,
+    },
     taskId: {
       type: Number,
       required: false,
@@ -173,8 +205,10 @@ export default {
         taskFor: null,
         client: null,
         taskStatus: this.statuses[1],
-        taskCategory: null,
+        category: null,
         order: null,
+        criticality: null,
+        reason: null,
       },
       isSaving: false,
       statusArray: [],
@@ -549,7 +583,9 @@ export default {
         taskFor: this.item.taskFor,
         client: this.item.client,
         taskStatus: this.item.taskStatus.value,
-        taskCategory: this.item.taskCategory.value,
+        category: this.item.category.value,
+        criticality: this.item.criticality.value,
+        reason: this.item.reason.value,
       };
 
       if (this.taskId) {

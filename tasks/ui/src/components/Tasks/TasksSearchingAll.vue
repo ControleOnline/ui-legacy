@@ -80,7 +80,7 @@
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
           <q-card-section>
-            <FormTasks ref="myForm" :api="API" :statuses="statuses" :categories="categories" @saved="onTaskSave" />
+            <FormTasks ref="myForm" :api="API" :statuses="statuses" :task_type="task_type" :categories="categories" :categories_criticality="categories_criticality" :categories_reason="categories_reason" @saved="onTaskSave" />
           </q-card-section>
         </q-card>
       </q-dialog>
