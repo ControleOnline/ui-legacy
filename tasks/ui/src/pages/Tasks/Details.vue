@@ -1,73 +1,71 @@
 <template>
   <q-page padding>
-    <q-card style="min-height: 90vh;">
-      <q-card-section>
-        <div class="row">
-          <div class="col-12 q-pa-md text-h6">
-            {{ $t('tasks.information') }}
-          </div>
+    <div class="row">
+      <div class="col-12 text-h5 q-mt-none text-weight-medium">
+        {{ $t('tasks.information') }}
+      </div>
 
-          <div class="col-12">
-            <div class="q-pa-md text-subtitle1 text-center">
-              {{ task.name || `${$t('loading')}...` }}
-            </div>
-          </div>
-
-          <div class="col-12">
-            <q-tabs
-                align="justify"
-                v-model="currentTab"
-                class="bg-white text-primary"
-                dense
-            >
-              <q-tab
-                  name="summary"
-                  label="Resumo"
-              />
-              <q-tab
-                  name="surveys"
-                  label="Vistorias"
-              />
-            </q-tabs>
-
-            <q-separator/>
-
-            <q-tab-panels
-                v-model="currentTab"
-            >
-              <q-tab-panel name="summary">
-                <TasksSummary
-                    :api="API"
-                    :id="taskId"
-                    :task="task"
-                />
-
-                <div v-if="task.name">
-                  <br/>
-                  <q-separator/>
-
-                  <h5>{{ $t('tasks.interactions') }}</h5>
-
-                  <TaskInteractions
-                      :api="API"
-                      :id="taskId"
-                      :taskData="task"
-                  />
-                </div>
-              </q-tab-panel>
-
-              <q-tab-panel name="surveys">
-                <SurveysCollection
-                    :api="API"
-                    :taskId="taskId"
-                />
-              </q-tab-panel>
-
-            </q-tab-panels>
-          </div>
+      <div class="col-12">
+        <div class="q-py-md text-subtitle1">
+          {{ task.name || `${$t('loading')}...` }}
         </div>
-      </q-card-section>
-    </q-card>
+      </div>
+
+      <div class="row col-12">
+        <q-tabs
+            align="justify"
+            v-model="currentTab"
+            class="text-primary col-4"
+            dense
+            no-caps
+        >
+          <q-tab
+              name="summary"
+              label="Resumo"
+          />
+          <q-tab
+              name="surveys"
+              label="Vistorias"
+          />
+        </q-tabs>
+
+        <q-separator/>
+
+        <q-tab-panels
+            v-model="currentTab"
+            class="bg-transparent col-12"
+        >
+          <q-tab-panel name="summary" class="q-pa-none">
+            <TasksSummary
+                :api="API"
+                :id="taskId"
+                :task="task"
+            />
+
+            <div v-if="task.name">
+              <br/>
+              <q-separator/>
+
+              <h5 class="q-my-md">{{ $t('tasks.interactions') }}</h5>
+
+              <TaskInteractions
+                  :api="API"
+                  :id="taskId"
+                  :taskData="task"
+              />
+            </div>
+          </q-tab-panel>
+
+          <q-tab-panel name="surveys">
+            <SurveysCollection
+                :api="API"
+                :taskId="taskId"
+            />
+          </q-tab-panel>
+
+        </q-tab-panels>
+      </div>
+    </div>
   </q-page>
 </template>
 

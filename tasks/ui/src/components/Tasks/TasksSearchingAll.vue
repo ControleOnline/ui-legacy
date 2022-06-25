@@ -1,11 +1,42 @@
 <template>
-  <div class="row">
-    <div class="col-12">
-      <q-btn :label="$t('Add')" icon="add" size="md" color="primary" @click="dialog = !dialog" />
+  <div class="row q-pt-md">
+    <div class="row col-12 items-center">
+      <div class="col-xs-12 col-sm">
+        <q-option-group v-model="people_filter" :options="people_filter_options" color="primary" inline dense />
+      </div>
+
+      <div class="col-xs-12 col-sm-auto">
+        <q-btn :label="$t('Add')" icon="add" size="md" color="primary" @click="dialog = !dialog" unelevated no-caps />
+      </div>
     </div>
-    <div class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select stack-label :label="$t(task_type + '.status_label')" v-model="filters.status" :options="statuses"
-        class="full-width">
+
+    <div class="row col-xs-12 q-col-gutter-x-md q-ma-none q-py-md">
+      <q-select class="col-3 q-pl-none" outlined stack-label :label="$t(task_type + '.status_label')" v-model="filters.status" :options="statuses">
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> Sem resultados </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
+      <q-select class="col" v-if="categories.length > 0" outlined stack-label :label="$t(task_type + '.category')" v-model="filters.category" :options="categories">
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> Sem resultados </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
+      <q-select class="col" v-if="categories_criticality.length > 0" outlined stack-label :label="$t(task_type + '.criticality')" v-model="filters.criticality"
+        :options="categories_criticality">
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> Sem resultados </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
+      <q-select class="col" v-if="categories_reason.length > 0" outlined stack-label :label="$t(task_type + '.reason')" v-model="filters.reason" :options="categories_reason">
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -13,48 +44,15 @@
         </template>
       </q-select>
     </div>
-    <div v-if="categories.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select stack-label :label="$t(task_type + '.category')" v-model="filters.category" :options="categories"
-        class="full-width">
-        <template v-slot:no-option>
-          <q-item>
-            <q-item-section class="text-grey"> Sem resultados </q-item-section>
-          </q-item>
-        </template>
-      </q-select>
-    </div>
-    <div v-if="categories_criticality.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select stack-label :label="$t(task_type + '.criticality')" v-model="filters.criticality"
-        :options="categories_criticality" class="full-width">
-        <template v-slot:no-option>
-          <q-item>
-            <q-item-section class="text-grey"> Sem resultados </q-item-section>
-          </q-item>
-        </template>
-      </q-select>
-    </div>
-    <div v-if="categories_reason.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select stack-label :label="$t(task_type + '.reason')" v-model="filters.reason" :options="categories_reason"
-        class="full-width">
-        <template v-slot:no-option>
-          <q-item>
-            <q-item-section class="text-grey"> Sem resultados </q-item-section>
-          </q-item>
-        </template>
-      </q-select>
-    </div>
-    <div class="col-sm-6 col-xs-12 q-pa-md">
-      <q-option-group v-model="people_filter" :options="people_filter_options" color="primary" inline dense />
-    </div>
-    <div class="col-sm-6 col-xs-12 q-pa-md"></div>
+
     <div class="col-12">
       <q-table :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
-        @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" style="min-height: 90vh"
+        @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" bordered
         :flat="true" :rows-per-page-options="[5, 10, 15, 20, 25, 50]">
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="id" :props="props">
-              <q-btn outline dense :to="{
+              <q-btn outline dense @click="goTask" :to="{
                 name: (task_type.charAt(0).toUpperCase() + task_type.slice(1)) + 'Details',
                 params: {
                   id: props.row.id,
@@ -80,7 +78,7 @@
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
           <q-card-section>
-            <FormTasks ref="myForm" :api="API" :statuses="statuses" :task_type="task_type" :categories="categories" :categories_criticality="categories_criticality" :categories_reason="categories_reason" @saved="onTaskSave" />
+            <FormTasks ref="myForm" :orderId="orderId" :client="client" :api="API" :statuses="statuses" :task_type="task_type" :categories="categories" :categories_criticality="categories_criticality" :categories_reason="categories_reason" @saved="onTaskSave" />
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -260,6 +258,10 @@ export default {
   },
 
   methods: {
+    goTask() {
+      console.log((this.task_type.charAt(0).toUpperCase() + this.task_type.slice(1)) + 'Details');
+    },
+
     onTaskSave(id) {
       this.onRequest({
         pagination: this.pagination,

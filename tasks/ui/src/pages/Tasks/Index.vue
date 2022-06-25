@@ -1,18 +1,12 @@
 <template>
   <q-page padding>
-    <q-card style="min-height: 90vh">
-      <q-card-section>
-        <q-card-section class="text-h5">
-          {{ $t(context + ".title") }}
-        </q-card-section>
-        <div class="row">
-          <div class="col-12">
-            <TasksSearching v-if="provider" :provider="provider" :task_type="context" :registeredBy="user.people"
-              :taskFor="user.people" :key="key" />
-          </div>
-        </div>
-      </q-card-section>
-    </q-card>
+    <div class="row">
+      <div class="col-12 text-h5 q-mt-none q-mb-md text-weight-medium">{{ $t(context + ".title") }}</div>
+      <div class="col-12">
+        <TasksSearching v-if="provider" :provider="provider" :task_type="context" :registeredBy="user.people"
+          :taskFor="user.people" :key="key" />
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -33,7 +27,6 @@ export default {
     return {
       key: null,
       context: 'support',
-      provider: null,
       currentTab: "allTasks",
     };
   },
@@ -43,6 +36,9 @@ export default {
       user: "auth/user",
       myCompany: "people/currentCompany",
     }),
+    provider() {
+      return this.myCompany.id;
+    },
   },
 
   watch: {

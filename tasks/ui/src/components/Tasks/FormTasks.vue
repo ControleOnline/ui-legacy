@@ -1,13 +1,13 @@
 <template>
   <q-form @submit="onSubmit" ref="myForm">
     <div class="row q-col-gutter-sm">
-      <div class="col-xs-12 col-sm-6">
-        <q-input stack-label lazy-rules v-model="item.name" type="text" class="q-mb-sm" label="Nome *"
-          placeholder="Digite o nome" :rules="[isInvalid('name')]" :outlined="true" />
+      <div class="col-xs-12" :class="!categories.length > 0 ? '' : 'col-sm-6'">
+        <q-input stack-label lazy-rules v-model="item.name" type="text" label="Nome *"
+          placeholder="Digite o nome" :rules="[isInvalid('name')]" outlined />
       </div>
       <div v-if="categories.length > 0" class="col-xs-12 col-sm-6">
-        <q-select stack-label lazy-rules v-model="item.category" class="q-mb-sm" label="Categoria *"
-          :options="categories" :rules="[isInvalid('category')]" :outlined="true">
+        <q-select stack-label lazy-rules v-model="item.category" label="Categoria *"
+          :options="categories" :rules="[isInvalid('category')]" outlined>
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
@@ -17,8 +17,9 @@
           </template>
         </q-select>
       </div>
-      <div v-if="categories_criticality.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
-        <q-select stack-label :label="$t(task_type + '.criticality')" v-model="item.criticality"
+
+      <div v-if="categories_criticality && categories_criticality.length > 0" class="col-sm-6 col-xs-12 q-mb-lg">
+        <q-select stack-label :label="$t(task_type + '.criticality')" v-model="item.criticality" outlined
           :options="categories_criticality" class="full-width">
           <template v-slot:no-option>
             <q-item>
@@ -27,9 +28,10 @@
           </template>
         </q-select>
       </div>
-      <div v-if="categories_reason.length > 0" class="col-sm-6 col-xs-12 q-pa-md">
+
+      <div v-if="categories_reason && categories_reason.length > 0" class="col-sm-6 col-xs-12">
         <q-select stack-label :label="$t(task_type + '.reason')" v-model="item.reason" :options="categories_reason"
-          class="full-width">
+          class="full-width" outlined>
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -74,8 +76,9 @@
           @selected="onSelectTaskFor" placeholder="Pesquisar..." />
       </div>
       <div class="col-xs-12 col-sm-6">
-        <PeopleAutocomplete :source="searchPeople" :isLoading="isSearching" label="Definir o cliente"
+        <PeopleAutocomplete v-if="!client" :source="searchPeople" :isLoading="isSearching" label="Definir o cliente"
           @selected="onSelectClient" placeholder="Pesquisar..." />
+        <q-input v-else :value="`(${client.id}) - ${client.name} - ${client.alias}`" label="Definir o cliente" outlined disable />
       </div>
     </div>
 
@@ -93,6 +96,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-xs-12 col-md-6 flex items-center">
         <div class="row items-center full-width q-col-gutter-sm">
           <div class="col-auto q-pl-none">
@@ -102,12 +106,12 @@
           </div>
           <div class="col">
             <q-input v-model="searchOrder" :options="searchOrder" :loading="isSearchingOrder" label="Definir Pedido"
-              class="q-my-md" outlined placeholder="Digite o id do pedido" :disabled="!editTask" />
+              class="q-my-md" outlined debounce="700" placeholder="Digite o id do pedido" :disable="!editTask" />
           </div>
           <div class="col-auto q-pr-none">
-            <q-btn flat class="q-py-sm" color="primary" :icon="editTask ? 'cancel' : 'edit'"
+            <q-btn flat class="q-py-sm" color="primary" :icon="editTask ? 'check' : 'edit'"
               @click="editTask = !editTask">
-              <q-tooltip>Editar</q-tooltip>
+              <q-tooltip>{{ !editTask ? 'Editar' : 'Salvar' }}</q-tooltip>
             </q-btn>
           </div>
         </div>
@@ -122,7 +126,7 @@
     </div>
 
     <div class="row justify-end q-mt-lg">
-      <q-btn class="col-xs-12 col-md-2" type="submit" color="primary" label="Salvar" :loading="isSaving" />
+      <q-btn class="col-xs-12 col-md-2" type="submit" color="primary" unelevated no-caps label="Salvar" :loading="isSaving" />
     </div>
   </q-form>
 </template>
@@ -132,6 +136,7 @@ import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { mapGetters, mapActions } from "vuex";
+import categories from '@controleonline/quasar-common-ui/src/store/categories'
 import { date } from "quasar";
 
 export default {
@@ -172,7 +177,7 @@ export default {
       required: false,
     },
     orderId: {
-      type: String,
+      type: Number,
       required: false,
     },
     taskData: {
@@ -247,6 +252,7 @@ export default {
     if (this.orderId) {
       var inputVal =
         "(#" + this.orderId + ") " + (this.client ? this.client.alias : "");
+
       this.orderSelected = this.orderId;
       this.searchOrder = inputVal;
       this.item.order = this.orderId;
@@ -581,11 +587,11 @@ export default {
         registeredBy: this.user.people,
         provider: this.myCompany.id,
         taskFor: this.item.taskFor,
-        client: this.item.client,
+        client: this.item?.client ?? Number(this.client.id),
         taskStatus: this.item.taskStatus.value,
         category: this.item.category.value,
-        criticality: this.item.criticality.value,
-        reason: this.item.reason.value,
+        criticality: this.item.criticality?.value ?? '',
+        reason: this.item.reason?.value ?? '',
       };
 
       if (this.taskId) {

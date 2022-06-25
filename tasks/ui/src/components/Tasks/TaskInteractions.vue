@@ -3,26 +3,27 @@
         <q-tabs
             v-model="currentTab"
             align="justify"
-            class="bg-white text-primary col-xs-12 col-md-4 q-px-sm"
+            class="text-primary col-xs-12 col-md-3"
             dense
+            no-caps
         >
             <q-tab
-                name="external"
+                name="public"
                 label="Externo"
             />
             <q-tab
-                name="internal"
+                name="private"
                 label="Interno"
             />
         </q-tabs>
 
         <q-tab-panels
             v-model="currentTab"
-            class="col-12"
+            class="col-12 bg-transparent"
         >
-            <q-tab-panel class="row q-px-none" name="external">
-                <div class="col-12 q-mb-md q-px-sm" v-for="interaction of interactions" :key="interaction.id">
-                    <q-card :style="isMyInteraction(interaction) ? 'background: #e9e9e9' : ''">
+            <q-tab-panel class="row q-px-none" name="public">
+                <div class="col-12 q-mb-md" v-for="interaction of interactions_public" :key="interaction.id">
+                    <q-card class="no-shadow" :style="isMyInteraction(interaction) ? 'background: #e9e9e9' : ''">
                         <q-card-section>
                             <div class="flex items-center q-gutter-x-sm">
                                 <p class="text-bold">{{ interaction.registeredBy.alias || interaction.registeredBy.name }}</p>
@@ -73,9 +74,10 @@
                     />
                 </div>
             </q-tab-panel>
-            <q-tab-panel class="row q-px-none" name="internal">
-                <div class="col-12 q-mb-md q-px-sm" v-for="interaction of interactions" :key="interaction.id">
-                    <q-card :style="isMyInteraction(interaction) ? 'background: #e9e9e9' : ''">
+
+            <q-tab-panel class="row q-px-none" name="private">
+                <div class="col-12 q-mb-md" v-for="interaction of interactions_private" :key="interaction.id">
+                    <q-card class="no-shadow" :style="isMyInteraction(interaction) ? 'background: #e9e9e9' : ''">
                         <q-card-section>
                             <div class="flex items-center q-gutter-x-sm">
                                 <p class="text-bold">{{ interaction.registeredBy.alias || interaction.registeredBy.name }}</p>
@@ -117,7 +119,7 @@
                     </q-card>
                 </div>
 
-                <div class="col-12 q-px-sm">
+                <div class="col-12">
                     <FormTaskInteraction 
                         :isLoading     ="isLoading"
                         :category      ="taskData.taskCategory"
@@ -160,9 +162,10 @@ export default {
 
     data() {
         return {
-            currentTab: 'external',
+            currentTab: 'public',
             isLoading   : true,
-            interactions: [],
+            interactions_public: [],
+            interactions_private: [],
             isSaving    : false
         }
     },
@@ -180,7 +183,8 @@ export default {
     methods: {
         getInterations() {
             var params = {
-                task: this.id
+                task: this.id,
+                visibility: this.currentTab
             };
 
             this.isLoading = true;
@@ -207,7 +211,7 @@ export default {
                             }
                         }
 
-                        this.interactions = items;
+                        this.currentTab === 'private' ? this.interactions_private = items : this.interactions_public = items;
                         this.isLoading = false;
                     }
                 });
@@ -227,11 +231,12 @@ export default {
             }
 
             var newItem = {
-                id: this.interactions.length + 2,
+                id: this.currentTab === 'private' ? this.interactions_private.length + 2 : this.interactions_public.length + 2,
                 type: 'comment',
                 body: {
                     message: data.message
                 },
+                visibility: this.currentTab,
                 registeredBy: {
                     id   : this.user.people,
                     alias: this.user.realname,
@@ -285,10 +290,18 @@ export default {
             return formatDateYmdTodmY(interaction.createdAt, true).replace(' ', ' às ');
         },
         getInteractionById(id) {
-            return this.interactions.find(interaction => interaction.id === id);
+            return this.currentTab === 'private'
+                ? this.interactions_private.find(interaction => interaction.id === id)
+                : this.interactions_public.find(interaction => interaction.id === id);
         },
         isMyInteraction(interaction) {
             return interaction.registeredBy.id == this.user.people;
+        }
+    },
+
+    watch: {
+        currentTab() {
+            this.getInterations();
         }
     }
 }
