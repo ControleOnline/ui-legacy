@@ -1,8 +1,8 @@
 <template>
   <div class="row">
     <q-btn no-caps color="grey-3" icon="arrow_back" class="text-grey-9" unelevated label="Voltar" @click="goBack" />
-    <div class="q-pb-xs col-12">
-      <div class="text-subtitle1 text-left">
+    <div class="col-12">
+      <div class="text-subtitle1 text-left q-pt-md">
         {{ people.name }}
       </div>
       <q-card-section v-if="people.type === 'J'" align="right" class="q-pt-none">
@@ -183,7 +183,7 @@
 
         <q-tab-panel name="tasks" class="q-pa-none">
           <OrderTasks v-if="provider" :provider="provider" :task_type="context" :registeredBy="user.people"
-            :taskFor="user.people" :key="key" />
+            :taskFor="user.people" :key="key" :client="people" />
         </q-tab-panel>
 
         <q-tab-panel name="employees" class="q-px-none row q-col-gutter-y-lg">
