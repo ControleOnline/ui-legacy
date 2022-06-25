@@ -101,7 +101,7 @@
             </q-btn>
           </div>
           <div class="col">
-            <q-select v-model="searchOrder" :options="searchOrder" :loading="isSearchingOrder" label="Definir Pedido"
+            <q-input v-model="searchOrder" :options="searchOrder" :loading="isSearchingOrder" label="Definir Pedido"
               class="q-my-md" outlined placeholder="Digite o id do pedido" :disabled="!editTask" />
           </div>
           <div class="col-auto q-pr-none">

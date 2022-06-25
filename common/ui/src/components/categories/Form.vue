@@ -1,20 +1,20 @@
 <template>
-  <q-form @submit="onSubmit" class="q-mb-md">
-    <div class="row items-center q-mb-md">
+  <q-form @submit="onSubmit">
+    <div class="row items-center">
       <div class="text-h6">
         {{ item.id === null ? $t('Nova categoria') : $t('Edição categoria') }}
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12 q-mb-md">
-        <q-select stack-label emit-value map-options
+    <div class="row q-col-gutter-y-sm q-pt-md">
+      <div class="col-xs-12">
+        <q-select stack-label emit-value map-options outlined
           v-model ="item.parent"
           :label  ="$t('Categoria pai')"
           :options="categories"
         />
       </div>
-      <div class="col-xs-12 q-mb-md">
-        <q-input lazy-rules stack-label
+      <div class="col-xs-12">
+        <q-input lazy-rules stack-label outlined
           v-model="item.name"
           type   ="text"
           :label ="$t('Nome categoria')"
@@ -32,6 +32,8 @@
         size    ="md"
         color   ="primary"
         class   ="q-mt-md"
+        unelevated
+        no-caps
       />
     </div>
   </q-form>

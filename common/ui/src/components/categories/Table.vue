@@ -1,11 +1,11 @@
 <template>
   <div>
     <q-table flat :loading="isLoading" :data="items" :columns="settings.columns" :pagination.sync="pagination"
-      @request="onRequest" row-key="id" style="min-height: 90vh;" :rows-per-page-options="[5, 10, 15, 20, 25, 50]">
+      @request="onRequest" row-key="id" bordered :rows-per-page-options="[5, 10, 15, 20, 25, 50]">
       <template v-slot:top>
-        <div class="col-xs-12 q-mb-md">
+        <div class="col-xs-12">
           <div class="row justify-end">
-            <q-btn :label="$t('Adicionar categoria')" icon="add" size="md" color="primary" class="q-ml-sm" @click="() => {
+            <q-btn :label="$t('Adicionar categoria')" icon="add" size="md" color="primary" @click="() => {
               dialogs.category.id = null;
               dialogs.category.visible = true;
             }" />
@@ -29,10 +29,10 @@
 
     <q-dialog v-model="dialogs.category.visible" @before-hide="reload">
       <q-card style="width: 700px; max-width: 80vw;">
-        <q-card-section class="row items-center justify-end">
+        <q-card-section class="row items-center justify-end q-pb-none">
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
-        <q-card-section>
+        <q-card-section class="q-pt-none">
           <FormCategory :id="dialogs.category.id" :api="api" />
         </q-card-section>
       </q-card>
