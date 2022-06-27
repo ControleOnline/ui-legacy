@@ -21,7 +21,7 @@
 
         <q-tab-panels v-model="currentTab" class="bg-transparent col-12">
           <q-tab-panel name="summary" class="q-pa-none">
-            <TasksSummary :api="API" :id="taskId" :task="task" :context="context"/>
+            <TasksSummary :api="API" :id="taskId" :task="task" :context="context" />
 
             <div v-if="task.name">
               <br />
@@ -59,7 +59,7 @@ export default {
 
   data() {
     return {
-      context:'',
+      context: 'support',
       API: new Api(this.$store.getters['auth/user'].token),
       currentTab: 'summary',
       taskId: Number(this.$route.params.id),
@@ -77,8 +77,7 @@ export default {
         .then(response => response.json())
         .then(data => {
           if (data['@id']) {
-            this.task = data;
-            this.context = this.context;
+            this.task = data;            
           }
         });
     }
