@@ -15,6 +15,8 @@ export const translate = {
     status_label: 'Status',
     criticality: 'Criticidade',
     reason: 'Gerado por',
+    public: 'Visível',
+    private: 'Interna',
     status: {
       Open: 'Aberta',
       Closed: 'Fechada',

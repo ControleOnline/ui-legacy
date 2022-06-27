@@ -15,6 +15,9 @@ export const translate = {
     status_label: 'Status',
     criticality: 'Temperatura',
     reason: 'Estágio',
+    title: 'CRM',
+    public: 'Visível',
+    private: 'Interna',
     status: {
       Open: 'Aberta',
       Closed: 'Fechada',
