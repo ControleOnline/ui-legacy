@@ -1,6 +1,16 @@
 <template>
   <q-form @submit="onSubmit" ref="myForm">
+
+
+
     <div class="row q-col-gutter-sm">
+
+      <div v-if="editTask == true" class="col-12">
+        <q-btn flat class="bg-primary q-py-sm" color="white" @click="goOrder()">
+          # {{ this.item.order }}
+        </q-btn>
+      </div>
+
       <div class="col-xs-12" :class="!categories.length > 0 ? '' : 'col-sm-6'">
         <q-input stack-label lazy-rules v-model="item.name" type="text" label="Nome *" placeholder="Digite o nome"
           :rules="[isInvalid('name')]" outlined />
@@ -70,7 +80,7 @@
       </div>
     </div>
 
-    <div class="row q-col-gutter-sm">
+    <div v-if="editTask == false" class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
         <PeopleAutocomplete :source="searchPeople" :isLoading="isSearching" label="Definir o responsável"
           @selected="onSelectTaskFor" placeholder="Pesquisar..." />
@@ -98,23 +108,13 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-md-6 flex items-center">
+
+      <div v-if="editTask == false" class="col-xs-12 col-md-6 flex items-center">
         <div class="row items-center full-width q-col-gutter-sm">
-          <div class="col-auto q-pl-none">
-            <q-btn flat class="bg-primary q-py-sm" color="white" icon="north_west" @click="goOrder()">
-              <q-tooltip>Ver pedido</q-tooltip>
-            </q-btn>
-          </div>
-          <div class="col">
-            <q-input v-model="searchOrder" :options="searchOrder" :loading="isSearchingOrder" label="Definir Pedido"
-              class="q-my-md" outlined debounce="700" placeholder="Digite o id do pedido" :disable="!editTask" />
-          </div>
-          <div class="col-auto q-pr-none">
-            <q-btn flat class="q-py-sm" color="primary" :icon="editTask ? 'check' : 'edit'"
-              @click="editTask = !editTask">
-              <q-tooltip>{{ !editTask ? 'Editar' : 'Salvar' }}</q-tooltip>
-            </q-btn>
-          </div>
+
+          <q-input v-model="searchOrder" :options="searchOrder" :loading="isSearchingOrder" label="Definir Pedido"
+            class="q-my-md" outlined debounce="700" placeholder="Digite o id do pedido" :disable="editTask" />
+
         </div>
       </div>
     </div>
@@ -203,6 +203,7 @@ export default {
       searchOrder: null,
       orderSelected: "",
       isSearchingOrder: false,
+      context: this.taskData.type,
       item: {
         id: null,
         name: null,
@@ -241,6 +242,11 @@ export default {
       var itens = Object.assign([], this.categories);
 
       this.categoryArray = itens;
+    }
+
+
+    if (this.taskData && this.taskData.id) {
+      this.editTask = true;
     }
 
     if (this.client) {

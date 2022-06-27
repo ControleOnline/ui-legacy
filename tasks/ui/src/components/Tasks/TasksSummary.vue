@@ -46,19 +46,22 @@ export default {
     let statuses = [{ label: this.$t(this.task.type + ".status." + "All"), value: -1 }];
 
     return {
+      API: new Api(this.$store.getters["auth/user"].token),
       saving: false,
       isLoading: true,
       statuses: statuses,
       categories: [],
       loadingStatuses: false,
       categories_criticality: [],
-      categories_reason: []
+      categories_reason: [],
+      context: null,
     };
   },
 
   created() {
     if (this.task && this.task.name) {
       this.isLoading = false;
+      this.context = this.task.type;
     }
 
     this.requestStatuses();
@@ -69,14 +72,19 @@ export default {
     task: function (data) {
       if (this.task && this.task.name) {
         this.isLoading = false;
+
       }
     },
   },
 
   methods: {
-    getCategories() {
-      return this.api
-        .private(ENTRYPOINT + "/categories")
+    getCategories(criticality) {
+      let params = [];
+      params.context = this.context + (criticality || '');
+      params.company = this.provider;
+      params['order[name]'] = 'ASC';
+
+      return this.API.private("/categories", { params })
         .then((response) => response.json())
         .then((result) => {
           return {
@@ -85,19 +93,6 @@ export default {
           };
         });
     },
-
-    getStatuses() {
-      return this.api
-        .private("/task_statuses")
-        .then((response) => response.json())
-        .then((result) => {
-          return {
-            members: result["hydra:member"],
-            totalItems: result["hydra:totalItems"],
-          };
-        });
-    },
-
     requestCategories() {
       this.getCategories().then((categories) => {
         if (categories.totalItems) {
@@ -110,8 +105,43 @@ export default {
           }
         }
       });
+      this.getCategories('-criticality').then((categories) => {
+        if (categories.totalItems) {
+          for (let index in categories.members) {
+            let item = categories.members[index];
+            this.categories_criticality.push({
+              label: item.name,
+              value: item.id,
+            });
+          }
+        }
+      });
+      this.getCategories('-reason').then((categories) => {
+        if (categories.totalItems) {
+          for (let index in categories.members) {
+            let item = categories.members[index];
+            this.categories_reason.push({
+              label: item.name,
+              value: item.id,
+            });
+          }
+        }
+      });
+
+
     },
 
+
+    getStatuses() {
+      return this.API.private("/task_statuses")
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+            totalItems: result["hydra:totalItems"],
+          };
+        });
+    },
     requestStatuses() {
       this.loadingStatuses = true;
 
@@ -120,7 +150,7 @@ export default {
           for (let index in statuses.members) {
             let item = statuses.members[index];
             this.statuses.push({
-              label: this.$t(this.task.type + ".status." + item.name),
+              label: this.$t(this.task_type + ".status." + item.name),
               value: item.id,
             });
           }
@@ -128,7 +158,6 @@ export default {
         this.loadingStatuses = false;
       });
     },
-
     onTaskSave() {
       this.$q.notify({
         message: this.$t("Data saved successfully"),
