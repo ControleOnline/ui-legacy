@@ -80,12 +80,12 @@
       </div>
     </div>
 
-    <div v-if="editTask == false" class="row q-col-gutter-sm">
+    <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
         <PeopleAutocomplete :source="searchPeople" :isLoading="isSearching" label="Definir o responsável"
           @selected="onSelectTaskFor" placeholder="Pesquisar..." />
       </div>
-      <div class="col-xs-12 col-sm-6">
+      <div v-if="editTask == false" class="col-xs-12 col-sm-6">
         <PeopleAutocomplete v-if="!client" :source="searchPeople" :isLoading="isSearching" label="Definir o cliente"
           @selected="onSelectClient" placeholder="Pesquisar..." />
         <q-input v-else :value="`(${client.id}) - ${client.name} - ${client.alias}`" label="Definir o cliente" outlined
@@ -185,6 +185,10 @@ export default {
       type: Object,
       required: false,
     },
+    context: {
+      type: String,
+      required: true,
+    }
   },
 
   data() {
@@ -203,7 +207,7 @@ export default {
       searchOrder: null,
       orderSelected: "",
       isSearchingOrder: false,
-      context: this.taskData.type,
+
       item: {
         id: null,
         name: null,
@@ -250,6 +254,7 @@ export default {
     }
 
     if (this.client) {
+      this.newTask = true;
       var clientVal = "(#" + this.client.id + ") " + this.client.name;
       this.searchClient = clientVal;
       this.clientSelected = this.client;
@@ -257,6 +262,7 @@ export default {
     }
 
     if (this.orderId) {
+      this.editTask = true;
       var inputVal =
         "(#" + this.orderId + ") " + (this.client ? this.client.alias : "");
 

@@ -28,6 +28,7 @@ export default {
       key: null,
       context: 'support',
       currentTab: "allTasks",
+      provider:null,
     };
   },
 
@@ -35,10 +36,7 @@ export default {
     ...mapGetters({
       user: "auth/user",
       myCompany: "people/currentCompany",
-    }),
-    provider() {
-      return this.myCompany.id;
-    },
+    }),    
   },
 
   watch: {

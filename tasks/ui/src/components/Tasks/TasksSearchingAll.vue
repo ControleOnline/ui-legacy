@@ -81,7 +81,7 @@
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
           <q-card-section>
-            <FormTasks ref="myForm" :orderId="orderId" :client="client" :api="API" :statuses="statuses"
+            <FormTasks :context="context" ref="myForm" :orderId="orderId" :client="client" :api="API" :statuses="statuses"
               :task_type="task_type" :categories="categories" :categories_criticality="categories_criticality"
               :categories_reason="categories_reason" @saved="onTaskSave" />
           </q-card-section>
