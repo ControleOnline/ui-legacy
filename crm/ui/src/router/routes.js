@@ -9,7 +9,7 @@ export const routes = [
         component: () => import('../pages/CRM/Index.vue')
       },
       {
-        name     : 'CrmDetails',
+        name     : 'RelationshipDetails',
         path     : 'id/:id',
         component: () => import('../pages/CRM/Details.vue')
       }
