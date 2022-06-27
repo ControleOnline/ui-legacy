@@ -2,7 +2,7 @@
     <div class="row">
         <q-tabs v-model="currentTab" align="justify" class="text-primary col-xs-12 col-md-3" dense no-caps>
             <q-tab name="public" :label="$t(taskData.type + '.public')" />
-            <q-tab name="private" :label="$t(taskData.type+'.private')" />
+            <q-tab name="private" :label="$t(taskData.type + '.private')" />
         </q-tabs>
 
         <q-tab-panels v-model="currentTab" class="col-12 bg-transparent">
@@ -188,15 +188,9 @@ export default {
                         for (var key in items) {
                             if (items[key]) {
                                 var item = items[key];
-
-                                if (item.body) {
-                                    item.body = JSON.parse(item.body);
-                                }
-
                                 if (item.file) {
                                     item.file.url = ENTRYPOINT + item.file.url;
                                 }
-
                                 items[key] = item;
                             }
                         }
