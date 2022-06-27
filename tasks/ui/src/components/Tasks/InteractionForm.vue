@@ -85,18 +85,7 @@
                 </q-uploader>
             </div>
             
-            <div v-if="checkIfIsVistoria()" class="col-xs-12 col-sm-6">
-                <div class="radio-inline">
-                    <q-checkbox left-label v-model="checklist.item1" label="Stepe" />
-                    <q-checkbox left-label v-model="checklist.item2" label="Extintor" />
-                    <q-checkbox left-label v-model="checklist.item3" label="Tapete" />
-                </div>
-                <div class="radio-inline">
-                    <q-checkbox left-label v-model="checklist.item4" label="Pneu" />
-                    <q-checkbox left-label v-model="checklist.item5" label="Calota" />
-                    <q-checkbox left-label v-model="checklist.item6" label="Banco" />
-                </div>
-            </div>
+
         </div>
     
         <div class="row">
@@ -133,8 +122,8 @@ export default {
             type    : String,
             required: true
         },
-        category: {
-            type    : Object,
+        visibility: {
+            type    : String,
             required: true
         },
         isSaving: {
@@ -172,17 +161,7 @@ export default {
     },
 
     methods: {
-        checkIfIsVistoria() {
-            if (this.category && this.category.name) {
-                var name = this.category.name;
-
-                if (name.toLowerCase().indexOf('vistoria') > -1) {
-                    return true;
-                }
-            }
-
-            return false;
-        },
+        
 
         fileAdded(files) {
             this.selectedFile = files[0];
@@ -201,20 +180,7 @@ export default {
                 data.file = this.selectedFile;
             }
 
-            if (this.checkIfIsVistoria() && Object.keys(this.checklist).length) {
-                var hasTrue = false;
 
-                for (var key in this.checklist) {
-                    if (this.checklist[key]) {
-                        hasTrue = true;
-                        break; 
-                    }
-                }
-
-                if (hasTrue) {
-                    data.checklist = this.checklist;
-                }
-            }
 
             this.$emit('submit', data);
         }

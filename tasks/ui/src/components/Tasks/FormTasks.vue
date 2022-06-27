@@ -288,14 +288,16 @@ export default {
       this.item.client = this.taskData.client.id;
 
       this.item.taskStatus = {
-        label: this.taskData.taskStatus.name,
+        label: this.$t(this.taskData.type + '.status.' + this.taskData.taskStatus.name),
         value: this.taskData.taskStatus.id,
       };
 
-      this.item.taskCategory = {
-        label: this.taskData.taskCategory.name,
-        value: this.taskData.taskCategory.id,
-      };
+
+      for (let i in this.categories) {
+        if (this.categories[i].value == this.taskData.category.replace(/\D/g, '')) {
+          this.item.taskCategory = { label: this.categories[i].label, value: this.categories[i].value, }
+        }
+      }
 
       if (this.taskData.order) {
         var orderVal =
@@ -323,7 +325,6 @@ export default {
     categories: function (categories) {
       if (categories) {
         var itens = Object.assign([], categories);
-
         this.categoryArray = itens;
       }
     },

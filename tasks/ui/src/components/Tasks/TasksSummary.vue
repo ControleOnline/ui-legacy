@@ -1,33 +1,18 @@
 <template>
   <div class="row items-center justify-center">
     <div class="flex flex-center" v-if="isLoading || loadingStatuses">
-      <q-circular-progress
-        :indeterminate="isLoading || loadingStatuses"
-        size="sm"
-        color="primary"
-        class="q-ma-md"
-      />
+      <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary" class="q-ma-md" />
       Carregando...
     </div>
 
-    <div
-      class="col-12 q-mt-md"
-      :style="
-        isLoading || loadingStatuses
-          ? 'visibility:hidden'
-          : 'visibility:visible'
-      "
-    >
-      <FormTasks
-        v-if="!isLoading && !loadingStatuses"
-        ref="myForm"
-        :taskId="id"
-        :taskData="task"
-        :api="api"
-        :statuses="statuses"
-        :categories="categories"
-        @saved="onTaskSave"
-      />
+    <div class="col-12 q-mt-md" :style="
+      isLoading || loadingStatuses
+        ? 'visibility:hidden'
+        : 'visibility:visible'
+    ">
+      <FormTasks v-if="!isLoading && !loadingStatuses" ref="myForm" :taskId="id" :taskData="task" :api="api"
+        :task_type="task.type" :statuses="statuses" :categories="categories"
+        :categories_criticality="categories_criticality" :categories_reason="categories_reason" @saved="onTaskSave" />
     </div>
   </div>
 </template>
@@ -58,7 +43,7 @@ export default {
   },
 
   data() {
-    let statuses = [{ label: this.$t("tasks.status." + "All"), value: -1 }];
+    let statuses = [{ label: this.$t(this.task.type + ".status." + "All"), value: -1 }];
 
     return {
       saving: false,
@@ -66,6 +51,8 @@ export default {
       statuses: statuses,
       categories: [],
       loadingStatuses: false,
+      categories_criticality: [],
+      categories_reason: []
     };
   },
 
@@ -117,7 +104,7 @@ export default {
           for (let index in categories.members) {
             let item = categories.members[index];
             this.categories.push({
-              label: this.$t("tasks.status." + item.name),
+              label: item.name,
               value: item.id,
             });
           }
@@ -133,7 +120,7 @@ export default {
           for (let index in statuses.members) {
             let item = statuses.members[index];
             this.statuses.push({
-              label: this.$t("tasks.status." + item.name),
+              label: this.$t(this.task.type + ".status." + item.name),
               value: item.id,
             });
           }

@@ -1,47 +1,32 @@
 <template>
     <div class="row">
-        <q-tabs
-            v-model="currentTab"
-            align="justify"
-            class="text-primary col-xs-12 col-md-3"
-            dense
-            no-caps
-        >
-            <q-tab
-                name="public"
-                label="Externo"
-            />
-            <q-tab
-                name="private"
-                label="Interno"
-            />
+        <q-tabs v-model="currentTab" align="justify" class="text-primary col-xs-12 col-md-3" dense no-caps>
+            <q-tab name="public" :label="$t(taskData.type + '.public')" />
+            <q-tab name="private" :label="$t(taskData.type+'.private')" />
         </q-tabs>
 
-        <q-tab-panels
-            v-model="currentTab"
-            class="col-12 bg-transparent"
-        >
+        <q-tab-panels v-model="currentTab" class="col-12 bg-transparent">
             <q-tab-panel class="row q-px-none" name="public">
                 <div class="col-12 q-mb-md" v-for="interaction of interactions_public" :key="interaction.id">
-                    <q-card class="no-shadow" :style="isMyInteraction(interaction) ? 'background: #e9e9e9' : ''">
+                    <q-card :class="'no-shadow public-interaction' + (isMyInteraction(interaction) ? '-my' : '')">
                         <q-card-section>
                             <div class="flex items-center q-gutter-x-sm">
-                                <p class="text-bold">{{ interaction.registeredBy.alias || interaction.registeredBy.name }}</p>
+                                <p class="text-bold">{{ interaction.registeredBy.alias || interaction.registeredBy.name
+                                }}</p>
                                 <p>-</p>
-                                <p>em {{ getInteractionDate(interaction) }}</p>    
+                                <p>em {{ getInteractionDate(interaction) }}</p>
                             </div>
                             <h5 v-if="interaction.type === 'response'">
-                                Em resposta a  <strong>{{ getInteractionById(interaction.body.responseFrom).registeredBy.alias }}</strong>
+                                Em resposta a <strong>{{
+                                        getInteractionById(interaction.body.responseFrom).registeredBy.alias
+                                }}</strong>
                                 <small> | {{ getInteractionById(interaction.body.responseFrom).body.title }}</small>
                             </h5>
                             <h5 v-if="interaction.type === 'request'">{{ interaction.body.title }}</h5>
                             <div v-if="interaction.type === 'request'">{{ interaction.body.message }}</div>
                         </q-card-section>
                         <q-card-section v-if="interaction.file">
-                            <img
-                                style="max-height: 200px; max-width: 80%;" 
-                                :src="interaction.file.url"
-                            />
+                            <img style="max-height: 200px; max-width: 80%;" :src="interaction.file.url" />
                         </q-card-section>
                         <q-card-section v-if="interaction.type === 'comment' || interaction.type === 'response'">
                             <div class="row">
@@ -50,14 +35,20 @@
                                 </div>
                                 <div v-if="interaction.body.checklist" class="col-6">
                                     <div class="radio-inline">
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item1" disable label="Stepe" />
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item2" disable label="Extintor" />
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item3" disable label="Tapete" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item1" disable
+                                            label="Stepe" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item2" disable
+                                            label="Extintor" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item3" disable
+                                            label="Tapete" />
                                     </div>
                                     <div class="radio-inline">
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item4" disable label="Pneu" />
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item5" disable label="Calota" />
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item6" disable label="Banco" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item4" disable
+                                            label="Pneu" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item5" disable
+                                            label="Calota" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item6" disable
+                                            label="Banco" />
                                     </div>
                                 </div>
                             </div>
@@ -66,36 +57,33 @@
                 </div>
 
                 <div class="col-12 q-px-sm">
-                    <FormTaskInteraction 
-                        :isLoading     ="isLoading"
-                        :category      ="taskData.taskCategory"
-                        :isSaving      ="isSaving"
-                        @newInteraction="onNewInteractionAdded"
-                    />
+                    <FormTaskInteraction :isLoading="isLoading" :visibility="'public'" :isSaving="isSaving"
+                        @newInteraction="onNewInteractionAdded" />
                 </div>
             </q-tab-panel>
 
             <q-tab-panel class="row q-px-none" name="private">
                 <div class="col-12 q-mb-md" v-for="interaction of interactions_private" :key="interaction.id">
-                    <q-card class="no-shadow" :style="isMyInteraction(interaction) ? 'background: #e9e9e9' : ''">
+                    <q-card :class="'no-shadow private-interaction' + (isMyInteraction(interaction) ? '-my' : '')">
                         <q-card-section>
                             <div class="flex items-center q-gutter-x-sm">
-                                <p class="text-bold">{{ interaction.registeredBy.alias || interaction.registeredBy.name }}</p>
+                                <p class="text-bold">{{ interaction.registeredBy.alias || interaction.registeredBy.name
+                                }}
+                                </p>
                                 <p>-</p>
-                                <p>em {{ getInteractionDate(interaction) }} <b>(interno)</b></p>
+                                <p>em {{ getInteractionDate(interaction) }}</p>
                             </div>
                             <h5 v-if="interaction.type === 'response'">
-                                Em resposta a  <strong>{{ getInteractionById(interaction.body.responseFrom).registeredBy.alias }}</strong>
+                                Em resposta a <strong>{{
+                                        getInteractionById(interaction.body.responseFrom).registeredBy.alias
+                                }}</strong>
                                 <small> | {{ getInteractionById(interaction.body.responseFrom).body.title }}</small>
                             </h5>
                             <h5 v-if="interaction.type === 'request'">{{ interaction.body.title }}</h5>
                             <div v-if="interaction.type === 'request'">{{ interaction.body.message }}</div>
                         </q-card-section>
                         <q-card-section v-if="interaction.file">
-                            <img
-                                style="max-height: 200px; max-width: 80%;" 
-                                :src="interaction.file.url"
-                            />
+                            <img style="max-height: 200px; max-width: 80%;" :src="interaction.file.url" />
                         </q-card-section>
                         <q-card-section v-if="interaction.type === 'comment' || interaction.type === 'response'">
                             <div class="row">
@@ -104,14 +92,20 @@
                                 </div>
                                 <div v-if="interaction.body.checklist" class="col-6">
                                     <div class="radio-inline">
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item1" disable label="Stepe" />
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item2" disable label="Extintor" />
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item3" disable label="Tapete" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item1" disable
+                                            label="Stepe" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item2" disable
+                                            label="Extintor" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item3" disable
+                                            label="Tapete" />
                                     </div>
                                     <div class="radio-inline">
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item4" disable label="Pneu" />
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item5" disable label="Calota" />
-                                        <q-checkbox left-label v-model="interaction.body.checklist.item6" disable label="Banco" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item4" disable
+                                            label="Pneu" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item5" disable
+                                            label="Calota" />
+                                        <q-checkbox left-label v-model="interaction.body.checklist.item6" disable
+                                            label="Banco" />
                                     </div>
                                 </div>
                             </div>
@@ -120,12 +114,8 @@
                 </div>
 
                 <div class="col-12">
-                    <FormTaskInteraction 
-                        :isLoading     ="isLoading"
-                        :category      ="taskData.taskCategory"
-                        :isSaving      ="isSaving"
-                        @newInteraction="onNewInteractionAdded"
-                    />
+                    <FormTaskInteraction :isLoading="isLoading" :visibility="'private'" :isSaving="isSaving"
+                        @newInteraction="onNewInteractionAdded" />
                 </div>
             </q-tab-panel>
         </q-tab-panels>
@@ -133,11 +123,11 @@
 </template>
 
 <script>
-import Api                    from '@controleonline/quasar-common-ui/src/utils/api';
+import Api from '@controleonline/quasar-common-ui/src/utils/api';
 import { formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
-import FormTaskInteraction    from './FormTaskInteraction.vue';
-import { ENTRYPOINT }         from '../../../../../../src/config/entrypoint';
-import { mapGetters }         from 'vuex';
+import FormTaskInteraction from './FormTaskInteraction.vue';
+import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
+import { mapGetters } from 'vuex';
 
 export default {
 
@@ -147,15 +137,15 @@ export default {
 
     props: {
         api: {
-            type    : Api,
+            type: Api,
             required: true
         },
         taskData: {
-            type    : Object,
+            type: Object,
             required: true
         },
         id: {
-            type    : Number,
+            type: Number,
             required: true
         }
     },
@@ -163,10 +153,10 @@ export default {
     data() {
         return {
             currentTab: 'public',
-            isLoading   : true,
+            isLoading: true,
             interactions_public: [],
             interactions_private: [],
-            isSaving    : false
+            isSaving: false
         }
     },
 
@@ -195,7 +185,7 @@ export default {
                     if (data['hydra:member'] && data['hydra:member'].length) {
                         var items = data['hydra:member'];
 
-                        for(var key in items) {
+                        for (var key in items) {
                             if (items[key]) {
                                 var item = items[key];
 
@@ -238,9 +228,9 @@ export default {
                 },
                 visibility: this.currentTab,
                 registeredBy: {
-                    id   : this.user.people,
+                    id: this.user.people,
                     alias: this.user.realname,
-                    name : this.user.realname,
+                    name: this.user.realname,
                 },
                 createdAt: today.getFullYear() + '-' + month + '-' + day
             };
@@ -261,7 +251,7 @@ export default {
                 });
 
         },
-        
+
         saveInteraction(payload) {
             var file = payload.file;
 
@@ -307,3 +297,20 @@ export default {
 }
 
 </script>
+<style scoped>
+.private-interaction-my {
+    background: #e9e9e9
+}
+
+.private-interaction {
+    background: white
+}
+
+.public-interaction-my {
+    background: #4caf5069
+}
+
+.public-interaction {
+    background: #03a9f463
+}
+</style>

@@ -3,11 +3,7 @@
         <q-card-actions class="row">
             <div class="col-12">
                 <div>
-                    <q-input 
-                        v-model ="message"
-                        type    ="textarea"
-                        :loading="isSaving"
-                    >
+                    <q-input v-model="message" type="textarea" :loading="isSaving">
                         <template v-slot:append>
                             <q-btn round flat @click="sendAttachment">
                                 <q-icon name="attachment" />
@@ -20,22 +16,17 @@
                 </div>
             </div>
         </q-card-actions>
-      
+
         <q-dialog v-model="dialog">
             <q-card style="width: 700px; max-width: 80vw;">
-            <q-card-section class="row items-center">
-                <div class="text-h6">{{ $t('tasks.newInteraction') }}</div>
-                <q-space />
-                <q-btn icon="close" flat round dense v-close-popup />
-            </q-card-section>
-            <q-card-section>
-                <InteractionForm 
-                    v-model  ="message"
-                    :category="category"
-                    :isSaving="isSaving"
-                    @submit  ="onSubmit"
-                />
-            </q-card-section>
+                <q-card-section class="row items-center">
+                    <div class="text-h6">{{ $t('tasks.newInteraction') }}</div>
+                    <q-space />
+                    <q-btn icon="close" flat round dense v-close-popup />
+                </q-card-section>
+                <q-card-section>
+                    <InteractionForm v-model="message" :isSaving="isSaving" @submit="onSubmit" />
+                </q-card-section>
             </q-card>
         </q-dialog>
     </q-card>
@@ -48,22 +39,22 @@ export default {
     components: {
         InteractionForm
     },
-    
+
     props: {
-        isSaving:{
-            type    : Boolean,
+        isSaving: {
+            type: Boolean,
             required: false,
-            default : false
+            default: false
         },
-        category: {
-            type    : Object,
+        visibility: {
+            type: String,
             required: true
         }
     },
 
     data() {
         return {
-            dialog : false,
+            dialog: false,
             message: ''
         };
     },
@@ -81,7 +72,7 @@ export default {
                 }
 
                 data.message = message;
-                
+                data.visibility = this.visibility;
                 this.$emit('newInteraction', data);
 
                 this.message = '';
@@ -96,10 +87,11 @@ export default {
 </script>
 
 <style>
-.radio-inline{
+.radio-inline {
     text-align: center;
 }
-.radio-inline .q-radio{
+
+.radio-inline .q-radio {
     display: inline-block;
     margin: 0px 15px;
 }

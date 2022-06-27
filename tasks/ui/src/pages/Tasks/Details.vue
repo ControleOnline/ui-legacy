@@ -2,7 +2,7 @@
   <q-page padding>
     <div class="row">
       <div class="col-12 text-h5 q-mt-none text-weight-medium">
-        {{ $t('tasks.information') }}
+        {{ $t(task.type + '.information') }}
       </div>
 
       <div class="col-12">
@@ -12,55 +12,29 @@
       </div>
 
       <div class="row col-12">
-        <q-tabs
-            align="justify"
-            v-model="currentTab"
-            class="text-primary col-4"
-            dense
-            no-caps
-        >
-          <q-tab
-              name="summary"
-              label="Resumo"
-          />
-          <q-tab
-              name="surveys"
-              label="Vistorias"
-          />
+        <q-tabs align="justify" v-model="currentTab" class="text-primary col-4" dense no-caps>
+          <q-tab name="summary" label="Resumo" />
+          <q-tab name="surveys" label="Vistorias" />
         </q-tabs>
 
-        <q-separator/>
+        <q-separator />
 
-        <q-tab-panels
-            v-model="currentTab"
-            class="bg-transparent col-12"
-        >
+        <q-tab-panels v-model="currentTab" class="bg-transparent col-12">
           <q-tab-panel name="summary" class="q-pa-none">
-            <TasksSummary
-                :api="API"
-                :id="taskId"
-                :task="task"
-            />
+            <TasksSummary :api="API" :id="taskId" :task="task" />
 
             <div v-if="task.name">
-              <br/>
-              <q-separator/>
+              <br />
+              <q-separator />
 
-              <h5 class="q-my-md">{{ $t('tasks.interactions') }}</h5>
+              <h5 class="q-my-md">{{ $t(task.type + '.interactions') }}</h5>
 
-              <TaskInteractions
-                  :api="API"
-                  :id="taskId"
-                  :taskData="task"
-              />
+              <TaskInteractions :api="API" :id="taskId" :taskData="task" />
             </div>
           </q-tab-panel>
 
           <q-tab-panel name="surveys">
-            <SurveysCollection
-                :api="API"
-                :taskId="taskId"
-            />
+            <SurveysCollection :api="API" :taskId="taskId" />
           </q-tab-panel>
 
         </q-tab-panels>
@@ -99,12 +73,12 @@ export default {
   methods: {
     getTask() {
       return this.API.private(`tasks/${this.taskId}`)
-          .then(response => response.json())
-          .then(data => {
-            if (data['@id']) {
-              this.task = data;
-            }
-          });
+        .then(response => response.json())
+        .then(data => {
+          if (data['@id']) {
+            this.task = data;
+          }
+        });
     }
   },
 
