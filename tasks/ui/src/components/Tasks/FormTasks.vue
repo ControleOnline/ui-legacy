@@ -29,7 +29,7 @@
       </div>
 
       <div v-if="categories_criticality && categories_criticality.length > 0" class="col-sm-6 col-xs-12 q-mb-lg">
-        <q-select stack-label :label="$t(task_type + '.criticality')" v-model="item.criticality" outlined
+        <q-select stack-label :label="$t(context + '.criticality')" v-model="item.criticality" outlined
           :options="categories_criticality" class="full-width">
           <template v-slot:no-option>
             <q-item>
@@ -40,7 +40,7 @@
       </div>
 
       <div v-if="categories_reason && categories_reason.length > 0" class="col-sm-6 col-xs-12">
-        <q-select stack-label :label="$t(task_type + '.reason')" v-model="item.reason" :options="categories_reason"
+        <q-select stack-label :label="$t(context + '.reason')" v-model="item.reason" :options="categories_reason"
           class="full-width" outlined>
           <template v-slot:no-option>
             <q-item>
@@ -161,10 +161,7 @@ export default {
       type: Array,
       required: true,
     },
-    task_type: {
-      type: String,
-      required: true,
-    },
+
     categories_reason: {
       type: Array,
       required: true,
@@ -606,6 +603,7 @@ export default {
         category: this.item.category.value,
         criticality: this.item.criticality?.value ?? '',
         reason: this.item.reason?.value ?? '',
+        taskType: this.context
       };
 
       if (this.taskId) {
@@ -625,6 +623,7 @@ export default {
       if (this.item.order) {
         payload.order = this.item.order;
       }
+
 
       var error = () => {
         this.$q.notify({

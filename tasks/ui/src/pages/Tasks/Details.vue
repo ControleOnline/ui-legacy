@@ -2,7 +2,7 @@
   <q-page padding>
     <div class="row">
       <div class="col-12 text-h5 q-mt-none text-weight-medium">
-        {{ $t(task.type + '.information') }}
+        {{ $t(context + '.information') }}
       </div>
 
       <div class="col-12">
@@ -21,13 +21,13 @@
 
         <q-tab-panels v-model="currentTab" class="bg-transparent col-12">
           <q-tab-panel name="summary" class="q-pa-none">
-            <TasksSummary :api="API" :id="taskId" :task="task" />
+            <TasksSummary :api="API" :id="taskId" :task="task" :context="context"/>
 
             <div v-if="task.name">
               <br />
               <q-separator />
 
-              <h5 class="q-my-md">{{ $t(task.type + '.interactions') }}</h5>
+              <h5 class="q-my-md">{{ $t(context + '.interactions') }}</h5>
 
               <TaskInteractions :api="API" :id="taskId" :taskData="task" />
             </div>
@@ -59,6 +59,7 @@ export default {
 
   data() {
     return {
+      context:'',
       API: new Api(this.$store.getters['auth/user'].token),
       currentTab: 'summary',
       taskId: Number(this.$route.params.id),
@@ -77,6 +78,7 @@ export default {
         .then(data => {
           if (data['@id']) {
             this.task = data;
+            this.context = this.context;
           }
         });
     }

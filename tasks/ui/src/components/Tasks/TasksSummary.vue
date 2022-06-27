@@ -11,8 +11,9 @@
         : 'visibility:visible'
     ">
       <FormTasks v-if="!isLoading && !loadingStatuses" ref="myForm" :taskId="id" :taskData="task" :api="api"
-        :task_type="task.type" :statuses="statuses" :categories="categories"
-        :categories_criticality="categories_criticality" :categories_reason="categories_reason" @saved="onTaskSave" />
+        :context="context" :statuses="statuses" :categories="categories"
+        :categories_criticality="categories_criticality" :categories_reason="categories_reason" @saved="onTaskSave"
+         />
     </div>
   </div>
 </template>
@@ -40,10 +41,14 @@ export default {
       type: Object,
       required: true,
     },
+    context: {
+      type: String,
+      required: true,
+    }
   },
 
   data() {
-    let statuses = [{ label: this.$t(this.task.type + ".status." + "All"), value: -1 }];
+    let statuses = [{ label: this.$t(this.context + ".status." + "All"), value: -1 }];
 
     return {
       API: new Api(this.$store.getters["auth/user"].token),
@@ -54,14 +59,12 @@ export default {
       loadingStatuses: false,
       categories_criticality: [],
       categories_reason: [],
-      context: null,
     };
   },
 
   created() {
     if (this.task && this.task.name) {
       this.isLoading = false;
-      this.context = this.task.type;
     }
 
     this.requestStatuses();
@@ -150,7 +153,7 @@ export default {
           for (let index in statuses.members) {
             let item = statuses.members[index];
             this.statuses.push({
-              label: this.$t(this.task_type + ".status." + item.name),
+              label: this.$t(this.context + ".status." + item.name),
               value: item.id,
             });
           }
