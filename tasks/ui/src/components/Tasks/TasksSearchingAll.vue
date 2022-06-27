@@ -319,13 +319,13 @@ export default {
           }
         }
       });
-
-
     },
-
-
     getStatuses() {
-      return this.API.private("/task_statuses")
+      let params = [];
+      params.task_type = this.context;
+      params['order[name]'] = 'ASC';
+
+      return this.API.private("/task_statuses", { params })
         .then((response) => response.json())
         .then((result) => {
           return {
