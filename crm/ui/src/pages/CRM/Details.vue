@@ -46,7 +46,7 @@ export default {
 
   data() {
     return {
-      context: '',
+      context: 'relationship',
       API: new Api(this.$store.getters['auth/user'].token),
       currentTab: 'summary',
       taskId: Number(this.$route.params.id),
