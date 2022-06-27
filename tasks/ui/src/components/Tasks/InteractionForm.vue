@@ -2,37 +2,18 @@
     <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
         <div class="row">
             <div :class="'col-xs-12 ' + (checkIfIsVistoria() ? 'col-sm-6' : 'col-sm-12')">
-                <q-uploader ref="uploader" no-thumbnails square flat
-                    :accept      ="uploadAccepted"
-                    field-name   ="file"
-                    color        ="white"
-                    @added       ="fileAdded"
-                    @removed     ="fileRemoved"
-                    :multiple    ="false"
-                    :class       ="myClass"
-                    :auto-upload ="false"
-                    :isUploading="isSaving"
-                >
+                <q-uploader ref="uploader" no-thumbnails square flat :accept="uploadAccepted" field-name="file"
+                    color="white" @added="fileAdded" @removed="fileRemoved" :multiple="false" :class="myClass"
+                    :auto-upload="false" :isUploading="isSaving">
                     <template v-slot:header="scope">
                         <div class="row no-wrap items-center justify-end q-pa-sm q-gutter-xs">
-                            <q-spinner v-if="scope.isUploading"
-                                color="primary"
-                                class="q-uploader__spinner"
-                            />
-                            <q-btn flat dense rounded
-                                v-if  ="scope.canAddFiles"
-                                type  ="a"
-                                icon  ="add_box"
-                                color ="primary"
-                            >
+                            <q-spinner v-if="scope.isUploading" color="primary" class="q-uploader__spinner" />
+                            <q-btn flat dense rounded v-if="scope.canAddFiles" type="a" icon="add_box" color="primary">
                                 <q-uploader-add-trigger />
                                 <q-tooltip>Selecione uma imagem</q-tooltip>
                             </q-btn>
-                            <q-btn v-if="scope.isUploading" round dense flat
-                                icon  ="clear"
-                                color ="red"
-                                @click="scope.abort"
-                            >
+                            <q-btn v-if="scope.isUploading" round dense flat icon="clear" color="red"
+                                @click="scope.abort">
                                 <q-tooltip>Cancelar upload</q-tooltip>
                             </q-btn>
                         </div>
@@ -40,75 +21,52 @@
 
                     <template v-slot:list="scope">
                         <div class="row items-center" style="min-height: 100%">
-                            <div
-                                v-if ="scope.files.length == 0"
-                                class="text-center text-camelcase"
-                                style="min-width: 100%; min-height: 100%"
-                            >
+                            <div v-if="scope.files.length == 0" class="text-center text-camelcase"
+                                style="min-width: 100%; min-height: 100%">
                                 <span class="text-bold text-uppercase">Area de upload</span>
                                 <br>
                                 Clique no botão "mais" ou arraste seu arquivo até esta caixa
                             </div>
 
-                            <q-list separator
-                                v-if ="scope.files.length > 0"
-                                style="min-width: 100%"
-                            >
-                            <q-item v-for="file in scope.files" :key="file.name">
-                                <q-item-section>
-                                    <q-item-label class="full-width ellipsis">
-                                        {{ file.name }}
-                                    </q-item-label>
+                            <q-list separator v-if="scope.files.length > 0" style="min-width: 100%">
+                                <q-item v-for="file in scope.files" :key="file.name">
+                                    <q-item-section>
+                                        <q-item-label class="full-width ellipsis">
+                                            {{ file.name }}
+                                        </q-item-label>
 
-                                    <q-item-label caption>
-                                        Status: {{ file.__status }}
-                                    </q-item-label>
+                                        <q-item-label caption>
+                                            Status: {{ file.__status }}
+                                        </q-item-label>
 
-                                    <q-item-label caption>
-                                        {{ file.__sizeLabel }} / {{ file.__progressLabel }}
-                                    </q-item-label>
-                                </q-item-section>
+                                        <q-item-label caption>
+                                            {{ file.__sizeLabel }} / {{ file.__progressLabel }}
+                                        </q-item-label>
+                                    </q-item-section>
 
-                                <q-item-section top side>
-                                    <q-btn flat dense round
-                                        class ="gt-xs"
-                                        size  ="12px"
-                                        icon  ="clear"
-                                        color ="red"
-                                        @click="scope.removeFile(file)"
-                                    />
-                                </q-item-section>
-                            </q-item>
+                                    <q-item-section top side>
+                                        <q-btn flat dense round class="gt-xs" size="12px" icon="clear" color="red"
+                                            @click="scope.removeFile(file)" />
+                                    </q-item-section>
+                                </q-item>
                             </q-list>
                         </div>
                     </template>
                 </q-uploader>
             </div>
-            
+
 
         </div>
-    
+
         <div class="row">
             <div class="col-xs-12 col-sm-12">
-                <q-input stack-label lazy-rules
-                    v-model    ="message"
-                    type       ="textarea"
-                    class      ="q-mb-sm"
-                    label      ="Mensagem"
-                    placeholder="Digite uma mensagem"
-                    :outlined  ="true"
-                    :loading="isSaving"
-                />
+                <q-input stack-label lazy-rules v-model="message" type="textarea" class="q-mb-sm" label="Mensagem"
+                    placeholder="Digite uma mensagem" :outlined="true" :loading="isSaving" />
             </div>
         </div>
 
         <div class="row justify-end q-mt-lg">
-        <q-btn
-            type     ="submit"
-            color    ="primary"
-            label    ="Enviar"
-            :loading ="isSaving"
-        />
+            <q-btn type="submit" color="primary" label="Enviar" :loading="isSaving" />
         </div>
 
     </q-form>
@@ -119,25 +77,21 @@
 export default {
     props: {
         value: {
-            type    : String,
-            required: true
-        },
-        visibility: {
-            type    : String,
+            type: String,
             required: true
         },
         isSaving: {
-            type    : Boolean,
+            type: Boolean,
             required: true
         }
     },
 
     data() {
         return {
-            message       : this.value,
-            selectedFile  : {},
+            message: this.value,
+            selectedFile: {},
             uploadAccepted: 'image/*',
-            checklist     : {
+            checklist: {
                 item1: false,
                 item2: false,
                 item3: false,
@@ -161,7 +115,7 @@ export default {
     },
 
     methods: {
-        
+
 
         fileAdded(files) {
             this.selectedFile = files[0];
@@ -191,12 +145,13 @@ export default {
 </script>
 
 <style scoped>
-    .w-100p {
-        width: 100%;   
-    }
-    .q-upd {
-        border: #c9c9c9 solid 1px;
-        border-radius: 10px !important;
-        margin: 10px auto;
-    }
+.w-100p {
+    width: 100%;
+}
+
+.q-upd {
+    border: #c9c9c9 solid 1px;
+    border-radius: 10px !important;
+    margin: 10px auto;
+}
 </style>
