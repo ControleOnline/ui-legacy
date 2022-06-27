@@ -118,12 +118,6 @@
         </div>
       </div>
     </div>
-    <div v-if="editTask == false" class="row q-col-gutter-sm">
-      <div class="col-xs-12 col-sm-12">
-        <q-input stack-label lazy-rules v-model="item.description" type="textarea" class="q-mb-sm" label="Descrição"
-          placeholder="Digite a descrição" :outlined="true" />
-      </div>
-    </div>
 
     <div class="row justify-end q-mt-lg">
       <q-btn class="col-xs-12 col-md-2" type="submit" color="primary" unelevated no-caps label="Salvar"
@@ -208,7 +202,7 @@ export default {
       item: {
         id: null,
         name: null,
-        description: null,
+
         dueDate: this.getDueDate(),
         taskFor: null,
         client: null,
@@ -608,10 +602,6 @@ export default {
 
       if (this.taskId) {
         payload.id = this.taskId;
-      }
-
-      if (this.item.description) {
-        payload.description = this.item.description;
       }
 
       if (this.item.dueDate) {
