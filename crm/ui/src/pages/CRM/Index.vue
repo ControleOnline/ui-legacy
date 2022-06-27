@@ -2,11 +2,12 @@
   <q-page padding>
     <div class="row">
       <div class="row col-12">
-        <div class="col-12 text-h5 q-mt-none q-mb-md text-weight-medium">{{ $t(context+".title") }}</div>
+        <div class="col-12 text-h5 q-mt-none q-mb-md text-weight-medium">{{ $t(context + ".title") }}</div>
 
-        <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" no-caps class="col-auto text-primary">
-          <q-tab name="allTasks" :label="$t(context+'.allTasks')" />
-          <q-tab name="category" :label="$t(context+'.category')" />
+        <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" no-caps
+          class="col-auto text-primary">
+          <q-tab name="allTasks" :label="$t(context + '.allTasks')" />
+          <q-tab name="category" :label="$t(context + '.category')" />
         </q-tabs>
 
         <q-separator />
@@ -62,6 +63,9 @@ export default {
   },
   created() {
     this.API = new Api(this.$store.getters['auth/user'].token);
+    if (myCompany !== null) {
+      this.provider = myCompany.id;
+    }
   },
 
   watch: {

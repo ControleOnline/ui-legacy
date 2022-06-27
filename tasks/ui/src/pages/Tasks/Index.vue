@@ -28,7 +28,7 @@ export default {
       key: null,
       context: 'support',
       currentTab: "allTasks",
-      provider:null,
+      provider: null,
     };
   },
 
@@ -36,9 +36,13 @@ export default {
     ...mapGetters({
       user: "auth/user",
       myCompany: "people/currentCompany",
-    }),    
+    }),
   },
-
+  created() {
+    if (myCompany !== null) {
+      this.provider = myCompany.id;
+    }
+  },
   watch: {
     myCompany(company) {
       if (company !== null) {
