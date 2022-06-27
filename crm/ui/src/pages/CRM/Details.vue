@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-pa-md text-h6">
-            {{ $t('tasks.information') }}
+            {{ $t(context+'.information') }}
           </div>
           <div class="col-12">
             <div class="q-pa-md text-subtitle1 text-center">
@@ -12,15 +12,15 @@
             </div>
           </div>
           <div class="col-12">
-            <TasksSummary :api="API" :id="taskId" :task="task" />
+            <TasksSummary :api="API" :id="taskId" :task="task" :context="context"/>
 
             <div v-if="task.name">
               <br />
               <q-separator />
 
-              <h5>{{ $t('tasks.interactions') }}</h5>
+              <h5>{{ $t(context+'.interactions') }}</h5>
 
-              <TaskInteractions :api="API" :id="taskId" :taskData="task" />
+              <TaskInteractions :api="API" :id="taskId" :taskData="task" :context="context" />
             </div>
 
           </div>
@@ -46,6 +46,7 @@ export default {
 
   data() {
     return {
+      context: '',
       API: new Api(this.$store.getters['auth/user'].token),
       currentTab: 'summary',
       taskId: Number(this.$route.params.id),
@@ -64,6 +65,7 @@ export default {
         .then(data => {
           if (data['@id']) {
             this.task = data;
+            this.context = this.task.type;
           }
         });
     }
