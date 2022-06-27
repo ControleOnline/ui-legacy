@@ -12,7 +12,7 @@
       </div>
 
       <div class="row col-12">
-        <q-tabs align="justify" v-model="currentTab" class="text-primary col-4" dense no-caps>
+        <q-tabs align="justify" v-model="currentTab" class="text-primary" dense no-caps>
           <q-tab name="summary" label="Resumo" />
           <q-tab name="surveys" label="Vistorias" />
         </q-tabs>
