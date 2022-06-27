@@ -49,6 +49,7 @@ export default {
       context: 'relationship',
       API: null,
       currentTab: "allTasks",
+      provider: null,
     };
   },
 
@@ -57,9 +58,8 @@ export default {
       user: "auth/user",
       myCompany: "people/currentCompany",
     }),
-    provider() {
-      return this.myCompany.id;
-    },
+
+
   },
   created() {
     this.API = new Api(this.$store.getters['auth/user'].token);
