@@ -39,8 +39,8 @@ export default {
     }),
   },
   created() {
-    if (myCompany !== null) {
-      this.provider = myCompany.id;
+    if (this.myCompany && this.myCompany.id) {
+      this.provider = this.myCompany.id;
     }
   },
   watch: {
