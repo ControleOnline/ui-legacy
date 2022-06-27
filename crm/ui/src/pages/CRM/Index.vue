@@ -63,8 +63,8 @@ export default {
   },
   created() {
     this.API = new Api(this.$store.getters['auth/user'].token);
-    if (myCompany !== null) {
-      this.provider = myCompany.id;
+    if (this.myCompany && this.myCompany.id) {
+      this.provider = this.myCompany.id;
     }
   },
 
