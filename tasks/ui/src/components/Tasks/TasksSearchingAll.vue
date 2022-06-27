@@ -55,7 +55,7 @@
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="id" :props="props">
-              <q-btn outline dense @click="goTask" :to="{
+              <q-btn outline dense :to="{
                 name: (task_type.charAt(0).toUpperCase() + task_type.slice(1)) + 'Details',
                 params: {
                   id: props.row.id,
@@ -81,9 +81,10 @@
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
           <q-card-section>
-            <FormTasks :context="context" ref="myForm" :orderId="orderId" :client="client" :api="API" :statuses="statuses"
-              :task_type="task_type" :categories="categories" :categories_criticality="categories_criticality"
-              :categories_reason="categories_reason" @saved="onTaskSave" />
+            <FormTasks :context="context" ref="myForm" :orderId="orderId" :client="client" :api="API"
+              :statuses="statuses" :task_type="task_type" :categories="categories"
+              :categories_criticality="categories_criticality" :categories_reason="categories_reason"
+              @saved="onTaskSave" />
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -135,8 +136,6 @@ export default {
     let statuses = [{ label: this.$t(this.task_type + ".status.All"), value: -1 }];
     return {
       API: new Api(this.$store.getters["auth/user"].token),
-
-
       settings: {
         visibleColumns: ["id", "name", "status", "registeredBy", "dueDate"],
         columns: [
@@ -202,7 +201,10 @@ export default {
       ],
       statuses: statuses,
       filters: {
-        //status: this.statuses[0],
+        status: {
+          label: this.$t(this.task_type + ".status.Open"),
+          value: 1
+        },
       },
       loadingStatuses: false,
       dialog: false,
@@ -261,19 +263,13 @@ export default {
       });
     },
   },
-
   methods: {
-    goTask() {
-      console.log((this.task_type.charAt(0).toUpperCase() + this.task_type.slice(1)) + 'Details');
-    },
-
     onTaskSave(id) {
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
       });
     },
-
     getCategories(criticality) {
       let params = [];
       params.context = this.context + (criticality || '');
@@ -350,6 +346,7 @@ export default {
               value: item.id,
             });
           }
+
         }
         this.loadingStatuses = false;
       });
@@ -385,7 +382,6 @@ export default {
       if (this.filters.status && this.filters.status.value > 0) {
         params.taskStatus = this.filters.status.value;
       }
-
       params.task_type = this.task_type;
 
       if (this.registeredBy && this.people_filter != 'all' && this.people_filter != 'my')
