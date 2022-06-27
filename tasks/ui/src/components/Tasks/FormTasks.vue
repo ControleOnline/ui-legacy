@@ -2,12 +2,12 @@
   <q-form @submit="onSubmit" ref="myForm">
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12" :class="!categories.length > 0 ? '' : 'col-sm-6'">
-        <q-input stack-label lazy-rules v-model="item.name" type="text" label="Nome *"
-          placeholder="Digite o nome" :rules="[isInvalid('name')]" outlined />
+        <q-input stack-label lazy-rules v-model="item.name" type="text" label="Nome *" placeholder="Digite o nome"
+          :rules="[isInvalid('name')]" outlined />
       </div>
       <div v-if="categories.length > 0" class="col-xs-12 col-sm-6">
-        <q-select stack-label lazy-rules v-model="item.category" label="Categoria *"
-          :options="categories" :rules="[isInvalid('category')]" outlined>
+        <q-select stack-label lazy-rules v-model="item.category" label="Categoria *" :options="categories"
+          :rules="[isInvalid('category')]" outlined>
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
@@ -78,7 +78,8 @@
       <div class="col-xs-12 col-sm-6">
         <PeopleAutocomplete v-if="!client" :source="searchPeople" :isLoading="isSearching" label="Definir o cliente"
           @selected="onSelectClient" placeholder="Pesquisar..." />
-        <q-input v-else :value="`(${client.id}) - ${client.name} - ${client.alias}`" label="Definir o cliente" outlined disable />
+        <q-input v-else :value="`(${client.id}) - ${client.name} - ${client.alias}`" label="Definir o cliente" outlined
+          disable />
       </div>
     </div>
 
@@ -117,8 +118,7 @@
         </div>
       </div>
     </div>
-
-    <div class="row q-col-gutter-sm">
+    <div v-if="editTask == false" class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-12">
         <q-input stack-label lazy-rules v-model="item.description" type="textarea" class="q-mb-sm" label="Descrição"
           placeholder="Digite a descrição" :outlined="true" />
@@ -126,7 +126,8 @@
     </div>
 
     <div class="row justify-end q-mt-lg">
-      <q-btn class="col-xs-12 col-md-2" type="submit" color="primary" unelevated no-caps label="Salvar" :loading="isSaving" />
+      <q-btn class="col-xs-12 col-md-2" type="submit" color="primary" unelevated no-caps label="Salvar"
+        :loading="isSaving" />
     </div>
   </q-form>
 </template>
@@ -268,7 +269,7 @@ export default {
     if (this.taskData) {
       this.item.id = this.taskId;
       this.item.name = this.taskData.name;
-      this.item.description = this.taskData.description;
+
 
       if (this.taskData.dueDate) {
         this.item.dueDate = formatDateYmdTodmY(this.taskData.dueDate);
