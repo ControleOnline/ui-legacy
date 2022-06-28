@@ -85,15 +85,15 @@ export default {
 
   created() {
 
-    this.api = new Api(
-      this.config.token
-    );
+    
   },
 
   data() {
     return {
       dialog: false,
-      api: null,
+      api: new Api(
+      this.config.token
+    ),
     }
   },
 

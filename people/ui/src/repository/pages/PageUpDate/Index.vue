@@ -362,9 +362,7 @@ export default {
   },
 
   created() {
-    this.provider = this.myCompany.id;
-    this.api = new Api(this.config.token);
-
+    this.provider = this.myCompany.id;    
     this.getPeople();
   },
 
@@ -373,7 +371,7 @@ export default {
       baseUrl: ENTRYPOINT,
       people: {},
       currentTab: "summary",
-      api: null,
+      api: new Api(this.config.token),
       goBackRoute: null,
       peopleId: this.id,
       provider: null,
