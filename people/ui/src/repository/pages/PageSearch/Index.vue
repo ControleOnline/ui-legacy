@@ -39,15 +39,16 @@
       <div class="row">
         <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab"
           class="bg-transparent text-primary col-auto" dense>
-          <q-tab v-if="people_type == 'customers'" name="leads" :label="$t('Leads')" class="text-capitalize" />
+          <q-tab v-if="people_type == 'customers'" name="leads" :label="$t(people_type + '.Leads')"
+            class="text-capitalize" />
           <q-tab name="allPeoples" :label="$t(people_type)" class="text-capitalize" />
-          <q-tab v-if="people_type == 'customers'" name="inactivePeople" :label="$t('Inactive') + ' ' + $t(people_type)"
+          <q-tab v-if="people_type == 'customers'" name="inactivePeople" :label="$t(people_type + '.Inactive')"
             class="text-capitalize" />
-          <q-tab v-if="people_type == 'customers'" name="prospectsPeople" :label="$t('Prospects')"
+          <q-tab v-if="people_type == 'customers'" name="prospectsPeople" :label="$t(people_type + '.Prospects')"
             class="text-capitalize" />
-          <q-tab v-if="people_type == 'customers'" name="activePeople" :label="$t('Active') + ' ' + $t(people_type)"
+          <q-tab v-if="people_type == 'customers'" name="activePeople" :label="$t(people_type + '.Active')"
             class="text-capitalize" />
-          <q-tab v-if="people_type == 'customers'" name="newPeople" :label="$t('New') + ' ' + $t(people_type)"
+          <q-tab v-if="people_type == 'customers'" name="newPeople" :label="$t(people_type + '.New')"
             class="text-capitalize" />
         </q-tabs>
       </div>
