@@ -7,7 +7,7 @@ export const translate = {
     Customers: 'Clientes',
     Inactive: 'Clientes Inativos',
     Prospects: 'Prospects',
-    Acvive: 'Clientes Ativos',
+    Active: 'Clientes Ativos',
     New: 'Novos Clientes'
   },
   carriers: {

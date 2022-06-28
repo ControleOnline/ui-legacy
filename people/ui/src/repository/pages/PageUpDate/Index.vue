@@ -237,7 +237,7 @@
 
         <q-tab-panel name="billing" class="q-px-none row q-col-gutter-y-lg">
           <div class="col-12">
-            <PeopleAdminBilling :people_type="people_type"  :api="api" :id="peopleId" @error="
+            <PeopleAdminBilling :people_type="people_type" :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -277,7 +277,7 @@
           </div>
 
           <div class="col-12">
-            <PeopleContracts :people_type="people_type"  :api="api" :id="peopleId" @error="
+            <PeopleContracts :people_type="people_type" :api="api" :id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -298,7 +298,8 @@
         </q-tab-panel>
 
         <q-tab-panel name="calls" class="q-px-xs">
-          <Calls :people_type="people_type"  :people="peopleId" />
+          <TasksSearching :provider="provider" :client="people" :task_type="context" :registeredBy="user.people"
+            :taskFor="user.people" :key="key" />
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -309,7 +310,8 @@
 <script>
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
-import Calls from "@controleonline/quasar-crm-ui/src/pages/CRM/Index.vue";
+
+import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import PeopleAdminEmails from "../../components/AdminEmails.vue";
 import PeopleAdminUsers from "../../components/AdminUsers.vue";
 import PeopleAdminAddresses from "../../components/AdminAddresses.vue";
@@ -355,7 +357,7 @@ export default {
     PeopleSalesman,
     PeopleCompany,
     OrderTasks,
-    Calls,
+    TasksSearching,
     PersonAvatar
   },
 

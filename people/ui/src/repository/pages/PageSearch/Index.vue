@@ -41,7 +41,7 @@
           class="bg-transparent text-primary col-auto" dense>
           <q-tab v-if="people_type == 'customers'" name="leads" :label="$t(people_type + '.Leads')"
             class="text-capitalize" />
-          <q-tab name="allPeoples" :label="$t(people_type)" class="text-capitalize" />
+          <q-tab name="allPeoples" :label="$t(people_type)+'.Customers'" class="text-capitalize" />
           <q-tab v-if="people_type == 'customers'" name="inactivePeople" :label="$t(people_type + '.Inactive')"
             class="text-capitalize" />
           <q-tab v-if="people_type == 'customers'" name="prospectsPeople" :label="$t(people_type + '.Prospects')"
