@@ -1,5 +1,6 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch } from '../../../../../../../src/boot/myapi';
+//import { fetch } from '../../../../../../../src/boot/myapi';
+import fetch from '@controleonline/quasar-common-ui/src/utils/fetch';
 import axios from 'axios';
 
 import { ENTRYPOINT } from '../../../../../../../src/config/entrypoint';
