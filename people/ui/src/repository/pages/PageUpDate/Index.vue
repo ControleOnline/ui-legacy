@@ -298,7 +298,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="calls" class="q-px-xs">
-          <TasksSearching :provider="provider" :client="people" :task_type="'support'" :registeredBy="user.people"
+          <TasksSearching :provider="provider" :client="people" :task_type="'relationship'" :registeredBy="user.people"
             :taskFor="user.people" :key="key" />
         </q-tab-panel>
       </q-tab-panels>
