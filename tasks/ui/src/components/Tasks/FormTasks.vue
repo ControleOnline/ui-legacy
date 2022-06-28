@@ -78,7 +78,7 @@
 
     <div class="row q-col-gutter-sm">
       <div class="row col-xs-12 col-sm-6">
-        <PeopleAutocomplete class="col-12" v-if="!taskData.taskFor.id" :source="searchPeople" :isLoading="isSearching" label="Definir o responsável"
+        <PeopleAutocomplete class="col-12" v-if="!taskData || !taskData.taskFor.id" :source="searchPeople" :isLoading="isSearching" label="Definir o responsável"
           @selected="onSelectTaskFor" placeholder="Pesquisar..." />
 
         <div v-else class="row col-12">
