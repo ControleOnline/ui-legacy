@@ -642,7 +642,7 @@ import {
 
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/common/ListAutocomplete.vue";
 import ContactForm from "@controleonline/quasar-common-ui/src/components/common/ContactForm.vue";
-import fetch from "@controleonline/quasar-common-ui/src/utils/fetch";
+import { fetch } from '../../../../../../../../src/boot/myapi';
 
 export default {
   props: {
