@@ -362,7 +362,7 @@ export default {
   },
 
   created() {
-    this.provider = this.myCompany.id;    
+    this.provider = this.myCompany?this.myCompany.id:null;    
     this.getPeople();
   },
 
