@@ -183,7 +183,7 @@ export default {
       categories: [],
       categories_criticality: [],
       categories_reason: [],
-      people_filter: 'all',
+      people_filter: (orderId || client) ? 'all' : 'my',
       people_filter_options: [
         {
           label: this.$t(this.task_type + '.myTasks'),
@@ -202,8 +202,8 @@ export default {
       statuses: statuses,
       filters: {
         status: {
-          label: this.$t(this.task_type + ".status.Open"),
-          value: 1
+          label: (orderId || client) ? this.$t(this.task_type + ".status.All") : this.$t(this.task_type + ".status.Open"),
+          value: (orderId || client) ? -1 : 1
         },
       },
       loadingStatuses: false,
