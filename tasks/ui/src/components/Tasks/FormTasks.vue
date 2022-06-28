@@ -1,13 +1,9 @@
 <template>
   <q-form @submit="onSubmit" ref="myForm">
-
-
-
     <div class="row q-col-gutter-sm">
-
       <div v-if="editTask == true" class="col-12">
         <q-btn flat class="bg-primary q-py-sm" color="white" @click="goOrder()">
-          # {{ this.item.order }}
+          # {{ item.order }}
         </q-btn>
       </div>
 
@@ -81,9 +77,20 @@
     </div>
 
     <div class="row q-col-gutter-sm">
-      <div class="col-xs-12 col-sm-6">
-        <PeopleAutocomplete :source="searchPeople" :isLoading="isSearching" label="Definir o responsável"
+      <div class="row col-xs-12 col-sm-6">
+        <PeopleAutocomplete class="col-12" v-if="!taskData.taskFor.id" :source="searchPeople" :isLoading="isSearching" label="Definir o responsável"
           @selected="onSelectTaskFor" placeholder="Pesquisar..." />
+
+        <div v-else class="row col-12">
+          <q-input class="col" :value="`(${taskData.taskFor.id}) - ${taskData.taskFor.name} - ${taskData.taskFor.alias}`" label="Definir o cliente" outlined
+            disable />
+
+          <div class="col-auto q-pl-sm">
+            <q-btn flat class="bg-primary q-py-sm full-height" color="white" icon="edit" @click="taskData.taskFor = {}">
+              <q-tooltip>Editar</q-tooltip>
+            </q-btn>
+          </div>
+        </div>
       </div>
       <div v-if="editTask == false" class="col-xs-12 col-sm-6">
         <PeopleAutocomplete v-if="!client" :source="searchPeople" :isLoading="isSearching" label="Definir o cliente"
@@ -202,7 +209,6 @@ export default {
       item: {
         id: null,
         name: null,
-
         dueDate: this.getDueDate(),
         taskFor: null,
         client: null,
@@ -236,9 +242,35 @@ export default {
     if (this.categories) {
       var itens = Object.assign([], this.categories);
 
+      const categorySelected = itens
+        .find((category) => Number(this.taskData.category.replace(/[^0-9]/g,'')) == category.value);
+
+      this.item.category = categorySelected;
+
       this.categoryArray = itens;
     }
 
+    if (this.categories_criticality) {
+      var itens = Object.assign([], this.categories_criticality);
+
+      const criticalitySelected = itens
+        .find((criticality) => Number(this.taskData.criticality.replace(/[^0-9]/g,'')) == criticality.value);
+
+      this.item.criticality = criticalitySelected;
+
+      this.categoryArray = itens;
+    }
+
+    if (this.categories_reason) {
+      var itens = Object.assign([], this.categories_reason);
+
+      const reasonSelected = itens
+        .find((reason) => Number(this.taskData.reason.replace(/[^0-9]/g,'')) == reason.value);
+
+      this.item.reason = reasonSelected;
+
+      this.categoryArray = itens;
+    }
 
     if (this.taskData && this.taskData.id) {
       this.editTask = true;
@@ -585,6 +617,7 @@ export default {
       return date.formatDate(tomorrow, "DD/MM/YYYY");
     },
     onSubmit() {
+      console.log('fdp');
       this.isSaving = true;
 
       var payload = {
