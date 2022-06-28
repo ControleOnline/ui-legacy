@@ -182,7 +182,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="tasks" class="q-pa-none">
-          <OrderTasks v-if="provider" :provider="provider" :task_type="context" :registeredBy="user.people"
+          <OrderTasks v-if="provider" :provider="provider" :task_type="'support'" :registeredBy="user.people"
             :taskFor="user.people" :key="key" :client="people" />
         </q-tab-panel>
 
@@ -298,7 +298,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="calls" class="q-px-xs">
-          <TasksSearching :provider="provider" :client="people" :task_type="context" :registeredBy="user.people"
+          <TasksSearching :provider="provider" :client="people" :task_type="'support'" :registeredBy="user.people"
             :taskFor="user.people" :key="key" />
         </q-tab-panel>
       </q-tab-panels>
@@ -376,7 +376,6 @@ export default {
       api: null,
       goBackRoute: null,
       peopleId: this.id,
-      context: 'support',
       provider: null,
       key: null,
       people: {
