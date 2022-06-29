@@ -104,17 +104,20 @@
               <div v-if="task.name.length > 0" class="text-center col-12 text-bold">
                 {{ task.name }}
               </div>
-              <div v-if="task.category.length > 0" class="text-body2 text-center col-12">
+              <div v-if="task.category.length" class="text-body2 text-center col-12"
+                :style="task.category.color ? 'color:' + task.category.color : ''">
                 <q-icon name="bookmarks" />
-                {{ task.category }}
+                {{ task.category.label }}
               </div>
-              <div v-if="task.reason.length > 0" class="text-body2 text-center col-12">
+              <div v-if="task.reason.length" class="text-body2 text-center col-12"
+                :style="task.reason.color ? 'color:' + task.reason.color : ''">
                 <q-icon name="help" />
-                {{ task.reason }}
+                {{ task.reason.label }}
               </div>
-              <div v-if="task.criticality.length > 0" class="text-body2 text-center col-12">
+              <div v-if="task.criticality" class="text-body2 text-center col-12"
+                :style="task.criticality.color ? 'color:' + task.criticality.color : ''">
                 <q-icon name="warning" />
-                {{ task.criticality }}
+                {{ task.criticality.label }}
               </div>
               <div v-if="task.order.length > 0" class="text-body2 text-center col-12">
                 <q-icon name="shopping_cart" />
@@ -401,6 +404,7 @@ export default {
             this.categories.push({
               label: item.name,
               value: item.id,
+              color: item.color,
             });
           }
         }
@@ -412,6 +416,7 @@ export default {
             this.categories_criticality.push({
               label: item.name,
               value: item.id,
+              color: item.color,
             });
           }
         }
@@ -423,6 +428,7 @@ export default {
             this.categories_reason.push({
               label: item.name,
               value: item.id,
+              color: item.color,
             });
           }
         }
@@ -430,10 +436,10 @@ export default {
     },
     getStatuses() {
       let params = [];
-      params.task_type = this.context;
+      params.context = this.context;
       params['order[name]'] = 'ASC';
 
-      return this.API.private("/task_statuses", { params })
+      return this.API.private("/order_statuses", { params })
         .then((response) => response.json())
         .then((result) => {
           return {
@@ -452,6 +458,7 @@ export default {
             this.statuses.push({
               label: this.$t(this.task_type + ".status." + item.name),
               value: item.id,
+              color: item.color,
             });
           }
 
@@ -548,9 +555,9 @@ export default {
               registeredBy: item.registeredBy.name,
               client: item.client?.name ?? '',
               order: item.order?.name ?? '',
-              reason: reasonSelected?.label ?? '',
-              category: categorySelected?.label ?? '',
-              criticality: criticalitySelected?.label ?? '',
+              reason: reasonSelected || '',
+              category: categorySelected || '',
+              criticality: criticalitySelected || '',
             });
           }
 
