@@ -12,8 +12,7 @@
     ">
       <FormTasks v-if="!isLoading && !loadingStatuses" ref="myForm" :taskId="id" :taskData="task" :api="api"
         :context="context" :statuses="statuses" :categories="categories"
-        :categories_criticality="categories_criticality" :categories_reason="categories_reason" @saved="onTaskSave"
-      />
+        :categories_criticality="categories_criticality" :categories_reason="categories_reason" @saved="onTaskSave" />
     </div>
   </div>
 </template>
@@ -130,13 +129,11 @@ export default {
           }
         }
       });
-
-
     },
-
-
     getStatuses() {
-      return this.API.private("/task_statuses")
+      let params = {};
+      params.context = 'support';
+      return this.API.private("/order_statuses", { params })
         .then((response) => response.json())
         .then((result) => {
           return {

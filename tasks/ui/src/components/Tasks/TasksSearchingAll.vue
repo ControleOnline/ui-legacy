@@ -93,7 +93,7 @@
             <q-card-section class="row q-pa-none">
               <div class="col-6 text-center" :style="task.status.color ? 'color:' + task.status.color : ''">
                 <q-icon v-if="task.status" name="schedule" />
-                {{ $t(task_type + ".status." + task.status.name) }}
+                {{ task.status.label }}
               </div>
               <div class="col-6 text-center" :style="(new Date(task.dueDate) < new Date()) ? 'color:red' : ''">
                 <q-icon v-if="task.dueDate.length > 0" name="calendar_month" />
@@ -457,7 +457,7 @@ export default {
             let item = statuses.members[index];
             this.statuses.push({
               label: this.$t(this.task_type + ".status." + item.status),
-              value: item['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1],
+              value: parseInt(item['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1]),
               color: item.color,
             });
           }
@@ -549,7 +549,8 @@ export default {
             _data.push({
               id: item.id,
               name: item.name,
-              status: item.taskStatus,
+              status: this.statuses
+                .find((status) => Number(item.taskStatus.match(/^\/order_statuses\/([a-z0-9-]*)$/)[1]) == status.value),
               taskFor: item.taskFor.name,
               dueDate: item.dueDate,
               registeredBy: item.registeredBy.name,
@@ -560,7 +561,6 @@ export default {
               criticality: criticalitySelected || '',
             });
           }
-
           this.data = _data;
           this.pagination.page = page;
           this.pagination.rowsPerPage = rowsPerPage;
