@@ -215,10 +215,10 @@ export default {
 
   data() {
 
-    let statuses = [{ label: this.$t(this.task_type + ".status.All"), value: -1 }];
-    let categories = [{ label: this.$t(this.task_type + ".status.All"), value: -1 }];
-    let categories_criticality = [{ label: this.$t(this.task_type + ".status.All"), value: -1 }];
-    let categories_reason = [{ label: this.$t(this.task_type + ".status.All"), value: -1 }];
+    let statuses = [{ label: this.$t(this.task_type + ".status.all"), value: -1 }];
+    let categories = [{ label: this.$t(this.task_type + ".status.all"), value: -1 }];
+    let categories_criticality = [{ label: this.$t(this.task_type + ".status.all"), value: -1 }];
+    let categories_reason = [{ label: this.$t(this.task_type + ".status.all"), value: -1 }];
 
     return {
       API: new Api(this.$store.getters["auth/user"].token),
@@ -288,8 +288,7 @@ export default {
       statuses: statuses,
       filters: {
         status: {
-          label: this.$t(this.task_type + ".status.Open"),
-          value: 1
+          label: this.$t(this.task_type + ".status.open"),
         },
       },
       loadingStatuses: false,
@@ -401,6 +400,7 @@ export default {
         if (categories.totalItems) {
           for (let index in categories.members) {
             let item = categories.members[index];
+
             this.categories.push({
               label: item.name,
               value: item.id,
@@ -456,8 +456,8 @@ export default {
           for (let index in statuses.members) {
             let item = statuses.members[index];
             this.statuses.push({
-              label: this.$t(this.task_type + ".status." + item.name),
-              value: item.id,
+              label: this.$t(this.task_type + ".status." + item.status),
+              value: item['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1],
               color: item.color,
             });
           }
