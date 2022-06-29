@@ -100,23 +100,23 @@
                 {{ formatDate(task.dueDate) }}
               </div>
             </q-card-section>
-            <q-card-section>
+            <q-card-section class="row">
               <div v-if="task.name.length > 0" class="text-center col-12 text-bold">
                 {{ task.name }}
               </div>
-              <div v-if="task.category.length > 0" class="text-body2 text-center col-6">
+              <div v-if="task.category.length > 0" class="text-body2 text-center col-12">
                 <q-icon name="bookmarks" />
                 {{ task.category }}
               </div>
-              <div v-if="task.reason.length > 0" class="text-body2 text-center col-6">
+              <div v-if="task.reason.length > 0" class="text-body2 text-center col-12">
                 <q-icon name="help" />
                 {{ task.reason }}
               </div>
-              <div v-if="task.criticality.length > 0" class="text-body2 text-center col-6">
+              <div v-if="task.criticality.length > 0" class="text-body2 text-center col-12">
                 <q-icon name="warning" />
                 {{ task.criticality }}
               </div>
-              <div v-if="task.order.length > 0" class="text-body2 text-center col-6">
+              <div v-if="task.order.length > 0" class="text-body2 text-center col-12">
                 <q-icon name="shopping_cart" />
                 {{ task.order }}
               </div>
