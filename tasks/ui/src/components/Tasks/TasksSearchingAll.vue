@@ -448,6 +448,7 @@ export default {
           for (let index in statuses.members) {
             let item = statuses.members[index];
             this.statuses.push({
+              original: item.status,
               label: this.$t(this.task_type + ".status." + item.status),
               value: parseInt(item['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1]),
               color: item.color,
@@ -457,7 +458,7 @@ export default {
         }
         this.loadingStatuses = false;
         if (!this.orderId && !this.client)
-          this.filters.status = this.statuses.find((status) => 'Aberta' == status.label);
+          this.filters.status = this.statuses.find((status) => 'open' == status.original);
       });
     },
     onTaskSave(id) {
