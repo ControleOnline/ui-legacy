@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-pt-md">
+  <div class="row q-pt-md q-col-gutter-md">
     <div class="row col-12 items-center">
       <div class="col-xs-12 col-sm">
         <q-option-group v-model="people_filter" :options="people_filter_options" color="primary" inline dense />
@@ -11,7 +11,7 @@
     </div>
 
     <div class="row col-xs-12 q-col-gutter-x-md q-ma-none q-py-md">
-      <q-select class="col-3 q-pl-none" outlined stack-label :label="$t(task_type + '.status_label')"
+      <q-select class="col-xs-12 col-sm-3 q-pl-none" outlined stack-label :label="$t(task_type + '.status_label')"
         v-model="filters.status" :options="statuses">
         <template v-slot:no-option>
           <q-item>
@@ -20,7 +20,7 @@
         </template>
       </q-select>
 
-      <q-select class="col" v-if="categories.length > 0" outlined stack-label :label="$t(task_type + '.category')"
+      <q-select class="col-xs-12 col-sm" v-if="categories.length > 0" outlined stack-label :label="$t(task_type + '.category')"
         v-model="filters.category" :options="categories">
         <template v-slot:no-option>
           <q-item>
@@ -29,7 +29,7 @@
         </template>
       </q-select>
 
-      <q-select class="col" v-if="categories_criticality.length > 0" outlined stack-label
+      <q-select class="col-xs-12 col-sm" v-if="categories_criticality.length > 0" outlined stack-label
         :label="$t(task_type + '.criticality')" v-model="filters.criticality" :options="categories_criticality">
         <template v-slot:no-option>
           <q-item>
@@ -38,7 +38,7 @@
         </template>
       </q-select>
 
-      <q-select class="col" v-if="categories_reason.length > 0" outlined stack-label :label="$t(task_type + '.reason')"
+      <q-select class="col-xs-12 col-sm" v-if="categories_reason.length > 0" outlined stack-label :label="$t(task_type + '.reason')"
         v-model="filters.reason" :options="categories_reason">
         <template v-slot:no-option>
           <q-item>
@@ -48,51 +48,121 @@
       </q-select>
     </div>
 
-    <div class="col-12">
-      <q-table :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
-        @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" bordered :flat="true"
-        :rows-per-page-options="[5, 10, 15, 20, 25, 50]">
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td key="id" :props="props">
-              <q-btn outline dense :to="{
-                name: (task_type.charAt(0).toUpperCase() + task_type.slice(1)) + 'Details',
-                params: {
-                  id: props.row.id,
-                },
-              }" :label="`#${props.row.id}`" class="full-width" />
-            </q-td>
-            <q-td key="name" :props="props">{{ props.row.name }}</q-td>
-            <q-td key="status" :props="props">{{
-                $t(task_type + ".status." + props.row.status)
-            }}</q-td>
-            <q-td key="registeredBy" :props="props">{{
-                props.row.registeredBy
-            }}</q-td>
-            <q-td key="dueDate" :props="props">{{ props.cols[4].value }}</q-td>
-          </q-tr>
-        </template>
-      </q-table>
-      <q-dialog v-model="dialog">
-        <q-card style="width: 700px; max-width: 80vw">
-          <q-card-section class="row items-center">
-            <div class="text-h6">{{ $t("Add") }}</div>
-            <q-space />
-            <q-btn icon="close" flat round dense v-close-popup />
-          </q-card-section>
-          <q-card-section>
-            <FormTasks :context="context" ref="myForm" :orderId="orderId" :client="client" :api="API"
-              :statuses="statuses" :task_type="task_type" :categories="categories"
-              :categories_criticality="categories_criticality" :categories_reason="categories_reason"
-              @saved="onTaskSave" />
-          </q-card-section>
-        </q-card>
-      </q-dialog>
+    <div class="col-12 q-pa-xs">
+      <div class="row q-ma-none q-col-gutter-md">
+        <div v-if="isLoading" class="row col-12 q-col-gutter-md">
+          <div v-for="n in 6" :key="n" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <q-card>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>
+                    <q-skeleton type="text" />
+                  </q-item-label>
+                  <q-item-label caption>
+                    <q-skeleton type="text" />
+                  </q-item-label>
+                  <q-item-label caption>
+                    <q-skeleton type="text" />
+                  </q-item-label>
+                  <q-item-label caption>
+                    <q-skeleton type="text" />
+                  </q-item-label>
+                  <q-item-label caption>
+                    <q-skeleton type="text" />
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card>
+          </div>
+        </div>
+
+        <div v-else-if="!isLoading && data.length == 0" class="column col-12 items-center q-col-gutter-y-md">
+          <q-icon color="grey-7" name="error" size="3rem"></q-icon>
+          <div class="text-grey-7">Nenhum resultado encontrado</div>
+        </div>
+
+        <div v-else v-for="task in data" :key="task.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <q-card class="column full-height">
+            <q-card-actions align="center" class="row q-pa-none">
+              <div class="col-12 text-center text-bold">
+                {{ task.name }}
+              </div>
+            </q-card-actions>
+
+            <q-separator />
+
+            <q-card-section class="col">
+              <div v-if="task.status.length > 0" class="text-body2">
+                <q-icon name="schedule" />
+                {{ $t(task_type + ".status." + task.status) }}
+              </div>
+              <div v-if="task.registeredBy.length > 0" class="text-body2">
+                <q-icon name="person" />
+                {{ task.registeredBy }}
+              </div>
+              <div v-if="task.dueDate.length > 0" class="text-body2">
+                <q-icon name="calendar_month" />
+                {{ formatDate(task.dueDate) }}
+              </div>
+              <div v-if="task.client.length > 0" class="text-body2">
+                <q-icon name="group" />
+                {{ task.client }}
+              </div>
+              <div v-if="task.reason.length > 0" class="text-body2">
+                <q-icon name="help" />
+                {{ task.reason }}
+              </div>
+              <div v-if="task.criticality.length > 0" class="text-body2">
+                <q-icon name="warning" />
+                {{ task.criticality }}
+              </div>
+              <div v-if="task.category.length > 0" class="text-body2">
+                <q-icon name="bookmarks" />
+                {{ task.category }}
+              </div>
+              <div v-if="task.order.length > 0" class="text-body2">
+                <q-icon name="shopping_cart" />
+                {{ task.order }}
+              </div>
+            </q-card-section>
+
+            <q-separator />
+
+            <q-card-actions class="row q-pa-none">
+              <div class="col-12 text-center">
+                <q-btn :to="{
+                    name: (task_type.charAt(0).toUpperCase() + task_type.slice(1)) + 'Details',
+                    params: {
+                      id: task.id,
+                    },
+                  }"
+                  outline
+                  dense
+                  flat
+                  no-caps
+                  color="grey-9"
+                  icon="edit"
+                  :label="`#${task.id}`"
+                  class="full-width q-py-xs"
+                />
+              </div>
+          </q-card-actions>
+          </q-card>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="data.length > 0" class="col-12 q-pl-lg q-px-xs">
+      <q-card class="flex flex-center q-pa-md q-mt-md">
+        <q-pagination v-model="page" :max-pages="6" :max="maxPages" :boundary-numbers="maxPages > 9" direction-links />
+      </q-card>
     </div>
   </div>
 </template>
 
 <script>
+import categories from '@controleonline/quasar-common-ui/src/store/categories'
+import { date } from 'quasar';
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { mapGetters } from "vuex";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
@@ -183,7 +253,7 @@ export default {
       categories: [],
       categories_criticality: [],
       categories_reason: [],
-      people_filter: (this.orderId || this.client) ? 'all' : 'my',
+      people_filter: 'all',
       people_filter_options: [
         {
           label: this.$t(this.task_type + '.myTasks'),
@@ -202,18 +272,19 @@ export default {
       statuses: statuses,
       filters: {
         status: {
-          label: (this.orderId || this.client) ? this.$t(this.task_type + ".status.All") : this.$t(this.task_type + ".status.Open"),
-          value: (this.orderId || this.client) ? -1 : 1
+          label: this.$t(this.task_type + ".status.Open"),
+          value: 1
         },
       },
       loadingStatuses: false,
       dialog: false,
       context: this.task_type,
+      maxPages: 5,
       pagination: {
         sortBy: "name",
         descending: false,
         page: 1,
-        rowsPerPage: 10,
+        rowsPerPage: 8,
         rowsNumber: 10,
       },
     };
@@ -231,6 +302,17 @@ export default {
 
 
   watch: {
+    page(value) {
+      this.pagination = {
+        ...this.pagination,
+        page: value
+      };
+
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
     people_filter() {
       this.onRequest({
         pagination: this.pagination,
@@ -263,7 +345,20 @@ export default {
       });
     },
   },
+  computed: {
+    page: {
+      get() {
+        return this.$route.query.page || 1;
+      },
+      set(value) {
+        this.$router.push({ ...this.$route.name, query: { ...this.$route.query, page: value } })
+      }
+    },
+  },
   methods: {
+    formatDate(dateString) {
+      return formatDateYmdTodmY(dateString);
+    },
     onTaskSave(id) {
       this.onRequest({
         pagination: this.pagination,
@@ -377,7 +472,7 @@ export default {
 
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
         props.pagination;
-      let params = { itemsPerPage: rowsPerPage, page };
+      let params = { itemsPerPage: rowsPerPage, page: this.page };
 
       if (this.filters.status && this.filters.status.value > 0) {
         params.taskStatus = this.filters.status.value;
@@ -416,12 +511,33 @@ export default {
           for (let index in data.members) {
             let item = data.members[index];
 
+            const reasonSelected = !item.reason
+              ? '' 
+              : this.categories_reason
+                .find((category) => Number(item.reason.replace(/[^0-9]/g,'')) == category.value);
+
+            const categorySelected = !item.category
+              ? '' 
+              : this.categories
+                .find((category) => Number(item.category.replace(/[^0-9]/g,'')) == category.value);
+
+            const criticalitySelected = !item.criticality
+              ? '' 
+              : this.categories_criticality
+                .find((category) => Number(item.criticality.replace(/[^0-9]/g,'')) == category.value);
+
             _data.push({
               id: item.id,
               name: item.name,
               status: item.taskStatus.name,
               taskFor: item.taskFor.name,
               dueDate: item.dueDate,
+              registeredBy: item.registeredBy.name,
+              client: item.client?.name ?? '',
+              order: item.order?.name ?? '',
+              reason: reasonSelected?.label ?? '',
+              category: categorySelected?.label ?? '',
+              criticality: criticalitySelected?.label ?? '',
             });
           }
 
@@ -431,6 +547,7 @@ export default {
           this.pagination.sortBy = sortBy;
           this.pagination.descending = descending;
           this.pagination.rowsNumber = data.totalItems;
+          this.maxPages = Math.ceil(data.totalItems / 8);
         })
         .finally(() => {
           this.isLoading = false;
