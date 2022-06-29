@@ -47,7 +47,7 @@ export default {
     return {
       key: null,
       context: 'relationship',
-      API: null,
+      API: new Api(this.$store.getters['auth/user'].token),
       currentTab: "allTasks",
       provider: null,
     };
@@ -61,8 +61,7 @@ export default {
 
 
   },
-  created() {
-    this.API = new Api(this.$store.getters['auth/user'].token);
+  created() {    
     if (this.myCompany && this.myCompany.id) {
       this.provider = this.myCompany.id;
     }
