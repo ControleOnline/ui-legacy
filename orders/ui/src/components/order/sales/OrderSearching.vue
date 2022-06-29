@@ -405,10 +405,10 @@ export default {
         this.loadingStatuses = false;
       });
     },
-    hasPendingTasks(tasks) {
+    hasPendingTasks(tasks) {      
       let has = false;
-      tasks.forEach((task) => {
-        if (task.taskStatus.match(/^\/order_statuses\/([a-z0-9-]*)$/)[1] == 3) {
+      tasks.forEach((task) => {        
+        if (task.taskStatus['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1] == 3) {
           has = true;
         }
       });
@@ -416,8 +416,8 @@ export default {
     },
     hasOpenedTasks(tasks) {
       let has = false;
-      tasks.forEach((task) => {
-        if (task.taskStatus.match(/^\/order_statuses\/([a-z0-9-]*)$/)[1] == 1) {
+      tasks.forEach((task) => {        
+        if (task.taskStatus['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1] == 1) {
           has = true;
         }
       });
@@ -425,8 +425,8 @@ export default {
     },
     hasClosedTasks(tasks) {
       let has = false;
-      tasks.forEach((task) => {
-        if (task.taskStatus.match(/^\/order_statuses\/([a-z0-9-]*)$/)[1] == 2) {
+      tasks.forEach((task) => {        
+        if (task.taskStatus['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1] == 2) {
           has = true;
         }
       });
