@@ -408,7 +408,7 @@ export default {
     hasPendingTasks(tasks) {
       let has = false;
       tasks.forEach((task) => {
-        if (task.taskStatus.match(/^\/task_statuses\/([a-z0-9-]*)$/)[1] == 3) {
+        if (task.taskStatus.match(/^\/order_statuses\/([a-z0-9-]*)$/)[1] == 3) {
           has = true;
         }
       });
@@ -417,7 +417,7 @@ export default {
     hasOpenedTasks(tasks) {
       let has = false;
       tasks.forEach((task) => {
-        if (task.taskStatus.match(/^\/task_statuses\/([a-z0-9-]*)$/)[1] == 1) {
+        if (task.taskStatus.match(/^\/order_statuses\/([a-z0-9-]*)$/)[1] == 1) {
           has = true;
         }
       });
@@ -426,7 +426,7 @@ export default {
     hasClosedTasks(tasks) {
       let has = false;
       tasks.forEach((task) => {
-        if (task.taskStatus.match(/^\/task_statuses\/([a-z0-9-]*)$/)[1] == 2) {
+        if (task.taskStatus.match(/^\/order_statuses\/([a-z0-9-]*)$/)[1] == 2) {
           has = true;
         }
       });
