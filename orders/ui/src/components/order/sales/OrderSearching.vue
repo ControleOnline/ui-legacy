@@ -388,6 +388,7 @@ export default {
       this.getStatuses({
         visibility: "public",
         realStatus: ["open", "pending", "closed", "canceled"],
+        context: 'order'
       }).then((statuses) => {
         if (statuses.length) {          
           for (let index in statuses) {

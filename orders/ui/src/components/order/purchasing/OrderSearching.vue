@@ -274,8 +274,9 @@ export default {
     requestStatuses() {
       this.loadingStatuses = true;
       this.getStatuses({
-        'visibility': 'public',
-        'realStatus': ['open', 'pending', 'closed'],
+        visibility: 'public',
+        realStatus: ['open', 'pending', 'closed'],
+        context: 'order'
       })
         .then(statuses => {
           if (statuses.length) {
