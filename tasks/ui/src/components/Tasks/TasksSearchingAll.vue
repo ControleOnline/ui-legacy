@@ -91,9 +91,9 @@
             </q-card-actions>
             <q-separator />
             <q-card-section class="row q-pa-none">
-              <div class="col-6 text-center">
-                <q-icon v-if="task.status.length > 0" name="schedule" />
-                {{ $t(task_type + ".status." + task.status) }}
+              <div class="col-6 text-center" :style="task.status.color ? 'color:' + task.status.color : ''">
+                <q-icon v-if="task.status" name="schedule" />
+                {{ $t(task_type + ".status." + task.status.name) }}
               </div>
               <div class="col-6 text-center">
                 <q-icon v-if="task.dueDate.length > 0" name="calendar_month" />
@@ -115,7 +115,7 @@
               <div v-if="task.criticality.length > 0" class="text-body2 text-center col-6">
                 <q-icon name="warning" />
                 {{ task.criticality }}
-              </div>              
+              </div>
               <div v-if="task.order.length > 0" class="text-body2 text-center col-6">
                 <q-icon name="shopping_cart" />
                 {{ task.order }}
@@ -211,7 +211,12 @@ export default {
   },
 
   data() {
+
     let statuses = [{ label: this.$t(this.task_type + ".status.All"), value: -1 }];
+    let categories = [{ label: this.$t(this.task_type + ".status.All"), value: -1 }];
+    let categories_criticality = [{ label: this.$t(this.task_type + ".status.All"), value: -1 }];
+    let categories_reason = [{ label: this.$t(this.task_type + ".status.All"), value: -1 }];
+
     return {
       API: new Api(this.$store.getters["auth/user"].token),
       settings: {
@@ -258,9 +263,9 @@ export default {
       data: [],
       isLoading: false,
       searchBy: "",
-      categories: [],
-      categories_criticality: [],
-      categories_reason: [],
+      categories: categories,
+      categories_criticality: categories_criticality,
+      categories_reason: categories_reason,
       people_filter: 'all',
       people_filter_options: [
         {
@@ -502,14 +507,14 @@ export default {
       if (this.client)
         params.client = this.client.id;
 
-      if (this.filters.category)
+      if (this.filters.category && this.filters.category.value > 0)
         params.category = this.filters.category.value;
 
 
-      if (this.filters.criticality)
+      if (this.filters.criticality && this.filters.criticality.value > 0)
         params.criticality = this.filters.criticality.value;
 
-      if (this.filters.reason)
+      if (this.filters.reason && this.filters.reason.value > 0)
         params.reason = this.filters.reason.value;
 
       this.getTasks(params)
@@ -537,7 +542,7 @@ export default {
             _data.push({
               id: item.id,
               name: item.name,
-              status: item.taskStatus.name,
+              status: item.taskStatus,
               taskFor: item.taskFor.name,
               dueDate: item.dueDate,
               registeredBy: item.registeredBy.name,
