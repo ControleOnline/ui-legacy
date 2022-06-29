@@ -1,7 +1,7 @@
 <template>
   <q-form @submit="onSubmit" ref="myForm">
     <div class="row q-col-gutter-sm">
-      <div v-if="editTask == true" class="col-12">
+      <div v-if="editTask == true && item.order" class="col-12">
         <q-btn flat class="bg-primary q-py-sm" color="white" @click="goOrder()">
           # {{ item.order }}
         </q-btn>

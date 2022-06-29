@@ -91,7 +91,8 @@
             </q-card-actions>
             <q-separator />
             <q-card-section class="row q-pa-none">
-              <div class="col-6 text-center" :style="task.status.color ? 'color:' + task.status.color : ''">
+              <div v-if="task.status" class="col-6 text-center"
+                :style="task.status.color ? 'color:' + task.status.color : ''">
                 <q-icon v-if="task.status" name="schedule" />
                 {{ task.status.label }}
               </div>
@@ -441,7 +442,7 @@ export default {
     },
     requestStatuses() {
       this.loadingStatuses = true;
-      this.statuses.push({ label: this.$t(this.task_type + ".status.all"), value: -1 });
+      this.statuses.push({ label: this.$t(this.task_type + ".status.all"), value: -1, color: '#000000' });
       this.getStatuses().then((statuses) => {
         if (statuses.totalItems) {
           for (let index in statuses.members) {
