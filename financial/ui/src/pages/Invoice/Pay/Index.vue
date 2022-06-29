@@ -42,12 +42,12 @@ export default {
   data() {
     return {
       currentTab: 'expenses',
-      api: null
+      api: new Api(this.$store.getters['auth/user'].token)
     }
   },
 
   created() {
-    this.api = new Api(this.$store.getters['auth/user'].token);
+    
   },
 }
 </script>

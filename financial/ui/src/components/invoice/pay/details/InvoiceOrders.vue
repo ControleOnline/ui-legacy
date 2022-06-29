@@ -288,6 +288,7 @@ export default {
       this.getStatuses({
         visibility: "public",
         realStatus: ["open", "pending", "closed"],
+        context:'order'
       }).then((statuses) => {
         if (statuses.length) {
           let data = [];
