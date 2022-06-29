@@ -214,8 +214,6 @@ export default {
   },
 
   data() {
-
-    let statuses = [{ label: this.$t(this.task_type + ".status.all"), value: -1 }];
     let categories = [{ label: this.$t(this.task_type + ".status.all"), value: -1 }];
     let categories_criticality = [{ label: this.$t(this.task_type + ".status.all"), value: -1 }];
     let categories_reason = [{ label: this.$t(this.task_type + ".status.all"), value: -1 }];
@@ -266,10 +264,11 @@ export default {
       data: [],
       isLoading: false,
       searchBy: "",
+      filters: { status: null },
       categories: categories,
       categories_criticality: categories_criticality,
       categories_reason: categories_reason,
-      people_filter: 'all',
+      people_filter: this.orderId || this.client ? 'all' : 'my',
       people_filter_options: [
         {
           label: this.$t(this.task_type + '.myTasks'),
@@ -285,12 +284,7 @@ export default {
           value: 'created'
         }
       ],
-      statuses: statuses,
-      filters: {
-        status: {
-          label: this.$t(this.task_type + ".status.open"),
-        },
-      },
+      statuses: [],
       loadingStatuses: false,
       dialog: false,
       context: this.task_type,
@@ -306,13 +300,8 @@ export default {
   },
 
   created() {
-    this.requestStatuses();
     this.requestCategories();
-    this.onRequest({
-      pagination: this.pagination,
-      filter: this.filters,
-    });
-
+    this.requestStatuses();
   },
 
 
@@ -352,7 +341,6 @@ export default {
         filter: this.filters,
       });
     },
-
     "filters.status"() {
       this.onRequest({
         pagination: this.pagination,
@@ -447,10 +435,13 @@ export default {
             totalItems: result["hydra:totalItems"],
           };
         });
+
+
+
     },
     requestStatuses() {
       this.loadingStatuses = true;
-
+      this.statuses.push({ label: this.$t(this.task_type + ".status.all"), value: -1 });
       this.getStatuses().then((statuses) => {
         if (statuses.totalItems) {
           for (let index in statuses.members) {
@@ -464,6 +455,8 @@ export default {
 
         }
         this.loadingStatuses = false;
+        if (!this.orderId && !this.client)
+          this.filters.status = this.statuses.find((status) => 'Aberta' == status.label);
       });
     },
     onTaskSave(id) {
