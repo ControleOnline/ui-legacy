@@ -20,8 +20,8 @@
         </template>
       </q-select>
 
-      <q-select class="col-xs-12 col-sm" v-if="categories.length > 0" outlined stack-label :label="$t(task_type + '.category')"
-        v-model="filters.category" :options="categories">
+      <q-select class="col-xs-12 col-sm" v-if="categories.length > 0" outlined stack-label
+        :label="$t(task_type + '.category')" v-model="filters.category" :options="categories">
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -38,8 +38,8 @@
         </template>
       </q-select>
 
-      <q-select class="col-xs-12 col-sm" v-if="categories_reason.length > 0" outlined stack-label :label="$t(task_type + '.reason')"
-        v-model="filters.reason" :options="categories_reason">
+      <q-select class="col-xs-12 col-sm" v-if="categories_reason.length > 0" outlined stack-label
+        :label="$t(task_type + '.reason')" v-model="filters.reason" :options="categories_reason">
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -83,44 +83,40 @@
 
         <div v-else v-for="task in data" :key="task.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-card class="column full-height">
-            <q-card-actions align="center" class="row q-pa-none">
-              <div class="col-12 text-center text-bold">
-                {{ task.name }}
-              </div>
-            </q-card-actions>
-
-            <q-separator />
-
-            <q-card-section class="col">
-              <div v-if="task.status.length > 0" class="text-body2">
-                <q-icon name="schedule" />
-                {{ $t(task_type + ".status." + task.status) }}
-              </div>
-              <div v-if="task.registeredBy.length > 0" class="text-body2">
-                <q-icon name="person" />
-                {{ task.registeredBy }}
-              </div>
-              <div v-if="task.dueDate.length > 0" class="text-body2">
-                <q-icon name="calendar_month" />
-                {{ formatDate(task.dueDate) }}
-              </div>
-              <div v-if="task.client.length > 0" class="text-body2">
-                <q-icon name="group" />
+            <q-card-actions align="center" class="row">
+              <div v-if="task.client.length > 0" class="col-12 text-center">
+                <q-icon name="group" class="text-bold" />
                 {{ task.client }}
               </div>
-              <div v-if="task.reason.length > 0" class="text-body2">
-                <q-icon name="help" />
-                {{ task.reason }}
+            </q-card-actions>
+            <q-separator />
+            <q-card-section class="row q-pa-none">
+              <div class="col-6 text-center">
+                <q-icon v-if="task.status.length > 0" name="schedule" />
+                {{ $t(task_type + ".status." + task.status) }}
               </div>
-              <div v-if="task.criticality.length > 0" class="text-body2">
-                <q-icon name="warning" />
-                {{ task.criticality }}
+              <div class="col-6 text-center">
+                <q-icon v-if="task.dueDate.length > 0" name="calendar_month" />
+                {{ formatDate(task.dueDate) }}
               </div>
-              <div v-if="task.category.length > 0" class="text-body2">
+            </q-card-section>
+            <q-card-section>
+              <div v-if="task.name.length > 0" class="text-center col-12 text-bold">
+                {{ task.name }}
+              </div>
+              <div v-if="task.category.length > 0" class="text-body2 text-center col-6">
                 <q-icon name="bookmarks" />
                 {{ task.category }}
               </div>
-              <div v-if="task.order.length > 0" class="text-body2">
+              <div v-if="task.reason.length > 0" class="text-body2 text-center col-6">
+                <q-icon name="help" />
+                {{ task.reason }}
+              </div>
+              <div v-if="task.criticality.length > 0" class="text-body2 text-center col-6">
+                <q-icon name="warning" />
+                {{ task.criticality }}
+              </div>              
+              <div v-if="task.order.length > 0" class="text-body2 text-center col-6">
                 <q-icon name="shopping_cart" />
                 {{ task.order }}
               </div>
@@ -129,25 +125,37 @@
             <q-separator />
 
             <q-card-actions class="row q-pa-none">
-              <div class="col-12 text-center">
+              <div class="col-6 text-center">
                 <q-btn :to="{
-                    name: (task_type.charAt(0).toUpperCase() + task_type.slice(1)) + 'Details',
-                    params: {
-                      id: task.id,
-                    },
-                  }"
-                  outline
-                  dense
-                  flat
-                  no-caps
-                  color="grey-9"
-                  icon="edit"
-                  :label="`#${task.id}`"
-                  class="full-width q-py-xs"
-                />
+                  name: (task_type.charAt(0).toUpperCase() + task_type.slice(1)) + 'Details',
+                  params: {
+                    id: task.id,
+                  },
+                }" outline dense flat no-caps color="grey-9" icon="edit" :label="`#${task.id}`"
+                  class="full-width q-py-xs" />
               </div>
-          </q-card-actions>
+              <div v-if="task.registeredBy.length > 0" class="col-6 text-center">
+                <q-icon name="person" />
+                {{ task.registeredBy }}
+              </div>
+            </q-card-actions>
           </q-card>
+
+          <q-dialog v-model="dialog">
+            <q-card style="width: 700px; max-width: 80vw">
+              <q-card-section class="row items-center">
+                <div class="text-h6">{{ $t("Add") }}</div>
+                <q-space />
+                <q-btn icon="close" flat round dense v-close-popup />
+              </q-card-section>
+              <q-card-section>
+                <FormTasks :context="context" ref="myForm" :orderId="orderId" :client="client" :api="API"
+                  :statuses="statuses" :task_type="task_type" :categories="categories"
+                  :categories_criticality="categories_criticality" :categories_reason="categories_reason"
+                  @saved="onTaskSave" />
+              </q-card-section>
+            </q-card>
+          </q-dialog>
         </div>
       </div>
     </div>
@@ -512,19 +520,19 @@ export default {
             let item = data.members[index];
 
             const reasonSelected = !item.reason
-              ? '' 
+              ? ''
               : this.categories_reason
-                .find((category) => Number(item.reason.replace(/[^0-9]/g,'')) == category.value);
+                .find((category) => Number(item.reason.replace(/[^0-9]/g, '')) == category.value);
 
             const categorySelected = !item.category
-              ? '' 
+              ? ''
               : this.categories
-                .find((category) => Number(item.category.replace(/[^0-9]/g,'')) == category.value);
+                .find((category) => Number(item.category.replace(/[^0-9]/g, '')) == category.value);
 
             const criticalitySelected = !item.criticality
-              ? '' 
+              ? ''
               : this.categories_criticality
-                .find((category) => Number(item.criticality.replace(/[^0-9]/g,'')) == category.value);
+                .find((category) => Number(item.criticality.replace(/[^0-9]/g, '')) == category.value);
 
             _data.push({
               id: item.id,
