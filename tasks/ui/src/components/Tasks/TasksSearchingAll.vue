@@ -95,7 +95,7 @@
                 <q-icon v-if="task.status" name="schedule" />
                 {{ $t(task_type + ".status." + task.status.name) }}
               </div>
-              <div class="col-6 text-center">
+              <div class="col-6 text-center" :style="(new Date(task.dueDate) < new Date()) ? 'color:red' : ''">
                 <q-icon v-if="task.dueDate.length > 0" name="calendar_month" />
                 {{ formatDate(task.dueDate) }}
               </div>
