@@ -150,7 +150,7 @@ export default {
           for (let index in statuses.members) {
             let item = statuses.members[index];
             this.statuses.push({
-              label: this.$t(this.context + ".status." + item.name),
+              label: this.$t(this.context + ".status." + item.status),
               value: item.id,
             });
           }
