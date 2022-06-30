@@ -85,7 +85,7 @@
         <div v-else class="row col-12">
           <q-input class="col"
             :value="`(${taskData.taskFor.id}) - ${taskData.taskFor.name} - ${taskData.taskFor.alias}`"
-            label="Definir o cliente" outlined disable />
+            label="Definir o responsável" outlined disable />
 
           <div class="col-auto q-pl-sm">
             <q-btn flat class="bg-primary q-py-sm full-height" color="white" icon="edit" @click="taskData.taskFor = {}">
