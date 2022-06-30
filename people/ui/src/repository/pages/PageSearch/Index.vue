@@ -60,7 +60,7 @@
       <q-tab-panels v-model="currentTab" class="q-mt-sm bg-transparent">
 
         <q-tab-panel name="oportunities" class="q-pa-xs">
-          <TasksSearching v-if="provider" :provider="provider" :task_type="context" :registeredBy="user.people"
+          <TasksSearching v-if="provider" :provider="provider.id" :task_type="context" :registeredBy="user.people"
             :taskFor="user.people" :key="key" />
 
         </q-tab-panel>
