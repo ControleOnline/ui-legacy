@@ -6,7 +6,8 @@
       </div>
 
       <div class="col-xs-12 col-sm-auto">
-        <q-btn :label="$t('Add')" icon="add" size="md" color="primary" @click="dialog = !dialog" unelevated no-caps />
+        <q-btn v-if="orderId || client" :label="$t('Add')" icon="add" size="md" color="primary"
+          @click="dialog = !dialog" unelevated no-caps />
         <q-dialog v-model="dialog">
           <q-card style="width: 700px; max-width: 80vw">
             <q-card-section class="row items-center">
