@@ -7,6 +7,21 @@
 
       <div class="col-xs-12 col-sm-auto">
         <q-btn :label="$t('Add')" icon="add" size="md" color="primary" @click="dialog = !dialog" unelevated no-caps />
+        <q-dialog v-model="dialog">
+          <q-card style="width: 700px; max-width: 80vw">
+            <q-card-section class="row items-center">
+              <div class="text-h6">{{ $t("Add") }}</div>
+              <q-space />
+              <q-btn icon="close" flat round dense v-close-popup />
+            </q-card-section>
+            <q-card-section>
+              <FormTasks :context="context" ref="myForm" :orderId="orderId" :client="client" :api="API"
+                :statuses="statuses" :task_type="task_type" :categories="categories"
+                :categories_criticality="categories_criticality" :categories_reason="categories_reason"
+                @saved="onTaskSave" />
+            </q-card-section>
+          </q-card>
+        </q-dialog>
       </div>
     </div>
 
@@ -144,22 +159,6 @@
               </div>
             </q-card-actions>
           </q-card>
-
-          <q-dialog v-model="dialog">
-            <q-card style="width: 700px; max-width: 80vw">
-              <q-card-section class="row items-center">
-                <div class="text-h6">{{ $t("Add") }}</div>
-                <q-space />
-                <q-btn icon="close" flat round dense v-close-popup />
-              </q-card-section>
-              <q-card-section>
-                <FormTasks :context="context" ref="myForm" :orderId="orderId" :client="client" :api="API"
-                  :statuses="statuses" :task_type="task_type" :categories="categories"
-                  :categories_criticality="categories_criticality" :categories_reason="categories_reason"
-                  @saved="onTaskSave" />
-              </q-card-section>
-            </q-card>
-          </q-dialog>
         </div>
       </div>
     </div>

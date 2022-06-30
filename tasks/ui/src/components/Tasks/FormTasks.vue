@@ -2,18 +2,37 @@
   <q-form @submit="onSubmit" ref="myForm">
     <div class="row q-col-gutter-sm">
       <div v-if="editTask == true && item.order" class="col-12">
-        <q-btn flat class="bg-primary q-py-sm" color="white" @click="goOrder()">
+        <q-btn
+          flat
+          class="bg-primary q-py-sm"
+          color="white"
+          @click="goOrder()"
+        >
           # {{ item.order }}
         </q-btn>
       </div>
 
       <div class="col-xs-12" :class="!categories.length > 0 ? '' : 'col-sm-6'">
-        <q-input stack-label lazy-rules v-model="item.name" type="text" label="Nome *" placeholder="Digite o nome"
-          :rules="[isInvalid('name')]" outlined />
+        <q-input
+          stack-label
+          lazy-rules
+          v-model="item.name"
+          type="text"
+          label="Nome *"
+          placeholder="Digite o nome"
+          :rules="[isInvalid('name')]" outlined
+        />
       </div>
       <div v-if="categories.length > 0" class="col-xs-12 col-sm-6">
-        <q-select stack-label lazy-rules v-model="item.category" label="Categoria *" :options="categories"
-          :rules="[isInvalid('category')]" outlined>
+        <q-select
+          stack-label
+          lazy-rules
+          v-model="item.category"
+          label="Categoria *"
+          :options="categories"
+          :rules="[isInvalid('category')]"
+          outlined
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
@@ -25,8 +44,14 @@
       </div>
 
       <div v-if="categories_criticality && categories_criticality.length > 0" class="col-sm-6 col-xs-12 q-mb-lg">
-        <q-select stack-label :label="$t(context + '.criticality')" v-model="item.criticality" outlined
-          :options="categories_criticality" class="full-width">
+        <q-select
+          stack-label
+          :label="$t(context + '.criticality')"
+          v-model="item.criticality"
+          outlined
+          :options="categories_criticality"
+          class="full-width"
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -36,8 +61,14 @@
       </div>
 
       <div v-if="categories_reason && categories_reason.length > 0" class="col-sm-6 col-xs-12">
-        <q-select stack-label :label="$t(context + '.reason')" v-model="item.reason" :options="categories_reason"
-          class="full-width" outlined>
+        <q-select
+          stack-label
+          :label="$t(context + '.reason')"
+          v-model="item.reason"
+          :options="categories_reason"
+          class="full-width"
+          outlined
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -49,8 +80,16 @@
 
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
-        <q-select stack-label lazy-rules v-model="item.taskStatus" class="q-mb-sm" label="Status *"
-          :options="statusArray" :rules="[isInvalid('status')]" :outlined="true">
+        <q-select
+          stack-label
+          lazy-rules
+          v-model="item.taskStatus"
+          class="q-mb-sm"
+          label="Status *"
+          :options="statusArray"
+          :rules="[isInvalid('status')]"
+          :outlined="true"
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
@@ -61,7 +100,13 @@
         </q-select>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-input stack-label v-model="item.dueDate" label="Data de Vencimento" mask="##/##/####" :outlined="true">
+        <q-input
+          stack-label
+          v-model="item.dueDate"
+          label="Data de Vencimento"
+          mask="##/##/####"
+          :outlined="true"
+        >
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">
@@ -78,12 +123,24 @@
 
     <div class="row q-col-gutter-sm">
       <div class="row col-xs-12 col-sm-6">
-        <PeopleAutocomplete class="col-12" v-if="!taskData || !taskData.taskFor.id" :source="searchPeople" :isLoading="isSearching" label="Definir o responsável"
-          @selected="onSelectTaskFor" placeholder="Pesquisar..." />
+        <PeopleAutocomplete
+          class="col-12"
+          v-if="!taskData || !taskData.taskFor.id"
+          :source="searchPeople"
+          :isLoading="isSearching"
+          label="Definir o responsável"
+          @selected="onSelectTaskFor"
+          placeholder="Pesquisar..."
+        />
 
         <div v-else class="row col-12">
-          <q-input class="col" :value="`(${taskData.taskFor.id}) - ${taskData.taskFor.name} - ${taskData.taskFor.alias}`" label="Definir o cliente" outlined
-            disable />
+          <q-input
+            class="col"
+            :value="`(${taskData.taskFor.id}) - ${taskData.taskFor.name} - ${taskData.taskFor.alias}`"
+            label="Definir o cliente"
+            outlined
+            disable
+          />
 
           <div class="col-auto q-pl-sm">
             <q-btn flat class="bg-primary q-py-sm full-height" color="white" icon="edit" @click="taskData.taskFor = {}">
@@ -93,8 +150,14 @@
         </div>
       </div>
       <div v-if="editTask == false" class="col-xs-12 col-sm-6">
-        <PeopleAutocomplete v-if="!client" :source="searchPeople" :isLoading="isSearching" label="Definir o cliente"
-          @selected="onSelectClient" placeholder="Pesquisar..." />
+        <PeopleAutocomplete
+          v-if="!client"
+          :source="searchPeople"
+          :isLoading="isSearching"
+          label="Definir o cliente"
+          @selected="onSelectClient"
+          placeholder="Pesquisar..."
+        />
         <q-input v-else :value="`(${client.id}) - ${client.name} - ${client.alias}`" label="Definir o cliente" outlined
           disable />
       </div>
@@ -119,16 +182,32 @@
       <div v-if="editTask == false" class="col-xs-12 col-md-6 flex items-center">
         <div class="row items-center full-width q-col-gutter-sm">
 
-          <q-input v-model="searchOrder" :options="searchOrder" :loading="isSearchingOrder" label="Definir Pedido"
-            class="q-my-md" outlined debounce="700" placeholder="Digite o id do pedido" :disable="editTask" />
+          <q-input
+            v-model="searchOrder"
+            :options="searchOrder"
+            :loading="isSearchingOrder"
+            label="Definir Pedido"
+            class="q-my-md"
+            outlined
+            debounce="700"
+            placeholder="Digite o id do pedido"
+            :disable="editTask"
+          />
 
         </div>
       </div>
     </div>
 
     <div class="row justify-end q-mt-lg">
-      <q-btn class="col-xs-12 col-md-2" type="submit" color="primary" unelevated no-caps label="Salvar"
-        :loading="isSaving" />
+      <q-btn
+        class="col-xs-12 col-md-2"
+        type="submit"
+        color="primary"
+        unelevated
+        no-caps
+        label="Salvar"
+        :loading="isSaving"
+      />
     </div>
   </q-form>
 </template>
@@ -617,7 +696,6 @@ export default {
       return date.formatDate(tomorrow, "DD/MM/YYYY");
     },
     onSubmit() {
-      console.log('fdp');
       this.isSaving = true;
 
       var payload = {
