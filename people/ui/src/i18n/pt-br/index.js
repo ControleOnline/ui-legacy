@@ -5,6 +5,7 @@ export const translate = {
   customers: {
     Leads: 'Leads',
     Customers: 'Clientes',
+    Oportunities: 'Oportunidades',
     Inactive: 'Clientes Inativos',
     Prospects: 'Prospects',
     Active: 'Clientes Ativos',
@@ -12,6 +13,7 @@ export const translate = {
   },
   carriers: {
     Leads: 'Leads',
+    Oportunities: 'Oportunidades',
     Customers: 'Transportadoras',
     Inactive: 'Transportadoras Inativas',
     Prospects: 'Prospects',
