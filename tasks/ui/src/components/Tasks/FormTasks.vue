@@ -49,8 +49,8 @@
 
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
-        <q-select stack-label lazy-rules v-model="item.taskStatus" class="q-mb-sm" label="Status *"
-          :options="statusArray" :rules="[isInvalid('status')]" :outlined="true">
+        <q-select stack-label lazy-rules v-model="item.taskStatus" class="q-mb-sm" label="Status *" :options="statuses"
+          :rules="[isInvalid('status')]" :outlined="true">
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
@@ -214,14 +214,14 @@ export default {
         dueDate: this.getDueDate(),
         taskFor: null,
         client: null,
-        taskStatus: this.statuses[1],
+        taskStatus: { label: this.$t(this.context + ".status.all"), value: -1 },
         category: null,
         order: null,
         criticality: null,
         reason: null,
       },
       isSaving: false,
-      statusArray: [],
+
       categoryArray: [],
     };
   },
@@ -234,12 +234,8 @@ export default {
   },
 
   created() {
-    if (this.statuses) {
-      var itens = Object.assign([], this.statuses);
-      itens.splice(0, 1);
-      this.statusArray = itens;
-      this.taskStatus = this.statuses[1];
-    }
+
+    console.log(this.statuses);
 
     if (this.categories) {
       var itens = Object.assign([], this.categories);
@@ -324,12 +320,6 @@ export default {
       this.clientSelected = this.taskData.client;
       this.item.client = this.taskData.client.id;
 
-      this.item.taskStatus = {
-        label: this.$t(this.taskData.type + '.status.' + this.taskData.taskStatus.name),
-        value: this.taskData.taskStatus.id,
-      };
-
-
       for (let i in this.categories) {
         if (this.categories[i].value == this.taskData.category.replace(/\D/g, '')) {
           this.item.taskCategory = { label: this.categories[i].label, value: this.categories[i].value, }
@@ -351,14 +341,7 @@ export default {
   },
 
   watch: {
-    statuses: function (statuses) {
-      if (statuses) {
-        var itens = Object.assign([], statuses);
-        itens.splice(0, 1);
-        this.statusArray = itens;
-        this.taskStatus = statuses[1];
-      }
-    },
+
     categories: function (categories) {
       if (categories) {
         var itens = Object.assign([], categories);

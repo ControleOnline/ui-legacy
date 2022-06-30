@@ -47,7 +47,7 @@ export default {
   },
 
   data() {
-    let statuses = [{ label: this.$t(this.context + ".status." + "All"), value: -1 }];
+    let statuses = [{ label: this.$t(this.context + ".status.all"), value: -1 }];
 
     return {
       API: new Api(this.$store.getters["auth/user"].token),
@@ -130,9 +130,12 @@ export default {
         }
       });
     },
+
     getStatuses() {
-      let params = {};
-      params.context = 'support';
+      let params = [];
+      params.context = this.context;
+      params['order[name]'] = 'ASC';
+
       return this.API.private("/order_statuses", { params })
         .then((response) => response.json())
         .then((result) => {
@@ -141,6 +144,9 @@ export default {
             totalItems: result["hydra:totalItems"],
           };
         });
+
+
+
     },
     requestStatuses() {
       this.loadingStatuses = true;
@@ -151,13 +157,17 @@ export default {
             let item = statuses.members[index];
             this.statuses.push({
               label: this.$t(this.context + ".status." + item.status),
-              value: item.id,
+              value: parseInt(item['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1]),
+              color: item.color,
             });
           }
+
         }
         this.loadingStatuses = false;
+
       });
     },
+
     onTaskSave() {
       this.$q.notify({
         message: this.$t("Data saved successfully"),
