@@ -231,8 +231,7 @@ export default {
   },
 
   watch: {
-    myProvider(provider) {
-      //this.$refs.peoplePageRef.loadPeopleDataRows();
+    myProvider(provider) {      
       if (provider !== null)
         this.onRequest({
           pagination: this.pagination
