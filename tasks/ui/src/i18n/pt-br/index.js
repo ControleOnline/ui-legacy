@@ -2,37 +2,22 @@
 // so you can safely delete all default props below
 
 export const translate = {
-  support: {
-    allTasks: 'Todas',
-    create: 'Ocorrências Criadas',
-    myTasks: 'Minhas Ocorrências',
-    category: 'Categorias',
-    title: 'Ocorrências',
-    information: 'Detalhes da Ocorrências',
-    interactions: 'Interações',
-    categoryInfo: 'Detalhes da Categoria',
-    newInteraction: 'Nova Interação',
-    status_label: 'Status',
-    criticality: 'Criticidade',
-    reason: 'Gerado por',
-    public: 'Visível',
-    private: 'Interna',
-    status: {
-      open: 'Aberta',
-      closed: 'Fechada',
-      pending: 'Pendente',
-      all: 'Todas',
-      'Waiting client': 'Aguardando cliente',
-      'Waiting delivery': 'Aguardando entrega de guincho',
-      delayed: 'Atrasado',
-      canceled: 'Cancelado',
-      'Waiting Payment': 'Aguardando Pagamento',
-      'Waiting retrieve': 'Aguardando Retirada',
-      'on the way': 'Em trânsito',
-      prepared: 'Liberado para base',
-      waiting: 'Pátio',
-      'Waiting retrieve': 'Pendente de coleta',
-      retrieved: 'Retirado',
-    }
+  customers: {
+    Leads: 'Leads',
+    Customers: 'Clientes',
+    Oportunities: 'Oportunidades',
+    Inactive: 'Clientes Inativos',
+    Prospects: 'Prospects',
+    Active: 'Clientes Ativos',
+    New: 'Novos Clientes'
+  },
+  carriers: {
+    Leads: 'Leads',
+    Oportunities: 'Oportunidades',
+    Customers: 'Transportadoras',
+    Inactive: 'Transportadoras Inativas',
+    Prospects: 'Prospects',
+    Acvive: 'Transportadoras Ativas',
+    New: 'Novas Transportadoras'
   }
 }
