@@ -58,13 +58,6 @@ export default {
     }),
   },
 
-
-  created() {
-    if (this.myCompany && this.myCompany.id) {
-      this.provider = this.myCompany.id;
-      this.getTask();
-    }    
-  },
   watch: {
     myCompany(company) {      
       if (company !== null) {
@@ -73,6 +66,13 @@ export default {
         this.getTask();
       }
     },
+  },
+
+  created() {    
+    if (this.myCompany) {
+      this.provider = this.myCompany.id;
+      this.getTask();
+    }
   },
 
   methods: {
