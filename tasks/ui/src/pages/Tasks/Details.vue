@@ -21,7 +21,8 @@
 
         <q-tab-panels v-model="currentTab" class="bg-transparent col-12">
           <q-tab-panel name="summary" class="q-pa-none no-scroll">
-            <TasksSummary :api="API" :id="taskId" :task="task" :context="context" :provider="provider" :key="key" />
+            <TasksSummary v-if="task" :api="API" :id="taskId" :task="task" :context="context" :provider="provider"
+              :key="key" />
 
             <div v-if="task.name" class="col-12">
               <br />
@@ -77,19 +78,18 @@ export default {
     }),
   },
 
-
   created() {
-    if (this.myCompany && this.myCompany.id) {
-      this.provider = this.myCompany.id;
+    if (this.myCompany) {
       this.getTask();
-    }    
+    }
   },
   watch: {
-    myCompany(company) {      
+    myCompany(company) {
+      console.log(company);
       if (company !== null) {
         this.provider = company.id;
         this.key++;
-        this.getTask();        
+        this.getTask();
       }
     },
   },

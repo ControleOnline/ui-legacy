@@ -5,14 +5,10 @@
       Carregando...
     </div>
 
-    <div class="col-12 q-mt-md" :style="
-      isLoading || loadingStatuses
-        ? 'visibility:hidden'
-        : 'visibility:visible'
-    ">
-      <FormTasks v-if="!isLoading && !loadingStatuses" ref="myForm" :taskId="id" :taskData="task" :api="api"
-        :context="context" :statuses="statuses" :categories="categories"
-        :categories_criticality="categories_criticality" :categories_reason="categories_reason" @saved="onTaskSave" />
+    <div v-else class="col-12 q-mt-md">
+      <FormTasks ref="myForm" :taskId="id" :taskData="task" :api="api" :context="context" :statuses="statuses"
+        :categories="categories" :categories_criticality="categories_criticality" :categories_reason="categories_reason"
+        @saved="onTaskSave" />
     </div>
   </div>
 </template>
@@ -40,7 +36,7 @@ export default {
       type: Object,
       required: true,
     },
-    provider:{
+    provider: {
       type: Number,
       required: true,
     },
@@ -59,26 +55,22 @@ export default {
       isLoading: true,
       statuses: statuses,
       categories: [],
-      loadingStatuses: false,
+      loadingStatuses: true,
       categories_criticality: [],
-      categories_reason: [],
+      categories_reason: [],      
     };
   },
-
-  created() {
-    if (this.task && this.task.name) {
-      this.isLoading = false;
+  created() {            
+    if (this.task && this.task.name) {      
+      this.requestStatuses();
+      this.requestCategories();
     }
-
-    this.requestStatuses();
-    this.requestCategories();
   },
-
   watch: {
-    task: function (data) {
+    task: function (data) {      
       if (this.task && this.task.name) {
-        this.isLoading = false;
-
+        this.requestStatuses();
+        this.requestCategories();
       }
     },
   },
@@ -100,39 +92,46 @@ export default {
         });
     },
     requestCategories() {
-      this.getCategories().then((categories) => {
-        if (categories.totalItems) {
-          for (let index in categories.members) {
-            let item = categories.members[index];
-            this.categories.push({
-              label: item.name,
-              value: item.id,
-            });
+      if (this.categories.length == 0)
+        this.getCategories().then((categories) => {
+          if (categories.totalItems) {
+            for (let index in categories.members) {
+              let item = categories.members[index];
+              this.categories.push({
+                label: item.name,
+                value: item.id,
+              });
+            }
           }
-        }
-      });
-      this.getCategories('-criticality').then((categories) => {
-        if (categories.totalItems) {
-          for (let index in categories.members) {
-            let item = categories.members[index];
-            this.categories_criticality.push({
-              label: item.name,
-              value: item.id,
+        }).then(() => {
+          if (this.categories_criticality.length == 0)
+            this.getCategories('-criticality').then((categories) => {
+              if (categories.totalItems) {
+                for (let index in categories.members) {
+                  let item = categories.members[index];
+                  this.categories_criticality.push({
+                    label: item.name,
+                    value: item.id,
+                  });
+                }
+              }
             });
-          }
-        }
-      });
-      this.getCategories('-reason').then((categories) => {
-        if (categories.totalItems) {
-          for (let index in categories.members) {
-            let item = categories.members[index];
-            this.categories_reason.push({
-              label: item.name,
-              value: item.id,
-            });
-          }
-        }
-      });
+        }).then(() => {
+          if (this.categories_reason.length == 0)
+            this.getCategories('-reason').then((categories) => {
+              if (categories.totalItems) {
+                for (let index in categories.members) {
+                  let item = categories.members[index];
+                  this.categories_reason.push({
+                    label: item.name,
+                    value: item.id,
+                  });
+                }
+              }
+            })
+        }).then(() => {
+          this.isLoading = false;
+        });
     },
 
     getStatuses() {

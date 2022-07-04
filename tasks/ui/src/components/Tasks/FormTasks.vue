@@ -222,7 +222,7 @@ export default {
       },
       isSaving: false,
 
-      categoryArray: [],
+
     };
   },
 
@@ -234,38 +234,9 @@ export default {
   },
 
   created() {
-    if (this.categories && this.taskData.category) {
-      var itens = Object.assign([], this.categories);
 
-      const categorySelected = itens
-        .find((category) => Number(this.taskData.category.replace(/[^0-9]/g, '')) == category.value);
 
-      this.item.category = categorySelected;
 
-      this.categoryArray = itens;
-    }
-
-    if (this.categories_criticality && this.taskData.criticality) {
-      var itens = Object.assign([], this.categories_criticality);
-
-      const criticalitySelected = itens
-        .find((criticality) => Number(this.taskData.criticality.replace(/[^0-9]/g, '')) == criticality.value);
-
-      this.item.criticality = criticalitySelected;
-
-      this.categoryArray = itens;
-    }
-
-    if (this.categories_reason && this.taskData.reason) {
-      var itens = Object.assign([], this.categories_reason);
-
-      const reasonSelected = itens
-        .find((reason) => Number(this.taskData.reason.replace(/[^0-9]/g, '')) == reason.value);
-
-      this.item.reason = reasonSelected;
-
-      this.categoryArray = itens;
-    }
 
     if (this.taskData && this.taskData.id) {
       this.editTask = true;
@@ -338,14 +309,38 @@ export default {
   },
 
   watch: {
+    categories(categories) {
+      if (this.categories && this.taskData.category) {
+        let categorySelected = this.categories
+          .find((category) => Number(this.taskData.category.replace(/[^0-9]/g, '')) == category.value);
 
-    categories: function (categories) {
-      if (categories) {
-        var itens = Object.assign([], categories);
-        this.categoryArray = itens;
+        this.item.category = categorySelected;
+
+
       }
     },
+    categories_criticality(categories_criticality) {
 
+
+      if (this.categories_criticality && this.taskData.criticality) {
+        let criticalitySelected = this.categories_criticality
+          .find((criticality) => Number(this.taskData.criticality.replace(/[^0-9]/g, '')) == criticality.value);
+
+        this.item.criticality = criticalitySelected;
+
+      }
+
+    },
+    categories_reason(categories_reason) {
+      if (this.categories_reason && this.taskData.reason) {
+        let reasonSelected = this.categories_reason
+          .find((reason) => Number(this.taskData.reason.replace(/[^0-9]/g, '')) == reason.value);
+
+        this.item.reason = reasonSelected;
+
+
+      }
+    },
     searchOrder: function (search) {
       if (this.orderSelected === "") {
         if (this.timeSearch !== "") {
