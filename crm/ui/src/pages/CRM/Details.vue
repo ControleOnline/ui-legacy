@@ -1,32 +1,28 @@
 <template>
   <q-page padding>
-    <q-card style="min-height: 90vh;">
-      <q-card-section>
-        <div class="row">
-          <div class="col-12 q-pa-md text-h6">
-            {{ $t(context+'.information') }}
-          </div>
-          <div class="col-12">
-            <div class="q-pa-md text-subtitle1 text-center">
-              {{ task.name || `${$t('loading')}...` }}
-            </div>
-          </div>
-          <div class="col-12">
-            <TasksSummary :api="API" :id="taskId" :task="task" :context="context"/>
+    <div class="row">
+      <div class="col-12 text-h5 q-mt-none text-weight-medium">
+        {{ $t(context + '.information') }}
+      </div>
 
-            <div v-if="task.name">
-              <br />
-              <q-separator />
-
-              <h5>{{ $t(context+'.interactions') }}</h5>
-
-              <TaskInteractions :api="API" :id="taskId" :taskData="task" :context="context" />
-            </div>
-
-          </div>
+      <div class="col-12">
+        <div class="q-py-md text-subtitle1">
+          {{ task.name || `${$t('loading')}...` }}
         </div>
-      </q-card-section>
-    </q-card>
+      </div>
+
+      <div v-if="provider" class="row q-pa-sm q-col-gutter-sm">
+        <TasksSummary :api="API" :id="taskId" :task="task" :context="context" :provider="provider" :key="key"/>
+        <div v-if="task.name" class="col-12">
+          <br />
+          <q-separator />
+
+          <h5 class="q-my-md">{{ $t(context + '.interactions') }}</h5>
+
+          <TaskInteractions :api="API" :id="taskId" :taskData="task" />
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -34,14 +30,14 @@
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
 import TasksSummary from '@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSummary.vue';
 import TaskInteractions from '@controleonline/quasar-tasks-ui/src/components/Tasks/TaskInteractions.vue';
-import SurveysCollection from '@controleonline/quasar-tasks-ui/src/components/Tasks/SurveysCollection.vue';
+
+import { mapGetters } from "vuex";
 
 export default {
 
   components: {
     TasksSummary,
-    TaskInteractions,
-    SurveysCollection
+    TaskInteractions,    
   },
 
   data() {
@@ -50,12 +46,33 @@ export default {
       API: new Api(this.$store.getters['auth/user'].token),
       currentTab: 'summary',
       taskId: Number(this.$route.params.id),
-      task: {}
+      task: {},
+      key:0,
+      provider: null,
     }
   },
+  computed: {
+    ...mapGetters({
+      user: "auth/user",
+      myCompany: "people/currentCompany",
+    }),
+  },
+
 
   created() {
-    this.getTask();
+    if (this.myCompany && this.myCompany.id) {
+      this.provider = this.myCompany.id;
+      this.getTask();
+    }    
+  },
+  watch: {
+    myCompany(company) {      
+      if (company !== null) {
+        this.provider = company.id;
+        this.key++;
+        this.getTask();
+      }
+    },
   },
 
   methods: {
@@ -65,7 +82,6 @@ export default {
         .then(data => {
           if (data['@id']) {
             this.task = data;
-            this.context = this.task.type;
           }
         });
     }
