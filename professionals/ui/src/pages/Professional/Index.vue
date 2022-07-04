@@ -1,23 +1,22 @@
 <template>
   <q-page padding>
-    <PeoplePage v-if="this.myProfessional != null" ref="clientPageRef" :professional="myProfessional"     
-    :people_type="'professionals'"
-    :config="{
-      endpoint: endpoint,
-      token: $store.getters['auth/user'].token,
-    }" :fetchs="{
-  loadPeople: {
+    <PeoplesPage v-if="this.myProvider != null" ref="clientPageRef" :provider="myProvider" :people_type="'professional'"
+      :key="key" :config="{
+        endpoint: endpoint,
+        token: $store.getters['auth/user'].token,
+      }" :fetchs="{
+  loadPeoples: {
     before: this.onBeforeLoadPeople
   },
-  createClient: {
-    before: this.onBeforeCreateClient
+  createPeople: {
+    before: this.onBeforeCreatePeople
   }
 }" :events="{
   onSaved: (data) => {
     $router.push({
       name: 'ProfessionalsDetails',
       params: {
-        id: data.professionalId
+        id: data.customerId
       }
     });
   },
@@ -27,41 +26,42 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import PeoplePage from '@controleonline/quasar-people-ui/src/repository/pages/PageAdmin/Index.vue';
+import PeoplesPage from '@controleonline/quasar-people-ui/src/repository/pages/PageAdmin/Index.vue';
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 
 export default {
   components: {
-    PeoplePage,
+    PeoplesPage,
   },
 
   computed: {
     ...mapGetters({
-      myProfessional: 'people/currentCompany',
+      myProvider: 'people/currentCompany',
     }),
   },
 
   data() {
     return {
+      key: 0,
       endpoint: ENTRYPOINT
     }
   },
 
   watch: {
-    myProfessional(professional) {
-      if (professional !== null)
-        this.$refs.clientPageRef.loadPeopleDataRows();
-      return professional;
+    myProvider(provider) {
+      if (provider !== null) {
+        this.key++;
+      }
     },
   },
   methods: {
     onBeforeLoadPeople(params) {
-      params['myProfessional'] = this.myProfessional.id;
+      params['myProvider'] = this.myProvider.id;
     },
 
-    onBeforeCreateClient(params) {
-      params['myProfessional'] = this.myProfessional.id;
+    onBeforeCreatePeople(params) {
+      params['myProvider'] = this.myProvider.id;
     },
   }
 }
