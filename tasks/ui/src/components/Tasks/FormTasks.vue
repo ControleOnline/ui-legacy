@@ -214,7 +214,7 @@ export default {
         dueDate: this.getDueDate(),
         taskFor: null,
         client: null,
-        taskStatus: { label: this.$t(this.context + ".status.all"), value: -1 },
+        taskStatus: this.taskData ? this.findStatus(this.taskData.taskStatus) : { label: this.$t(this.context + ".status.all"), value: -1 },
         category: null,
         order: null,
         criticality: null,
@@ -234,10 +234,7 @@ export default {
   },
 
   created() {
-
-    console.log(this.statuses);
-
-    if (this.categories) {
+    if (this.categories && this.taskData.category) {
       var itens = Object.assign([], this.categories);
 
       const categorySelected = itens
@@ -248,7 +245,7 @@ export default {
       this.categoryArray = itens;
     }
 
-    if (this.categories_criticality) {
+    if (this.categories_criticality && this.taskData.criticality) {
       var itens = Object.assign([], this.categories_criticality);
 
       const criticalitySelected = itens
@@ -259,7 +256,7 @@ export default {
       this.categoryArray = itens;
     }
 
-    if (this.categories_reason) {
+    if (this.categories_reason && this.taskData.reason) {
       var itens = Object.assign([], this.categories_reason);
 
       const reasonSelected = itens
@@ -387,7 +384,15 @@ export default {
         params: { id: this.item.order },
       });
     },
+    findStatus(status) {
 
+      if (this.statuses && status) {
+        var itens = Object.assign([], this.statuses);
+        const statusSelected = itens.find((s) => Number(status.replace(/[^0-9]/g, '')) == s.value);
+        return statusSelected;
+      }
+
+    },
     removeDueDateClick() {
       this.item.dueDate = "";
     },

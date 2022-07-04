@@ -1,5 +1,5 @@
 <template>
-  <div class="row items-center justify-center">
+  <div class="col-12">
     <div class="flex flex-center" v-if="isLoading || loadingStatuses">
       <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary" class="q-ma-md" />
       Carregando...
@@ -40,6 +40,10 @@ export default {
       type: Object,
       required: true,
     },
+    provider:{
+      type: Number,
+      required: true,
+    },
     context: {
       type: String,
       required: true,
@@ -47,7 +51,7 @@ export default {
   },
 
   data() {
-    let statuses = [{ label: this.$t(this.context + ".status.all"), value: -1 }];
+    let statuses = this.task ? [] : [{ label: this.$t(this.context + ".status.all"), value: -1 }];
 
     return {
       API: new Api(this.$store.getters["auth/user"].token),

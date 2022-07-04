@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <div class="row col-12">
+      <div v-if="provider" class="row q-pa-sm q-col-gutter-sm">
         <q-tabs align="justify" v-model="currentTab" class="text-primary" dense no-caps>
           <q-tab name="summary" label="Resumo" />
           <q-tab name="surveys" label="Vistorias" />
@@ -20,10 +20,10 @@
         <q-separator />
 
         <q-tab-panels v-model="currentTab" class="bg-transparent col-12">
-          <q-tab-panel name="summary" class="q-pa-none">
-            <TasksSummary :api="API" :id="taskId" :task="task" :context="context" />
+          <q-tab-panel name="summary" class="q-pa-none no-scroll">
+            <TasksSummary :api="API" :id="taskId" :task="task" :context="context" :provider="provider" :key="key" />
 
-            <div v-if="task.name">
+            <div v-if="task.name" class="col-12">
               <br />
               <q-separator />
 
@@ -33,7 +33,7 @@
             </div>
           </q-tab-panel>
 
-          <q-tab-panel name="surveys">
+          <q-tab-panel name="surveys" class="q-pa-none no-scroll">
             <SurveysCollection :api="API" :taskId="taskId" />
           </q-tab-panel>
 
@@ -49,6 +49,8 @@ import TasksSummary from '../../components/Tasks/TasksSummary.vue';
 import TaskInteractions from '../../components/Tasks/TaskInteractions.vue';
 import SurveysCollection from '../../components/Tasks/SurveysCollection.vue';
 
+import { mapGetters } from "vuex";
+
 export default {
 
   components: {
@@ -63,12 +65,33 @@ export default {
       API: new Api(this.$store.getters['auth/user'].token),
       currentTab: 'summary',
       taskId: Number(this.$route.params.id),
-      task: {}
+      task: {},
+      key: 0,
+      provider: null,
     }
   },
+  computed: {
+    ...mapGetters({
+      user: "auth/user",
+      myCompany: "people/currentCompany",
+    }),
+  },
+
 
   created() {
-    this.getTask();
+    if (this.myCompany && this.myCompany.id) {
+      this.provider = this.myCompany.id;
+      this.getTask();
+    }    
+  },
+  watch: {
+    myCompany(company) {      
+      if (company !== null) {
+        this.provider = company.id;
+        this.key++;
+        this.getTask();        
+      }
+    },
   },
 
   methods: {
@@ -77,7 +100,7 @@ export default {
         .then(response => response.json())
         .then(data => {
           if (data['@id']) {
-            this.task = data;            
+            this.task = data;
           }
         });
     }
