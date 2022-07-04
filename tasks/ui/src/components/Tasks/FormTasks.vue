@@ -649,7 +649,7 @@ export default {
         .then((res) => {
           if (res.success) {
             this.$emit("saved", res.id);
-            $router.push({
+            this.$router.push({
               name: (this.context.charAt(0).toUpperCase() + this.context.slice(1)) + 'Details',
               params: {
                 id: res.id
