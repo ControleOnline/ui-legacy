@@ -1,25 +1,13 @@
 <template>
   <div class="row">
     <div class="col-12 q-mt-md">
-      <q-table flat grid hide-header
-        :loading              ="isLoading"
-        :data                 ="items"
-        row-key               ="id"
-        :pagination.sync      ="pagination"
-        @request              ="onRequest"
-        :rows-per-page-options="[5, 10, 15, 20, 25, 50]"
-      >
+      <q-table flat grid hide-header :loading="isLoading" :data="items" row-key="id" :pagination.sync="pagination"
+        @request="onRequest" :rows-per-page-options="[5, 10, 15, 20, 25, 50]">
         <template v-slot:top>
           <div class="col-12 q-mb-md">
             <div class="row justify-end">
-              <q-btn
-                :label="$t('Adicionar')"
-                icon  ="add"
-                size  ="md"
-                color ="primary"
-                class ="q-ml-sm"
-                @click="dialog = !dialog"
-              />
+              <q-btn :label="$t('Adicionar')" icon="add" size="md" color="primary" class="q-ml-sm"
+                @click="dialog = !dialog" />
             </div>
           </div>
         </template>
@@ -27,11 +15,7 @@
         <template v-slot:item="props">
           <div class="q-pa-xs col-xs-12 col-sm-4 col-md-3 col-lg-2">
             <q-card>
-              <q-img
-                :contain="true"
-                src     ="~assets/business.png"
-                style   ="height: 150px; max-width: 100%"
-              >
+              <q-img :contain="true" src="~assets/business.png" style="height: 150px; max-width: 100%">
                 <div class="absolute-bottom text-subtitle1 text-center">
                   {{ `${props.row.name} ${props.row.alias}` }}
                 </div>
@@ -50,28 +34,18 @@
               </q-card-section>
               <q-separator />
               <q-card-actions align="around">
-                <q-btn flat round dense
-                  :to   ="{
-                    name  : `CompanyEmployee`,
-                    params: {
-                      id        : id,
-                      employeeId: props.row.id
-                    }
-                  }"
-                  color   ="primary"
-                  icon    ="edit"
-                  :disable="props.row._bussy"
-                >
+                <q-btn flat round dense :to="{
+                  name: `CompanyEmployee`,
+                  params: {
+                    id: id,
+                    employeeId: props.row.id
+                  }
+                }" color="primary" icon="edit" :disable="props.row._bussy">
                   <q-tooltip>Editar</q-tooltip>
                 </q-btn>
 
-                <q-btn flat round dense
-                  color   ="red"
-                  icon    ="delete"
-                  @click  ="removeItem(props.row)"
-                  :loading="props.row._bussy"
-                  :disable="items.length == 1"
-                >
+                <q-btn flat round dense color="red" icon="delete" @click="removeItem(props.row)"
+                  :loading="props.row._bussy" :disable="items.length == 1">
                   <q-tooltip>Eliminar</q-tooltip>
                 </q-btn>
               </q-card-actions>
@@ -92,41 +66,22 @@
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
             <div class="row q-col-gutter-xs q-pb-xs">
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input stack-label lazy-rules unmasked-value hide-bottom-space
-                  v-model="item.name"
-                  type   ="text"
-                  label  ="Nome"
-                  :rules ="[isInvalid('name')]"
-                />
+                <q-input stack-label lazy-rules unmasked-value hide-bottom-space v-model="item.name" type="text"
+                  label="Nome" :rules="[isInvalid('name')]" />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input stack-label lazy-rules hide-bottom-space
-                  v-model="item.lastname"
-                  type   ="text"
-                  label  ="Sobrenome"
-                  :rules ="[isInvalid('lastname')]"
-                />
+                <q-input stack-label lazy-rules hide-bottom-space v-model="item.lastname" type="text" label="Sobrenome"
+                  :rules="[isInvalid('lastname')]" />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input stack-label lazy-rules hide-bottom-space
-                  v-model="item.email"
-                  type   ="text"
-                  label  ="Email"
-                  :rules ="[isInvalid('email')]"
-                />
+                <q-input stack-label lazy-rules hide-bottom-space v-model="item.email" type="text" label="Email"
+                  :rules="[isInvalid('email')]" />
               </div>
             </div>
 
             <div class="row justify-end">
-              <q-btn
-                :loading="saving"
-                icon    ="save"
-                type    ="submit"
-                :label  ="$t('Save')"
-                size    ="md"
-                color   ="primary"
-                class   ="q-mt-md"
-              />
+              <q-btn :loading="saving" icon="save" type="submit" :label="$t('Save')" size="md" color="primary"
+                class="q-mt-md" />
             </div>
           </q-form>
         </q-card-section>
@@ -136,10 +91,10 @@
 </template>
 
 <script>
-import Api                from '@controleonline/quasar-common-ui/src/utils/api';
+import Api from '@controleonline/quasar-common-ui/src/utils/api';
 import { formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
-import md5                from 'md5';
-import { mapGetters }     from 'vuex';
+import md5 from 'md5';
+import { mapGetters } from 'vuex';
 
 
 export default {
@@ -151,21 +106,22 @@ export default {
 
   data() {
     return {
-      items    : [],
-      dialog   : false,
-      saving   : false,
+      api: new Api(this.$store.getters['auth/user'].token),
+      items: [],
+      dialog: false,
+      saving: false,
       isLoading: false,
-      item     : {
-        name    : '',
+      item: {
+        name: '',
         lastname: '',
-        email   : '',
+        email: '',
       },
-      pagination     : {
-        sortBy     : 'email',
-        descending : false,
-        page       : 1,
+      pagination: {
+        sortBy: 'email',
+        descending: false,
+        page: 1,
         rowsPerPage: 15,
-        rowsNumber : 15,
+        rowsNumber: 15,
       },
     };
   },
@@ -173,7 +129,7 @@ export default {
   computed: {
     ...mapGetters({
       theCompany: 'people/currentCompany',
-      user      : 'auth/user',
+      user: 'auth/user',
     }),
 
     userTypeCapitalized() {
@@ -184,8 +140,6 @@ export default {
   },
 
   created() {
-    this.api = new Api(this.$store.getters['auth/user'].token);
-
     this.onRequest({
       pagination: this.pagination
     });
@@ -195,8 +149,8 @@ export default {
     // store method
     getItems(params) {
       let options = {
-        method : 'GET',
-        params : params
+        method: 'GET',
+        params: params
       };
 
       return this.api.private('people', options)
@@ -204,7 +158,7 @@ export default {
         .then(result => {
           return {
             members: result['hydra:member'],
-            total  : result['hydra:totalItems'],
+            total: result['hydra:totalItems'],
           };
         });
     },
@@ -212,10 +166,10 @@ export default {
     // store method
     save(values) {
       let options = {
-        method : 'PUT',
+        method: 'PUT',
         headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify(values),
-        params : { 'company': this.theCompany.id }
+        body: JSON.stringify(values),
+        params: { 'company': this.theCompany.id }
       };
 
       let endpoint = `people/${this.id}/profile/employee`;
@@ -236,11 +190,11 @@ export default {
     // store method
     delete(id) {
       let options = {
-        method : 'PUT',
+        method: 'PUT',
         headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify({
+        body: JSON.stringify({
           operation: "delete",
-          payload  : { id }
+          payload: { id }
         }),
       };
 
@@ -272,18 +226,18 @@ export default {
           if (success) {
             let payload = {
               operation: "post",
-              payload  : {
-                "name" : this.item.name,
+              payload: {
+                "name": this.item.name,
                 "alias": this.item.lastname,
                 "email": this.item.email,
-                "type" : 'F',
+                "type": 'F',
               },
             };
 
             this.saving = true;
 
             this.save(payload)
-              .then (data => {
+              .then(data => {
                 this.$emit('saved', data);
 
                 this.onRequest({
@@ -299,7 +253,7 @@ export default {
                 this.saving = false;
               });
           }
-      })
+        })
     },
 
     removeItem(item) {
@@ -307,25 +261,25 @@ export default {
         item._bussy = true;
 
         this.delete(item.id)
-        .then (data => {
-          this.cleanItem(item.id);
+          .then(data => {
+            this.cleanItem(item.id);
 
-          this.onRequest({
-            pagination: this.pagination
+            this.onRequest({
+              pagination: this.pagination
+            });
+          })
+          .catch(error => {
+            this.$emit('error', { message: error.message });
+          })
+          .finally(() => {
+            item._bussy = false;
           });
-        })
-        .catch(error => {
-          this.$emit('error', { message: error.message });
-        })
-        .finally(() => {
-          item._bussy = false;
-        });
       }
     },
 
     cleanItem(id) {
-      let item   = this.items.find(obj => obj['id'] == id);
-      let indx   = this.items.indexOf(item);
+      let item = this.items.find(obj => obj['id'] == id);
+      let indx = this.items.indexOf(item);
       this.items = [...this.items.slice(0, indx), ...this.items.slice(indx + 1)];
     },
 
@@ -334,12 +288,12 @@ export default {
         return;
 
       let {
-          page,
-          rowsPerPage,
-          rowsNumber,
-          sortBy,
-          descending
-      }          = props.pagination;
+        page,
+        rowsPerPage,
+        rowsNumber,
+        sortBy,
+        descending
+      } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
 
       params.myCompany = this.id;
@@ -353,22 +307,22 @@ export default {
           if (data.members.length) {
             for (let index in data.members) {
               _items.push({
-                id      : data.members[index]['@id'].replace(/\D/g, ""),
-                name    : data.members[index].name,
-                alias   : data.members[index].alias,
-                image   : !data.members[index].image ? this.gravatar(data.members[index].email) : data.members[index].image.url,
-                email   : data.members[index].email.length ? data.members[index].email[0].email : '',
-                _bussy  : false,
+                id: data.members[index]['@id'].replace(/\D/g, ""),
+                name: data.members[index].name,
+                alias: data.members[index].alias,
+                image: !data.members[index].image ? this.gravatar(data.members[index].email) : data.members[index].image.url,
+                email: data.members[index].email.length ? data.members[index].email[0].email : '',
+                _bussy: false,
               });
             }
           }
 
-          this.items                  = _items;
-          this.pagination.page        = page;
+          this.items = _items;
+          this.pagination.page = page;
           this.pagination.rowsPerPage = rowsPerPage;
-          this.pagination.sortBy      = sortBy;
-          this.pagination.descending  = descending;
-          this.pagination.rowsNumber  = data.total;
+          this.pagination.sortBy = sortBy;
+          this.pagination.descending = descending;
+          this.pagination.rowsNumber = data.total;
         })
         .finally(() => {
           this.isLoading = false;
