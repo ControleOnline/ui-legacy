@@ -43,7 +43,7 @@ export default {
 
   data() {
     return {
-      key: key,
+      key: 0,
       endpoint: ENTRYPOINT
     }
   },
