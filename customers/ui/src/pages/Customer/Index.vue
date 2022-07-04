@@ -1,11 +1,10 @@
 <template>
   <q-page padding>
-    <PeoplePage v-if="this.myProvider != null" ref="clientPageRef" :provider="myProvider"     
-    :people_type="'customers'"
-    :config="{
-      endpoint: endpoint,
-      token: $store.getters['auth/user'].token,
-    }" :fetchs="{
+    <PeoplePage v-if="this.myProvider != null" ref="clientPageRef" :provider="myProvider" :key="key"
+      :people_type="'customers'" :config="{
+        endpoint: endpoint,
+        token: $store.getters['auth/user'].token,
+      }" :fetchs="{
   loadPeople: {
     before: this.onBeforeLoadPeople
   },
@@ -44,15 +43,16 @@ export default {
 
   data() {
     return {
+      key: key,
       endpoint: ENTRYPOINT
     }
   },
 
   watch: {
     myProvider(provider) {
-      if (provider !== null)
-        this.$refs.clientPageRef.loadPeopleDataRows();
-      return provider;
+      if (provider !== null) {
+        this.key++;
+      }
     },
   },
   methods: {
