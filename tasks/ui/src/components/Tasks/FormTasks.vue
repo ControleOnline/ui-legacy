@@ -288,10 +288,20 @@ export default {
       this.clientSelected = this.taskData.client;
       this.item.client = this.taskData.client.id;
 
-      for (let i in this.categories) {
-        if (this.categories[i].value == this.taskData.category.replace(/\D/g, '')) {
-          this.item.taskCategory = { label: this.categories[i].label, value: this.categories[i].value, }
-        }
+
+
+      if (this.categories && this.taskData.category) {
+        let categorySelected = this.categories.find((category) => Number(this.taskData.category.replace(/[^0-9]/g, '')) == category.value);
+        this.item.category = categorySelected;
+      }
+
+      if (this.categories_criticality && this.taskData.criticality) {
+        let criticalitySelected = this.categories_criticality.find((criticality) => Number(this.taskData.criticality.replace(/[^0-9]/g, '')) == criticality.value);
+        this.item.criticality = criticalitySelected;
+      }
+      if (this.categories_reason && this.taskData.reason) {
+        let reasonSelected = this.categories_reason.find((reason) => Number(this.taskData.reason.replace(/[^0-9]/g, '')) == reason.value);
+        this.item.reason = reasonSelected;
       }
 
       if (this.taskData.order) {
@@ -311,34 +321,21 @@ export default {
   watch: {
     categories(categories) {
       if (this.categories && this.taskData.category) {
-        let categorySelected = this.categories
-          .find((category) => Number(this.taskData.category.replace(/[^0-9]/g, '')) == category.value);
-
+        let categorySelected = this.categories.find((category) => Number(this.taskData.category.replace(/[^0-9]/g, '')) == category.value);
         this.item.category = categorySelected;
-
-
       }
     },
     categories_criticality(categories_criticality) {
-
-
       if (this.categories_criticality && this.taskData.criticality) {
-        let criticalitySelected = this.categories_criticality
-          .find((criticality) => Number(this.taskData.criticality.replace(/[^0-9]/g, '')) == criticality.value);
-
+        let criticalitySelected = this.categories_criticality.find((criticality) => Number(this.taskData.criticality.replace(/[^0-9]/g, '')) == criticality.value);
         this.item.criticality = criticalitySelected;
-
       }
 
     },
     categories_reason(categories_reason) {
       if (this.categories_reason && this.taskData.reason) {
-        let reasonSelected = this.categories_reason
-          .find((reason) => Number(this.taskData.reason.replace(/[^0-9]/g, '')) == reason.value);
-
+        let reasonSelected = this.categories_reason.find((reason) => Number(this.taskData.reason.replace(/[^0-9]/g, '')) == reason.value);
         this.item.reason = reasonSelected;
-
-
       }
     },
     searchOrder: function (search) {

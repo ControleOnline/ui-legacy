@@ -57,17 +57,17 @@ export default {
       categories: [],
       loadingStatuses: true,
       categories_criticality: [],
-      categories_reason: [],      
+      categories_reason: [],
     };
   },
-  created() {            
-    if (this.task && this.task.name) {      
+  created() {
+    if (this.task && this.task.name) {
       this.requestStatuses();
       this.requestCategories();
     }
   },
   watch: {
-    task: function (data) {      
+    task: function (data) {
       if (this.task && this.task.name) {
         this.requestStatuses();
         this.requestCategories();
@@ -97,11 +97,13 @@ export default {
           if (categories.totalItems) {
             for (let index in categories.members) {
               let item = categories.members[index];
-              this.categories.push({
-                label: item.name,
-                value: item.id,
-              });
-            }
+              let exists = this.categories.find((category) => Number(item.id) == category.value);
+              if (!exists)
+                this.categories.push({
+                  label: item.name,
+                  value: item.id,
+                });
+            }            
           }
         }).then(() => {
           if (this.categories_criticality.length == 0)
@@ -109,10 +111,12 @@ export default {
               if (categories.totalItems) {
                 for (let index in categories.members) {
                   let item = categories.members[index];
-                  this.categories_criticality.push({
-                    label: item.name,
-                    value: item.id,
-                  });
+                  let exists = this.categories_criticality.find((category) => Number(item.id) == category.value);
+                  if (!exists)
+                    this.categories_criticality.push({
+                      label: item.name,
+                      value: item.id,
+                    });
                 }
               }
             });
@@ -122,10 +126,12 @@ export default {
               if (categories.totalItems) {
                 for (let index in categories.members) {
                   let item = categories.members[index];
-                  this.categories_reason.push({
-                    label: item.name,
-                    value: item.id,
-                  });
+                  let exists = this.categories_reason.find((category) => Number(item.id) == category.value);
+                  if (!exists)
+                    this.categories_reason.push({
+                      label: item.name,
+                      value: item.id,
+                    });
                 }
               }
             })

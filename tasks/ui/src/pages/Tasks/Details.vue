@@ -84,8 +84,7 @@ export default {
     }
   },
   watch: {
-    myCompany(company) {
-      console.log(company);
+    myCompany(company) {      
       if (company !== null) {
         this.provider = company.id;
         this.key++;
