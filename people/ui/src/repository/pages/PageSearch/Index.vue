@@ -168,7 +168,7 @@ export default {
       key: null,
       context: 'relationship',
       API: new Api(this.config.token),
-      currentTab: 'oportunities',
+      currentTab: this.people_type == 'customers' ? 'oportunities' : 'allPeoples',
       dateFrom: date.formatDate(date.subtractFromDate(Date.now(), { month: 1 }), 'DD-MM-YYYY'),
       dateTo: date.formatDate(Date.now(), 'DD-MM-YYYY'),
       searchBy: '',
