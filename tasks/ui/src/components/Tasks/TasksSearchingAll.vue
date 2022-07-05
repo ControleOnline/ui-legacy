@@ -100,7 +100,7 @@
         <div v-else v-for="task in data" :key="task.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-card class="column full-height">
             <q-card-actions align="center" class="row">
-              <div v-if="task.client" class="col-12 text-center">                
+              <div v-if="task.client" class="col-12 text-center">
                 <q-btn :to="{
                   name: 'CustomersDetails',
                   params: {
@@ -469,6 +469,9 @@ export default {
         this.loadingStatuses = false;
         if (!this.orderId && !this.client)
           this.filters.status = this.statuses.find((status) => 'open' == status.original);
+        else
+          this.filters.status = { label: this.$t(this.task_type + ".status.all"), value: -1 };
+
       });
     },
     onTaskSave(id) {
