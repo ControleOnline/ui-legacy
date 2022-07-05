@@ -163,9 +163,9 @@
                 }" outline dense flat no-caps color="grey-9" icon="edit" :label="`#${task.id}`"
                   class="full-width q-py-xs" />
               </div>
-              <div v-if="task.registeredBy.length > 0" class="col-6 text-center">
+              <div v-if="task.taskFor.length > 0" class="col-6 text-center">
                 <q-icon name="person" />
-                {{ task.registeredBy }}
+                {{ task.taskFor }}
               </div>
             </q-card-actions>
           </q-card>
