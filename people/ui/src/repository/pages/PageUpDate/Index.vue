@@ -257,7 +257,7 @@
           </div>
 
           <div class="col-12">
-            <PeopleOrders :people_type="people_type" :api="api" :id="peopleId" @error="
+            <PeopleOrders :people_type="people_type" :api="api" :client_id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
@@ -277,7 +277,7 @@
           </div>
 
           <div class="col-12">
-            <PeopleContracts :people_type="people_type" :api="api" :id="peopleId" @error="
+            <PeopleContracts :people_type="people_type" :api="api" :client_id="peopleId" @error="
               (error) => {
                 this.$q.notify({
                   message: error.message,
