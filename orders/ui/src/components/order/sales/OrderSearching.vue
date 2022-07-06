@@ -3,11 +3,10 @@
     @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" style="min-height: 90vh">
     <template v-slot:top v-if="search === true">
       <div class="col-xs-12 q-pb-md text-h6">Pedidos de venda</div>
-
-      <div class="col-sm-6 col-xs-12 q-pa-md">
+      <div class="col-sm-3 col-xs-12 q-pa-md">
         <q-input stack-label label="Buscar por" debounce="1000" v-model="filters.text" class="full-width" />
       </div>
-      <div class="col-sm-6 col-xs-12 q-pa-md">
+      <div class="col-sm-3 col-xs-12 q-pa-md">
         <q-select stack-label label="Status do pedido" v-model="filters.status" :options="statuses" class="full-width"
           :loading="loadingStatuses">
           <template v-slot:no-option>
@@ -19,11 +18,10 @@
           </template>
         </q-select>
       </div>
-      <div class="col-sm-12 col-xs-12">
+      <div class="col-sm-6 col-xs-12 q-pa-md">
         <DataFilter :fromDate="filters.from" :toDate="filters.to" :showButton="false" @dateChanged="dateChanged" />
       </div>
     </template>
-
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="id" :props="props">
