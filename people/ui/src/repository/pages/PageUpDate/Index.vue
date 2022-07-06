@@ -319,7 +319,7 @@ import PeopleAdminPhones from "../../components/AdminPhones.vue";
 import PeopleAdminDocuments from "../../components/AdminDocuments.vue";
 import PeopleAdminEmployees from "../../components/AdminEmployees.vue";
 import PeopleAdminBilling from "../../components/AdminBilling.vue";
-import PeopleOrders from "../../components/Orders.vue";
+import PeopleOrders from "@controleonline/quasar-orders-ui/src/components/order/sales/OrderSearching.vue";
 import PeopleContracts from "../../components/Contracts.vue";
 import PeopleSummary from "../../components/Summary.vue";
 import PeopleSalesman from "../../components/Salesman.vue";
