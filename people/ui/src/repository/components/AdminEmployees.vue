@@ -68,11 +68,11 @@
               <h6 class="col-xs-12 q-mt-sm q-mb-sm">Dados pessoais</h6>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
                 <q-input stack-label lazy-rules unmasked-value hide-bottom-space v-model="item.name" type="text"
-                  label="Nome" :rules="[isInvalid('name')]" />
+                  label="Nome Completo" :rules="[isInvalid('name')]" />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input stack-label lazy-rules hide-bottom-space v-model="item.lastname" type="text" label="Sobrenome"
-                  :rules="[isInvalid('lastname')]" />
+                <q-input stack-label lazy-rules hide-bottom-space v-model="item.lastname" type="text"
+                  label="Nome Social" />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
                 <q-input stack-label lazy-rules hide-bottom-space v-model="item.email" type="text" label="Email"
@@ -354,4 +354,3 @@ export default {
   border: 1px solid rgba(0, 0, 0, 0.24);
 }
 </style>
-
