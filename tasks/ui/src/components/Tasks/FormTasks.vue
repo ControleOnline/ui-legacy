@@ -214,7 +214,7 @@ export default {
         dueDate: this.getDueDate(),
         taskFor: null,
         client: null,
-        taskStatus: this.taskData ? this.findStatus(this.taskData.taskStatus) : { label: this.$t(this.context + ".status.all"), value: -1 },
+        taskStatus: this.taskData ? this.findStatus(this.taskData.taskStatus) : { label: this.$t(this.context + ".status.open"), value: -1 },
         category: null,
         order: null,
         criticality: null,
@@ -234,9 +234,6 @@ export default {
   },
 
   created() {
-
-
-
 
     if (this.taskData && this.taskData.id) {
       this.editTask = true;

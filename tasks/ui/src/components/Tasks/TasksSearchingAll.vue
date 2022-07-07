@@ -17,9 +17,9 @@
             </q-card-section>
             <q-card-section>
               <FormTasks :context="context" ref="myForm" :orderId="orderId" :client="client" :api="API"
-                :statuses="statuses" :task_type="task_type" :categories="categories"
-                :categories_criticality="categories_criticality" :categories_reason="categories_reason"
-                @saved="onTaskSave" />
+                :statuses="getClear(statuses)" :task_type="task_type" :categories="getClear(categories)"
+                :categories_criticality="getClear(categories_criticality)"
+                :categories_reason="getClear(categories_reason)" @saved="onTaskSave" />
             </q-card-section>
           </q-card>
         </q-dialog>
@@ -224,9 +224,7 @@ export default {
   },
 
   data() {
-    let categories = [{ label: this.$t(this.task_type + ".status.all"), value: -1 }];
-    let categories_criticality = [{ label: this.$t(this.task_type + ".status.all"), value: -1 }];
-    let categories_reason = [{ label: this.$t(this.task_type + ".status.all"), value: -1 }];
+
 
     return {
       API: new Api(this.$store.getters["auth/user"].token),
@@ -275,9 +273,9 @@ export default {
       isLoading: false,
       searchBy: "",
       filters: { status: null },
-      categories: categories,
-      categories_criticality: categories_criticality,
-      categories_reason: categories_reason,
+      categories: [],
+      categories_criticality: [],
+      categories_reason: [],
       //people_filter: this.orderId || this.client ? 'all' : 'my',
       people_filter: 'all',
       people_filter_options: [
@@ -370,6 +368,13 @@ export default {
     },
   },
   methods: {
+
+    getClear(category) {
+      let cat = category.map(function (e) { return e; });
+      cat.shift();
+      console.log(cat);
+      return cat;
+    },
     formatDate(dateString) {
       return formatDateYmdTodmY(dateString);
     },
@@ -397,6 +402,9 @@ export default {
     requestCategories() {
       this.getCategories().then((categories) => {
         if (categories.totalItems) {
+
+          this.categories.push({ label: this.$t(this.task_type + ".status.all"), value: -1 });
+
           for (let index in categories.members) {
             let item = categories.members[index];
 
@@ -410,6 +418,7 @@ export default {
       });
       this.getCategories('-criticality').then((categories) => {
         if (categories.totalItems) {
+          this.categories_criticality.push({ label: this.$t(this.task_type + ".status.all"), value: -1 });
           for (let index in categories.members) {
             let item = categories.members[index];
             this.categories_criticality.push({
@@ -422,6 +431,7 @@ export default {
       });
       this.getCategories('-reason').then((categories) => {
         if (categories.totalItems) {
+          this.categories_reason.push({ label: this.$t(this.task_type + ".status.all"), value: -1 });
           for (let index in categories.members) {
             let item = categories.members[index];
             this.categories_reason.push({
