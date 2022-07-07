@@ -371,8 +371,7 @@ export default {
 
     getClear(category) {
       let cat = category.map(function (e) { return e; });
-      cat.shift();
-      console.log(cat);
+      cat.shift();      
       return cat;
     },
     formatDate(dateString) {
