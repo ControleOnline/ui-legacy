@@ -2,38 +2,25 @@
   <main class="q-page q-layout-padding">
     <div class="row">
       <div class="col-12">
-        <q-table flat 
-          :data="items" 
-          :columns="settings.columns" 
-          row-key="id" 
-          :loading="isLoading"
-          :pagination.sync="pagination" 
-          @request="onRequest"
-          >
-          
+        <q-table flat :data="items" :columns="settings.columns" row-key="id" :loading="isLoading"
+          :pagination.sync="pagination" @request="onRequest">
+
           <template v-slot:top>
             <div class="col-3 q-mb-md text-h6">
-                Importador
+              Importador
             </div>
 
             <div class="col-9 q-mb-md">
               <div class="row justify-end">
-                <q-btn flat
-                  label  ="Adicionar"
-                  icon    ="add"
-                  color   ="primary"
-                  class   ="q-ml-sm"
-                  @click="() => {
-                    dialog = !dialog;
-                  }"
-                />
+                <q-btn flat label="Adicionar" icon="add" color="primary" class="q-ml-sm" @click="() => {
+                  dialog = !dialog;
+                }" />
               </div>
             </div>
 
             <div class="col-sm-6 col-xs-12 q-pa-md">
               <div class="row justify-end">
-                <q-select stack-label label="Status" v-model="filters.status" :options="statuses"
-                  class="full-width">
+                <q-select stack-label label="Status" v-model="filters.status" :options="statuses" class="full-width">
                   <template v-slot:no-option>
                     <q-item>
                       <q-item-section class="text-grey">
@@ -45,10 +32,10 @@
               </div>
             </div>
 
-            <div class="col-sm-6 col-xs-12 q-pa-md">
+            <div v-if="!import_type" class="col-sm-6 col-xs-12 q-pa-md">
               <div class="row justify-end">
-                <q-select stack-label label="Tipo de Importação" v-model="importType.import_type" :options="importStatuses"
-                  class="full-width">
+                <q-select stack-label label="Tipo de Importação" v-model="importType.import_type"
+                  :options="importStatuses" class="full-width">
                   <template v-slot:no-option>
                     <q-item>
                       <q-item-section class="text-grey">
@@ -65,9 +52,9 @@
           <template v-slot:body="props">
             <q-tr :props="props">
               <q-td key="id" :props="props">{{ props.row.id }}</q-td>
-              <q-td key="fileName" :props="props"> {{ props.row.fileName }}  </q-td>
+              <q-td key="fileName" :props="props"> {{ props.row.fileName }} </q-td>
               <q-td key="import_type" :props="props">{{ $t(`import.importStatuses.${props.row.typeLabel}`) }}</q-td>
-              <q-td key="status" :props="props">{{ $t(`import.statuses.${props.row.statusLabel}`) }}</q-td>              
+              <q-td key="status" :props="props">{{ $t(`import.statuses.${props.row.statusLabel}`) }}</q-td>
               <q-td key="feedback" :props="props">{{ props.row.feedback }}</q-td>
               <q-td key="uploadDate" :props="props">{{ props.row.uploadDate }}</q-td>
               <q-td auto-width>
@@ -82,12 +69,25 @@
       <q-dialog v-model="dialog">
         <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section class="row items-center">
-            <div class="text-h6">Importar taxas</div>
+            <div class="text-h6">Importar</div>
             <q-space />
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
           <q-card-section>
-            <q-uploader ref="uploader" no-thumbnails square flat :url="uploadEndpoint + '?tableId=' + tableId"
+
+            <q-select v-if="!import_type" stack-label label="Tipo de Importação" v-model="importType.import_type"
+              :options="importStatuses" class="full-width">
+              <template v-slot:no-option>
+                <q-item>
+                  <q-item-section class="text-grey">
+                    Sem resultados
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
+
+            <q-uploader ref="uploader" no-thumbnails square flat
+              :url="uploadEndpoint + '?tableId=' + (tableId || '') + '&importType=' + importType.import_type.value"
               :headers="uploadHeaders" :accept="uploadAccepted" field-name="file" color="white" @uploaded="fileUploaded"
               @failed="uploadFailed" :multiple="false" :class="myClass" :auto-upload="true">
               <template v-slot:header="scope">
@@ -213,6 +213,10 @@ export default {
       type: [String, Number],
       required: false
     },
+    import_type: {
+      type: String,
+      required: false
+    },
     api: {
       type: Api,
       required: true
@@ -233,11 +237,12 @@ export default {
         { label: this.$t('import.statuses.' + 'failed'), value: 'failed' },
       ],
       importType: {
-        import_type: { label: this.$t('import.importStatuses.' + 'DACTE'), value: "DACTE"  }
+        import_type: this.import_type ? { value: this.import_type } : { label: this.$t('import.importStatuses.' + 'DACTE'), value: "DACTE" }
       },
       importStatuses: [
         { label: this.$t('import.importStatuses.' + 'table'), value: "table" },
-        { label: this.$t('import.importStatuses.' + 'DACTE'), value: "DACTE" }
+        { label: this.$t('import.importStatuses.' + 'DACTE'), value: "DACTE" },
+        { label: this.$t('import.importStatuses.' + 'leads'), value: "Leads" }
       ],
       items: [],
       dialog: false,
@@ -283,10 +288,10 @@ export default {
       }
 
       if (this.tableId)
-      
-        params.tableParam   = this.tableId;
-        params.status       = this.filters.status.value;
-        params.import_type  = this.importType.import_type.value;
+
+        params.tableParam = this.tableId;
+      params.status = this.filters.status.value;
+      params.import_type = this.importType.import_type.value;
 
       return this.api.private(endpoint, { params })
         .then(response => response.json())
@@ -373,7 +378,7 @@ export default {
                 id: row.id,
                 fileName: row.Name,
                 typeLabel: row.importType,
-                statusLabel: row.status,                
+                statusLabel: row.status,
                 status: row.status,
                 tableName: row.tableName,
                 feedback: /[0-9]/g.test(row.feedback) ? row.feedback : this.$t('import.feedback.' + row.feedback),
