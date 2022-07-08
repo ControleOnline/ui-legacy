@@ -245,6 +245,8 @@
             <center>
               <q-btn v-if="orderStatus.status == 'analysis'" color="positive" label="Aprovar Pedido"
                 @click="approveOrder" :loading="isUpdating" />
+              <q-btn v-if="orderStatus.status == 'waiting client invoice tax'" color="positive"
+                label="Aprovar Declaração" @click="approveDeclaration" :loading="isUpdating" />
               <q-btn v-if="orderStatus.status == 'waiting retrieve'" color="positive" label="Coleta realizada"
                 @click="addRetrieve" :loading="isUpdating" />
               <q-btn v-if="orderStatus.status == 'on the way'" color="positive" label="Entrega realizada"
@@ -329,8 +331,7 @@
               <OrderDetailDACTE :orderId="orderId" @fileUploaded="onDacteUploaded" />
             </q-tab-panel>
             <q-tab-panel name="tasks" class="q-pa-none">
-              <OrderTasks :task_type="'support'" :orderId="orderId"
-                :client="client" />
+              <OrderTasks :task_type="'support'" :orderId="orderId" :client="client" />
             </q-tab-panel>
             <q-tab-panel name="tracking" class="q-pa-none">
               <OrderDetailTracking :orderId="orderId" />
@@ -786,7 +787,34 @@ export default {
           this.isUpdating = false;
         });
     },
+    approveDeclaration() {
 
+      let params = {
+        myCompany: this.myCompany.id,
+      };
+
+      this.isUpdating = true;
+
+      this.updateStatus({
+        id: this.orderId,
+        values: {
+          update: "approve_declaration",
+        },
+        params: params,
+      })
+        .then((order) => {
+          this.requestOrderStatus(this.orderId).finally((data) => {
+            this.isUpdating = false;
+          });
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: "O status do pedido não pode ser atualizado",
+            position: "bottom",
+            type: "negative",
+          });
+        });
+    },
     approveOrder() {
       let params = {
         myCompany: this.myCompany.id,
