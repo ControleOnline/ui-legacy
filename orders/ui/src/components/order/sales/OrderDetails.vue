@@ -245,8 +245,8 @@
             <center>
               <q-btn v-if="orderStatus.status == 'analysis'" color="positive" label="Aprovar Pedido"
                 @click="approveOrder" :loading="isUpdating" />
-              <q-btn v-if="orderStatus.status == 'waiting client invoice tax'" color="positive"
-                label="Aprovar Declaração" @click="approveDeclaration" :loading="isUpdating" />
+              <q-btn v-if="orderStatus.status == 'waiting client invoice tax' || orderStatus.status == 'pending'"
+                color="positive" label="Aprovar Declaração" @click="approveDeclaration" :loading="isUpdating" />
               <q-btn v-if="orderStatus.status == 'waiting retrieve'" color="positive" label="Coleta realizada"
                 @click="addRetrieve" :loading="isUpdating" />
               <q-btn v-if="orderStatus.status == 'on the way'" color="positive" label="Entrega realizada"
