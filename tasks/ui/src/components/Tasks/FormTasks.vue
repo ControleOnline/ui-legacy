@@ -602,7 +602,7 @@ export default {
         name: this.item.name,
         registeredBy: this.user.people,
         provider: this.myCompany.id,
-        taskFor: this.item.taskFor,
+        taskFor: this.taskForSelected.id,
         client: this.item?.client ?? Number(this.client.id),
         taskStatus: this.item.taskStatus.value,
         category: this.item.category.value,
