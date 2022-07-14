@@ -327,30 +327,35 @@ export default {
       });
     },
     people_filter() {
+      this.page = 1;
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
       });
     },
     "filters.criticality"() {
+      this.page = 1;
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
       });
     },
     "filters.reason"() {
+      this.page = 1;
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
       });
     },
     "filters.category"() {
+      this.page = 1;
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
       });
     },
     "filters.status"() {
+      this.page = 1;
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
