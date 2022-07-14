@@ -130,12 +130,12 @@
               <div v-if="task.name.length > 0" class="text-center col-12 text-bold">
                 {{ task.name }}
               </div>
-              <div v-if="task.category.length" class="text-body2 text-center col-12"
+              <div v-if="task.category" class="text-body2 text-center col-12"
                 :style="task.category.color ? 'color:' + task.category.color : ''">
                 <q-icon name="bookmarks" />
                 {{ task.category.label }}
               </div>
-              <div v-if="task.reason.length" class="text-body2 text-center col-12"
+              <div v-if="task.reason" class="text-body2 text-center col-12"
                 :style="task.reason.color ? 'color:' + task.reason.color : ''">
                 <q-icon name="help" />
                 {{ task.reason.label }}
@@ -371,7 +371,7 @@ export default {
 
     getClear(category) {
       let cat = category.map(function (e) { return e; });
-      cat.shift();      
+      cat.shift();
       return cat;
     },
     formatDate(dateString) {
