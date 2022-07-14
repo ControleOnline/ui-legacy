@@ -301,8 +301,7 @@ export default {
       this.editDialog.idRowChangeStatus = id;
       this.editDialog.status = this.status_survey.find(c => c.value === currentStatus);
       this.editDialog.visible = true;
-      this.setClassRow(id, true, 'bg-cyan-6 text-white');
-      console.log("currentStatus: " + currentStatus);
+      this.setClassRow(id, true, 'bg-cyan-6 text-white');      
     },
     colorStatus(status) {
       switch (status) {

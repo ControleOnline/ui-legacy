@@ -174,8 +174,7 @@ export default {
       if (
         window.confirm(this.$t("Are you sure about to remove this element?"))
       ) {
-        item._bussy = true;
-        console.log(item);
+        item._bussy = true;        
         this.delete(item.people_company_id)
           .then((data) => {
             if (data) {

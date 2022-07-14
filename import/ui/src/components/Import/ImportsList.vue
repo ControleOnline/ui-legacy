@@ -384,8 +384,7 @@ export default {
                 feedback: /[0-9]/g.test(row.feedback) ? row.feedback : this.$t('import.feedback.' + row.feedback),
                 uploadDate: formatDateYmdTodmY(row.uploadDate),
                 _bussy: false,
-              });
-              console.log(row)
+              });              
             }
           }
 
