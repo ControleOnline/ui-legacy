@@ -20,7 +20,7 @@ export const translate = {
     status: {
       open: 'Aberta',
       closed: 'Fechada',
-      pending: 'Pendente',
+      pending: 'Em Andamento',
       all: 'Todas',
       'Waiting client': 'Aguardando cliente',
       'Waiting delivery': 'Aguardando entrega de guincho',
