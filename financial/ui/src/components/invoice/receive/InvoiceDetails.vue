@@ -19,7 +19,7 @@
     </q-inner-loading>
 
     <transition-group appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-      <div v-if="invoice !== null" class="row q-pa-sm q-col-gutter-sm" key="invoice_status">
+      <div v-if="invoice !== null" class="row q-pa-sm q-col-gutter-sm" key="status">
         <div class="col-xs-12">
           <div class="text-h5 q-pt-sm q-pb-sm">{{ this.payer.name }}</div>
           <div v-if="this.payer.id != this.client.id" class="text-h5 q-pt-sm q-pb-sm">{{ this.client.name }}</div>
@@ -70,9 +70,9 @@
 
         <div class="col-xs-12 col-sm-7">
           <div class="row text-white full-height items-center justify-center"
-            :style="`background-color: ${this.invoice.invoiceStatus.color}`">
+            :style="`background-color: ${this.invoice.status.color}`">
             <div class="col-xs-12 text-h6 text-center">
-              {{ $t(`invoice.statuses.${invoice.invoiceStatus.status}`) }}
+              {{ $t(`invoice.statuses.${invoice.status.status}`) }}
             </div>
             <InvoiceActions :invoice="invoice" @changed="
               (newInvoice) => {
@@ -105,7 +105,7 @@
             <q-tab-panel name="orders" class="q-pa-none">
               <InvoiceOrders :invoiceId="invoiceId" :invoice="{
                 '@id': invoice ? invoice['@id'] : null,
-                status: invoice ? invoice.invoiceStatus.realStatus : null,
+                status: invoice ? invoice.status.realStatus : null,
                 billet: editDueDate ? false : true,
               }" />
             </q-tab-panel>

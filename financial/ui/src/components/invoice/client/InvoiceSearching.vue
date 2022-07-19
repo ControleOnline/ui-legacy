@@ -274,10 +274,10 @@ export default {
           '@id'           : item['@id'],
           'id'            : item['@id'].match(/^\/finance\/pay\/([a-z0-9-]*)$/)[1],
           'pedidos'       : orders,
-          'color_status'  : item.invoiceStatus.color,
+          'color_status'  : item.status.color,
           'dataVencimento': item.dueDate,
           'fornecedor'    : item.order[0].order.provider.alias,
-          'status'        : item.invoiceStatus.status,
+          'status'        : item.status.status,
           'preco'         : item.price,
         });
       }
@@ -326,7 +326,7 @@ export default {
               let item = statuses[index];
               this.statuses.push({
                 'label': this.$t(`invoice.statuses.${item.status}`),
-                'value': item['@id'].match(/^\/invoice_statuses\/([a-z0-9-]*)$/)[1],
+                'value': item['@id'].match(/^\/statuses\/([a-z0-9-]*)$/)[1],
               });
             }
           }
@@ -353,10 +353,10 @@ export default {
       }
 
       if (this.filters.status != null && this.filters.status.value != -1) {
-        params['invoiceStatus'] = this.filters.status.value;
+        params['status'] = this.filters.status.value;
       }
       else {
-        params['invoiceStatus.realStatus'] = ['open', 'pending'];
+        params['status.realStatus'] = ['open', 'pending'];
       }
 
       if (this.filters.company != null) {

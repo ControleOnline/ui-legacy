@@ -11,7 +11,7 @@
 
     <div v-if="invoice !== null"
       class="row q-pa-sm q-col-gutter-sm"
-      key  ="invoice_status"
+      key  ="status"
     >
     <div class="col-xs-12">
         <div class="text-h5 q-pt-sm q-pb-sm">{{ this.provider.name }}</div>
@@ -46,10 +46,10 @@
       <div class ="col-xs-12 col-sm-8">
         <div
           class ="row items-center justify-center full-height rounded-borders"
-          :style="`background-color: ${this.invoice.invoiceStatus.color}`"
+          :style="`background-color: ${this.invoice.status.color}`"
         >
           <div class="text-white text-h6">
-            {{ $t(`invoice.statuses.${invoice.invoiceStatus.status}`) }}
+            {{ $t(`invoice.statuses.${invoice.status.status}`) }}
           </div>
         </div>
       </div>

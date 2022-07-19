@@ -122,7 +122,7 @@ export default {
         return false;
 
       return ['waiting payment', 'outdated billing']
-        .includes(this.payment.invoiceStatus);
+        .includes(this.payment.status);
     },
 
     billetMustBeCreated() {

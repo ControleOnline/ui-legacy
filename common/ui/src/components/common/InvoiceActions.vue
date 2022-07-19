@@ -1,27 +1,27 @@
 <template>
   <div class="row q-gutter-xs items-center justify-center">
-    <q-btn v-if="invoice.invoiceStatus.status !== 'canceled'"
+    <q-btn v-if="invoice.status.status !== 'canceled'"
       color   ="negative"
       label   ="Cancelar"
       @click  ="changeStatus('canceled')"
       :loading="isSaving"
     />
 
-    <q-btn v-if="invoice.invoiceStatus.status === 'canceled'"
+    <q-btn v-if="invoice.status.status === 'canceled'"
       color   ="primary"
       label   ="Reativar"
       @click  ="changeStatus('open')"
       :loading="isSaving"
     />
 
-    <q-btn v-if="invoice.invoiceStatus.status === 'open'"
+    <q-btn v-if="invoice.status.status === 'open'"
       color   ="primary"
       label   ="Fechar"
       @click  ="changeStatus('waiting payment')"
       :loading="isSaving"
     />
 
-    <q-btn v-if="['waiting payment', 'outdated billing'].includes(invoice.invoiceStatus.status)"
+    <q-btn v-if="['waiting payment', 'outdated billing'].includes(invoice.status.status)"
       color   ="positive"
       label   ="Marcar como paga"
       @click  ="changeStatus('paid')"
@@ -97,7 +97,7 @@ export default {
     updateStatus(params) {
       let options = {
         method: 'PUT',
-        body  : JSON.stringify({ invoiceStatus: params.status }),
+        body  : JSON.stringify({ status: params.status }),
         params: {
           myCompany: this.myCompany.id
         }

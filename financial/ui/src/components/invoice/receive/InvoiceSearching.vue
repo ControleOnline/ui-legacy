@@ -274,11 +274,11 @@ export default {
           id: item["@id"].replace(/[^0-9]/g, ""),
           tipo: this.$t(item.invoice_type),
           pedidos: orders,
-          color_status: item.invoiceStatus.color,
+          color_status: item.status.color,
           dataVencimento: item.dueDate,
           payer: payerName,
           client: clientName,
-          status: item.invoiceStatus.status,
+          status: item.status.status,
           preco: item.price,
         });
       }
@@ -329,10 +329,10 @@ export default {
 
       if (this.filters.status != null) {
         if (this.filters.status.value > 0) {
-          params["invoiceStatus"] = this.filters.status.value;
+          params["status"] = this.filters.status.value;
         } else {
           if (this.filters.status.value == -1) {
-            params["invoiceStatus.realStatus"] = ["open", "pending"];
+            params["status.realStatus"] = ["open", "pending"];
           }
         }
       }

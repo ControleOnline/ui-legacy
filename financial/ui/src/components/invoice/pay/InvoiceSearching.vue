@@ -302,10 +302,10 @@ export default {
           tipo: this.$t(item.invoice_type),
           pedidos: orders,
           description: item.description,
-          color_status: item.invoiceStatus.color,
+          color_status: item.status.color,
           dataVencimento: item.dueDate,
           fornecedor: `${item.order[0].order.provider.name} ${item.order[0].order.provider.alias}`,
-          status: item.invoiceStatus.status,
+          status: item.status.status,
           categoryName: item.categoryName,
           preco: item.price,
         });
@@ -358,10 +358,10 @@ export default {
 
       if (this.filters.status != null) {
         if (this.filters.status.value > 0) {
-          params["invoiceStatus"] = this.filters.status.value;
+          params["status"] = this.filters.status.value;
         } else {
           if (this.filters.status.value == -1) {
-            params["invoiceStatus.realStatus"] = ["open", "pending"];
+            params["status.realStatus"] = ["open", "pending"];
           }
         }
       }

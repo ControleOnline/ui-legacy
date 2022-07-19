@@ -203,7 +203,7 @@ export default {
         } else {
           this.showBillet = false;
           if (this.paymentInstitution === 'inter') {
-            this.isPaid = data.invoiceStatus === 'paid';
+            this.isPaid = data.status === 'paid';
           }
         }
 

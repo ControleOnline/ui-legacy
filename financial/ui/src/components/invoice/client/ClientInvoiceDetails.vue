@@ -11,7 +11,7 @@
 
     <div v-if="invoice !== null"
       class="row q-pa-sm q-col-gutter-sm"
-      key  ="invoice_status"
+      key  ="status"
     >
       <div class="col-xs-12 col-sm-4">
         <q-markup-table flat dense
@@ -44,17 +44,17 @@
         <q-markup-table flat dense
           separator="none"
           class    ="text-white full-height"
-          :style   ="`background-color: ${this.invoice.invoiceStatus.color}`"
+          :style   ="`background-color: ${this.invoice.status.color}`"
         >
           <tbody>
             <tr>
               <td class="text-center">
-                <div class="text-h6">{{ $t(`invoice.statuses.${invoice.invoiceStatus.status}`) }}</div>
+                <div class="text-h6">{{ $t(`invoice.statuses.${invoice.status.status}`) }}</div>
               </td>
             </tr>            
             <tr>              
               <td class="text-center text-bold">
-                <!--{{ $t(`order.statuses.${invoice.invoiceStatus.status}`+' text') }}-->
+                <!--{{ $t(`order.statuses.${invoice.status.status}`+' text') }}-->
               </td>
             </tr>            
           </tbody>

@@ -252,10 +252,10 @@ export default {
           "@id": item["@id"],
           id: item["@id"].match(/^\/finance\/receive\/([a-z0-9-]*)$/)[1],
           pedidos: orders,
-          color_status: item.invoiceStatus.color,
+          color_status: item.status.color,
           dataVencimento: item.dueDate,
           fornecedor: item.order[0].order.provider.alias,
-          status: item.invoiceStatus.status,
+          status: item.status.status,
           preco: item.price,
         });
       }

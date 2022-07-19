@@ -365,7 +365,7 @@ export default {
 
             this.item.amount = (parseFloat(data.price) + 0.001).toFixed(2);
             this.item.dueDate = formatDateYmdTodmY(data.dueDate);
-            this.item.status = data.invoiceStatus.status;
+            this.item.status = data.status.status;
           }
         })
         .catch((error) => { })
