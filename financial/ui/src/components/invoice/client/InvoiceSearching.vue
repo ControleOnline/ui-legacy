@@ -316,6 +316,7 @@ export default {
     requestStatuses() {
       this.loadingStatuses = true;
       this.getStatuses({
+        context: "invoice",
         'visibility': 'public',
         'realStatus': ['open', 'pending', 'canceled', 'closed'],
       })
