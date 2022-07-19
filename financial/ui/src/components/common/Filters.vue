@@ -2,23 +2,11 @@
   <q-card class="row q-pa-md">
     <div class="col-xs-12 q-pb-md text-h6">Faturas</div>
     <div class="col-sm-6 col-xs-12 q-pa-md">
-      <q-input
-        stack-label
-        label="Buscar por"
-        debounce="1000"
-        v-model="filters.text"
-        class="full-width"
-      />
+      <q-input stack-label label="Buscar por" debounce="1000" v-model="filters.text" class="full-width" />
     </div>
     <div class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select
-        stack-label
-        label="Status da fatura"
-        v-model="filters.status"
-        :options="statuses"
-        class="full-width"
-        :loading="loadingStatuses"
-      >
+      <q-select stack-label label="Status da fatura" v-model="filters.status" :options="statuses" class="full-width"
+        :loading="loadingStatuses">
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -27,14 +15,8 @@
       </q-select>
     </div>
     <div class="col-6">
-      <q-select
-        stack-label
-        label="Tipo de Fatura"
-        v-model="filters.orderType"
-        :options="orderType"
-        class="full-width"
-        :loading="loadingOrderType"
-      >
+      <q-select stack-label label="Tipo de Fatura" v-model="filters.orderType" :options="orderType" class="full-width"
+        :loading="loadingOrderType">
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -43,12 +25,8 @@
       </q-select>
     </div>
     <div class="col-6">
-      <DataFilter
-        :fromDate="filters.date.from"
-        :toDate="filters.date.to"
-        :showButton="false"
-        @dateChanged="dateChanged"
-      />
+      <DataFilter :fromDate="filters.date.from" :toDate="filters.date.to" :showButton="false"
+        @dateChanged="dateChanged" />
     </div>
   </q-card>
 </template>      
@@ -131,6 +109,7 @@ export default {
       this.loadingStatuses = true;
       this.getStatuses({
         visibility: "public",
+        context: "invoice",
         realStatus: ["open", "pending", "canceled", "closed"],
       }).then((statuses) => {
         if (statuses.length) {

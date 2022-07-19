@@ -184,6 +184,7 @@ export default {
     loadStatuses() {
       this.getStatuses({
         visibility: "public",
+        context: "invoice",
         realStatus: ["open", "pending", "canceled", "closed"],
       }).then((statuses) => {
         if (statuses.length) {
