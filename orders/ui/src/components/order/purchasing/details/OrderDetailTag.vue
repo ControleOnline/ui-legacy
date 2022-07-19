@@ -26,7 +26,7 @@
     <div class="col-12" v-else>
       <!-- NF VIEWER -->
 
-      <div class="row" v-if="orderStatus.realStatus != 'closed'">
+      <div class="row" v-if="status.realStatus != 'closed'">
         <div class="col-12">
           <h6 class="q-mb-md q-mt-md">Pedido: #{{ orderId }}</h6>
           <div class="row justify-center">
@@ -61,7 +61,7 @@ export default {
       type: String,
       required: true,
     },
-    orderStatus: {
+    status: {
       type: Object,
       required: true,
     },

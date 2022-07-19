@@ -452,7 +452,7 @@ export default {
       params.context = this.context;
       params['order[name]'] = 'ASC';
 
-      return this.API.private("/order_statuses", { params })
+      return this.API.private("/statuses", { params })
         .then((response) => response.json())
         .then((result) => {
           return {
@@ -474,7 +474,7 @@ export default {
             this.statuses.push({
               original: item.status,
               label: this.$t(this.task_type + ".status." + item.status),
-              value: parseInt(item['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1]),
+              value: parseInt(item['@id'].match(/^\/statuses\/([a-z0-9-]*)$/)[1]),
               color: item.color,
             });
           }
@@ -572,7 +572,7 @@ export default {
               id: item.id,
               name: item.name,
               status: this.statuses
-                .find((status) => Number(item.taskStatus.match(/^\/order_statuses\/([a-z0-9-]*)$/)[1]) == status.value),
+                .find((status) => Number(item.taskStatus.match(/^\/statuses\/([a-z0-9-]*)$/)[1]) == status.value),
               taskFor: item.taskFor.name,
               dueDate: item.dueDate,
               registeredBy: item.registeredBy.name,

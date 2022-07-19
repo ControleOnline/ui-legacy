@@ -271,8 +271,8 @@ export default {
               : "",
           dataPedido: item.orderDate,
           ultimaModificacao: item.alterDate,
-          status: item.orderStatus.status,
-          color_status: item.orderStatus.color,
+          status: item.status.status,
+          color_status: item.status.color,
           fornecedor: item.client.alias,
           coleta: item.retrievePeople !== null ? item.retrievePeople.name : "",
           localColeta:

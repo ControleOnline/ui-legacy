@@ -145,7 +145,7 @@ export default {
       params.context = this.context;
       params['order[name]'] = 'ASC';
 
-      return this.API.private("/order_statuses", { params })
+      return this.API.private("/statuses", { params })
         .then((response) => response.json())
         .then((result) => {
           return {
@@ -166,7 +166,7 @@ export default {
             let item = statuses.members[index];
             this.statuses.push({
               label: this.$t(this.context + ".status." + item.status),
-              value: parseInt(item['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1]),
+              value: parseInt(item['@id'].match(/^\/statuses\/([a-z0-9-]*)$/)[1]),
               color: item.color,
             });
           }

@@ -41,12 +41,12 @@
             <q-tooltip>Salvar</q-tooltip>
           </q-btn>
         </div>
-        <div v-if="orderStatus != 'quote'" class="col-6 col-sm-2">
+        <div v-if="status != 'quote'" class="col-6 col-sm-2">
           <q-btn dense style="margin-top: 13px" color="primary" @click="onPropostaClick()">
             Gerar Proposta
           </q-btn>
         </div>
-        <div v-if="orderStatus != 'quote'" class="col-6 col-sm-2">
+        <div v-if="status != 'quote'" class="col-6 col-sm-2">
           <q-btn dense style="margin-top: 13px" color="primary" @click="createNewContract()">
             {{ hasContract() ? "Ver" : "Gerar" }} Contrato
           </q-btn>
@@ -323,7 +323,7 @@ export default {
       isLoading: false,
       options: [],
       comments: "",
-      orderStatus: null,
+      status: null,
       editable: false,
       payerContact: null,
       labels: {
@@ -522,7 +522,7 @@ export default {
       this.comments = this.summary.comments;
 
       if (this.myCompany !== null && this.orderId !== null) {
-        this.getOrderStatus(this.orderId);
+        this.getStatus(this.orderId);
       }
     },
 
@@ -562,18 +562,18 @@ export default {
       getStatus: "purchasingOrder/getDetailStatus",
     }),
 
-    getOrderStatus(orderId) {
+    getStatus(orderId) {
       this.getStatus({ orderId })
         .then((data) => {
           this.isLoading = false;
 
           if (data["@id"]) {
-            this.orderStatus = data.orderStatus.status;
+            this.status = data.status.status;
           }
           return data;
         })
         .catch((error) => {
-          this.orderStatus = null;
+          this.status = null;
         });
     },
 

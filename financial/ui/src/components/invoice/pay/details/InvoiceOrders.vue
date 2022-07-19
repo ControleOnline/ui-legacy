@@ -252,8 +252,8 @@ export default {
               : "",
           dataPedido: item.orderDate,
           ultimaModificacao: item.alterDate,
-          status: item.orderStatus.status,
-          color_status: item.orderStatus.color,
+          status: item.status.status,
+          color_status: item.status.color,
           preco: item.price,
         });
       }
@@ -296,7 +296,7 @@ export default {
             let item = statuses[index];
             this.statuses.push({
               label: this.$t(`order.statuses.${item.status}`),
-              value: item["@id"].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1],
+              value: item["@id"].match(/^\/statuses\/([a-z0-9-]*)$/)[1],
             });
           }
         }
@@ -317,7 +317,7 @@ export default {
       }
 
       if (this.filters.status != null && this.filters.status.value != -1) {
-        params["orderStatus"] = this.filters.status.value;
+        params["status"] = this.filters.status.value;
       }
 
       if (this.filters.company != null) {

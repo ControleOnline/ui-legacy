@@ -234,8 +234,8 @@ export default {
           'notaFiscal': item.invoiceTax.length > 0 ? '#' + item.invoiceTax[0].invoiceTax.invoiceNumber : '',
           'dataPedido': item.orderDate,
           'ultimaModificacao': item.alterDate,
-          'status': item.orderStatus.status,
-          'color_status': item.orderStatus.color,
+          'status': item.status.status,
+          'color_status': item.status.color,
           'fornecedor': item.client.alias,
           'coleta': item.retrievePeople !== null ? item.retrievePeople.name : '',
           'localColeta': item.quote !== null ? `${item.quote.cityOrigin.city} / ${item.quote.cityOrigin.state.uf}` : '',
@@ -285,7 +285,7 @@ export default {
               let item = statuses[index];
               this.statuses.push({
                 'label': this.$t(`order.statuses.${item.status}`),
-                'value': item['@id'].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1],
+                'value': item['@id'].match(/^\/statuses\/([a-z0-9-]*)$/)[1],
               });
             }
             this.statuses.sort(function (a, b) {
@@ -315,10 +315,10 @@ export default {
       }
 
       if (this.filters.status != null && this.filters.status.value != -1) {
-        params['orderStatus'] = this.filters.status.value;
+        params['status'] = this.filters.status.value;
       }
       else {
-        params['orderStatus.realStatus'] = ['pending'];
+        params['status.realStatus'] = ['pending'];
       }
 
       if (this.filters.company != null) {

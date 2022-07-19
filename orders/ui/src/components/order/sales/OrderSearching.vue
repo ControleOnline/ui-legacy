@@ -286,8 +286,8 @@ export default {
           dataEntrega = null;
         } else if (item.quote.deadline) {
           if (
-            item.orderStatus.status === "on the way" ||
-            item.orderStatus.status === "retrieved"
+            item.status.status === "on the way" ||
+            item.status.status === "retrieved"
           ) {
             dataEntrega.setDate(dataEntrega.getDate() + item.quote.deadline);
           } else {
@@ -306,8 +306,8 @@ export default {
           dataPedido: item.orderDate,
           dataEntrega: dataEntrega,
           ultimaModificacao: item.alterDate,
-          status: item.orderStatus.status,
-          color_status: item.orderStatus.color,
+          status: item.status.status,
+          color_status: item.status.color,
           task: item.task,
           other_informations: item.otherInformations,
           fornecedor: item.client ? item.client.alias : null,
@@ -393,7 +393,7 @@ export default {
             let item = statuses[index];
             this.statuses.push({
               label: this.$t(`order.statuses.${item.status}`),
-              value: item["@id"].match(/^\/order_statuses\/([a-z0-9-]*)$/)[1],
+              value: item["@id"].match(/^\/statuses\/([a-z0-9-]*)$/)[1],
             });
           }
           this.statuses.sort(function (a, b) {
@@ -481,7 +481,7 @@ export default {
       }
 
       if (this.filters.status != null && this.filters.status.value == -1) {
-        params["orderStatus.realStatus"] =
+        params["status.realStatus"] =
           this.defaultCompany.configs &&
             typeof this.defaultCompany.configs.salesOrdersStartRealStatus !=
             "undefined"
@@ -491,7 +491,7 @@ export default {
         this.filters.status != null &&
         this.filters.status.value != 0
       ) {
-        params["orderStatus"] = this.filters.status.value;
+        params["status"] = this.filters.status.value;
       }
       params.fromDate = this.formatDate(this.filters.from) || "";
       params.toDate = this.formatDate(this.filters.to) || "";

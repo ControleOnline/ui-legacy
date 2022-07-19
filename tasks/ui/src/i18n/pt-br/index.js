@@ -14,7 +14,7 @@ export const translate = {
     newInteraction: 'Nova Interação',
     status_label: 'Status',
     criticality: 'Criticidade',
-    reason: 'Gerado por',
+    reason: 'Execução',
     public: 'Visível',
     private: 'Interna',
     status: {

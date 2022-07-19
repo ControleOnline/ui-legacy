@@ -5,7 +5,7 @@
     </q-inner-loading>
 
     <transition-group appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-      <div v-if="orderStatus !== null" class="row q-pa-sm q-col-gutter-sm" key="order_status">
+      <div v-if="status !== null" class="row q-pa-sm q-col-gutter-sm" key="status">
         <div class="col-xs-12">
           <div class="text-h5 q-pt-sm q-pb-sm">
             <q-btn flat dense :to="{ name: 'CarrierDetails', params: { id: provider.id } }" :label="provider.alias"
@@ -97,28 +97,28 @@
         </div>
         <div class="col-xs-12 col-sm-8">
           <q-markup-table flat dense separator="none" class="text-white"
-            :style="`background-color: ${this.orderStatus.color}`">
+            :style="`background-color: ${this.status.color}`">
             <tbody>
               <tr>
                 <td class="text-center">
                   <div class="text-h6">
-                    {{ $t(`order.statuses.${orderStatus.status}`) }}
+                    {{ $t(`order.statuses.${status.status}`) }}
                   </div>
                 </td>
               </tr>
               <tr>
                 <td class="text-center text-bold">
                   <div class="row items-center justify-around">
-                    <q-btn v-if="orderStatus.status == 'analysis'" color="positive" label="Aprovar Pedido"
+                    <q-btn v-if="status.status == 'analysis'" color="positive" label="Aprovar Pedido"
                       @click="approveOrder" :loading="isUpdating" />
-                    <q-btn v-if="orderStatus.status == 'waiting retrieve'" color="positive" label="Coleta realizada"
+                    <q-btn v-if="status.status == 'waiting retrieve'" color="positive" label="Coleta realizada"
                       @click="addRetrieve" :loading="isUpdating" />
-                    <q-btn v-if="orderStatus.status == 'on the way'" color="positive" label="Entrega realizada"
+                    <q-btn v-if="status.status == 'on the way'" color="positive" label="Entrega realizada"
                       @click="addDelivered" :loading="isUpdating" />
                     <q-btn v-if="
-                      ['open', 'pending'].includes(orderStatus.realStatus)
+                      ['open', 'pending'].includes(status.realStatus)
                     " color="negative" label="Cancelar Pedido" @click="cancelOrder" :loading="isUpdating" />
-                    <q-btn v-if="['waiting payment'].includes(orderStatus.status)" color="positive"
+                    <q-btn v-if="['waiting payment'].includes(status.status)" color="positive"
                       label="Liberar Pagamento" @click="releasePayment" :loading="isUpdating" />
                   </div>
                 </td>
@@ -128,7 +128,7 @@
         </div>
       </div>
 
-      <div v-if="orderStatus !== null" class="row" key="order_tabs">
+      <div v-if="status !== null" class="row" key="order_tabs">
         <div class="col-12">
           <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
             <q-tab name="resumo" label="Resumo" />
@@ -172,14 +172,14 @@
             </q-tab-panel>
 
             <q-tab-panel name="tag" class="q-pa-none">
-              <OrderDetailTag :orderId="orderId" :orderStatus="orderStatus" :integrationType="integrationType" />
+              <OrderDetailTag :orderId="orderId" :status="status" :integrationType="integrationType" />
             </q-tab-panel>
           </q-tab-panels>
         </div>
       </div>
     </transition-group>
 
-    <div v-if="orderStatus === null && notFound" class="row items-center justify-center" style="min-height: 90vh">
+    <div v-if="status === null && notFound" class="row items-center justify-center" style="min-height: 90vh">
       <q-banner class="text-white bg-red text-center text-h3" rounded>
         <template v-slot:avatar>
           <q-icon name="error" color="white" />
@@ -221,7 +221,7 @@ export default {
       this.orderId = parseInt(decodeURIComponent(this.$route.params.id));
 
     if (this.myCompany !== null && this.orderId !== null) {
-      this.requestOrderStatus(this.orderId);
+      this.requestStatus(this.orderId);
     }
   },
 
@@ -230,7 +230,7 @@ export default {
       integrationType: null,
       currentTab: "resumo",
       orderId: null,
-      orderStatus: null,
+      status: null,
       deliveryDueDate: null,
       invoices: [],
       provider: {},
@@ -258,9 +258,9 @@ export default {
 
     showDacteTab() {
       return (
-        (this.orderStatus !== null &&
-          (this.orderStatus.status == "waiting retrieve" ||
-            this.orderStatus.status == "retrieved")) ||
+        (this.status !== null &&
+          (this.status.status == "waiting retrieve" ||
+            this.status.status == "retrieved")) ||
         this.invoices.find((inv) => inv.invoiceType == 57)
       );
     },
@@ -269,7 +269,7 @@ export default {
   watch: {
     myCompany(company) {
       if (company !== null) {
-        this.requestOrderStatus(this.orderId);
+        this.requestStatus(this.orderId);
       }
     },
   },
@@ -299,7 +299,7 @@ export default {
         params: params,
       })
         .then((order) => {
-          this.requestOrderStatus(this.orderId).finally((data) => {
+          this.requestStatus(this.orderId).finally((data) => {
             this.isUpdating = false;
           });
         })
@@ -327,7 +327,7 @@ export default {
         params: params,
       })
         .then((order) => {
-          this.requestOrderStatus(this.orderId).finally((data) => {
+          this.requestStatus(this.orderId).finally((data) => {
             this.isUpdating = false;
           });
         })
@@ -353,7 +353,7 @@ export default {
         params: params,
       })
         .then((order) => {
-          this.requestOrderStatus(this.orderId).finally((data) => {
+          this.requestStatus(this.orderId).finally((data) => {
             this.isUpdating = false;
           });
         })
@@ -380,7 +380,7 @@ export default {
         params: params,
       })
         .then((order) => {
-          this.requestOrderStatus(this.orderId).finally((data) => {
+          this.requestStatus(this.orderId).finally((data) => {
             this.isUpdating = false;
           });
         })
@@ -407,7 +407,7 @@ export default {
         params: params,
       })
         .then((order) => {
-          this.requestOrderStatus(this.orderId).finally((data) => {
+          this.requestStatus(this.orderId).finally((data) => {
             this.isUpdating = false;
           });
         })
@@ -427,15 +427,15 @@ export default {
         type: "positive",
       });
 
-      this.requestOrderStatus(this.orderId);
+      this.requestStatus(this.orderId);
     },
 
     onInvoiceTaxUploaded() {
-      this.requestOrderStatus(this.orderId);
+      this.requestStatus(this.orderId);
     },
 
     onDacteUploaded() {
-      this.requestOrderStatus(this.orderId).then((data) => {
+      this.requestStatus(this.orderId).then((data) => {
         // this.currentTab = 'resumo';
       });
     },
@@ -444,7 +444,7 @@ export default {
       return formatMoney(value, "BRL", "pt-br");
     },
 
-    requestOrderStatus(orderId) {
+    requestStatus(orderId) {
       if (this.isLoading) return;
 
       let params = {};
@@ -458,7 +458,7 @@ export default {
           this.isLoading = false;
 
           if (data["@id"]) {
-            this.orderStatus = data.orderStatus;
+            this.status = data.status;
             this.invoices = data.invoiceTax;
             this.deliveryDueDate = data.deliveryDueDate;
             this.client = data.client;
@@ -471,8 +471,8 @@ export default {
             this.mainOrderId = data.mainOrderId;
             this.notFound = false;
             this.isEditable =
-              data.orderStatus.status === "on the way" ||
-              data.orderStatus.status === "retrieved";
+              data.status.status === "on the way" ||
+              data.status.status === "retrieved";
             this.integrationType = data.integrationType;
           }
 
@@ -480,7 +480,7 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
-          this.orderStatus = null;
+          this.status = null;
           this.deliveryDueDate = null;
           this.invoices = [];
           this.client.name = "";
@@ -501,7 +501,7 @@ export default {
         params,
       })
         .then((result) => {
-          this.requestOrderStatus(this.orderId).finally((data) => {
+          this.requestStatus(this.orderId).finally((data) => {
             this.isUpdating = false;
           });
         })

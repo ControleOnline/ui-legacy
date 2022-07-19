@@ -674,7 +674,7 @@ export default {
       isLoading: false,
       options: [],
       comments: "",
-      orderStatus: null,
+      status: null,
       editable: false,
       payerContact: null,
       showByAddressType: false,
@@ -913,7 +913,7 @@ export default {
       this.comments = this.summary.comments;
 
       if (this.myCompany !== null && this.orderId !== null) {
-        this.getOrderStatus(this.orderId);
+        this.getStatus(this.orderId);
       }
       Object.filter = (obj, predicate) =>
         Object.keys(obj)
@@ -1019,18 +1019,18 @@ export default {
         this.forceHidden = false;
       }
     },
-    getOrderStatus(orderId) {
+    getStatus(orderId) {
       this.getStatus({ orderId })
         .then((data) => {
           this.isLoading = false;
 
           if (data["@id"]) {
-            this.orderStatus = data.orderStatus.status;
+            this.status = data.status.status;
           }
           return data;
         })
         .catch((error) => {
-          this.orderStatus = null;
+          this.status = null;
         });
     },
 

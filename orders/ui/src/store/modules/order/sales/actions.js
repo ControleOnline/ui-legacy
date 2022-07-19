@@ -58,7 +58,7 @@ export const alterQuotation = ({ commit }, { id, values, params = {} }) => {
 
 
 export const getStatuses = ({ commit }, params = {}) => {
-  return fetch('/order_statuses', { params })
+  return fetch('/statuses', { params })
     .then(response => response.json())
     .then(data => {
 

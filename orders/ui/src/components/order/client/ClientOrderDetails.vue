@@ -5,7 +5,7 @@
     </q-inner-loading>
 
     <transition-group appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-      <div v-if="orderStatus !== null" class="row q-pa-sm q-col-gutter-sm" key="order_status">
+      <div v-if="status !== null" class="row q-pa-sm q-col-gutter-sm" key="status">
         <div class="col-xs-12 col-sm-4">
           <q-markup-table flat dense separator="none" class="bg-grey-4">
             <tbody>
@@ -13,7 +13,7 @@
                 <td class="text-left text-bold">Número do pedido</td>
                 <td class="text-left">
                   {{
-                      `#${this.orderStatus["@id"].match(
+                      `#${this.status["@id"].match(
                         /^\/purchasing\/orders\/([a-z0-9-]*)$/
                       )[1]
                       }`
@@ -23,7 +23,7 @@
               <tr>
                 <td class="text-left text-bold">Valor do pedido</td>
                 <td class="text-left">
-                  {{ formatMoney(this.orderStatus.price) }}
+                  {{ formatMoney(this.status.price) }}
                 </td>
               </tr>
               <tr>
@@ -37,22 +37,22 @@
         </div>
         <div class="col-xs-12 col-sm-8">
           <q-markup-table flat dense separator="none" class="text-white"
-            :style="`background-color: ${this.orderStatus.orderStatus.color}`">
+            :style="`background-color: ${this.status.status.color}`">
             <tbody>
               <tr>
                 <td class="text-center">
                   <div class="text-h6">
-                    {{ $t(`order.statuses.${orderStatus.orderStatus.status}`) }}
+                    {{ $t(`order.statuses.${status.status.status}`) }}
                   </div>
                 </td>
               </tr>
               <tr>
                 <td class="text-center text-bold">
                   <div class="row q-gutter-xs items-center justify-center">
-                    <q-btn v-if="orderStatus.orderStatus.realStatus == 'canceled'" color="positive"
+                    <q-btn v-if="status.status.realStatus == 'canceled'" color="positive"
                       label="Revalidar Cotação" @click="remakeQuote" :loading="isUpdating" />
                     <q-btn v-if="
-                      orderStatus.orderStatus.status == 'waiting retrieve'
+                      status.status.status == 'waiting retrieve'
                     " color="positive" label="Coleta realizada" @click="addRetrieve" :loading="isUpdating" />
                   </div>
                 </td>
@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <div v-if="orderStatus !== null" class="row" key="order_tabs">
+      <div v-if="status !== null" class="row" key="order_tabs">
         <div class="col-12">
           <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
             <q-tab name="resumo" label="Resumo" />
@@ -111,14 +111,14 @@
               <ClientOrderDetailTracking :orderId="orderId" />
             </q-tab-panel>
             <q-tab-panel name="tag" class="q-pa-none">
-              <OrderDetailTag :total_packages="total_packages" :orderId="orderId" :orderStatus="orderStatus" />
+              <OrderDetailTag :total_packages="total_packages" :orderId="orderId" :status="status" />
             </q-tab-panel>
           </q-tab-panels>
         </div>
       </div>
     </transition-group>
 
-    <div v-if="orderStatus === null && notFound" class="row items-center justify-center" style="min-height: 90vh">
+    <div v-if="status === null && notFound" class="row items-center justify-center" style="min-height: 90vh">
       <q-banner class="text-white bg-red text-center text-h3" rounded>
         <template v-slot:avatar>
           <q-icon name="error" color="white" />
@@ -157,7 +157,7 @@ export default {
       this.orderId = parseInt(decodeURIComponent(this.$route.params.id));
 
     if (this.myCompany !== null && this.orderId !== null) {
-      this.requestOrderStatus(this.orderId);
+      this.requestStatus(this.orderId);
     }
   },
 
@@ -168,7 +168,7 @@ export default {
       client: null,
       currentTab: "resumo",
       orderId: null,
-      orderStatus: null,
+      status: null,
       deliveryDueDate: null,
       notFound: false,
       isLoading: false,
@@ -185,7 +185,7 @@ export default {
   watch: {
     myCompany(company) {
       if (company !== null) {
-        this.requestOrderStatus(this.orderId);
+        this.requestStatus(this.orderId);
       }
     },
     $route(to, from) {
@@ -239,7 +239,7 @@ export default {
         params: params,
       })
         .then((order) => {
-          this.requestOrderStatus(this.orderId);
+          this.requestStatus(this.orderId);
         })
         .catch((error) => {
           this.$q.notify({
@@ -284,18 +284,18 @@ export default {
         type: "positive",
       });
 
-      this.requestOrderStatus(this.orderId);
+      this.requestStatus(this.orderId);
     },
 
     onInvoiceTaxUploaded() {
-      this.requestOrderStatus(this.orderId);
+      this.requestStatus(this.orderId);
     },
 
     formatMoney(value) {
       return formatMoney(value, "BRL", "pt-br");
     },
 
-    requestOrderStatus(orderId) {
+    requestStatus(orderId) {
       if (this.isLoading) return;
 
       let params = {};
@@ -309,7 +309,7 @@ export default {
           this.isLoading = false;
 
           if (data["@id"]) {
-            this.orderStatus = data;
+            this.status = data;
             this.deliveryDueDate = data.deliveryDueDate;
             this.notFound = false;
             this.total_packages = data.total_packages;
@@ -318,7 +318,7 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
-          this.orderStatus = null;
+          this.status = null;
           this.deliveryDueDate = null;
           this.notFound = true;
         });

@@ -26,7 +26,7 @@
     <div class="col-12" v-else>
       <!-- NF VIEWER -->
 
-      <div class="row" v-if="orderStatus.realStatus != 'closed'">
+      <div class="row" v-if="status.realStatus != 'closed'">
         <div class="col-12">
           <q-input
             v-model.number="pkgs"
@@ -67,7 +67,7 @@ export default {
       type: String,
       required: true,
     },
-    orderStatus: {
+    status: {
       type: Object,
       required: true,
     },
