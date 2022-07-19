@@ -559,11 +559,11 @@ export default {
       getSummary: "purchasingOrder/getDetailSummary",
       sendProposta: "quote/sendProposta",
       updateStatus: "purchasingOrder/updateRemote",
-      getStatus: "purchasingOrder/getDetailStatus",
+      requestStatus: "purchasingOrder/getDetailStatus",
     }),
 
     getStatus(orderId) {
-      this.getStatus({ orderId })
+      this.requestStatus({ orderId })
         .then((data) => {
           this.isLoading = false;
 

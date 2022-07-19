@@ -974,7 +974,7 @@ export default {
       changeAddress: "salesOrder/changeAddress",
       sendProposta: "quote/sendProposta",
       updateStatus: "salesOrder/updateRemote",
-      getStatus: "salesOrder/getDetailStatus",
+      requestStatus: "salesOrder/getDetailStatus",
       geoplace: "gmaps/geoplace",
     }),
     isInvalid(key) {
@@ -1020,7 +1020,7 @@ export default {
       }
     },
     getStatus(orderId) {
-      this.getStatus({ orderId })
+      this.requestStatus({ orderId })
         .then((data) => {
           this.isLoading = false;
 
