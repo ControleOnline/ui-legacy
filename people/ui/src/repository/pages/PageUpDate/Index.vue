@@ -69,7 +69,7 @@
   }
 " />
           </div>
-          <div v-if="people.type === 'J'" class="col-12 row">
+          <div v-if="people.type === 'F'" class="col-12 row">
             <div class="col-xs-12 col-sm-6">
               <PeopleAdminEmails :people_type="people_type" class="full-height" :api="api" :id="peopleId" @error="
                 (error) => {
@@ -88,8 +88,8 @@
     });
   }
 " />
-            </div>
-            <div v-if="people.type === 'J'" class="col-xs-12 col-sm-6 q-pl-lg">
+            </div> 
+            <div v-if="people.type === 'F'" class="col-xs-12 col-sm-6 q-pl-lg">
               <PeopleAdminPhones :people_type="people_type" class="full-height" :api="api" :id="peopleId" @error="
                 (error) => {
                   this.$q.notify({
