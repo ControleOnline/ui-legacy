@@ -119,6 +119,7 @@
             </q-card-actions>
             <q-separator />
             <q-card-section align="center" class="row">
+
               <div v-if="task.client && task.client.peopleType == 'F'" class="col-12 text-center">
                 <q-btn :to="{
                   name: 'CustomersDetails',
@@ -137,9 +138,13 @@
                 }" outline dense flat no-caps color="grey-9" icon="factory" :label="task.client.alias"
                   class="full-width q-py-xs" />
               </div>
-
               <div v-if="task.name.length > 0" class="text-center col-12 text-bold">
                 {{ task.name }}
+              </div>
+              <div v-if="task.reason" class="text-body2 text-center col-12"
+                :style="task.reason.color ? 'color:' + task.reason.color : ''">
+                <q-icon name="help" />
+                {{ task.reason.label }}
               </div>
             </q-card-section>
             <q-separator />
@@ -148,27 +153,21 @@
                 <q-icon name="person" />
                 {{ task.taskFor }}
               </div>
+              <div class="text-body2 text-center col-6"
+                :style="task.category && task.category.color ? 'color:' + task.category.color : ''">
+                <q-icon v-if="task.category" name="bookmarks" />
+                {{ task.category ? task.category.label : '' }}
+              </div>
               <div class="col-6 text-center" :style="(new Date(task.dueDate) < new Date()) ? 'color:red' : ''">
                 <q-icon v-if="task.dueDate.length > 0" name="calendar_month" />
                 {{ formatDate(task.dueDate) }}
               </div>
-
-              <div v-if="task.reason" class="text-body2 text-center col-6"
-                :style="task.reason.color ? 'color:' + task.reason.color : ''">
-                <q-icon name="help" />
-                {{ task.reason.label }}
+              <div class="text-body2 text-center col-6"
+                :style="task.criticality && task.criticality.color ? 'color:' + task.criticality.color : ''">
+                <q-icon v-if="task.criticality" name="warning" />
+                {{ task.criticality ? task.criticality.label : '' }}
               </div>
-              <div v-if="task.category" class="text-body2 text-center col-6"
-                :style="task.category.color ? 'color:' + task.category.color : ''">
-                <q-icon name="bookmarks" />
-                {{ task.category.label }}
-              </div>
-              <div v-if="task.criticality" class="text-body2 text-center col-6"
-                :style="task.criticality.color ? 'color:' + task.criticality.color : ''">
-                <q-icon name="warning" />
-                {{ task.criticality.label }}
-              </div>
-              <div v-if="task.order.length > 0" class="text-body2 text-center col-6">
+              <div v-if="task.order.length > 0" class="text-body2 text-center col-12">
                 <q-icon name="shopping_cart" />
                 {{ task.order }}
               </div>
