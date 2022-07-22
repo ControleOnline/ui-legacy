@@ -3,6 +3,7 @@
 
 export const translate = {
   relationship: {
+    task_for: 'Responsável',
     allTasks: 'Todas',
     create: 'Ocorrências Criadas',
     myTasks: 'Minhas Ocorrências',
