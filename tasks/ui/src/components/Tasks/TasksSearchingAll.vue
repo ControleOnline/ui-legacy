@@ -208,6 +208,20 @@ export default {
   },
 
   props: {
+    fromDate: {
+      type: String,
+      required: false,
+    },
+    toDate: {
+      type: String,
+      required: false,
+    },
+    searchBy: {
+      type: String,
+      required: false,
+    },
+
+
     provider: {
       type: Number,
       required: true
@@ -282,7 +296,6 @@ export default {
       },
       data: [],
       isLoading: false,
-      searchBy: "",
       filters: { status: null },
       categories: [],
       categories_criticality: [],
@@ -351,7 +364,30 @@ export default {
         filter: this.filters,
       });
     },
-
+    fromDate(fromDate) {
+      this.page = 1;
+      this.filters.fromDate = fromDate;
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+    toDate(toDate) {
+      this.page = 1;
+      this.filters.toDate = toDate;
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+    searchBy(text) {
+      this.page = 1;
+      this.filters.toDate = text;
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
     "filters.task_for"() {
       this.page = 1;
       this.onRequest({
@@ -399,6 +435,10 @@ export default {
     },
   },
   methods: {
+
+    formatSearchDate(dateString) {
+      return date.formatDate(date.extractDate(dateString, 'DD-MM-YYYY'), 'YYYY-MM-DD');
+    },
 
     getClear(category) {
       let cat = category.map(function (e) { return e; });
@@ -591,6 +631,17 @@ export default {
 
       if (this.filters.reason && this.filters.reason.value > 0)
         params.reason = this.filters.reason.value;
+
+
+      if (this.filters.fromDate)
+        params.fromDate = this.formatSearchDate(this.filters.fromDate);
+
+      if (this.filters.fromDate)
+        params.toDate = this.formatSearchDate(this.filters.toDate);
+
+      if (this.filters.searchBy)
+        params.searchBy = this.filters.searchBy;
+
 
       this.getTasks(params)
         .then((data) => {
