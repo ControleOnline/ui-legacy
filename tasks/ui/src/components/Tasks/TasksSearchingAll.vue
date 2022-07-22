@@ -382,7 +382,7 @@ export default {
     },
     searchBy(text) {
       this.page = 1;
-      this.filters.toDate = text;
+      this.filters.searchBy = text;
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
