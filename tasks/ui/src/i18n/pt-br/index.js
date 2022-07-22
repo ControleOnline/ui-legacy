@@ -3,6 +3,7 @@
 
 export const translate = {
   support: {
+    task_for:'Responsável',
     allTasks: 'Todas',
     create: 'Ocorrências Criadas',
     myTasks: 'Minhas Ocorrências',

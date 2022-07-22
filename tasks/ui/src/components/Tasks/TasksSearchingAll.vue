@@ -1,10 +1,7 @@
 <template>
   <div class="row q-pt-md q-col-gutter-md">
-    <div class="row col-12 items-center">
-      <div class="col-xs-12 col-sm">
-        <q-option-group v-model="people_filter" :options="people_filter_options" color="primary" inline dense />
-      </div>
 
+    <div class="row col-12 items-center">
       <div class="col-xs-12 col-sm-auto">
         <q-btn v-if="orderId || client || context != 'relationship'" :label="$t('Add')" icon="add" size="md"
           color="primary" @click="dialog = !dialog" unelevated no-caps />
@@ -24,10 +21,20 @@
           </q-card>
         </q-dialog>
       </div>
+      <div class="col-xs-12 col-sm q-pl-none">
+        <q-option-group v-model="people_filter" :options="people_filter_options" color="primary" inline dense />
+      </div>
+      <q-select class="col-xs-12 col-sm q-pl-none" outlined stack-label :label="$t(task_type + '.task_for')"
+        v-model="filters.task_for" :options="task_for">
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> Sem resultados </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
     </div>
-
     <div class="row col-xs-12 q-col-gutter-x-md q-ma-none q-py-md">
-      <q-select class="col-xs-12 col-sm-3 q-pl-none" outlined stack-label :label="$t(task_type + '.status_label')"
+      <q-select class="col-xs-12 col-sm q-pl-none" outlined stack-label :label="$t(task_type + '.status_label')"
         v-model="filters.status" :options="statuses">
         <template v-slot:no-option>
           <q-item>
@@ -36,7 +43,7 @@
         </template>
       </q-select>
 
-      <q-select class="col-xs-12 col-sm" v-if="categories.length > 0" outlined stack-label
+      <q-select class="col-xs-12 col-sm  q-pl-none" v-if="categories.length > 0" outlined stack-label
         :label="$t(task_type + '.category')" v-model="filters.category" :options="categories">
         <template v-slot:no-option>
           <q-item>
@@ -45,7 +52,7 @@
         </template>
       </q-select>
 
-      <q-select class="col-xs-12 col-sm" v-if="categories_criticality.length > 0" outlined stack-label
+      <q-select class="col-xs-12 col-sm q-pl-none" v-if="categories_criticality.length > 0" outlined stack-label
         :label="$t(task_type + '.criticality')" v-model="filters.criticality" :options="categories_criticality">
         <template v-slot:no-option>
           <q-item>
@@ -54,7 +61,7 @@
         </template>
       </q-select>
 
-      <q-select class="col-xs-12 col-sm" v-if="categories_reason.length > 0" outlined stack-label
+      <q-select class="col-xs-12 col-sm q-pl-none" v-if="categories_reason.length > 0" outlined stack-label
         :label="$t(task_type + '.reason')" v-model="filters.reason" :options="categories_reason">
         <template v-slot:no-option>
           <q-item>
@@ -297,6 +304,12 @@ export default {
           value: 'created'
         }
       ],
+      task_for: [
+        {
+          label: this.$t(this.task_type + '.allTasks'),
+          value: null
+        }
+      ],
       statuses: [],
       loadingStatuses: false,
       dialog: false,
@@ -315,6 +328,7 @@ export default {
   created() {
     this.requestCategories();
     this.requestStatuses();
+    this.requestTaskFor();
   },
 
 
@@ -331,6 +345,14 @@ export default {
       });
     },
     people_filter() {
+      this.page = 1;
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+
+    "filters.task_for"() {
       this.page = 1;
       this.onRequest({
         pagination: this.pagination,
@@ -464,9 +486,26 @@ export default {
             totalItems: result["hydra:totalItems"],
           };
         });
+    },
 
+    getTaskFor() {
+      let params = [];
+      params.context = this.context;
+      params.company = this.provider;
+      params['order[name]'] = 'ASC';
 
-
+      return this.API.private("/tasks/people", { params })
+        .then((response) => response.json())
+        .then((result) => {
+          return result.response.data;
+        });
+    },
+    requestTaskFor() {
+      this.getTaskFor().then((TaskFor) => {
+        for (let index in TaskFor) {
+          this.task_for.push({ value: TaskFor[index].id, label: TaskFor[index].name });
+        }
+      });
     },
     requestStatuses() {
       this.loadingStatuses = true;
@@ -530,6 +569,9 @@ export default {
 
       if (this.taskFor && this.people_filter != 'all' && this.people_filter != 'created')
         params.taskFor = this.taskFor;
+
+      if (this.filters.task_for && this.filters.task_for.value !== null)
+        params.taskFor = this.filters.task_for.value;
 
       if (this.orderId)
         params.order = this.orderId;
