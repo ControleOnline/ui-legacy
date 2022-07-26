@@ -300,8 +300,8 @@ export default {
       categories: [],
       categories_criticality: [],
       categories_reason: [],
-      //people_filter: this.orderId || this.client ? 'all' : 'my',
-      people_filter: 'all',
+      people_filter: this.orderId || this.client ? 'all' : 'my',
+      //people_filter: 'all',
       people_filter_options: [
         {
           label: this.$t(this.task_type + '.myTasks'),
