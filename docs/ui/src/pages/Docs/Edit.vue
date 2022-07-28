@@ -4,11 +4,12 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{$t('Editar imposto')}}
+            {{idRoute === null ? 'Inserindo Novo' : 'Editando'}} Imposto / Declaração
           </div>
           <div class="col-12 q-mb-md">
             <FormImposto
-              :id="id"
+              :idRoute="idRoute"
+              @setIdRoute="setIdRoute"
             />
           </div>
         </div>
@@ -16,26 +17,27 @@
     </q-card>
   </q-page>
 </template>
-
 <script>
-import { mapGetters } from 'vuex';
-import FormImposto    from './../../components/docs/FormImposto';
+import FormImposto from './../../../components/docs/FormImpDec';
 
-export default {
+export default { //
   components: {
     FormImposto
   },
-
-  created() {
-    if (this.$route.params.id) {
-      this.id = decodeURIComponent(this.$route.params.id);
-    }
-  },
-
-  data () {
+  data() {
     return {
-      id: null,
+      idRoute: null
     }
   },
+  methods: {
+    setIdRoute(idRoute) {
+      this.idRoute = idRoute;
+    }
+  },
+  created() {
+    if (typeof this.$route.params.id !== 'undefined') { // Quando é de uma rota de edição de registro
+      this.idRoute = this.$route.params.id;
+    }
+  }
 }
 </script>
