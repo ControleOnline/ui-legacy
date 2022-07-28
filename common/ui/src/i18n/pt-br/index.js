@@ -96,11 +96,11 @@ export const translate = {
     mycompany: 'Minhas Empresas',
     simulator: 'Simulador',
     tables: 'Tabelas',
-    home: 'Home',
     news: 'Artigos',
     import: 'Importador',
     crm: 'CRM',
-    coupon: 'Cupons de Desconto'
+    coupon: 'Cupons de Desconto',
+    docs: 'Documentos',
   },
   messages: {
     fieldRequired: 'Este campo é obrigatório',
