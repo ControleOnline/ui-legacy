@@ -19,7 +19,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import FormImposto    from './../../../components/fiscal/FormImposto';
+import FormImposto    from './../../components/docs/FormImposto';
 
 export default {
   components: {

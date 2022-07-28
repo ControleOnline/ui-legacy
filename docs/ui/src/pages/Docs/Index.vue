@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import FiscalImpostosTabela from './../../../components/fiscal/AuditFiscalArquivosTabela';
+import FiscalImpostosTabela from './../../components/docs/AuditFiscalArquivosTabela';
 
 export default { //
   components: {

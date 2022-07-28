@@ -64,7 +64,7 @@
                   color="primary"
                   label="Editar"
                   size="sm"
-                  :to="{name : 'AuditFiscalDetails', params: { id: props.row.id } }"
+                  :to="{name : 'DocsDetails', params: { id: props.row.id } }"
                 />
                 <q-btn
                   color="red"
