@@ -1,24 +1,14 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <q-table
-        flat
-        :pagination="{
-          page: 1,
-          rowsPerPage: 30
-        }"
-        :data="items"
-        :columns="settings.columns"
-        row-key="id"
-        :loading="loadingQtable">
+      <q-table flat :pagination="{
+        page: 1,
+        rowsPerPage: 30
+      }" :data="items" :columns="settings.columns" row-key="id" :loading="loadingQtable">
         <template v-slot:top>
           <div class="col-xs-12">
-            <q-input stack-label
-                     label="Buscar por empresa"
-                     debounce="1000"
-                     v-model="filters.empresa"
-                     class="full-width"
-            />
+            <q-input stack-label label="Buscar por empresa" debounce="1000" v-model="filters.empresa"
+              class="full-width" />
           </div>
         </template>
         <template v-slot:body="props">
@@ -29,77 +19,52 @@
             <q-td key="company" :props="props">{{ props.row.company }}</q-td>
             <q-td key="date_period" :props="props">{{ props.row.date_period }}</q-td>
             <q-td key="paid" :props="props">
-              <q-badge
-                :color="props.row.paid === 'sim' ? 'green' : 'yellow'"
+              <q-badge :color="props.row.paid === 'sim' ? 'green' : 'yellow'"
                 :text-color="props.row.paid === 'sim' ? 'white' : 'black'"
-                :label="props.row.paid === 'sim' ? 'Sim' : 'Não'"
-              />
+                :label="props.row.paid === 'sim' ? 'Sim' : 'Não'" />
             </q-td>
             <q-td key="arquivoGuia" :props="props" auto-width>
-              <q-btn
-                :ref="'btnguide' + props.row.id"
-                v-if="props.row.file_name_guide !== null"
-                color="secondary"
-                label="Baixar"
-                size="sm"
+              <q-btn :ref="'btnguide' + props.row.id" v-if="props.row.file_name_guide !== null" color="secondary"
+                label="Baixar" size="sm"
                 @click="downloadFilesCallApi(props.row.id, 'guide', props.row.file_name_guide);"
-                :loading="loadArr['guide_' + props.row.id]"
-              />
+                :loading="loadArr['guide_' + props.row.id]" />
             </q-td>
             <q-td key="arquivoRecibo" :props="props" auto-width>
-              <q-btn
-                :ref="'btnreceipt' + props.row.id"
-                v-if="props.row.file_name_receipt !== null"
-                color="secondary"
-                label="Baixar"
-                size="sm"
+              <q-btn :ref="'btnreceipt' + props.row.id" v-if="props.row.file_name_receipt !== null" color="secondary"
+                label="Baixar" size="sm"
                 @click="downloadFilesCallApi(props.row.id, 'receipt', props.row.file_name_receipt);"
-                :loading="loadArr['receipt_' + props.row.id]"
-              />
+                :loading="loadArr['receipt_' + props.row.id]" />
             </q-td>
             <q-td key="acoes" :props="props">
               <div class="row q-gutter-xs items-center justify-center">
-                <q-btn
-                  outline
-                  color="primary"
-                  label="Editar"
-                  size="sm"
-                  :to="{name : 'DocsDetails', params: { id: props.row.id } }"
-                />
-                <q-btn
-                  color="red"
-                  label="Apagar"
-                  size="sm"
-                  @click="deleteConfirm(props.row.id)"
-                  :loading="false"
-                />
+                <q-btn outline color="primary" label="Editar" size="sm"
+                  :to="{ name: 'DocsDetails', params: { id: props.row.id } }" />
+                <q-btn color="red" label="Apagar" size="sm" @click="deleteConfirm(props.row.id)" :loading="false" />
               </div>
             </q-td>
           </q-tr>
         </template>
         <template v-slot:loading>
-          <q-inner-loading showing color="primary"/>
+          <q-inner-loading showing color="primary" />
         </template>
       </q-table>
     </div>
-    <q-dialog
-      v-model="confirmDelete"
-      persistent>
+    <q-dialog v-model="confirmDelete" persistent>
       <q-card style="width: 600px;">
         <q-card-section class="row items-center q-pb-none">
-          <q-avatar icon="delete" color="red" text-color="white"/>
+          <q-avatar icon="delete" color="red" text-color="white" />
           <div class="text-h6 q-ml-md">
             Apagar Registro
           </div>
-          <q-space/>
-          <q-btn icon="close" @click="setClassRow(idRowToDelete, false);" flat round dense v-close-popup/>
+          <q-space />
+          <q-btn icon="close" @click="setClassRow(idRowToDelete, false);" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section class="row items-center">
           <span class="q-ml-sm" v-html="msgDelete"></span>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat label="Cancelar" color="primary" @click="setClassRow(idRowToDelete, false);" v-close-popup/>
-          <q-btn flat label="Sim" color="primary" @click="nowDelete(idRowToDelete);" v-close-popup/>
+          <q-btn flat label="Cancelar" color="primary" @click="setClassRow(idRowToDelete, false);" v-close-popup />
+          <q-btn flat label="Sim" color="primary" @click="nowDelete(idRowToDelete);" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -107,10 +72,10 @@
 </template>
 
 <script>
-import {fetch} from 'boot/myapi';
-import {mapActions, mapGetters} from 'vuex';
+import { fetch } from 'boot/myapi';
+import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
-import {ENTRYPOINT} from '../../../../../../src/config/entrypoint';
+import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
 
 function forceDownloadFile(blob, fileName) {
@@ -190,18 +155,31 @@ const SETTINGS = {
 Object.freeze(SETTINGS);
 
 export default {
+  components: {
+    Api,
+  },
+  props: {
+    docs_type: {
+      type: String,
+      required: true,
+    },
+  },
+
   data() {
+
     return {
+      loadingStatuses: false,
+      API: new Api(this.$store.getters["auth/user"].token),
       loadArr: [],
       loadingDownloadReceipt: false,
       loadingDownloadGuide: false,
-      apiImp: new Api(this.$store.getters['auth/user'].token),
       idRowToDelete: null,
       msgDelete: null,
       confirmDelete: false,
       myCompanyLocal: null,
       myCompanyLocalLoaded: false,
       items: [],
+      statuses: [],
       settings: SETTINGS,
       saving: false,
       loadingQtable: false,
@@ -237,6 +215,46 @@ export default {
   },
 
   methods: {
+
+    requestStatuses() {
+      this.loadingStatuses = true;
+      this.statuses.push({ label: this.$t(this.docs_type + ".status.all"), value: -1, color: '#000000' });
+      this.getStatuses().then((statuses) => {
+        if (statuses.totalItems) {
+          for (let index in statuses.members) {
+            let item = statuses.members[index];
+            this.statuses.push({
+              original: item.status,
+              label: this.$t(this.docs_type + ".status." + item.status),
+              value: parseInt(item['@id'].match(/^\/statuses\/([a-z0-9-]*)$/)[1]),
+              color: item.color,
+            });
+          }
+
+        }
+        this.loadingStatuses = false;
+        if (!this.orderId && !this.client)
+          this.filters.status = this.statuses.find((status) => 'open' == status.original);
+        else
+          this.filters.status = { label: this.$t(this.docs_type + ".status.all"), value: -1 };
+
+      });
+    },
+
+    getStatuses() {
+      let params = [];
+      params.context = this.docs_type;
+      params['order[name]'] = 'ASC';
+
+      return this.API.private("/statuses", { params })
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+            totalItems: result["hydra:totalItems"],
+          };
+        });
+    },
     nowDelete(id) {
       this.loadingQtable = true;
 
@@ -271,7 +289,7 @@ export default {
 
       let params = {
         method: 'DELETE',
-        params: {'myProvider': this.myCompanyLocal}
+        params: { 'myProvider': this.myCompanyLocal }
       };
 
       return fetch('/filesb/' + id, params)
@@ -301,7 +319,7 @@ export default {
         method: 'get',
         responseType: 'blob',
         headers: {
-          'api-token': this.apiImp.token
+          'api-token': this.API.token
         }
       }).then((response) => {
         if (response.data.type === 'application/json') {
@@ -310,7 +328,7 @@ export default {
           return false;
         }
         const content = response.headers['content-type'];
-        let blob = new Blob([response.data], {type: content}), url = window.URL.createObjectURL(blob);
+        let blob = new Blob([response.data], { type: content }), url = window.URL.createObjectURL(blob);
         forceDownloadFile(blob, fileName);
         this.$set(this.loadArr, type + '_' + id, false);
       });
@@ -320,7 +338,7 @@ export default {
 
       let params = {
         method: 'GET',
-        params: {'myProvider': this.myCompanyLocal}
+        params: { 'myProvider': this.myCompanyLocal }
       };
 
       fetch('/filesb', params)
@@ -342,10 +360,10 @@ export default {
           }
 
         }).catch(error => {
-        this.alertNotify(error, 'n');
-      }).finally(error => {
-        this.$q.loading.hide();
-      });
+          this.alertNotify(error, 'n');
+        }).finally(error => {
+          this.$q.loading.hide();
+        });
 
     },
     checkIfChangeMyCompany() {
@@ -378,51 +396,7 @@ export default {
       });
     },
     onRequest() {
-      let params = {};
-      let items = [];
 
-      items.push({
-        id: 1,
-        name: 'DAS',
-        company: 'MARIA22 NISHIKAWO 81071499904',
-        type: 'Imposto',
-        date_period: 'Jan 2021',
-        paid: true,
-        file_name_guide: 'askjhdjh.pdf',
-        file_name_receipt: null,
-      });
-
-      /*
-      items.push({
-        id: 2,
-        nome: 'PIS',
-        empresa: 'MARCELO AUGUSTO PINTO 11110607847',
-        tipo: 'Declaração',
-        periodo: 'Jan 2021',
-        pago: false,
-      });
-
-      items.push({
-        id: 3,
-        nome: 'CONFINS',
-        empresa: 'Julio Cesar Monte2',
-        tipo: 'Declaração',
-        periodo: 'Mar 2021',
-        pago: true,
-      });
-
-      items.push({
-        id: 4,
-        nome: 'DAS',
-        empresa: 'ADRIANA MELINO FRANCA 99906148860',
-        tipo: 'Imposto',
-        periodo: 'Abr 2021',
-        pago: true,
-      });
-
-       */
-
-      this.items = items;
     },
     getValuesToLoad() {
       this.$q.loading.show();
@@ -432,6 +406,7 @@ export default {
   created() {
     this.$q.loading.show();
     this.checkIfChangeMyCompany();
+    this.requestStatuses();
   }
 };
 </script>

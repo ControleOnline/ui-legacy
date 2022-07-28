@@ -3,21 +3,9 @@
   <q-form ref="myForm" @submit="onSubmit" autocomplete="off">
     <div class="row q-col-gutter-xs q-pb-xs">
       <div class="col-xs-12 col-md-6">
-        <q-select
-          autocomplete="off"
-          v-model="item.empresa"
-          use-input
-          use-chips
-          input-debounce="0"
-          label="Empresa"
-          :options="optionsQselect"
-          option-value="id"
-          option-label="name"
-          :loading="loading"
-          @filter="searchPeopleByDocumentOrName"
-          :rules="[isInvalid('select')]"
-          hint="Digite o CNPJ ou Razão Social"
-        >
+        <q-select autocomplete="off" v-model="item.empresa" use-input use-chips input-debounce="0" label="Empresa"
+          :options="optionsQselect" option-value="id" option-label="name" :loading="loading"
+          @filter="searchPeopleByDocumentOrName" :rules="[isInvalid('select')]" hint="Digite o CNPJ ou Razão Social">
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
@@ -30,138 +18,68 @@
     </div>
     <div class="row q-col-gutter-xs q-pb-xs q-mt-md">
       <div class="col-xs-12 col-sm-3">
-        <q-select
-          stack-label
-          label="Tipo"
-          v-model="item.tipo"
-          :options="tipos"
-          class="full-width"
-          :rules="[isInvalid('select')]"
-        />
+        <q-select stack-label label="Tipo" v-model="item.tipo" :options="tipos" class="full-width"
+          :rules="[isInvalid('select')]" />
       </div>
       <div class="col-xs-12 col-sm-3">
-        <q-select
-          stack-label
-          label="Nome"
-          v-model="item.imposto"
-          :options="impostos"
-          class="full-width"
-          :rules="[isInvalid('select')]"
-        />
+        <q-select stack-label label="Nome" v-model="item.imposto" :options="impostos" class="full-width"
+          :rules="[isInvalid('select')]" />
       </div>
       <div class="col-xs-12 col-sm-3">
-        <q-input
-          ref="periodoInput"
-          stack-label
-          v-model="item.periodo"
-          mask="##/####"
-          label="Período (Mês/Ano)"
-          @blur="onBlurFunc('mesAno', item.periodo)"
-          @focus="periodoFocus = true"
-          :rules="[isInvalid('periodo')]"
-        >
+        <q-input ref="periodoInput" stack-label v-model="item.periodo" mask="##/####" label="Período (Mês/Ano)"
+          @blur="onBlurFunc('mesAno', item.periodo)" @focus="periodoFocus = true" :rules="[isInvalid('periodo')]">
         </q-input>
       </div>
       <div class="col-xs-12 col-sm-3">
-        <q-select
-          stack-label
-          label="Pago"
-          v-model="item.pago"
-          :options="pagoItens"
-          class="full-width"
-          :rules="[isInvalid('select')]"
-        />
+        <q-select stack-label :label="$t(this.docs_type + '.status_name')" v-model="item.status" :options="statuses"
+          class="full-width" :rules="[isInvalid('select')]" />
       </div>
       <div class="col-xs-12 col-md-6">
-        <q-file
-          ref="guia"
-          color="purple-12"
-          v-model="arquivoGuia"
-          label="Guia PDF"
-          :rules="[isInvalid('arquivoGuia')]"
-        >
+        <q-file ref="guia" color="purple-12" v-model="arquivoGuia" label="Guia PDF" :rules="[isInvalid('arquivoGuia')]">
           <template v-slot:prepend>
-            <q-icon name="attach_file"/>
+            <q-icon name="attach_file" />
           </template>
         </q-file>
 
-        <q-btn
-          v-if="checkFilesIsAtached('arquivoGuia', arquivoGuia)"
-          @click="checkConfirm('arquivoGuia')"
-          size="sm" color="red-10" icon="cancel" label="Excluir Guia"
-        />
-        <q-btn
-          v-if="btnSeeGuideVis"
-          ref="btnSeeGuide"
-          :loading="btnSeeGuideLoading"
-          class="q-ml-sm"
-          @click="downloadFilesCallApi('guide');"
-          size="sm" color="secondary" icon="download_for_offline" label="Download"
-        />
+        <q-btn v-if="checkFilesIsAtached('arquivoGuia', arquivoGuia)" @click="checkConfirm('arquivoGuia')" size="sm"
+          color="red-10" icon="cancel" label="Excluir Guia" />
+        <q-btn v-if="btnSeeGuideVis" ref="btnSeeGuide" :loading="btnSeeGuideLoading" class="q-ml-sm"
+          @click="downloadFilesCallApi('guide');" size="sm" color="secondary" icon="download_for_offline"
+          label="Download" />
 
       </div>
       <div class="col-xs-12 col-md-6 q-mt-xs-lg q-mt-md-none">
-        <q-file
-          v-model="arquivoRecibo"
-          color="purple-12"
-          label="Recibo PDF"
-          :rules="[isInvalid('arquivoRecibo')]"
-        >
+        <q-file v-model="arquivoRecibo" color="purple-12" label="Recibo PDF" :rules="[isInvalid('arquivoRecibo')]">
           <template v-slot:prepend>
-            <q-icon name="attach_file"/>
+            <q-icon name="attach_file" />
           </template>
         </q-file>
-        <q-btn
-          v-if="checkFilesIsAtached('arquivoRecibo', arquivoRecibo)"
-          @click="checkConfirm('arquivoRecibo')"
-          size="sm" color="red-10" icon="cancel" label="Excluir Recibo"
-        />
-        <q-btn
-          v-if="btnSeeReceiptVis"
-          ref="btnSeeReceipt"
-          :loading="btnSeeReceiptLoading"
-          class="q-ml-sm"
-          @click="downloadFilesCallApi('receipt');"
-          size="sm" color="secondary" icon="download_for_offline" label="Download"
-        />
+        <q-btn v-if="checkFilesIsAtached('arquivoRecibo', arquivoRecibo)" @click="checkConfirm('arquivoRecibo')"
+          size="sm" color="red-10" icon="cancel" label="Excluir Recibo" />
+        <q-btn v-if="btnSeeReceiptVis" ref="btnSeeReceipt" :loading="btnSeeReceiptLoading" class="q-ml-sm"
+          @click="downloadFilesCallApi('receipt');" size="sm" color="secondary" icon="download_for_offline"
+          label="Download" />
       </div>
 
     </div>
 
     <div class="row justify-between q-mt-xl">
-      <q-btn
-        ref="btnCancelar"
-        icon="arrow_back"
-        type="button"
-        label="Retornar"
-        size="md"
-        color="primary"
-        class="q-mt-md"
-        :to="{name:'DocsIndex'}"
-      />
-      <q-btn
-        ref="btnSave"
-        :loading="saving"
-        icon="save"
-        type="submit"
-        label="Salvar"
-        size="md"
-        color="primary"
-        class="q-mt-md"
-      />
+      <q-btn ref="btnCancelar" icon="arrow_back" type="button" label="Retornar" size="md" color="primary"
+        class="q-mt-md" :to="{ name: 'DocsIndex' }" />
+      <q-btn ref="btnSave" :loading="saving" icon="save" type="submit" label="Salvar" size="md" color="primary"
+        class="q-mt-md" />
     </div>
     <q-dialog v-model="confirmDetach" persistent>
       <q-card>
         <q-card-section class="row items-center">
-          <q-avatar icon="file_copy" color="primary" text-color="white"/>
-          <span
-            class="q-ml-sm">
+          <q-avatar icon="file_copy" color="primary" text-color="white" />
+          <span class="q-ml-sm">
             Você deseja realmente Desanexar o Arquivo {{ detachLabel === 'arquivoGuia' ? 'da Guia' : 'do Recibo' }} ?
           </span>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat label="Cancelar" color="primary" v-close-popup/>
-          <q-btn flat label="Sim" color="primary" @click="detachFile(detachLabel)" v-close-popup/>
+          <q-btn flat label="Cancelar" color="primary" v-close-popup />
+          <q-btn flat label="Sim" color="primary" @click="detachFile(detachLabel)" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -169,10 +87,10 @@
 </template>
 
 <script>
-import {fetch} from 'boot/myapi';
-import {mapActions, mapGetters} from 'vuex';
+import { fetch } from 'boot/myapi';
+import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
-import {ENTRYPOINT} from '../../../../../../src/config/entrypoint';
+import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
 
 const msgErro = 'Este campo é obrigatório';
@@ -222,7 +140,15 @@ function findIn(obj, search) {
 }
 
 export default {
+
+  components: {
+    Api,
+  },
   props: {
+    docs_type: {
+      type: String,
+      required: true,
+    },
     idRoute: {
       required: true,
       default: null
@@ -230,6 +156,7 @@ export default {
   },
   data() {
     return {
+      loadingStatuses: false,
       btnSeeGuideVis: true,
       btnSeeGuideLoading: false,
       btnSeeReceiptVis: true,
@@ -239,7 +166,7 @@ export default {
       myCompanyLocal: null,
       myCompanyLocalLoaded: false,
       pageUpdated: false,
-      apiImp: new Api(this.$store.getters['auth/user'].token),
+      API: new Api(this.$store.getters['auth/user'].token),
       detachLabel: null,
       confirmDetach: false,
       arquivoGuia: null,
@@ -257,16 +184,10 @@ export default {
         empresa: null,
         imposto: null,
         periodo: null,
-        pago: null
+        status: null
       },
-      pagoItens: [
-        {
-          label: 'Não',
-          value: 'nao'
-        }, {
-          label: 'Sim',
-          value: 'sim'
-        }
+      statuses: [
+
       ],
       tipos: [
         {
@@ -329,6 +250,47 @@ export default {
     }
   },
   methods: {
+
+    requestStatuses() {
+      this.loadingStatuses = true;
+      
+      this.getStatuses().then((statuses) => {
+        if (statuses.totalItems) {
+          for (let index in statuses.members) {
+            let item = statuses.members[index];
+            this.statuses.push({
+              original: item.status,
+              label: this.$t(this.docs_type + ".status." + item.status),
+              value: parseInt(item['@id'].match(/^\/statuses\/([a-z0-9-]*)$/)[1]),
+              color: item.color,
+            });
+          }
+
+        }
+        this.loadingStatuses = false;
+        //if (!this.orderId && !this.client)
+        //this.filters.status = this.statuses.find((status) => 'open' == status.original);
+        //else
+        //          this.filters.status = { label: this.$t(this.docs_type + ".status.all"), value: -1 };
+
+      });
+    },
+
+    getStatuses() {
+      let params = [];
+      params.context = this.docs_type;
+      params['order[name]'] = 'ASC';
+
+      return this.API.private("/statuses", { params })
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+            totalItems: result["hydra:totalItems"],
+          };
+        });
+    },
+
     /**
      * @param type ('guide','receipt')
      * @param action ('hide','show')
@@ -359,7 +321,7 @@ export default {
         method: 'get',
         responseType: 'blob',
         headers: {
-          'api-token': this.apiImp.token
+          'api-token': this.API.token
         }
       }).then((response) => {
         if (response.data.type === 'application/json') {
@@ -368,7 +330,7 @@ export default {
           return false;
         }
         const content = response.headers['content-type'];
-        let blob = new Blob([response.data], {type: content}), url = window.URL.createObjectURL(blob);
+        let blob = new Blob([response.data], { type: content }), url = window.URL.createObjectURL(blob);
         let fileName = null;
         if (type === 'guide') {
           fileName = this.arquivoGuia.name;
@@ -485,7 +447,7 @@ export default {
         url: ENTRYPOINT + '/filesb' + idStr,
         data: formData,
         headers: {
-          'api-token': this.apiImp.token,
+          'api-token': this.API.token,
           'Content-Type': 'multipart/form-data'
         }
       }).then(data => {
@@ -507,7 +469,7 @@ export default {
         'type': this.item.tipo.value, // 'imposto','declaracao'
         'name': this.item.imposto.value, // 'das', 'pis', 'confins'
         'date_period': this.item.periodo, // '10/2021'
-        'paid': this.item.pago.value // 'sim','nao'
+        'status': this.item.status.value // 'sim','nao'
       }
 
       if (!fileExists(this.arquivoRecibo)) { // Caso não exista um arquivo de recibo, envia um parâmetro para desanexá-lo
@@ -596,7 +558,7 @@ export default {
                   tipo: findIn(this.tipos, dado.type),
                   imposto: findIn(this.impostos, dado.name),
                   periodo: dado.date_period,
-                  pago: findIn(this.pagoItens, dado.paid)
+                  status: findIn(this.statuses, dado.status)
                 }
 
                 if (dado.file_name_guide !== null) {
@@ -644,8 +606,8 @@ export default {
             value: 'confins'
           },
           periodo: '10/2019',
-          pago: {
-            label: this.pagoItens[1].label,
+          status: {
+            label: this.statuses[1].label,
             value: 'sim'
           }
         }
@@ -689,7 +651,7 @@ export default {
     getPeopleByDocumentAndNameApi(search) {
       let params = {
         method: 'GET',
-        params: {'search': search}
+        params: { 'search': search }
       };
       return fetch('/audit_fiscal_files/search-people', params)
         .then(response => response.json())
@@ -781,11 +743,14 @@ export default {
   },
   created() {
 
-    this.$q.loading.show();
-    this.checkIfChangeMyCompany();
     if (this.idRoute !== null) {
       this.editMode = true;
     }
+
+    this.$q.loading.show();
+    this.checkIfChangeMyCompany();
+    this.requestStatuses();
+
 
   },
 };
