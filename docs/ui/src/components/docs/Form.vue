@@ -137,7 +137,7 @@
         size="md"
         color="primary"
         class="q-mt-md"
-        :to="{name:'AuditFiscalIndex'}"
+        :to="{name:'DocsIndex'}"
       />
       <q-btn
         ref="btnSave"

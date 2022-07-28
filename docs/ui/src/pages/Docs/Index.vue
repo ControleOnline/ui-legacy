@@ -14,7 +14,7 @@
                 size="md"
                 color="primary"
                 :to="{
-                  name: 'AuditFiscalCreate'
+                  name: 'DocsCreate'
                 }"
               />
             </div>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import FiscalImpostosTabela from './../../components/docs/AuditFiscalArquivosTabela';
+import FiscalImpostosTabela from './../../components/docs/DocsTable';
 
 export default { //
   components: {
