@@ -18,10 +18,10 @@
             <q-td key="name" :props="props">{{ props.row.name }}</q-td>
             <q-td key="company" :props="props">{{ props.row.company }}</q-td>
             <q-td key="date_period" :props="props">{{ props.row.date_period }}</q-td>
-            <q-td key="paid" :props="props">
-              <q-badge :color="props.row.paid === 'sim' ? 'green' : 'yellow'"
-                :text-color="props.row.paid === 'sim' ? 'white' : 'black'"
-                :label="props.row.paid === 'sim' ? 'Sim' : 'Não'" />
+            <q-td key="status" :props="props">
+              <q-badge 
+                :text-color="props.row.status.color"
+                :label="$t(docs_type+'.status.'+props.row.status.status)" />
             </q-td>
             <q-td key="arquivoGuia" :props="props" auto-width>
               <q-btn :ref="'btnguide' + props.row.id" v-if="props.row.file_name_guide !== null" color="secondary"
@@ -126,10 +126,10 @@ const SETTINGS = {
       label: 'Período'
     },
     {
-      name: 'paid',
-      field: row => row.paid,
+      name: 'status',
+      field: row => row.status,
       align: 'left',
-      label: 'Pago'
+      label: 'Status'
     },
     {
       name: 'arquivoGuia',
