@@ -18,7 +18,7 @@
   </q-page>
 </template>
 <script>
-import FormImposto from './../../../components/docs/FormImpDec';
+import FormImposto from './../../components/docs/FormImpDec';
 
 export default { //
   components: {
