@@ -339,7 +339,7 @@ export default {
         method: 'GET',
         params: {
           'myProvider': this.myCompanyLocal,
-          'context': docs_type
+          'context': this.docs_type
         }
       };
 
