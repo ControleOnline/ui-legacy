@@ -15,7 +15,7 @@
   </q-page>
 </template>
 <script>
-import FormImposto from '@controleonline/quasar-tasks-ui/src/components/docs/Form';
+import FormImposto from '@controleonline/quasar-docs-ui/src/components/docs/Form';
 
 export default { //
   components: {

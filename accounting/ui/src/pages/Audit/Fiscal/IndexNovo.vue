@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import DocsTable from '@controleonline/quasar-tasks-ui/src/components/docs/DocsTable';
+import DocsTable from '@controleonline/quasar-docs-ui/src/components/docs/DocsTable';
 
 export default { //
   components: {
