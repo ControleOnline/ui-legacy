@@ -652,7 +652,7 @@ export default {
         method: 'GET',
         params: { 'search': search }
       };
-      return fetch('/audit_fiscal_files/search-people', params)
+      return fetch('/docs_files/search-people', params)
         .then(response => response.json())
         .then(data => {
           return data;
