@@ -19,9 +19,8 @@
             <q-td key="company" :props="props">{{ props.row.company }}</q-td>
             <q-td key="date_period" :props="props">{{ props.row.date_period }}</q-td>
             <q-td key="status" :props="props">
-              <q-badge 
-                :text-color="props.row.status.color"
-                :label="$t(docs_type+'.status.'+props.row.status.status)" />
+              <q-badge :text-color="props.row.status.color"
+                :label="$t(docs_type + '.status.' + props.row.status.status)" />
             </q-td>
             <q-td key="arquivoGuia" :props="props" auto-width>
               <q-btn :ref="'btnguide' + props.row.id" v-if="props.row.file_name_guide !== null" color="secondary"
@@ -338,7 +337,10 @@ export default {
 
       let params = {
         method: 'GET',
-        params: { 'myProvider': this.myCompanyLocal }
+        params: {
+          'myProvider': this.myCompanyLocal,
+          'context': docs_type
+        }
       };
 
       fetch('/filesb', params)

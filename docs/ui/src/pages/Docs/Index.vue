@@ -16,18 +16,18 @@
         </div>
       </q-card-section>
 
-      <FiscalImpostosTabela :docs_type="docs_type" />
+      <DocsTable :docs_type="docs_type" />
 
     </q-card>
   </q-page>
 </template>
 
 <script>
-import FiscalImpostosTabela from './../../components/docs/DocsTable';
+import DocsTable from './../../components/docs/DocsTable';
 
 export default { //
   components: {
-    FiscalImpostosTabela,
+    DocsTable,
   },
 
   computed: {
