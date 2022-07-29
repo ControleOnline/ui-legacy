@@ -345,7 +345,7 @@ export default {
     checkIfChangeMyCompany() {
       if (this.myCompanyLocal !== null) {
         if (this.myCompany.id !== this.myCompanyLocal) {
-          this.$router.push({ name: docs_type[0].toUpperCase() + docs_type.substr(1) + 'Index' });
+          this.$router.push({ name: this.docs_type[0].toUpperCase() + this.docs_type.substr(1) + 'Index' });
         }
       }
       if (this.myCompany !== null) {
@@ -521,7 +521,7 @@ export default {
                 this.$emit('setIdRoute', lastInsertId);
                 this.editMode = true;
                 this.alertNotify(msgRet, 'p');
-                this.$router.push({ name: docs_type[0].toUpperCase() + docs_type.substr(1) + 'Index', params: { id: lastInsertId } });
+                this.$router.push({ name: this.docs_type[0].toUpperCase() + this.docs_type.substr(1) + 'Index', params: { id: lastInsertId } });
               }
 
             }
@@ -569,14 +569,14 @@ export default {
 
                 if (companyIdXhr !== this.myCompanyLocal) {
                   this.alertNotify('Este registro pertence a outra empresa diferente da empresa selecionada.', 'n');
-                  this.$router.push({ name: docs_type[0].toUpperCase() + docs_type.substr(1) + 'Index' });
+                  this.$router.push({ name: this.docs_type[0].toUpperCase() + this.docs_type.substr(1) + 'Index' });
                 }
 
               } else { // ----------------- success = false
 
                 let message = data.response.message;
                 this.alertNotify(message, 'n');
-                this.$router.push({ name: docs_type[0].toUpperCase() + docs_type.substr(1) + 'Index' });
+                this.$router.push({ name: this.docs_type[0].toUpperCase() + this.docs_type.substr(1) + 'Index' });
 
               }
 
