@@ -4,36 +4,30 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 col-md-4 q-mb-md text-h6 text-left">
-            {{ $t('Auditoria Fiscal (Impostos e Declarações)') }}
+            {{ $t(docs_type + '.tittle') }}
           </div>
           <div class="col-12 col-md-8 q-mb-md">
             <div class="row justify-end">
-              <q-btn
-                label="Novo Registro"
-                icon="add"
-                size="md"
-                color="primary"
-                :to="{
-                  name: 'AuditFiscalCreate'
-                }"
-              />
+              <q-btn :label="$t(docs_type + '.new')" icon="add" size="md" color="primary" :to="{
+                name: 'DocsCreate'
+              }" />
             </div>
           </div>
         </div>
       </q-card-section>
 
-      <FiscalImpostosTabela/>
+      <DocsTable :docs_type="docs_type" />
 
     </q-card>
   </q-page>
 </template>
 
 <script>
-import FiscalImpostosTabela from './../../../components/fiscal/AuditFiscalArquivosTabela';
+import DocsTable from '@controleonline/quasar-tasks-ui/src/components/docs/DocsTable';
 
 export default { //
   components: {
-    FiscalImpostosTabela,
+    DocsTable,
   },
 
   computed: {
@@ -43,7 +37,9 @@ export default { //
   },
 
   data() {
-    return {}
+    return {
+      docs_type: 'audit-fiscal'
+    }
   },
 
   methods: {},

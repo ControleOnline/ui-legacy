@@ -4,13 +4,10 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{idRoute === null ? 'Inserindo Novo' : 'Editando'}} Imposto / Declaração
+            {{ idRoute === null ? $t(docs_type + '.new') : $t(docs_type + '.edit') }}
           </div>
           <div class="col-12 q-mb-md">
-            <FormImposto
-              :idRoute="idRoute"
-              @setIdRoute="setIdRoute"
-            />
+            <FormImposto :idRoute="idRoute" @setIdRoute="setIdRoute" :docs_type="docs_type" />
           </div>
         </div>
       </q-card-section>
@@ -18,7 +15,7 @@
   </q-page>
 </template>
 <script>
-import FormImposto from './../../../components/fiscal/FormImpDec';
+import FormImposto from '@controleonline/quasar-tasks-ui/src/components/docs/Form';
 
 export default { //
   components: {
@@ -26,7 +23,8 @@ export default { //
   },
   data() {
     return {
-      idRoute: null
+      idRoute: null,
+      docs_type: 'audit-fiscal'
     }
   },
   methods: {
