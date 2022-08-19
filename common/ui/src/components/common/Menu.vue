@@ -14,9 +14,9 @@
         v-ripple
         clickable
         class="GNL__drawer-item"
-        :to="{ name: item.route }"
         v-for="item in mItem.menus"
         :key="item.id"
+        @click="click(item.route)"
       >
         <q-item-section avatar>
           <q-icon class="item-icon" :name="item.icon" :color="item.color" />
@@ -32,6 +32,9 @@
 </template>
 
 <script>
+import { METHODS } from "http";
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   props: {
     context: {
@@ -73,7 +76,7 @@ export default {
                 color: "$primary",
                 route: "ContractIndex",
               },
-                            {
+              {
                 id: 3,
                 label: this.$t("menu.contracts"),
                 icon: "library_books",
@@ -102,14 +105,14 @@ export default {
                 color: "$primary",
                 route: "ProvidersIndex",
               },
-             {
+              {
                 id: 6,
                 label: this.$t("menu.import"),
                 icon: "publish",
                 color: "$primary",
                 route: "ImportIndex",
               },
-          {
+              {
                 id: 7,
                 label: this.$t("menu.tasks"),
                 icon: "task",
@@ -119,7 +122,7 @@ export default {
             ],
           },
           finance: {
-            id: 0,
+            id: 2,
             label: this.$t("menu.finance"),
             icon: "attach_money",
             color: "$primary",
@@ -141,7 +144,7 @@ export default {
             ],
           },
           support: {
-            id: 0,
+            id: 3,
             label: this.$t("menu.support"),
             icon: "featured_play_list",
             color: "$primary",
@@ -153,7 +156,6 @@ export default {
                 color: "$primary",
                 route: "News",
               },
-             
             ],
           },
         },
@@ -166,5 +168,10 @@ export default {
   computed: {},
 
   watch: {},
+  methods: {
+    click(route) {
+      this.$emit("clickmenu", route);
+    },
+  },
 };
 </script>
