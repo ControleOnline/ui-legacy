@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable -->
-  <q-btn-dropdown outline v-if="isMultipleCompanies() == true && !dialog" color="primary" text-color="white"
+  <q-btn-dropdown outline v-if="isMultipleCompanies() == true && !dialog" color="primary"
     :label="currentCompany !== null ? currentCompany.name : 'Loading...'" class="ellipsis full-width">
     <q-list>
       <q-item clickable v-close-popup dense v-for="(company, index) in myCompanies" :disable="

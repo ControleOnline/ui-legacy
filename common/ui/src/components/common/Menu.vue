@@ -7,7 +7,7 @@
       :icon="mItem.icon"
       class="GNL__drawer-item"
       :label="mItem.label"
-      v-for="mItem in menu.departments"
+      v-for="mItem in menu.modules"
       :key="mItem.id"
     >
       <q-item
@@ -31,9 +31,12 @@
   </div>
 </template>
 
+
+
 <script>
 import { METHODS } from "http";
 import { mapActions, mapGetters } from "vuex";
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
 
 export default {
   props: {
@@ -47,128 +50,41 @@ export default {
 
   data() {
     return {
-      menu: {
-        departments: {
-          commercial: {
-            id: 0,
-            label: this.$t("menu.commercial"),
-            icon: "shopping_cart",
-            color: "$primary",
-            menus: [
-              {
-                id: 0,
-                label: this.$t("menu.crm"),
-                icon: "person",
-                color: "$primary",
-                route: "CustomersIndex",
-              },
-              {
-                id: 1,
-                label: this.$t("menu.docs"),
-                icon: "library_books",
-                color: "$primary",
-                route: "DocsIndex",
-              },
-              {
-                id: 2,
-                label: this.$t("menu.coupon"),
-                icon: "shopping_cart",
-                color: "$primary",
-                route: "ContractIndex",
-              },
-              {
-                id: 3,
-                label: this.$t("menu.contracts"),
-                icon: "library_books",
-                color: "$primary",
-                route: "CouponIndex",
-              },
-            ],
-          },
-          operational: {
-            id: 1,
-            label: this.$t("menu.operational"),
-            icon: "local_shipping",
-            color: "$primary",
-            menus: [
-              {
-                id: 4,
-                label: this.$t("menu.profissionals"),
-                icon: "local_shipping",
-                color: "$primary",
-                route: "ProfessionalsIndex",
-              },
-              {
-                id: 5,
-                label: this.$t("menu.providers"),
-                icon: "person",
-                color: "$primary",
-                route: "ProvidersIndex",
-              },
-              {
-                id: 6,
-                label: this.$t("menu.import"),
-                icon: "publish",
-                color: "$primary",
-                route: "ImportIndex",
-              },
-              {
-                id: 7,
-                label: this.$t("menu.tasks"),
-                icon: "task",
-                color: "$primary",
-                route: "SupportIndex",
-              },
-            ],
-          },
-          finance: {
-            id: 2,
-            label: this.$t("menu.finance"),
-            icon: "attach_money",
-            color: "$primary",
-            menus: [
-              {
-                id: 8,
-                label: this.$t("menu.financepay"),
-                icon: "attach_money",
-                color: "$primary",
-                route: "FinancePayIndex",
-              },
-              {
-                id: 9,
-                label: this.$t("menu.financereceive"),
-                icon: "attach_money",
-                color: "$primary",
-                route: "FinanceReceiveIndex",
-              },
-            ],
-          },
-          support: {
-            id: 3,
-            label: this.$t("menu.support"),
-            icon: "featured_play_list",
-            color: "$primary",
-            menus: [
-              {
-                id: 10,
-                label: this.$t("menu.news"),
-                icon: "featured_play_list",
-                color: "$primary",
-                route: "News",
-              },
-            ],
-          },
-        },
-      },
+      API: new Api(this.$store.getters["auth/user"].token),
+      company: null,
+      menu: [],
     };
   },
 
   created() {},
 
-  computed: {},
+  computed: {
+    ...mapGetters({
+      myCompany: "people/currentCompany",
+    }),
+  },
 
-  watch: {},
+  watch: {
+    myCompany(company) {
+      this.company = company;
+      this.getMenu();
+    },
+  },
+
   methods: {
+    ...mapActions({}),
+
+    getMenu() {
+      return this.API.private(`menus/people`, {
+        params: { myCompany: this.company.id },
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result.response.data);
+          this.menu = result.response?.data;
+        });
+    },
+
     click(route) {
       this.$emit("clickmenu", route);
     },
