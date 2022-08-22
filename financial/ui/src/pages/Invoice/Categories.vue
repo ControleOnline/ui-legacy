@@ -6,7 +6,7 @@
       </q-card-section>
       <div class="row">
         <div class="col-12">
-          <TableCategories :context="'expense'" :api="api" />
+          <TableCategories :context="'expense'" />
         </div>
       </div>
     </q-card>
@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
-
 import TableCategories from "@controleonline/quasar-common-ui/src/components/Categories/Table.vue";
 
 export default {
@@ -24,9 +22,7 @@ export default {
   },
 
   data() {
-    return {      
-      api: new Api(this.$store.getters["auth/user"].token),
-    };
+    return {};
   },
 
   created() {},
