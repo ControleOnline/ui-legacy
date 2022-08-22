@@ -1,25 +1,50 @@
 <template>
   <div>
-    <q-table flat :loading="isLoading" :data="items" :columns="settings.columns" :pagination.sync="pagination"
-      @request="onRequest" row-key="id" bordered :rows-per-page-options="[5, 10, 15, 20, 25, 50]">
+    <q-table
+      flat
+      :loading="isLoading"
+      :data="items"
+      :columns="settings.columns"
+      :pagination.sync="pagination"
+      @request="onRequest"
+      row-key="id"
+      bordered
+      :rows-per-page-options="[5, 10, 15, 20, 25, 50]"
+    >
       <template v-slot:top>
         <div class="col-xs-12">
           <div class="row justify-end">
-            <q-btn :label="$t('Adicionar menu')" icon="add" size="md" color="primary" @click="() => {
-              dialogs.menu.id = null;
-              dialogs.menu.visible = true;
-            }" />
+            <q-btn
+              :label="$t('Adicionar menu')"
+              icon="add"
+              size="md"
+              color="primary"
+              @click="
+                () => {
+                  dialogs.menu.id = null;
+                  dialogs.menu.visible = true;
+                }
+              "
+            />
           </div>
         </div>
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="id" :props="props">
-            <q-btn outline dense :label="`#${props.row.id}`" :style="{ color: props.row.color_status }"
-              class="full-width" @click="() => {
-                dialogs.menu.id = props.row.id;
-                dialogs.menu.visible = true;
-              }" />
+            <q-btn
+              outline
+              dense
+              :label="`#${props.row.id}`"
+              :style="{ color: props.row.color_status }"
+              class="full-width"
+              @click="
+                () => {
+                  dialogs.menu.id = props.row.id;
+                  dialogs.menu.visible = true;
+                }
+              "
+            />
           </q-td>
           <q-td key="name" :props="props">{{ props.row.name }}</q-td>
           <q-td key="color" :props="props">{{ props.row.color }}</q-td>
@@ -30,12 +55,12 @@
     </q-table>
 
     <q-dialog v-model="dialogs.menu.visible" @before-hide="reload">
-      <q-card style="width: 700px; max-width: 80vw;">
+      <q-card style="width: 700px; max-width: 80vw">
         <q-card-section class="row items-center justify-end q-pb-none">
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <FormMenu :id="dialogs.menu.id" :api="api" :context="context"/>
+          <FormMenu :id="dialogs.menu.id" :api="api" :context="context" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -43,37 +68,37 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
-import FormMenu from './Form';
+import { mapGetters } from "vuex";
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
+import FormMenu from "./Form";
 
 const SETTINGS = {
   columns: [
     {
-      name: 'id',
-      field: 'id',
-      align: 'left',
-      label: 'ID'
+      name: "id",
+      field: "id",
+      align: "left",
+      label: "ID",
     },
     {
-      name: 'name',
-      align: 'left',
-      label: 'Categoria'
+      name: "name",
+      align: "left",
+      label: "Categoria",
     },
     {
-      name: 'color',
-      align: 'left',
-      label: 'Cor'
+      name: "color",
+      align: "left",
+      label: "Cor",
     },
     {
-      name: 'icon',
-      align: 'left',
-      label: 'Ícone'
+      name: "icon",
+      align: "left",
+      label: "Ícone",
     },
     {
-      name: 'parent',
-      align: 'left',
-      label: 'Categoria pai'
+      name: "parent",
+      align: "left",
+      label: "Categoria pai",
     },
   ],
 };
@@ -81,17 +106,7 @@ const SETTINGS = {
 Object.freeze(SETTINGS);
 
 export default {
-  props: {
-    api: {
-      type: Api,
-      required: true
-    },
-    context: {
-      type: String,
-      required: true
-    }
-
-  },
+  props: {},
 
   components: {
     FormMenu,
@@ -100,12 +115,14 @@ export default {
   created() {
     if (this.myCompany !== null)
       this.onRequest({
-        pagination: this.pagination
+        pagination: this.pagination,
       });
   },
 
   data() {
     return {
+      context: "menu",
+      api: new Api(this.$store.getters["auth/user"].token),
       settings: SETTINGS,
       items: [],
       pagination: {
@@ -125,7 +142,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      myCompany: 'people/currentCompany',
+      myCompany: "people/currentCompany",
     }),
   },
 
@@ -133,7 +150,7 @@ export default {
     myCompany(company) {
       if (company !== null) {
         this.onRequest({
-          pagination: this.pagination
+          pagination: this.pagination,
         });
       }
     },
@@ -142,12 +159,13 @@ export default {
   methods: {
     // store method
     getItems(params) {
-      return this.api.private('categories', { params })
-        .then(response => response.json())
-        .then(response => {
+      return this.api
+        .private("categories", { params })
+        .then((response) => response.json())
+        .then((response) => {
           return {
-            members: response['hydra:member'],
-            total: response['hydra:totalItems'],
+            members: response["hydra:member"],
+            total: response["hydra:totalItems"],
           };
         });
     },
@@ -208,31 +226,25 @@ export default {
 
     reload() {
       this.onRequest({
-        pagination: this.pagination
+        pagination: this.pagination,
       });
     },
 
     onRequest(props) {
-      if (this.isLoading)
-        return;
+      if (this.isLoading) return;
 
-      let {
-        page,
-        rowsPerPage,
-        rowsNumber,
-        sortBy,
-        descending
-      } = props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
+        props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
       params.context = this.context;
       if (this.myCompany != null) {
         params.company = this.myCompany.id;
       }
-      params['order[name]'] = 'ASC';
+      params["order[name]"] = "ASC";
 
       this.isLoading = true;
       this.getItems(params)
-        .then(data => {
+        .then((data) => {
           let _items = [];
 
           if (data.members.length) {
@@ -242,7 +254,10 @@ export default {
                 name: data.members[index].name,
                 color: data.members[index].color,
                 icon: data.members[index].icon,
-                parent: data.members[index].parent !== null ? data.members[index].parent.name : null,
+                parent:
+                  data.members[index].parent !== null
+                    ? data.members[index].parent.name
+                    : null,
                 _bussy: false,
               });
             }

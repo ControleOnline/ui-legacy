@@ -1,47 +1,66 @@
 <template>
   <q-page padding>
-    <q-card style="min-height: 90vh;">
+    <q-card style="min-height: 90vh">
       <q-card-section>
         <div class="row">
           <div class="col-12 col-md-4 q-mb-md text-h6 text-left">
-            {{ $t(docs_type+'.tittle') }}
-          </div>
-          <div class="col-12 col-md-8 q-mb-md">
-            <div class="row justify-end">
-              <q-btn :label="$t(docs_type+'.new')" icon="add" size="md" color="primary" :to="{
-                name: 'DocsCreate'
-              }" />
-            </div>
+            {{ $t("config.menu.tittle") }}
           </div>
         </div>
       </q-card-section>
 
-      <DocsTable :docs_type="docs_type" />
-
+      <q-tabs
+        :horizontal="$q.screen.gt.xs"
+        align="justify"
+        v-model="currentTab"
+        class="bg-transparent text-primary col-auto"
+        dense
+      >
+        <q-tab
+          name="menu"
+          :label="$t('config.menu.tittle')"
+          class="text-capitalize"
+        />
+        <q-tab
+          name="menu-categories"
+          :label="$t('config.categories.tittle')"
+          class="text-capitalize"
+        />
+      </q-tabs>
+      <q-tab-panels v-model="currentTab" class="q-mt-sm bg-transparent">
+        <q-tab-panel name="menu" class="q-pa-xs">
+          <Menu />
+        </q-tab-panel>
+        <q-tab-panel name="menu-categories" class="q-pa-xs">
+          <TableCategories :context="'menu'" />
+        </q-tab-panel>
+      </q-tab-panels>
     </q-card>
   </q-page>
 </template>
 
 <script>
-import DocsTable from './../../components/docs/DocsTable';
+import TableCategories from "@controleonline/quasar-common-ui/src/components/categories/Table.vue";
+import Menu from "./../../components/config/Menu/Table";
 
-export default { //
+export default {
+  //
   components: {
-    DocsTable,
+    Menu,
   },
 
   computed: {
     user() {
-      return this.$store.getters['auth/user'] || {};
+      return this.$store.getters["auth/user"] || {};
     },
   },
 
   data() {
     return {
-      docs_type: 'docs'
-    }
+      currentTab: "menu",
+    };
   },
 
   methods: {},
-}
+};
 </script>
