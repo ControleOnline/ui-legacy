@@ -22,6 +22,8 @@
               }" />
           </q-td>
           <q-td key="name" :props="props">{{ props.row.name }}</q-td>
+          <q-td key="color" :props="props">{{ props.row.color }}</q-td>
+          <q-td key="icon" :props="props">{{ props.row.icon }}</q-td>
           <q-td key="parent" :props="props">{{ props.row.parent }}</q-td>
         </q-tr>
       </template>
@@ -57,6 +59,16 @@ const SETTINGS = {
       name: 'name',
       align: 'left',
       label: 'Categoria'
+    },
+    {
+      name: 'color',
+      align: 'left',
+      label: 'Cor'
+    },
+    {
+      name: 'icon',
+      align: 'left',
+      label: 'Ícone'
     },
     {
       name: 'parent',
@@ -228,6 +240,8 @@ export default {
               _items.push({
                 id: data.members[index].id,
                 name: data.members[index].name,
+                color: data.members[index].color,
+                icon: data.members[index].icon,
                 parent: data.members[index].parent !== null ? data.members[index].parent.name : null,
                 _bussy: false,
               });

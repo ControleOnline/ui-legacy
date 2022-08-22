@@ -22,6 +22,26 @@
           :rules ="[isInvalid()]"
         />
       </div>
+
+            <div class="col-xs-12">
+        <q-input lazy-rules stack-label outlined
+          v-model="item.color"
+          type   ="text"
+          :label ="$t('Cor')"
+          class  ="q-mt-md"
+          :rules ="[isInvalid()]"
+        />
+      </div>
+
+            <div class="col-xs-12">
+        <q-input lazy-rules stack-label outlined
+          v-model="item.icon"
+          type   ="text"
+          :label ="$t('Ícone')"
+          class  ="q-mt-md"
+          :rules ="[isInvalid()]"
+        />
+      </div>
     </div>
     <div class="row justify-end">
       <q-btn
@@ -66,6 +86,8 @@ export default {
       this.getItem(this.id)
         .then(item => {
           this.item.name    = item.name;
+          this.item.color    = item.color;
+          this.item.icon    = item.icons;
           this.item.context = this.context;
           this.item.parent  = item.parent !== null ? item.parent['@id'] : null;
         });
@@ -155,6 +177,8 @@ export default {
       this.save(
         {
           "name"   : this.item.name,
+          "color"   : this.item.color,
+          "icon"   : this.item.icon,
           "context": this.item.context,
           "parent" : this.item.parent,
           "company": `/people/${this.myCompany.id}`,
