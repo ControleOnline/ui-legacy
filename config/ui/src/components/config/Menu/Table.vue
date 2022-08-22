@@ -46,10 +46,11 @@
               "
             />
           </q-td>
-          <q-td key="name" :props="props">{{ props.row.name }}</q-td>
+          <q-td key="menu" :props="props">{{ props.row.menu }}</q-td>
+          <q-td key="route" :props="props">{{ props.row.route }}</q-td>
+          
           <q-td key="color" :props="props">{{ props.row.color }}</q-td>
           <q-td key="icon" :props="props">{{ props.row.icon }}</q-td>
-          <q-td key="parent" :props="props">{{ props.row.parent }}</q-td>
         </q-tr>
       </template>
     </q-table>
@@ -79,11 +80,16 @@ const SETTINGS = {
       field: "id",
       align: "left",
       label: "ID",
+    },         
+    {
+      name: "route",
+      align: "left",
+      label: "Rota",
     },
     {
-      name: "name",
+      name: "menu",
       align: "left",
-      label: "Categoria",
+      label: "Menu",
     },
     {
       name: "color",
@@ -94,11 +100,6 @@ const SETTINGS = {
       name: "icon",
       align: "left",
       label: "Ícone",
-    },
-    {
-      name: "parent",
-      align: "left",
-      label: "Categoria pai",
     },
   ],
 };
@@ -160,7 +161,7 @@ export default {
     // store method
     getItems(params) {
       return this.api
-        .private("categories", { params })
+        .private("menus", { params })
         .then((response) => response.json())
         .then((response) => {
           return {
@@ -250,14 +251,13 @@ export default {
           if (data.members.length) {
             for (let index in data.members) {
               _items.push({
-                id: data.members[index].id,
-                name: data.members[index].name,
+                id: data.members[index].id,                
+                route: data.members[index].route,
+                menu: data.members[index].menu,
                 color: data.members[index].color,
                 icon: data.members[index].icon,
-                parent:
-                  data.members[index].parent !== null
-                    ? data.members[index].parent.name
-                    : null,
+                category: data.members[index].category,
+                module: data.members[index].module,                
                 _bussy: false,
               });
             }

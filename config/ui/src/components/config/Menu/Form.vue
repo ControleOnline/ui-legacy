@@ -134,7 +134,7 @@ export default {
     // store method
     getItem(id) {
       return this.api
-        .private(`categories/${id}`)
+        .private(`menus/${id}`)
         .then((response) => response.json())
         .then((response) => {
           return response;
@@ -150,7 +150,7 @@ export default {
         params: params,
       };
 
-      let endpoint = this.id === null ? "categories" : `categories/${this.id}`;
+      let endpoint = this.id === null ? "menus" : `menus/${this.id}`;
 
       return this.api
         .private(endpoint, options)
