@@ -322,7 +322,7 @@ import PeopleSummary from "../../components/Summary.vue";
 import PeopleSalesman from "../../components/Salesman.vue";
 import PeopleCompany from "../../components/Company.vue";
 import { ENTRYPOINT } from "../../../../../../../src/config/entrypoint";
-import PersonAvatar from "@controleonline/quasar-common-ui/src/components/common/PersonAvatar";
+import PersonAvatar from "@controleonline/quasar-common-ui/src/components/Common/PersonAvatar";
 import { mapGetters } from "vuex";
 
 export default {

@@ -133,9 +133,9 @@ import {
   formatMoney,
   formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import EditInvoiceDuedate from "@controleonline/quasar-common-ui/src/components/common/EditInvoiceDuedate.vue";
-import InvoiceActions from "@controleonline/quasar-common-ui/src/components/common/InvoiceActions.vue";
-import InvoiceEditActions from "@controleonline/quasar-common-ui/src/components/common/InvoiceEditActions.vue";
+import EditInvoiceDuedate from "@controleonline/quasar-common-ui/src/components/Common/EditInvoiceDuedate.vue";
+import InvoiceActions from "@controleonline/quasar-common-ui/src/components/Common/InvoiceActions.vue";
+import InvoiceEditActions from "@controleonline/quasar-common-ui/src/components/Common/InvoiceEditActions.vue";
 
 export default {
   components: {

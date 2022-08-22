@@ -21,7 +21,7 @@
 <script>
 import { date, extend }   from 'quasar';
 import InvoiceSearching   from './InvoiceSearching';
-import OrderInvoiceButton from '@controleonline/quasar-common-ui/src/components/common/NewOrderInvoiceButton';
+import OrderInvoiceButton from '@controleonline/quasar-common-ui/src/components/Common/NewOrderInvoiceButton';
 
 export default {
   props: {

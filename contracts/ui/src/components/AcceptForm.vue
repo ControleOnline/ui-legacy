@@ -275,7 +275,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/common/ListAutocomplete";
+import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
 
 export default {
   components: {

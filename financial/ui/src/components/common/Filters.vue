@@ -36,7 +36,7 @@ import {
   formatMoney,
   formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import DataFilter from "@controleonline/quasar-common-ui/src/components/common/DataFilter.vue";
+import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/DataFilter.vue";
 import { date } from "quasar";
 
 export default {
