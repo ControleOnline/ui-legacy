@@ -2,56 +2,69 @@
   <q-form @submit="onSubmit">
     <div class="row items-center">
       <div class="text-h6">
-        {{ item.id === null ? $t('Nova categoria') : $t('Edição categoria') }}
+        {{ item.id === null ? $t("Nova categoria") : $t("Edição categoria") }}
       </div>
     </div>
     <div class="row q-col-gutter-y-sm q-pt-md">
       <div class="col-xs-12">
-        <q-select stack-label emit-value map-options outlined
-          v-model ="item.parent"
-          :label  ="$t('Categoria pai')"
+        <q-select
+          stack-label
+          emit-value
+          map-options
+          outlined
+          v-model="item.parent"
+          :label="$t('Categoria pai')"
           :options="categories"
         />
       </div>
       <div class="col-xs-12">
-        <q-input lazy-rules stack-label outlined
+        <q-input
+          lazy-rules
+          stack-label
+          outlined
           v-model="item.name"
-          type   ="text"
-          :label ="$t('Nome categoria')"
-          class  ="q-mt-md"
-          :rules ="[isInvalid()]"
+          type="text"
+          :label="$t('Nome categoria')"
+          class="q-mt-md"
+          :rules="[isInvalid()]"
         />
       </div>
 
-            <div class="col-xs-12">
-        <q-input lazy-rules stack-label outlined
+      <div class="col-xs-12">
+        <q-input
+          lazy-rules
+          stack-label
+          outlined
           v-model="item.color"
-          type   ="text"
-          :label ="$t('Cor')"
-          class  ="q-mt-md"
-          :rules ="[isInvalid()]"
+          type="text"
+          :label="$t('Cor')"
+          class="q-mt-md"
+          :rules="[isInvalid()]"
         />
       </div>
 
-            <div class="col-xs-12">
-        <q-input lazy-rules stack-label outlined
+      <div class="col-xs-12">
+        <q-input
+          lazy-rules
+          stack-label
+          outlined
           v-model="item.icon"
-          type   ="text"
-          :label ="$t('Ícone')"
-          class  ="q-mt-md"
-          :rules ="[isInvalid()]"
+          type="text"
+          :label="$t('Ícone')"
+          class="q-mt-md"
+          :rules="[isInvalid()]"
         />
       </div>
     </div>
     <div class="row justify-end">
       <q-btn
         :loading="saving"
-        icon    ="save"
-        type    ="submit"
-        :label  ="$t('Salvar')"
-        size    ="md"
-        color   ="primary"
-        class   ="q-mt-md"
+        icon="save"
+        type="submit"
+        :label="$t('Salvar')"
+        size="md"
+        color="primary"
+        class="q-mt-md"
         unelevated
         no-caps
       />
@@ -60,70 +73,70 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import Api                        from '@controleonline/quasar-common-ui/src/utils/api';
+import { mapActions, mapGetters } from "vuex";
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
 
 export default {
   props: {
-    id : {
+    id: {
       required: false,
-      default : null
+      default: null,
     },
     api: {
-      type    : Api,
-      required: true
+      type: Api,
+      required: true,
     },
-    context:{
-      type    : String,
-      required: true
-    }
+    context: {
+      type: String,
+      required: true,
+    },
   },
 
   created() {
     this.loadSelectableOptions();
 
     if (this.id !== null) {
-      this.getItem(this.id)
-        .then(item => {
-          this.item.name    = item.name;
-          this.item.color    = item.color;
-          this.item.icon    = item.icons;
-          this.item.context = this.context;
-          this.item.parent  = item.parent !== null ? item.parent['@id'] : null;
-        });
+      this.getItem(this.id).then((item) => {
+        this.item.name = item.name;
+        this.item.color = item.color;
+        this.item.icon = item.icons;
+        this.item.context = this.context;
+        this.item.parent = item.parent !== null ? item.parent["@id"] : null;
+      });
     }
   },
 
   data() {
     return {
       saving: false,
-      item  : {
-        "id"     : this.id,
-        "name"   : null,
-        "context": this.context,
-        "parent" : null
+      item: {
+        id: this.id,
+        name: null,
+        context: this.context,
+        parent: null,
       },
-      categories : [],
-    }
+      categories: [],
+    };
   },
 
   computed: {
     ...mapGetters({
-      myCompany: 'people/currentCompany',
+      myCompany: "people/currentCompany",
     }),
   },
 
   methods: {
     ...mapActions({
-      getCategories : 'categories/getCategories',
-      createCategory: 'categories/createCategory',
+      getCategories: "categories/getCategories",
+      createCategory: "categories/createCategory",
     }),
 
     // store method
     getItem(id) {
-      return this.api.private(`categories/${id}`)
-        .then(response => response.json())
-        .then(response => {
+      return this.api
+        .private(`categories/${id}`)
+        .then((response) => response.json())
+        .then((response) => {
           return response;
         });
     },
@@ -131,23 +144,23 @@ export default {
     // store method
     save(values, params = {}) {
       let options = {
-        method : this.id === null ? 'POST' : 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify(values),
-        params : params,
+        method: this.id === null ? "POST" : "PUT",
+        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        body: JSON.stringify(values),
+        params: params,
       };
 
-      let endpoint = this.id === null ?
-        'categories' : `categories/${this.id}`;
+      let endpoint = this.id === null ? "categories" : `categories/${this.id}`;
 
-      return this.api.private(endpoint, options)
-        .then(response => response.json())
-        .then(data => {
-          if (data['@id']) {
+      return this.api
+        .private(endpoint, options)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data["@id"]) {
             this.$q.notify({
-              message : this.$t('Dados salvos com sucesso!'),
-              position: 'bottom',
-              type    : 'positive',
+              message: this.$t("Dados salvos com sucesso!"),
+              position: "bottom",
+              type: "positive",
             });
 
             this.loadCategories();
@@ -157,11 +170,11 @@ export default {
 
           return null;
         })
-        .catch(error => {
+        .catch((error) => {
           this.$q.notify({
-            message : this.$t(error.message),
-            position: 'bottom',
-            type    : 'negative',
+            message: this.$t(error.message),
+            position: "bottom",
+            type: "negative",
           });
         });
     },
@@ -174,17 +187,15 @@ export default {
     onSubmit() {
       this.saving = true;
 
-      this.save(
-        {
-          "name"   : this.item.name,
-          "color"   : this.item.color,
-          "icon"   : this.item.icon,
-          "context": this.item.context,
-          "parent" : this.item.parent,
-          "company": `/people/${this.myCompany.id}`,
-        }
-      )
-      .finally(() => {
+      this.save({
+        context: this.context,
+        name: this.item.name,
+        color: this.item.color,
+        icon: this.item.icon,
+        context: this.item.context,
+        parent: this.item.parent,
+        company: `/people/${this.myCompany.id}`,
+      }).finally(() => {
         this.saving = false;
       });
     },
@@ -192,22 +203,22 @@ export default {
     loadCategories() {
       this.getCategories({
         params: {
-          'context': this.context,
-          'company': this.myCompany.id,
-        }
-      }).then(members => {
+          context: this.context,
+          company: this.myCompany.id,
+        },
+      }).then((members) => {
         if (members.length) {
           let items = [];
 
           items.push({
             label: null,
-            value: null
+            value: null,
           });
 
           members.forEach((item, i) => {
             items.push({
               label: item.name,
-              value: item['@id']
+              value: item["@id"],
             });
           });
           this.categories = items;
@@ -216,9 +227,9 @@ export default {
     },
 
     isInvalid(field) {
-      return val => {
+      return (val) => {
         if (!(val && val.length > 0))
-          return this.$t('Este campo é obrigatório');
+          return this.$t("Este campo é obrigatório");
 
         return true;
       };

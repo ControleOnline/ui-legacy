@@ -35,7 +35,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <FormCategory :id="dialogs.category.id" :api="api" />
+          <FormCategory :id="dialogs.category.id" :api="api" :context="context"/>
         </q-card-section>
       </q-card>
     </q-dialog>
