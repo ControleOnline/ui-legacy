@@ -47,8 +47,20 @@
             />
           </q-td>
           <q-td key="name" :props="props">{{ props.row.name }}</q-td>
-          <q-td key="color" :props="props">{{ props.row.color }}</q-td>
-          <q-td key="icon" :props="props">{{ props.row.icon }}</q-td>
+          <q-td key="color" :props="props">
+            <span
+              :style="
+                'background:' +
+                props.row.color +
+                ';padding: 15px;border: 1px solid #000;'
+              "
+            >
+              {{ props.row.color }}
+            </span>
+          </q-td>
+          <q-td key="icon" :props="props">
+            <q-btn :icon="props.row.icon" />
+          </q-td>
           <q-td key="parent" :props="props">{{ props.row.parent }}</q-td>
         </q-tr>
       </template>
