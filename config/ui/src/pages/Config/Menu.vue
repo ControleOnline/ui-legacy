@@ -47,6 +47,7 @@ export default {
   //
   components: {
     Menu,
+    TableCategories
   },
 
   computed: {
