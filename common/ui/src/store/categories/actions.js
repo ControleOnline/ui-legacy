@@ -4,8 +4,7 @@ import { fetch } from '../../../../../../src/boot/myapi';
 
 export function getCategories({ commit }, data) {
 
-    let params = data.params ? data.params : {};
-    params.context = 'expense';
+    let params = data.params ? data.params : {};    
   
     const options = {
       method: 'GET',
