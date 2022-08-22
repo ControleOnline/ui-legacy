@@ -48,9 +48,20 @@
           </q-td>
           <q-td key="menu" :props="props">{{ props.row.menu }}</q-td>
           <q-td key="route" :props="props">{{ props.row.route }}</q-td>
-          
-          <q-td key="color" :props="props">{{ props.row.color }}</q-td>
-          <q-td key="icon" :props="props">{{ props.row.icon }}</q-td>
+          <q-td key="color" :props="props">
+            <span
+              :style="
+                'background:' +
+                props.row.color +
+                ';padding: 15px;border: 1px solid #000;'
+              "
+            >
+              {{ props.row.color }}
+            </span>
+          </q-td>
+          <q-td key="icon" :props="props">
+            <q-btn :icon="props.row.icon" />
+          </q-td>
         </q-tr>
       </template>
     </q-table>

@@ -2,7 +2,7 @@
   <q-form @submit="onSubmit">
     <div class="row items-center">
       <div class="text-h6">
-        {{ item.id === null ? $t("Nova categoria") : $t("Edição categoria") }}
+        {{ item.id === null ? $t("Novo Menu") : $t("Edição de Menu") }}
       </div>
     </div>
     <div class="row q-col-gutter-y-sm q-pt-md">
@@ -13,7 +13,7 @@
           map-options
           outlined
           v-model="item.parent"
-          :label="$t('Categoria pai')"
+          :label="$t('Menu pai')"
           :options="categories"
         />
       </div>
@@ -24,7 +24,7 @@
           outlined
           v-model="item.name"
           type="text"
-          :label="$t('Nome categoria')"
+          :label="$t('Nome Menu')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
