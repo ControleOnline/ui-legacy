@@ -99,7 +99,7 @@ export default {
       this.getItem(this.id).then((item) => {
         this.item.name = item.name;
         this.item.color = item.color;
-        this.item.icon = item.icons;
+        this.item.icon = item.icon;
         this.item.context = this.context;
         this.item.parent = item.parent !== null ? item.parent["@id"] : null;
       });
@@ -114,6 +114,8 @@ export default {
         name: null,
         context: this.context,
         parent: null,
+        icon: null,
+        color: null,
       },
       categories: [],
     };
