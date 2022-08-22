@@ -27,6 +27,12 @@ export const routes = [
             path: 'receive/id/:id', 
             component: () => import('../pages/Invoice/Receive/Details.vue')
         },
+        { 
+            name: 'PayCategories', 
+            path: 'categories', 
+            component: () => import('../pages/Invoice/Categories.vue')
+        },
+
       ]
     },
 ];

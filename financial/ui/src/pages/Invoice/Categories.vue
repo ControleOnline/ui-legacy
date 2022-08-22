@@ -2,11 +2,11 @@
   <q-page padding>
     <q-card style="min-height: 90vh" :bordered="false" :flat="true">
       <q-card-section class="text-h6">
-        {{ $t("Contas a pagar") }}
+        {{ $t("Categorias") }}
       </q-card-section>
       <div class="row">
         <div class="col-12">
-          <InvoiceSearching />
+          <TableCategories :context="'expense'" :api="api" />
         </div>
       </div>
     </q-card>
@@ -15,11 +15,12 @@
 
 <script>
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
-import InvoiceSearching from "../../../components/invoice/pay/InvoiceSearching.vue";
+
+import TableCategories from "@controleonline/quasar-common-ui/src/components/categories/Table.vue";
 
 export default {
   components: {
-    InvoiceSearching,
+    TableCategories,
   },
 
   data() {
