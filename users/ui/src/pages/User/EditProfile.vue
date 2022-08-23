@@ -305,7 +305,7 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/header/MenuDefaultHeader';
 import OptionsLangDialog from '@controleonline/quasar-common-ui/src/components/dialog/OptionsLangDialog';
 import OptionsActDialog from '@controleonline/quasar-common-ui/src/components/dialog/OptionsActDialog';
 import UploadArchiveDialog from '@controleonline/quasar-common-ui/src/components/dialog/UploadArchiveDialog';

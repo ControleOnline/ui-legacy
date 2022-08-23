@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/header/MenuDefaultHeader';
 import CardNotifications from '@controleonline/quasar-common-ui/src/components/card/CardNotifications';
 import NotificationDialog from '@controleonline/quasar-common-ui/src/components/dialog/NotificationDialog';
 
