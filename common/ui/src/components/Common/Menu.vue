@@ -79,8 +79,7 @@ export default {
         params: { myCompany: this.company.id },
       })
         .then((response) => response.json())
-        .then((result) => {
-          console.log(result.response.data);
+        .then((result) => {          
           this.menu = result.response?.data;
         });
     },
