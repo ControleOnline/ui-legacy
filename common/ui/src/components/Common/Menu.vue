@@ -3,7 +3,7 @@
     <q-expansion-item
       expand-icon-toggle
       :content-inset-level="0.3"
-      color="white"
+      :color="mItem.color"
       :icon="mItem.icon"
       class="GNL__drawer-item"
       :label="mItem.label"
@@ -79,7 +79,7 @@ export default {
         params: { myCompany: this.company.id },
       })
         .then((response) => response.json())
-        .then((result) => {          
+        .then((result) => {
           this.menu = result.response?.data;
         });
     },
