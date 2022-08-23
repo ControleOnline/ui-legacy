@@ -481,7 +481,7 @@
 
 <script>
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
-import DefaultAddDialog from '@controleonline/quasar-common-ui/src/components/Dialog/DefaultAddDialog';
+import DefaultAddDialog from '@controleonline/quasar-common-ui/src/components/dialog/DefaultAddDialog';
 
 export default {
   components: {

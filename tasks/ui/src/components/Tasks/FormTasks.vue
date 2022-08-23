@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
+import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { mapGetters, mapActions } from "vuex";

@@ -16,7 +16,7 @@
 <script>
 import Search from '@controleonline/quasar-common-ui/src/components/Header/Search';
 import ToolsFooter from '@controleonline/quasar-common-ui/src/components/Footer/ToolsFooter';
-import CardListHome from '@controleonline/quasar-common-ui/src/components/Card/CardListHome';
+import CardListHome from '@controleonline/quasar-common-ui/src/components/card/CardListHome';
 
 export default {
   name: 'CategoriesList',
@@ -35,8 +35,8 @@ export default {
 
   computed: {
     list: {
-      get() { return this.$store.getters['Categories/getCategoryList']; },
-      set(value) { this.$store.commit('Categories/setCategoryList', { list: value }); },
+      get() { return this.$store.getters['categories/getCategoryList']; },
+      set(value) { this.$store.commit('categories/setCategoryList', { list: value }); },
     },
   },
 

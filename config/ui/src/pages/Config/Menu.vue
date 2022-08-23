@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import TableCategories from "@controleonline/quasar-common-ui/src/components/Categories/Table.vue";
+import TableCategories from "@controleonline/quasar-common-ui/src/components/categories/Table.vue";
 import Menu from "./../../components/config/Menu/Table";
 
 export default {

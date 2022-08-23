@@ -269,7 +269,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
+import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 
 export default {
   components: {

@@ -1,6 +1,6 @@
 {
   "name": "@controleonline/quasar-users-ui",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "author": "ControleOnline",
   "description": "ControleOnline users Quasar UI Component",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/Frete-Click/fclick-quasar-ui"
+    "url": "https://github.com/ControleOnline/fclick-quasar-ui"
   },
   "bugs": "",
   "homepage": "https://www.controleonline.com/devs/plugins",

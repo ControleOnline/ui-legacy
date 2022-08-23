@@ -125,7 +125,7 @@
 
 <script>
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
-import PaymentDialog from '@controleonline/quasar-common-ui/src/components/Dialog/PaymentDialog';
+import PaymentDialog from '@controleonline/quasar-common-ui/src/components/dialog/PaymentDialog';
 
 export default {
   components: {

@@ -1,6 +1,6 @@
 {
     "name": "@controleonline/quasar-tasks-ui",
-    "version": "1.1.37",
+    "version": "1.1.38",
     "author": "ControleOnline",
     "description": "ControleOnline tasks Quasar UI Component",
     "license": "MIT",
@@ -8,7 +8,7 @@
     "scripts": {},
     "repository": {
       "type": "git",
-      "url": "https://github.com/Frete-Click/fclick-quasar-ui"
+      "url": "https://github.com/ControleOnline/fclick-quasar-ui"
     },
     "bugs": "",
     "homepage": "https://www.controleonline.com/devs/plugins",

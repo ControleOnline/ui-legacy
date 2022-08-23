@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import CardListGuides from '@controleonline/quasar-common-ui/src/components/Card/CardListGuides';
+import CardListGuides from '@controleonline/quasar-common-ui/src/components/card/CardListGuides';
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 
 export default {

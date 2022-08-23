@@ -31,7 +31,7 @@ export const routes = [
             {
                 path: '/categories',
                 name: 'categories',
-                component: () => import('../pages/Categories/CategoriesList.vue'),
+                component: () => import('../pages/categories/CategoriesList.vue'),
             },
         ],
     },
