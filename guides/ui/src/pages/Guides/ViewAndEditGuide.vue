@@ -28,7 +28,7 @@
 
 <script>
 import CardListGuides from '@controleonline/quasar-common-ui/src/components/card/CardListGuides';
-import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/header/MenuDefaultHeader';
 
 export default {
   components: {

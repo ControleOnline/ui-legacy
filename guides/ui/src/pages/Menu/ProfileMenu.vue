@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import ProfileHeader from '@controleonline/quasar-common-ui/src/components/Header/ProfileHeader';
-import ToolsFooter from '@controleonline/quasar-common-ui/src/components/Footer/ToolsFooter';
+import ProfileHeader from '@controleonline/quasar-common-ui/src/components/header/ProfileHeader';
+import ToolsFooter from '@controleonline/quasar-common-ui/src/components/footer/ToolsFooter';
 import ChangePasswordDialog from '@controleonline/quasar-common-ui/src/components/dialog/ChangePasswordDialog';
 
 export default {

@@ -548,7 +548,7 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/header/MenuDefaultHeader';
 import UploadMultipleArchivesDialog from '@controleonline/quasar-common-ui/src/components/dialog/UploadMultipleArchivesDialog';
 import DefaultAddDialog from '@controleonline/quasar-common-ui/src/components/dialog/DefaultAddDialog';
 import AdditionalDialog from '@controleonline/quasar-common-ui/src/components/dialog/AdditionalDialog';

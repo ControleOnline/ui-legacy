@@ -147,7 +147,7 @@
 
 <script>
 import { date } from 'quasar';
-import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/header/MenuDefaultHeader';
 import CancelEventDialog from '@controleonline/quasar-common-ui/src/components/dialog/CancelEventDialog';
 
 export default {
