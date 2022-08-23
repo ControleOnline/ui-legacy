@@ -1,5 +1,8 @@
 <template>
-  <div class="row q-py-md q-gutter-x-md container-filter" style="justify-content: right;">
+  <div
+    class="row q-py-md q-gutter-x-md container-filter"
+    style="justify-content: right"
+  >
     <q-input
       outlined
       id="date-initial"
@@ -50,6 +53,7 @@
       </template>
     </q-input>
     <q-btn
+      v-if="showButton"
       :loading="isLoading"
       :label="$t('dashboard.request')"
       class="element-filter margin-filter"
