@@ -35,7 +35,7 @@
           lazy-rules
           stack-label
           outlined
-          v-model="item.name"
+          v-model="item.menu"
           type="text"
           :label="$t('Nome Menu')"
           class="q-mt-md"
@@ -125,7 +125,7 @@ export default {
       this.getItem(this.id).then((item) => {
         this.item.route = item.route;
         this.item.color = item.color;
-        this.item.name = item.menu;
+        this.item.menu = item.menu;
         this.item.icon = item.icon;
         this.item.context = this.context;
 
@@ -150,7 +150,7 @@ export default {
         color: null,
         icon: null,
         id: this.id,
-        name: null,
+        menu: null,
         context: this.context,
         category: null,
       },
@@ -183,6 +183,9 @@ export default {
 
     // store method
     save(values, params = {}) {
+      console.log(values);
+      console.log(params);
+
       let options = {
         method: this.id === null ? "POST" : "PUT",
         headers: new Headers({ "Content-Type": "application/ld+json" }),
@@ -227,16 +230,15 @@ export default {
 
     onSubmit() {
       this.saving = true;
-      console.log(this.item);
+
       this.save({
         route: this.item.route,
-        name: this.item.name,
-        module: this.item.module,
+        menu: this.item.menu,
+        module: "/module/" + this.item.module,
         color: this.item.color,
-        icon: this.item.icon,
-        context: this.item.context,
-        category: this.item.category,
-        company: `/people/${this.myCompany.id}`,
+        icon: this.item.icon,        
+        category: "/category/" + this.item.category,
+        //company: `/people/${this.myCompany.id}`,
       }).finally(() => {
         this.saving = false;
       });
