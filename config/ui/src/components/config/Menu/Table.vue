@@ -62,6 +62,13 @@
           <q-td key="icon" :props="props">
             <q-btn :icon="props.row.icon" />
           </q-td>
+
+          <q-td key="module" :props="props">{{
+            $t("menu." + props.row.module.name)
+          }}</q-td>
+          <q-td key="category" :props="props">{{
+            $t("category." + props.row.category.name)
+          }}</q-td>
         </q-tr>
       </template>
     </q-table>
@@ -91,7 +98,7 @@ const SETTINGS = {
       field: "id",
       align: "left",
       label: "ID",
-    },         
+    },
     {
       name: "route",
       align: "left",
@@ -111,6 +118,18 @@ const SETTINGS = {
       name: "icon",
       align: "left",
       label: "Ícone",
+    },
+
+    {
+      name: "module",
+      align: "left",
+      label: "Módulo",
+    },
+
+    {
+      name: "category",
+      align: "left",
+      label: "Categoria",
     },
   ],
 };
@@ -262,13 +281,13 @@ export default {
           if (data.members.length) {
             for (let index in data.members) {
               _items.push({
-                id: data.members[index].id,                
+                id: data.members[index].id,
                 route: data.members[index].route,
                 menu: data.members[index].menu,
                 color: data.members[index].color,
                 icon: data.members[index].icon,
                 category: data.members[index].category,
-                module: data.members[index].module,                
+                module: data.members[index].module,
                 _bussy: false,
               });
             }

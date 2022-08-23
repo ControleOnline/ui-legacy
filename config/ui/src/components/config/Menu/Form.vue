@@ -12,11 +12,24 @@
           emit-value
           map-options
           outlined
-          v-model="item.parent"
-          :label="$t('Menu pai')"
+          v-model="item.category"
+          :label="$t('Categoria')"
           :options="categories"
         />
       </div>
+
+      <div class="col-xs-12">
+        <q-select
+          stack-label
+          emit-value
+          map-options
+          outlined
+          v-model="item.module"
+          :label="$t('Modulo')"
+          :options="modules"
+        />
+      </div>
+
       <div class="col-xs-12">
         <q-input
           lazy-rules
@@ -25,6 +38,19 @@
           v-model="item.name"
           type="text"
           :label="$t('Nome Menu')"
+          class="q-mt-md"
+          :rules="[isInvalid()]"
+        />
+      </div>
+
+      <div class="col-xs-12">
+        <q-input
+          lazy-rules
+          stack-label
+          outlined
+          v-model="item.route"
+          type="text"
+          :label="$t('Rota')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
@@ -97,11 +123,20 @@ export default {
 
     if (this.id !== null) {
       this.getItem(this.id).then((item) => {
-        this.item.name = item.name;
+        this.item.route = item.route;
         this.item.color = item.color;
-        this.item.icon = item.icons;
+        this.item.name = item.menu;
+        this.item.icon = item.icon;
         this.item.context = this.context;
-        this.item.parent = item.parent !== null ? item.parent["@id"] : null;
+
+        this.item.module =
+          item.module !== null && item.module !== undefined
+            ? item.module.id
+            : null;
+        this.item.category =
+          item.category !== null && item.category !== undefined
+            ? item.category.id
+            : null;
       });
     }
   },
@@ -110,12 +145,17 @@ export default {
     return {
       saving: false,
       item: {
+        module: null,
+        route: null,
+        color: null,
+        icon: null,
         id: this.id,
         name: null,
         context: this.context,
-        parent: null,
+        category: null,
       },
       categories: [],
+      modules: [],
     };
   },
 
@@ -164,7 +204,7 @@ export default {
             });
 
             this.loadCategories();
-
+            this.loadModules();
             return data;
           }
 
@@ -182,22 +222,39 @@ export default {
     loadSelectableOptions() {
       // load categories
       this.loadCategories();
+      this.loadModules();
     },
 
     onSubmit() {
       this.saving = true;
-
+      console.log(this.item);
       this.save({
-        context: this.context,
+        route: this.item.route,
         name: this.item.name,
+        module: this.item.module,
         color: this.item.color,
         icon: this.item.icon,
         context: this.item.context,
-        parent: this.item.parent,
+        category: this.item.category,
         company: `/people/${this.myCompany.id}`,
       }).finally(() => {
         this.saving = false;
       });
+    },
+
+    loadModules() {
+      this.api
+        .private(`modules`)
+        .then((response) => response.json())
+        .then((response) => {
+          let data = response["hydra:member"];
+          data.forEach((item, i) => {
+            this.modules.push({
+              label: item.name,
+              value: item.id,
+            });
+          });
+        });
     },
 
     loadCategories() {
@@ -218,7 +275,7 @@ export default {
           members.forEach((item, i) => {
             items.push({
               label: item.name,
-              value: item["@id"],
+              value: item.id,
             });
           });
           this.categories = items;
