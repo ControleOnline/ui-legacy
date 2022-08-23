@@ -399,7 +399,7 @@ import {
   formatPhone,
   formatCEP,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm";
+import ContactForm from "@controleonline/quasar-common-ui/src/components/common/ContactForm";
 
 export default {
   components: {
