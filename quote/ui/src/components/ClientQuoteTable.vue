@@ -13,7 +13,7 @@
       </q-card-section>
 
       <q-card-section style="max-width: 1250px !important; margin: auto !important">
-        <q-table flat grid hide-header :data="order.quotes" :columns="columns" :visible-columns="visible" row-key="id"
+        <q-table dense  grid hide-header :data="order.quotes" :columns="columns" :visible-columns="visible" row-key="id"
           :pagination.sync="pagination">
           <template v-slot:item="props">
             <div class="q-pb-xs-md q-pa-sm-md col-xs-12 col-sm-6 col-md-3">

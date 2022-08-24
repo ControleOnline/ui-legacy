@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12 q-mt-md">
-      <q-table flat :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+      <q-table dense  :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
         :loading="isLoading" :pagination.sync="pagination" @request="onRequest">
         <template v-slot:top>
           <div class="col-3 q-mb-md text-h6">Lista de tabelas</div>

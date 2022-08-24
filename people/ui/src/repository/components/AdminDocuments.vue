@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table flat :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+      <q-table dense  :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
         :loading="isLoading" bordered>
         <template v-slot:body="props">
           <q-tr :props="props">

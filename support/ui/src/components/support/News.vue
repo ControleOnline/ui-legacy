@@ -1,5 +1,5 @@
 <template>
-<q-table flat grid hide-header        
+<q-table dense  grid hide-header        
         :data   ="items"
         @request="onRequest"
         row-key ="id"

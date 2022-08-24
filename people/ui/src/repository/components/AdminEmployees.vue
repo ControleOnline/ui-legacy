@@ -4,7 +4,7 @@
       <div class="text-subtitle1 text-left">{{ $t('Employees') }}</div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table flat grid hide-header :loading="isLoading" :data="items" row-key="id">
+      <q-table dense  grid hide-header :loading="isLoading" :data="items" row-key="id">
         <template v-slot:top>
           <div class="col-12 q-mb-md">
             <div class="row justify-end">

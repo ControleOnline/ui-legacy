@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <q-table flat :pagination="{
+      <q-table dense  :pagination="{
         page: 1,
         rowsPerPage: 30
       }" :data="items" :columns="settings.columns" row-key="id" :loading="loadingQtable">

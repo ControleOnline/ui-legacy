@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12 q-mt-md">
-      <q-table flat grid hide-header
+      <q-table dense  grid hide-header
         :loading              ="isLoading"
         :data                 ="items"
         row-key               ="id"

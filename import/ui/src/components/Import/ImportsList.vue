@@ -2,7 +2,7 @@
   <main class="q-page q-layout-padding">
     <div class="row">
       <div class="col-12">
-        <q-table flat :data="items" :columns="settings.columns" row-key="id" :loading="isLoading"
+        <q-table dense  :data="items" :columns="settings.columns" row-key="id" :loading="isLoading"
           :pagination.sync="pagination" @request="onRequest">
 
           <template v-slot:top>
