@@ -1,29 +1,77 @@
 <template>
   <!-- eslint-disable -->
-  <q-btn-dropdown outline v-if="isMultipleCompanies() == true && !dialog" color="primary"
-    :label="currentCompany !== null ? currentCompany.name : 'Loading...'" class="ellipsis full-width">
-    <q-list>
-      <q-item clickable v-close-popup dense v-for="(company, index) in myCompanies" :disable="
-        company.enabled && company.user.employee_enabled ? false : true
-      " :key="index" @click="onCompanySelection(company)">
-        <q-item-section>
-          <q-item-label lines="1">{{ company.name }}</q-item-label>
-        </q-item-section>
-      </q-item>
-    </q-list>
-  </q-btn-dropdown>
+  <div>
+    <q-btn-dropdown
+      split
+      outline
+      v-if="isMultipleCompanies() == true && !dialog && !this.$q.screen.gt.xs"
+      color="primary"
+      :label="currentCompany !== null ? currentCompany.name : 'Loading...'"
+      class="ellipsis full-width company-swich"
+    >
+      <q-list>
+        <q-item
+          clickable
+          v-close-popup
+          dense
+          v-for="(company, index) in myCompanies"
+          :disable="
+            company.enabled && company.user.employee_enabled ? false : true
+          "
+          :key="index"
+          @click="onCompanySelection(company)"
+        >
+          <q-item-section>
+            <q-item-label lines="1">{{ company.name }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-btn-dropdown>
 
-  <q-dialog v-else v-model="dialog" persistent>
-    <q-card style="width: 700px; max-width: 80vw">
-      <q-card-section class="row items-center">
-        <div class="text-h6">Adicionar dados da Empresa</div>
-        <q-space />
-      </q-card-section>
-      <q-card-section>
-        <FormCompany @saved="onSaved" :person="false" :companyFields="companyFields" address="bycep" saveBtn="Salvar" />
-      </q-card-section>
-    </q-card>
-  </q-dialog>
+    <q-btn-dropdown
+      outline
+      v-if="isMultipleCompanies() == true && !dialog && this.$q.screen.gt.xs"
+      color="primary"
+      :label="currentCompany !== null ? currentCompany.name : 'Loading...'"
+      class="ellipsis full-width company-swich"
+    >
+      <q-list>
+        <q-item
+          clickable
+          v-close-popup
+          dense
+          v-for="(company, index) in myCompanies"
+          :disable="
+            company.enabled && company.user.employee_enabled ? false : true
+          "
+          :key="index"
+          @click="onCompanySelection(company)"
+        >
+          <q-item-section>
+            <q-item-label lines="1">{{ company.name }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-btn-dropdown>
+
+    <q-dialog v-else v-model="dialog" persistent>
+      <q-card style="width: 700px; max-width: 80vw">
+        <q-card-section class="row items-center">
+          <div class="text-h6">Adicionar dados da Empresa</div>
+          <q-space />
+        </q-card-section>
+        <q-card-section>
+          <FormCompany
+            @saved="onSaved"
+            :person="false"
+            :companyFields="companyFields"
+            address="bycep"
+            saveBtn="Salvar"
+          />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+  </div>
 </template>
 
 <script>
@@ -148,3 +196,8 @@ export default {
   },
 };
 </script>
+<style>
+.company-swich button:first-of-type {
+  display: none !important;
+}
+</style>
