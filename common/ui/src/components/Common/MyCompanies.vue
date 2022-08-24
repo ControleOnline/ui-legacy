@@ -3,9 +3,7 @@
   <div>
     <q-btn-dropdown
       split
-      outline
       v-if="isMultipleCompanies() == true && !dialog && !this.$q.screen.gt.xs"
-      color="primary"
       :label="currentCompany !== null ? currentCompany.name : 'Loading...'"
       class="ellipsis full-width company-swich"
     >
