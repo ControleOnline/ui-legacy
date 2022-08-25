@@ -1,11 +1,9 @@
 <template>
   <q-page padding>
+    <div class="row-filters">
+      <div class="col-12 col-md-4 q-mb-md text-h6 text-left">Filters</div>
+    </div>
     <q-card style="min-height: 90vh">
-      <q-card-section>
-        <div class="row-filters">
-          <div class="col-12 col-md-4 q-mb-md text-h6 text-left">Filters</div>
-        </div>
-      </q-card-section>
       <q-card-section>
         <Module />
       </q-card-section>
@@ -15,7 +13,7 @@
 <script>
 import Module from "./../../components/config/Module/Table";
 
-export default {  
+export default {
   components: {
     Module,
   },

@@ -1,11 +1,9 @@
 <template>
   <q-page padding>
+    <div class="row-filters">
+      <div class="col-12 col-md-4 q-mb-md text-h6 text-left">Filters</div>
+    </div>
     <q-card style="min-height: 90vh">
-      <q-card-section>
-        <div class="row-filters">
-          <div class="col-12 col-md-4 q-mb-md text-h6 text-left">Filters</div>
-        </div>
-      </q-card-section>
       <q-card-section>
         <Roles />
       </q-card-section>
@@ -13,9 +11,9 @@
   </q-page>
 </template>
 <script>
-import Roles from "./../../components/config/Roles/Table";
+import Roles from "./../../components/config/Role/Table";
 
-export default {  
+export default {
   components: {
     Roles,
   },
