@@ -47,7 +47,7 @@
             />
           </q-td>
           <q-td key="menu" :props="props">{{ props.row.menu }}</q-td>
-          <q-td key="route" :props="props">{{ props.row.route }}</q-td>
+          <q-td key="name" :props="props">{{ props.row.name }}</q-td>
           <q-td key="color" :props="props">
             <span
               :style="
@@ -63,11 +63,8 @@
             <q-btn :icon="props.row.icon" />
           </q-td>
 
-          <q-td key="module" :props="props">{{
-            $t("menu." + props.row.module.name)
-          }}</q-td>
-          <q-td key="category" :props="props">{{
-            $t("category." + props.row.category.name)
+          <q-td key="description" :props="props">{{
+            props.row.description
           }}</q-td>
         </q-tr>
       </template>
@@ -79,7 +76,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <FormMenu :id="dialogs.menu.id" :api="api" :context="context" />
+          <FormMenu :id="dialogs.menu.id" :api="api" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -100,14 +97,9 @@ const SETTINGS = {
       label: "ID",
     },
     {
-      name: "route",
+      name: "name",
       align: "left",
-      label: "Rota",
-    },
-    {
-      name: "menu",
-      align: "left",
-      label: "Menu",
+      label: "Módulo",
     },
     {
       name: "color",
@@ -121,15 +113,9 @@ const SETTINGS = {
     },
 
     {
-      name: "module",
+      name: "description",
       align: "left",
-      label: "Módulo",
-    },
-
-    {
-      name: "category",
-      align: "left",
-      label: "Categoria",
+      label: "Descrição",
     },
   ],
 };
@@ -152,7 +138,6 @@ export default {
 
   data() {
     return {
-      context: "menu",
       api: new Api(this.$store.getters["auth/user"].token),
       settings: SETTINGS,
       items: [],
@@ -191,7 +176,7 @@ export default {
     // store method
     getItems(params) {
       return this.api
-        .private("menus", { params })
+        .private("modules", { params })
         .then((response) => response.json())
         .then((response) => {
           return {
@@ -282,12 +267,10 @@ export default {
             for (let index in data.members) {
               _items.push({
                 id: data.members[index].id,
-                route: data.members[index].route,
-                menu: data.members[index].menu,
+                name: data.members[index].name,
                 color: data.members[index].color,
                 icon: data.members[index].icon,
-                category: data.members[index].category,
-                module: data.members[index].module,
+                description: data.members[index].description,
                 _bussy: false,
               });
             }

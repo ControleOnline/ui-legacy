@@ -15,7 +15,7 @@
         <div class="col-xs-12">
           <div class="row justify-end">
             <q-btn
-              :label="$t('Adicionar menu')"
+              :label="$t('Adicionar setor')"
               icon="add"
               size="md"
               color="primary"
@@ -46,29 +46,7 @@
               "
             />
           </q-td>
-          <q-td key="menu" :props="props">{{ props.row.menu }}</q-td>
-          <q-td key="route" :props="props">{{ props.row.route }}</q-td>
-          <q-td key="color" :props="props">
-            <span
-              :style="
-                'background:' +
-                props.row.color +
-                ';padding: 15px;border: 1px solid #000;'
-              "
-            >
-              {{ props.row.color }}
-            </span>
-          </q-td>
-          <q-td key="icon" :props="props">
-            <q-btn :icon="props.row.icon" />
-          </q-td>
-
-          <q-td key="module" :props="props">{{
-            $t("menu." + props.row.module.name)
-          }}</q-td>
-          <q-td key="category" :props="props">{{
-            $t("category." + props.row.category.name)
-          }}</q-td>
+          <q-td key="role" :props="props">{{ props.row.role }}</q-td>          
         </q-tr>
       </template>
     </q-table>
@@ -79,7 +57,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <FormMenu :id="dialogs.menu.id" :api="api" :context="context" />
+          <FormMenu :id="dialogs.menu.id" :api="api" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -100,36 +78,9 @@ const SETTINGS = {
       label: "ID",
     },
     {
-      name: "route",
+      name: "role",
       align: "left",
-      label: "Rota",
-    },
-    {
-      name: "menu",
-      align: "left",
-      label: "Menu",
-    },
-    {
-      name: "color",
-      align: "left",
-      label: "Cor",
-    },
-    {
-      name: "icon",
-      align: "left",
-      label: "Ícone",
-    },
-
-    {
-      name: "module",
-      align: "left",
-      label: "Módulo",
-    },
-
-    {
-      name: "category",
-      align: "left",
-      label: "Categoria",
+      label: "Função",
     },
   ],
 };
@@ -151,8 +102,7 @@ export default {
   },
 
   data() {
-    return {
-      context: "menu",
+    return {      
       api: new Api(this.$store.getters["auth/user"].token),
       settings: SETTINGS,
       items: [],
@@ -191,7 +141,7 @@ export default {
     // store method
     getItems(params) {
       return this.api
-        .private("menus", { params })
+        .private("roles", { params })
         .then((response) => response.json())
         .then((response) => {
           return {
@@ -282,12 +232,7 @@ export default {
             for (let index in data.members) {
               _items.push({
                 id: data.members[index].id,
-                route: data.members[index].route,
-                menu: data.members[index].menu,
-                color: data.members[index].color,
-                icon: data.members[index].icon,
-                category: data.members[index].category,
-                module: data.members[index].module,
+                role: data.members[index].role,                
                 _bussy: false,
               });
             }
