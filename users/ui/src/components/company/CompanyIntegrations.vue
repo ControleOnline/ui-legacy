@@ -15,7 +15,9 @@
       <q-tab-panel v-if="integrations !== null" name="configs">
         <div class="row q-pt-md">
           <div class="col-xs-12 q-mb-md">
-            <q-select dense outlined 
+            <q-select
+              dense
+              outlined
               stack-label
               emit-value
               map-options
@@ -24,7 +26,6 @@
                 integrations.default_provider['provider-signature'].value
               "
               :options="select.signature_providers"
-              
               @input="
                 (value) => {
                   this.integrations.default_provider[
@@ -55,9 +56,8 @@
       </q-tab-panel>
 
       <q-tab-panel v-if="integrations !== null" name="zapsign">
-        <div class="row q-pt-md">
+        <div v-if="integrations.zapsign" class="row q-pt-md">
           <div
-            v-if="integrations.zapsign"
             v-for="(field, fieldId) in integrations.zapsign"
             :key="fieldId"
             class="col-xs-12 q-mb-md"
@@ -94,9 +94,11 @@
       </q-tab-panel>
 
       <q-tab-panel v-if="integrations !== null" name="clicksign">
-        <div class="row q-pt-md">
+        <div
+          v-if="integrations !== null && integrations.clicksign"
+          class="row q-pt-md"
+        >
           <div
-            v-if="integrations !== null && integrations.clicksign"
             v-for="(field, fieldId) in integrations.clicksign"
             :key="fieldId"
             class="col-xs-12 q-mb-md"
