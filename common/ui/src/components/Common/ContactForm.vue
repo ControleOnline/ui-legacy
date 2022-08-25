@@ -14,7 +14,9 @@
       />
     </div>
 
-    <q-input outlined stack-label lazy-rules unmasked-value
+    <q-input
+      dense
+      outlined  stack-label lazy-rules unmasked-value
       v-model     ="item.document"
       type        ="text"
       :label      ="personType == 'PJ' ? $t('CNPJ') : $t('CPF')"
@@ -27,7 +29,9 @@
 
     <div class="row q-col-gutter-xs">
       <div class="col-xs-12 col-sm-6 q-mb-sm">
-        <q-input outlined stack-label lazy-rules
+        <q-input
+      dense
+      outlined  stack-label lazy-rules
           v-model     ="item.name"
           type        ="text"
           :label      ="personType == 'PJ' ? $t('Razão social') : $t('Nome')"
@@ -37,7 +41,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
-        <q-input outlined stack-label lazy-rules
+        <q-input
+      dense
+      outlined  stack-label lazy-rules
           v-model     ="item.alias"
           type        ="text"
           :label      ="personType == 'PJ' ? $t('Nome Fantasia') : $t('Sobrenome')"
@@ -50,7 +56,9 @@
 
     <div class="row q-col-gutter-xs q-pb-xs">
       <div class="col-xs-12 col-sm-6 q-mb-sm">
-        <q-input outlined stack-label lazy-rules
+        <q-input
+      dense
+      outlined  stack-label lazy-rules
           v-model     ="item.email"
           type        ="text"
           :label      ="$t('Email')"
@@ -60,7 +68,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
-        <q-input outlined stack-label lazy-rules unmasked-value
+        <q-input
+      dense
+      outlined  stack-label lazy-rules unmasked-value
           v-model    ="item.phone"
           type       ="text"
           :label     ="$t('Telefone')"
@@ -90,7 +100,9 @@
 
     <div v-if="showAddress" class="row q-col-gutter-sm q-pb-xs">
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label lazy-rules unmasked-value hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules unmasked-value hide-bottom-space
           v-model    ="item.address.postal_code"
           type       ="text"
           :label     ="$t('CEP')"
@@ -100,7 +112,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.street"
           type       ="text"
           :label     ="$t('Rua')"
@@ -109,7 +123,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.number"
           type       ="text"
           :label     ="$t('Número')"
@@ -118,7 +134,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label hide-bottom-space
           v-model    ="item.address.complement"
           type       ="text"
           :label     ="$t('Complemento')"
@@ -126,7 +144,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.district"
           type       ="text"
           :label     ="$t('Bairro')"
@@ -135,7 +155,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.city"
           type       ="text"
           :label     ="$t('Cidade')"
@@ -146,7 +168,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.state"
           type       ="text"
           :label     ="$t('UF')"
@@ -158,7 +182,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.country"
           type       ="text"
           :label     ="$t('País')"

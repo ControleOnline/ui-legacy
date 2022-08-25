@@ -13,6 +13,8 @@
             {{ $t('title') }}
           </q-item-label>
           <q-input
+      dense
+      outlined
             v-model="guideEdit.main_information.title"
             outlined
             dense
@@ -27,7 +29,7 @@
           <q-item-label class="text-bold text-secondary title-form">
             {{ $t('category') }}
           </q-item-label>
-          <q-select
+          <q-select dense outlined 
             v-model="guideEdit.main_information.category"
             outlined
             dense
@@ -45,7 +47,7 @@
           <q-item-label class="text-bold text-secondary title-form">
             {{ $t('type_of_activity') }}
           </q-item-label>
-          <q-select
+          <q-select dense outlined 
             outlined
             v-model="guideEdit.main_information.type_activity"
             dense
@@ -94,6 +96,8 @@
             </q-item-label>
             <div class="flex" style="flex-wrap: nowrap;">
               <q-input
+      dense
+      outlined
                 v-model="guideEdit.main_information.duration"
                 class="q-px-none input-description"
                 outlined
@@ -101,7 +105,7 @@
                 style="min-width: 60px;"
                 color="secondary"
               />
-              <q-select
+              <q-select dense outlined 
                 class="select-description"
                 outlined
                 dense
@@ -120,13 +124,15 @@
             </q-item-label>
             <div class="flex" style="flex-wrap: nowrap;">
               <q-input
+      dense
+      outlined
                 v-model="guideEdit.main_information.distance"
                 class="q-px-none input-description"
                 outlined
                 color="secondary"
                 dense
               />
-              <q-select
+              <q-select dense outlined 
                 class="select-description"
                 outlined
                 dense
@@ -144,6 +150,8 @@
               {{ $t('vacancies') }}
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="guideEdit.main_information.vacancies"
               class="q-px-none input-description"
               outlined
@@ -210,6 +218,8 @@
 
         <q-item-section class="q-pt-md section-no-margin">
           <q-input
+      dense
+      outlined
             v-model="guideEdit.main_information.locality"
             outlined
             dense
@@ -275,7 +285,7 @@
         </q-item-section>
 
         <q-item-section class="q-pt-md section-no-margin">
-          <q-select
+          <q-select dense outlined 
             v-model="guideEdit.details.insurance"
             outlined
             dense
@@ -324,6 +334,8 @@
             </div>
             <div class="col-3" align="center">
               <q-input
+      dense
+      outlined
                 v-model="item.quantity"
                 class="q-px-none input-description"
                 outlined
@@ -336,6 +348,8 @@
                 R$
               </q-item-label>
               <q-input
+      dense
+      outlined
                 v-model="item.price"
                 class="q-px-none input-description"
                 outlined
@@ -385,6 +399,8 @@
 
         <q-item-section class="q-pt-md section-no-margin">
           <q-input
+      dense
+      outlined
             v-model="guideEdit.comments.recomendation"
             outlined
             dense
@@ -412,6 +428,8 @@
 
         <q-item-section class="q-pt-md section-no-margin">
           <q-input
+      dense
+      outlined
             v-model="guideEdit.details.meeting_point"
             outlined
             dense
@@ -484,6 +502,8 @@
 
         <q-item-section class="q-pt-md section-no-margin">
           <q-input
+      dense
+      outlined
             v-model="guideEdit.comments.description"
             outlined
             dense
@@ -511,6 +531,8 @@
 
         <q-item-section class="q-pt-md section-no-margin">
           <q-input
+      dense
+      outlined
             v-model="guideEdit.details.description_road"
             outlined
             dense

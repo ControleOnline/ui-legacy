@@ -2,7 +2,7 @@
   <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12">
-        <q-select multiple use-chips outlined stack-label emit-value map-options
+        <q-select dense outlined  multiple use-chips outlined stack-label emit-value map-options
           v-model ="students"
           :label  ="$t('contracts.students')"
           :options="studentsList"
@@ -10,7 +10,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-4">
-        <q-select outlined stack-label emit-value map-options
+        <q-select dense outlined  outlined stack-label emit-value map-options
           v-model ="weekDay"
           :label  ="$t('contracts.week_day')"
           :options="weekDays"
@@ -18,7 +18,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-4">
-        <q-select outlined stack-label emit-value map-options
+        <q-select dense outlined  outlined stack-label emit-value map-options
           v-model ="startTime"
           :label  ="$t('contracts.start_time')"
           :options="dayPeriods"
@@ -26,7 +26,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-4">
-        <q-select outlined stack-label emit-value map-options
+        <q-select dense outlined  outlined stack-label emit-value map-options
           v-model ="endTime"
           :label  ="$t('contracts.last_time')"
           :options="dayPeriods"
@@ -34,7 +34,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-8">
-        <q-select outlined stack-label emit-value map-options
+        <q-select dense outlined  outlined stack-label emit-value map-options
           v-model ="trainer"
           :label  ="$t('contracts.teacher')"
           :options="trainerList"
@@ -42,7 +42,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-4">
-        <q-select outlined stack-label emit-value map-options
+        <q-select dense outlined  outlined stack-label emit-value map-options
           v-model ="teamType"
           :label  ="$t('contracts.local')"
           :options="teamTypeList"

@@ -20,7 +20,7 @@
 
             <div class="col-sm-6 col-xs-12 q-pa-md">
               <div class="row justify-end">
-                <q-select stack-label label="Status" v-model="filters.status" :options="statuses" class="full-width">
+                <q-select dense outlined  stack-label label="Status" v-model="filters.status" :options="statuses" class="full-width">
                   <template v-slot:no-option>
                     <q-item>
                       <q-item-section class="text-grey">
@@ -34,7 +34,7 @@
 
             <div v-if="!import_type" class="col-sm-6 col-xs-12 q-pa-md">
               <div class="row justify-end">
-                <q-select stack-label label="Tipo de Importação" v-model="importType.import_type"
+                <q-select dense outlined  stack-label label="Tipo de Importação" v-model="importType.import_type"
                   :options="importStatuses" class="full-width">
                   <template v-slot:no-option>
                     <q-item>
@@ -75,7 +75,7 @@
           </q-card-section>
           <q-card-section>
 
-            <q-select v-if="!import_type" stack-label label="Tipo de Importação" v-model="importType.import_type"
+            <q-select dense outlined  v-if="!import_type" stack-label label="Tipo de Importação" v-model="importType.import_type"
               :options="importStatuses" class="full-width">
               <template v-slot:no-option>
                 <q-item>

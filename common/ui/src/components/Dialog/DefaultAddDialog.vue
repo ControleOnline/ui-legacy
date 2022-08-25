@@ -23,6 +23,8 @@
               {{ subtitle }}
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="text"
               dense
               label-color="secondary"

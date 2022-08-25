@@ -64,14 +64,18 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-input lazy-rules stack-label
+            <q-input
+      dense
+      outlined lazy-rules stack-label
               v-model="item.name"
               type   ="text"
               label  ="Nome"
               class  ="q-mt-md"
               :rules ="[isInvalid('name')]"
             />
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="item.percentage"
               suffix   ="%"
               type     ="text"
@@ -81,7 +85,9 @@
               mask     ="#,##"
               fill-mask="0"
             />
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="item.minimumPrice"
               prefix   ="R$"
               type     ="text"
@@ -91,7 +97,7 @@
               mask     ="#,##"
               fill-mask="0"
             />
-            <q-select stack-label emit-value map-options
+            <q-select dense outlined  stack-label emit-value map-options
               label   ="Tipo de porcentagem"
               v-model ="item.subType"
               :options="settings.subTypes"

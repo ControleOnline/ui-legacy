@@ -3,7 +3,9 @@
         <q-card-actions class="row">
             <div class="col-12">
                 <div>
-                    <q-input v-model="body" type="textarea" :loading="isSaving">
+                    <q-input
+      dense
+      outlined v-model="body" type="textarea" :loading="isSaving">
                         <template v-slot:append>
                             <q-btn round flat @click="sendAttachment">
                                 <q-icon name="attachment" />

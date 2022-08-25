@@ -15,7 +15,9 @@
           <div class="col">
             <div class="text-left text-bold">Faturamento</div>
             <div class="text-left">
-              <q-input lazy-rules stack-label reverse-fill-mask
+              <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
                 v-model  ="item.billing"
                 outlined
                 prefix   ="R$"
@@ -30,7 +32,7 @@
           <div class="col q-px-md">
             <div class="text-left text-bold">Fechamento</div>
             <div class="text-left">
-              <q-select stack-label map-options
+              <q-select dense outlined  stack-label map-options
                 outlined
                 v-model ="item.billingDays"
                 :options="settings.select.periods"
@@ -49,7 +51,9 @@
           <div class="col">
             <div class="text-left text-bold">Prazo de pagamento</div>
             <div class="text-left">
-              <q-input lazy-rules stack-label reverse-fill-mask
+              <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
                 v-model="item.paymentTerm"
                 outlined
                 type   ="text"

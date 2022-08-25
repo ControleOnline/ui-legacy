@@ -1,6 +1,8 @@
 <template>
   <q-form @submit="onSubmit" class="q-gutter-y-lg">
     <q-input
+      dense
+      outlined
       id="inputUsername"
       ref="username"
       outlined
@@ -10,6 +12,8 @@
     />
 
     <q-input
+      dense
+      outlined
       class="q-pt-md"
       outlined
       :type="isPwd ? 'password' : 'text'"

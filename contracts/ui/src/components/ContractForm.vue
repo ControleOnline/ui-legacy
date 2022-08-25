@@ -2,7 +2,9 @@
   <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12">
-        <q-input stack-label borderless readonly
+        <q-input
+      dense
+      outlined stack-label borderless readonly
           v-model ="status"
           :label  ="$t('contracts.status')"
         >
@@ -10,7 +12,7 @@
       </div>
 
       <div class="col-xs-12 col-sm-6">
-        <q-select stack-label emit-value map-options :hide-dropdown-icon="readOnly"
+        <q-select dense outlined  stack-label emit-value map-options :hide-dropdown-icon="readOnly"
           v-model    ="template"
           :label     ="$t('contracts.model')"
           :options   ="contractModels"
@@ -24,7 +26,9 @@
       </div>
 
       <div class="col-xs-12 col-sm-6">
-        <q-input stack-label
+        <q-input
+      dense
+      outlined stack-label
           v-model    ="startDate"
           mask       ="##/##/####"
           :label     ="$t('contracts.start_date')"

@@ -1,6 +1,8 @@
 <template>
   <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-    <q-input lazy-rules stack-label
+    <q-input
+      dense
+      outlined lazy-rules stack-label
       v-model="item.username"
       type   ="text"
       label  ="Nome de usuário"
@@ -8,7 +10,9 @@
       :rules ="[isInvalid('username')]"
     />
 
-    <q-input lazy-rules stack-label
+    <q-input
+      dense
+      outlined lazy-rules stack-label
       v-model="item.password"
       type   ="password"
       label  ="Senha"
@@ -16,7 +20,9 @@
       :rules ="[isInvalid('password')]"
     />
 
-    <q-input lazy-rules stack-label
+    <q-input
+      dense
+      outlined lazy-rules stack-label
       v-model="item.confirm"
       type   ="password"
       label  ="Confirme sua senha"

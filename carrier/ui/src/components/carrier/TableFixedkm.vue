@@ -31,7 +31,7 @@
           <div class="col-12 q-mb-md">
             <div class="row q-col-gutter-xs">
               <div class="col-6 q-mb-md">
-                <q-select
+                <q-select dense outlined 
                   stack-label
                   emit-value
                   map-options
@@ -42,7 +42,7 @@
                 />
               </div>
               <div class="col-6 q-mb-md">
-                <q-select
+                <q-select dense outlined 
                   stack-label
                   emit-value
                   map-options
@@ -113,6 +113,8 @@
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
             <q-input
+      dense
+      outlined
               lazy-rules
               stack-label
               v-model="item.name"
@@ -121,7 +123,7 @@
               class="q-mt-md"
               :rules="[isInvalid('name')]"
             />
-            <q-select
+            <q-select dense outlined 
               stack-label
               emit-value
               map-options
@@ -130,7 +132,7 @@
               class="q-mt-md"
               :options="regions.origin"
             />
-            <q-select
+            <q-select dense outlined 
               stack-label
               emit-value
               map-options
@@ -140,6 +142,8 @@
               :options="regions.destination"
             />
             <q-input
+      dense
+      outlined
               lazy-rules
               stack-label
               reverse-fill-mask
@@ -153,6 +157,8 @@
               fill-mask="0"
             />
             <q-input
+      dense
+      outlined
               lazy-rules
               stack-label
               reverse-fill-mask
@@ -166,6 +172,8 @@
               fill-mask="0"
             />
             <q-input
+      dense
+      outlined
               lazy-rules
               stack-label
               reverse-fill-mask

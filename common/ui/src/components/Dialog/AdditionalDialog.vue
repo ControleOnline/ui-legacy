@@ -23,6 +23,8 @@
               Item
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="name"
               dense
               label-color="secondary"
@@ -32,6 +34,8 @@
               class="q-pa-none full-width"
             />
             <q-input
+      dense
+      outlined
               v-model="quantity"
               dense
               label-color="secondary"
@@ -41,6 +45,8 @@
               class="q-pa-none full-width"
             />
             <q-input
+      dense
+      outlined
               v-model="price"
               dense
               label-color="secondary"

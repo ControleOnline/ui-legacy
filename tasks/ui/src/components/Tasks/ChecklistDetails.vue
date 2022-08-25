@@ -46,6 +46,8 @@
               </div>
               <div class="col-sm-6 col-12">
                 <q-input
+      dense
+      outlined
                   class="full-width"
                   v-model="main_data_survey.customer"
                   standout
@@ -56,6 +58,8 @@
               </div>
               <div class="col-sm-6 col-12">
                 <q-input
+      dense
+      outlined
                   class="full-width"
                   v-model="main_data_survey.customer_email"
                   standout
@@ -73,6 +77,8 @@
             <div class="row q-pa-md q-col-gutter-md">
               <div class="col-sm-4 col-12">
                 <q-input
+      dense
+      outlined
                   class="full-width"
                   v-model="main_data_survey.vehicle_name"
                   standout
@@ -83,6 +89,8 @@
               </div>
               <div class="col-sm-4 col-12">
                 <q-input
+      dense
+      outlined
                   class="full-width"
                   v-model="main_data_survey.vehicle_plate"
                   standout
@@ -93,6 +101,8 @@
               </div>
               <div class="col-sm-4 col-12">
                 <q-input
+      dense
+      outlined
                   class="full-width"
                   v-model="main_data_survey.vehicle_color"
                   standout
@@ -105,7 +115,7 @@
 
             <div class="row q-pa-md q-col-gutter-md">
               <div class="col-sm-4 col-12">
-                <q-select
+                <q-select dense outlined 
                   class="full-width"
                   outlined
                   v-model="main_data_survey.type_survey"
@@ -119,6 +129,8 @@
 
               <div class="col-sm-4 col-12">
                 <q-input
+      dense
+      outlined
                   class="full-width"
                   v-model="main_data_survey.surveyor_email"
                   outlined
@@ -139,6 +151,8 @@
 
               <div class="col-sm-4 col-12">
                 <q-input
+      dense
+      outlined
                   ref="surveyor_name_inp"
                   :tabindex="tabIndexInp.surveyor_name"
                   class="full-width"
@@ -159,6 +173,8 @@
             <div class="row q-px-md q-pb-md q-col-gutter-md">
               <div class="col-sm-4 col-12">
                 <q-input
+      dense
+      outlined
                   type="number"
                   class="full-width"
                   v-model="main_data_survey.vehicle_km"
@@ -171,7 +187,7 @@
                 />
               </div>
               <div class="col-sm-4 col-12">
-                <q-select
+                <q-select dense outlined 
                   class="full-width"
                   outlined
                   v-model="main_data_survey.vehicle_fuel"
@@ -183,7 +199,7 @@
                 />
               </div>
               <div class="col-sm-4 col-12">
-                <q-select
+                <q-select dense outlined 
                   class="full-width"
                   outlined
                   v-model="main_data_survey.belongings_removed"
@@ -199,7 +215,7 @@
 
             <div class="row q-px-md q-pb-md q-col-gutter-md">
               <div class="col-12">
-                <q-select
+                <q-select dense outlined 
                   class="full-width"
                   outlined
                   v-model="main_data_survey.service_location.model"
@@ -422,7 +438,7 @@
               >
                 <q-card-section>
                   <div>
-                    <q-select
+                    <q-select dense outlined 
                       v-model="galleryModels.region['photoId' + field.id]"
                       :options="region"
                       label="Região"
@@ -441,7 +457,7 @@
                 />
                 <q-card-section>
                   <div>
-                    <q-select
+                    <q-select dense outlined 
                       v-model="galleryModels.breakdown['photoId' + field.id]"
                       :options="breakdown"
                       label="Avaria"

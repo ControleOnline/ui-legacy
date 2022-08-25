@@ -8,11 +8,13 @@
       </div>
 
       <div class="col-xs-12" :class="!categories.length > 0 ? '' : 'col-sm-6'">
-        <q-input stack-label lazy-rules v-model="item.name" type="text" label="Nome *" placeholder="Digite o nome"
+        <q-input
+      dense
+      outlined stack-label lazy-rules v-model="item.name" type="text" label="Nome *" placeholder="Digite o nome"
           :rules="[isInvalid('name')]" outlined />
       </div>
       <div v-if="categories.length > 0" class="col-xs-12 col-sm-6">
-        <q-select stack-label lazy-rules v-model="item.category" label="Categoria *" :options="categories"
+        <q-select dense outlined  stack-label lazy-rules v-model="item.category" label="Categoria *" :options="categories"
           :rules="[isInvalid('category')]" outlined>
           <template v-slot:no-option>
             <q-item>
@@ -25,7 +27,7 @@
       </div>
 
       <div v-if="categories_criticality && categories_criticality.length > 0" class="col-sm-6 col-xs-12 q-mb-lg">
-        <q-select stack-label :label="$t(context + '.criticality')" v-model="item.criticality" outlined
+        <q-select dense outlined  stack-label :label="$t(context + '.criticality')" v-model="item.criticality" outlined
           :options="categories_criticality" class="full-width">
           <template v-slot:no-option>
             <q-item>
@@ -36,7 +38,7 @@
       </div>
 
       <div v-if="categories_reason && categories_reason.length > 0" class="col-sm-6 col-xs-12">
-        <q-select stack-label :label="$t(context + '.reason')" v-model="item.reason" :options="categories_reason"
+        <q-select dense outlined  stack-label :label="$t(context + '.reason')" v-model="item.reason" :options="categories_reason"
           class="full-width" outlined>
           <template v-slot:no-option>
             <q-item>
@@ -49,7 +51,7 @@
 
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
-        <q-select stack-label lazy-rules v-model="item.taskStatus" class="q-mb-sm" label="Status *" :options="statuses"
+        <q-select dense outlined  stack-label lazy-rules v-model="item.taskStatus" class="q-mb-sm" label="Status *" :options="statuses"
           :rules="[isInvalid('status')]" :outlined="true">
           <template v-slot:no-option>
             <q-item>
@@ -61,7 +63,9 @@
         </q-select>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-input stack-label v-model="item.dueDate" label="Data de Vencimento" mask="##/##/####" :outlined="true">
+        <q-input
+      dense
+      outlined stack-label v-model="item.dueDate" label="Data de Vencimento" mask="##/##/####" :outlined="true">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">
@@ -83,7 +87,9 @@
           placeholder="Pesquisar..." />
 
         <div v-else class="row col-12">
-          <q-input class="col"
+          <q-input
+      dense
+      outlined class="col"
             :value="`(${taskData.taskFor.id}) - ${taskData.taskFor.name} - ${taskData.taskFor.alias}`"
             label="Definir o responsável" outlined disable />
 
@@ -97,7 +103,9 @@
       <div v-if="editTask == false" class="col-xs-12 col-sm-6">
         <PeopleAutocomplete v-if="!client" :source="searchPeople" :isLoading="isSearching" label="Definir o cliente"
           @selected="onSelectClient" placeholder="Pesquisar..." />
-        <q-input v-else :value="`(${client.id}) - ${client.name} - ${client.alias}`" label="Definir o cliente" outlined
+        <q-input
+      dense
+      outlined v-else :value="`(${client.id}) - ${client.name} - ${client.alias}`" label="Definir o cliente" outlined
           disable />
       </div>
     </div>
@@ -112,7 +120,9 @@
             </q-btn>
           </div>
           <div class="col">
-            <q-input v-model="item.id" label="Definir Contrato" class="q-my-md" outlined prefix="#" disable />
+            <q-input
+      dense
+      outlined v-model="item.id" label="Definir Contrato" class="q-my-md" outlined prefix="#" disable />
           </div>
         </div>
       </div>
@@ -121,7 +131,9 @@
       <div v-if="editTask == false" class="col-xs-12 col-md-6 flex items-center">
         <div class="row items-center full-width q-col-gutter-sm">
 
-          <q-input v-model="searchOrder" :options="searchOrder" :loading="isSearchingOrder" label="Definir Pedido"
+          <q-input
+      dense
+      outlined v-model="searchOrder" :options="searchOrder" :loading="isSearchingOrder" label="Definir Pedido"
             class="q-my-md" outlined debounce="700" placeholder="Digite o id do pedido" :disable="editTask" />
 
         </div>

@@ -1,6 +1,6 @@
 <template>
   <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-    <q-select stack-label
+    <q-select dense outlined  stack-label
         label   ="Tipo de documento"
         v-model="item.type"
         :options="settings.select.doctypes"
@@ -14,7 +14,9 @@
         </template>
     </q-select>
 
-    <q-input lazy-rules stack-label
+    <q-input
+      dense
+      outlined lazy-rules stack-label
       v-model="item.document"
       type   ="text"
       label  ="Documento"

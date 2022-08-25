@@ -33,7 +33,8 @@
           />
           <div v-else class="origin-destination-container col-xs-12 col-sm-6">
             <q-input
-              outlined
+      dense
+      outlined 
               stack-label
               lazy-rules
               v-model="origin.street"
@@ -59,7 +60,8 @@
           />
           <div v-else class="origin-destination-container col-xs-12 col-sm-6">
             <q-input
-              outlined
+      dense
+      outlined 
               stack-label
               lazy-rules
               v-model="destination.street"

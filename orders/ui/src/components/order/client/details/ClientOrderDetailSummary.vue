@@ -258,7 +258,8 @@
         <div class="row q-mt-lg">
           <div class="col-xs-12">
             <q-input
-              outlined
+      dense
+      outlined 
               stack-label
               v-model="comments"
               type="textarea"

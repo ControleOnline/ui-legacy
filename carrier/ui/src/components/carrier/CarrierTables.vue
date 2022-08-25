@@ -50,20 +50,32 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-input stack-label v-model="item.code" type="text" label="Código" class="q-mt-md" />
+            <q-input
+      dense
+      outlined stack-label v-model="item.code" type="text" label="Código" class="q-mt-md" />
 
-            <q-select class="q-mt-md" v-model="item.name" label="Tipo de Tabela" :options="tableNames"
+            <q-select dense outlined  class="q-mt-md" v-model="item.name" label="Tipo de Tabela" :options="tableNames"
               :rules="[isInvalid('name')]" />
 
-            <q-input lazy-rules stack-label reverse-fill-mask v-model="item.maxHeight" suffix="m" type="text"
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxHeight" suffix="m" type="text"
               label="Altura máxima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
-            <q-input lazy-rules stack-label reverse-fill-mask v-model="item.maxWidth" suffix="m" type="text"
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxWidth" suffix="m" type="text"
               label="Largura máxima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
-            <q-input lazy-rules stack-label reverse-fill-mask v-model="item.maxDepth" suffix="m" type="text"
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxDepth" suffix="m" type="text"
               label="Comprimento máximo" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
-            <q-input lazy-rules stack-label reverse-fill-mask v-model="item.minCubage" suffix="kg" type="text"
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask v-model="item.minCubage" suffix="kg" type="text"
               label="Cubagem mínima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
-            <q-input lazy-rules stack-label reverse-fill-mask v-model="item.maxCubage" suffix="kg" type="text"
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxCubage" suffix="kg" type="text"
               label="Cubagem Máxima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
             <div class="row justify-end">
               <q-btn :loading="saving" icon="save" type="submit" label="Salvar" size="md" color="primary"

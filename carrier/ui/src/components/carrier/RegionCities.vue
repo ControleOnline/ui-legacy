@@ -54,7 +54,7 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-select stack-label emit-value map-options options-cover
+            <q-select dense outlined  stack-label emit-value map-options options-cover
               label        ="Estados"
               v-model      ="item.state"
               :loading     ="loadingStates"
@@ -72,7 +72,9 @@
               </template>
             </q-select>
 
-            <q-input stack-label filled
+            <q-input
+      dense
+      outlined stack-label filled
               label  ="Cidades (separadas por virgula)"
               v-model="item.city"
               type   ="textarea"

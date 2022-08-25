@@ -19,6 +19,8 @@
               <q-icon name="mood_bad" size="1.5rem"></q-icon>
             </q-item-label>
             <q-input
+      dense
+      outlined
               dense
               label-color="secondary"
               color="secondary"

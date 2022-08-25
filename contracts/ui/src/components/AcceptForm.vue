@@ -10,7 +10,8 @@
     <div class="row justify-center q-pb-md">
       <div class="col-xs-12 col-sm-12 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="form.carModel"
@@ -23,7 +24,8 @@
       </div>
       <div class="col-xs-12 col-sm-4 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="form.other_informations.carColor"
@@ -35,7 +37,8 @@
       </div>
       <div class="col-xs-12 col-sm-4 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           unmasked-value
@@ -48,7 +51,8 @@
       </div>
       <div class="col-xs-12 col-sm-4 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           unmasked-value
@@ -79,7 +83,8 @@
     <div class="row justify-center q-pb-md">
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           unmasked-value
@@ -97,7 +102,8 @@
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           v-model="form.birthDate"
           :rules="[isInvalid('birthDate')]"
@@ -112,7 +118,8 @@
     <div class="row justify-center q-pb-md">
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           v-model="form.name"
           type="text"
@@ -122,7 +129,8 @@
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           v-model="form.alias"
           type="text"
@@ -135,7 +143,8 @@
     <div class="row justify-center q-pb-md">
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="form.email"
@@ -147,7 +156,8 @@
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           unmasked-value
@@ -179,6 +189,8 @@
     <div class="row q-col-gutter-sm q-pb-xs">
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           unmasked-value
@@ -192,6 +204,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -203,6 +217,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -214,6 +230,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           hide-bottom-space
           v-model="form.address.complement"
@@ -223,6 +241,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -234,6 +254,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -245,6 +267,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -257,6 +281,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space

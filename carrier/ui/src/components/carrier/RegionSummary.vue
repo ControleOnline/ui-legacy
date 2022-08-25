@@ -4,7 +4,9 @@
       <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
         <div class="row q-col-gutter-sm">
           <div class="col-xs-12 col-sm-6">
-            <q-input lazy-rules stack-label
+            <q-input
+      dense
+      outlined lazy-rules stack-label
               v-model="item.name"
               type   ="text"
               label  ="Nome"
@@ -13,7 +15,9 @@
             />
           </div>
           <div class="col-xs-12 col-sm-6">
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="item.deadline"
               type     ="text"
               label    ="Prazo (dias)"
@@ -24,7 +28,9 @@
             />
           </div>
           <div class="col-xs-12 col-sm-6">
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="item.tax"
               prefix   ="R$"
               type     ="text"

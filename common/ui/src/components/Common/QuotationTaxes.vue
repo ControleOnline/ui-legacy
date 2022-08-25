@@ -30,7 +30,7 @@
       <div class="text-subtitle2 q-mt-sm q-mb-sm text-center">
         Taxas opcionais
       </div>
-      <q-select
+      <q-select dense outlined 
         outlined
         filled
         stack-label
@@ -42,6 +42,8 @@
       >
       </q-select>
       <q-input
+      dense
+      outlined
         lazy-rules
         stack-label
         reverse-fill-mask

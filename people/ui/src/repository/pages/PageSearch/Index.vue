@@ -4,7 +4,9 @@
     <div class="col-12">
       <div class="row q-col-gutter-sm">
         <div class="col-xs-12 col-sm-4">
-          <q-input v-model="dateFrom" label="Data inicio" stack-label outlined>
+          <q-input
+      dense
+      outlined v-model="dateFrom" label="Data inicio" stack-label outlined>
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">
@@ -15,7 +17,9 @@
           </q-input>
         </div>
         <div class="col-xs-12 col-sm-4">
-          <q-input v-model="dateTo" label="Data fim" stack-label outlined>
+          <q-input
+      dense
+      outlined v-model="dateTo" label="Data fim" stack-label outlined>
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy2" transition-show="scale" transition-hide="scale">
@@ -26,7 +30,9 @@
           </q-input>
         </div>
         <div class="col-xs-12 col-sm-4">
-          <q-input stack-label label="Buscar por" debounce="1000" v-model="searchBy" class="full-width" outlined>
+          <q-input
+      dense
+      outlined stack-label label="Buscar por" debounce="1000" v-model="searchBy" class="full-width" outlined>
             <template v-slot:append>
               <q-icon name="search" class="cursor-pointer" />
             </template>

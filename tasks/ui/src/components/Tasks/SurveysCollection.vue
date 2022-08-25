@@ -118,7 +118,7 @@
           <q-btn icon="close" @click="setClassRow(idRowToDelete, false);" flat round dense v-close-popup/>
         </q-card-section>
         <q-card-section class="row items-center justify-center">
-          <q-select
+          <q-select dense outlined 
               outlined
               v-model="editDialog.status"
               :options="status_survey"

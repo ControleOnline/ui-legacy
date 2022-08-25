@@ -21,6 +21,8 @@
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
+      dense
+      outlined
             lazy-rules
             stack-label
             reverse-fill-mask
@@ -38,6 +40,8 @@
 
         <div class="col-xs-6 q-mb-md">
           <q-input
+      dense
+      outlined
             stack-label
             v-model="item.discountStartDate"
             :label="$t('Inicio da Promoção')"
@@ -64,6 +68,8 @@
         </div>
         <div class="col-xs-6 q-mb-md">
           <q-input
+      dense
+      outlined
             stack-label
             v-model="item.discountEndDate"
             :label="$t('Fim da Promoção')"

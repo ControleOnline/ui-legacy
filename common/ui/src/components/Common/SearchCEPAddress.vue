@@ -1,5 +1,7 @@
 <template>
-  <q-input stack-label unmasked-value hide-bottom-space
+  <q-input
+      dense
+      outlined stack-label unmasked-value hide-bottom-space
     v-model    ="postalCode"
     type       ="text"
     label      ="CEP"

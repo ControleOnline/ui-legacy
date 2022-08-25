@@ -44,6 +44,8 @@
         </div>
         <div class="col-sm-6 col-xs-12 q-pa-md">
           <q-input
+      dense
+      outlined
             stack-label
             label="Buscar por"
             debounce="1000"
@@ -52,7 +54,7 @@
           />
         </div>
         <div class="col-sm-6 col-xs-12 q-pa-md">
-          <q-select
+          <q-select dense outlined 
             stack-label
             label="Status do pedido"
             v-model="filters.status"

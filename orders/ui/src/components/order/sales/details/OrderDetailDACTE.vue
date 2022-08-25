@@ -33,6 +33,8 @@
               <div class="row q-col-gutter-sm">
                 <div class="col-xs-12 col-sm-6">
                   <q-input
+      dense
+      outlined
                     outlined
                     stack-label
                     lazy-rules
@@ -47,6 +49,8 @@
 
                 <div class="col-xs-12 col-sm-6">
                   <q-input
+      dense
+      outlined
                     outlined
                     stack-label
                     lazy-rules

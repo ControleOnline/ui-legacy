@@ -16,7 +16,8 @@
 
             <q-item-section class="section-no-margin q-py-xs">
               <q-input
-                outlined
+      dense
+      outlined 
                 v-model="payment.number_card"
                 dense
                 label-color="secondary"
@@ -25,7 +26,8 @@
                 class="q-pa-sm full-width"
               />
               <q-input
-                outlined
+      dense
+      outlined 
                 v-model="payment.name"
                 dense
                 label-color="secondary"
@@ -36,7 +38,8 @@
 
               <div class="row">
                 <q-input
-                  outlined
+      dense
+      outlined 
                   v-model="payment.date"
                   dense
                   label-color="secondary"
@@ -46,7 +49,8 @@
                   class="col-4 q-pa-sm"
                 />
                 <q-input
-                  outlined
+      dense
+      outlined 
                   v-model="payment.cvv"
                   dense
                   label-color="secondary"
@@ -55,7 +59,7 @@
                   placeholder="Ex: 999"
                   class="col-4 q-pa-sm"
                 />
-                <q-select
+                <q-select dense outlined 
                   outlined
                   v-model="payment.parcel"
                   dense

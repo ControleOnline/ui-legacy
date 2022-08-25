@@ -4,7 +4,8 @@
     style="justify-content: right"
   >
     <q-input
-      outlined
+      dense
+      outlined 
       id="date-initial"
       stack-label
       class="bg-transparent margin-filter element-filter"
@@ -29,7 +30,8 @@
       </template>
     </q-input>
     <q-input
-      outlined
+      dense
+      outlined 
       stack-label
       class="bg-transparent margin-filter element-filter"
       v-model="date.to"

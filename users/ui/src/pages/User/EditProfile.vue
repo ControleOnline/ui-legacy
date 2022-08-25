@@ -27,6 +27,8 @@
             {{ $t('about_yourself') }}
           </q-item-label>
           <q-input
+      dense
+      outlined
             v-model="userEdit.description_provider"
             dense
             label-color="secondary"
@@ -183,6 +185,8 @@
               {{ $t('have_cnpj') }}
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="userEdit.cnpj_cpf"
               dense
               label-color="secondary"

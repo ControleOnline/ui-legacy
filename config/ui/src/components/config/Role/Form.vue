@@ -7,7 +7,7 @@
     </div>
     <div class="row q-col-gutter-y-sm q-pt-md">
       <div class="col-xs-12">
-        <q-select
+        <q-select dense outlined 
           stack-label
           emit-value
           map-options
@@ -19,7 +19,7 @@
       </div>
 
       <div class="col-xs-12">
-        <q-select
+        <q-select dense outlined 
           stack-label
           emit-value
           map-options
@@ -32,6 +32,8 @@
 
       <div class="col-xs-12">
         <q-input
+      dense
+      outlined
           lazy-rules
           stack-label
           outlined
@@ -45,6 +47,8 @@
 
       <div class="col-xs-12">
         <q-input
+      dense
+      outlined
           lazy-rules
           stack-label
           outlined
@@ -58,6 +62,8 @@
 
       <div class="col-xs-12">
         <q-input
+      dense
+      outlined
           lazy-rules
           stack-label
           outlined
@@ -71,6 +77,8 @@
 
       <div class="col-xs-12">
         <q-input
+      dense
+      outlined
           lazy-rules
           stack-label
           outlined

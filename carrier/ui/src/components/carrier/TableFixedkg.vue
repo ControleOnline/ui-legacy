@@ -65,14 +65,18 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-input lazy-rules stack-label
+            <q-input
+      dense
+      outlined lazy-rules stack-label
               v-model="item.name"
               type   ="text"
               label  ="Nome"
               class  ="q-mt-md"
               :rules ="[isInvalid('name')]"
             />
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="item.finalWeight"
               suffix   ="kg"
               type     ="text"
@@ -82,7 +86,9 @@
               mask     ="#,##"
               fill-mask="0"
             />
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="item.price"
               prefix   ="R$"
               type     ="text"
@@ -92,7 +98,9 @@
               mask     ="#,##"
               fill-mask="0"
             />
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="item.minimumPrice"
               type     ="text"
               label    ="Fração por KG"

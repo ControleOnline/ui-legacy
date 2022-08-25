@@ -19,7 +19,7 @@
       </q-item>
 
       <div class="">
-        <q-select
+        <q-select dense outlined 
           v-model="model"
           :options="options"
           :label="$t('registration_type')"
@@ -31,6 +31,8 @@
         />
 
         <q-input
+      dense
+      outlined
           v-model="register_informations.email"
           color="secondary"
           class="q-px-lg"
@@ -41,6 +43,8 @@
 
         <div class="row q-px-lg">
           <q-input
+      dense
+      outlined
             v-model="register_informations.password"
             color="secondary"
             class="col-6 q-pr-xs"
@@ -50,6 +54,8 @@
             type="password"
           />
           <q-input
+      dense
+      outlined
             v-model="register_informations.confirm_password"
             color="secondary"
             class="col-6 q-pl-xs"

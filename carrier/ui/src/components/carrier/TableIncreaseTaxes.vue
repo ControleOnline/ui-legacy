@@ -1,6 +1,6 @@
 <template>
   <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-    <q-select
+    <q-select dense outlined 
       stack-label
       emit-value
       map-options
@@ -9,7 +9,7 @@
       class="q-mt-md"
       :options="taxes"
     />
-    <q-select
+    <q-select dense outlined 
       stack-label
       emit-value
       map-options
@@ -18,7 +18,7 @@
       class="q-mt-md"
       :options="origins"
     />
-    <q-select
+    <q-select dense outlined 
       stack-label
       emit-value
       map-options
@@ -28,6 +28,8 @@
       :options="dests"
     />
     <q-input
+      dense
+      outlined
       lazy-rules
       stack-label
       reverse-fill-mask

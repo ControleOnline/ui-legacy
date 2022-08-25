@@ -25,14 +25,18 @@
           </div>
 
           <div :class="item.type == 'J' ? 'col-xs-12 col-sm-6' : 'col-xs-12'">
-            <q-input stack-label lazy-rules outlined v-model="item.name" type="text" class="q-mb-sm"
+            <q-input
+      dense
+      outlined stack-label lazy-rules outlined v-model="item.name" type="text" class="q-mb-sm"
               :label="item.type == 'J' ? $t('Razão social') : $t('Nome completo')" :placeholder="
                 item.type == 'J' ? 'Digite a Razão social' : 'Digite o nome completo'
               " :rules="[isInvalid('name')]" />
           </div>
 
           <div class="col-xs-12 col-sm-6" v-if="item.type == 'J'">
-            <q-input stack-label lazy-rules outlined v-model="item.alias" type="text" class="q-mb-sm"
+            <q-input
+      dense
+      outlined stack-label lazy-rules outlined v-model="item.alias" type="text" class="q-mb-sm"
               :label="$t('Nome Fantasia')" :placeholder="
                 item.type == 'J'
                   ? 'Digite o Nome fantasia'
@@ -43,7 +47,9 @@
 
         <div class="row q-col-gutter-sm">
           <div class="col-xs-12 col-sm-grow">
-            <q-input stack-label outlined v-model="item.birthday" mask="##/##/####" :label="
+            <q-input
+      dense
+      outlined stack-label outlined v-model="item.birthday" mask="##/##/####" :label="
               item.type == 'F' ? 'Data de nascimento' : 'Data de fundação'
             ">
               <template v-slot:append>
@@ -56,7 +62,9 @@
             </q-input>
           </div>
           <div v-for="(field, index) in particulars" :key="index" class="col-xs-12 col-sm-grow">
-            <q-input stack-label lazy-rules outlined v-model="field.value" type="text" :label="$t(field.label)"
+            <q-input
+      dense
+      outlined stack-label lazy-rules outlined v-model="field.value" type="text" :label="$t(field.label)"
               :rules="field.required ? [isInvalid('field_text')] : [true]" class="q-mb-sm"
               @input="field._updated = true" />
           </div>

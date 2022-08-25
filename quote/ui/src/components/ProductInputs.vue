@@ -15,7 +15,7 @@
             placeholder="Gol, Corsa, Uno..."
             :acceptInput="true"
           />
-          <q-select
+          <q-select dense outlined 
             outlined
             v-else
             :options="productCategory"
@@ -28,7 +28,8 @@
 
         <div v-if="!isCeg()" class="col-xs-12 col-md-3 q-mb-sm">
           <q-input
-            outlined
+      dense
+      outlined 
             stack-label
             lazy-rules
             v-model="values.product"
@@ -46,7 +47,7 @@
             ' q-mb-sm'
           "
         >
-          <q-select
+          <q-select dense outlined 
             outlined
             v-if="isCeg()"
             :options="groupTables"
@@ -57,6 +58,8 @@
             placeholder="Selecione uma opção"
           />
           <q-input
+      dense
+      outlined
             v-else
             outlined
             stack-label
@@ -69,7 +72,8 @@
         </div>
         <div class="col-xs-12 col-md-6 q-mb-sm">
           <q-input
-            outlined
+      dense
+      outlined 
             stack-label
             lazy-rules
             reverse-fill-mask
@@ -108,6 +112,8 @@
               <div class="row justify-between">
                 <div class="col-xs-12 col-sm-2">
                   <q-input
+      dense
+      outlined
                     outlined
                     stack-label
                     lazy-rules
@@ -122,6 +128,8 @@
                 </div>
                 <div class="col-xs-12 col-sm-2">
                   <q-input
+      dense
+      outlined
                     outlined
                     stack-label
                     lazy-rules
@@ -137,6 +145,8 @@
                 </div>
                 <div class="col-xs-12 col-sm-2">
                   <q-input
+      dense
+      outlined
                     outlined
                     stack-label
                     lazy-rules
@@ -152,6 +162,8 @@
                 </div>
                 <div class="col-xs-12 col-sm-2">
                   <q-input
+      dense
+      outlined
                     outlined
                     stack-label
                     lazy-rules
@@ -167,6 +179,8 @@
                 </div>
                 <div class="col-xs-12 col-sm-2">
                   <q-input
+      dense
+      outlined
                     outlined
                     stack-label
                     lazy-rules
@@ -230,7 +244,8 @@
           class="col-xs-6 col-md-3 q-pa-sm"
         >
           <q-input
-            outlined
+      dense
+      outlined 
             stack-label
             lazy-rules
             reverse-fill-mask

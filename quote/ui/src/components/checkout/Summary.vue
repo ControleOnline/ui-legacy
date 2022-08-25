@@ -28,7 +28,8 @@
         <div class="row" v-if="!hasDocument">
           <div class="col-xs-12 q-mb-sm">
             <q-input
-              outlined
+      dense
+      outlined 
               stack-label
               lazy-rules
               unmasked-value
@@ -279,7 +280,8 @@
         <div class="row q-mt-lg">
           <div class="col-xs-12">
             <q-input
-              outlined
+      dense
+      outlined 
               stack-label
               v-model="item.comments"
               type="textarea"

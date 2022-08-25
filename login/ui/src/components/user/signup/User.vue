@@ -4,7 +4,8 @@
       <div v-if="hasUserField('name')" class="col-xs-12 col-sm-6 q-mb-md">
         <label class="q-input-label">{{ $t("login.name") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="item.name"
@@ -16,7 +17,8 @@
       <div v-if="hasUserField('phone')" class="col-xs-12 col-sm-6 q-mb-md">
         <label class="q-input-label">{{ $t("login.phone") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           unmasked-value
@@ -33,7 +35,8 @@
       <div v-if="hasUserField('email')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.email") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="item.email"
@@ -46,7 +49,8 @@
       <div v-if="hasUserField('confirmEmail')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.confirmEmail") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="item.confirmEmail"
@@ -62,6 +66,8 @@
       {{ $t("login.username") }}
     </label>
     <q-input
+      dense
+      outlined
       v-if="hasUserField('username')"
       outlined
       stack-label
@@ -80,7 +86,8 @@
       <div v-if="hasUserField('password')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.password") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="item.password"
@@ -93,7 +100,8 @@
       <div v-if="hasUserField('confirmPassword')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.confirm") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="item.confirmPassword"

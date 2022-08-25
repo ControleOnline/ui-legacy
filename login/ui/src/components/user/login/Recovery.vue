@@ -4,7 +4,9 @@
 
     <q-form @submit="onSubmit" class="q-mt-md">
 
-      <q-input outlined stack-label
+      <q-input
+      dense
+      outlined  stack-label
         ref    ="email"
         v-model="item.username"
         type   ="text"
@@ -13,7 +15,9 @@
         :rules ="[isInvalid('username')]"
       />
 
-      <q-input outlined stack-label
+      <q-input
+      dense
+      outlined  stack-label
         ref    ="email"
         v-model="item.email"
         type   ="email"

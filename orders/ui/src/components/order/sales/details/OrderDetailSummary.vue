@@ -39,6 +39,8 @@
       <div class="row" style="margin: 10px">
         <div class="col-10 col-sm-7">
           <q-input
+      dense
+      outlined
             stack-label
             lazy-rules
             unmasked-value
@@ -54,7 +56,7 @@
             label="Responsável pelo pedido"
             :disable="true"
           />
-          <q-select
+          <q-select dense outlined 
             v-else
             :options="CompaniesSelect"
             :isLoading="false"
@@ -437,7 +439,8 @@
         <div class="row q-mt-lg">
           <div class="col-xs-12">
             <q-input
-              outlined
+      dense
+      outlined 
               stack-label
               v-model="comments"
               type="textarea"
@@ -473,7 +476,7 @@
             <div :class="!isCeg() ? 'hidden' : 'row q-col-gutter-xs q-pb-xs'">
               <div class="col-xs-12 text-subtitle1 text-left"></div>
               <div class="col-xs-12 q-mb-sm">
-                <q-select
+                <q-select dense outlined 
                   outlined
                   @input="changeAddressType"
                   v-model="dialogs.details.data.address_type"
@@ -506,6 +509,8 @@
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
+      dense
+      outlined
                   stack-label
                   lazy-rules
                   unmasked-value
@@ -522,6 +527,8 @@
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
+      dense
+      outlined
                   stack-label
                   lazy-rules
                   hide-bottom-space
@@ -536,6 +543,8 @@
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
+      dense
+      outlined
                   stack-label
                   lazy-rules
                   hide-bottom-space
@@ -550,6 +559,8 @@
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
+      dense
+      outlined
                   stack-label
                   hide-bottom-space
                   v-model="dialogs.details.data.complement"
@@ -562,6 +573,8 @@
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
+      dense
+      outlined
                   stack-label
                   lazy-rules
                   hide-bottom-space
@@ -576,6 +589,8 @@
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
+      dense
+      outlined
                   stack-label
                   lazy-rules
                   hide-bottom-space
@@ -590,6 +605,8 @@
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
+      dense
+      outlined
                   stack-label
                   lazy-rules
                   hide-bottom-space
@@ -605,6 +622,8 @@
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
+      dense
+      outlined
                   stack-label
                   lazy-rules
                   hide-bottom-space

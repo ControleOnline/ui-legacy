@@ -15,7 +15,9 @@
       @save    ="onSave"
     >
       <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
-        <q-input autofocus dense
+        <q-input
+      dense
+      outlined autofocus dense
           :value="dueDateValue"
           :rules="[val => validate(value) || 'A data não é válida']"
           @input="emitValue"

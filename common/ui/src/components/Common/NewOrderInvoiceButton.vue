@@ -22,7 +22,9 @@
           <q-form @submit="createInvoice" class="q-mt-sm" ref="myForm">
             <div class="row q-col-gutter-sm">
               <div class="col-xs-12">
-                <q-input outlined stack-label lazy-rules reverse-fill-mask
+                <q-input
+      dense
+      outlined  stack-label lazy-rules reverse-fill-mask
                   prefix   ="R$"
                   v-model  ="item.price"
                   type     ="text"
@@ -34,7 +36,9 @@
               </div>
 
               <div class="col-xs-12">
-                <q-input stack-label outlined
+                <q-input
+      dense
+      outlined stack-label outlined
                   v-model="item.dueDate"
                   mask   ="##/##/####"
                   label  ="Data vencimento"

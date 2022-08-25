@@ -66,15 +66,21 @@
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
             <div class="row q-col-gutter-xs q-pb-xs">
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input stack-label lazy-rules unmasked-value hide-bottom-space v-model="item.name" type="text"
+                <q-input
+      dense
+      outlined stack-label lazy-rules unmasked-value hide-bottom-space v-model="item.name" type="text"
                   label="Nome" :rules="[isInvalid('name')]" />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input stack-label lazy-rules hide-bottom-space v-model="item.lastname" type="text" label="Sobrenome"
+                <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space v-model="item.lastname" type="text" label="Sobrenome"
                   :rules="[isInvalid('lastname')]" />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input stack-label lazy-rules hide-bottom-space v-model="item.email" type="text" label="Email"
+                <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space v-model="item.email" type="text" label="Email"
                   :rules="[isInvalid('email')]" />
               </div>
             </div>

@@ -33,9 +33,13 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-input lazy-rules stack-label v-model="item.ddd" type="text" label="DDD" class="q-mt-md"
+            <q-input
+      dense
+      outlined lazy-rules stack-label v-model="item.ddd" type="text" label="DDD" class="q-mt-md"
               :rules="[isInvalid('ddd')]" mask="##" />
-            <q-input lazy-rules stack-label v-model="item.phone" type="text" label="Número" class="q-mt-md"
+            <q-input
+      dense
+      outlined lazy-rules stack-label v-model="item.phone" type="text" label="Número" class="q-mt-md"
               :rules="[isInvalid('phone')]" mask="#########" />
 
             <div class="row justify-end">

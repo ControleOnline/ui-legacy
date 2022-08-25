@@ -34,7 +34,8 @@
     <div class="row q-col-gutter-xs q-pb-xs">
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="item.contact.email"
@@ -47,7 +48,8 @@
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="item.contact.name"
@@ -59,7 +61,8 @@
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           unmasked-value
@@ -72,7 +75,8 @@
       </div>
       <div class="hidden">
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="item.contact.email"
@@ -90,7 +94,8 @@
       <div class="row q-col-gutter-xs q-pb-xs">
         <div class="col-xs-12 col-sm-6 q-mb-sm" v-if="item.personType == 'PJ'">
           <q-input
-            outlined
+      dense
+      outlined 
             stack-label
             v-model="item.name"
             type="text"
@@ -100,7 +105,8 @@
         </div>
         <div class="col-xs-12 col-sm-6 q-mb-sm" v-if="item.personType == 'PJ'">
           <q-input
-            outlined
+      dense
+      outlined 
             stack-label
             v-model="item.alias"
             type="text"
@@ -129,6 +135,8 @@
     <div class="row q-col-gutter-sm q-pb-xs">
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           unmasked-value
@@ -147,6 +155,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -163,6 +173,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -179,6 +191,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           hide-bottom-space
           v-model="item.address.complement"
@@ -193,6 +207,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -209,6 +225,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -230,6 +248,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -252,6 +272,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
+      dense
+      outlined
           stack-label
           lazy-rules
           hide-bottom-space

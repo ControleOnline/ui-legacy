@@ -67,15 +67,21 @@
             <div class="row q-col-gutter-xs q-pb-xs">
               <h6 class="col-xs-12 q-mt-sm q-mb-sm">Dados pessoais</h6>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input stack-label lazy-rules unmasked-value hide-bottom-space v-model="item.name" type="text"
+                <q-input
+      dense
+      outlined stack-label lazy-rules unmasked-value hide-bottom-space v-model="item.name" type="text"
                   label="Nome Completo" :rules="[isInvalid('name')]" />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input stack-label lazy-rules hide-bottom-space v-model="item.lastname" type="text"
+                <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space v-model="item.lastname" type="text"
                   label="Nome Social" />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
-                <q-input stack-label lazy-rules hide-bottom-space v-model="item.email" type="text" label="Email"
+                <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space v-model="item.email" type="text" label="Email"
                   :rules="[isInvalid('email')]" />
               </div>
             </div>

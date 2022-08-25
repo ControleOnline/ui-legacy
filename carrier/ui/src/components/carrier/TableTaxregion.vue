@@ -28,7 +28,7 @@
           <div class="col-12 q-mb-md">
             <div class="row q-col-gutter-xs">
               <div class="col-6 q-mb-md">
-                <q-select stack-label emit-value map-options
+                <q-select dense outlined  stack-label emit-value map-options
                   label   ="Praça de coleta"
                   v-model ="filter.origin"
                   class   ="q-mt-md"
@@ -36,7 +36,7 @@
                 />
               </div>
               <div class="col-6 q-mb-md">
-                <q-select stack-label emit-value map-options
+                <q-select dense outlined  stack-label emit-value map-options
                   label   ="Praça de entrega"
                   v-model ="filter.destination"
                   class   ="q-mt-md"
@@ -88,28 +88,32 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-input lazy-rules stack-label
+            <q-input
+      dense
+      outlined lazy-rules stack-label
               v-model="item.name"
               type   ="text"
               label  ="Nome"
               class  ="q-mt-md"
               :rules ="[isInvalid('name')]"
             />
-            <q-select stack-label emit-value map-options
+            <q-select dense outlined  stack-label emit-value map-options
               label   ="Praça de coleta"
               v-model ="item.origin"
               class   ="q-mt-md"
               :options="regions.origin"
               :rules  ="[val => val !== null || 'Selecione uma praça']"
             />
-            <q-select stack-label emit-value map-options
+            <q-select dense outlined  stack-label emit-value map-options
               label   ="Praça de entrega"
               v-model ="item.destination"
               class   ="q-mt-md"
               :options="regions.destination"
               :rules  ="[val => val !== null || 'Selecione uma praça']"
             />
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="item.finalWeight"
               suffix   ="kg"
               type     ="text"
@@ -119,7 +123,9 @@
               mask     ="#,##"
               fill-mask="0"
             />
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="item.price"
               prefix   ="R$"
               type     ="text"
@@ -129,7 +135,9 @@
               mask     ="#,##"
               fill-mask="0"
             />
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="item.minimumPrice"
               type     ="text"
               label    ="Taxa mínima"

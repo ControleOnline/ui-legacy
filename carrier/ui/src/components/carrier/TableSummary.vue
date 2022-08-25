@@ -4,31 +4,43 @@
       <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
         <div class="row q-col-gutter-sm">
           <div class="col-xs-12 col-sm-6">
-            <q-input stack-label v-model="item.code" type="text" label="Código" class="q-mt-md" />
+            <q-input
+      dense
+      outlined stack-label v-model="item.code" type="text" label="Código" class="q-mt-md" />
           </div>
           <div class="col-xs-12 col-sm-6">
-            <q-select class="q-mt-md" v-model="item.name" label="Tipo de Tabela" :options="tableNames"
+            <q-select dense outlined  class="q-mt-md" v-model="item.name" label="Tipo de Tabela" :options="tableNames"
               :rules="[isInvalid('name')]" />
           </div>
 
           <div class="col-xs-12 col-sm-4">
-            <q-input lazy-rules stack-label reverse-fill-mask v-model="item.maxHeight" sufix="m" type="text"
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxHeight" sufix="m" type="text"
               label="Altura máxima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
           </div>
           <div class="col-xs-12 col-sm-4">
-            <q-input lazy-rules stack-label reverse-fill-mask v-model="item.maxWidth" sufix="m" type="text"
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxWidth" sufix="m" type="text"
               label="Largura máxima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
           </div>
           <div class="col-xs-12 col-sm-4">
-            <q-input lazy-rules stack-label reverse-fill-mask v-model="item.maxDepth" sufix="m" type="text"
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxDepth" sufix="m" type="text"
               label="Comprimento máximo" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
           </div>
           <div class="col-xs-12 col-sm-6">
-            <q-input lazy-rules stack-label reverse-fill-mask v-model="item.minCubage" sufix="kg" type="text"
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask v-model="item.minCubage" sufix="kg" type="text"
               label="Cubagem mínima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
           </div>
           <div class="col-xs-12 col-sm-6">
-            <q-input lazy-rules stack-label reverse-fill-mask v-model="item.maxCubage" sufix="kg" type="text"
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxCubage" sufix="kg" type="text"
               label="Cubagem Máxima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
           </div>
           <div class="col-xs-12 col-sm-6">

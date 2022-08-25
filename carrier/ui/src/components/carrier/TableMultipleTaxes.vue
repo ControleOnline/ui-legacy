@@ -8,7 +8,9 @@
       <div class="col-xs-12 col-sm-11">
         <div class="row q-gutter-sm">
           <div class="col-xs-12 col-sm-2">
-            <q-input lazy-rules stack-label
+            <q-input
+      dense
+      outlined lazy-rules stack-label
               label  ="Taxa"
               v-model="tax.taxName"
               type   ="text"
@@ -17,7 +19,7 @@
             />
           </div>
           <div class="col-xs-12 col-sm-2">
-            <q-select stack-label emit-value map-options
+            <q-select dense outlined  stack-label emit-value map-options
               label   ="Tipo"
               v-model ="tax.taxType"
               class   ="q-mt-md"
@@ -26,7 +28,7 @@
             />
           </div>
           <div class="col-xs-12 col-sm-2">
-            <q-select stack-label emit-value map-options
+            <q-select dense outlined  stack-label emit-value map-options
               label   ="Praça de coleta"
               v-model ="tax.origin"
               class   ="q-mt-md"
@@ -35,7 +37,7 @@
             />
           </div>
           <div class="col-xs-12 col-sm-2">
-            <q-select stack-label emit-value map-options
+            <q-select dense outlined  stack-label emit-value map-options
               label   ="Praça de entrega"
               v-model ="tax.destination"
               class   ="q-mt-md"
@@ -44,7 +46,9 @@
             />
           </div>
           <div class="col-xs-12 col-sm-1">
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="tax.finalWeight"
               suffix   ="kg"
               type     ="text"
@@ -56,7 +60,9 @@
             />
           </div>
           <div class="col-xs-12 col-sm-1">
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="tax.price"
               prefix   ="R$"
               type     ="text"
@@ -68,7 +74,9 @@
             />
           </div>
           <div class="col-xs-12 col-sm-1">
-            <q-input lazy-rules stack-label reverse-fill-mask
+            <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
               v-model  ="tax.minimumPrice"
               type     ="text"
               label    ="Taxa mínima"

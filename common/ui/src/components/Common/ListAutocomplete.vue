@@ -1,5 +1,5 @@
 <template>
-  <q-select outlined use-input stack-label emit-value map-options hide-selected fill-input options-cover
+  <q-select dense outlined  outlined use-input stack-label emit-value map-options hide-selected fill-input options-cover
     v-model       ="model"
     :label        ="$t(label)"
     input-debounce="700"

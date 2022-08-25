@@ -15,6 +15,8 @@
       {{ personType == "PJ" ? $t("CNPJ") : $t("CPF") }}
     </label>
     <q-input
+      dense
+      outlined
       v-if="hasCompanyField('document')"
       outlined
       stack-label
@@ -34,7 +36,8 @@
           {{ personType == "PJ" ? $t("Razão social") : $t("Nome") }}
         </label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="item.name"
@@ -50,7 +53,8 @@
           {{ personType == "PJ" ? $t("Nome Fantasia") : $t("Sobrenome") }}
         </label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           v-model="item.alias"
@@ -90,7 +94,8 @@
       <div class="col-xs-12 col-sm-grow q-mb-sm" v-if="address == 'bycep'">
         <label class="q-input-label">{{ $t("CEP") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           unmasked-value
@@ -106,7 +111,8 @@
       <div class="col-xs-12 col-sm-grow q-mb-sm" v-else>
         <label class="q-input-label">{{ $t("CEP") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           unmasked-value
@@ -121,7 +127,8 @@
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <label class="q-input-label">{{ $t("Rua") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           hide-bottom-space
@@ -133,7 +140,8 @@
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <label class="q-input-label">{{ $t("Número") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           hide-bottom-space
@@ -145,7 +153,8 @@
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <label class="q-input-label">{{ $t("Complemento") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           hide-bottom-space
           v-model="item.address.complement"
@@ -155,7 +164,8 @@
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <label class="q-input-label">{{ $t("Bairro") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           hide-bottom-space
@@ -167,7 +177,8 @@
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <label class="q-input-label">{{ $t("Cidade") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           hide-bottom-space
@@ -179,7 +190,8 @@
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <label class="q-input-label">{{ $t("UF") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           hide-bottom-space
@@ -192,7 +204,8 @@
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <label class="q-input-label">{{ $t("País") }}</label>
         <q-input
-          outlined
+      dense
+      outlined 
           stack-label
           lazy-rules
           hide-bottom-space

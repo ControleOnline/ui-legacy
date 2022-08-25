@@ -1,7 +1,9 @@
 <template>
   <div class="row q-col-gutter-xs q-pb-xs">
     <div class="col-xs-12 col-sm-4 q-mb-sm">
-      <q-input outlined stack-label lazy-rules
+      <q-input
+      dense
+      outlined  stack-label lazy-rules
         v-model="values.name"
         type   ="text"
         :label ="$t('form.labels.name')"
@@ -9,7 +11,9 @@
       />
     </div>
     <div class="col-xs-12 col-sm-4 q-mb-sm">
-      <q-input outlined stack-label lazy-rules
+      <q-input
+      dense
+      outlined  stack-label lazy-rules
         v-model="values.email"
         type   ="text"
         :label ="$t('form.labels.email')"
@@ -17,7 +21,9 @@
       />
     </div>
     <div class="col-xs-12 col-sm-4 q-mb-sm">
-      <q-input outlined stack-label lazy-rules unmasked-value
+      <q-input
+      dense
+      outlined  stack-label lazy-rules unmasked-value
         v-model="values.phone"
         type   ="text"
         :label ="$t('form.labels.phone')"

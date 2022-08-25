@@ -15,7 +15,7 @@
           <tr>
             <td class="text-left text-bold">Tipo de integração</td>
             <td class="text-left">
-              <q-select lazy-rules stack-label emit-value map-options
+              <q-select dense outlined  lazy-rules stack-label emit-value map-options
                 v-model ="item.type"
                 :options="settings.select.types"
                 :rules  ="[val => val !== null || 'Selecione um tipo']"
@@ -25,7 +25,9 @@
           <tr>
             <td class="text-left text-bold">Usuário</td>
             <td class="text-left">
-              <q-input lazy-rules stack-label
+              <q-input
+      dense
+      outlined lazy-rules stack-label
                 v-model  ="item.user"
                 type     ="text"
                 class    ="q-mt-md"
@@ -36,7 +38,9 @@
           <tr>
             <td class="text-left text-bold">Senha</td>
             <td class="text-left">
-              <q-input lazy-rules stack-label
+              <q-input
+      dense
+      outlined lazy-rules stack-label
                 v-model="item.password"
                 type   ="text"
                 class  ="q-mt-md"

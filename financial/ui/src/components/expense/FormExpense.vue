@@ -7,7 +7,7 @@
     </div>
     <div class="row">
       <div class="col-xs-12 q-mb-md">
-        <q-select stack-label emit-value map-options lazy-rules
+        <q-select dense outlined  stack-label emit-value map-options lazy-rules
           v-model ="item.category"
           :label  ="$t('Categoria da despesa')"
           :options="categories"
@@ -15,7 +15,9 @@
         />
       </div>
       <div class="col-xs-12 q-mb-md">
-        <q-input lazy-rules stack-label
+        <q-input
+      dense
+      outlined lazy-rules stack-label
           v-model="item.description"
           type   ="text"
           :label ="$t('Descrição da despesa')"
@@ -33,7 +35,9 @@
           />
       </div>
       <div class="col-xs-12 q-mb-md">
-        <q-input lazy-rules stack-label reverse-fill-mask
+        <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask
           v-model  ="item.amount"
           prefix   ="R$"
           type     ="text"
@@ -51,7 +55,7 @@
       <div v-if="item.recurrence == 'single'"
         class="col-xs-12 q-mb-md"
       >
-        <q-select stack-label emit-value map-options lazy-rules
+        <q-select dense outlined  stack-label emit-value map-options lazy-rules
           v-model ="item.parcels"
           :label  ="$t('Número de parcelas')"
           :options="parcels"
@@ -60,7 +64,9 @@
         />
       </div>
       <div class="col-xs-12 q-mb-md">
-        <q-input stack-label
+        <q-input
+      dense
+      outlined stack-label
           v-model="item.dueDate"
           :label ="$t('Data primeiro vencimento')"
           mask   ="##/##/####"

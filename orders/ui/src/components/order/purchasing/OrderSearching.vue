@@ -6,10 +6,12 @@
         Pedidos de compra
       </div>
       <div class="col-sm-3 col-xs-12 q-pa-md">
-        <q-input stack-label label="Buscar por" debounce="1000" v-model="filters.text" class="full-width" />
+        <q-input
+      dense
+      outlined stack-label label="Buscar por" debounce="1000" v-model="filters.text" class="full-width" />
       </div>
       <div class="col-sm-3 col-xs-12 q-pa-md">
-        <q-select stack-label label="Status do pedido" v-model="filters.status" :options="statuses" class="full-width"
+        <q-select dense outlined  stack-label label="Status do pedido" v-model="filters.status" :options="statuses" class="full-width"
           :loading="loadingStatuses">
           <template v-slot:no-option>
             <q-item>
