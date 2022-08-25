@@ -13,7 +13,6 @@
           :rules="[isInvalid()]"
         />
       </div>
-
       <div class="col-xs-12 col-sm-6">
         <q-select
           dense
