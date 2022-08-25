@@ -10,7 +10,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-4">
-        <q-select dense outlined  outlined stack-label emit-value map-options
+        <q-select dense outlined   stack-label emit-value map-options
           v-model ="weekDay"
           :label  ="$t('contracts.week_day')"
           :options="weekDays"
@@ -18,7 +18,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-4">
-        <q-select dense outlined  outlined stack-label emit-value map-options
+        <q-select dense outlined   stack-label emit-value map-options
           v-model ="startTime"
           :label  ="$t('contracts.start_time')"
           :options="dayPeriods"
@@ -26,7 +26,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-4">
-        <q-select dense outlined  outlined stack-label emit-value map-options
+        <q-select dense outlined   stack-label emit-value map-options
           v-model ="endTime"
           :label  ="$t('contracts.last_time')"
           :options="dayPeriods"
@@ -34,7 +34,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-8">
-        <q-select dense outlined  outlined stack-label emit-value map-options
+        <q-select dense outlined   stack-label emit-value map-options
           v-model ="trainer"
           :label  ="$t('contracts.teacher')"
           :options="trainerList"
@@ -42,7 +42,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-4">
-        <q-select dense outlined  outlined stack-label emit-value map-options
+        <q-select dense outlined   stack-label emit-value map-options
           v-model ="teamType"
           :label  ="$t('contracts.local')"
           :options="teamTypeList"

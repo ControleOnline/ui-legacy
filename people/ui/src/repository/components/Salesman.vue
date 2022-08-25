@@ -87,14 +87,14 @@
       dense
       outlined stack-label lazy-rules v-model="item.name" type="text" class="q-mb-sm"
                   :label="$t('Razão social')" :placeholder="'Razão social'" :rules="[isInvalid('name')]"
-                  :outlined="true" />
+                   />
               </div>
               <div class="col-xs-12 col-sm-6">
                 <q-input
       dense
       outlined stack-label lazy-rules v-model="item.alias" type="text" class="q-mb-sm"
                   :label="$t('Nome Fantasia')" :placeholder="'Nome fantasia'" :rules="[isInvalid('alias')]"
-                  :outlined="true" />
+                   />
               </div>
             </div>
             <div class="row justify-end">

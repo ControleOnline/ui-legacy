@@ -2,7 +2,7 @@
   <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12">
-        <q-select dense outlined  outlined stack-label
+        <q-select dense outlined   stack-label
           v-model ="product"
           :label  ="$t('contracts.product')"
           :options="products"
@@ -44,7 +44,7 @@
         v-if ="product !== null && product.type == 'Registration'"
         class="col-xs-12"
       >
-        <q-select dense outlined  outlined stack-label emit-value map-options
+        <q-select dense outlined   stack-label emit-value map-options
           v-model ="payer"
           :label  ="$t('contracts.payer')"
           :options="payers"

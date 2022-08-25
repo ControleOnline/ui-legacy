@@ -52,7 +52,7 @@
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
         <q-select dense outlined  stack-label lazy-rules v-model="item.taskStatus" class="q-mb-sm" label="Status *" :options="statuses"
-          :rules="[isInvalid('status')]" :outlined="true">
+          :rules="[isInvalid('status')]" >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
@@ -65,7 +65,7 @@
       <div class="col-xs-12 col-sm-6">
         <q-input
       dense
-      outlined stack-label v-model="item.dueDate" label="Data de Vencimento" mask="##/##/####" :outlined="true">
+      outlined stack-label v-model="item.dueDate" label="Data de Vencimento" mask="##/##/####" >
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">

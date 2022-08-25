@@ -36,7 +36,7 @@
                 color   ="secondary"
                 :label  ="$t('Baixar')"
                 size    ="sm"
-                @click  =""
+                
                 :loading="false"
               />
             </q-td>
@@ -57,7 +57,7 @@
                   color   ="red"
                   :label  ="$t('Apagar')"
                   size    ="sm"
-                  @click  =""
+                  
                   :loading="false"
                 />
               </div>

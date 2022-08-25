@@ -13,7 +13,7 @@
       dense
       outlined stack-label lazy-rules v-model="item.email" type="text" class="q-pr-sm"
           :class="personType !== 'PF' ? 'col-xs-12' : 'col-8'" :label="$t('Email')" placeholder="Digite o email"
-          :rules="[isInvalid('email')]" :outlined="true" :loading="isSearching" debounce="800" />
+          :rules="[isInvalid('email')]"  :loading="isSearching" debounce="800" />
         <q-input
       dense
       outlined  class="col-4" label="Telefone" stack-label v-model="item.phone" type="text"
@@ -36,16 +36,16 @@
       outlined stack-label lazy-rules v-model="item.name" type="text"
           :label="personType == 'PJ' ? $t('Razão social') : $t('Nome Completo')" :placeholder="
             personType == 'PJ' ? 'Digite a Razão social' : 'Digite seu nome Completo'
-          " :rules="[isInvalid('name')]" :outlined="true" />
+          " :rules="[isInvalid('name')]"  />
       </div>
       <div v-if="personType !== 'PJ'" class="col-4">
         <q-input
       dense
       outlined stack-label lazy-rules v-model="item.alias" type="text" label="Nome social"
-          placeholder="Nome social ou apelido" :rules="[isInvalid('alias')]" :outlined="true" />
+          placeholder="Nome social ou apelido" :rules="[isInvalid('alias')]"  />
       </div>
       <div v-if="personType !== 'PJ'" class="col-xs-12">
-        <q-select dense outlined  outlined v-model="item.contact_origin" :options="contact_origin_options" label="Origem do contato" />
+        <q-select dense outlined   v-model="item.contact_origin" :options="contact_origin_options" label="Origem do contato" />
       </div>
       <div class="col-xs-12 col-sm-6">
         <q-input
@@ -55,7 +55,7 @@
             personType == 'PJ'
               ? 'Digite o Nome fantasia'
               : 'Digite seu sobrenome'
-          " :rules="[isInvalid('alias')]" outlined />
+          " :rules="[isInvalid('alias')]"  />
       </div>
     </div>
 

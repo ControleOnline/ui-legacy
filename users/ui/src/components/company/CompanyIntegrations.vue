@@ -24,7 +24,7 @@
                 integrations.default_provider['provider-signature'].value
               "
               :options="select.signature_providers"
-              :outlined="true"
+              
               @input="
                 (value) => {
                   this.integrations.default_provider[
