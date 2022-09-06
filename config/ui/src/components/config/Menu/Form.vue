@@ -7,11 +7,12 @@
     </div>
     <div class="row q-col-gutter-y-sm q-pt-md">
       <div class="col-xs-12">
-        <q-select dense outlined 
+        <q-select
+          dense
+          outlined
           stack-label
           emit-value
           map-options
-          outlined
           v-model="item.category"
           :label="$t('Categoria')"
           :options="categories"
@@ -19,11 +20,12 @@
       </div>
 
       <div class="col-xs-12">
-        <q-select dense outlined 
+        <q-select
+          dense
+          outlined
           stack-label
           emit-value
           map-options
-          outlined
           v-model="item.module"
           :label="$t('Modulo')"
           :options="modules"
@@ -32,11 +34,10 @@
 
       <div class="col-xs-12">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           lazy-rules
           stack-label
-          outlined
           v-model="item.menu"
           type="text"
           :label="$t('Nome Menu')"
@@ -47,11 +48,9 @@
 
       <div class="col-xs-12">
         <q-input
-      dense
-      outlined
+          dense
           lazy-rules
           stack-label
-          outlined
           v-model="item.route"
           type="text"
           :label="$t('Rota')"
@@ -62,11 +61,10 @@
 
       <div class="col-xs-12">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           lazy-rules
           stack-label
-          outlined
           v-model="item.color"
           type="text"
           :label="$t('Cor')"
@@ -77,11 +75,10 @@
 
       <div class="col-xs-12">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           lazy-rules
           stack-label
-          outlined
           v-model="item.icon"
           type="text"
           :label="$t('Ícone')"
@@ -191,9 +188,6 @@ export default {
 
     // store method
     save(values, params = {}) {
-      console.log(values);
-      console.log(params);
-
       let options = {
         method: this.id === null ? "POST" : "PUT",
         headers: new Headers({ "Content-Type": "application/ld+json" }),
@@ -244,7 +238,7 @@ export default {
         menu: this.item.menu,
         module: "/module/" + this.item.module,
         color: this.item.color,
-        icon: this.item.icon,        
+        icon: this.item.icon,
         category: "/category/" + this.item.category,
         //company: `/people/${this.myCompany.id}`,
       }).finally(() => {
