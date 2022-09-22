@@ -17,7 +17,7 @@
               @uploaded="
                 (data) => {
                   if (data.url) {
-                    this.carrier.avatar = `${this.baseUrl}/files/${data.id}/image.jpg`;
+                    this.carrier.avatar = `${this.baseUrl}${data.url}`;
                   }
                 }
               " />
@@ -492,7 +492,7 @@ export default {
             this.carrier.peopleType = data.peopleType;
             this.carrier.avatar =
               data.file !== null
-                ? `${ENTRYPOINT}/files/${data.file.id}/image.png`
+                ? `${ENTRYPOINT}${data.file.url}`
                 : null;
           }
         });
