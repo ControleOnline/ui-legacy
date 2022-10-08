@@ -40,6 +40,8 @@
             {{ $t('full_name_company_name') }}
           </q-item-label>
           <q-input
+      dense
+      outlined
             v-model="userEdit.name_company"
             dense
             label-color="secondary"
@@ -54,6 +56,8 @@
             CNPJ
           </q-item-label>
           <q-input
+      dense
+      outlined
             v-model="userEdit.cnpj_cpf"
             dense
             label-color="secondary"
@@ -68,6 +72,8 @@
             {{ $t('name_of_responsible_person') }}
           </q-item-label>
           <q-input
+      dense
+      outlined
             v-model="userEdit.user_name"
             dense
             label-color="secondary"
@@ -82,6 +88,8 @@
             {{ $t('social_name') }}
           </q-item-label>
           <q-input
+      dense
+      outlined
             v-model="userEdit.social_name"
             dense
             label-color="secondary"
@@ -97,6 +105,8 @@
               {{ $t('genre') }}
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="userEdit.gender"
               dense
               label-color="secondary"
@@ -113,6 +123,8 @@
               {{ $t('birth_date') }}
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="userEdit.birth_date"
               dense
               label-color="secondary"
@@ -130,6 +142,8 @@
               RG
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="userEdit.rg"
               dense
               label-color="secondary"
@@ -147,6 +161,8 @@
               CPF
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="userEdit.cpf"
               dense
               label-color="secondary"
@@ -163,6 +179,8 @@
             {{ $t('address') }}
           </q-item-label>
           <q-input
+      dense
+      outlined
             v-model="userEdit.address"
             dense
             label-color="secondary"
@@ -177,6 +195,8 @@
             {{ $t('Cidade') }}
           </q-item-label>
           <q-input
+      dense
+      outlined
             v-model="userEdit.city"
             dense
             label-color="secondary"
@@ -191,6 +211,8 @@
             {{ $t('district') }}
           </q-item-label>
           <q-input
+      dense
+      outlined
             v-model="userEdit.district"
             dense
             label-color="secondary"
@@ -205,7 +227,7 @@
             <q-item-label class="text-bold text-secondary text-description">
               Estado
             </q-item-label>
-            <q-select
+            <q-select dense outlined 
               v-model="userEdit.state"
               dense
               label-color="grey-9"
@@ -223,6 +245,8 @@
               CEP
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="userEdit.cep"
               dense
               label-color="secondary"
@@ -240,6 +264,8 @@
               {{ $t('telephone') }}
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="userEdit.telephone"
               dense
               label-color="secondary"
@@ -257,6 +283,8 @@
               {{ $t('cell_phone') }}
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="userEdit.cell"
               dense
               label-color="secondary"
@@ -273,6 +301,8 @@
             E-mail
           </q-item-label>
           <q-input
+      dense
+      outlined
             v-model="userEdit.email"
             dense
             label-color="secondary"
@@ -305,6 +335,8 @@
           {{ $t('name_of_contact') }}
         </q-item-label>
         <q-input
+      dense
+      outlined
           dense
           v-model="userEdit.name_of_contacts"
           label-color="secondary"
@@ -320,6 +352,8 @@
           {{ $t('contact_phone') }}
         </q-item-label>
         <q-input
+      dense
+      outlined
           dense
           v-model="userEdit.contact_phone"
           label-color="secondary"
@@ -335,6 +369,8 @@
           {{ $t('contact_phone_secondary') }}
         </q-item-label>
         <q-input
+      dense
+      outlined
           dense
           v-model="userEdit.contact_phone_secondary"
           label-color="secondary"
@@ -349,7 +385,7 @@
         <q-item-label class="text-bold text-secondary text-description">
           {{ $t('blood_type') }}
         </q-item-label>
-        <q-select
+        <q-select dense outlined 
           dense
           v-model="userEdit.blood_type"
           label-color="grey-9"
@@ -365,6 +401,8 @@
           {{ $t('have_medical_insurance') }}
         </q-item-label>
         <q-input
+      dense
+      outlined
           dense
           v-model="userEdit.medical_insurance"
           label-color="secondary"
@@ -379,6 +417,8 @@
           {{ $t('use_any_medication') }}
         </q-item-label>
         <q-input
+      dense
+      outlined
           dense
           v-model="userEdit.use_any_medication"
           label-color="secondary"
@@ -480,8 +520,8 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
-import DefaultAddDialog from '@controleonline/quasar-common-ui/src/components/Dialog/DefaultAddDialog';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/header/MenuDefaultHeader';
+import DefaultAddDialog from '@controleonline/quasar-common-ui/src/components/dialog/DefaultAddDialog';
 
 export default {
   components: {

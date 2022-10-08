@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table flat :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+      <q-table dense  :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
         :loading="isLoading" bordered>
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -33,7 +33,7 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-select stack-label label="Tipo de documento" v-model="item.type" :options="settings.select.doctypes">
+            <q-select dense outlined  stack-label label="Tipo de documento" v-model="item.type" :options="settings.select.doctypes">
               <template v-slot:no-option>
                 <q-item>
                   <q-item-section class="text-grey">
@@ -42,7 +42,9 @@
                 </q-item>
               </template>
             </q-select>
-            <q-input lazy-rules stack-label unmasked-value v-model="item.document" type="text" label="Documento"
+            <q-input
+      dense
+      outlined lazy-rules stack-label unmasked-value v-model="item.document" type="text" label="Documento"
               class="q-mt-md" :rules="[isInvalid('document')]" :mask="docMask" />
 
             <div class="row justify-end">

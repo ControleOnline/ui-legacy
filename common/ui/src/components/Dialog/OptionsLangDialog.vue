@@ -17,6 +17,8 @@
       </q-item>
 
       <q-input
+      dense
+      outlined
         dense
         placeholder="Procurar..."
         class="q-px-md q-py-sm"

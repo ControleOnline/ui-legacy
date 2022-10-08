@@ -1,14 +1,16 @@
 {
   "name": "@controleonline/quasar-orders-ui",
-  "version": "1.2.35",
-  "author": "Frete Click",
-  "description": "Frete Click Quotations Quasar UI Component",
+  "version": "1.2.36",
+  "author": "Controle Online",
+  "description": "Controle Online Quotations Quasar UI Component",
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {},
   "repository": {
     "type": "git",
+
     "url": "https://github.com/controleonline/conline-quasar-ui"
+
   },
   "bugs": "",
   "homepage": "https://www.controleonline.com/devs/plugins",

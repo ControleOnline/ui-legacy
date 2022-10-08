@@ -5,7 +5,9 @@
   >
     <div class="row q-col-gutter-xs q-pb-xs">
       <div class="col-xs-12 col-sm-6">
-        <q-input stack-label lazy-rules
+        <q-input
+      dense
+      outlined stack-label lazy-rules
           v-model="item.empresa"
           type   ="text"
           :label ="$t('Empresa')"
@@ -13,7 +15,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-select stack-label
+        <q-select dense outlined  stack-label
           :label  ="$t('Funcionário')"
           v-model ="item.funcionario"
           :options="funcionarios"
@@ -21,7 +23,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-input stack-label lazy-rules
+        <q-input
+      dense
+      outlined stack-label lazy-rules
           v-model="item.nomeArquivo"
           type   ="text"
           :label ="$t('Nome do Arquivo')"
@@ -29,7 +33,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-input stack-label
+        <q-input
+      dense
+      outlined stack-label
           v-model="item.periodo"
           mask   ="##/####"
           :label ="$t('Período')"

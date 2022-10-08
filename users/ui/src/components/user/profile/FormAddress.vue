@@ -5,7 +5,9 @@
   >
     <div class="row q-col-gutter-xs q-pb-xs">
       <div class="col-xs-12 col-sm-4 q-mb-sm">
-        <q-input stack-label lazy-rules unmasked-value hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules unmasked-value hide-bottom-space
           v-model    ="item.postalCode"
           type       ="text"
           label      ="CEP"
@@ -16,7 +18,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-8 q-mb-sm">
-        <q-input stack-label lazy-rules unmasked-value hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules unmasked-value hide-bottom-space
           v-model="item.nickname"
           type       ="text"
           label      ="Apelido"
@@ -25,7 +29,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-8 q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model="item.street"
           type   ="text"
           label  ="Rua / Avenida"
@@ -33,7 +39,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-4 q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model="item.number"
           type   ="text"
           label  ="Número"
@@ -41,14 +49,18 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label hide-bottom-space
           v-model="item.complement"
           type   ="text"
           label  ="Complemento"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model="item.district"
           type   ="text"
           label  ="Bairro"
@@ -56,7 +68,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model="item.city"
           type   ="text"
           label  ="Cidade"
@@ -64,7 +78,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model="item.state"
           type   ="text"
           label  ="UF"
@@ -73,7 +89,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <q-input stack-label lazy-rules hide-bottom-space
+        <q-input
+      dense
+      outlined stack-label lazy-rules hide-bottom-space
           v-model="item.country"
           type   ="text"
           label  ="País"

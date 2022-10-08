@@ -7,16 +7,18 @@
     <q-form @submit="editExpense">
       <div class="row">
         <div class="col-xs-12 q-mb-md">
-          <q-select stack-label emit-value map-options lazy-rules v-model="item.category"
+          <q-select dense outlined  stack-label emit-value map-options lazy-rules v-model="item.category"
             :label="$t('Categoria da despesa')" :options="categories"
             :rules="[(val) => val !== null || 'Selecione uma categoria']" />
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-input lazy-rules stack-label v-model="item.description" type="text" :label="$t('Descrição da despesa')"
+          <q-input
+      dense
+      outlined lazy-rules stack-label v-model="item.description" type="text" :label="$t('Descrição da despesa')"
             class="q-mt-md" :rules="[isInvalid()]" />
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-select v-if="item.provider" stack-label emit-value map-options lazy-rules v-model="item.provider"
+          <q-select dense outlined  v-if="item.provider" stack-label emit-value map-options lazy-rules v-model="item.provider"
             :label="$t('Fornecedor')" :options="providers"
             :rules="[(val) => val !== null || 'Selecione um fornecedor']" />
           <PeopleAutocomplete v-else :source="searchPeople" option-value="optionValue" :isLoading="isSearching"
@@ -27,11 +29,15 @@
           </q-btn>
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-input lazy-rules stack-label reverse-fill-mask v-model="item.amount" prefix="R$" type="text"
+          <q-input
+      dense
+      outlined lazy-rules stack-label reverse-fill-mask v-model="item.amount" prefix="R$" type="text"
             :label="$t('Valor')" class="q-mt-md" :rules="[isInvalid()]" mask="#,##" fill-mask="0" />
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-input stack-label v-model="item.dueDate" :label="$t('Data primeiro vencimento')" mask="##/##/####"
+          <q-input
+      dense
+      outlined stack-label v-model="item.dueDate" :label="$t('Data primeiro vencimento')" mask="##/##/####"
             class="q-mb-sm" :rules="[isInvalid('date')]">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
@@ -43,7 +49,7 @@
           </q-input>
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-select stack-label emit-value map-options lazy-rules v-model="item.status" :label="$t('Status')"
+          <q-select dense outlined  stack-label emit-value map-options lazy-rules v-model="item.status" :label="$t('Status')"
             :options="statuses" :rules="[(val) => val !== null || 'Selecione um status']" />
         </div>
       </div>

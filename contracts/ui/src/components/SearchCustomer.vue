@@ -1,7 +1,9 @@
 <template>
   <div class="row">
     <div class="col-xs-12">
-      <q-input outlined stack-label
+      <q-input
+      dense
+      outlined  stack-label
         v-model     ="search"
         type        ="text"
         :label      ="$t('contracts.search_customer')"

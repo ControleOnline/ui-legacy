@@ -4,7 +4,7 @@
       <div class="text-subtitle1 text-left">Lista de vendedores</div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table flat grid hide-header hide-pagination :loading="isLoading" :data="items" row-key="id">
+      <q-table dense  grid hide-header hide-pagination :loading="isLoading" :data="items" row-key="id">
         <template v-slot:top>
           <div class="col-12 q-mb-md">
             <div class="row justify-end">
@@ -76,19 +76,25 @@
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
             <div class="row q-col-gutter-sm">
               <div class="col-xs-12">
-                <q-input outlined stack-label lazy-rules unmasked-value v-model="item.document" type="text"
+                <q-input
+      dense
+      outlined  stack-label lazy-rules unmasked-value v-model="item.document" type="text"
                   class="q-mb-sm" :label="$t('CNPJ')" :mask="'##.###.###/####-##'" :placeholder="'Digite o CNPJ'"
                   :rules="[isInvalid('document')]" :loading="searching" @input="searchSalesman" />
               </div>
               <div class="col-xs-12 col-sm-6">
-                <q-input stack-label lazy-rules v-model="item.name" type="text" class="q-mb-sm"
+                <q-input
+      dense
+      outlined stack-label lazy-rules v-model="item.name" type="text" class="q-mb-sm"
                   :label="$t('Razão social')" :placeholder="'Razão social'" :rules="[isInvalid('name')]"
-                  :outlined="true" />
+                   />
               </div>
               <div class="col-xs-12 col-sm-6">
-                <q-input stack-label lazy-rules v-model="item.alias" type="text" class="q-mb-sm"
+                <q-input
+      dense
+      outlined stack-label lazy-rules v-model="item.alias" type="text" class="q-mb-sm"
                   :label="$t('Nome Fantasia')" :placeholder="'Nome fantasia'" :rules="[isInvalid('alias')]"
-                  :outlined="true" />
+                   />
               </div>
             </div>
             <div class="row justify-end">

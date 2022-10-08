@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="col-12">
-      <q-table flat :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+      <q-table dense  :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
         :loading="isLoading" bordered class="q-mt-md">
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -44,8 +44,10 @@
           <q-form ref="myForm" @submit="onSubmit">
             <div class="row q-col-gutter-xs q-pb-xs">
               <div class="col-xs-12">
-                <q-input stack-label lazy-rules v-model="item.nickname" type="text" :label="$t('Apelido')"
-                  :rules="[isInvalid('nickname')]" class="q-mb-sm" :outlined="true" />
+                <q-input
+      dense
+      outlined stack-label lazy-rules v-model="item.nickname" type="text" :label="$t('Apelido')"
+                  :rules="[isInvalid('nickname')]" class="q-mb-sm"  />
               </div>
               <div class="col-xs-12 col-sm-grow">
                 <SearchCEPAddress :api="api" @found="onCEPFound" @error="(error) => {
@@ -59,32 +61,46 @@
                 }" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input stack-label lazy-rules v-model="item.street" type="text" :label="$t('Rua')"
-                  :rules="[isInvalid('street')]" class="q-mb-sm" :outlined="true" />
+                <q-input
+      dense
+      outlined stack-label lazy-rules v-model="item.street" type="text" :label="$t('Rua')"
+                  :rules="[isInvalid('street')]" class="q-mb-sm"  />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input stack-label lazy-rules reverse-fill-mask v-model="item.number" type="text"
-                  :label="$t('Número')" :rules="[isInvalid('number')]" class="q-mb-sm" :outlined="true" mask="#" />
+                <q-input
+      dense
+      outlined stack-label lazy-rules reverse-fill-mask v-model="item.number" type="text"
+                  :label="$t('Número')" :rules="[isInvalid('number')]" class="q-mb-sm"  mask="#" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input stack-label v-model="item.complement" type="text" :label="$t('Complemento')" class="q-mb-sm"
-                  :outlined="true" />
+                <q-input
+      dense
+      outlined stack-label v-model="item.complement" type="text" :label="$t('Complemento')" class="q-mb-sm"
+                   />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input stack-label lazy-rules v-model="item.district" type="text" :label="$t('Bairro')"
-                  :rules="[isInvalid('district')]" class="q-mb-sm" :outlined="true" />
+                <q-input
+      dense
+      outlined stack-label lazy-rules v-model="item.district" type="text" :label="$t('Bairro')"
+                  :rules="[isInvalid('district')]" class="q-mb-sm"  />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input stack-label lazy-rules v-model="item.city" type="text" :label="$t('Cidade')"
-                  :rules="[isInvalid('city')]" class="q-mb-sm" :outlined="true" />
+                <q-input
+      dense
+      outlined stack-label lazy-rules v-model="item.city" type="text" :label="$t('Cidade')"
+                  :rules="[isInvalid('city')]" class="q-mb-sm"  />
               </div>
               <div class="col-xs-12 col-sm-4">
-                <q-input stack-label lazy-rules v-model="item.state" type="text" :label="$t('UF')" mask="AA"
-                  :rules="[isInvalid('state')]" class="q-mb-sm" :outlined="true" />
+                <q-input
+      dense
+      outlined stack-label lazy-rules v-model="item.state" type="text" :label="$t('UF')" mask="AA"
+                  :rules="[isInvalid('state')]" class="q-mb-sm"  />
               </div>
               <div class="col-xs-12 col-sm-4">
-                <q-input stack-label lazy-rules v-model="item.country" type="text" :label="$t('País')"
-                  :rules="[isInvalid('country')]" class="q-mb-sm" :outlined="true" />
+                <q-input
+      dense
+      outlined stack-label lazy-rules v-model="item.country" type="text" :label="$t('País')"
+                  :rules="[isInvalid('country')]" class="q-mb-sm"  />
               </div>
             </div>
 

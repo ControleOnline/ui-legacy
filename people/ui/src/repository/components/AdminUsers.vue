@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table flat :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+      <q-table dense  :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
         :loading="isLoading" bordered>
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -33,13 +33,19 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-input lazy-rules stack-label v-model="item.username" type="text" label="Nome de usuário" class="q-mt-md"
+            <q-input
+      dense
+      outlined lazy-rules stack-label v-model="item.username" type="text" label="Nome de usuário" class="q-mt-md"
               :rules="[isInvalid('username')]" />
 
-            <q-input lazy-rules stack-label v-model="item.password" type="password" label="Senha" class="q-mt-md"
+            <q-input
+      dense
+      outlined lazy-rules stack-label v-model="item.password" type="password" label="Senha" class="q-mt-md"
               :rules="[isInvalid('password')]" />
 
-            <q-input lazy-rules stack-label v-model="item.confirm" type="password" label="Confirme sua senha"
+            <q-input
+      dense
+      outlined lazy-rules stack-label v-model="item.confirm" type="password" label="Confirme sua senha"
               class="q-mt-md" :rules="[isInvalid('confirm')]" />
 
             <div class="row justify-end">

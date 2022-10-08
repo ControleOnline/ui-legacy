@@ -15,7 +15,7 @@
         @uploaded="
           (data) => {
             if (data.url) {
-              this.people.avatar = `${this.baseUrl}/files/${data.id}/image.jpg`;
+              this.people.avatar = `${this.baseUrl}${data.url}`;
             }
           }
         " />
@@ -426,7 +426,7 @@ export default {
 
             this.people.avatar =
               data.file !== null
-                ? `${ENTRYPOINT}/files/${data.file.id}/image.png`
+                ? `${ENTRYPOINT}${data.file.url}`
                 : null;
 
             this.people.name =

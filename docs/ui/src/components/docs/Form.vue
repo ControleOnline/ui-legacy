@@ -3,7 +3,7 @@
   <q-form ref="myForm" @submit="onSubmit" autocomplete="off">
     <div class="row q-col-gutter-xs q-pb-xs">
       <div class="col-xs-12 col-md-6">
-        <q-select autocomplete="off" v-model="item.empresa" use-input use-chips input-debounce="0" label="Empresa"
+        <q-select dense outlined  autocomplete="off" v-model="item.empresa" use-input use-chips input-debounce="0" label="Empresa"
           :options="optionsQselect" option-value="id" option-label="name" :loading="loading"
           @filter="searchPeopleByDocumentOrName" :rules="[isInvalid('select')]" hint="Digite o CNPJ ou Razão Social">
           <template v-slot:no-option>
@@ -18,20 +18,22 @@
     </div>
     <div class="row q-col-gutter-xs q-pb-xs q-mt-md">
       <div class="col-xs-12 col-sm-3">
-        <q-select stack-label label="Tipo" v-model="item.tipo" :options="tipos" class="full-width"
+        <q-select dense outlined  stack-label label="Tipo" v-model="item.tipo" :options="tipos" class="full-width"
           :rules="[isInvalid('select')]" />
       </div>
       <div class="col-xs-12 col-sm-3">
-        <q-select stack-label label="Nome" v-model="item.imposto" :options="impostos" class="full-width"
+        <q-select dense outlined  stack-label label="Nome" v-model="item.imposto" :options="impostos" class="full-width"
           :rules="[isInvalid('select')]" />
       </div>
       <div class="col-xs-12 col-sm-3">
-        <q-input ref="periodoInput" stack-label v-model="item.periodo" mask="##/####" label="Período (Mês/Ano)"
+        <q-input
+      dense
+      outlined ref="periodoInput" stack-label v-model="item.periodo" mask="##/####" label="Período (Mês/Ano)"
           @blur="onBlurFunc('mesAno', item.periodo)" @focus="periodoFocus = true" :rules="[isInvalid('periodo')]">
         </q-input>
       </div>
       <div class="col-xs-12 col-sm-3">
-        <q-select stack-label :label="$t(this.docs_type + '.status_name')" v-model="item.status" :options="statuses"
+        <q-select dense outlined  stack-label :label="$t(this.docs_type + '.status_name')" v-model="item.status" :options="statuses"
           class="full-width" :rules="[isInvalid('select')]" />
       </div>
       <div class="col-xs-12 col-md-6">

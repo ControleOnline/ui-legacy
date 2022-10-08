@@ -6,6 +6,8 @@
           <q-item-section class="text-bold q-gutter-y-md">
             <q-item-label>{{ $t('old_password') }}</q-item-label>
             <q-input
+      dense
+      outlined
               v-model="password"
               type="password"
               color="secondary"
@@ -16,6 +18,8 @@
           <q-item-section class="text-bold q-gutter-y-md section-no-margin">
             <q-item-label>{{ $t('new_password') }}</q-item-label>
             <q-input
+      dense
+      outlined
               v-model="password"
               type="password"
               color="secondary"
@@ -26,6 +30,8 @@
           <q-item-section class="text-bold q-gutter-y-md section-no-margin">
             <q-item-label>{{ $t('repeat_password') }}</q-item-label>
             <q-input
+      dense
+      outlined
               v-model="password"
               type="password"
               color="secondary"

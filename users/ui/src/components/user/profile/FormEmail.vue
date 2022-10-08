@@ -1,6 +1,8 @@
 <template>
   <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-    <q-input lazy-rules stack-label
+    <q-input
+      dense
+      outlined lazy-rules stack-label
       v-model="item.email"
       type   ="text"
       label  ="Email"

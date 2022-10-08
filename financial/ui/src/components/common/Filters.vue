@@ -2,10 +2,12 @@
   <q-card class="row q-pa-md">
     <div class="col-xs-12 q-pb-md text-h6">Faturas</div>
     <div class="col-sm-6 col-xs-12 q-pa-md">
-      <q-input stack-label label="Buscar por" debounce="1000" v-model="filters.text" class="full-width" />
+      <q-input
+      dense
+      outlined stack-label label="Buscar por" debounce="1000" v-model="filters.text" class="full-width" />
     </div>
     <div class="col-sm-6 col-xs-12 q-pa-md">
-      <q-select stack-label label="Status da fatura" v-model="filters.status" :options="statuses" class="full-width"
+      <q-select dense outlined  stack-label label="Status da fatura" v-model="filters.status" :options="statuses" class="full-width"
         :loading="loadingStatuses">
         <template v-slot:no-option>
           <q-item>
@@ -15,7 +17,7 @@
       </q-select>
     </div>
     <div class="col-6">
-      <q-select stack-label label="Tipo de Fatura" v-model="filters.orderType" :options="orderType" class="full-width"
+      <q-select dense outlined  stack-label label="Tipo de Fatura" v-model="filters.orderType" :options="orderType" class="full-width"
         :loading="loadingOrderType">
         <template v-slot:no-option>
           <q-item>

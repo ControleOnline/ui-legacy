@@ -15,7 +15,9 @@
           Faturas
         </div>
         <div class="col-sm-6 col-xs-12 q-pa-md">
-          <q-input stack-label
+          <q-input
+      dense
+      outlined stack-label
               label   ="Buscar por"
               debounce="1000"
               v-model ="filters.text"
@@ -23,7 +25,7 @@
           />
         </div>
         <div class="col-sm-6 col-xs-12 q-pa-md">
-          <q-select stack-label
+          <q-select dense outlined  stack-label
               label   ="Status da fatura"
               v-model ="filters.status"
               :options="statuses"

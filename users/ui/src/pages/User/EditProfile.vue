@@ -27,6 +27,8 @@
             {{ $t('about_yourself') }}
           </q-item-label>
           <q-input
+      dense
+      outlined
             v-model="userEdit.description_provider"
             dense
             label-color="secondary"
@@ -183,6 +185,8 @@
               {{ $t('have_cnpj') }}
             </q-item-label>
             <q-input
+      dense
+      outlined
               v-model="userEdit.cnpj_cpf"
               dense
               label-color="secondary"
@@ -305,10 +309,10 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
-import OptionsLangDialog from '@controleonline/quasar-common-ui/src/components/Dialog/OptionsLangDialog';
-import OptionsActDialog from '@controleonline/quasar-common-ui/src/components/Dialog/OptionsActDialog';
-import UploadArchiveDialog from '@controleonline/quasar-common-ui/src/components/Dialog/UploadArchiveDialog';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/header/MenuDefaultHeader';
+import OptionsLangDialog from '@controleonline/quasar-common-ui/src/components/dialog/OptionsLangDialog';
+import OptionsActDialog from '@controleonline/quasar-common-ui/src/components/dialog/OptionsActDialog';
+import UploadArchiveDialog from '@controleonline/quasar-common-ui/src/components/dialog/UploadArchiveDialog';
 
 export default {
   components: {

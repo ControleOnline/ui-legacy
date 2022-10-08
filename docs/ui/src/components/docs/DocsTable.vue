@@ -1,13 +1,15 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <q-table flat :pagination="{
+      <q-table dense  :pagination="{
         page: 1,
         rowsPerPage: 30
       }" :data="items" :columns="settings.columns" row-key="id" :loading="loadingQtable">
         <template v-slot:top>
           <div class="col-xs-12">
-            <q-input stack-label label="Buscar por empresa" debounce="1000" v-model="filters.empresa"
+            <q-input
+      dense
+      outlined stack-label label="Buscar por empresa" debounce="1000" v-model="filters.empresa"
               class="full-width" />
           </div>
         </template>

@@ -23,6 +23,8 @@
               {{ $t('about_yourself_upload') }}
             </q-item-label>
             <q-input
+      dense
+      outlined
               dense
               label-color="secondary"
               color="secondary"

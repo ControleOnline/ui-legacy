@@ -14,7 +14,9 @@
 
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-sm-6">
-        <q-input outlined stack-label
+        <q-input
+      dense
+      outlined  stack-label
           v-model  ="document"
           type     ="text"
           :label   ="$t('contracts.document')"
@@ -22,7 +24,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-input outlined stack-label
+        <q-input
+      dense
+      outlined  stack-label
           v-model  ="email"
           type     ="text"
           :label   ="$t('contracts.email')"
@@ -30,7 +34,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-input outlined stack-label
+        <q-input
+      dense
+      outlined  stack-label
           v-model  ="name"
           type     ="text"
           :label   ="$t('contracts.name')"
@@ -38,7 +44,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-md">
-        <q-input outlined stack-label
+        <q-input
+      dense
+      outlined  stack-label
           v-model  ="alias"
           type     ="text"
           :label   ="$t('contracts.alias')"
@@ -46,7 +54,7 @@
         />
       </div>
       <div class="col-xs-12">
-        <q-select multiple use-chips outlined stack-label emit-value map-options
+        <q-select dense outlined  multiple use-chips outlined stack-label emit-value map-options
           v-model ="peopleRoles"
           :label  ="$t('contracts.participation')"
           :options="roles"
@@ -54,7 +62,9 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-input outlined stack-label reverse-fill-mask
+        <q-input
+      dense
+      outlined  stack-label reverse-fill-mask
           suffix   ="%"
           v-model  ="percentage"
           type     ="text"
@@ -65,7 +75,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-6">
-        <q-select stack-label emit-value map-options outlined
+        <q-select dense outlined  stack-label emit-value map-options outlined
           v-model    ="paymentDay"
           :label     ="$t('contracts.payment_day')"
           :options   ="monthDays"

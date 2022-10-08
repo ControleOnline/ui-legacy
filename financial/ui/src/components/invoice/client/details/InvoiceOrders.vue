@@ -1,5 +1,5 @@
 <template>
-  <q-table :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
+  <q-table dense :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
     @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" style="min-height: 90vh;">
     <template v-slot:body="props">
       <q-tr :props="props">

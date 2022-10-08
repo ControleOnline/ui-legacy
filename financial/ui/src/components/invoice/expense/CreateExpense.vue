@@ -19,7 +19,7 @@
     <q-form @submit="addExpense">
       <div class="row">
         <div class="col-xs-12 q-mb-md">
-          <q-select
+          <q-select dense outlined 
             stack-label
             emit-value
             map-options
@@ -32,6 +32,8 @@
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
+      dense
+      outlined
             lazy-rules
             stack-label
             v-model="item.description"
@@ -52,6 +54,8 @@
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
+      dense
+      outlined
             lazy-rules
             stack-label
             reverse-fill-mask
@@ -78,7 +82,7 @@
           />
         </div>
         <div v-if="item.recurrence == 'single'" class="col-xs-12 q-mb-md">
-          <q-select
+          <q-select dense outlined 
             stack-label
             emit-value
             map-options
@@ -92,6 +96,8 @@
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
+      dense
+      outlined
             stack-label
             v-model="item.dueDate"
             :label="$t('Data primeiro vencimento')"
@@ -141,7 +147,7 @@
           <q-form @submit="addCategory" class="q-mb-md">
             <div class="row">
               <div class="col-xs-12 q-mb-md">
-                <q-select
+                <q-select dense outlined 
                   stack-label
                   emit-value
                   map-options
@@ -152,6 +158,8 @@
               </div>
               <div class="col-xs-12 q-mb-md">
                 <q-input
+      dense
+      outlined
                   lazy-rules
                   stack-label
                   v-model="dialogs.category.expense.name"
@@ -203,6 +211,8 @@
               </div>
               <div class="col-xs-12">
                 <q-input
+      dense
+      outlined
                   stack-label
                   lazy-rules
                   unmasked-value
@@ -220,6 +230,8 @@
               </div>
               <div class="col-xs-12">
                 <q-input
+      dense
+      outlined
                   stack-label
                   lazy-rules
                   v-model="dialogs.provider.item.name"
@@ -235,6 +247,8 @@
               </div>
               <div class="col-xs-12">
                 <q-input
+      dense
+      outlined
                   stack-label
                   lazy-rules
                   v-model="dialogs.provider.item.alias"

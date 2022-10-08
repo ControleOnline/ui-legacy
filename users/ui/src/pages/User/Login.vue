@@ -18,6 +18,8 @@
       </q-item>
 
       <q-input
+      dense
+      outlined
         v-model="email"
         color="secondary"
         class="q-px-lg"
@@ -26,6 +28,8 @@
         dense
       />
       <q-input
+      dense
+      outlined
         v-model="password"
         class="q-px-lg"
         type="password"

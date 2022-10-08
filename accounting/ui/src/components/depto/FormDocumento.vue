@@ -5,13 +5,17 @@
   >
     <div class="row q-col-gutter-xs q-pb-xs">
       <div class="col-xs-12">
-        <q-input stack-label lazy-rules
+        <q-input
+      dense
+      outlined stack-label lazy-rules
           v-model="item.empresa"
           type   ="text"
           :label ="$t('Empresa')"
           :rules ="[isInvalid()]"
         />
-        <q-input stack-label lazy-rules
+        <q-input
+      dense
+      outlined stack-label lazy-rules
           v-model="item.nomeArquivo"
           type   ="text"
           :label ="$t('Nome do arquivo')"

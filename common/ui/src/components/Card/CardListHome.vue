@@ -52,8 +52,8 @@ export default {
 
   computed: {
     list: {
-      get() { return this.$store.getters['Categories/getCategoryList']; },
-      set(value) { this.$store.commit('Categories/setCategoryList', { list: value }); },
+      get() { return this.$store.getters['categories/getCategoryList']; },
+      set(value) { this.$store.commit('categories/setCategoryList', { list: value }); },
     },
   },
 
@@ -61,7 +61,7 @@ export default {
     favoriteItem(favorite, index) {
       const indexCategory = this.list.findIndex((category) => category.id === this.id_category);
 
-      this.$store.commit('Categories/favoriteClick', { indexCategory, index, favorite: !favorite });
+      this.$store.commit('categories/favoriteClick', { indexCategory, index, favorite: !favorite });
     },
     GuidesCategory(id) {
       this.$router.push({ name: 'guides', params: { id, id_category: this.id_category } });

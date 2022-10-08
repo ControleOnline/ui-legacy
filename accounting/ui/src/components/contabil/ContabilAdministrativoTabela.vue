@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12 q-mt-md">
-      <q-table flat
+      <q-table dense 
         :data   ="items"
         :columns="settings.columns"
         row-key ="id"
@@ -9,7 +9,9 @@
       >
         <template v-slot:top>
           <div class="col-xs-12 q-pa-md">
-            <q-input stack-label
+            <q-input
+      dense
+      outlined stack-label
               label   ="Buscar por empresa"
               debounce="1000"
               v-model ="filters.empresa"
@@ -34,7 +36,7 @@
                 color   ="secondary"
                 :label  ="$t('Baixar')"
                 size    ="sm"
-                @click  =""
+                
                 :loading="false"
               />
             </q-td>
@@ -55,7 +57,7 @@
                   color   ="red"
                   :label  ="$t('Apagar')"
                   size    ="sm"
-                  @click  =""
+                  
                   :loading="false"
                 />
               </div>

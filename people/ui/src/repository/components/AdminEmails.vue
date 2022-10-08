@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table flat :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+      <q-table dense  :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
         :loading="isLoading" bordered>
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -32,7 +32,9 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-input lazy-rules stack-label v-model="item.email" type="text" label="Email" class="q-mt-md" outlined
+            <q-input
+      dense
+      outlined lazy-rules stack-label v-model="item.email" type="text" label="Email" class="q-mt-md" outlined
               :rules="[isInvalid('email')]" />
 
             <div class="row justify-end">

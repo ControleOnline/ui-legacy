@@ -1,6 +1,6 @@
 <template>
   <q-card class="q-pa-sm">
-    <q-table flat grid hide-header
+    <q-table dense  grid hide-header
       :loading="isLoading"
       :data   ="items"
       @request="onRequest"

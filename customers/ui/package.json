@@ -1,6 +1,6 @@
 {
   "name": "@controleonline/quasar-customers-ui",
-  "version": "1.0.72",
+  "version": "1.0.73",
   "author": "ControleOnline",
   "description": "ControleOnline customers Quasar UI Component",
   "license": "MIT",
@@ -8,7 +8,9 @@
   "scripts": {},
   "repository": {
     "type": "git",
+
     "url": "https://github.com/controleonline/conline-quasar-ui"
+
   },
   "bugs": "",
   "homepage": "https://www.controleonline.com/devs/plugins",

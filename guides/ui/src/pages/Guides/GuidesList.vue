@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import Search from '@controleonline/quasar-common-ui/src/components/Header/Search';
-import CardListGuides from '@controleonline/quasar-common-ui/src/components/Card/CardListGuides';
-import ToolsFooter from '@controleonline/quasar-common-ui/src/components/Footer/ToolsFooter';
+import Search from '@controleonline/quasar-common-ui/src/components/header/Search';
+import CardListGuides from '@controleonline/quasar-common-ui/src/components/card/CardListGuides';
+import ToolsFooter from '@controleonline/quasar-common-ui/src/components/footer/ToolsFooter';
 
 export default {
   name: 'CategoriesList',
@@ -64,7 +64,7 @@ export default {
       return { title, subtitle };
     },
     category() {
-      const categories = JSON.parse(JSON.stringify(this.$store.getters['Categories/getCategoryList']));
+      const categories = JSON.parse(JSON.stringify(this.$store.getters['categories/getCategoryList']));
 
       return categories
         .find((category) => category.id.toString() === this.$route.params.id_category);

@@ -24,7 +24,7 @@
       <div class="col-xs-12 col-sm q-pl-none">
         <q-option-group v-model="people_filter" :options="people_filter_options" color="primary" inline dense />
       </div>
-      <q-select class="col-xs-12 col-sm q-pl-none" outlined stack-label :label="$t(task_type + '.task_for')"
+      <q-select dense outlined  class="col-xs-12 col-sm q-pl-none" outlined stack-label :label="$t(task_type + '.task_for')"
         v-model="filters.task_for" :options="task_for">
         <template v-slot:no-option>
           <q-item>
@@ -34,7 +34,7 @@
       </q-select>
     </div>
     <div class="row col-xs-12 q-col-gutter-x-md q-ma-none q-py-md">
-      <q-select class="col-xs-12 col-sm q-pl-none" outlined stack-label :label="$t(task_type + '.status_label')"
+      <q-select dense outlined  class="col-xs-12 col-sm q-pl-none" outlined stack-label :label="$t(task_type + '.status_label')"
         v-model="filters.status" :options="statuses">
         <template v-slot:no-option>
           <q-item>
@@ -43,7 +43,7 @@
         </template>
       </q-select>
 
-      <q-select class="col-xs-12 col-sm  q-pl-none" v-if="categories.length > 0" outlined stack-label
+      <q-select dense outlined  class="col-xs-12 col-sm  q-pl-none" v-if="categories.length > 0" outlined stack-label
         :label="$t(task_type + '.category')" v-model="filters.category" :options="categories">
         <template v-slot:no-option>
           <q-item>
@@ -52,7 +52,7 @@
         </template>
       </q-select>
 
-      <q-select class="col-xs-12 col-sm q-pl-none" v-if="categories_criticality.length > 0" outlined stack-label
+      <q-select dense outlined  class="col-xs-12 col-sm q-pl-none" v-if="categories_criticality.length > 0" outlined stack-label
         :label="$t(task_type + '.criticality')" v-model="filters.criticality" :options="categories_criticality">
         <template v-slot:no-option>
           <q-item>
@@ -61,7 +61,7 @@
         </template>
       </q-select>
 
-      <q-select class="col-xs-12 col-sm q-pl-none" v-if="categories_reason.length > 0" outlined stack-label
+      <q-select dense outlined  class="col-xs-12 col-sm q-pl-none" v-if="categories_reason.length > 0" outlined stack-label
         :label="$t(task_type + '.reason')" v-model="filters.reason" :options="categories_reason">
         <template v-slot:no-option>
           <q-item>

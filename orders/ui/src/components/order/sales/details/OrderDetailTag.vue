@@ -29,6 +29,8 @@
       <div class="row" v-if="status.realStatus != 'closed'">
         <div class="col-12">
           <q-input
+      dense
+      outlined
             v-model.number="pkgs"
             type="number"
             :min="1"

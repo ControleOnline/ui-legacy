@@ -1,6 +1,8 @@
 <template>
   <q-form @submit="onSubmit" class="q-mt-md">
-    <q-input lazy-rules stack-label
+    <q-input
+      dense
+      outlined lazy-rules stack-label
       ref    ="password"
       v-model="user.password"
       type   ="password"
@@ -10,7 +12,9 @@
       hint   ="Use seis ou mais caracteres com uma combinação de letras, números e símbolos"
     />
 
-    <q-input lazy-rules stack-label
+    <q-input
+      dense
+      outlined lazy-rules stack-label
       ref    ="confirm"
       v-model="user.confirm"
       type   ="password"

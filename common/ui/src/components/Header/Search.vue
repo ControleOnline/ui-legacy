@@ -27,6 +27,8 @@
         </div>
 
         <q-input
+      dense
+      outlined
           dense
           rounded="rounded"
           outlined="outlined"
