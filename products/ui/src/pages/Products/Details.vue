@@ -1,17 +1,17 @@
 <template>
   <q-page padding>
-    <InvoiceDetails />
+    <!--<InvoiceDetails />-->
   </q-page>
 </template>
 
 <script>
-import InvoiceDetails from '../../../components/invoice/pay/InvoiceDetails.vue';
+//import InvoiceDetails from '../../../components/invoice/pay/InvoiceDetails.vue';
 
 export default {
   name      : 'InvoiceDetailsPage',
 
   components: {
-    InvoiceDetails,
+    //InvoiceDetails,
   },
 
   data () {
