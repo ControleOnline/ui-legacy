@@ -1,32 +1,22 @@
 <template>
   <q-dialog>
-    <div class="bg-white full-width" style="max-height: 70%;">
+    <div class="bg-white full-width" style="max-height: 70%">
       <q-item class="bg-secondary items-center">
         <q-item-label class="text-bold text-white">
-          {{ $t('additional_services_dialog') }}
+          {{ $t("additional_services_dialog") }}
         </q-item-label>
         <q-space></q-space>
-        <q-btn
-          icon="close"
-          size="1rem"
-          round
-          color="white"
-          flat
-          v-close-popup>
+        <q-btn icon="close" size="1rem" round color="white" flat v-close-popup>
         </q-btn>
       </q-item>
-
       <div class="flex items-center full-width">
         <q-item class="q-px-md q-py-sm column full-width">
           <q-item-section class="section-no-margin q-py-xs">
-            <q-item-label class="text-bold text-secondary">
-              Item
-            </q-item-label>
+            <q-item-label class="text-bold text-secondary"> Item </q-item-label>
             <q-input
-      dense
-      outlined
-              v-model="name"
               dense
+              outlined
+              v-model="name"
               label-color="secondary"
               color="secondary"
               autogrow
@@ -34,10 +24,9 @@
               class="q-pa-none full-width"
             />
             <q-input
-      dense
-      outlined
-              v-model="quantity"
               dense
+              outlined
+              v-model="quantity"
               label-color="secondary"
               color="secondary"
               autogrow
@@ -45,10 +34,9 @@
               class="q-pa-none full-width"
             />
             <q-input
-      dense
-      outlined
-              v-model="price"
               dense
+              outlined
+              v-model="price"
               label-color="secondary"
               color="secondary"
               autogrow
@@ -66,7 +54,7 @@
               :label="$t('send')"
               @click="addItem(name, quantity, price)"
               v-close-popup
-              style="width: 4rem;"
+              style="width: 4rem"
             >
             </q-btn>
           </q-item-section>
@@ -78,7 +66,7 @@
 
 <script>
 export default {
-  emits: 'ok',
+  emits: "ok",
 
   data() {
     return {
@@ -96,7 +84,7 @@ export default {
         quantity,
       };
 
-      this.$emit('add-item', additional);
+      this.$emit("add-item", additional);
 
       this.name = null;
       this.quantity = null;
