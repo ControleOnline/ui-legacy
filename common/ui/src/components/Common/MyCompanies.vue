@@ -4,7 +4,7 @@
     <q-btn-dropdown
       split
       outline
-      v-if="isMultipleCompanies() == true && !dialog && !this.$q.screen.gt.sm"
+      v-if="isMultipleCompanies() == true && !dialog /*&& !this.$q.screen.gt.sm*/"
       color="primary"
       :label="currentCompany !== null ? currentCompany.name : 'Loading...'"
       class="ellipsis full-width company-swich"
@@ -27,7 +27,7 @@
         </q-item>
       </q-list>
     </q-btn-dropdown>
-
+    <!--
     <q-btn-dropdown
       outline
       v-if="isMultipleCompanies() == true && !dialog && this.$q.screen.gt.sm"
@@ -53,6 +53,7 @@
         </q-item>
       </q-list>
     </q-btn-dropdown>
+    -->
 
     <q-dialog v-else v-model="dialog" persistent>
       <q-card style="width: 700px; max-width: 80vw">
