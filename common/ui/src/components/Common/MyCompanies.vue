@@ -2,9 +2,10 @@
   <!-- eslint-disable -->
   <div>
     <q-btn-dropdown
-      :split="!this.$q.screen.gt.sm"
-      :outline="this.$q.screen.gt.sm"
-      v-if="isMultipleCompanies() == true && !dialog"
+      split
+      outline
+      v-if="isMultipleCompanies() == true && !dialog && !this.$q.screen.gt.sm"
+      color="primary"
       :label="currentCompany !== null ? currentCompany.name : 'Loading...'"
       class="ellipsis full-width company-swich"
     >
@@ -26,6 +27,33 @@
         </q-item>
       </q-list>
     </q-btn-dropdown>
+
+    <q-btn-dropdown
+      outline
+      v-if="isMultipleCompanies() == true && !dialog && this.$q.screen.gt.sm"
+      color="primary"
+      :label="currentCompany !== null ? currentCompany.name : 'Loading...'"
+      class="ellipsis full-width company-swich"
+    >
+      <q-list>
+        <q-item
+          clickable
+          v-close-popup
+          dense
+          v-for="(company, index) in myCompanies"
+          :disable="
+            company.enabled && company.user.employee_enabled ? false : true
+          "
+          :key="index"
+          @click="onCompanySelection(company)"
+        >
+          <q-item-section>
+            <q-item-label lines="1">{{ company.name }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-btn-dropdown>
+
     <q-dialog v-else v-model="dialog" persistent>
       <q-card style="width: 700px; max-width: 80vw">
         <q-card-section class="row items-center">
