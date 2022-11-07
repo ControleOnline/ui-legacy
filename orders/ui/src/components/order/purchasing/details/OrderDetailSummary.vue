@@ -22,9 +22,7 @@
 
       <div class="row" style="margin: 10px">
         <div class="col-10 col-sm-7">
-          <q-input
-      dense
-      outlined stack-label lazy-rules unmasked-value hide-bottom-space v-if="editCompany === false" :value="
+          <q-input stack-label lazy-rules unmasked-value hide-bottom-space v-if="editCompany === false" :value="
             summary.providerAlias +
             (summary.providerDocument
               ? ' (' + summary.providerDocument + ')'
@@ -217,9 +215,7 @@
 
         <div class="row q-mt-lg">
           <div class="col-xs-12">
-            <q-input
-      dense
-      outlined  stack-label v-model="comments" type="textarea" label="Observações"
+            <q-input outlined stack-label v-model="comments" type="textarea" label="Observações"
               :readonly="!editable" />
           </div>
         </div>
