@@ -196,9 +196,7 @@
                         set,
                         cancel,
                       }">
-                        <q-input
-      dense
-      outlined autofocus dense :value="inputDeadline" @input="emitValue" mask="##/##/####">
+                        <q-input autofocus dense :value="inputDeadline" @input="emitValue" mask="##/##/####">
                           <template v-slot:after>
                             <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
                             <q-btn flat dense color="positive" icon="check_circle" @click.stop="set" :disable="
@@ -308,6 +306,8 @@
             <q-tab name="tracking" label="Rastreamento" />
 
             <q-tab name="tag" label="Etiqueta" />
+
+            <q-tab name="logistica" label="Logística" />
           </q-tabs>
 
           <q-separator />
@@ -343,6 +343,12 @@
               <OrderDetailTag :total_packages="total_packages" :orderId="orderId" :status="status"
                 :integrationType="integrationType" />
             </q-tab-panel>
+
+            <q-tab-panel name="logistica" class="q-pa-none">
+              <OrderDetailLogistics :total_packages="total_packages" :orderId="orderId" :status="status"
+                :integrationType="integrationType" />
+            </q-tab-panel>
+
           </q-tab-panels>
         </div>
       </div>
@@ -364,10 +370,12 @@
 import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
 import OrderDetailSummary from "./details/OrderDetailSummary";
+
 import OrderDetailQuotation from "./details/OrderDetailQuotation";
 import OrderDetailNotaFiscal from "./details/OrderDetailNotaFiscal";
 import OrderDetailInvoice from "./details/OrderDetailInvoice";
 import OrderDetailDACTE from "./details/OrderDetailDACTE";
+import OrderDetailLogistics from "./details/OrderDetailLogistics";
 import OrderDetailTracking from "./details/OrderTracking";
 import OrderDetailTag from "./details/OrderDetailTag";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
@@ -379,6 +387,7 @@ import {
 export default {
   components: {
     OrderDetailSummary,
+     OrderDetailLogistics,
     OrderDetailQuotation,
     OrderDetailNotaFiscal,
     OrderDetailInvoice,
