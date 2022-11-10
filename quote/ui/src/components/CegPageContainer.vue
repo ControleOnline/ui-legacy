@@ -296,7 +296,7 @@ export default {
         myCompany: this.myCompany ? this.myCompany.id : null,
         domain:
           this.myCompany && this.myCompany.domains
-            ? this.myCompany.domains[0].domain
+            ? this.myCompany.domains[0]?.domain
             : DOMAIN,
         origin: this.getAddress(this.origin),
         destination: this.getAddress(this.destination),
