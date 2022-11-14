@@ -4,7 +4,7 @@ export default class Filters {
   getFilter(router) {
     if (LocalStorage.has("session")) {
       let storedUser = LocalStorage.getItem("session");
-      return storedUser.filters[router];
+      return storedUser.filters[router] || {};
     }
   }
   setFilter(router, value) {
