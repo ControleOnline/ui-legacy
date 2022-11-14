@@ -1,15 +1,16 @@
 import { LocalStorage } from "quasar";
 
 export default class Filters {
-  getFilter(router) {
+
+  getFilters() {
     if (LocalStorage.has("session")) {
-      let storedUser = LocalStorage.getItem("session");
-      return storedUser.filters[router] || {};
+      let storedUser = LocalStorage.getItem("session");      
+      return storedUser.filters[storedUser['route']] || {};
     }
   }
-  setFilter(router, value) {
+  setFilter(filters) {
     let storedUser = LocalStorage.getItem("session");
-    storedUser.filters[router] = value;
+    storedUser.filters[storedUser['route']] = filters;
     LocalStorage.set("session", storedUser);
   }
 }
