@@ -10,6 +10,8 @@
       Carregando...
     </div>
 
+
+
     <div class="row col-12 q-mt-md q-mx-md flex items-end">
     
       
@@ -48,13 +50,13 @@
             </q-td>
 
             <q-td :props="props" key="trechostatus">
-              {{props.row.trechostatus}}
+              {{props.row.status.realStatus}}
             </q-td>
             <q-td :props="props" key="PrevisaoEmbarque">
-              {{props.row.shippingDateForecast}}
+              {{props.row.shippingDate}}
             </q-td>
             <q-td :props="props" key="PrevisaoChegada">
-              {{props.row.arrivalDateForecast}}
+              {{props.row.arrivalDate}}
             </q-td>
             <q-td :props="props" key="OrigemTipo">
               {{props.row.originType}}
@@ -72,7 +74,7 @@
               {{props.row.provider}}
             </q-td>
             <q-td :props="props" key="OrigemEndereco">
-              {{props.row.originAdress.description}}
+              {{props.row.originAdress}}
             </q-td>
             <q-td :props="props" key="PontoEncontro">
               {{props.row.originCityMeeting}}
@@ -93,7 +95,7 @@
               {{props.row.destinationProvider}}
             </q-td>
             <q-td :props="props" key="DestinoEndereco">
-              {{props.row.destinationAdress.description}}
+              {{props.row.originAdress}}
             </q-td>
             <q-td :props="props" key="DestinoPontoEncontro">
               {{props.row.destinationCityMeeting}}
@@ -457,7 +459,7 @@
                 <q-btn
                   color="positive"
                   label="Salvar"
-                  type="submit"
+                  @click="saveStretch()"
                 ></q-btn>
                 <q-btn
                   color="negative"
@@ -485,12 +487,21 @@ import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/co
 import { mapActions, mapGetters } from "vuex";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 
+
+
+
+
+import fetch from '@controleonline/quasar-common-ui/src/utils/fetch';
+
   export default { 
 
     components: {
-    ListAutocomplete,
-    PeopleAutocomplete
-  },
+      ListAutocomplete,
+      PeopleAutocomplete
+    },
+    props:{
+      orderId: String
+    },
   
     data() {
       return {
@@ -861,6 +872,7 @@ import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/
 
     created() {
       this.getStates();
+      this.getSalesOrder();
     },
 
     methods: {
@@ -1053,6 +1065,51 @@ import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/
               position: "bottom",
             });
           }
+        });
+      },
+      getSalesOrder() {
+        let endpoint = '/logistic';
+
+        console.log('getSalesOrder');
+        let params = {
+          method: 'GET'
+        };
+        this.api
+        .private(endpoint, params)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result['hydra:member']) ;
+          console.log(this.data);
+          let resultdata = [];
+          result['hydra:member'].map( (salesOrder) => {
+          
+          resultdata.push(salesOrder);
+          this.data = resultdata;
+        });
+        return {
+          orders: result['hydra:member']
+        }
+        });
+      },
+      saveStretch() {
+
+        let endpoint = '/logistic/'+this.orderId;
+
+
+        let options = {
+        method: 'POST',
+        body  : JSON.stringify(this.trecho),
+      };
+        
+
+      fetch(endpoint ,options)
+        .then(response => response.json())
+        .then(result => {
+          console.log('sa');
+          console.log(result);
+        })
+        .finally(() => {
+          this.isSaving = false;
         });
       },
     },
