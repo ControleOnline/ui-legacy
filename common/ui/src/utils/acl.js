@@ -31,7 +31,7 @@ export default class acl {
       storedUser.mycompany &&
       (!storedUser.actions || storedUser.actions[route] == undefined)
     ) {
-      return API.private(`acoes/people`, {
+      return API.private(`actions/people`, {
         params: { myCompany: storedUser.mycompany, route: route },
       })
         .then((response) => response.json())
