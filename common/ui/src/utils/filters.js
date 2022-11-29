@@ -4,10 +4,10 @@ export default class Filters {
   getFilters() {
     let obj = {};
     if (LocalStorage.has("session")) {
-      let storedUser = LocalStorage.getItem("session");      
-      obj = storedUser.filters ? storedUser.filters[storedUser["route"]] : {};      
+      let storedUser = LocalStorage.getItem("session");
+      obj = storedUser.filters ? storedUser.filters[storedUser["route"]] : {};
     }
-    return obj;
+    return obj || {};
   }
   setFilter(filters) {
     let storedUser = LocalStorage.getItem("session");
