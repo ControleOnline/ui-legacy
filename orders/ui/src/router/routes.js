@@ -14,6 +14,11 @@ export const routes = [
                 path: 'order/id/:id',
                 component: () => import('../pages/Orders/Sales/Order.vue')
             },
+            {
+                name: 'stretchSearching',
+                path: 'stretchSearching',
+                component: () => import('../pages/Orders/Sales/searching.vue')
+            },
         ]
     },
     {
