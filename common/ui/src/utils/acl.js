@@ -1,5 +1,5 @@
 import { LocalStorage } from "quasar";
-import Api from "@@controleonline/quasar-common-ui/src/utils/api";
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
 
 export default class acl {
   getPermissions() {    
