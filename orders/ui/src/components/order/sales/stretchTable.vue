@@ -1,5 +1,5 @@
 <template>
-  <div class="flex q-gutter-y-md q-mx-sm">
+  <div class="q-gutter-y-md q-mx-sm q-mt-md">
 
     <div class="flex flex-center" v-if="isLoading">
       <q-circular-progress
@@ -11,11 +11,11 @@
       Carregando...
     </div>
 
-  <!-- Filtros -->
-    <div class="">
-      <div class="row items-start">
+    <!-- Filtros -->
+    <div>
+      <div class="row items-end q-col-gutter-x-md">
 
-        <div v-if="!hasOrderId" class="col-sm-3 col-xs-12 q-pa-md">
+        <div v-if="!hasOrderId" class="col-sm-3 col-xs-12">
           <q-input
             outlined
             stack-label
@@ -24,29 +24,20 @@
           ></q-input>
         </div>
 
-        <div class="col-sm-3 col-xs-12 q-pa-md">
+        <div class="col-sm-3 col-xs-12">
           <ListAutocomplete
             :source="getGeoPlaces"
             :isLoading="isSearching"
             label="Origem"
-            @selected="onSelectOrigin"
+            @selected="onSelectOriginFilter"
             placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
           />
         </div>
-        <div class="col-sm-3 col-xs-12 q-pa-md">
-          <ListAutocomplete
-            :source="getGeoPlaces"
-            :isLoading="isSearching"
-            label="Destino"
-            @selected="onSelectOrigin"
-            placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-          />
-        </div>
-        <div class="col-sm-3 col-xs-12 q-pa-md">
+        <div class="col-sm-3 col-xs-12">
           <PeopleAutocomplete :source="searchPeople" :isLoading="isSearching" label="Fornecedor"
-              @selected="onSelectOriginProvider" placeholder="Pesquisar..." />
+              @selected="onSelectOriginProviderFilter" placeholder="Pesquisar..." />
         </div>
-        <div class="col-sm-3 col-xs-12 q-pa-md">
+        <div class="col-sm-3 col-xs-12 q-pb-sm">
           <q-select outlined stack-label label="Status" v-model="filters.status" :options="statusOptions"
             :loading="loadingStatuses">
             <template v-slot:no-option>
@@ -58,430 +49,198 @@
             </template>
           </q-select>
         </div>
-        <div class="col-sm-6 col-xs-12 q-pa-md">
-          <DataFilter :fromDate="filters.dateFrom" :toDate="filters.dateTo" :showButton="false" @dateChanged="dateChanged" />
+        <div class="col-sm-6 col-xs-12">
+          <DataFilter style="justify-content:flex-start" :fromDate="filters.dateFrom" :toDate="filters.dateTo" :showButton="false" @dateChanged="dateChanged" />
+        </div>
+        <div class="flex justify-end col-sm-6 col-xs-12 q-pb-md">
+          <q-btn
+            v-if="hasOrderId"
+            class=""
+            label="Novo"
+            color="primary"
+            @click="addModal = true"
+          ></q-btn>
         </div>
       </div>
-      <q-btn
-        v-if="hasOrderId"
-        label="Novo"
-        color="primary"
-        @click="addModal = true"
-      ></q-btn>
     </div>
-  <!-- Filtros Fim -->
+    <!-- Filtros Fim -->
 
-  <!-- Tabela-->
-    <q-table :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
-    @request="onRequest" row-key="trechostatus" selection="multiple">
-    <template v-slot:header-selection="scope"></template>
-    <template v-slot:body="props">
-      <q-tr :props="props">
-        <q-td>
-          <q-btn
-            dense
-            flat
-            icon="settings"
-          >
-            <q-menu>
-              <q-list>
-                <q-item clickable @click="openEditModal(props)">
-                  <q-item-section side>
-                    <q-icon name="edit"></q-icon>
-                  </q-item-section>
-                  <q-item-section>
-                    Editar
-                  </q-item-section>
-                </q-item>
-                <q-separator></q-separator>
-                <q-item clickable @click="deleteTrecho(props.rowIndex)">
-                  <q-item-section side>
-                    <q-icon name="delete"></q-icon>
-                  </q-item-section>
-                  <q-item-section>
-                    Excluir
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </q-btn>
-        </q-td>
-        <q-td :props="props" key="trechostatus">
-              {{props.row.trechostatus}}
-            </q-td>
-            <q-td :props="props" key="PrevisaoEmbarque">
-              {{props.row.shippingDateForecast}}
-            </q-td>
-            <q-td :props="props" key="PrevisaoChegada">
-              {{props.row.arrivalDateForecast}}
-            </q-td>
-            <q-td :props="props" key="OrigemTipo">
-              {{props.row.originType}}
-            </q-td>
-            <q-td :props="props" key="OrigemRegiao">
-              {{props.row.originRegion}}
-            </q-td>
-            <q-td :props="props" key="OrigemEstado">
-              {{props.row.originState}}
-            </q-td>
-            <q-td :props="props" key="Fornecedor">
-              {{props.row.provider}}
-            </q-td>
-            <q-td :props="props" key="OrigemEndereco">
-              {{props.row.originAdress}}
-            </q-td>
-            <q-td :props="props" key="PontoEncontro">
-              {{props.row.originCityMeeting}}
-            </q-td>
-            <q-td :props="props" key="DestinoTipo">
-              {{props.row.destinationType}}
-            </q-td>
-            <q-td :props="props" key="DestinoRegiao">
-              {{props.row.destinationRegion}}
-            </q-td>
-            <q-td :props="props" key="DestinoEstado">
-              {{props.row.destinationState}}
-            </q-td>
-            <q-td :props="props" key="DestinoFornecedor">
-              {{props.row.destinationProvider}}
-            </q-td>
-            <q-td :props="props" key="DestinoEndereco">
-              {{props.row.destinationAdress}}
-            </q-td>
-            <q-td :props="props" key="DestinoPontoEncontro">
-              {{props.row.destinationCityMeeting}}
-            </q-td>
-            <q-td :props="props" key="FornecedorEndereco">
-              {{props.row.providerAddress}}
-            </q-td>
-            <q-td :props="props" key="EnderecoFornecedor">
-              {{props.row.locator}}
-            </q-td>
-            <q-td :props="props" key="Localizador">
-              {{props.row.locator}}
-            </q-td>
-            <q-td :props="props" key="LiberacaoCarro">
-              {{props.row.releaseCar}}
-            </q-td>
-            <q-td :props="props" key="ValorVendido">
-              {{props.row.soldValue}}
-            </q-td>
-            <q-td :props="props" key="ValorPago">
-              {{props.row.paidValue}}
-            </q-td>
-            <q-td :props="props" key="FornecedorSaldo">
-              {{props.row.providerBalance}}
-            </q-td>
-            <q-td :props="props" key="FornecedorStatus">
-              {{props.row.providerStatus}}
-            </q-td>
-            <q-td :props="props" key="DataPatio">
-              {{props.row.carParkDate}}
-            </q-td>
-            <q-td :props="props" key="FornecedorDataEmbarque">
-              {{props.row.providerShippingDate}}
-            </q-td>
-            <q-td :props="props" key="DiasUteisDecorridosPatio">
-              {{props.row.elapsedWorkingDays}}
-            </q-td>
-            <q-td :props="props" key="PrazoContrato">
-              {{props.row.termContract}}
-            </q-td>
-            <q-td :props="props" key="CobrancaBaseEntrega">
-              {{props.row.deliveryBaseTaxValue}}
-            </q-td>
-            <q-td :props="props" key="ValorFreteVendido">
-              {{props.row.taxSoldValue}}
-            </q-td>
-            <q-td :props="props" key="ValorNegociado">
-              {{props.row.dealedValue}}
-            </q-td>
-            <q-td :props="props" key="DataProvisaoPagamento">
-              {{props.row.paymentProvisionDate}}
-            </q-td>
-            <q-td :props="props" key="PagamentoRealizado">
-              {{props.row.paymentMade}}
-            </q-td>
-            <q-td :props="props" key="Saldo">
-              {{props.row.balance}}
-            </q-td>
-            <q-td :props="props" key="Observacoes">
-              {{props.row.notes}}
-            </q-td>
-            <q-td :props="props" key="DataEmbarque">
-              {{props.row.shippingDate}}
-            </q-td>
-      </q-tr>
-    </template>
-    </q-table>
-  <!-- Tabela Fim -->
+    <!-- Tabela-->
+    <div class="table-container q-mt-none">
+      <q-table ref="myTable" :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
+      @request="onRequest" row-key="Id" selection="multiple">
+      <template v-slot:header-selection="scope"></template>
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td>
+            <q-btn
+              dense
+              flat
+              icon="settings"
+            >
+              <q-menu>
+                <q-list>
+                  <q-item clickable @click="openEditModal(props)">
+                    <q-item-section side>
+                      <q-icon name="edit"></q-icon>
+                    </q-item-section>
+                    <q-item-section>
+                      Editar
+                    </q-item-section>
+                  </q-item>
+                  <q-separator></q-separator>
+                  <!-- <q-item clickable @click="deleteTrecho(props.rowIndex)">
+                    <q-item-section side>
+                      <q-icon name="delete"></q-icon>
+                    </q-item-section>
+                    <q-item-section>
+                      Excluir
+                    </q-item-section>
+                  </q-item> -->
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </q-td>
+          <q-td :props="props" key="Id">
+            {{props.row.id}}
+          </q-td>
+          <q-td :props="props" key="trechostatus">
+            {{$t(`logistic.statuses.${props.row.status}`)}}
+          </q-td>
+          <q-td :props="props" key="OrigemTipo">
+            {{props.row.originType}}
+          </q-td>
+          <q-td :props="props" key="OrigemRegiao">
+            {{props.row.originRegion}}
+          </q-td>
+          <q-td :props="props" key="OrigemEstado">
+            {{props.row.originState}}
+          </q-td>
+          <q-td :props="props" key="OrigemCidade">
+            {{props.row.originCity}}
+          </q-td>
+          <q-td :props="props" key="Fornecedor">
+            {{props.row.provider}}
+          </q-td>
+          <q-td :props="props" key="OrigemEndereco">
+            {{props.row.originAdress}}
+          </q-td>
+          <q-td :props="props" key="Valor">
+            {{props.row.value}}
+          </q-td>
+          <q-td :props="props" key="DataEmbarque">
+            {{formatDate(props.row.shippingDate)}}
+          </q-td>
+          <q-td :props="props" key="DataChegada">
+            {{formatDate(props.row.arrivalDate)}}
+          </q-td>
+          <!-- <q-td :props="props" key="Localizador">
+            {{props.row.locator}}
+          </q-td> -->
+          <!-- <q-td :props="props" key="LiberacaoCarro">
+            {{formatDate(props.row.releaseCar)}}
+          </q-td>
+          <q-td :props="props" key="ValorVendido">
+            {{props.row.soldValue}}
+          </q-td>
+          <q-td :props="props" key="ValorPago">
+            {{props.row.paidValue}}
+          </q-td> -->
+          <!-- <q-td :props="props" key="FornecedorSaldo">
+            {{props.row.providerBalance}}
+          </q-td>
+          <q-td :props="props" key="FornecedorStatus">
+            {{props.row.providerStatus}}
+          </q-td>
+          <q-td :props="props" key="DataPatio">
+            {{formatDate(props.row.carParkDate)}}
+          </q-td>
+          <q-td :props="props" key="FornecedorDataEmbarque">
+            {{props.row.providerShippingDate}}
+          </q-td>
+          <q-td :props="props" key="DiasUteisDecorridosPatio">
+            {{props.row.elapsedWorkingDays}}
+          </q-td>
+          <q-td :props="props" key="PrazoContrato">
+            {{props.row.termContract}}
+          </q-td>
+          <q-td :props="props" key="CobrancaBaseEntrega">
+            {{props.row.deliveryBaseTaxValue}}
+          </q-td>
+          <q-td :props="props" key="ValorFreteVendido">
+            {{props.row.taxSoldValue}}
+          </q-td> -->
+          <!-- <q-td :props="props" key="ValorNegociado">
+            {{props.row.dealedValue}}
+          </q-td>
+          <q-td :props="props" key="DataProvisaoPagamento">
+            {{props.row.paymentProvisionDate}}
+          </q-td>
+          <q-td :props="props" key="PagamentoRealizado">
+            {{props.row.paymentMade}}
+          </q-td>
+          <q-td :props="props" key="Saldo">
+            {{props.row.balance}}
+          </q-td>
+          <q-td :props="props" key="Observacoes">
+            {{props.row.notes}}
+          </q-td> -->
+        
+        </q-tr>
+      </template>
+      </q-table>
+    </div>
+    <!-- Tabela Fim -->
 
-  <!-- Modal Novo-->
+    <!-- Modal Novo-->
     <div>
-      <q-dialog v-model="addModal" full-width>
+      <q-dialog v-model="addModal" auto-width>
             <q-card class="q-pa-md">
               <q-form
               class="row flex q-gutter-y-md"
               >
 
                 <div class="row col-12 q-gutter-sm">
-                  <div class="col-4">
                     <q-select
+                      class="col-12 flex items-end"
                       outlined
                       stack-label
                       label="Status"
                       :options="statusOptions"
-                      v-model="trecho.trechostatus"
+                      v-model="trecho.status"
                     ></q-select>
-                  </div>
-                  <div class="col-3">
-                    <q-input
-                      type="date"
-                      outlined
-                      stack-label
-                      label="Previsão de embarque"
-                      v-model="trecho.shippingDateForecast"
-                    ></q-input>
-                  </div>
-                  <div class="col-2">
-                    <q-input
-                      type="date"
-                      outlined
-                      stack-label
-                      label="Previsão de chegada"
-                      v-model="trecho.arrivalDateForecast"
-                    ></q-input>
-                  </div>
                 </div>
 
                 <div class="row col-12 q-gutter-sm">
-                  <div class="row col-5 q-gutter-sm">
-                    <label class="col-12">Origem</label>
-                    <div class="col-4">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="Tipo"
-                        :options="originTypeOptions"
-                        v-model="trecho.originType"
-                      ></q-select>
-                    </div>
-                    <div class="col-4">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="Região"
-                        :options="originRegionOptions"
-                        v-model="trecho.originRegion"
-                      ></q-select>
-                    </div>
-                    <div class="col-2">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="UF"
-                        :options="originUfRegionOptions"
-                        v-model="trecho.originState"
-                      ></q-select>
-                    </div>
-                    <div class="col-6">
-                    
-                      <div class="col-xs-12 col-sm-6">
-                        <PeopleAutocomplete v-if="trecho.originType == 'Base'" :source="searchPeople" :isLoading="isSearching" label="Fornecedor"
-                          @selected="onSelectOriginProvider" placeholder="Pesquisar..." />
-                      </div>
-                      <div class="col-xs-12 q-mb-sm" v-if="trecho.originType == 'Coleta'">
-                        <ListAutocomplete
-                          :source="getGeoPlaces"
-                          :isLoading="isSearching"
-                          label="Busca de endereço"
-                          @selected="onSelectOrigin"
-                          placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                        />
-                      </div>
-                      <q-input
-                        v-if="trecho.originType == 'Ponto de encontro'"
-                        outlined
-                        stack-label
-                        label="Cidade"
-                        v-model="trecho.originCity"
-                      ></q-input>
-                    </div>
-                  </div>
-
-                  
-                  <div class="row col-5 q-gutter-sm">
-                    <label class="col-12">Destino</label>
-                    <div class="col-4">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="Tipo"
-                        :options="destinationTypeOptions"
-                        v-model="trecho.destinationType"
-                      ></q-select>
-                    </div>
-                    <div class="col-4">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="Região"
-                        :options="destinationRegionOptions"
-                        v-model="trecho.destinationRegion"
-                      ></q-select>
-                    </div>
-                    <div class="col-2">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="UF"
-                        :options="destinationUfRegionOptions"
-                        v-model="trecho.destinationState"
-                      ></q-select>
-                    </div>
-                    <div class="col-6">
-                      <div class="col-xs-12 col-sm-6">
-                        <PeopleAutocomplete v-if="trecho.destinationType == 'Base'" :source="searchPeople" :isLoading="isSearching" label="Fornecedor"
-                          @selected="onSelectDestinationProvider" placeholder="Pesquisar..." />
-                      </div>
-                      <div class="col-xs-12 q-mb-sm" v-if="trecho.destinationType == 'Entrega'">
-                        <ListAutocomplete
-                          :source="getGeoPlaces"
-                          :isLoading="isSearching"
-                          label="Busca de endereço"
-                          @selected="onSelectDestination"
-                          placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                        />
-                      </div>
-                      <q-input
-                        v-if="trecho.destinationType == 'Ponto de encontro'"
-                        outlined
-                        stack-label
-                        label="Cidade"
-                        v-model="trecho.destinationCity"
-                      ></q-input>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row col-12 q-gutter-sm" v-if="trecho.originType == 'Base'">
-                
-                  <div class="col-2">
-                    <q-input
-                      type="date"
-                      outlined
-                      stack-label
-                      label="Liberação do carro"
-                      v-model="trecho.releaseCar"
-                    ></q-input>
-                  </div>
                   <div class="col-3">
-                    <q-input
-                      outlined
-                      stack-label
-                      label="Valor vendido"
-                      v-model="trecho.soldValue"
-                    ></q-input>
-                  </div>
-                  <div class="col-3">
-                    <q-input
-                      outlined
-                      stack-label
-                      label="Valor pago"
-                      v-model="trecho.paidValue"
-                    ></q-input>
-                  </div>
-                  <div class="col-2">
-                    <q-input
-                      readonly
-                      outlined
-                      stack-label
-                      label="Saldo"
-                      v-model="trecho.providerBalance"
-                    ></q-input>
-                  </div>
-                  <div class="col-9">
                     <q-select
                       outlined
                       stack-label
-                      label="Status"
-                      :options="providerStatusOptions"
-                      v-model="trecho.providerStatus"
+                      label="Tipo"
+                      :options="originTypeOptions"
+                      v-model="trecho.originType"
                     ></q-select>
                   </div>
-                  <div class="col-3">
-                    <q-input
-                      outlined
-                      type="date"
-                      stack-label
-                      label="Data pátio"
-                      v-model="trecho.carParkDate"
-                    ></q-input>
+                  <div class="row col-12">
+                  
+                    <div class="col-xs-12 q-mb-sm">
+                      <ListAutocomplete
+                      :source="getGeoPlaces"
+                      :isLoading="isSearching"
+                      label="Busca de endereço"
+                      @selected="onSelectOrigin"
+                      placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                      />
+                    </div>
                   </div>
-                
-                
-                </div>
-
-                <div class="row col-12 q-gutter-sm">
-                  <div class="col-3">
-                    <label>Cobrança de base de entrega?</label>
-                    <q-radio
-                      outlined
-                      stack-label
-                      label="Sim"
-                      v-model="trecho.deliveryBaseTax"
-                      :val="true"
-                    ></q-radio>
-                    <q-radio
-                      outlined
-                      stack-label
-                      label="Não"
-                      v-model="trecho.deliveryBaseTax"
-                      :val="false"
-                    ></q-radio>
-                  </div>
-                  <div class="col-4">
-                    <q-input
-                      v-if="trecho.deliveryBaseTax"
-                      outlined
-                      stack-label
-                      label="Valor"
-                      v-model="trecho.deliveryBaseTaxValue"
-                      type="number"
-                    ></q-input>
-                  </div>
-                  <div class="col-5">
-                    <q-input
-                      outlined
-                      stack-label
-                      label="Valor do frete vendido"
-                      v-model="trecho.taxSoldValue"
-                      type="number"
-                    ></q-input>
-                  </div>
-                  <div class="col-5">
-                    <q-input
-                      outlined
-                      stack-label
-                      label="Valor negociado"
-                      v-model="trecho.dealedValue"
-                      type="number"
-                    ></q-input>
+                  <div class="col-xs-12 col-sm-4 col-md-12">
+                    <PeopleAutocomplete v-if="trecho.originType == 'Base'" :source="searchPeople" :isLoading="isSearching" label="Fornecedor"
+                      @selected="onSelectOriginProvider" placeholder="Pesquisar..." />
                   </div>
                 </div>
                   
                 <div class="row col-12 q-gutter-sm">
-                  
-                  <div class="col-7">
-                    <q-input
-                      type="textarea"
-                      outlined
-                      stack-label
-                      label="Observações"
-                      v-model="trecho.notes"
-                    ></q-input>
-                  </div>
-                  <div class="col-3">
+                  <div class="col-12">
                     <q-input
                       type="date"
                       outlined
@@ -510,161 +269,124 @@
             </q-card>
       </q-dialog>
     </div>
-  <!-- Modal Novo Fim -->
+    <!-- Modal Novo Fim -->
 
-  <!-- Modal Novo-->
+    <!-- Modal Edit-->
     <div>
-      <q-dialog v-model="editModal" full-width>
+      <q-dialog v-model="editModal" auto-width>
             <q-card class="q-pa-md">
               <q-form
               class="row flex q-gutter-y-md"
               >
 
                 <div class="row col-12 q-gutter-sm">
-                  <div class="col-4">
-                    <q-select
+                  <div class="col-12">
+                    <q-input
                       outlined
+                      readonly
                       stack-label
                       label="Status"
-                      :options="statusOptions"
-                      v-model="trecho.trechostatus"
-                    ></q-select>
+                      v-model="trecho.status"
+                    ></q-input>
                   </div>
-                  <div class="col-3">
+
+                  <div class="col-4">
+                      <q-input
+                        outlined
+                        readonly
+                        stack-label
+                        label="Tipo"
+                        v-model="trecho.originType"
+                      ></q-input>
+                  </div>
+
+                  <div class="col-5">
                     <q-input
-                      type="date"
+                      v-if="trecho.originType != 'Coleta' && trecho.originRegion != null"
                       outlined
+                      readonly
                       stack-label
-                      label="Previsão de embarque"
-                      v-model="trecho.shippingDateForecast"
+                      label="Região"
+                      v-model="trecho.originRegion"
                     ></q-input>
                   </div>
                   <div class="col-2">
                     <q-input
-                      type="date"
+                      v-if="trecho.originType != 'Coleta' && trecho.originState != null"
                       outlined
+                      readonly
                       stack-label
-                      label="Previsão de chegada"
-                      v-model="trecho.arrivalDateForecast"
+                      label="UF"
+                      v-model="trecho.originState"
                     ></q-input>
+                  </div>
+                  <div class="col-12">
+                  
+                    <div class="col-xs-12 col-sm-6">
+                      <q-input 
+                        v-if="trecho.originType == 'Base'" 
+                        outlined
+                        stack-label
+                        readonly
+                        label="Fornecedor"
+                        v-model="trecho.provider"
+                      />
+                    </div>
+                    <div class="col-xs-12 q-mb-sm" v-if="trecho.originType == 'Coleta'">
+                      <ListAutocomplete
+                        :source="getGeoPlaces"
+                        :isLoading="isSearching"
+                        label="Busca de endereço"
+                        @selected="onSelectOrigin"
+                        placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div class="row col-12 q-gutter-sm">
-                  <div class="row col-5 q-gutter-sm">
-                    <label class="col-12">Origem</label>
-                    <div class="col-4">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="Tipo"
-                        :options="originTypeOptions"
-                        v-model="trecho.originType"
-                      ></q-select>
-                    </div>
-                    <div class="col-4">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="Região"
-                        :options="originRegionOptions"
-                        v-model="trecho.originRegion"
-                      ></q-select>
-                    </div>
-                    <div class="col-2">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="UF"
-                        :options="originUfRegionOptions"
-                        v-model="trecho.originState"
-                      ></q-select>
-                    </div>
-                    <div class="col-6">
-                    
-                      <div class="col-xs-12 col-sm-6">
-                        <PeopleAutocomplete v-if="trecho.originType == 'Base'" :source="searchPeople" :isLoading="isSearching" label="Fornecedor"
-                          @selected="onSelectOriginProvider" placeholder="Pesquisar..." />
-                      </div>
-                      <div class="col-xs-12 q-mb-sm" v-if="trecho.originType == 'Coleta'">
-                        <ListAutocomplete
-                          :source="getGeoPlaces"
-                          :isLoading="isSearching"
-                          label="Busca de endereço"
-                          @selected="onSelectOrigin"
-                          placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                        />
-                      </div>
-                      <q-input
-                        v-if="trecho.originType == 'Ponto de encontro'"
-                        outlined
-                        stack-label
-                        label="Cidade"
-                        v-model="trecho.originCity"
-                      ></q-input>
-                    </div>
+                  <div class="col-12">
+                    <q-input
+                      type="date"
+                      outlined
+                      stack-label
+                      label="Embarque"
+                      v-model="trecho.shippingDate"
+                    ></q-input>
                   </div>
 
-                  
-                  <div class="row col-5 q-gutter-sm">
-                    <label class="col-12">Destino</label>
-                    <div class="col-4">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="Tipo"
-                        :options="destinationTypeOptions"
-                        v-model="trecho.destinationType"
-                      ></q-select>
-                    </div>
-                    <div class="col-4">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="Região"
-                        :options="destinationRegionOptions"
-                        v-model="trecho.destinationRegion"
-                      ></q-select>
-                    </div>
-                    <div class="col-2">
-                      <q-select
-                        outlined
-                        stack-label
-                        label="UF"
-                        :options="destinationUfRegionOptions"
-                        v-model="trecho.destinationState"
-                      ></q-select>
-                    </div>
-                    <div class="col-6">
-                      <div class="col-xs-12 col-sm-6">
-                        <PeopleAutocomplete v-if="trecho.destinationType == 'Base'" :source="searchPeople" :isLoading="isSearching" label="Fornecedor"
-                          @selected="onSelectDestinationProvider" placeholder="Pesquisar..." />
-                      </div>
-                      <div class="col-xs-12 q-mb-sm" v-if="trecho.destinationType == 'Entrega'">
-                        <ListAutocomplete
-                          :source="getGeoPlaces"
-                          :isLoading="isSearching"
-                          label="Busca de endereço"
-                          @selected="onSelectDestination"
-                          placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                        />
-                      </div>
-                      <q-input
-                        v-if="trecho.destinationType == 'Ponto de encontro'"
-                        outlined
-                        stack-label
-                        label="Cidade"
-                        v-model="trecho.destinationCity"
-                      ></q-input>
-                    </div>
+                  <div class="col-12">
+                    <q-input
+                      type="date"
+                      outlined
+                      stack-label
+                      label="Chegada"
+                      v-model="trecho.arrivalDate"
+                    ></q-input>
                   </div>
                 </div>
+              
+                <div class="col-12 q-gutter-sm flex justify-end">
+                  <q-btn
+                    color="positive"
+                    label="Salvar"
+                    @click="saveStretch()"
+                  ></q-btn>
+                  <q-btn
+                    color="negative"
+                    label="Cancelar"
+                    v-close-popup
+                    @click="onReset"
+                  ></q-btn>
+                </div> 
 
-                <div class="row col-12 q-gutter-sm" v-if="trecho.originType == 'Base'">
+
+                <!-- <div class="row col-12 q-gutter-sm" v-if="trecho.originType == 'Base'">
                 
                   <div class="col-2">
                     <q-input
                       outlined
+                      readonly
                       stack-label
                       label="Fornecedor endereço"
                       v-model="trecho.providerAddress"
@@ -679,16 +401,6 @@
                       v-model="trecho.locator"
                     ></q-input>
                   </div>
-                
-                  <div class="col-2">
-                    <q-input
-                      type="date"
-                      outlined
-                      stack-label
-                      label="Liberação do carro"
-                      v-model="trecho.releaseCar"
-                    ></q-input>
-                  </div>
                   <div class="col-3">
                     <q-input
                       outlined
@@ -714,7 +426,7 @@
                       v-model="trecho.providerBalance"
                     ></q-input>
                   </div>
-                  <div class="col-9">
+                  <div class="col-5">
                     <q-select
                       outlined
                       stack-label
@@ -732,15 +444,33 @@
                       v-model="trecho.carParkDate"
                     ></q-input>
                   </div>
+                  <div class="col-3">
+                    <q-input
+                      outlined
+                      readonly
+                      stack-label
+                      label="Dias uteis decorridos (Patio)"
+                      v-model="trecho.elapsedWorkingDays"
+                    ></q-input>
+                  </div>
+                  <div class="col-3">
+                    <q-input
+                      outlined
+                      readonly
+                      stack-label
+                      label="Prazo contrato"
+                      v-model="trecho.termContract"
+                    ></q-input>
+                  </div>
                 
-                
-                </div>
+                </div> -->
 
-                <div class="row col-12 q-gutter-sm">
+                <!-- <div class="row col-12 q-gutter-sm">
                   <div class="col-3">
                     <label>Cobrança de base de entrega?</label>
                     <q-radio
                       outlined
+                      disable
                       stack-label
                       label="Sim"
                       v-model="trecho.deliveryBaseTax"
@@ -748,6 +478,7 @@
                     ></q-radio>
                     <q-radio
                       outlined
+                      disable
                       stack-label
                       label="Não"
                       v-model="trecho.deliveryBaseTax"
@@ -758,6 +489,7 @@
                     <q-input
                       v-if="trecho.deliveryBaseTax"
                       outlined
+                      readonly
                       stack-label
                       label="Valor"
                       v-model="trecho.deliveryBaseTaxValue"
@@ -773,7 +505,7 @@
                       type="number"
                     ></q-input>
                   </div>
-                  <div class="col-5">
+                  <div class="col-4">
                     <q-input
                       outlined
                       stack-label
@@ -782,47 +514,14 @@
                       type="number"
                     ></q-input>
                   </div>
-                </div>
-                  
-                <div class="row col-12 q-gutter-sm">
-                  
-                  <div class="col-7">
-                    <q-input
-                      type="textarea"
-                      outlined
-                      stack-label
-                      label="Observações"
-                      v-model="trecho.notes"
-                    ></q-input>
-                  </div>
-                  <div class="col-3">
-                    <q-input
-                      type="date"
-                      outlined
-                      stack-label
-                      label="Embarque"
-                      v-model="trecho.shippingDate"
-                    ></q-input>
-                  </div>
+                </div> -->
+
+                <!-- <div class="row col-12 q-gutter-sm">
+
                   <div class="col-3">
                     <q-input
                       outlined
-                      stack-label
-                      label="Dias uteis decorridos (Patio)"
-                      v-model="trecho.elapsedWorkingDays"
-                    ></q-input>
-                  </div>
-                  <div class="col-3">
-                    <q-input
-                      outlined
-                      stack-label
-                      label="Prazo contrato"
-                      v-model="trecho.termContract"
-                    ></q-input>
-                  </div>
-                  <div class="col-3">
-                    <q-input
-                      outlined
+                      readonly
                       stack-label
                       label="Data provisao pagamento"
                       v-model="trecho.paymentProvisionDate"
@@ -831,6 +530,7 @@
                   <div class="col-3">
                     <q-input
                       outlined
+                      readonly
                       stack-label
                       label="Pagamento realizado"
                       v-model="trecho.paymentMade"
@@ -839,33 +539,19 @@
                   <div class="col-3">
                     <q-input
                       outlined
+                      readonly
                       stack-label
                       label="Saldo"
                       v-model="trecho.balance"
                     ></q-input>
                   </div>
-                
-                </div>
-              
-                <div class="col-12 q-gutter-sm flex justify-end">
-                  <q-btn
-                    color="positive"
-                    label="Salvar"
-                    @click="saveStretch()"
-                  ></q-btn>
-                  <q-btn
-                    color="negative"
-                    label="Cancelar"
-                    v-close-popup
-                    @click="onReset"
-                  ></q-btn>
-                </div> 
+                </div> -->
 
               </q-form>
             </q-card>
       </q-dialog>
     </div>
-  <!-- Modal Novo Fim -->
+    <!-- Modal Edit Fim -->
   </div>
 
 </template>
@@ -879,28 +565,22 @@ import DataFilter from "@controleonline/quasar-common-ui/src/components/common/D
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/common/ListAutocomplete";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 import fetch from '@controleonline/quasar-common-ui/src/utils/fetch';
+import { LocalStorage } from "quasar";
 
 const SETTINGS = {
   columns: [
           {
+            name: 'Id',
+            label: 'Id',
+            align: 'center',
+            field: row => row.id,
+            format: val => `${val}`,
+          },
+          {
             name: 'trechostatus',
-            label: 'Trecho status',
+            label: 'Status',
             align: 'center',
             field: row => row.trechostatus,
-            format: val => `${val}`,
-          },
-          {
-            name: 'PrevisaoEmbarque',
-            label: 'Previsão Embarque',
-            align: 'center',
-            field: row => row.shippingDateForecast,
-            format: val => `${val}`,
-          },
-          {
-            name: 'PrevisaoChegada',
-            label: 'Previsão Chegada',
-            align: 'center',
-            field: row => row.arrivalDateForecast,
             format: val => `${val}`,
           },
           {
@@ -925,6 +605,13 @@ const SETTINGS = {
             format: val => `${val}`,
           },
           {
+            name: 'OrigemCidade',
+            label: 'Origem Cidade',
+            align: 'center',
+            field: row => row.originCity,
+            format: val => `${val}`,
+          },
+          {
             name: 'Fornecedor',
             label: 'Fornecedor',
             align: 'left',
@@ -939,178 +626,10 @@ const SETTINGS = {
             format: val => `${val}`,
           },
           {
-            name: 'PontoEncontro',
-            label: 'Ponto de encontro',
+            name: 'Valor',
+            label: 'Valor',
             align: 'center',
-            field: row => row.originCityMeeting,
-            format: val => `${val}`,
-          },
-          {
-            name: 'DestinoTipo',
-            label: 'Destino tipo',
-            align: 'right',
-            field: row => row.destinationType,
-            format: val => `${val}`,
-          },
-          {
-            name: 'DestinoRegiao',
-            label: 'Destino região',
-            align: 'right',
-            field: row => row.destinationRegion,
-            format: val => `${val}`,
-          },
-          {
-            name: 'DestinoEstado',
-            label: 'Destino Estado',
-            align: 'right',
-            field: row => row.destinationState,
-            format: val => `${val}`,
-          },
-          {
-            name: 'DestinoFornecedor',
-            label: 'Destino Fornecedor',
-            align: 'right',
-            field: row => row.destinationProvider,
-            format: val => `${val}`,
-          },
-          {
-            name: 'DestinoEndereco',
-            label: 'Endereço de destino',
-            align: 'right',
-            field: row => row.destinationAdress,
-            format: val => `${val}`,
-          },
-          {
-            name: 'DestinoPontoEncontro',
-            label: 'Destino Ponto de encontro',
-            align: 'right',
-            field: row => row.destinationCityMeeting,
-            format: val => `${val}`,
-          },
-          {
-            name: 'FornecedorEndereco',
-            label: 'Fornecedor Endereço',
-            align: 'right',
-            field: row => row.providerAddress,
-            format: val => `${val}`,
-          },
-          {
-            name: 'Localizador',
-            label: 'Localizador',
-            align: 'right',
-            field: row => row.locator,
-            format: val => `${val}`,
-          },
-          {
-            name: 'LiberacaoCarro',
-            label: 'Liberação Carro',
-            align: 'right',
-            field: row => row.releaseCar,
-            format: val => `${val}`,
-          },
-          {
-            name: 'ValorVendido',
-            label: 'Valor Vendido',
-            align: 'right',
-            field: row => row.soldValue,
-            format: val => `${val}`,
-          },
-          {
-            name: 'ValorPago',
-            label: 'Valor pago',
-            align: 'right',
-            field: row => row.paidValue,
-            format: val => `${val}`,
-          },
-          {
-            name: 'FornecedorSaldo',
-            label: 'Fornecedor Saldo',
-            align: 'right',
-            field: row => row.providerBalance,
-            format: val => `${val}`,
-          },
-          {
-            name: 'FornecedorStatus',
-            label: 'Fornecedor status',
-            align: 'right',
-            field: row => row.providerStatus,
-            format: val => `${val}`,
-          },
-          {
-            name: 'DataPatio',
-            label: 'Data pátio',
-            align: 'right',
-            field: row => row.carParkDate,
-            format: val => `${val}`,
-          },
-          {
-            name: 'FornecedorDataEmbarque',
-            label: 'Fornecedor data embarque',
-            align: 'right',
-            field: row => row.providerShippingDate,
-            format: val => `${val}`,
-          },
-          {
-            name: 'DiasUteisDecorridosPatio',
-            label: 'Dias uteis decorridos (Patio)',
-            align: 'right',
-            field: row => row.elapsedWorkingDays,
-            format: val => `${val}`,
-          },
-          {
-            name: 'PrazoContrato',
-            label: 'Prazo contrato',
-            align: 'right',
-            field: row => row.termContract,
-            format: val => `${val}`,
-          },
-          {
-            name: 'CobrancaBaseEntrega',
-            label: 'Cobranca base entrega',
-            align: 'right',
-            field: row => row.deliveryBaseTaxValue,
-            format: val => `${val}`,
-          },
-          {
-            name: 'ValorFreteVendido',
-            label: 'Valor frete vendido',
-            align: 'right',
-            field: row => row.taxSoldValue,
-            format: val => `${val}`,
-          },
-          {
-            name: 'ValorNegociado',
-            label: 'Valor negociado',
-            align: 'right',
-            field: row => row.dealedValue,
-            format: val => `${val}`,
-          },
-          {
-            name: 'DataProvisaoPagamento',
-            label: 'Data provisao pagamento',
-            align: 'right',
-            field: row => row.paymentProvisionDate,
-            format: val => `${val}`,
-          },
-          {
-            name: 'PagamentoRealizado',
-            label: 'Pagamento realizado',
-            align: 'right',
-            field: row => row.paymentMade,
-            format: val => `${val}`,
-          },
-          {
-            name: 'Saldo',
-            label: 'Saldo',
-            align: 'right',
-            field: row => row.balance,
-            format: val => `${val}`,
-          },
-          {
-            name: 'Observacoes',
-            label: 'Observacoes',
-            align: 'right',
-            field: row => row.notes,
+            field: row => row.value,
             format: val => `${val}`,
           },
           {
@@ -1118,6 +637,13 @@ const SETTINGS = {
             label: 'Data embarque',
             align: 'right',
             field: row => row.shippingDate,
+            format: val => `${val}`,
+          },
+          {
+            name: 'DataChegada',
+            label: 'Data chegada',
+            align: 'right',
+            field: row => row.arrivalDate,
             format: val => `${val}`,
           },
         ],
@@ -1129,6 +655,10 @@ export default {
   
   props: {
     orderId: {
+      type: Number,
+      required: false,
+    },
+    orderPrice: {
       type: Number,
       required: false,
     }
@@ -1144,10 +674,7 @@ export default {
     this.checkOrderId();
     if (this.myCompany !== null) {
       this.filters.company = this.myCompany;
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
+      this.getValuesToLoad();
     }
   },
 
@@ -1164,49 +691,26 @@ export default {
       shippingTax: null,
       hasOrderId: null,
       indexRowEdit: null,
+      shippingDate: '2022-12-12',
       trecho: {
-        trechostatus: null,
-        shippingDateForecast: null,
-        arrivalDateForecast: null,
+        id:null,
+        status: null,
+        shippingDate: null,
+        arrivalDate: null,
         originType: null,
         originRegion: null,
         originState: null,
         provider: null,
+        originCity: null,
         originAdress: null,
-        originCityMeeting: null,
-        destinationType: null,
-        destinationRegion: null,
-        destinationState: null,
-        destinationProvider: null,
-        destinationAdress: null,
-        destinationCityMeeting: null,
-        providerAddress: null,
-        locator: null,
-        releaseCar: null,
-        soldValue: null,
-        paidValue: null,
-        providerBalance: this.soldValue - this.paidValue || null,
-        providerStatus: null,
-        carParkDate: null,
-        providerShippingDate: null,
-        elapsedWorkingDays: null,
-        termContract: null,
-        deliveryBaseTax: null,
-        deliveryBaseTaxValue: null,
-        taxSoldValue: null,
-        dealedValue: null,
-        paymentProvisionDate: null,
-        paymentMade: null,
-        balance: null,
-        notes: null,
-        shippingDate: null,
+        value: null,
       },
       addModal: false,
       editModal: false,
       providerOptions: ["Fornecedor 1", "Fornecedor 2", "Fornecedor 3"],
       providerStatusOptions: ['Liberado para base', 'Aguardando cliente', 'Pátio'],
-      statusOptions: ["Aguardando cliente", "Aguardando retirada", "Em trânsito", "Pendente de coleta", "Pendente de embarque", "Reembarque", "Retirado"],
-      originTypeOptions: ["Coleta", "Base", "Ponto de encontro"],
+      statusOptions: [],
+      originTypeOptions: ["Coleta", "Base"],
       destinationTypeOptions: ["Entrega", "Base", "Ponto de encontro"],
       originRegionOptions: ['Norte', 'Nordeste', 'Sul', 'Sudeste', 'Centro-Oeste'],
       destinationRegionOptions: ['Norte', 'Nordeste', 'Sul', 'Sudeste', 'Centro-Oeste'],
@@ -1280,7 +784,6 @@ export default {
         this.filters.company = company;
         this.onRequest({
           pagination: this.pagination,
-          filter: this.filters,
         });
       }
     },
@@ -1318,13 +821,13 @@ export default {
         filter: this.filters,
       });
     },
-    "filters.dateFrom"() {
+    "filters.dateFrom"(value) {
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
       });
     },
-    "filters.dateTo"() {
+    "filters.dateTo"(value) {
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
@@ -1332,16 +835,6 @@ export default {
     },
     "addModal"() {
       if (this.addModal == false) this.deliveryBaseTax = null;
-    },
-    "trecho.originRegion"(value) {
-      this.getOriginStatesPerRegion(value);
-    },
-    "trecho.destinationRegion"(value) {
-      this.getDestinationStatesPerRegion(value);
-    },
-    "orderId"(value) {
-      console.log('value')
-      console.log(value)
     },
 },
 
@@ -1407,16 +900,49 @@ export default {
       });
     },
     onSelectOrigin(item) {
-      this.filters.origin = item;
+      if (item.street) {
+        this.getOriginRegion(item);
+        this.trecho.originState = item.state;
+        this.trecho.originCity = item.city;
+      }
+      this.trecho.originAdress = item.description;
+    },
+    onSelectOriginCity(item) {
+      this.trecho.originCityMeeting = item.city;
+      this.trecho.originState = item.state;
+      this.getOriginRegion(item);
     },
     onSelectDestination(item) {
-      this.trecho.destinationAdress = item;
+      if (item.street) {
+        this.getDestinationRegion(item);
+        this.trecho.destinationState = item.state;
+        this.trecho.destinationCity = item.city;
+      }
+      this.trecho.destinationAdress = item.description;
+    },
+    onSelectDestinationCity(item) {
+      this.trecho.destinationCityMeeting = item.city;
+      this.trecho.destinationState = item.state;
+      this.getDestinationRegion(item);
     },
     onSelectOriginProvider(item) {
-      this.trecho.provider = item;
+      this.trecho.provider = {
+        value: item.id,
+        label: item.name,
+      };
+      // this.requestProvider(item.id);
     },
     onSelectDestinationProvider(item) {
-      this.trecho.destinationProvider = item;
+      this.trecho.destinationProvider = item.name;
+    },
+    onSelectOriginFilter(item) {
+      this.filters.origin = item.description;
+    },
+    onSelectDestinationFilter(item) {
+      this.filters.destination = item.description;
+    },
+    onSelectOriginProviderFilter(item) {
+      this.filters.provider = item.name
     },
     dateChanged(date) {
       if (date.from || date.to) {
@@ -1435,8 +961,9 @@ export default {
     },
     openEditModal(props) {
       this.editModal = true;
-      this.trecho = props.row;
-      this.indexRowEdit = props.rowIndex;
+      this.trecho = structuredClone(props.row);
+      this.trecho.shippingDate = this.formatDate(this.trecho.shippingDate);
+      this.trecho.shippingDate = this.buildAmericanDate(this.trecho.shippingDate);
     },
     validateDate(dateString) {
       let today = new Date();
@@ -1444,218 +971,190 @@ export default {
       let date = new Date(dateString[0], dateString[1] - 1, dateString[2]);
       if (date >= today) return true;
     },
-    getOriginStatesPerRegion(region) {
-      this.originUfRegionOptions = [];
+    getOriginRegion(locale) {
       let states = this.collectionStateOptions;
       for (let index in states) {
-        if (states[index][2] == region) this.originUfRegionOptions.push(states[index][1]);
+        if (states[index][1] == locale.state) {
+          this.trecho.originRegion = states[index][2];
+        }
       }
     },
-    getDestinationStatesPerRegion(region) {
-      this.destinationUfRegionOptions = [];
+    getDestinationRegion(locale) {
       let states = this.collectionStateOptions;
       for (let index in states) {
-        if (states[index][2] == region) this.destinationUfRegionOptions.push(states[index][1]);
+        if (states[index][1] == locale.state) this.trecho.destinationRegion = states[index][2];
       }
     },
     onReset() {
-      this.editModal = false,
-      this.trecho.trechostatus = null;
-      this.trecho.shippingDateForecast = null;
-      this.trecho.arrivalDateForecast = null;
+      this.editModal = false;
+      this.trecho.id = null;
+      this.trecho.status = null;
+      this.trecho.shippingDate = null;
+      this.trecho.arrivalDate = null;
       this.trecho.originType = null;
       this.trecho.originRegion = null;
       this.trecho.originState = null;
       this.trecho.provider = null;
+      this.trecho.originCity = null;
       this.trecho.originAdress = null;
-      this.trecho.originCityMeeting = null;
-      this.trecho.destinationType = null;
-      this.trecho.destinationRegion = null;
-      this.trecho.destinationState = null;
-      this.trecho.destinationProvider = null;
-      this.trecho.destinationAdress = null;
-      this.trecho.destinationCityMeeting = null;
-      this.trecho.providerAddress = null;
-      this.trecho.locator = null;
-      this.trecho.releaseCar = null;
-      this.trecho.soldValue = null;
-      this.trecho.paidValue = null;
-      this.trecho.providerBalance = null;
-      this.trecho.providerStatus = null;
-      this.trecho.carParkDate = null;
-      this.trecho.providerShippingDate = null;
-      this.trecho.elapsedWorkingDays = null;
-      this.trecho.termContract = null;
-      this.trecho.deliveryBaseTax = null;
-      this.trecho.deliveryBaseTaxValue = null;
-      this.trecho.taxSoldValue = null;
-      this.trecho.dealedValue = null;
-      this.trecho.paymentProvisionDate = null;
-      this.trecho.paymentMade = null;
-      this.trecho.balance = null;
-      this.trecho.notes = null;
-      this.trecho.shippingDate = null;
+      this.trecho.value = null;
+      // this.trecho.providerAddress = null;
+      // this.trecho.locator = null;
+      // this.trecho.releaseCar = null;
+      // this.trecho.soldValue = null;
+      // this.trecho.paidValue = null;
+      // this.trecho.providerBalance = this.trecho.soldValue - this.trecho.paidValue || null;
+      // this.trecho.providerStatus = null;
+      // this.trecho.carParkDate = null;
+      // this.trecho.providerShippingDate = null;
+      // this.trecho.elapsedWorkingDays = null;
+      // this.trecho.termContract = null;
+      // this.trecho.deliveryBaseTax = null;
+      // this.trecho.deliveryBaseTaxValue = null;
+      // this.trecho.taxSoldValue = null;
+      // this.trecho.dealedValue = null;
+      // this.trecho.paymentProvisionDate = null;
+      // this.trecho.paymentMade = null;
+      // this.trecho.balance = null;
+      // this.trecho.notes = null;
     },
     formatDate(dateString) {
       if (dateString)
         return date.formatDate(
-          date.extractDate(dateString, "DD/MM/YYYY"),
-          "YYYY-MM-DD"
+          date.extractDate(dateString, "YYYY-MM-DD"),
+          "DD/MM/YYYY"
         );
       else return null;
     },
+    buildAmericanDate(dateString) {
+      let formatedDate;
+
+      if (dateString) {
+        dateString = dateString.replaceAll("/", "-");
+        formatedDate = date.formatDate(
+          date.extractDate(dateString, "DD-MM-YYYY"),
+          "YYYY-MM-DD"
+        );
+      } else {
+        return null;
+      }
+      return formatedDate;
+    },
+    getStatuses() {
+      const endpoint = "statuses";
+      const options = {};
+      options.params = {
+        context: 'logistic'
+      };
+      return this.api
+        .private(endpoint,  options )
+        .then((response) => response.json())
+        .then((result) => {
+          let members = result["hydra:member"];
+          if (members){
+            this.statusOptions = [];
+            for (let index in members) {
+              this.statusOptions.push({
+                value: (members[index]['@id'].replaceAll("/statuses/", "")),
+                label: this.$t(`logistic.statuses.${members[index].status}`),
+              })
+            }
+          }
+        });
+    },
+    getValuesToLoad() {
+      this.getStatuses();
+      this.onRequest({pagination: this.pagination});
+    },
 
     // CRUD
-    deleteTrecho(index) {
-      this.data.splice(index, 1)
-      const endpoint = "";
+    saveStretch() {
+      let endpoint = this.trecho.id == null ? `/logistics/order` : `/logistic/${this.trecho.id}`;
 
+      let trecho = structuredClone(this.trecho);
+      trecho.orderId = this.orderId;
+      trecho.value = this.orderPrice;
+      
+      if (trecho.originType == "Base")
+        trecho.originType = 'b';
+
+      if (trecho.originType == "Coleta")
+        trecho.originType = 'c';
+      
+      if (this.trecho.provider) {
+      trecho.provider = this.trecho.provider.value;
+      }
+
+      if (this.trecho.status) {
+        trecho.status = this.trecho.status.value;
+      }
       let options = {
-        method: "DELETE",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+      method: this.trecho.id == null ? 'POST' : 'PUT',
+      headers: new Headers({ "Content-Type": "application/ld+json" }),
+      body  : JSON.stringify(trecho),
       };
 
-      fetch(endpoint ,options)
-      .then(response => response.json())
-      .then(result => {
-        if (result.response.success) {
+      this.api
+        .private(endpoint,  options )
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.response.success) {
+            this.$q.notify({
+              message: this.$t("Dados salvos com sucesso!"),
+              position: "bottom",
+              type: "positive",
+            });
+          } else {
+            this.$q.notify({
+              message: this.$t("Não foi possível salvar os dados!"),
+              position: "bottom",
+              type: "negative",
+            });
+          }
+          return null;
+        })
+        .catch((error) => {
           this.$q.notify({
-            message: this.$t("Dados apagados com sucesso!"),
-            position: "bottom",
-            type: "positive",
-          });
-        } else {
-          this.$q.notify({
-            message: this.$t("Não foi possível apagar os dados!"),
+            message: this.$t(error.message),
             position: "bottom",
             type: "negative",
           });
-        }
-        return null;
-      })
-      .catch((error) => {
-        this.$q.notify({
-          message: this.$t(error.message),
-          position: "bottom",
-          type: "negative",
+        })
+        .finally(() => {
+          this.isSaving = false;
+          this.onReset();
+          this.getValuesToLoad();
         });
-      })
-      .finally(() => {
-        this.getStretchies();
-      });
-    },
-    saveStretch() {
-      if (!this.editModal) {
-        let stretch = structuredClone(this.trecho)
-        this.data.push(stretch);
-        this.onReset()
-      } else {
-        let stretch = structuredClone(this.trecho)
-        this.data[this.indexRowEdit] = stretch;
-        this.editModal = false;
-      }
-
-      // let endpoint = '/logistic/'+ this.orderId.toString();
-
-
-      // let options = {
-      // method: 'POST',
-      // body  : JSON.stringify(this.trecho),
-      // };
-
-
-      // fetch(endpoint ,options)
-      //   .then(response => response.json())
-      //   .then(result => {
-      //     if (result.response.success) {
-      //       this.$q.notify({
-      //         message: this.$t("Dados salvos com sucesso!"),
-      //         position: "bottom",
-      //         type: "positive",
-      //       });
-      //     } else {
-      //       this.$q.notify({
-      //         message: this.$t("Não foi possível salvar os dados!"),
-      //         position: "bottom",
-      //         type: "negative",
-      //       });
-      //     }
-      //     return null;
-      //   })
-      //   .catch((error) => {
-      //     this.$q.notify({
-      //       message: this.$t(error.message),
-      //       position: "bottom",
-      //       type: "negative",
-      //     });
-      //   })
-      //   .finally(() => {
-      //     this.isSaving = false;
-      //     this.onReset();
-      //   });
     },
     getStretchies(params) {
-      const endpoint = this.hasOrderId ? "" : "";
+      const endpoint = this.hasOrderId ? "/logistic" : "";
       const options = {};
       options.params = params;
-
-      // fetch(endpoint ,options)
-      //   .then(response => response.json())
-      //   .then(result => {
-      //     this.data = [];
-      //   if (data.length) {
-      //     for (let index in data) {
-      //       this.data.push({
-      //         trechostatus: null,
-      //         shippingDateForecast: null,
-      //         arrivalDateForecast: null,
-      //         originType: null,
-      //         originRegion: null,
-      //         originState: null,
-      //         originCity: null,
-      //         provider: null,
-      //         originAdress: null,
-      //         originCityMeeting: null,
-      //         destinationType: null,
-      //         destinationRegion: null,
-      //         destinationState: null,
-      //         destinationCity: null,
-      //         destinationProvider: null,
-      //         destinationAdress: null,
-      //         destinationCityMeeting: null,
-      //         providerAddress: null,
-      //         locator: null,
-      //         releaseCar: null,
-      //         soldValue: null,
-      //         paidValue: null,
-      //         providerBalance: null,
-      //         providerStatus: null,
-      //         carParkDate: null,
-      //         providerShippingDate: null,
-      //         elapsedWorkingDays: null,
-      //         termContract: null,
-      //         deliveryBaseTax: null,
-      //         deliveryBaseTaxValue: null,
-      //         taxSoldValue: null,
-      //         dealedValue: null,
-      //         paymentProvisionDate: null,
-      //         paymentMade: null,
-      //         balance: null,
-      //         notes: null,
-      //         shippingDate: null,
-      //       });
-      //     }
-      //   }
-      // })
-      // .finally(() => {
-      //   this.isSaving = false;
-      // });
+      return this.api
+        .private(endpoint,  options )
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+            total: result["hydra:totalItems"],
+          };
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: this.$t(error.message),
+            position: "bottom",
+            type: "negative",
+          });
+        })
+      .finally(() => {
+        this.isSaving = false;
+      });
     },
     onRequest(props) {
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
         props.pagination;
-      let filter = props.filter;
-      let params = { itemsPerPage: rowsPerPage, page };
+      // let params = { itemsPerPage: rowsPerPage, page };
+      let params = {};
 
       if(!this.hasOrderId && this.filters.order != null) {
         params["order"] = this.filters.order;
@@ -1677,24 +1176,68 @@ export default {
       if (this.filters.status != null && this.filters.status != "Todos") {
         params["status"] = this.filters.status
       }
-      params.fromDate = this.formatDate(this.filters.from) || "";
-      params.toDate = this.formatDate(this.filters.to) || "";
+
+      if (this.filters.from != null) {
+        params.fromDate = this.buildAmericanDate(this.filters.from);
+      }
+
+      if (this.filters.to != null) {
+        params.toDate = this.buildAmericanDate(this.filters.to)
+      }
 
       if (this.filters.company != null) {
         params["myCompany"] = this.filters.company.id;
       }
 
-      this.getStretchies(params).then(() => {
-        this.pagination.page = page;
-        this.pagination.rowsPerPage = rowsPerPage;
-        this.pagination.sortBy = sortBy;
-        this.pagination.descending = descending;
-      });
+      this.getStretchies(params).then((data) => {
+        this.data = [];
+        if (data.members) {
+          for (let index in data.members) {
+            let originType = '';
+            
+            if (data.members[index].originType == 'b')
+              originType = "Base";
+
+            if (data.members[index].originType == 'c')
+              originType = "Coleta";
+            this.data.push({
+              id: data.members[index].id,
+              status: data.members[index].status.status,
+              shippingDate: data.members[index].shippingDate,
+              arrivalDate: data.members[index].arrivalDate,
+              originType: originType,
+              originRegion: data.members[index].originRegion,
+              originState: data.members[index].originState,
+              provider: data.members[index].provider.alias,
+              originCity: data.members[index].originCity,
+              originAdress: data.members[index].originAdress,
+              value: data.members[index].value,
+            })
+          }
+        }
+        // console.log(data)
+        // this.pagination.page = page;
+        // this.pagination.rowsPerPage = rowsPerPage;
+        // this.pagination.sortBy = sortBy;
+        // this.pagination.descending = descending;
+      })
+      .catch((error) => {
+          this.$q.notify({
+            message: this.$t(error.message),
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally(() => {
+          this.isSaving = false;
+        });
     },
   },
 };
 </script>
 
 <style>
-
+.table-container {
+  overflow-x: scroll;
+}
 </style>

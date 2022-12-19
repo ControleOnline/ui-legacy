@@ -1,9 +1,9 @@
 <template>
   
 
-  <div class="">
+  <div class="order-detail">
     
-    <StretchTable :orderId="orderId"></StretchTable>
+    <StretchTable :orderId="orderId" :orderPrice="orderPrice"></StretchTable>
 
   </div>
 
@@ -32,7 +32,8 @@ import fetch from '@controleonline/quasar-common-ui/src/utils/fetch';
       StretchTable,
     },
     props:{
-      orderId: Number
+      orderId: Number,
+      orderPrice: Number,
     },
   
     data() {

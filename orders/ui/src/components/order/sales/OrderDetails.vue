@@ -345,7 +345,7 @@
             </q-tab-panel>
 
             <q-tab-panel name="logistica" class="q-pa-none">
-              <OrderDetailLogistics :total_packages="total_packages" :orderId="orderId" :status="status"
+              <OrderDetailLogistics :total_packages="total_packages" :orderId="orderId" :orderPrice="price" :status="status"
                 :integrationType="integrationType" />
             </q-tab-panel>
 

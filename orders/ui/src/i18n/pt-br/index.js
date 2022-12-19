@@ -31,4 +31,14 @@ export const translate = {
       'pending': "Aguardando Documentação"
     },
   },
+  logistic:{
+    statuses: {
+      'open' : 'Aberto',
+      'waiting' : 'Aguardando',
+    },
+    types: {
+      'b' : 'Base',
+      'c' : 'Coleta',
+    }
+  }
 }
