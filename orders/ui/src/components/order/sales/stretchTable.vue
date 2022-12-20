@@ -13,10 +13,10 @@
 
     <!-- Filtros -->
     <div>
-      <div class="row items-end q-col-gutter-x-md">
-
-        <div v-if="!hasOrderId" class="col-sm-3 col-xs-12">
+      <div v-if="!hasOrderId" class="row items-center q-col-gutter-x-md">
+        <div class="col-sm-3 col-xs-12 q-pb-sm">
           <q-input
+            dense
             outlined
             stack-label
             label="Pedido"
@@ -38,7 +38,7 @@
               @selected="onSelectOriginProviderFilter" placeholder="Pesquisar..." />
         </div>
         <div class="col-sm-3 col-xs-12 q-pb-sm">
-          <q-select outlined stack-label label="Status" v-model="filters.status" :options="statusOptions"
+          <q-select dense outlined stack-label label="Status" v-model="filters.status" :options="statusOptions"
             :loading="loadingStatuses">
             <template v-slot:no-option>
               <q-item>
@@ -52,7 +52,8 @@
         <div class="col-sm-6 col-xs-12">
           <DataFilter style="justify-content:flex-start" :fromDate="filters.dateFrom" :toDate="filters.dateTo" :showButton="false" @dateChanged="dateChanged" />
         </div>
-        <div class="flex justify-end col-sm-6 col-xs-12 q-pb-md">
+      </div>
+        <div class="flex justify-end col-sm-6 col-xs-12 q-pb-sm">
           <q-btn
             v-if="hasOrderId"
             class=""
@@ -61,7 +62,6 @@
             @click="addModal = true"
           ></q-btn>
         </div>
-      </div>
     </div>
     <!-- Filtros Fim -->
 
@@ -202,6 +202,7 @@
 
                 <div class="row col-12 q-gutter-sm">
                     <q-select
+                      dense
                       class="col-12 flex items-end"
                       outlined
                       stack-label
@@ -214,6 +215,7 @@
                 <div class="row col-12 q-gutter-sm">
                   <div class="col-3">
                     <q-select
+                      dense
                       outlined
                       stack-label
                       label="Tipo"
@@ -233,8 +235,8 @@
                       />
                     </div>
                   </div>
-                  <div class="col-xs-12 col-sm-4 col-md-12">
-                    <PeopleAutocomplete v-if="trecho.originType == 'Base'" :source="searchPeople" :isLoading="isSearching" label="Fornecedor"
+                  <div v-if="trecho.originType == 'Base'" class="col-xs-12 col-sm-4 col-md-12">
+                    <PeopleAutocomplete :source="searchPeople" :isLoading="isSearching" label="Fornecedor"
                       @selected="onSelectOriginProvider" placeholder="Pesquisar..." />
                   </div>
                 </div>
@@ -242,6 +244,7 @@
                 <div class="row col-12 q-gutter-sm">
                   <div class="col-12">
                     <q-input
+                      dense
                       type="date"
                       outlined
                       stack-label
@@ -282,6 +285,7 @@
                 <div class="row col-12 q-gutter-sm">
                   <div class="col-12">
                     <q-input
+                      dense
                       outlined
                       readonly
                       stack-label
@@ -292,6 +296,7 @@
 
                   <div class="col-4">
                       <q-input
+                        dense
                         outlined
                         readonly
                         stack-label
@@ -303,6 +308,7 @@
                   <div class="col-5">
                     <q-input
                       v-if="trecho.originType != 'Coleta' && trecho.originRegion != null"
+                      dense
                       outlined
                       readonly
                       stack-label
@@ -313,6 +319,7 @@
                   <div class="col-2">
                     <q-input
                       v-if="trecho.originType != 'Coleta' && trecho.originState != null"
+                      dense
                       outlined
                       readonly
                       stack-label
@@ -325,6 +332,7 @@
                     <div class="col-xs-12 col-sm-6">
                       <q-input 
                         v-if="trecho.originType == 'Base'" 
+                        dense
                         outlined
                         stack-label
                         readonly
@@ -347,6 +355,7 @@
                 <div class="row col-12 q-gutter-sm">
                   <div class="col-12">
                     <q-input
+                      dense
                       type="date"
                       outlined
                       stack-label
@@ -357,6 +366,7 @@
 
                   <div class="col-12">
                     <q-input
+                      dense
                       type="date"
                       outlined
                       stack-label
@@ -1151,6 +1161,7 @@ export default {
       });
     },
     onRequest(props) {
+      console.log('entrou')
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
         props.pagination;
       // let params = { itemsPerPage: rowsPerPage, page };
@@ -1208,7 +1219,7 @@ export default {
               originType: originType,
               originRegion: data.members[index].originRegion,
               originState: data.members[index].originState,
-              provider: data.members[index].provider.alias,
+              provider: data.members[index].provider == null ? null : data.members[index].provider.alias,
               originCity: data.members[index].originCity,
               originAdress: data.members[index].originAdress,
               value: data.members[index].value,
@@ -1230,6 +1241,7 @@ export default {
         })
         .finally(() => {
           this.isSaving = false;
+          console.log(this.data)
         });
     },
   },
