@@ -15,9 +15,9 @@ export const routes = [
                 component: () => import('../pages/Orders/Sales/Order.vue')
             },
             {
-                name: 'stretchSearching',
+                name: 'StretchSearching',
                 path: 'stretchSearching',
-                component: () => import('../pages/Orders/Sales/searching.vue')
+                component: () => import('../pages/Orders/Sales/OrderLogisticSearching.vue')
             },
         ]
     },

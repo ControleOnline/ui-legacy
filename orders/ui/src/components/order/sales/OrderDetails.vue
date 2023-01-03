@@ -225,6 +225,42 @@
                     #{{ this.invoiceTax ? this.invoiceTax.invoiceNumber : "-" }}
                   </td>
                 </tr>
+                <tr>
+                  <td class="text-left text-bold">
+                    Entrada no pátio
+                    <q-btn
+                      v-if="editParkingDate == true"
+                      size="0.8em"
+                      dense
+                      flat
+                      color="positive"
+                      icon="done"
+                      @click="saveParkingDate()"
+                    ></q-btn>
+                    <q-btn
+                      size="0.8em"
+                      dense
+                      flat
+                      :color="editParkingDate ? 'negative' : 'primary'"
+                      :icon="editParkingDate ? 'close' : 'edit'"
+                      @click="toggleEditParkingDate()"
+                    ></q-btn>
+                  </td>
+                  <td v-if="editParkingDate == false" class="text-left">
+                    {{ this.parkingDate ? this.parkingDate : "-" }}
+                  </td>
+                  <td v-else class="text-left">
+                    <q-form ref="myForm">
+                      <q-input
+                        dense
+                        flat
+                        type="date"
+                        v-model="parkingDate"
+                        :rules="[(val) => val != null]"
+                      ></q-input>
+                    </q-form>
+                  </td>
+                </tr>
               </tbody>
             </q-markup-table>
           </div>
@@ -442,6 +478,8 @@ export default {
       notFound: false,
       isLoading: false,
       isUpdating: false,
+      editParkingDate: false,
+      parkingDate: null,
     };
   },
 
@@ -479,11 +517,18 @@ export default {
       remakeOrder: "salesOrder/remakeOrder",
       getStatus: "salesOrder/getDetailStatus",
       updateStatus: "salesOrder/updateStatus",
+      updateParkingDate: "salesOrder/updateParkingDate",
       updateDeadline: "salesOrder/updateDeadline",
       choose: "quote/choose_quote",
       email: "people/email",
       contact: "people/createContact",
     }),
+    toggleEditParkingDate() {
+      if (this.editParkingDate) {
+        this.parkingDate = null;
+      }
+      this.editParkingDate = !this.editParkingDate;
+    },
     formatDate(date) {
       return formatDateYmdTodmY(date, true);
     },
@@ -976,6 +1021,50 @@ export default {
 
           this.isUpdating = false;
         });
+    },
+    saveParkingDate(input) {
+
+      this.$refs.myForm.validate().then(success => {
+        if (success) {
+          let params = {
+            myCompany: this.myCompany.id,
+          };
+          this.isUpdating = true;
+          this.updateParkingDate({
+            id: this.orderId,
+            newParkingDate: this.parkingDate,
+            params,
+          })
+            .then(data => {
+              if (data["@id"]) {
+                this.$q.notify({
+                  message: "A data foi atualizada",
+                  position: "bottom",
+                  type: "positive",
+                });
+              } else {
+                this.$q.notify({
+                  message: "A data não pode ser atualizada",
+                  position: "bottom",
+                  type: "negative",
+                });
+              }
+            })
+            .catch((error) => {
+              this.$q.notify({
+                message: "A data não pode ser atualizada",
+                position: "bottom",
+                type: "negative",
+              });
+            })
+            .finally(() => {
+              this.isUpdating = false;
+              this.editParkingDate = false;
+            });
+        }
+      });
+
+      
     },
   },
 };

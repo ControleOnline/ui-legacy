@@ -220,6 +220,24 @@ export const updateDeadline = ({ commit }, { id, newDeadline, params = {} }) => 
     });
 };
 
+export const updateParkingDate = ({ commit }, { id, newParkingDate, params = {} }) => {
+  let options = {
+    method: 'PUT',
+    body: JSON.stringify({ parkingDate: newParkingDate }),
+    params: params
+  };
+
+  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+
+  return fetch(`${RESOURCE_ENDPOINT}/${id}`, options)
+    .then(response => response.json())
+    .then(data => {
+
+      return data;
+
+    });
+};
+
 export const createNewLabelTag = ({ commit }, { id }) => {
 
   let options = {
