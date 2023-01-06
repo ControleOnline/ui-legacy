@@ -1916,7 +1916,7 @@ export default {
       if (stretch.destinationType == "Ponto de encontro")
         stretch.destinationType = "p";
 
-      stretch.inCharge = LocalStorage.getItem('session').people;
+      stretch.inCharge = "/people/" + LocalStorage.getItem('session').people;
       stretch.lastModified = this.lastModified();
 
       console.log(stretch)
