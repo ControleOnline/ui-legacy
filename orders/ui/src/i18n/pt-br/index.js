@@ -35,6 +35,15 @@ export const translate = {
     statuses: {
       'open' : 'Aberto',
       'waiting' : 'Aguardando',
+      'released to base' : 'Liberado para base',
+      'waiting client' : 'Aguardando cliente',
+      'parking' : 'Pátio',
+      'waiting for withdrawal' : 'Aguardando retirada',
+      'in transit' : 'Em trânsito',
+      'collection pending' : 'Pendente de coleta',
+      'boarding pending' : 'Pendente de embarque',
+      're-embark' : 'Reembarque',
+      'withdrawn' : 'Retirado',
     },
     types: {
       'b' : 'Base',

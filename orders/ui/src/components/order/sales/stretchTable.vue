@@ -109,6 +109,7 @@
     </div>
     <!-- Filtros Fim -->
 
+    <!-- Add Trecho -->
     <div>
       <q-card v-if="toggleAddStretch == true" class="row q-pa-md q-mb-xl">
         <q-form
@@ -145,7 +146,7 @@
                 ></q-select>
               </div>
 
-              <div class="col-5">
+              <div class="col-12">
                 <PeopleAutocomplete
                   :source="searchPeople"
                   :isLoading="isSearching"
@@ -155,7 +156,7 @@
                 />
               </div>
 
-              <div class="row col-5">
+              <div class="row col-12">
                 <div v-if="stretch.originType != 'Base'" class="col-12">
                   <ListAutocomplete
                     :source="getGeoPlaces"
@@ -166,14 +167,14 @@
                   />
                 </div>
                 <div v-if="stretch.originType == 'Base'" class="col-12">
-                  <q-input
+                  <q-select
+                    :options="originProviderAddressOptions"
                     dense
                     outlined
-                    readonly
                     stack-label
                     label="Endereço"
-                    v-model="stretch.originAdress"
-                  ></q-input>
+                    v-model="tempOriginAddressAdd"
+                  ></q-select>
                 </div>
               </div>
             </div>
@@ -195,7 +196,7 @@
                 ></q-select>
               </div>
 
-              <div class="col-5">
+              <div class="col-12">
                 <PeopleAutocomplete
                   :source="searchPeople"
                   :isLoading="isSearching"
@@ -205,7 +206,7 @@
                 />
               </div>
 
-              <div class="row col-5">
+              <div class="row col-12">
                 <div v-if="stretch.destinationType != 'Base'" class="col-12">
                   <ListAutocomplete
                     :source="getGeoPlaces"
@@ -216,14 +217,14 @@
                   />
                 </div>
                 <div v-if="stretch.destinationType == 'Base'" class="col-12">
-                  <q-input
+                  <q-select
+                    :options="destinationProviderAddressOptions"
                     dense
                     outlined
-                    readonly
                     stack-label
                     label="Endereço"
-                    v-model="stretch.destinationAdress"
-                  ></q-input>
+                    v-model="tempDestinationAddressAdd"
+                  ></q-select>
                 </div>
               </div>
             </div>
@@ -278,6 +279,7 @@
         </q-form>
       </q-card>
     </div>
+    <!-- Add Trecho Fim -->
 
     <!-- Tabela-->
     <div class="q-mt-none">
@@ -330,7 +332,7 @@
             <q-td :props="props" key="IdPedido">
               {{ props.row.orderId }}
             </q-td>
-            <q-td :props="props" key="stretchstatus">
+            <q-td :props="props" key="stretchstatus" :style="{color: getStatusColor(props.row.status)}">
               {{ props.row.status }}
             </q-td>
             <q-td :props="props" key="OrigemTipo">
@@ -365,6 +367,9 @@
             </q-td>
             <q-td :props="props" key="DestinoEndereco">
               {{ props.row.destinationAdress }}
+            </q-td>
+            <q-td :props="props" key="DestinoFornecedor">
+              {{ props.row.destinationProvider }}
             </q-td>
             <q-td :props="props" key="Valor">
               {{ formatMoney(props.row.price) }}
@@ -437,183 +442,6 @@
       </q-table>
     </div>
     <!-- Tabela Fim -->
-
-    <!-- Modal Novo-->
-    <div>
-      <q-dialog v-model="addModal" auto-width>
-        <q-card class="q-pa-md">
-          <q-form
-            class="row flex q-gutter-y-md"
-            ref="myForm"
-            @submit="onSubmit"
-          >
-            <div class="row col-12 q-gutter-sm">
-              <q-select
-                dense
-                class="col-12 flex items-end"
-                outlined
-                stack-label
-                label="Status"
-                :options="statusOptions"
-                v-model="stretch.status"
-                :rules="[(val) => val != null || 'Preencha o campo']"
-              ></q-select>
-            </div>
-
-            <!-- Origem -->
-            <div class="col-5 q-mr-xl">
-              <span class="label">Origem</span>
-              <div class="row col-12 q-gutter-sm">
-                <div class="col-12">
-                  <q-select
-                    dense
-                    outlined
-                    stack-label
-                    label="Tipo"
-                    :options="originTypeOptions"
-                    v-model="stretch.originType"
-                    :rules="[(val) => val != null || 'Preencha o campo']"
-                  ></q-select>
-                </div>
-
-                <div class="col-12">
-                  <PeopleAutocomplete
-                    :source="searchPeople"
-                    :isLoading="isSearching"
-                    label="Fornecedor"
-                    @selected="onSelectOriginPeople"
-                    placeholder="Pesquisar..."
-                  />
-                </div>
-
-                <div class="row col-12">
-                  <div v-if="stretch.originType != 'Base'" class="col-12">
-                    <ListAutocomplete
-                      :source="getGeoPlaces"
-                      :isLoading="isSearching"
-                      label="Busca de endereço"
-                      @selected="onSelectOrigin"
-                      placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                    />
-                  </div>
-                  <div v-if="stretch.originType == 'Base'" class="col-12">
-                    <q-input
-                      dense
-                      outlined
-                      readonly
-                      stack-label
-                      label="Endereço"
-                      v-model="stretch.originAdress"
-                    ></q-input>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Destino -->
-            <div class="col-5">
-              <span class="label">Destino</span>
-              <div class="row col-12 q-gutter-sm">
-                <div class="col-12">
-                  <q-select
-                    dense
-                    outlined
-                    stack-label
-                    label="Tipo destino"
-                    :options="destinationTypeOptions"
-                    v-model="stretch.destinationType"
-                    :rules="[(val) => val != null || 'Preencha o campo']"
-                  ></q-select>
-                </div>
-
-                <div class="col-12">
-                  <PeopleAutocomplete
-                    :source="searchPeople"
-                    :isLoading="isSearching"
-                    label="Fornecedor"
-                    @selected="onSelectDestinationPeople"
-                    placeholder="Pesquisar..."
-                  />
-                </div>
-
-                <div class="row col-12">
-                  <div v-if="stretch.destinationType != 'Base'" class="col-12">
-                    <ListAutocomplete
-                      :source="getGeoPlaces"
-                      :isLoading="isSearching"
-                      label="Busca de endereço"
-                      @selected="onSelectDestination"
-                      placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                    />
-                  </div>
-                  <div v-if="stretch.destinationType == 'Base'" class="col-12">
-                    <q-input
-                      dense
-                      outlined
-                      readonly
-                      stack-label
-                      label="Endereço"
-                      v-model="stretch.destinationAdress"
-                    ></q-input>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12">
-              <q-input
-                dense
-                type="number"
-                outlined
-                stack-label
-                label="Valor"
-                v-model="stretch.price"
-                :rules="[(val) => val != null || 'Preencha o campo']"
-              ></q-input>
-            </div>
-
-            <div class="row col-12 q-gutter-sm">
-              <div class="col-5">
-                <q-input
-                  dense
-                  type="date"
-                  outlined
-                  stack-label
-                  label="Embarque"
-                  v-model="stretch.shippingDate"
-                  :rules="[(val) => val != null || 'Preencha o campo']"
-                ></q-input>
-              </div>
-              <div class="col-5">
-                <q-input
-                  dense
-                  type="date"
-                  outlined
-                  stack-label
-                  label="Chegada"
-                  v-model="stretch.arrivalDate"
-                ></q-input>
-              </div>
-            </div>
-
-            <div class="col-12 q-gutter-sm flex justify-end">
-              <q-btn
-                color="positive"
-                label="Salvar"
-                @click="onSubmit()"
-              ></q-btn>
-              <q-btn
-                color="negative"
-                label="Cancelar"
-                v-close-popup
-                @click="onReset"
-              ></q-btn>
-            </div>
-          </q-form>
-        </q-card>
-      </q-dialog>
-    </div>
-    <!-- Modal Novo Fim -->
 
     <!-- Modal Edit-->
     <div>
@@ -1260,6 +1088,13 @@ const SETTINGS = {
       format: (val) => `${val}`,
     },
     {
+      name: "DestinoFornecedor",
+      label: "Fornecedor de destino",
+      align: "center",
+      field: (row) => row.destinationProvider,
+      format: (val) => `${val}`,
+    },
+    {
       name: "Valor",
       label: "Valor",
       align: "center",
@@ -1343,6 +1178,8 @@ export default {
       tempAdress: {},
       tempDestinationAdress: {},
       tempDestinationProvider: {},
+      tempOriginAddressAdd: null,
+      tempDestinationAddressAdd: null,
       editAdress: false,
       editProvider: false,
       editDestinationAdress: false,
@@ -1375,6 +1212,8 @@ export default {
         "Pátio",
       ],
       statusOptions: [],
+      originProviderAddressOptions: [],
+      destinationProviderAddressOptions: [],
       filterStatusOptions: [],
       originTypeOptions: ["Coleta", "Base", "Ponto de encontro"],
       destinationTypeOptions: ["Entrega", "Base", "Ponto de encontro"],
@@ -1504,6 +1343,27 @@ export default {
     addModal() {
       if (this.addModal == false) this.deliveryBaseTax = null;
     },
+    editModal() {
+      if (this.editModal == false) this.onReset();
+    },
+    "tempOriginAddressAdd"(address) {
+      console.log('endereco')
+      console.log(address)
+      this.stretch.originRegion = address.value.region
+      this.stretch.originState = address.value.state
+      this.stretch.originCity = address.value.city
+      this.stretch.originAdress= address.label
+      console.log(this.stretch)
+    },
+    "tempDestinationAddressAdd"(address) {
+      console.log('endereco')
+      console.log(address)
+      this.stretch.destinationRegion = address.value.region
+      this.stretch.destinationState = address.value.state
+      this.stretch.destinationCity = address.value.city
+      this.stretch.destinationAdress= address.label
+      console.log(this.stretch)
+    },
   },
 
   methods: {
@@ -1568,7 +1428,7 @@ export default {
       });
     },
     onSelectOrigin(item) {
-      this.getOriginRegion(item);
+      this.stretch.originRegion = this.getRegion(item.state);
       this.stretch.originState = item.state;
       this.stretch.originCity = item.city;
       this.stretch.originAdress = item.description;
@@ -1579,7 +1439,7 @@ export default {
       this.tempAdress.city = this.stretch.originCity;
       this.tempAdress.adress = this.stretch.originAdress;
 
-      this.getOriginRegion(item);
+      this.stretch.originRegion = this.getRegion(item.state);
       this.stretch.originState = item.state;
       this.stretch.originCity = item.city;
       this.stretch.originAdress = item.description;
@@ -1587,10 +1447,10 @@ export default {
     onSelectOriginCity(item) {
       this.stretch.originCityMeeting = item.city;
       this.stretch.originState = item.state;
-      this.getOriginRegion(item);
+      this.stretch.originRegion = this.getRegion(item.state);
     },
     onSelectDestination(item) {
-      this.getDestinationRegion(item);
+      this.getRegion(item.state);
       this.stretch.destinationState = item.state;
       this.stretch.destinationCity = item.city;
       this.stretch.destinationAdress = item.description;
@@ -1598,7 +1458,7 @@ export default {
     onSelectDestinationCity(item) {
       this.stretch.destinationCityMeeting = item.city;
       this.stretch.destinationState = item.state;
-      this.getDestinationRegion(item);
+      this.getRegion(item.state);
     },
     onSelectOriginPeople(item) {
       this.stretch.provider = {
@@ -1608,20 +1468,27 @@ export default {
       if (this.stretch.originType == "Base") {
         this.getProviderAddress(item.id).then((data) => {
           if (data != null) {
-            let address = data[0];
-            let country =
-              address.street.district.city.state.country.countryname || "";
-            let state = address.street.district.city.state.uf || "";
-            let region = this.getOriginRegion(state) || "";
-            let city = address.street.district.city.city || "";
-            let district = address.street.district.district || "";
-            let cep = address.street.cep.cep || "";
-            let street = address.street.street || "";
-            let number = address.number || "";
-            let complement = address.complement || "";
-            let formatedAddress = `${street}, ${number}, ${complement} - ${district}, ${cep}, ${city} ${state}, ${country}`;
-
-            this.stretch.originAdress = formatedAddress;
+            this.originProviderAddressOptions = [];
+            
+            for (let index in data) {
+              let address = {};
+              address.country =
+                data[index].street.district.city.state.country.countryname || "";
+              address.state = data[index].street.district.city.state.uf || "";
+              address.region = this.getRegion(address.state) || "";
+              address.city = data[index].street.district.city.city || "";
+              address.district = data[index].street.district.district || "";
+              address.cep = data[index].street.cep.cep || "";
+              address.street = data[index].street.street || "";
+              address.number = data[index].number || "";
+              address.complement = data[index].complement || "";
+              let formatedAddress = `${address.street}, ${address.number}, ${address.complement} - ${address.district}, ${address.cep}, ${address.city} ${address.state}, ${address.country}`;
+      
+              this.originProviderAddressOptions.push({
+                label: formatedAddress,
+                value: address,
+              });
+            }
           }
         });
       }
@@ -1641,20 +1508,27 @@ export default {
       if (this.stretch.destinationType == "Base") {
         this.getProviderAddress(item.id).then((data) => {
           if (data != null) {
-            let address = data[0];
-            let country =
-              address.street.district.city.state.country.countryname || "";
-            let state = address.street.district.city.state.uf || "";
-            let region = this.getOriginRegion(state) || "";
-            let city = address.street.district.city.city || "";
-            let district = address.street.district.district || "";
-            let cep = address.street.cep.cep || "";
-            let street = address.street.street || "";
-            let number = address.number || "";
-            let complement = address.complement || "";
-            let formatedAddress = `${street}, ${number}, ${complement} - ${district}, ${cep}, ${city} ${state}, ${country}`;
-
-            this.stretch.destinationAdress = formatedAddress;
+            this.destinationProviderAddressOptions = [];
+            
+            for (let index in data) {
+              let address = {};
+              address.country =
+                data[index].street.district.city.state.country.countryname || "";
+              address.state = data[index].street.district.city.state.uf || "";
+              address.region = this.getRegion(address.state) || "";
+              address.city = data[index].street.district.city.city || "";
+              address.district = data[index].street.district.district || "";
+              address.cep = data[index].street.cep.cep || "";
+              address.street = data[index].street.street || "";
+              address.number = data[index].number || "";
+              address.complement = data[index].complement || "";
+              let formatedAddress = `${address.street}, ${address.number}, ${address.complement} - ${address.district}, ${address.cep}, ${address.city} ${address.state}, ${address.country}`;
+      
+              this.destinationProviderAddressOptions.push({
+                label: formatedAddress,
+                value: address,
+              });
+            }
           }
         });
       }
@@ -1758,19 +1632,17 @@ export default {
       //if (date >= today)
       return true;
     },
-    getOriginRegion(locale) {
+    getRegion(locale) {
+      console.log(locale)
+      console.log('1')
       let states = this.collectionStateOptions;
       for (let index in states) {
-        if (states[index][1] == locale.state) {
-          this.stretch.originRegion = states[index][2];
+        console.log('2')
+        if (states[index][1] == locale) {
+          console.log('3')
+          return states[index][2];
+          // return 'retorno'
         }
-      }
-    },
-    getDestinationRegion(locale) {
-      let states = this.collectionStateOptions;
-      for (let index in states) {
-        if (states[index][1] == locale.state)
-          this.stretch.destinationRegion = states[index][2];
       }
     },
     onReset() {
@@ -1785,6 +1657,12 @@ export default {
       this.stretch.provider = null;
       this.stretch.originCity = null;
       this.stretch.originAdress = null;
+      this.stretch.originType = null;
+      this.stretch.destinationRegion = null;
+      this.stretch.destinationState = null;
+      this.stretch.destinationProvider = null;
+      this.stretch.destinationCity = null;
+      this.stretch.destinationAdress = null;
       this.stretch.price = null;
       this.stretch.order = null;
     },
@@ -1841,6 +1719,54 @@ export default {
           }
         });
     },
+    getStatusColor(status) {
+      let color = "";
+      switch (status) {
+        case "Aberto":
+          color = "#1282F1";
+          break;
+      
+        case "Reembarque":
+          color = "#1282F1";
+          break;
+      
+        case "Pátio":
+          color = "#1282F1";
+          break;
+      
+        case "Aguardando":
+          color = "#D9DE29";
+          break;
+      
+        case "Aguardando retirada":
+          color = "#D9DE29";
+          break;
+      
+        case "Em trânsito":
+          color = "#D9DE29";
+          break;
+      
+        case "Pendente de coleta":
+          color = "#D9DE29";
+          break;
+      
+        case "Pendente de embarque":
+          color = "#F0ED12";
+          break;
+      
+        case "Retirado":
+          color = "#2CF30D";
+          break;
+      
+        case "Liberado para Base":
+          color = "#2CF30D";
+          break;
+      
+        default:
+          break;
+      }
+      return color;
+    },
     cleanFilter() {
       this.filters.order = null;
       this.filters.origin = null;
@@ -1885,31 +1811,27 @@ export default {
       return formatMoney(value, "BRL", "pt-br");
     },
     lastModified() {
-      // TODO capturar usuario
-      let user = "";
       let date = new Date();
-      let modified = `${user} / ${this.buildAmericanDate(
+      let modified = this.buildAmericanDate(
         date.toLocaleDateString()
-      )}`;
+      );
 
       return modified;
     },
     finish(props) {
       let arrivalDate = this.buildAmericanDate(new Date().toLocaleDateString());
-      console.log("data");
-      console.log(props.row);
       this.stretch = structuredClone(props.row);
 
       this.selectedProvider = props.row.providerId;
       this.selectedDestinationProvider = props.row.destinationProviderId;
-      this.selectedStatus = this.statusOptions[1].value;
+      this.selectedStatus = this.statusOptions[10].value;
 
       this.stretch.shippingDate = this.formatDate(props.row.shippingDate);
       this.stretch.shippingDate = this.buildAmericanDate(
         this.stretch.shippingDate
       );
-      this.stretch.arrivalDate = arrivalDate;
-
+      this.stretch.arrivalDate = arrivalDate.toString();
+      console.log(arrivalDate)
       this.saveStretch();
     },
     getProviderAddress(providerId) {
@@ -1918,7 +1840,6 @@ export default {
         .then((response) => response.json())
         .then((result) => {
           let addresses = result.address;
-          console.log(result.address);
           if (result["@id"] && result.address.length > 0) {
             return addresses;
           } else {
@@ -1995,13 +1916,16 @@ export default {
       if (stretch.destinationType == "Ponto de encontro")
         stretch.destinationType = "p";
 
+      stretch.inCharge = LocalStorage.getItem('session').people;
+      stretch.lastModified = this.lastModified();
+
+      console.log(stretch)
+
       let options = {
         method: this.stretch.id == null ? "POST" : "PUT",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        headers: new Headers(),
         body: JSON.stringify(stretch),
       };
-      console.log(stretch);
-      console.log(options);
       this.api
         .private(endpoint, options)
         .then((response) => response.json())
@@ -2165,11 +2089,10 @@ export default {
                   data.members[index].lastModified == null
                     ? null
                     : data.members[index].lastModified,
-                // TODO capturar responsavel
                 inCharge:
                   data.members[index].inCharge == null
                     ? null
-                    : data.members[index].inCharge,
+                    : data.members[index].inCharge.name,
               });
             }
           }
