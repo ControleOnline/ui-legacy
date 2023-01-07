@@ -168,6 +168,7 @@
                 </div>
                 <div v-if="stretch.originType == 'Base'" class="col-12">
                   <q-select
+                    v-if="originProviderHasAddress"
                     :options="originProviderAddressOptions"
                     dense
                     outlined
@@ -175,6 +176,14 @@
                     label="Endereço"
                     v-model="tempOriginAddressAdd"
                   ></q-select>
+                  <ListAutocomplete
+                    v-else
+                    :source="getGeoPlaces"
+                    :isLoading="isSearching"
+                    label="Busca de endereço"
+                    @selected="onSelectOrigin"
+                    placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                  />
                 </div>
               </div>
             </div>
@@ -218,6 +227,7 @@
                 </div>
                 <div v-if="stretch.destinationType == 'Base'" class="col-12">
                   <q-select
+                    v-if="destinationProviderHasAddress"
                     :options="destinationProviderAddressOptions"
                     dense
                     outlined
@@ -225,6 +235,14 @@
                     label="Endereço"
                     v-model="tempDestinationAddressAdd"
                   ></q-select>
+                  <ListAutocomplete
+                    v-else
+                    :source="getGeoPlaces"
+                    :isLoading="isSearching"
+                    label="Busca de endereço"
+                    @selected="onSelectDestination"
+                    placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                  />
                 </div>
               </div>
             </div>
@@ -1170,6 +1188,8 @@ export default {
       editShippingTax: true,
       shippingTax: null,
       hasOrderId: null,
+      originProviderHasAddress: true,
+      destinationProviderHasAddress: true,
       toggleAddStretch: false,
       indexRowEdit: null,
       selectedStatus: null,
@@ -1468,6 +1488,7 @@ export default {
       if (this.stretch.originType == "Base") {
         this.getProviderAddress(item.id).then((data) => {
           if (data != null) {
+            this.originProviderHasAddress = true;
             this.originProviderAddressOptions = [];
             
             for (let index in data) {
@@ -1489,6 +1510,8 @@ export default {
                 value: address,
               });
             }
+          } else {
+            this.originProviderHasAddress = false;
           }
         });
       }
@@ -1508,6 +1531,7 @@ export default {
       if (this.stretch.destinationType == "Base") {
         this.getProviderAddress(item.id).then((data) => {
           if (data != null) {
+            this.destinationProviderHasAddress = true;
             this.destinationProviderAddressOptions = [];
             
             for (let index in data) {
@@ -1529,6 +1553,8 @@ export default {
                 value: address,
               });
             }
+          } else {
+            this.destinationProviderHasAddress = false;
           }
         });
       }
@@ -1658,6 +1684,7 @@ export default {
       this.stretch.originCity = null;
       this.stretch.originAdress = null;
       this.stretch.originType = null;
+      this.stretch.destinationType = null;
       this.stretch.destinationRegion = null;
       this.stretch.destinationState = null;
       this.stretch.destinationProvider = null;
@@ -1943,6 +1970,8 @@ export default {
               type: "negative",
             });
           }
+          this.onReset();
+          this.toggleAddStretch = false;
           return null;
         })
         .catch((error) => {
@@ -1954,7 +1983,6 @@ export default {
         })
         .finally(() => {
           this.isSaving = false;
-          //this.onReset();
           this.getValuesToLoad();
         });
     },
