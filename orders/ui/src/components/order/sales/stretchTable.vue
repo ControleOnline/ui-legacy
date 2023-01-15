@@ -117,6 +117,7 @@
           ref="myForm"
           @submit="onSubmit"
         >
+    
           <div class="row col-12 q-gutter-sm">
             <q-select
               dense
@@ -131,7 +132,7 @@
           </div>
 
           <!-- Origem -->
-          <div class="col-5 q-mr-xl">
+          <div class="col-5 q-mr-xl" v-if="isFirstStretch">
             <span class="label">Origem</span>
             <div class="row col-12 q-gutter-sm">
               <div class="col-12">
@@ -184,6 +185,77 @@
                     @selected="onSelectOrigin"
                     placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
                   />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Origem -->
+          <div class="col-5 q-mr-xl" v-if="!isFirstStretch">
+            <span class="label">Origem</span>
+            <div class="row col-12 q-gutter-sm">
+              <div class="col-12">
+                <q-select
+                  dense
+                  outlined
+                  stack-label
+                  label="Tipo"
+                  :options="originTypeOptions"
+                  v-model="stretch.originType"
+                  :rules="[(val) => val != null || 'Preencha o campo']"
+                ></q-select>
+              </div>
+
+              <div class="col-12">
+                <PeopleAutocomplete
+                  :source="searchPeople"
+                  :isLoading="isSearching"
+                  label="Fornecedor"
+                  @selected="onSelectOriginPeople"
+                  placeholder="Pesquisar..."
+                />
+              </div>
+
+              <div class="row col-12">
+                <div class="col-12">
+                  <q-input
+                    v-if="editAdress == false"
+                    dense
+                    outlined
+                    readonly
+                    stack-label
+                    label="Endereço"
+                    v-model="stretch.originAdress"
+                  >
+                    <template v-slot:append>
+                      <q-btn
+                        dense
+                        flat
+                        icon="edit"
+                        color="primary"
+                        @click="editAdress = true"
+                      ></q-btn>
+                    </template>
+                </q-input>
+                <div class="row flex items-center" v-if="editAdress == true">
+                    <ListAutocomplete
+                      class="col-11"
+                      :source="getGeoPlaces"
+                      :isLoading="isSearching"
+                      label="Busca de endereço"
+                      @selected="onSelectOriginEdit"
+                      placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                    />
+                    <div class="col-1">
+                      <q-btn
+                        dense
+                        flat
+                        icon="cancel"
+                        color="negative"
+                        @click="cancelEditAdress()"
+                      ></q-btn>
+                    </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -248,7 +320,16 @@
             </div>
           </div>
 
-          <div class="row col-12 q-mt-xl">
+          <div class="row col-12 q-mt-xl q-gutter-x-md">
+            <q-select
+              class="col-5"
+              dense
+              outlined
+              stack-label
+              label="Taxa"
+              :options="stretchValueOptions"
+              v-model="stretchValueSelected"
+            ></q-select>
             <q-input
               class="col-2"
               dense
@@ -258,6 +339,18 @@
               label="Valor"
               v-model="stretch.price"
               :rules="[(val) => val != null || 'Preencha o campo']"
+            ></q-input>
+          </div>
+
+          <div class="row col-12 q-mt-xl q-gutter-x-md">
+            <q-input
+              class="col-5"
+              dense
+              type="number"
+              outlined
+              stack-label
+              label="Valor Pago"
+              v-model="stretch.amountPaid"
             ></q-input>
           </div>
 
@@ -287,12 +380,12 @@
 
           <div class="col-12 q-gutter-sm flex justify-end">
             <q-btn color="positive" label="Salvar" @click="onSubmit()"></q-btn>
-            <q-btn
+            <!-- <q-btn
               color="negative"
               label="Limpar"
               v-close-popup
               @click="onReset"
-            ></q-btn>
+            ></q-btn> -->
           </div>
         </q-form>
       </q-card>
@@ -348,10 +441,10 @@
               {{ props.row.id }}
             </q-td>
             <q-td :props="props" key="IdPedido">
-              {{ props.row.orderId }}
+              {{ props.row.order }}
             </q-td>
-            <q-td :props="props" key="stretchstatus" :style="{color: getStatusColor(props.row.status)}">
-              {{ props.row.status }}
+            <q-td :props="props" key="stretchstatus" :style="{color: getStatusColor(props.row.status.label)}">
+              {{ props.row.status.label }}
             </q-td>
             <q-td :props="props" key="OrigemTipo">
               {{ props.row.originType }}
@@ -369,7 +462,7 @@
               {{ props.row.originAdress }}
             </q-td>
             <q-td :props="props" key="Fornecedor">
-              {{ props.row.provider }}
+              {{ props.row.provider ? props.row.provider.label : "" }}
             </q-td>
             <q-td :props="props" key="DestinoTipo">
               {{ props.row.destinationType }}
@@ -387,10 +480,13 @@
               {{ props.row.destinationAdress }}
             </q-td>
             <q-td :props="props" key="DestinoFornecedor">
-              {{ props.row.destinationProvider }}
+              {{ props.row.destinationProvider ? props.row.destinationProvider.label : "" }}
             </q-td>
             <q-td :props="props" key="Valor">
               {{ formatMoney(props.row.price) }}
+            </q-td>
+            <q-td :props="props" key="ValorPago">
+              {{ formatMoney(props.row.amountPaid) }}
             </q-td>
             <q-td :props="props" key="DataEmbarque">
               {{ formatDate(props.row.shippingDate) }}
@@ -399,7 +495,7 @@
               {{ formatDate(props.row.arrivalDate) }}
             </q-td>
             <q-td :props="props" key="UltimaModificacao">
-              {{ formatDate(props.row.lastModified) }}
+              {{ formatFullDateTime(props.row.lastModified, "DD/MM/YYYY") }}
             </q-td>
             <q-td :props="props" key="Responsavel">
               {{ props.row.inCharge }}
@@ -468,7 +564,6 @@
           <q-form
             class="row flex q-gutter-y-md"
             ref="myForm"
-            @submit="onSubmit"
           >
             <div class="row col-12 q-gutter-sm">
               <div class="col-12">
@@ -579,7 +674,7 @@
                       readonly
                       stack-la
                       label="Fornecedor'"
-                      v-model="stretch.provider"
+                      v-model="providerLabel"
                     >
                       <template v-slot:append>
                         <q-btn
@@ -725,7 +820,7 @@
                       readonly
                       stack-la
                       label="Fornecedor'"
-                      v-model="stretch.destinationProvider"
+                      v-model="destinationProviderLabel"
                     >
                       <template v-slot:append>
                         <q-btn
@@ -774,8 +869,18 @@
               <!-- Destino Fim -->
             </div>
 
-            <div class="col-12">
+            <div class="row col-12 q-gutter-x-sm">
+              <q-select
+              class="col-5"
+              dense
+              outlined
+              stack-label
+              label="Taxa"
+              :options="stretchValueOptions"
+              v-model="stretchValueSelected"
+            ></q-select>
               <q-input
+                class="col-3"
                 dense
                 type="number"
                 outlined
@@ -783,6 +888,18 @@
                 label="Valor"
                 v-model="stretch.price"
                 :rules="[(val) => val != null || 'Preencha o campo']"
+              ></q-input>
+            </div>
+
+            <div class="row col-12 q-gutter-x-sm">
+              <q-input
+                class="col-5"
+                dense
+                type="number"
+                outlined
+                stack-label
+                label="Valor Pago"
+                v-model="stretch.amountPaid"
               ></q-input>
             </div>
 
@@ -820,7 +937,6 @@
                 color="negative"
                 label="Cancelar"
                 v-close-popup
-                @click="onReset"
               ></q-btn>
             </div>
 
@@ -1001,7 +1117,7 @@
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
-import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { formatMoney, formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import DataFilter from "@controleonline/quasar-common-ui/src/components/common/DataFilter.vue";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/common/ListAutocomplete";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
@@ -1025,7 +1141,7 @@ const SETTINGS = {
       name: "IdPedido",
       label: "Id Pedido",
       align: "center",
-      field: (row) => row.orderId,
+      field: (row) => row.order,
       format: (val) => `${val}`,
     },
     {
@@ -1078,6 +1194,13 @@ const SETTINGS = {
       format: (val) => `${val}`,
     },
     {
+      name: "DestinoTipo",
+      label: "Destino Tipo",
+      align: "center",
+      field: (row) => row.destinationype,
+      format: (val) => `${val}`,
+    },
+    {
       name: "DestinoRegiao",
       label: "Destino Região",
       align: "center",
@@ -1120,6 +1243,13 @@ const SETTINGS = {
       format: (val) => `${val}`,
     },
     {
+      name: "ValorPago",
+      label: "Valor Pago",
+      align: "center",
+      field: (row) => row.amountPaid,
+      format: (val) => `${val}`,
+    },
+    {
       name: "DataEmbarque",
       label: "Data embarque",
       align: "right",
@@ -1136,7 +1266,7 @@ const SETTINGS = {
     {
       name: "UltimaModificacao",
       label: "Modificado",
-      align: "right",
+      align: "center",
       field: (row) => row.lastModified,
       format: (val) => `${val}`,
     },
@@ -1171,7 +1301,15 @@ export default {
   },
 
   created() {
+    if (this.defaultCompany.permissions) {
+      let permissions = this.defaultCompany.permissions;
+      this.isSuper = permissions.includes("super") ? true : false;
+    }
+
+    this.verifySuper();
+
     this.checkOrderId();
+
     if (this.myCompany !== null) {
       this.filters.company = this.myCompany;
       this.getValuesToLoad();
@@ -1188,6 +1326,8 @@ export default {
       editShippingTax: true,
       shippingTax: null,
       hasOrderId: null,
+      isSuper: null,
+      isFirstStretch: null,
       originProviderHasAddress: true,
       destinationProviderHasAddress: true,
       toggleAddStretch: false,
@@ -1204,25 +1344,29 @@ export default {
       editProvider: false,
       editDestinationAdress: false,
       editDestinationProvider: false,
-      stretch: {
-        id: null,
-        status: null,
-        shippingDate: null,
-        arrivalDate: null,
-        originType: null,
-        originRegion: null,
-        originState: null,
-        originCity: null,
-        originAdress: null,
-        provider: null,
-        destinationType: null,
-        destinationRegion: null,
-        destinationState: null,
-        destinationCity: null,
-        destinationAdress: null,
-        destinationProvider: null,
-        price: null,
-      },
+      stretch: {},
+      // stretch: {
+      //   id: null,
+      //   order: null,
+      //   status: null,
+      //   originType: null,
+      //   originRegion: null,
+      //   originState: null,
+      //   originCity: null,
+      //   originAdress: null,
+      //   provider: null,
+      //   destinationType: null,
+      //   destinationRegion: null,
+      //   destinationState: null,
+      //   destinationCity: null,
+      //   destinationAdress: null,
+      //   destinationProvider: null,
+      //   price: null,
+      //   shippingDate: null,
+      //   arrivalDate: null,
+      //   lastModified: null,
+      //   inCharge: null,
+      // },
       addModal: false,
       editModal: false,
       peopleOptions: ["Fornecedor 1", "Fornecedor 2", "Fornecedor 3"],
@@ -1232,6 +1376,8 @@ export default {
         "Pátio",
       ],
       statusOptions: [],
+      stretchValueOptions: [],
+      stretchValueSelected: null,
       originProviderAddressOptions: [],
       destinationProviderAddressOptions: [],
       filterStatusOptions: [],
@@ -1312,6 +1458,18 @@ export default {
       myCompany: "people/currentCompany",
       contact: "people/contact",
     }),
+
+    providerLabel() {
+      if (this.stretch.provider)
+        return this.stretch.provider.label;
+      return "";
+    },
+
+    destinationProviderLabel() {
+      if (this.stretch.destinationProvider)
+        return this.stretch.destinationProvider.label;
+      return "";
+    },
   },
 
   watch: {
@@ -1364,25 +1522,41 @@ export default {
       if (this.addModal == false) this.deliveryBaseTax = null;
     },
     editModal() {
-      if (this.editModal == false) this.onReset();
+      if (this.editModal == false)
+        this.onReset();
+    },
+    toggleAddStretch(value) {
+      if (value && !this.stretchValueOptions.length) {
+        this.$q.notify({
+          message: "O contrato não possui cotação para taxa do trecho",
+          position: "bottom",
+          type: "negative",
+        });
+      }
+
+      if (value && !this.isFirstStretch) {
+        let lastStretch = this.data[this.data.length-1];
+        this.stretch.originRegion = lastStretch.destinationRegion;
+        this.stretch.originState = lastStretch.destinationState;
+        this.stretch.originCity = lastStretch.destinationCity;
+        this.stretch.originAdress = lastStretch.destinationAdress;
+      }
     },
     "tempOriginAddressAdd"(address) {
-      console.log('endereco')
-      console.log(address)
       this.stretch.originRegion = address.value.region
       this.stretch.originState = address.value.state
       this.stretch.originCity = address.value.city
       this.stretch.originAdress= address.label
-      console.log(this.stretch)
     },
     "tempDestinationAddressAdd"(address) {
-      console.log('endereco')
-      console.log(address)
       this.stretch.destinationRegion = address.value.region
       this.stretch.destinationState = address.value.state
       this.stretch.destinationCity = address.value.city
       this.stretch.destinationAdress= address.label
-      console.log(this.stretch)
+    },
+    "stretchValueSelected"(value) {
+      if (value =! "SEM COTAÇÃO")
+        this.stretch.price = value.price
     },
   },
 
@@ -1481,10 +1655,7 @@ export default {
       this.getRegion(item.state);
     },
     onSelectOriginPeople(item) {
-      this.stretch.provider = {
-        value: item.id,
-        label: item.name,
-      };
+      this.stretch.provider = item.id;
       if (this.stretch.originType == "Base") {
         this.getProviderAddress(item.id).then((data) => {
           if (data != null) {
@@ -1518,16 +1689,11 @@ export default {
     },
     onSelectOriginPeopleEdit(item) {
       this.tempProvider.name = this.stretch.provider;
-      this.tempProvider.id = this.stretch.providerId;
-
-      this.stretch.provider = item.name;
-      this.selectedProvider = item.id;
+      this.tempProvider.id = this.stretch.provider.value;
+      this.stretch.provider = item.id;
     },
     onSelectDestinationPeople(item) {
-      this.stretch.destinationProvider = {
-        value: item.id,
-        label: item.name,
-      };
+      this.stretch.destinationProvider = item.id;
       if (this.stretch.destinationType == "Base") {
         this.getProviderAddress(item.id).then((data) => {
           if (data != null) {
@@ -1563,8 +1729,7 @@ export default {
       this.tempDestinationProvider.name = this.stretch.destinationProvider;
       this.tempDestinationProvider.id = this.stretch.destinationProviderId;
 
-      this.stretch.provider = item.name;
-      this.selectedDestinationProvider = item.id;
+      this.stretch.provider = item.id;
     },
     onSelectOriginFilter(item) {
       this.filters.origin = item.description;
@@ -1587,6 +1752,52 @@ export default {
     },
 
     // Auxiliares
+    verifySuper() {
+      if (!this.isSuper) {
+        let columnsName = ["Valor", "ValorPago"];
+        for (let i in columnsName) {
+          let column = SETTINGS.columns.find(x => x.name == columnsName[i]);
+          let position = SETTINGS.columns.indexOf(column);
+          SETTINGS.columns.splice(position, 1);
+        }
+      }
+    },
+    getquotationId(orderId) {
+
+      return this.api
+        .private(`/sales/orders/${orderId}/detail/summary`, {})
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.response.data.quotations.length) { // condicionar com length
+            let quotations = result.response.data.quotations;
+            // let quotationId = 29236;
+            for (let index in quotations) {
+              let quotationId = quotations[index].id;
+              this.getQuotationValues(quotationId);
+            }
+          } else {
+            this.stretchValueSelected = "SEM COTAÇÃO";
+          }
+        })
+    },
+    getQuotationValues(quotationId) {
+      return this.api
+        .private(`/quote_detail/${quotationId}`, {})
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.response.data.taxes.length) {
+            this.stretchValueOptions = [];
+            let taxes = result.response.data.taxes;
+            for (let index in taxes) {
+              this.stretchValueOptions.push({
+                label: taxes[index].name,
+                id: taxes[index].id,
+                price: taxes[index].total,
+              })
+            }
+          }
+        })
+    },
     checkOrderId() {
       this.hasOrderId = this.orderId ? true : false;
     },
@@ -1596,9 +1807,9 @@ export default {
       this.editDestinationAdress = false;
       this.editDestinationProvider = false;
       this.editModal = true;
-      this.selectedProvider = props.row.providerId;
-      this.selectedDestinationProvider = props.row.destinationProviderId;
-      this.selectedStatus = props.row.statusId;
+      if (!this.orderId)
+        this.getquotationId(props.row.order)
+
       this.stretch = structuredClone(props.row);
       this.stretch.shippingDate = this.formatDate(this.stretch.shippingDate);
       this.stretch.shippingDate = this.buildAmericanDate(
@@ -1659,15 +1870,10 @@ export default {
       return true;
     },
     getRegion(locale) {
-      console.log(locale)
-      console.log('1')
       let states = this.collectionStateOptions;
       for (let index in states) {
-        console.log('2')
         if (states[index][1] == locale) {
-          console.log('3')
           return states[index][2];
-          // return 'retorno'
         }
       }
     },
@@ -1677,21 +1883,26 @@ export default {
       this.stretch.status = null;
       this.stretch.shippingDate = null;
       this.stretch.arrivalDate = null;
-      this.stretch.originType = null;
-      this.stretch.originRegion = null;
-      this.stretch.originState = null;
-      this.stretch.provider = null;
-      this.stretch.originCity = null;
-      this.stretch.originAdress = null;
-      this.stretch.originType = null;
+      if (this.isFirstStretch) {
+        this.stretch.originType =  null;
+        this.stretch.originRegion = null;
+        this.stretch.originState = null;
+        this.stretch.provider = null;
+        this.stretch.originCity = null;
+        this.stretch.originAdress = null;
+        this.stretch.originType = null;
+      }
       this.stretch.destinationType = null;
       this.stretch.destinationRegion = null;
       this.stretch.destinationState = null;
       this.stretch.destinationProvider = null;
       this.stretch.destinationCity = null;
       this.stretch.destinationAdress = null;
-      this.stretch.price = null;
+      this.stretch.amountPaid = null;
       this.stretch.order = null;
+    },
+    formatFullDateTime(date) {
+      return formatDateYmdTodmY(date, true);
     },
     formatDate(dateString) {
       if (dateString)
@@ -1714,6 +1925,24 @@ export default {
         return null;
       }
       return formatedDate;
+    },
+    padTo2Digits(num) {
+      return num.toString().padStart(2, '0');
+    },
+    formatDateTime(date) {
+      return (
+        [
+          date.getFullYear(),
+          this.padTo2Digits(date.getMonth() + 1),
+          this.padTo2Digits(date.getDate()),
+        ].join('-') +
+        ' ' +
+        [
+          this.padTo2Digits(date.getHours()),
+          this.padTo2Digits(date.getMinutes()),
+          this.padTo2Digits(date.getSeconds()),
+        ].join(':')
+      );
     },
     getStatuses() {
       const endpoint = "statuses";
@@ -1769,6 +1998,10 @@ export default {
           color = "#D9DE29";
           break;
       
+        case "Aguardando cliente":
+          color = "#D9DE29";
+          break;
+      
         case "Em trânsito":
           color = "#D9DE29";
           break;
@@ -1785,7 +2018,7 @@ export default {
           color = "#2CF30D";
           break;
       
-        case "Liberado para Base":
+        case "Liberado para base":
           color = "#2CF30D";
           break;
       
@@ -1839,26 +2072,25 @@ export default {
     },
     lastModified() {
       let date = new Date();
-      let modified = this.buildAmericanDate(
-        date.toLocaleDateString()
-      );
-
+      let modified = this.formatDateTime(date);
       return modified;
     },
     finish(props) {
+      console.log('finish')
+      console.log(this.statusOptions[10].value)
       let arrivalDate = this.buildAmericanDate(new Date().toLocaleDateString());
       this.stretch = structuredClone(props.row);
-
+      
       this.selectedProvider = props.row.providerId;
       this.selectedDestinationProvider = props.row.destinationProviderId;
-      this.selectedStatus = this.statusOptions[10].value;
-
+      this.stretch.status = this.statusOptions[10];
+      
       this.stretch.shippingDate = this.formatDate(props.row.shippingDate);
       this.stretch.shippingDate = this.buildAmericanDate(
         this.stretch.shippingDate
-      );
-      this.stretch.arrivalDate = arrivalDate.toString();
-      console.log(arrivalDate)
+        );
+        this.stretch.arrivalDate = arrivalDate.toString();
+      console.log(this.stretch)
       this.saveStretch();
     },
     getProviderAddress(providerId) {
@@ -1889,6 +2121,9 @@ export default {
     getValuesToLoad() {
       this.onRequest({ pagination: this.pagination });
       this.getStatuses();
+      if (this.orderId)
+        this.getquotationId(this.orderId);
+  
       this.isLoading = true;
     },
 
@@ -1901,60 +2136,58 @@ export default {
       });
     },
     saveStretch() {
+      console.log('saveStretch')
+      console.log(this.stretch)
+      let stretch = structuredClone(this.stretch)
       this.addModal = false;
       this.editModal = false;
-
-      let endpoint =
-        this.stretch.id == null
-          ? `/order_logistics`
-          : `/order_logistics/${this.stretch.id}`;
-
-      let stretch = structuredClone(this.stretch);
-
-      if (this.stretch.id) {
-        stretch.status = "/statuses/" + this.selectedStatus;
-        stretch.provider = "/people/" + this.selectedProvider;
-        stretch.destinationProvider =
-          "/people/" + this.selectedDestinationProvider;
-      } else {
-        stretch.status = "/statuses/" + this.stretch.status.value;
-        if (this.stretch.provider)
-          stretch.provider = "/people/" + this.stretch.provider.value;
-        if (this.stretch.destinationProvider)
-          stretch.destinationProvider =
-            "/people/" + this.stretch.destinationProvider.value;
-      }
-
-      stretch.order = this.stretch.id
-        ? `/sales/orders/${this.stretch.orderId}`
-        : `/sales/orders/${this.orderId}`;
-      stretch.price = parseFloat(this.stretch.price);
-
+      console.log(stretch)
+      
+      stretch.status = "/statuses/" + stretch.status.value;
+      if (stretch.provider)
+      stretch.provider = "/people/" + (stretch.provider.value ? stretch.provider.value : stretch.provider);
+      if (stretch.destinationProvider)
+      stretch.destinationProvider = "/people/" + (stretch.destinationProvider.value ? stretch.destinationProvider.value : stretch.destinationProvider);
+      
       if (stretch.originType == "Base") stretch.originType = "b";
-
+      
       if (stretch.originType == "Coleta") stretch.originType = "c";
 
       if (stretch.originType == "Ponto de encontro") stretch.originType = "p";
 
       if (stretch.destinationType == "Base") stretch.destinationType = "b";
-
+      
       if (stretch.destinationType == "Entrega") stretch.destinationType = "e";
-
+      
       if (stretch.destinationType == "Ponto de encontro")
         stretch.destinationType = "p";
+      
+      if (stretch.order == null)
+        stretch.order = this.orderId;
+      stretch.order = "/sales/orders/" + stretch.order;
 
+      stretch.price = parseFloat(this.stretch.price);
+      stretch.amountPaid = parseFloat(this.stretch.amountPaid);
+      
       stretch.inCharge = "/people/" + LocalStorage.getItem('session').people;
       stretch.lastModified = this.lastModified();
-
-      console.log(stretch)
-
+      
+      
+      
+        
+      let endpoint =
+        this.stretch.id
+          ? `/order_logistics/${this.stretch.id}`
+          : `/order_logistics`;
+      
       let options = {
-        method: this.stretch.id == null ? "POST" : "PUT",
-        headers: new Headers(),
-        body: JSON.stringify(stretch),
-      };
-      this.api
-        .private(endpoint, options)
+          method: this.stretch.id ? "PUT" : "POST",
+          headers: new Headers(),
+          body: JSON.stringify(stretch),
+        };
+
+        this.api
+            .private(endpoint, options)
         .then((response) => response.json())
         .then((result) => {
           if (result.id) {
@@ -1970,7 +2203,6 @@ export default {
               type: "negative",
             });
           }
-          this.onReset();
           this.toggleAddStretch = false;
           return null;
         })
@@ -1983,6 +2215,7 @@ export default {
         })
         .finally(() => {
           this.isSaving = false;
+          this.onReset();
           this.getValuesToLoad();
         });
     },
@@ -2079,10 +2312,13 @@ export default {
 
               this.data.push({
                 id: data.members[index].id,
-                status: this.$t(
-                  `logistic.statuses.${data.members[index].status.status}`
-                ),
-                statusId: data.members[index].status.id,
+                status: 
+                  {
+                    label: this.$t(
+                    `logistic.statuses.${data.members[index].status.status}`
+                    ),
+                    value: data.members[index].status.id 
+                  },
                 shippingDate: data.members[index].shippingDate,
                 arrivalDate: data.members[index].arrivalDate,
                 originType: originType,
@@ -2093,11 +2329,10 @@ export default {
                 provider:
                   data.members[index].provider == null
                     ? null
-                    : data.members[index].provider.alias,
-                providerId:
-                  data.members[index].provider == null
-                    ? null
-                    : data.members[index].provider.id,
+                    : {
+                        label: data.members[index].provider.name,
+                        value: data.members[index].provider.id
+                      },
                 destinationType: destinationType,
                 destinationRegion: data.members[index].destinationRegion,
                 destinationState: data.members[index].destinationState,
@@ -2106,13 +2341,13 @@ export default {
                 destinationProvider:
                   data.members[index].destinationProvider == null
                     ? null
-                    : data.members[index].destinationProvider.alias,
-                destinationProviderId:
-                  data.members[index].destinationProvider == null
-                    ? null
-                    : data.members[index].destinationProvider.id,
+                    : {
+                      label: data.members[index].destinationProvider.alias,
+                      value: data.members[index].destinationProvider.id
+                    },
                 price: data.members[index].price,
-                orderId: data.members[index].order.id,
+                amountPaid: data.members[index].amountPaid,
+                order: data.members[index].order.id,
                 lastModified:
                   data.members[index].lastModified == null
                     ? null
@@ -2140,6 +2375,7 @@ export default {
         .finally(() => {
           this.isSaving = false;
           this.isLoading = false;
+          this.isFirstStretch = this.data.length ? false : true;
         });
     },
   },
