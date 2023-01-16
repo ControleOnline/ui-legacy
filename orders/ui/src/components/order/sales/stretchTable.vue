@@ -1555,8 +1555,9 @@ export default {
       this.stretch.destinationAdress= address.label
     },
     "stretchValueSelected"(value) {
-      if (value =! "SEM COTAÇÃO")
-        this.stretch.price = value.price
+      console.log(value);
+      if (value && value.price)
+        this.stretch.price = value.price;
     },
   },
 
