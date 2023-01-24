@@ -365,7 +365,7 @@
 </template>
 
 <script>
-import GuideDetailsHeader from '@controleonline/quasar-common-ui/src/components/header/GuideDetailsHeader';
+import GuideDetailsHeader from '@controleonline/quasar-common-ui/src/components/Header/GuideDetailsHeader';
 
 export default {
   components: {

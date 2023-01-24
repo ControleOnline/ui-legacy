@@ -520,8 +520,8 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/header/MenuDefaultHeader';
-import DefaultAddDialog from '@controleonline/quasar-common-ui/src/components/dialog/DefaultAddDialog';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
+import DefaultAddDialog from '@controleonline/quasar-common-ui/src/components/Dialog/DefaultAddDialog';
 
 export default {
   components: {

@@ -152,9 +152,9 @@
 </template>
 
 <script>
-import ViewProfileHeader from '@controleonline/quasar-common-ui/src/components/header/ViewProfileHeader';
-import CardListGuides from '@controleonline/quasar-common-ui/src/components/card/CardListGuides';
-import CardGuidesCustomers from '@controleonline/quasar-common-ui/src/components/card/CardGuidesCustomers';
+import ViewProfileHeader from '@controleonline/quasar-common-ui/src/components/Header/ViewProfileHeader';
+import CardListGuides from '@controleonline/quasar-common-ui/src/components/Card/CardListGuides';
+import CardGuidesCustomers from '@controleonline/quasar-common-ui/src/components/Card/CardGuidesCustomers';
 
 export default {
   components: {
