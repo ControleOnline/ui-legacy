@@ -1,0 +1,36 @@
+<template>
+  <q-toggle size="lg" v-model="darkMode" unchecked-icon="light_mode" icon="nightlight" />
+</template>
+
+<script>
+import { LocalStorage } from "quasar";
+import Config from "@controleonline/quasar-common-ui/src/utils/config";
+import { config } from "process";
+
+export default {
+  components: {
+    Config,
+  },
+
+  data() {
+    return {
+      darkMode: false,
+      config: new Config(),
+    };
+  },
+
+  created() {
+    let mediaQueryObj = window.matchMedia("(prefers-color-scheme: dark)");
+    let isDarkMode = mediaQueryObj.matches;
+    let darkMode = this.config.getConfig("darkMode");
+    this.darkMode = darkMode == undefined ? isDarkMode : darkMode;
+  },
+
+  watch: {
+    darkMode(darkMode) {
+      this.$q.dark.set(darkMode);
+      this.config.setConfig("darkMode", darkMode);
+    },
+  },
+};
+</script>
