@@ -135,7 +135,7 @@
           <div class="col-5 q-mr-xl" v-if="isFirstStretch">
             <span class="label">Origem</span>
             <div class="row col-12 q-gutter-sm">
-              <div class="col-12">
+              <div class="col-2">
                 <q-select
                   dense
                   outlined
@@ -147,7 +147,7 @@
                 ></q-select>
               </div>
 
-              <div class="col-12">
+              <div class="col-4">
                 <PeopleAutocomplete
                   :source="searchPeople"
                   :isLoading="isSearching"
@@ -157,7 +157,7 @@
                 />
               </div>
 
-              <div class="row col-12">
+              <div class="row col-5">
                 <div v-if="stretch.originType != 'Base'" class="col-12">
                   <ListAutocomplete
                     :source="getGeoPlaces"
@@ -191,10 +191,10 @@
           </div>
 
           <!-- Origem -->
-          <div class="col-5 q-mr-xl" v-if="!isFirstStretch">
+          <div class="col-12 q-mr-xl" v-if="!isFirstStretch">
             <span class="label">Origem</span>
             <div class="row col-12 q-gutter-sm">
-              <div class="col-12">
+              <div class="col-2">
                 <q-select
                   dense
                   outlined
@@ -206,7 +206,7 @@
                 ></q-select>
               </div>
 
-              <div class="col-12">
+              <div class="col-4">
                 <PeopleAutocomplete
                   :source="searchPeople"
                   :isLoading="isSearching"
@@ -216,7 +216,7 @@
                 />
               </div>
 
-              <div class="row col-12">
+              <div class="row col-5">
                 <div class="col-12">
                   <q-input
                     v-if="editAdress == false"
@@ -262,10 +262,10 @@
           </div>
 
           <!-- Destino -->
-          <div class="col-5">
+          <div class="col-12">
             <span class="label">Destino</span>
             <div class="row col-12 q-gutter-sm">
-              <div class="col-12">
+              <div class="col-2">
                 <q-select
                   dense
                   outlined
@@ -277,7 +277,7 @@
                 ></q-select>
               </div>
 
-              <div class="col-12">
+              <div class="col-4">
                 <PeopleAutocomplete
                   :source="searchPeople"
                   :isLoading="isSearching"
@@ -287,7 +287,7 @@
                 />
               </div>
 
-              <div class="row col-12">
+              <div class="row col-5">
                 <div v-if="stretch.destinationType != 'Base'" class="col-12">
                   <ListAutocomplete
                     :source="getGeoPlaces"
@@ -320,9 +320,9 @@
             </div>
           </div>
 
-          <div class="row col-12 q-mt-xl q-gutter-x-md">
+          <div class="row col-12 q-mt-xl q-gutter-x-sm">
             <q-select
-              class="col-5"
+              class="col-2"
               dense
               outlined
               stack-label
@@ -340,11 +340,8 @@
               v-model="stretch.price"
               :rules="[(val) => val != null || 'Preencha o campo']"
             ></q-input>
-          </div>
-
-          <div class="row col-12 q-mt-xl q-gutter-x-md">
             <q-input
-              class="col-5"
+              class="col-2"
               dense
               type="number"
               outlined
@@ -1344,7 +1341,7 @@ export default {
       editProvider: false,
       editDestinationAdress: false,
       editDestinationProvider: false,
-      stretch: {},
+      stretch: {price: 0},
       // stretch: {
       //   id: null,
       //   order: null,
@@ -1555,9 +1552,14 @@ export default {
       this.stretch.destinationAdress= address.label
     },
     "stretchValueSelected"(value) {
+      if (value && value.price) {
+          let val = value.price.toFixed(2)
+          this.stretch.price = parseFloat(val);
+        }
+      },
+    "stretch.price"(value) {
+      console.log("stretch.price");
       console.log(value);
-      if (value && value.price)
-        this.stretch.price = value.price;
     },
   },
 
@@ -2077,8 +2079,6 @@ export default {
       return modified;
     },
     finish(props) {
-      console.log('finish')
-      console.log(this.statusOptions[10].value)
       let arrivalDate = this.buildAmericanDate(new Date().toLocaleDateString());
       this.stretch = structuredClone(props.row);
       
@@ -2091,7 +2091,6 @@ export default {
         this.stretch.shippingDate
         );
         this.stretch.arrivalDate = arrivalDate.toString();
-      console.log(this.stretch)
       this.saveStretch();
     },
     getProviderAddress(providerId) {
@@ -2137,12 +2136,9 @@ export default {
       });
     },
     saveStretch() {
-      console.log('saveStretch')
-      console.log(this.stretch)
       let stretch = structuredClone(this.stretch)
       this.addModal = false;
       this.editModal = false;
-      console.log(stretch)
       
       stretch.status = "/statuses/" + stretch.status.value;
       if (stretch.provider)
@@ -2186,7 +2182,11 @@ export default {
           headers: new Headers(),
           body: JSON.stringify(stretch),
         };
-
+        console.log('this.stretch')
+        console.log(this.stretch)
+        console.log('stretch')
+        console.log(stretch)
+        console.log(JSON.stringify(stretch))
         this.api
             .private(endpoint, options)
         .then((response) => response.json())
