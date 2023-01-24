@@ -120,7 +120,7 @@
 <script>
 import { date } from "quasar";
 import { fetch } from "../../../../../../../../src/boot/myapi";
-import UploadFileForm from "@controleonline/quasar-common-ui/src/components/common/UploadFileForm.vue";
+import UploadFileForm from "@controleonline/quasar-common-ui/src/components/Common/UploadFileForm.vue";
 import { mapActions, mapGetters } from "vuex";
 import { ENTRYPOINT } from "../../../../../../../../src/config/entrypoint";
 

@@ -1115,9 +1115,9 @@ import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
 import { formatMoney, formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import DataFilter from "@controleonline/quasar-common-ui/src/components/common/DataFilter.vue";
-import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/common/ListAutocomplete";
-import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
+import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/DataFilter.vue";
+import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
+import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 import fetch from "@controleonline/quasar-common-ui/src/utils/fetch";
 import { LocalStorage } from "quasar";
 

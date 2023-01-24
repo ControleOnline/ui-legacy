@@ -400,7 +400,7 @@ import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import CarrierRegions from "../../components/carrier/CarrierRegions";
 import CarrierTables from "../../components/carrier/CarrierTables";
 import CarrierIntegration from "../../components/carrier/CarrierIntegration";
-import PersonAvatar from "@controleonline/quasar-common-ui/src/components/common/PersonAvatar";
+import PersonAvatar from "@controleonline/quasar-common-ui/src/components/Common/PersonAvatar";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 

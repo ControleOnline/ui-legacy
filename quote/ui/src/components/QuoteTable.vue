@@ -288,7 +288,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import QuotationTaxes from "@controleonline/quasar-common-ui/src/components/common/QuotationTaxes";
+import QuotationTaxes from "@controleonline/quasar-common-ui/src/components/Common/QuotationTaxes";
 import { fetch } from "../../../../../src/boot/myapi";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 

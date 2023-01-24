@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import DataFilter from "@controleonline/quasar-common-ui/src/components/common/DataFilter.vue";
+import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/DataFilter.vue";
 import configurable from "../mixins/configurable";
 import { date } from "quasar";
 

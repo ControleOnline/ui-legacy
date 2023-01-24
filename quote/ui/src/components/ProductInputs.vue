@@ -359,7 +359,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
-import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/common/ListAutocomplete";
+import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
 import { fetch } from "../../../../../src/boot/myapi";
 import { DOMAIN } from "../../../../../src/config/domain";
 

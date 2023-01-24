@@ -343,7 +343,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import ContactForm from "@controleonline/quasar-common-ui/src/components/common/ContactForm.vue";
+import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm.vue";
 import {
   formatDocument,
   formatMoney,
