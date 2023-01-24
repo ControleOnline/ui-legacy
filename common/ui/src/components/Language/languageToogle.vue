@@ -1,0 +1,52 @@
+<template>
+  <q-select
+    v-model="lang"
+    :options="langOptions"
+    label="Language"
+    dense
+    borderless
+    emit-value
+    map-options
+    options-dense
+  />
+</template>
+
+<script>
+import { LocalStorage } from "quasar";
+import Config from "@controleonline/quasar-common-ui/src/utils/config";
+import Quasar from "quasar";
+
+export default {
+  components: {
+    Config,
+  },
+
+  data() {
+    return {
+      config: new Config(),
+      lang: null,
+      langOptions: [
+        { value: "en-us", label: "English" },
+        { value: "pt-br", label: "Português" },
+      ],
+    };
+  },
+  methods: {
+    getLanguage() {
+      let lang = this.config.getConfig("language");
+      return lang == undefined ? this.$i18n.locale : lang;
+    },
+  },
+
+  created() {
+    this.lang = this.getLanguage();
+  },
+
+  watch: {
+    lang(lang) {
+      this.config.setConfig("language", lang);
+      if (lang) this.$i18n.locale = lang;
+    },
+  },
+};
+</script>
