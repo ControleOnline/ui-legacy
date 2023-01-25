@@ -26,6 +26,7 @@
             </div>
             <div class="col-xs-12 col-sm-3 col-md-4">
               <ListAutocomplete
+                ref="originAddress"
                 :source="getGeoPlaces"
                 :isLoading="isSearching"
                 label="Origem"
@@ -33,13 +34,14 @@
                 placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
               />
             </div>
-            <div class="col-xs-12 col-sm-3 col-md-3">
-              <PeopleAutocomplete
-                :source="searchPeople"
-                :isLoading="isSearching"
-                label="Fornecedor"
-                @selected="onSelectOriginPeopleFilter"
-                placeholder="Pesquisar..."
+            <div class="col-xs-12 col-sm-3 col-md-4">
+              <ListAutocomplete
+              ref="destinationAddress"
+              :source="getGeoPlaces"
+              :isLoading="isSearching"
+              label="Destino"
+              @selected="onSelectDestinationFilter"
+              placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
               />
             </div>
             <div class="col-xs-12 col-sm-3 col-md-2 q-pb-sm">
@@ -61,10 +63,30 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-xs-12 col-sm-9 col-md-7 q-pb-sm">
+            <div class="col-xs-12 col-sm-2 col-md-3">
+              <PeopleAutocomplete
+                ref="originProvider"
+                :source="searchPeople"
+                :isLoading="isSearching"
+                label="Fornecedor de origem"
+                @selected="onSelectOriginPeopleFilter"
+                placeholder="Pesquisar..."
+              />
+            </div>
+            <div class="col-xs-12 col-sm-2 col-md-3">
+              <PeopleAutocomplete
+                ref="destinationProvider"
+                :source="searchPeople"
+                :isLoading="isSearching"
+                label="Fornecedor de destino"
+                @selected="onSelectDestinationPeopleFilter"
+                placeholder="Pesquisar..."
+              />
+            </div>
+            <div class="col-xs-12 col-sm-7 col-md-6 q-pb-sm">
               <DataFilter
                 ref="myDataFilter"
-                class="data-filter-listener"
+                class="data-filter"
                 style="justify-content: flex-start"
                 :fromDate="filters.from"
                 :toDate="filters.to"
@@ -1115,9 +1137,9 @@ import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
 import { formatMoney, formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/DataFilter.vue";
-import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
-import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
+import DataFilter from "@controleonline/quasar-common-ui/src/components/common/DataFilter.vue";
+import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/common/ListAutocomplete";
+import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 import fetch from "@controleonline/quasar-common-ui/src/utils/fetch";
 import { LocalStorage } from "quasar";
 
@@ -1433,6 +1455,7 @@ export default {
         order: null,
         origin: null,
         provider: null,
+        destinationProvider: null,
         status: "Todos",
         from: "",
         to: "",
@@ -1497,6 +1520,15 @@ export default {
         filter: this.filters,
       });
     },
+
+    "filters.destinationProvider"() {
+      console.log('mudou')
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+
     "filters.status"() {
       this.onRequest({
         pagination: this.pagination,
@@ -1735,13 +1767,20 @@ export default {
       this.stretch.provider = item.id;
     },
     onSelectOriginFilter(item) {
-      this.filters.origin = item.description;
+      if (item)
+        this.filters.origin = item.description;
+      console.log(this.filters.origin)
     },
     onSelectDestinationFilter(item) {
       this.filters.destination = item.description;
     },
     onSelectOriginPeopleFilter(item) {
-      this.filters.provider = item.id;
+      if (item)
+        this.filters.provider = item.id;
+    },
+    onSelectDestinationPeopleFilter(item) {
+      if (item)
+        this.filters.destinationProvider = item.id;
     },
     dateChanged(date) {
       if (date.from || date.to) {
@@ -1789,8 +1828,20 @@ export default {
         .then((response) => response.json())
         .then((result) => {
           if (result.response.data.taxes.length) {
+
+            let taxesFilter = ["TRECHO", "VALOR", "ACRÉSCIMO", "BASE", "GUINCHO"];
+            let allTaxes = result.response.data.taxes;
+            let taxes = [];
+            
+            for (let index in taxesFilter) {
+              let res = allTaxes.filter(allTaxes => allTaxes.name.includes(taxesFilter[index]));
+              if (res.length) {
+                taxes.push.apply(taxes, res);
+              }
+            }
+            console.log(taxes)
+
             this.stretchValueOptions = [];
-            let taxes = result.response.data.taxes;
             for (let index in taxes) {
               this.stretchValueOptions.push({
                 label: taxes[index].name,
@@ -2034,11 +2085,16 @@ export default {
       this.filters.order = null;
       this.filters.origin = null;
       this.filters.provider = null;
+      this.filters.destinationProvider = null;
       this.filters.status = "Todos";
       this.filters.from = "";
       this.filters.to = "";
       this.$refs.myDataFilter.$data.date["from"] = "";
       this.$refs.myDataFilter.$data.date["to"] = "";
+      this.$refs.originAddress.model = null;
+      this.$refs.destinationAddress.model = null;
+      this.$refs.originProvider.model = null;
+      this.$refs.destinationProvider.model = null;
     },
     // shippingDateValidate(selectedDate) {
     //   if (selectedDate == null)
@@ -2260,11 +2316,15 @@ export default {
       }
 
       if (this.filters.origin != null && this.filters.origin.length > 0) {
-        params["origin"] = this.filters.origin;
+        params["originAddress"] = this.filters.origin;
       }
 
       if (this.filters.provider != null) {
         params["provider"] = this.filters.provider;
+      }
+
+      if (this.filters.destinationProvider != null) {
+        params["destinationProvider"] = this.filters.destinationProvider;
       }
 
       if (
@@ -2386,5 +2446,10 @@ export default {
 <style>
 .table-container {
   overflow-x: scroll;
+}
+
+.data-filter  {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 </style>
