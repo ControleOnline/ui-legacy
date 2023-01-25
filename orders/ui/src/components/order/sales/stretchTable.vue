@@ -1522,7 +1522,6 @@ export default {
     },
 
     "filters.destinationProvider"() {
-      console.log('mudou')
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
@@ -1589,10 +1588,6 @@ export default {
           this.stretch.price = parseFloat(val);
         }
       },
-    "stretch.price"(value) {
-      console.log("stretch.price");
-      console.log(value);
-    },
   },
 
   methods: {
@@ -1769,7 +1764,6 @@ export default {
     onSelectOriginFilter(item) {
       if (item)
         this.filters.origin = item.description;
-      console.log(this.filters.origin)
     },
     onSelectDestinationFilter(item) {
       this.filters.destination = item.description;
@@ -1839,7 +1833,6 @@ export default {
                 taxes.push.apply(taxes, res);
               }
             }
-            console.log(taxes)
 
             this.stretchValueOptions = [];
             for (let index in taxes) {
@@ -2072,6 +2065,11 @@ export default {
           color = "#2CF30D";
           break;
       
+      
+        case "Finalizado":
+          color = "#2CF30D";
+          break;
+      
         case "Liberado para base":
           color = "#2CF30D";
           break;
@@ -2140,7 +2138,18 @@ export default {
       
       this.selectedProvider = props.row.providerId;
       this.selectedDestinationProvider = props.row.destinationProviderId;
-      this.stretch.status = this.statusOptions[10];
+      let finishedStatus = this.statusOptions.find(x => x.label == "Finalizado" || x.value == 57);
+      if (finishedStatus)
+        this.stretch.status = finishedStatus;
+      else {
+        this.$q.notify({
+          message: "Não foi possível finalizar o trecho. Status não encontrado.",
+          position: "bottom",
+          type: "negative",
+        });
+        return null;
+      }
+        
       
       this.stretch.shippingDate = this.formatDate(props.row.shippingDate);
       this.stretch.shippingDate = this.buildAmericanDate(
@@ -2238,11 +2247,7 @@ export default {
           headers: new Headers(),
           body: JSON.stringify(stretch),
         };
-        console.log('this.stretch')
-        console.log(this.stretch)
-        console.log('stretch')
-        console.log(stretch)
-        console.log(JSON.stringify(stretch))
+
         this.api
             .private(endpoint, options)
         .then((response) => response.json())

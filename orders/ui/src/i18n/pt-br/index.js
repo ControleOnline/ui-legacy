@@ -44,6 +44,7 @@ export const translate = {
       'boarding pending' : 'Pendente de embarque',
       're-embark' : 'Reembarque',
       'withdrawn' : 'Retirado',
+      'finished' : 'Finalizado',
     },
     types: {
       'b' : 'Base',
