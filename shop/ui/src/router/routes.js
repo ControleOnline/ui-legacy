@@ -5,15 +5,15 @@ export const routes = [
         component: () => import('../../../../../src/layouts/AdminLayout.vue'),
         children: [
             {
-                name: 'ClientShippingQuoteIndex',
-                path: 'quote',
-                component: () => import('../pages/ClientQuote.vue')
+                name: 'ProductsIndex',
+                path: 'products',
+                component: () => import('../pages/Products.vue')
             },
             {
-                name: 'ShippingQuoteIndex',
-                path: 'shipping-quote',
-                component: () => import('../pages/Quote.vue')
-            }
+              name: 'CategoriesIndex',
+              path: 'categories',
+              component: () => import('../pages/Categories.vue')
+          }
         ]
     }
 ];
