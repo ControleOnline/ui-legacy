@@ -1,8 +1,8 @@
-import myFetch from 'fetch';
+import myUrl from 'url';
 
 let myStore = null;
 
-export const fetch = function(id, options = {}) {
+export const url = function(id, options = {}) {
   if (typeof options.headers === 'undefined')
     Object.assign(options, { headers: new Headers() });
 
@@ -11,7 +11,7 @@ export const fetch = function(id, options = {}) {
       'API-TOKEN', myStore.getters['auth/user'].token
     );
 
-  let myPromisse = myFetch(id, options);
+  let myPromisse = myUrl(id, options);
 
   myPromisse.catch(e => {
     if (e.message == 'Unauthorized' || e.message == 'Invalid credentials.') {
