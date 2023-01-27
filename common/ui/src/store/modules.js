@@ -1,7 +1,6 @@
-
-import auth from '@controleonline/quasar-login-ui/src/store/modules/auth';
-import quote from '@controleonline/quasar-quote-ui/src/store/modules/quote';
-import coupon from '@controleonline/quasar-coupon-ui/src/store/coupon';
+import auth from "@controleonline/quasar-login-ui/src/store/modules/auth";
+import quote from "@controleonline/quasar-quote-ui/src/store/modules/quote";
+import coupon from "@controleonline/quasar-coupon-ui/src/store/coupon";
 import salesOrder from "@controleonline/quasar-orders-ui/src/store/modules/order/sales";
 import purchasingOrder from "@controleonline/quasar-orders-ui/src/store/modules/order/purchasing";
 import comissionOrder from "@controleonline/quasar-orders-ui/src/store/modules/order/comission";
@@ -20,6 +19,7 @@ import guides from "@controleonline/quasar-guides-ui/src/store/guides";
 import categories from "@controleonline/quasar-common-ui/src/store/categories";
 import menu from "@controleonline/quasar-common-ui/src/store/menu";
 import users from "@controleonline/quasar-common-ui/src/store/users";
+import freight from "@controleonline/quasar-freight-ui/src/store/users";
 
 export const modules = {
   auth,
@@ -42,5 +42,6 @@ export const modules = {
   guides,
   categories,
   menu,
-  users
+  users,
+  freight,
 };
