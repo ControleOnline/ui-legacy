@@ -240,7 +240,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      retrieved: "quote/retrieved",
+      retrieved: "freight/retrieved",
       myCompany: "people/currentCompany",
       defaultCompany: "people/defaultCompany",
       signUpFields: "auth/signUpFields",

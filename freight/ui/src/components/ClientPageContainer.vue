@@ -141,7 +141,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      isLoading: "quote/isLoading",
+      isLoading: "freight/isLoading",
       myCompany: "people/currentCompany",
       defaultCompany: "people/defaultCompany",
     }),
@@ -159,7 +159,7 @@ export default {
 
   methods: {
     ...mapActions({
-      quote: "quote/quote",
+      quote: "freight/quote",
     }),
     isLogged() {
       return this.getLoggedUser() !== null && this.getLoggedUser().user;

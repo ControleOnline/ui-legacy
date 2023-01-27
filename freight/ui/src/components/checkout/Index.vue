@@ -137,10 +137,10 @@ export default {
 
   methods: {
     ...mapActions({
-      choose_retrieve_quote: "quote/choose_retireve_quote",
-      choose_delivery_quote: "quote/choose_delivery_quote",
-      choose_payer_quote: "quote/choose_payer_quote",
-      choose_payment_quote: "quote/choose_payment_quote",
+      choose_retrieve_quote: "freight/choose_retireve_quote",
+      choose_delivery_quote: "freight/choose_delivery_quote",
+      choose_payer_quote: "freight/choose_payer_quote",
+      choose_payment_quote: "freight/choose_payment_quote",
       email: "people/email",
       contact: "people/createContact",
     }),
