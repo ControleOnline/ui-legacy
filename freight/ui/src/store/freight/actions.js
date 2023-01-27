@@ -1,5 +1,5 @@
-import SubmissionError from '../../../../utils/error/SubmissionError';
-import { fetch }       from '../../../../utils/myapi';
+import SubmissionError from '../../../utils/error/SubmissionError';
+import { fetch }       from '../../../utils/myapi';
 import * as types      from './mutation_types';
 
 export const quote = ({ commit }, { values, query = null }) => {
