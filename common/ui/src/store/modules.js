@@ -1,5 +1,6 @@
 import auth from "@controleonline/quasar-login-ui/src/store/modules/auth";
 import quote from "@controleonline/quasar-quote-ui/src/store/modules/quote";
+import shop from '@controleonline/quasar-shop-ui/src/store/modules/shop';
 import coupon from "@controleonline/quasar-coupon-ui/src/store/coupon";
 import salesOrder from "@controleonline/quasar-orders-ui/src/store/modules/order/sales";
 import purchasingOrder from "@controleonline/quasar-orders-ui/src/store/modules/order/purchasing";
@@ -30,6 +31,7 @@ export const modules = {
   user,
   dashboard,
   quote,
+  shop,
   salesOrder,
   purchasingOrder,
   comissionOrder,
