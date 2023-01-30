@@ -3,7 +3,7 @@
 
     <div class="col-md-3 col-sm-4 col-6 q-pa-sm" v-for="categorie in categories" :key="categorie.id" >
 
-      <router-link exact v-bind:to="'/shop/id/' + categorie.id">
+      <router-link exact v-bind:to="'/shop/category/' + categorie.id ">
 
         <q-card v-ripple class="cursor-pointer">
           <img src="https://cdn.quasar.dev/img/mountains.jpg">

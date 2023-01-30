@@ -1,19 +1,20 @@
 <template>
   <div class="q-pa-md row">
 
-    <div class="col-md-3 col-sm-4 col-6 q-pa-sm" v-for="product in products" :key="product.id" >
-      <q-card :to="{ name: 'CategoriesIndex', params: { id: product.id } }" v-ripple class="cursor-pointer">
-      <img src="https://cdn.quasar.dev/img/mountains.jpg">
+    <div class="col-md-3 col-sm-4 col-6 q-pa-sm">
+      <router-link exact v-bind:to="'/shop/category/' + productDetails.id + '/product/details' ">
+        <q-card v-ripple class="cursor-pointer">
+          <img src="https://cdn.quasar.dev/img/mountains.jpg">
 
-      <q-card-section>
-        <div class="text-h6">{{ product.productAlias }}</div>
-      </q-card-section>
+          <q-card-section>
+            <div class="text-h6">{{ productDetails.productName }}</div>
+          </q-card-section>
 
-      <q-card-section class="q-pt-none">
-        {{ product.productDescription }}
-      </q-card-section>
-    </q-card>
-
+          <q-card-section class="q-pt-none">
+            {{ productDetails.productDescription }}
+          </q-card-section>
+        </q-card>
+      </router-link>
     </div>
 
   </div>
@@ -33,17 +34,22 @@ export default {
 
   methods: {
     ...mapActions({
-      getProducts: "shop/getProducts",
+      getProductDetails: "shop/getProductDetails",
     }),
 
     categorias(){
 
-      const id = 1;
+      let payload = {
+        id: 2,
+      }
 
-      this.getProducts(id)
+      this.getProductDetails(payload)
       .then((response) => {
-          this.products = response;
-          console.log(this.products);
+
+          console.log(response);
+
+          this.productDetails = response;
+          console.log(this.productDetails);
       })
       .catch((error) => {
         console.log(error);
@@ -54,13 +60,13 @@ export default {
 
   data(){
     return{
-        products: []
+        productDetails: []
     }
   }
 
 }
 </script>
 
-<style lang="sass" scoped>
+<style>
 
 </style>

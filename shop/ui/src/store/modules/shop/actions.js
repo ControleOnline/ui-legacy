@@ -16,20 +16,53 @@ export function getProductCategories({ commit }, data) {
     })
 }
 
+//This function get products details...
+export const getProductDetails = ({ commit }, { id, params }) => {
+  const options = {
+    method: 'GET',
+    params: params
+  };
 
-//This function get products of products...
-export function getProducts({ commit }, data) {
+  return fetch('/products/' + id , options)
+    .then(response => response.json())
+    .then(response => {
+
+      return response;
+
+    });
+};
+
+// //This function get products details...
+// export function getProductDetails({ commit }, {id}) {
+
+//   const options = {
+//     method: 'GET'
+//   };
+
+//   return fetch(`/products/${id}`, options)
+//     .then(response => response.json())
+//     .then(data => {
+//       return data;
+//     })
+//     .catch(e => {
+//       return e.message;
+//     });
+// }
+
+// /products?productType.id=106&productSubtype.id=107
+export function getProductsInCategories({commit}, data) {
 
   let params = data.params ? data.params : {};
 
   const options = {
     method: 'GET',
     params: params
-  };
+  }
 
   return fetch('/products', options)
-    .then(response => response.json())
-    .then(response => {
-      return response['hydra:member'];
-    })
+  .then(response => response.json())
+  .then(response => {
+    return response['hydra:member'];
+  })
+
 }

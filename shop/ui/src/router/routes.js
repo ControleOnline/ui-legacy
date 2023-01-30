@@ -11,12 +11,17 @@ export const routes = [
               component: () => import('../pages/Categories.vue')
             },
             {
-              name: 'CategoriesIndex',
-              path: 'id/:id',
+              name: 'ProductDetails',
+              path: 'category/:id/product/details',
+              component: () => import('../components/products/Details.vue')
+            },
+            {
+              name: 'ProductsInCategory',
+              path: 'category/:id',
               component: () => import('../pages/Products.vue')
             },
             {
-                name: 'ProductsIndex',
+                name: 'AllProducts',
                 path: 'products',
                 component: () => import('../pages/Products.vue')
             },
