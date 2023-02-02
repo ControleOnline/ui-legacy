@@ -14,7 +14,6 @@
       <div v-if="provider" class="row q-pa-sm q-col-gutter-sm">
         <q-tabs align="justify" v-model="currentTab" class="text-primary" dense no-caps>
           <q-tab name="summary" label="Resumo" />
-          <q-tab name="surveys" label="Vistorias" />
         </q-tabs>
 
         <q-separator />
@@ -33,11 +32,6 @@
               <TaskInteractions :api="API" :id="taskId" :taskData="task" />
             </div>
           </q-tab-panel>
-
-          <q-tab-panel name="surveys" class="q-pa-none no-scroll">
-            <SurveysCollection :api="API" :taskId="taskId" />
-          </q-tab-panel>
-
         </q-tab-panels>
       </div>
     </div>
@@ -48,7 +42,6 @@
 import Api from '@controleonline/quasar-common-ui/src/utils/api';
 import TasksSummary from '../../components/Tasks/TasksSummary.vue';
 import TaskInteractions from '../../components/Tasks/TaskInteractions.vue';
-import SurveysCollection from '../../components/Tasks/SurveysCollection.vue';
 
 import { mapGetters } from "vuex";
 
