@@ -1,0 +1,215 @@
+<template>
+  <div class="col-12">
+    <div class="flex flex-center" v-if="isLoading || loadingStatuses">
+      <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary" class="q-ma-md" />
+      Carregando...
+    </div>
+
+    <q-table
+      ref="myTable"
+      flat
+      :loading="isLoading"
+      :data="data"
+      :columns="columns"
+      row-key="Id"
+      :rows-per-page-options="[0]"
+    >
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td>
+            <q-btn
+              dense
+              flat
+              color="primary"
+              icon="settings"
+            >
+            <q-menu>
+              <q-list>
+                <q-item clickable @click="openEditModal(props.row)">
+                  <q-item-section side>
+                    <q-icon name="edit"></q-icon>
+                  </q-item-section>
+                  <q-item-section> Editar </q-item-section>
+                </q-item>
+                <q-item clickable @click="confirmDelete(props.row)">
+                  <q-item-section side>
+                    <q-icon name="delete"></q-icon>
+                  </q-item-section>
+                  <q-item-section> Excluir </q-item-section>
+                </q-item>
+                <q-separator></q-separator>
+              </q-list>
+            </q-menu>
+            </q-btn>
+          </q-td>
+          <q-td :props="props" key="Id"> {{ props.row.id }}</q-td>
+          <q-td :props="props" key="Priority"> {{ props.row.priority }}</q-td>
+          <q-td :props="props" key="RegisterTime"> {{ formatDate(props.row.registerTime) }}</q-td>
+          <q-td :props="props" key="UpdateTime"> {{ formatDate(props.row.updateTime) }}</q-td>
+          <q-td :props="props" key="People"> {{ props.row.people.label }}</q-td>
+          <q-td :props="props" key="Status"> {{ props.row.status.label }}</q-td>
+        </q-tr>
+      </template>
+    </q-table>
+
+    <q-dialog v-model="editQueuePeople">
+      <q-card style="width:50%">
+        <q-card-section>
+          <span class="text-h6">Editar</span>
+        </q-card-section>
+        <QueuePeopleCreate :queuePeopleObj="this.selectedQueuePeople" @savedItem="saved()"></QueuePeopleCreate>
+      </q-card>
+    </q-dialog>
+  </div>
+</template>
+
+<script>
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
+import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
+import QueuePeopleCreate from "@controleonline/quasar-queues-ui/src/components/queue/QueuePeopleCreate.vue";
+
+export default {
+  components: {
+    Api,
+    QueuePeopleCreate,
+  },
+
+  props: {},
+
+  data() {
+    return {
+      api: new Api(this.$store.getters["auth/user"].token),
+      loadingStatuses: null,
+      isLoading: null,
+
+      selectedQueuePeople: null,
+
+      editQueuePeople: false,
+      
+      data: [],
+      columns: [
+        {
+          name: "Actions",
+          label: "",
+          align: "center",
+          format: (val) => `${val}`,
+        },
+        {
+          name: "Id",
+          label: "Id",
+          align: "center",
+          format: (val) => `${val}`,
+        },
+        {
+          name: "Priority",
+          label: "Prioridade",
+          align: "center",
+          format: (val) => `${val}`,
+        },
+        {
+          name: "RegisterTime",
+          label: "Hora do registro",
+          align: "center",
+          format: (val) => `${val}`,
+        },
+        {
+          name: "UpdateTime",
+          label: "Hora da atualização",
+          align: "center",
+          format: (val) => `${val}`,
+        },
+        {
+          name: "People",
+          label: "Pessoa",
+          align: "center",
+          format: (val) => `${val}`,
+        },
+        {
+          name: "Status",
+          label: "Status",
+          align: "center",
+          format: (val) => `${val}`,
+        },
+      ],
+    }
+  },
+
+  created() {
+    this.getCollectionFiles();
+  },
+  watch: {
+
+  },
+
+  methods: {
+    getItems() {
+      return this.api
+        .private(`queue_people`, {})
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+          }
+        })
+    },
+
+    getCollectionFiles() {
+
+      this.getItems()
+      .then((data) => {
+        if (data.members) {
+          this.data = [];
+          for (let index in data.members) {
+            this.data.push({
+              id: data.members[index]["id"],
+              priority: this.$t(`queue.priority.${data.members[index]["priority"]}`),
+              registerTime: data.members[index]["registerTime"],
+              updateTime: data.members[index]["updateTime"],
+              people: {
+                label: data.members[index]["people"]["name"],
+                value: data.members[index]["people"]["@id"].replaceAll("/people/", ""),
+              },
+              status: {
+                label: this.$t(`queue.status.${data.members[index]["status"]["status"]}`),
+                value: data.members[index]["status"]["@id"].replaceAll("/statuses/", ""),
+              }
+            });
+          }
+          console.log(this.data)
+        } else {
+          this.$q.notify({
+            message: this.$t("Não foi possível salvar os dados!"),
+            position: "bottom",
+            type: "negative",
+          });
+        }
+      })
+      .catch((error) => {
+        this.$q.notify({
+            message: this.$t(error.message),
+            position: "bottom",
+            type: "negative",
+          });
+      });
+    },
+
+    saved(item) {
+      console.log('saved')
+      console.log(item)
+      if (item["@id"])
+      console.log('entrou')
+        this.getCollectionFiles();
+        this.editQueuePeople = false;
+    },
+
+    openEditModal(row) {
+      this.selectedQueuePeople = row
+      this.editQueuePeople = true;
+    },
+
+    formatDate(date) {
+      return new Date(date).toLocaleString();
+    },
+  },
+};
+</script>
