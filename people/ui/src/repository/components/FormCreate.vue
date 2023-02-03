@@ -67,6 +67,7 @@
 
 <script>
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   props: {
@@ -106,6 +107,12 @@ export default {
       particulars: [],
       contact_origin_options: ['Whatsapp', 'E-mail', 'Evo', 'Outros'],
     };
+  },
+
+  computed: {
+    ...mapGetters({
+      myCompany: "people/currentCompany",
+    }),
   },
 
   watch: {
@@ -177,13 +184,17 @@ export default {
     },
 
     getValues() {
-      return {
+      let values = {
         type: this.personType == "PJ" ? "J" : "F",
         name: this.item.name,
         alias: this.item.alias,
         document: this.item.document,
-        email: this.item.email,
+        myProvider: this.myCompany.id,
       };
+      if (this.personType != "PJ")
+        values.email = this.item.email;
+
+      return values;
     },
 
     reset() {
