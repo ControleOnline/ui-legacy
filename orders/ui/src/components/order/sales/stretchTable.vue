@@ -462,6 +462,16 @@
             <q-td :props="props" key="IdPedido">
               {{ props.row.order }}
             </q-td>
+            <q-td :props="props" key="IdFatura">
+              <q-btn
+                v-if="props.row.orderInvoice"
+                outline
+                dense
+                :to="{ name: 'PayDetails', params: { id: props.row.orderInvoice } }"
+                :label="props.row.orderInvoice"
+                class="full-width"
+              />
+            </q-td>
             <q-td :props="props" key="stretchstatus" :style="{color: getStatusColor(props.row.status.label)}">
               {{ props.row.status.label }}
             </q-td>
@@ -1161,6 +1171,13 @@ const SETTINGS = {
       label: "Id Pedido",
       align: "center",
       field: (row) => row.order,
+      format: (val) => `${val}`,
+    },
+    {
+      name: "IdFatura",
+      label: "Id Fatura",
+      align: "center",
+      field: (row) => row.orderInvoice,
       format: (val) => `${val}`,
     },
     {
@@ -2414,6 +2431,7 @@ export default {
                 price: data.members[index].price,
                 amountPaid: data.members[index].amountPaid,
                 order: data.members[index].order.id,
+                orderInvoice: data.members[index].orderInvoice,
                 lastModified:
                   data.members[index].lastModified == null
                     ? null
