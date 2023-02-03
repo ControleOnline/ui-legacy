@@ -11,12 +11,12 @@
         </div>
       </div>
 
-      <div v-if="provider" class="row q-pa-sm q-col-gutter-sm">
+      <div class="row q-pa-sm q-col-gutter-sm">
         <q-tabs align="justify" v-model="currentTab" class="text-primary" dense no-caps>
           <q-tab name="summary" label="Resumo" />
         </q-tabs>
 
-        <q-separator />
+        <!-- <q-separator /> -->
 
         <q-tab-panels v-model="currentTab" class="bg-transparent col-12">
           <q-tab-panel name="summary" class="q-pa-none no-scroll">
@@ -50,7 +50,6 @@ export default {
   components: {
     TasksSummary,
     TaskInteractions,
-    SurveysCollection
   },
 
   data() {
@@ -73,11 +72,13 @@ export default {
 
   created() {
     if (this.myCompany) {
-      this.getTask();
+      this.getTask().finally(() => {
+        this.setRead();
+      });
     }
   },
   watch: {
-    myCompany(company) {      
+    myCompany(company) {
       if (company !== null) {
         this.provider = company.id;
         this.key++;
@@ -93,8 +94,22 @@ export default {
         .then(data => {
           if (data['@id']) {
             this.task = data;
+            this.task.forEach(element => {
+              this.setRead(element);
+            });
+            
           }
         });
+    },
+    setRead(element) {
+      
+        let options = {
+          method: "PUT",
+          headers: new Headers({ "Content-Type": "application/ld+json" }),
+          body: JSON.stringify({read:1}),
+        };
+        return this.API.private('task_interations/' + element.id,options)
+          .then(response => response.json());
     }
   },
 

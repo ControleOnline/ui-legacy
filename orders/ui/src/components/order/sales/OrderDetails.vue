@@ -344,6 +344,7 @@
             <q-tab name="tag" label="Etiqueta" />
 
             <q-tab name="logistica" label="Logística" />
+            <q-tab name="vistorias" label="Vistorias" />
           </q-tabs>
 
           <q-separator />
@@ -384,6 +385,9 @@
               <OrderDetailLogistics :total_packages="total_packages" :orderId="orderId" :orderPrice="price" :status="status"
                 :integrationType="integrationType" />
             </q-tab-panel>
+            <q-tab-panel name="vistorias" class="q-pa-none">
+              <SurveysCollection :orderId="orderId" />
+            </q-tab-panel>
 
           </q-tab-panels>
         </div>
@@ -420,10 +424,12 @@ import {
   formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
+import SurveysCollection from "@controleonline/quasar-tasks-ui/src/components/Tasks/SurveysCollection";
+
 export default {
   components: {
     OrderDetailSummary,
-     OrderDetailLogistics,
+    OrderDetailLogistics,
     OrderDetailQuotation,
     OrderDetailNotaFiscal,
     OrderDetailInvoice,
@@ -431,7 +437,8 @@ export default {
     OrderDetailTracking,
     OrderDetailTag,
     OrderTasks,
-  },
+    SurveysCollection
+},
 
   created() {
     if (this.$route.params.id)
@@ -1094,4 +1101,4 @@ export default {
 .buttons-container {
   width: 100%;
 }
-</style>
+</style>  

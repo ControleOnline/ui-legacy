@@ -119,7 +119,6 @@
         </q-card-section>
         <q-card-section class="row items-center justify-center">
           <q-select dense outlined 
-              outlined
               v-model="editDialog.status"
               :options="status_survey"
               label="Selecione o Novo Status"
@@ -142,7 +141,7 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+import API from "@controleonline/quasar-common-ui/src/utils/api";
 import {ENTRYPOINT} from '../../../../../../src/config/entrypoint';
 import axios from "axios";
 
@@ -154,18 +153,15 @@ function findIn(obj, search) {
 export default {
   name: "SurveysCollection",
   props: {
-    taskId: {
+    orderId: {
       type: Number,
       required: true
     },
-    api: {
-      type: Api,
-      required: true
-    }
   },
   data() {
     let statuses = [{label: "Todos", value: -1}];
     return {
+      API:new API(this.$store.getters['auth/user'].token),
       idRowToDelete: null,
       msgCancel: null,
       editDialog: {
@@ -336,7 +332,7 @@ export default {
         url: ENTRYPOINT + `/tasks_surveys/${id}/surveys?timestamp=${new Date().getTime()}`,
         params,
         method: 'PUT',
-        headers: {'api-token': this.api.token}
+        headers: {'api-token': this.API.token}
       }).then((response) => {
 
         let data = response.data.response;
@@ -348,7 +344,7 @@ export default {
         }
 
         if (data.success) { // Quando tem Êxito
-          this.callAjaxGetCollection(this.taskId).then((response) => {
+          this.callAjaxGetCollection(this.orderId).then((response) => {
             this.alertNotify(`Vistoria de ID:${id} teve o status alterado para: ` + this.status_survey[this.status_survey.indexOf(this.status_survey.find(c => c.value === status))].label, 'p');
             this.setClassRow(id, false);
           });
@@ -378,7 +374,7 @@ export default {
     },
     addSurvey() {
       this.addLoading = true;
-      this.callAjaxAddNewSurvey(this.taskId);
+      this.callAjaxAddNewSurvey(this.orderId);
     },
     /**
      * Exibe Alerta Positivo ou Negativo
@@ -396,11 +392,11 @@ export default {
         type: status,
       });
     },
-    callAjaxAddNewSurvey(taskId) {
+    callAjaxAddNewSurvey(orderId) {
       axios({
-        url: ENTRYPOINT + `/tasks_surveys/${taskId}/surveys?timestamp=${new Date().getTime()}`,
+        url: ENTRYPOINT + `/tasks_surveys/${orderId}/surveys?timestamp=${new Date().getTime()}`,
         method: 'POST',
-        headers: {'api-token': this.api.token}
+        headers: {'api-token': this.API.token}
       }).then((response) => {
 
         let data = response.data.response;
@@ -410,7 +406,7 @@ export default {
         }
 
         if (data.success) { // Quando tem Êxito
-          this.callAjaxGetCollection(this.taskId);
+          this.callAjaxGetCollection(this.orderId);
           this.alertNotify('Registro de Vistoria Adicionado com Êxito.', 'p');
         }
 
@@ -418,12 +414,12 @@ export default {
       });
 
     },
-    callAjaxGetCollection(taskId) {
+    callAjaxGetCollection(orderId) {
       this.isLoading = true;
       return axios({
-        url: ENTRYPOINT + `/tasks_surveys/${taskId}/surveys?timestamp=${new Date().getTime()}`,
+        url: ENTRYPOINT + `/tasks_surveys/${orderId}/surveys?timestamp=${new Date().getTime()}`,
         method: 'get',
-        headers: {'api-token': this.api.token}
+        headers: {'api-token': this.API.token}
       }).then((response) => {
 
         let data = response.data.response;
@@ -477,7 +473,7 @@ export default {
 
   },
   mounted() {
-    this.callAjaxGetCollection(this.taskId);
+    this.callAjaxGetCollection(this.orderId);
   }
 }
 </script>
