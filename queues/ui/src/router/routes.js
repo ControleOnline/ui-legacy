@@ -20,7 +20,7 @@ export const routes = [
       },
       {
         name     : 'queuePeopleQueue',
-        path     : 'queues',
+        path     : 'people/queues',
         component: () => import('@controleonline/quasar-queues-ui/src/pages/Queues/QueuePeopleQueue.vue')
       },
     ]
