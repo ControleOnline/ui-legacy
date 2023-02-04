@@ -110,7 +110,7 @@
 <script>
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
-import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
+import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 import { mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
 

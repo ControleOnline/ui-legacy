@@ -123,7 +123,7 @@ import {
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import CreateExpense from "../expense/CreateExpense";
 import { date } from "quasar";
-import Filters from "../../common/Filters.vue";
+import Filters from "../../Common/Filters.vue";
 
 export default {
   components: {
