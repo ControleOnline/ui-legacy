@@ -15,12 +15,12 @@ export const routes = [
       },
       {
         name     : 'queuePeople',
-        path     : 'queue-people',
+        path     : 'queue/people',
         component: () => import('@controleonline/quasar-queues-ui/src/pages/Queues/QueuePeople.vue')
       },
       {
         name     : 'queuePeopleQueue',
-        path     : 'queue-people-queues',
+        path     : 'queue/people/queues',
         component: () => import('@controleonline/quasar-queues-ui/src/pages/Queues/QueuePeopleQueue.vue')
       },
     ]
