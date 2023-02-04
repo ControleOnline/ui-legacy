@@ -67,7 +67,7 @@ import {
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 import { date } from "quasar";
-import Filters from "../../Common/Filters.vue";
+import Filters from "../../common/Filters.vue";
 
 const SETTINGS = {
   visibleColumns: [
