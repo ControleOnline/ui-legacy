@@ -2393,6 +2393,7 @@ export default {
               if (data.members[index].destinationType == "p")
                 destinationType = "Ponto de encontro";
 
+              
               this.data.push({
                 id: data.members[index].id,
                 status: 
@@ -2431,7 +2432,10 @@ export default {
                 price: data.members[index].price,
                 amountPaid: data.members[index].amountPaid,
                 order: data.members[index].order.id,
-                orderInvoice: data.members[index].orderInvoice,
+                orderInvoice: 
+                  data.members[index].purchasingOrder
+                  ? data.members[index].purchasingOrder.id
+                  : null, 
                 lastModified:
                   data.members[index].lastModified == null
                     ? null
@@ -2460,8 +2464,47 @@ export default {
           this.isSaving = false;
           this.isLoading = false;
           this.isFirstStretch = this.data.length ? false : true;
+
+          for (let index in this.data) {
+            if (this.data[index].orderInvoice) {
+              this.getInvoice(this.data[index].orderInvoice)
+              .then((result) => {
+                console.log('getInvoice result')
+                console.log(result)
+                this.data[index].orderInvoice = result;
+              });
+            }
+          }
         });
     },
+    getInvoice(purchasingOrderId) {
+      let params = {};
+      if (purchasingOrderId)
+        params['order.id'] = purchasingOrderId;
+      else
+        return null;
+
+      return this.api
+        .private(`/sales_order_invoices/`, { params })
+        .then((response) => response.json())
+        .then((result) => {
+          let member = result["hydra:member"];
+          if (member.length) {
+            console.log('result')
+            console.log(member[0].invoice.id)
+            return member[0].invoice.id;
+          } else {
+            return null;
+          }
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: this.$t(error.message),
+            position: "bottom",
+            type: "negative",
+          });
+        });
+    }
   },
 };
 </script>
