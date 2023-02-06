@@ -94,22 +94,37 @@ export default {
         .then(data => {
           if (data['@id']) {
             this.task = data;
-            this.task.forEach(element => {
-              this.setRead(element);
-            });
-            
+            this.setRead(data);
+
           }
         });
     },
     setRead(element) {
-      
-        let options = {
-          method: "PUT",
-          headers: new Headers({ "Content-Type": "application/ld+json" }),
-          body: JSON.stringify({read:1}),
-        };
-        return this.API.private('task_interations/' + element.id,options)
-          .then(response => response.json());
+      console.log(element)
+      let params = {};
+      params['task.taskFor'] = this.peopleId;
+      params['task.id'] = element.id;
+      params['read'] = 0;
+
+      return this.API.private(`/task_interations`, {
+        params,
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          result['hydra:member'].forEach(element => {
+            
+
+            let options = {
+              method: "PUT",
+              headers: new Headers({ "Content-Type": "application/ld+json" }),
+              body: JSON.stringify({ read: 1 }),
+            };
+            return this.API.private('task_interations/' + element.id, options)
+              .then(response => response.json());
+          });
+          
+        });
+
     }
   },
 
