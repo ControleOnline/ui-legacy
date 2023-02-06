@@ -11,7 +11,7 @@
 
                     <q-item clickable v-close-popup @click="redirecionaTasks(notfication)">
 
-                        <q-item-section>{{ notfication.id + ' ' + notfication.body }}</q-item-section>
+                        <q-item-section>{{ notfication.id + ' ' + notfication.notification }}</q-item-section>
                     </q-item>
 
                 </q-list>
@@ -67,11 +67,11 @@ export default {
 
         getNotifications() {
             let params = {};
-            params['task.taskFor'] = this.peopleId;
+            params['people.id'] = this.peopleId;
             params['read'] = 0;
             params.itemsPerPage = 10;
 
-            return this.API.private(`/task_interations`, {
+            return this.API.private(`/notifications`, {
                 params,
             })
                 .then((response) => response.json())
@@ -80,8 +80,9 @@ export default {
                     this.notificationsUnread = result['hydra:totalItems'];
                 });
         },
-        redirecionaTasks(notification) {
-            this.$router.push("/tasks/id/" + notification.task.replace('/tasks/', ''))
+        redirecionaTasks(notfication) {            
+                  this.$router.push({ name: notfication.route, params: { id: notfication.routeId } });
+
         },
 
         click(route) {
