@@ -36,12 +36,12 @@
             </div>
             <div class="col-xs-12 col-sm-3 col-md-4">
               <ListAutocomplete
-              ref="destinationAddress"
-              :source="getGeoPlaces"
-              :isLoading="isSearching"
-              label="Destino"
-              @selected="onSelectDestinationFilter"
-              placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                ref="destinationAddress"
+                :source="getGeoPlaces"
+                :isLoading="isSearching"
+                label="Destino"
+                @selected="onSelectDestinationFilter"
+                placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
               />
             </div>
             <div class="col-xs-12 col-sm-3 col-md-2 q-pb-sm">
@@ -56,9 +56,7 @@
               >
                 <template v-slot:no-option>
                   <q-item>
-                    <q-item-section class="text-grey">
-                      Sem resultados
-                    </q-item-section>
+                    <q-item-section class="text-grey"> Sem resultados </q-item-section>
                   </q-item>
                 </template>
               </q-select>
@@ -95,18 +93,9 @@
               />
             </div>
           </div>
-          <div
-            class="col-xs-12 col-sm-12 col-md-12 flex justify-end q-gutter-x-md"
-          >
-            <div
-              v-if="!hasOrderId"
-              class="col-sm-3 flex items-end col-xs-12 q-pb-md"
-            >
-              <q-btn
-                color="primary"
-                label="Limpar filtro"
-                @click="cleanFilter()"
-              ></q-btn>
+          <div class="col-xs-12 col-sm-12 col-md-12 flex justify-end q-gutter-x-md">
+            <div v-if="!hasOrderId" class="col-sm-3 flex items-end col-xs-12 q-pb-md">
+              <q-btn color="primary" label="Limpar filtro" @click="cleanFilter()"></q-btn>
             </div>
             <div class="col-sm-3 flex items-end col-xs-12 q-pb-md">
               <q-btn
@@ -134,12 +123,7 @@
     <!-- Add Trecho -->
     <div>
       <q-card v-if="toggleAddStretch == true" class="row q-pa-md q-mb-xl">
-        <q-form
-          class="row flex col-12 q-gutter-y-md"
-          ref="myForm"
-          @submit="onSubmit"
-        >
-    
+        <q-form class="row flex col-12 q-gutter-y-md" ref="myForm" @submit="onSubmit">
           <div class="row col-12 q-gutter-sm">
             <q-select
               dense
@@ -258,8 +242,8 @@
                         @click="editAdress = true"
                       ></q-btn>
                     </template>
-                </q-input>
-                <div class="row flex items-center" v-if="editAdress == true">
+                  </q-input>
+                  <div class="row flex items-center" v-if="editAdress == true">
                     <ListAutocomplete
                       class="col-11"
                       :source="getGeoPlaces"
@@ -277,7 +261,7 @@
                         @click="cancelEditAdress()"
                       ></q-btn>
                     </div>
-                </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -472,7 +456,11 @@
                 class="full-width"
               />
             </q-td>
-            <q-td :props="props" key="stretchstatus" :style="{color: getStatusColor(props.row.status.label)}">
+            <q-td
+              :props="props"
+              key="stretchstatus"
+              :style="{ color: getStatusColor(props.row.status.label) }"
+            >
               {{ props.row.status.label }}
             </q-td>
             <q-td :props="props" key="OrigemTipo">
@@ -509,7 +497,9 @@
               {{ props.row.destinationAdress }}
             </q-td>
             <q-td :props="props" key="DestinoFornecedor">
-              {{ props.row.destinationProvider ? props.row.destinationProvider.label : "" }}
+              {{
+                props.row.destinationProvider ? props.row.destinationProvider.label : ""
+              }}
             </q-td>
             <q-td :props="props" key="Valor">
               {{ formatMoney(props.row.price) }}
@@ -590,10 +580,7 @@
     <div>
       <q-dialog v-model="editModal">
         <q-card class="q-pa-md" style="max-width: 50%">
-          <q-form
-            class="row flex q-gutter-y-md"
-            ref="myForm"
-          >
+          <q-form class="row flex q-gutter-y-md" ref="myForm">
             <div class="row col-12 q-gutter-sm">
               <div class="col-12">
                 <q-select
@@ -715,10 +702,7 @@
                         ></q-btn>
                       </template>
                     </q-input>
-                    <div
-                      v-if="editProvider == true"
-                      class="row flex items-center"
-                    >
+                    <div v-if="editProvider == true" class="row flex items-center">
                       <PeopleAutocomplete
                         class="col-11"
                         :source="searchPeople"
@@ -817,10 +801,7 @@
                       ></q-btn>
                     </template>
                   </q-input>
-                  <div
-                    class="row flex items-center"
-                    v-if="editDestinationAdress == true"
-                  >
+                  <div class="row flex items-center" v-if="editDestinationAdress == true">
                     <ListAutocomplete
                       class="col-11"
                       :source="getGeoPlaces"
@@ -900,14 +881,14 @@
 
             <div class="row col-12 q-gutter-x-sm">
               <q-select
-              class="col-5"
-              dense
-              outlined
-              stack-label
-              label="Taxa"
-              :options="stretchValueOptions"
-              v-model="stretchValueSelected"
-            ></q-select>
+                class="col-5"
+                dense
+                outlined
+                stack-label
+                label="Taxa"
+                :options="stretchValueOptions"
+                v-model="stretchValueSelected"
+              ></q-select>
               <q-input
                 class="col-3"
                 dense
@@ -957,16 +938,8 @@
             </div>
 
             <div class="col-12 q-gutter-sm flex justify-end">
-              <q-btn
-                color="positive"
-                label="Salvar"
-                @click="saveStretch()"
-              ></q-btn>
-              <q-btn
-                color="negative"
-                label="Cancelar"
-                v-close-popup
-              ></q-btn>
+              <q-btn color="positive" label="Salvar" @click="saveStretch()"></q-btn>
+              <q-btn color="negative" label="Cancelar" v-close-popup></q-btn>
             </div>
 
             <!-- <div class="row col-12 q-gutter-sm" v-if="stretch.originType == 'Base'">
@@ -1146,7 +1119,10 @@
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
-import { formatMoney, formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import {
+  formatMoney,
+  formatDateYmdTodmY,
+} from "@controleonline/quasar-common-ui/src/utils/formatter";
 import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/DataFilter.vue";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
@@ -1380,7 +1356,7 @@ export default {
       editProvider: false,
       editDestinationAdress: false,
       editDestinationProvider: false,
-      stretch: {price: 0},
+      stretch: { price: 0 },
       // stretch: {
       //   id: null,
       //   order: null,
@@ -1406,11 +1382,7 @@ export default {
       addModal: false,
       editModal: false,
       peopleOptions: ["Fornecedor 1", "Fornecedor 2", "Fornecedor 3"],
-      peopleStatusOptions: [
-        "Liberado para base",
-        "Aguardando cliente",
-        "Pátio",
-      ],
+      peopleStatusOptions: ["Liberado para base", "Aguardando cliente", "Pátio"],
       statusOptions: [],
       stretchValueOptions: [],
       stretchValueSelected: null,
@@ -1419,20 +1391,8 @@ export default {
       filterStatusOptions: [],
       originTypeOptions: ["Coleta", "Base", "Ponto de encontro"],
       destinationTypeOptions: ["Entrega", "Base", "Ponto de encontro"],
-      originRegionOptions: [
-        "Norte",
-        "Nordeste",
-        "Sul",
-        "Sudeste",
-        "Centro-Oeste",
-      ],
-      destinationRegionOptions: [
-        "Norte",
-        "Nordeste",
-        "Sul",
-        "Sudeste",
-        "Centro-Oeste",
-      ],
+      originRegionOptions: ["Norte", "Nordeste", "Sul", "Sudeste", "Centro-Oeste"],
+      destinationRegionOptions: ["Norte", "Nordeste", "Sul", "Sudeste", "Centro-Oeste"],
       collectionStateOptions: [
         ["Acre", "AC", "Norte"],
         ["Alagoas", "AL", "Nordeste"],
@@ -1497,14 +1457,12 @@ export default {
     }),
 
     providerLabel() {
-      if (this.stretch.provider)
-        return this.stretch.provider.label;
+      if (this.stretch.provider) return this.stretch.provider.label;
       return "";
     },
 
     destinationProviderLabel() {
-      if (this.stretch.destinationProvider)
-        return this.stretch.destinationProvider.label;
+      if (this.stretch.destinationProvider) return this.stretch.destinationProvider.label;
       return "";
     },
   },
@@ -1567,8 +1525,7 @@ export default {
       if (this.addModal == false) this.deliveryBaseTax = null;
     },
     editModal() {
-      if (this.editModal == false)
-        this.onReset();
+      if (this.editModal == false) this.onReset();
     },
     toggleAddStretch(value) {
       if (value && !this.stretchValueOptions.length) {
@@ -1580,31 +1537,31 @@ export default {
       }
 
       if (value && !this.isFirstStretch) {
-        let lastStretch = this.data[this.data.length-1];
+        let lastStretch = this.data[this.data.length - 1];
         this.stretch.originRegion = lastStretch.destinationRegion;
         this.stretch.originState = lastStretch.destinationState;
         this.stretch.originCity = lastStretch.destinationCity;
         this.stretch.originAdress = lastStretch.destinationAdress;
       }
     },
-    "tempOriginAddressAdd"(address) {
-      this.stretch.originRegion = address.value.region
-      this.stretch.originState = address.value.state
-      this.stretch.originCity = address.value.city
-      this.stretch.originAdress= address.label
+    tempOriginAddressAdd(address) {
+      this.stretch.originRegion = address.value.region;
+      this.stretch.originState = address.value.state;
+      this.stretch.originCity = address.value.city;
+      this.stretch.originAdress = address.label;
     },
-    "tempDestinationAddressAdd"(address) {
-      this.stretch.destinationRegion = address.value.region
-      this.stretch.destinationState = address.value.state
-      this.stretch.destinationCity = address.value.city
-      this.stretch.destinationAdress= address.label
+    tempDestinationAddressAdd(address) {
+      this.stretch.destinationRegion = address.value.region;
+      this.stretch.destinationState = address.value.state;
+      this.stretch.destinationCity = address.value.city;
+      this.stretch.destinationAdress = address.label;
     },
-    "stretchValueSelected"(value) {
+    stretchValueSelected(value) {
       if (value && value.price) {
-          let val = value.price.toFixed(2)
-          this.stretch.price = parseFloat(val);
-        }
-      },
+        let val = value.price.toFixed(2);
+        this.stretch.price = parseFloat(val);
+      }
+    },
   },
 
   methods: {
@@ -1708,7 +1665,7 @@ export default {
           if (data != null) {
             this.originProviderHasAddress = true;
             this.originProviderAddressOptions = [];
-            
+
             for (let index in data) {
               let address = {};
               address.country =
@@ -1722,7 +1679,7 @@ export default {
               address.number = data[index].number || "";
               address.complement = data[index].complement || "";
               let formatedAddress = `${address.street}, ${address.number}, ${address.complement} - ${address.district}, ${address.cep}, ${address.city} ${address.state}, ${address.country}`;
-      
+
               this.originProviderAddressOptions.push({
                 label: formatedAddress,
                 value: address,
@@ -1746,7 +1703,7 @@ export default {
           if (data != null) {
             this.destinationProviderHasAddress = true;
             this.destinationProviderAddressOptions = [];
-            
+
             for (let index in data) {
               let address = {};
               address.country =
@@ -1760,7 +1717,7 @@ export default {
               address.number = data[index].number || "";
               address.complement = data[index].complement || "";
               let formatedAddress = `${address.street}, ${address.number}, ${address.complement} - ${address.district}, ${address.cep}, ${address.city} ${address.state}, ${address.country}`;
-      
+
               this.destinationProviderAddressOptions.push({
                 label: formatedAddress,
                 value: address,
@@ -1779,19 +1736,16 @@ export default {
       this.stretch.provider = item.id;
     },
     onSelectOriginFilter(item) {
-      if (item)
-        this.filters.origin = item.description;
+      if (item) this.filters.origin = item.description;
     },
     onSelectDestinationFilter(item) {
       this.filters.destination = item.description;
     },
     onSelectOriginPeopleFilter(item) {
-      if (item)
-        this.filters.provider = item.id;
+      if (item) this.filters.provider = item.id;
     },
     onSelectDestinationPeopleFilter(item) {
-      if (item)
-        this.filters.destinationProvider = item.id;
+      if (item) this.filters.destinationProvider = item.id;
     },
     dateChanged(date) {
       if (date.from || date.to) {
@@ -1809,19 +1763,19 @@ export default {
       if (!this.isSuper) {
         let columnsName = ["Valor", "ValorPago"];
         for (let i in columnsName) {
-          let column = SETTINGS.columns.find(x => x.name == columnsName[i]);
+          let column = SETTINGS.columns.find((x) => x.name == columnsName[i]);
           let position = SETTINGS.columns.indexOf(column);
           SETTINGS.columns.splice(position, 1);
         }
       }
     },
     getquotationId(orderId) {
-
       return this.api
         .private(`/sales/orders/${orderId}/detail/summary`, {})
         .then((response) => response.json())
         .then((result) => {
-          if (result.response.data.quotations.length) { // condicionar com length
+          if (result.response.data.quotations.length) {
+            // condicionar com length
             let quotations = result.response.data.quotations;
             // let quotationId = 29236;
             for (let index in quotations) {
@@ -1831,7 +1785,7 @@ export default {
           } else {
             this.stretchValueSelected = "SEM COTAÇÃO";
           }
-        })
+        });
     },
     getQuotationValues(quotationId) {
       return this.api
@@ -1839,13 +1793,14 @@ export default {
         .then((response) => response.json())
         .then((result) => {
           if (result.response.data.taxes.length) {
-
             let taxesFilter = ["TRECHO", "VALOR", "ACRÉSCIMO", "BASE", "GUINCHO"];
             let allTaxes = result.response.data.taxes;
             let taxes = [];
-            
+
             for (let index in taxesFilter) {
-              let res = allTaxes.filter(allTaxes => allTaxes.name.includes(taxesFilter[index]));
+              let res = allTaxes.filter((allTaxes) =>
+                allTaxes.name.includes(taxesFilter[index])
+              );
               if (res.length) {
                 taxes.push.apply(taxes, res);
               }
@@ -1857,10 +1812,10 @@ export default {
                 label: taxes[index].name,
                 id: taxes[index].id,
                 price: taxes[index].total,
-              })
+              });
             }
           }
-        })
+        });
     },
     checkOrderId() {
       this.hasOrderId = this.orderId ? true : false;
@@ -1871,36 +1826,27 @@ export default {
       this.editDestinationAdress = false;
       this.editDestinationProvider = false;
       this.editModal = true;
-      if (!this.orderId)
-        this.getquotationId(props.row.order)
+      if (!this.orderId) this.getquotationId(props.row.order);
 
       this.stretch = structuredClone(props.row);
       this.stretch.shippingDate = this.formatDate(this.stretch.shippingDate);
-      this.stretch.shippingDate = this.buildAmericanDate(
-        this.stretch.shippingDate
-      );
+      this.stretch.shippingDate = this.buildAmericanDate(this.stretch.shippingDate);
       this.stretch.arrivalDate = this.formatDate(this.stretch.arrivalDate);
-      this.stretch.arrivalDate = this.buildAmericanDate(
-        this.stretch.arrivalDate
-      );
+      this.stretch.arrivalDate = this.buildAmericanDate(this.stretch.arrivalDate);
     },
     cancelEditAdress() {
       this.editAdress = false;
-      if (this.tempAdress.region)
-        this.stretch.originRegion = this.tempAdress.region;
+      if (this.tempAdress.region) this.stretch.originRegion = this.tempAdress.region;
 
-      if (this.tempAdress.state)
-        this.stretch.originState = this.tempAdress.state;
+      if (this.tempAdress.state) this.stretch.originState = this.tempAdress.state;
 
       if (this.tempAdress.city) this.stretch.originCity = this.tempAdress.city;
 
-      if (this.tempAdress.adress)
-        this.stretch.originAdress = this.tempAdress.adress;
+      if (this.tempAdress.adress) this.stretch.originAdress = this.tempAdress.adress;
     },
     cancelEditProvider() {
       this.editProvider = false;
-      if (this.tempProvider.name)
-        this.stretch.provider = this.tempProvider.name;
+      if (this.tempProvider.name) this.stretch.provider = this.tempProvider.name;
 
       if (this.tempProvider.id) this.selectedProvider = this.tempProvider.id;
     },
@@ -1948,7 +1894,7 @@ export default {
       this.stretch.shippingDate = null;
       this.stretch.arrivalDate = null;
       if (this.isFirstStretch) {
-        this.stretch.originType =  null;
+        this.stretch.originType = null;
         this.stretch.originRegion = null;
         this.stretch.originState = null;
         this.stretch.provider = null;
@@ -1970,10 +1916,7 @@ export default {
     },
     formatDate(dateString) {
       if (dateString)
-        return date.formatDate(
-          date.extractDate(dateString, "YYYY-MM-DD"),
-          "DD/MM/YYYY"
-        );
+        return date.formatDate(date.extractDate(dateString, "YYYY-MM-DD"), "DD/MM/YYYY");
       else return null;
     },
     buildAmericanDate(dateString) {
@@ -1991,7 +1934,7 @@ export default {
       return formatedDate;
     },
     padTo2Digits(num) {
-      return num.toString().padStart(2, '0');
+      return num.toString().padStart(2, "0");
     },
     formatDateTime(date) {
       return (
@@ -1999,13 +1942,13 @@ export default {
           date.getFullYear(),
           this.padTo2Digits(date.getMonth() + 1),
           this.padTo2Digits(date.getDate()),
-        ].join('-') +
-        ' ' +
+        ].join("-") +
+        " " +
         [
           this.padTo2Digits(date.getHours()),
           this.padTo2Digits(date.getMinutes()),
           this.padTo2Digits(date.getSeconds()),
-        ].join(':')
+        ].join(":")
       );
     },
     getStatuses() {
@@ -2045,52 +1988,51 @@ export default {
         case "Aberto":
           color = "#1282F1";
           break;
-      
+
         case "Reembarque":
           color = "#1282F1";
           break;
-      
+
         case "Pátio":
           color = "#1282F1";
           break;
-      
+
         case "Aguardando":
           color = "#D9DE29";
           break;
-      
+
         case "Aguardando retirada":
           color = "#D9DE29";
           break;
-      
+
         case "Aguardando cliente":
           color = "#D9DE29";
           break;
-      
+
         case "Em trânsito":
           color = "#D9DE29";
           break;
-      
+
         case "Pendente de coleta":
           color = "#D9DE29";
           break;
-      
+
         case "Pendente de embarque":
           color = "#F0ED12";
           break;
-      
+
         case "Retirado":
           color = "#2CF30D";
           break;
-      
-      
+
         case "Finalizado":
           color = "#2CF30D";
           break;
-      
+
         case "Liberado para base":
           color = "#2CF30D";
           break;
-      
+
         default:
           break;
       }
@@ -2152,12 +2094,13 @@ export default {
     finish(props) {
       let arrivalDate = this.buildAmericanDate(new Date().toLocaleDateString());
       this.stretch = structuredClone(props.row);
-      
+
       this.selectedProvider = props.row.providerId;
       this.selectedDestinationProvider = props.row.destinationProviderId;
-      let finishedStatus = this.statusOptions.find(x => x.label == "Finalizado" || x.value == 57);
-      if (finishedStatus)
-        this.stretch.status = finishedStatus;
+      let finishedStatus = this.statusOptions.find(
+        (x) => x.label == "Finalizado" || x.value == 57
+      );
+      if (finishedStatus) this.stretch.status = finishedStatus;
       else {
         this.$q.notify({
           message: "Não foi possível finalizar o trecho. Status não encontrado.",
@@ -2166,13 +2109,10 @@ export default {
         });
         return null;
       }
-        
-      
+
       this.stretch.shippingDate = this.formatDate(props.row.shippingDate);
-      this.stretch.shippingDate = this.buildAmericanDate(
-        this.stretch.shippingDate
-        );
-        this.stretch.arrivalDate = arrivalDate.toString();
+      this.stretch.shippingDate = this.buildAmericanDate(this.stretch.shippingDate);
+      this.stretch.arrivalDate = arrivalDate.toString();
       this.saveStretch();
     },
     getProviderAddress(providerId) {
@@ -2203,9 +2143,8 @@ export default {
     getValuesToLoad() {
       this.onRequest({ pagination: this.pagination });
       this.getStatuses();
-      if (this.orderId)
-        this.getquotationId(this.orderId);
-  
+      if (this.orderId) this.getquotationId(this.orderId);
+
       this.isLoading = true;
     },
 
@@ -2218,55 +2157,55 @@ export default {
       });
     },
     saveStretch() {
-      let stretch = structuredClone(this.stretch)
+      let stretch = structuredClone(this.stretch);
       this.addModal = false;
       this.editModal = false;
-      
+
       stretch.status = "/statuses/" + stretch.status.value;
       if (stretch.provider)
-      stretch.provider = "/people/" + (stretch.provider.value ? stretch.provider.value : stretch.provider);
+        stretch.provider =
+          "/people/" +
+          (stretch.provider.value ? stretch.provider.value : stretch.provider);
       if (stretch.destinationProvider)
-      stretch.destinationProvider = "/people/" + (stretch.destinationProvider.value ? stretch.destinationProvider.value : stretch.destinationProvider);
-      
+        stretch.destinationProvider =
+          "/people/" +
+          (stretch.destinationProvider.value
+            ? stretch.destinationProvider.value
+            : stretch.destinationProvider);
+
       if (stretch.originType == "Base") stretch.originType = "b";
-      
+
       if (stretch.originType == "Coleta") stretch.originType = "c";
 
       if (stretch.originType == "Ponto de encontro") stretch.originType = "p";
 
       if (stretch.destinationType == "Base") stretch.destinationType = "b";
-      
+
       if (stretch.destinationType == "Entrega") stretch.destinationType = "e";
-      
-      if (stretch.destinationType == "Ponto de encontro")
-        stretch.destinationType = "p";
-      
-      if (stretch.order == null)
-        stretch.order = this.orderId;
+
+      if (stretch.destinationType == "Ponto de encontro") stretch.destinationType = "p";
+
+      if (stretch.order == null) stretch.order = this.orderId;
       stretch.order = "/sales/orders/" + stretch.order;
 
       stretch.price = parseFloat(this.stretch.price);
       stretch.amountPaid = parseFloat(this.stretch.amountPaid);
-      
-      stretch.inCharge = "/people/" + LocalStorage.getItem('session').people;
-      stretch.lastModified = this.lastModified();
-      
-      
-      
-        
-      let endpoint =
-        this.stretch.id
-          ? `/order_logistics/${this.stretch.id}`
-          : `/order_logistics`;
-      
-      let options = {
-          method: this.stretch.id ? "PUT" : "POST",
-          headers: new Headers(),
-          body: JSON.stringify(stretch),
-        };
 
-        this.api
-            .private(endpoint, options)
+      stretch.inCharge = "/people/" + LocalStorage.getItem("session").people;
+      stretch.lastModified = this.lastModified();
+
+      let endpoint = this.stretch.id
+        ? `/order_logistics/${this.stretch.id}`
+        : `/order_logistics`;
+
+      let options = {
+        method: this.stretch.id ? "PUT" : "POST",
+        headers: new Headers(),
+        body: JSON.stringify(stretch),
+      };
+
+      this.api
+        .private(endpoint, options)
         .then((response) => response.json())
         .then((result) => {
           if (result.id) {
@@ -2324,8 +2263,7 @@ export default {
         });
     },
     onRequest(props) {
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       // let params = { itemsPerPage: rowsPerPage, page };
       let params = {};
 
@@ -2381,28 +2319,23 @@ export default {
 
               if (data.members[index].originType == "c") originType = "Coleta";
 
-              if (data.members[index].originType == "p")
-                originType = "Ponto de encontro";
+              if (data.members[index].originType == "p") originType = "Ponto de encontro";
 
-              if (data.members[index].destinationType == "b")
-                destinationType = "Base";
+              if (data.members[index].destinationType == "b") destinationType = "Base";
 
-              if (data.members[index].destinationType == "e")
-                destinationType = "Entrega";
+              if (data.members[index].destinationType == "e") destinationType = "Entrega";
 
               if (data.members[index].destinationType == "p")
                 destinationType = "Ponto de encontro";
 
-              
               this.data.push({
                 id: data.members[index].id,
-                status: 
-                  {
-                    label: this.$t(
+                status: {
+                  label: this.$t(
                     `logistic.statuses.${data.members[index].status.status}`
-                    ),
-                    value: data.members[index].status.id 
-                  },
+                  ),
+                  value: data.members[index].status.id,
+                },
                 shippingDate: data.members[index].shippingDate,
                 arrivalDate: data.members[index].arrivalDate,
                 originType: originType,
@@ -2415,7 +2348,7 @@ export default {
                     ? null
                     : {
                         label: data.members[index].provider.name,
-                        value: data.members[index].provider.id
+                        value: data.members[index].provider.id,
                       },
                 destinationType: destinationType,
                 destinationRegion: data.members[index].destinationRegion,
@@ -2426,16 +2359,13 @@ export default {
                   data.members[index].destinationProvider == null
                     ? null
                     : {
-                      label: data.members[index].destinationProvider.alias,
-                      value: data.members[index].destinationProvider.id
-                    },
+                        label: data.members[index].destinationProvider.alias,
+                        value: data.members[index].destinationProvider.id,
+                      },
                 price: data.members[index].price,
                 amountPaid: data.members[index].amountPaid,
                 order: data.members[index].order.id,
-                orderInvoice: 
-                  data.members[index].purchasingOrder
-                  ? data.members[index].purchasingOrder.id
-                  : null, 
+                orderInvoice: this.getInvoice(data.members[index].purchasingOrder),
                 lastModified:
                   data.members[index].lastModified == null
                     ? null
@@ -2464,47 +2394,17 @@ export default {
           this.isSaving = false;
           this.isLoading = false;
           this.isFirstStretch = this.data.length ? false : true;
-
-          for (let index in this.data) {
-            if (this.data[index].orderInvoice) {
-              this.getInvoice(this.data[index].orderInvoice)
-              .then((result) => {
-                console.log('getInvoice result')
-                console.log(result)
-                this.data[index].orderInvoice = result;
-              });
-            }
-          }
         });
     },
-    getInvoice(purchasingOrderId) {
-      let params = {};
-      if (purchasingOrderId)
-        params['order.id'] = purchasingOrderId;
-      else
-        return null;
-
-      return this.api
-        .private(`/sales_order_invoices/`, { params })
-        .then((response) => response.json())
-        .then((result) => {
-          let member = result["hydra:member"];
-          if (member.length) {
-            console.log('result')
-            console.log(member[0].invoice.id)
-            return member[0].invoice.id;
-          } else {
-            return null;
-          }
-        })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        });
-    }
+    getInvoice(purchasingOrder) {
+      if (
+        purchasingOrder &&
+        purchasingOrder.invoice &&
+        purchasingOrder.invoice[0] &&
+        purchasingOrder.invoice[0].invoice
+      )
+        return purchasingOrder.invoice[0].invoice.id;
+    },
   },
 };
 </script>
@@ -2514,7 +2414,7 @@ export default {
   overflow-x: scroll;
 }
 
-.data-filter  {
+.data-filter {
   padding-top: 0;
   padding-bottom: 0;
 }
