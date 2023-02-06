@@ -2326,8 +2326,8 @@ export default {
     onRequest(props) {
       let { page, rowsPerPage, rowsNumber, sortBy, descending } =
         props.pagination;
-      // let params = { itemsPerPage: rowsPerPage, page };
-      let params = {};
+      let params = { itemsPerPage: rowsPerPage, page };
+      // let params = {};
 
       if (this.orderId) {
         params["order"] = this.orderId;
@@ -2448,10 +2448,10 @@ export default {
             }
           }
           // console.log(data)
-          // this.pagination.page = page;
-          // this.pagination.rowsPerPage = rowsPerPage;
-          // this.pagination.sortBy = sortBy;
-          // this.pagination.descending = descending;
+          this.pagination.page = page;
+          this.pagination.rowsPerPage = rowsPerPage;
+          this.pagination.sortBy = sortBy;
+          this.pagination.descending = descending;
         })
         .catch((error) => {
           this.$q.notify({
