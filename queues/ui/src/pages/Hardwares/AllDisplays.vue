@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page class="bg-grey">
     <div class="row full-height-vh">
       <div class="col-3 q-pa-sm">
         <q-card class="my-card full-height">
@@ -205,10 +205,10 @@
             </q-card>
           </div>
         </div>
-        <div class="full-width q-pa-sm">
+        <div class="full-width q-pa-sm video-height">
           <q-video
             src="https://www.youtube.com/embed/YriZWDnixWE?rel=0&controls=0&autoplay=true"
-            style="width: 100%px; height: 70vh"
+            style="width: 100%px; height: 100%"
           />
         </div>
       </div>
@@ -218,5 +218,8 @@
 <style>
 .full-height-vh {
   height: calc(100vh - 16px) !important;
+}
+.video-height{
+    height: calc(100% - 130px) !important;
 }
 </style>
