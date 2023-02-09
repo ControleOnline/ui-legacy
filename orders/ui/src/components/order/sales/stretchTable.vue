@@ -2382,6 +2382,7 @@ export default {
           this.pagination.rowsPerPage = rowsPerPage;
           this.pagination.sortBy = sortBy;
           this.pagination.descending = descending;
+          this.pagination.rowsNumber = data.total;
         })
         .catch((error) => {
           this.$q.notify({
