@@ -1,36 +1,34 @@
 <template>
     <div class="col-12">
-        <div class="flex flex-center" v-if="isLoading || loadingStatuses">
-            <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary"
-                class="q-ma-md" />
-            Carregando...
-        </div>
-
         <div>
             <q-card class="col-12 q-pa-md">
                 <q-form
-                class="row flex q-gutter-y-md"
+                class="column q-gutter-y-md"
                 ref="myForm"
                 >
-                    <div class="col-12">
+                    <div class="col-6">
                         <q-input
                             dense
                             outlined
                             stack-label
-                            label="Hardware"
+                            :label="$t(`hardware.hardware`)"
                             v-model="hardware"
+                            :rules="[(val) => val != null]"
+                            hide-bottom-space
                         ></q-input>
                     </div>
-                    <div class="col-12">
+                    <div class="col-6">
                         <q-input
                             dense
                             outlined
                             stack-label
                             label="Imei"
                             v-model="imei"
+                            :rules="[(val) => val != null]"
+                            hide-bottom-space
                         ></q-input>
                     </div>
-                    <div class="row col-12 items-center">
+                    <div class="row col-12 items-center" v-if="hardwareId">
                         <q-input
                             v-if="this.editMode"
                             class="col-11"
@@ -38,7 +36,7 @@
                             outlined
                             readonly
                             stack-label
-                            label="Empresa"
+                            :label="$t(`Company`)"
                             v-model="company.label"
                             >
                         </q-input>
@@ -47,9 +45,9 @@
                             class="col-11"
                             :source="searchPeople"
                             :isLoading="isSearching"
-                            label="Empresa"
+                            :label="$t(`Company`)"
                             @selected="onSelectCompany"
-                            placeholder="Pesquisar..."
+                            :placeholder="$t(`Search`)"
                         />
                         <div v-if="this.hardwareId">
                             <q-btn
@@ -76,8 +74,8 @@
                             dense
                             color="primary"
                             icon="save"
-                            label="Salvar"
-                            @click="save()"
+                            :label="$t(`Save`)"
+                            @click="onSubmit()"
                         ></q-btn>
                     </div>
                 </q-form>
@@ -89,7 +87,7 @@
 <script>
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
-import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
+import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -119,6 +117,7 @@ export default {
             hardware: null,
             imei: null,
             company: null,
+            tempCompany: null,
 
             companyOptions: [],
         }
@@ -130,7 +129,13 @@ export default {
             this.hardware = this.hardwareObj ? this.hardwareObj.hardware : null;
             this.imei = this.hardwareObj.imei ? this.hardwareObj.imei : null;
             this.company = this.hardwareObj.company ? this.hardwareObj.company : null;
+        } else {
+            this.company = {
+                label: this.myCompany.name,
+                value: this.myCompany.id
+            };
         }
+
         if (this.hardwareId)
             this.editMode = true;
     },
@@ -142,17 +147,18 @@ export default {
         editCompany(v){
             console.log('editCompany')
             console.log(v)
-        }
+        },
     },
 
     methods: {
         ...mapActions({
             search: "people/searchPeople",
+            defaultCompany: "people/defaultCompany",
+            myCompany: "people/currentCompany",
         }),
 
         searchPeople(input) {
             this.isSearching = true;
-
             return this.search(input).then((result) => {
                 this.isSearching = false;
 
@@ -195,6 +201,7 @@ export default {
                 this.editCompany = true;
                 this.editMode = false;
                 this.tempCompany = structuredClone(this.company);
+                this.company = null;
             } else if (action === 'cancel') {
                 this.editCompany = false;
                 this.editMode = true;
@@ -202,11 +209,26 @@ export default {
             }
         },
 
+        onSubmit() {
+            this.$refs.myForm.validate().then((success) => {
+                if (success) {
+                    if (this.hardwareId) {
+                        if (this.company) {
+                            this.save();
+                        }
+                    } else {
+                        this.save();
+                    }
+                }
+            });
+        },
+
         save() {
+            this.$q.loading.show();
 
             let values = {};
             values.hardware = this.hardware;
-            values.imei = this.imei;
+            values.imei = parseInt(this.imei);
             values.company = "people/" + this.company.value;
 
             let endpoint = this.hardwareId ?  `hardware/${this.hardwareId}` : `hardware`;
@@ -216,23 +238,22 @@ export default {
                 headers: new Headers(),
                 body: JSON.stringify(values),
             };
-
+            
             this.api
                 .private(endpoint, options)
                 .then((response) => response.json())
                 .then((result) => {
-                    if (result["@id"]) {
-                        this.$q.notify({
-                            message: this.$t("Dados salvos com sucesso!"),
-                            position: "bottom",
+                        if (result["@id"]) {
+                                this.$q.notify({
+                                        message: this.$t(`success`),
+                                        position: "bottom",
                             type: "positive",
                         });
-                        console.log('save')
-                        console.log(result)
                         this.$emit("savedItem", result);
                     } else {
                         this.$q.notify({
-                            message: this.$t("Não foi possível salvar os dados!"),
+                
+                            message: this.$t(`messages.anErrorOccurred`),
                             position: "bottom",
                             type: "negative",
                         });
@@ -244,6 +265,9 @@ export default {
                         position: "bottom",
                         type: "negative",
                     });
+                })
+                .finally(() => {
+                    this.$q.loading.hide();
                 });
         }
     },

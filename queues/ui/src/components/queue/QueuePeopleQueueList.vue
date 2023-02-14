@@ -2,7 +2,7 @@
   <div class="col-12">
     <div class="flex flex-center" v-if="isLoading || loadingStatuses">
       <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary" class="q-ma-md" />
-      Carregando...
+      {{ $t(`loading`) }}
     </div>
 
     <q-table
@@ -12,6 +12,8 @@
       :data="data"
       :columns="columns"
       row-key="Id"
+      :pagination.sync="pagination"
+      @request="onRequest"
       :rows-per-page-options="[0]"
     >
       <template v-slot:body="props">
@@ -29,15 +31,8 @@
                   <q-item-section side>
                     <q-icon name="edit"></q-icon>
                   </q-item-section>
-                  <q-item-section> Editar </q-item-section>
+                  <q-item-section> {{ $t(`Edit`) }} </q-item-section>
                 </q-item>
-                <q-item clickable @click="confirmDelete(props.row)">
-                  <q-item-section side>
-                    <q-icon name="delete"></q-icon>
-                  </q-item-section>
-                  <q-item-section> Excluir </q-item-section>
-                </q-item>
-                <q-separator></q-separator>
               </q-list>
             </q-menu>
             </q-btn>
@@ -52,9 +47,9 @@
     <q-dialog v-model="editQueuePeopleQueue">
       <q-card style="width:50%">
         <q-card-section>
-          <span class="text-h6">Editar</span>
+          <span class="text-h6"> {{ $t(`Edit`) }}</span>
         </q-card-section>
-        <QueuePeopleQueueCreate :queuePeopleQueueObj="this.selectedQueuePeopleQueue" @savedItem="saved()"></QueuePeopleQueueCreate>
+        <QueuePeopleQueueCreate :queuePeopleQueueObj="this.selectedQueuePeopleQueue" @savedItem="saved"></QueuePeopleQueueCreate>
       </q-card>
     </q-dialog>
   </div>
@@ -78,6 +73,13 @@ export default {
       api: new Api(this.$store.getters["auth/user"].token),
       loadingStatuses: null,
       isLoading: null,
+
+      pagination: {
+        sortBy: "ultimaModificacao",
+        page: 1,
+        rowsPerPage: 10,
+        rowsNumber: 10,
+      },
 
       selectedQueuePeopleQueue: null,
 
@@ -121,28 +123,43 @@ export default {
   },
 
   methods: {
-    getItems() {
+    onRequest(pagination) {
+      console.log('onRequest')
+      console.log(onRequest)
+      this.pagination = pagination;
+    },
+
+    getItems(params) {
       return this.api
-        .private(`queue_people_queues`, {})
+        .private(`queue_people_queues`, { params })
         .then((response) => response.json())
         .then((result) => {
           return {
             members: result["hydra:member"],
+            total: result["hydra:total"]
           }
         })
     },
 
     getCollectionFiles() {
+      this.isLoading = true;
+      
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = this.pagination;
+      let params = { itemsPerPage: rowsPerPage, page };
 
-      this.getItems()
+      this.getItems(params)
       .then((data) => {
+        console.log(data)
         if (data.members) {
           this.data = [];
           for (let index in data.members) {
+            let translatedStatus = this.$t(`queue.status.${data.members[index]["queuePeople"]["status"]["status"]}`)
+            let translatedPriority = this.$t(`queue.priority.${data.members[index]["queuePeople"]["priority"]}`)
+            
             this.data.push({
               id: data.members[index]["@id"].replaceAll("/queue_people_queues/",""),
               queuePeople: {
-                label: this.$t(`queue.priority.${data.members[index]["queuePeople"]["priority"]}`),
+                label: `${data.members[index]["queuePeople"]["people"]["name"]} - ${translatedPriority} - ${translatedStatus}`,
                 value: data.members[index]["queuePeople"]["id"],
               },
               queue: {
@@ -153,11 +170,16 @@ export default {
           }
         } else {
           this.$q.notify({
-            message: this.$t("Não foi possível salvar os dados!"),
+            message: this.$t(`messages.anErrorOccurred`),
             position: "bottom",
             type: "negative",
           });
         }
+        this.pagination.page = page;
+        this.pagination.rowsPerPage = rowsPerPage;
+        this.pagination.sortBy = sortBy;
+        this.pagination.descending = descending;
+        this.pagination.rowsNumber = data.total;
       })
       .catch((error) => {
         this.$q.notify({
@@ -165,7 +187,10 @@ export default {
             position: "bottom",
             type: "negative",
           });
-      });
+      })
+      .finally(() => {
+        this.isLoading = false;
+        });
     },
 
     saved(item) {

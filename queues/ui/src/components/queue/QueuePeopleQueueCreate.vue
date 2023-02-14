@@ -1,11 +1,5 @@
 <template>
     <div class="col-12">
-        <div class="flex flex-center" v-if="isLoading || loadingStatuses">
-            <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary"
-                class="q-ma-md" />
-            Carregando...
-        </div>
-
         <div>
             <q-card class="col-12 q-pa-md">
                 <q-form
@@ -17,9 +11,11 @@
                             dense
                             outlined
                             stack-label
-                            label="Fila pessoa"
+                            :label="$t(`queue.queuePeople`)"
                             :options="queuePeopleOptions"
-                            v-model="queuePeople"
+                            v-model="queuePeople.label"
+                            :rules="[(val) => val != null]"
+                            hide-bottom-space
                         ></q-select>
                     </div>
                     <div class="col-12">
@@ -27,9 +23,11 @@
                             dense
                             outlined
                             stack-label
-                            label="Fila"
+                            :label="$t(`queue.queue`)"
                             :options="queueOptions"
-                            v-model="queue"
+                            v-model="queue.label"
+                            :rules="[(val) => val != null]"
+                            hide-bottom-space
                         ></q-select>
                     </div>
                     <div class="col-12 flex justify-end q-gutter-sm">
@@ -37,8 +35,8 @@
                             dense
                             color="primary"
                             icon="save"
-                            label="Salvar"
-                            @click="save()"
+                            :label="$t(`Save`)"
+                            @click="onSubmit()"
                         ></q-btn>
                     </div>
                 </q-form>
@@ -50,7 +48,7 @@
 <script>
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
-import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
+import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -107,14 +105,17 @@ export default {
                     if (members.length) {
                         this.queuePeopleOptions = [];
                         for (let index in members) {
+                                let translatedStatus = this.$t(`queue.status.${members[index]["status"]["status"]}`)
+                                let translatedPriority = this.$t(`queue.priority.${members[index]["priority"]}`)
+
                             this.queuePeopleOptions.push({
-                                label: members[index]["priority"],
+                                label: `${members[index]["people"]["name"]} - ${translatedPriority} - ${translatedStatus}`,
                                 value: members[index]["id"]
                             });
                         }
                     } else {
                         this.$q.notify({
-                            message: this.$t("Erro ao carregar opções de fila pessoa!"),
+                            message: this.$t(`messages.anErrorOccurred`),
                             position: "bottom",
                             type: "negative",
                         });
@@ -146,7 +147,7 @@ export default {
                         }
                     } else {
                         this.$q.notify({
-                            message: this.$t("Erro ao carregar opções de fila!"),
+                            message: this.$t(`messages.anErrorOccurred`),
                             position: "bottom",
                             type: "negative",
                         });
@@ -161,7 +162,15 @@ export default {
                 });
         },
 
+        onSubmit() {
+            this.$refs.myForm.validate().then((success) => {
+                if (success)
+                    this.save();
+            });
+        },
+
         save() {
+            this.$q.loading.show();
 
             let values = {};
             values.queuePeople = "queue_peoples/" + this.queuePeople.value;
@@ -181,7 +190,7 @@ export default {
                 .then((result) => {
                     if (result["@id"]) {
                         this.$q.notify({
-                            message: this.$t("Dados salvos com sucesso!"),
+                            message: this.$t(`success`),
                             position: "bottom",
                             type: "positive",
                         });
@@ -190,7 +199,7 @@ export default {
                         this.$emit("savedItem", result);
                     } else {
                         this.$q.notify({
-                            message: this.$t("Não foi possível salvar os dados!"),
+                            message: this.$t(`messages.anErrorOccurred`),
                             position: "bottom",
                             type: "negative",
                         });
@@ -202,6 +211,9 @@ export default {
                         position: "bottom",
                         type: "negative",
                     });
+                })
+                .finally(() => {
+                    this.$q.loading.hide();
                 });
         }
     },

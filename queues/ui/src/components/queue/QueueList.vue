@@ -2,7 +2,7 @@
   <div class="col-12">
     <div class="flex flex-center" v-if="isLoading || loadingStatuses">
       <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary" class="q-ma-md" />
-      Carregando...
+      {{ $t(`loading`) }}
     </div>
 
     <q-table
@@ -12,6 +12,8 @@
       :data="data"
       :columns="columns"
       row-key="Id"
+      :pagination.sync="pagination"
+      @request="onRequest"
       :rows-per-page-options="[0]"
     >
       <template v-slot:body="props">
@@ -29,7 +31,7 @@
                   <q-item-section side>
                     <q-icon name="edit"></q-icon>
                   </q-item-section>
-                  <q-item-section> Editar </q-item-section>
+                  <q-item-section> {{ $t(`Edit`) }} </q-item-section>
                 </q-item>
               </q-list>
             </q-menu>
@@ -45,9 +47,9 @@
     <q-dialog v-model="editQueue">
       <q-card style="width:50%">
         <q-card-section>
-          <span class="text-h6">Editar</span>
+          <span class="text-h6"> {{ $t(`Edit`) }}</span>
         </q-card-section>
-        <QueueCreate :queueObj="this.selectedQueue" @savedItem="saved()"></QueueCreate>
+        <QueueCreate :queueObj="this.selectedQueue" @savedItem="saved"></QueueCreate>
       </q-card>
     </q-dialog>
 
@@ -72,6 +74,13 @@ export default {
       api: new Api(this.$store.getters["auth/user"].token),
       loadingStatuses: null,
       isLoading: null,
+      
+      pagination: {
+        sortBy: "ultimaModificacao",
+        page: 1,
+        rowsPerPage: 10,
+        rowsNumber: 10,
+      },
 
       selectedQueue: null,
 
@@ -115,20 +124,31 @@ export default {
   },
 
   methods: {
-    getItems() {
+    onRequest(pagination) {
+      console.log('onRequest')
+      console.log(onRequest)
+      this.pagination = pagination;
+    },
+
+    getItems(params) {
       return this.api
-        .private(`queues`, {})
+        .private(`queues`, { params })
         .then((response) => response.json())
         .then((result) => {
           return {
             members: result["hydra:member"],
+            total: result["hydra:total"]
           }
         })
     },
 
     getCollectionFiles() {
+      this.isLoading = true;
+      
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = this.pagination;
+      let params = { itemsPerPage: rowsPerPage, page };
 
-      this.getItems()
+      this.getItems(params)
       .then((data) => {
         if (data.members) {
           this.data = [];
@@ -145,11 +165,16 @@ export default {
           console.log(this.data)
         } else {
           this.$q.notify({
-            message: this.$t("Não foi possível salvar os dados!"),
+            message: this.$t(`messages.anErrorOccurred`),
             position: "bottom",
             type: "negative",
           });
         }
+        this.pagination.page = page;
+        this.pagination.rowsPerPage = rowsPerPage;
+        this.pagination.sortBy = sortBy;
+        this.pagination.descending = descending;
+        this.pagination.rowsNumber = data.total;
       })
       .catch((error) => {
         this.$q.notify({
@@ -157,6 +182,9 @@ export default {
             position: "bottom",
             type: "negative",
           });
+      })
+      .finally(() => {
+      this.isLoading = false;
       });
     },
 

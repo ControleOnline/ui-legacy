@@ -2,18 +2,23 @@
 // so you can safely delete all default props below
 
 export const translate = {
+  people: 'Pessoa',
   queue: {
-    button: {
-      new: "NOVO"
-    },
+    queue: 'Fila',
+    queuePeople: 'Fila pessoa',
     status: {
-      open: 'Aberta',
+      open: 'Aberto',
       waiting: 'Aguardando',
       attendance: 'Em atendimento',
       attended: 'Atendido',
     },
     priority: {
       Default: 'Padrão',
-    } 
+      Priority: 'Prioridade',
+      Emergency: 'Emergência',
+    },
+  },
+  hardware: {
+    hardware: 'Dispostivo',
   }
 }

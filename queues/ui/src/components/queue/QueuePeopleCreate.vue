@@ -1,11 +1,5 @@
 <template>
     <div class="col-12">
-        <div class="flex flex-center" v-if="isLoading || loadingStatuses">
-            <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary"
-                class="q-ma-md" />
-            Carregando...
-        </div>
-
         <div>
             <q-card class="col-12 q-pa-md">
                 <q-form
@@ -17,28 +11,10 @@
                             dense
                             outlined
                             stack-label
-                            label="Prioridade"
+                            :label="$t(`queue.priority.Priority`)"
                             v-model="priority"
-                        ></q-input>
-                    </div>
-                    <div class="col-12">
-                        <q-input
-                            dense
-                            type="date"
-                            outlined
-                            stack-label
-                            label="Hora do registro"
-                            v-model="registerTime"
-                        ></q-input>
-                    </div>
-                    <div class="col-12">
-                        <q-input
-                            dense
-                            type="date"
-                            outlined
-                            stack-label
-                            label="Hora da atualização"
-                            v-model="updateTime"
+                            :rules="[(val) => val != null]"
+                            hide-bottom-space
                         ></q-input>
                     </div>
                     <div class="row col-12 items-center">
@@ -49,7 +25,7 @@
                             outlined
                             readonly
                             stack-label
-                            label="Pessoa"
+                            :label="$t(`people`)"
                             v-model="people.label"
                             >
                         </q-input>
@@ -58,9 +34,9 @@
                             class="col-11"
                             :source="searchPeople"
                             :isLoading="isSearching"
-                            label="Pessoa"
+                            :label="$t(`people`)"
                             @selected="onSelectPeople"
-                            placeholder="Pesquisar..."
+                            :placeholder="$t(`search`)"
                         />
                         <div v-if="this.queuePeopleId">
                             <q-btn
@@ -88,7 +64,9 @@
                             stack-label
                             label="Status"
                             :options="statusOptions"
-                            v-model="status.label"
+                            v-model="status"
+                            :rules="[(val) => val != null]"
+                            hide-bottom-space
                         ></q-select>
                     </div>
 
@@ -97,8 +75,8 @@
                             dense
                             color="primary"
                             icon="save"
-                            label="Salvar"
-                            @click="save()"
+                            :label="$t(`Save`)"
+                            @click="onSubmit()"
                         ></q-btn>
                     </div>
                 </q-form>
@@ -110,7 +88,7 @@
 <script>
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
-import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
+import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 import { mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
 
@@ -142,7 +120,7 @@ export default {
             registerTime: null,
             updateTime: null,
             people: {},
-            status: {},
+            status: null,
 
             statusOptions: [],
         }
@@ -168,7 +146,7 @@ export default {
         this.getStatusOptions();
     },
     watch: {
-        registerTime(e) {
+        status(e) {
             console.log(e)
         }
     },
@@ -228,12 +206,18 @@ export default {
             }
         },
 
+        onSubmit() {
+            this.$refs.myForm.validate().then((success) => {
+                if (success)
+                    this.save();
+            });
+        },
+        
         save() {
+            this.$q.loading.show();
 
             let values = {};
             values.priority = this.priority;
-            values.registerTime = this.registerTime;
-            values.updateTime = this.updateTime;
             values.people = "people/" + this.people.value;
             values.status = "statuses/" + this.status.value;
 
@@ -251,14 +235,14 @@ export default {
                 .then((result) => {
                     if (result["@id"]) {
                         this.$q.notify({
-                            message: this.$t("Dados salvos com sucesso!"),
+                            message: this.$t(`success`),
                             position: "bottom",
                             type: "positive",
                         });
                         this.$emit("savedItem", result);
                     } else {
                         this.$q.notify({
-                            message: this.$t("Não foi possível salvar os dados!"),
+                            message: this.$t(`messages.anErrorOccurred`),
                             position: "bottom",
                             type: "negative",
                         });
@@ -270,6 +254,9 @@ export default {
                         position: "bottom",
                         type: "negative",
                     });
+                })
+                .finally(() => {
+                    this.$q.loading.hide();
                 });
         },
 
@@ -291,6 +278,7 @@ export default {
             }
             return formatedDate;
         },
+        
         getStatusOptions() {
             let params = {};
             params.context = "queue";
@@ -311,7 +299,7 @@ export default {
                         }
                     } else {
                         this.$q.notify({
-                            message: this.$t("Status não encontrados!"),
+                            message: this.$t(`messages.anErrorOccurred`),
                             position: "bottom",
                             type: "negative",
                         });

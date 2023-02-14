@@ -1,11 +1,5 @@
 <template>
     <div class="col-12">
-        <div class="flex flex-center" v-if="isLoading || loadingStatuses">
-            <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary"
-                class="q-ma-md" />
-            Carregando...
-        </div>
-
         <div>
             <q-card class="col-12 q-pa-md">
                 <q-form
@@ -17,17 +11,19 @@
                             dense
                             outlined
                             stack-label
-                            label="Fila"
+                            :label="$t(`queue.queue`)"
                             v-model="queue"
+                            :rules="[(val) => val != null]"
+                            hide-bottom-space
                         ></q-input>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12" v-if="this.queueId">
                         <q-input
                             v-if="this.editMode"
                             dense
                             outlined
                             stack-label
-                            label="Empresa"
+                            :label="$t(`Company`)"
                             v-model="company.label"
                             >
                         </q-input>
@@ -36,9 +32,9 @@
                             class="col-11"
                             :source="searchPeople"
                             :isLoading="isSearching"
-                            label="Empresa"
+                            :label="$t(`Company`)"
                             @selected="onSelectCompany"
-                            placeholder="Pesquisar..."
+                            :placeholder="$t(`Search`)"
                         />
                         <div v-if="this.queueId">
                             <q-btn
@@ -65,8 +61,8 @@
                             dense
                             color="primary"
                             icon="save"
-                            label="Salvar"
-                            @click="save()"
+                            :label="$t(`Save`)"
+                            @click="onSubmit()"
                         ></q-btn>
                     </div>
                 </q-form>
@@ -78,7 +74,7 @@
 <script>
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
-import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
+import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/common/PeopleAutocomplete";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -107,9 +103,17 @@ export default {
 
             queue: null,
             company: null,
+            tempCompany: null,
 
             companyOptions: [],
         }
+    },
+
+    computed: {
+        ...mapGetters({
+            defaultCompany: "people/defaultCompany",
+            myCompany: "people/currentCompany",
+        }),
     },
 
     created() {
@@ -117,6 +121,11 @@ export default {
             this.queueId = this.queueObj ? this.queueObj.id : null;
             this.queue = this.queueObj ? this.queueObj.queue : null;
             this.company = this.queueObj.company ? this.queueObj.company : null;
+        } else {
+            this.company = {
+                label: this.myCompany.name,
+                value: this.myCompany.id
+            };
         }
         if (this.queueId)
             this.editMode = true;
@@ -126,8 +135,8 @@ export default {
             console.log('editMode')
             console.log(v)
         },
-        editCompany(v){
-            console.log('editCompany')
+        company(v){
+            console.log('Company')
             console.log(v)
         }
     },
@@ -182,6 +191,7 @@ export default {
                 this.editCompany = true;
                 this.editMode = false;
                 this.tempCompany = structuredClone(this.company);
+                this.company = null;
             } else if (action === 'cancel') {
                 this.editCompany = false;
                 this.editMode = true;
@@ -189,7 +199,23 @@ export default {
             }
         },
 
+        onSubmit() {
+            this.$refs.myForm.validate().then((success) => {
+                if (success) {
+                    if (this.queueId) {
+                        if (this.company) {
+                            this.save();
+                        }
+                    } else {
+                        this.save();
+                    }
+                }
+                    
+            });
+        },
+
         save() {
+            this.$q.loading.show();
 
             let values = {};
             values.queue = this.queue;
@@ -209,7 +235,7 @@ export default {
                 .then((result) => {
                     if (result["@id"]) {
                         this.$q.notify({
-                            message: this.$t("Dados salvos com sucesso!"),
+                            message: this.$t(`success`),
                             position: "bottom",
                             type: "positive",
                         });
@@ -218,7 +244,7 @@ export default {
                         this.$emit("savedItem", result);
                     } else {
                         this.$q.notify({
-                            message: this.$t("Não foi possível salvar os dados!"),
+                            message: this.$t(`messages.anErrorOccurred`),
                             position: "bottom",
                             type: "negative",
                         });
@@ -229,7 +255,10 @@ export default {
                         message: this.$t(error.message),
                         position: "bottom",
                         type: "negative",
-                    });
+                    })
+                })
+                .finally(() => {
+                    this.$q.loading.hide();
                 });
         }
     },

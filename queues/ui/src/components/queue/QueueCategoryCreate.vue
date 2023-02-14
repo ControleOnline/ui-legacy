@@ -1,11 +1,5 @@
 <template>
     <div class="col-12">
-        <div class="flex flex-center" v-if="isLoading || loadingStatuses">
-            <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary"
-                class="q-ma-md" />
-            Carregando...
-        </div>
-
         <div>
             <q-card class="col-12 q-pa-md">
                 <q-form
@@ -17,9 +11,11 @@
                             dense
                             outlined
                             stack-label
-                            label="Categoria"
+                            :label="$t(`Category`)"
                             :options="categoryOptions"
                             v-model="category"
+                            :rules="[(val) => val != null]"
+                            hide-bottom-space
                         ></q-select>
                     </div>
                     <div class="col-12">
@@ -27,9 +23,11 @@
                             dense
                             outlined
                             stack-label
-                            label="Fila"
+                            :label="$t(`queue.queue`)"
                             :options="queueOptions"
                             v-model="queue"
+                            :rules="[(val) => val != null]"
+                            hide-bottom-space
                         ></q-select>
                     </div>
 
@@ -38,8 +36,8 @@
                             dense
                             color="primary"
                             icon="save"
-                            label="Salvar"
-                            @click="save()"
+                            :label="$t(`Save`)"
+                            @click="onSubmit()"
                         ></q-btn>
                     </div>
                 </q-form>
@@ -116,7 +114,7 @@ export default {
                         }
                     } else {
                         this.$q.notify({
-                            message: this.$t("Não foi possível carregar as categorias!"),
+                            message: this.$t(`messages.anErrorOccurred`),
                             position: "bottom",
                             type: "negative",
                         });
@@ -163,7 +161,15 @@ export default {
                 });
         },
 
+        onSubmit() {
+            this.$refs.myForm.validate().then((success) => {
+                if (success)
+                    this.save();
+            });
+        },
+
         save() {
+            this.$q.loading.show();
 
             let values = {};
             values.category = "categories/" + this.category.value;
@@ -183,14 +189,14 @@ export default {
                 .then((result) => {
                     if (result["@id"]) {
                         this.$q.notify({
-                            message: this.$t("Dados salvos com sucesso!"),
+                            message: this.$t(`success`),
                             position: "bottom",
                             type: "positive",
                         });
                         this.$emit("savedItem", result);
                     } else {
                         this.$q.notify({
-                            message: this.$t("Não foi possível salvar os dados!"),
+                            message: this.$t(`messages.anErrorOccurred`),
                             position: "bottom",
                             type: "negative",
                         });
@@ -202,6 +208,9 @@ export default {
                         position: "bottom",
                         type: "negative",
                     });
+                })
+                .finally(() => {
+                    this.$q.loading.hide();
                 });
         }
     },

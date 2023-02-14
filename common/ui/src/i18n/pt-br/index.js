@@ -62,6 +62,8 @@ export const translate = {
   Street: "Rua",
   success: "Ação ocorreu com sucesso",
   Save: "Salvar",
+  Edit: "Editar",
+  Delete: "Excluir",
   loading: "Carregando",
   Name: "Nome",
   Number: "Número",
@@ -74,6 +76,8 @@ export const translate = {
   Calls: "Atendimentos",
   Address: "Endereços",
   Employees: "Colaboradores",
+  Search: "Pesquisar",
+  Category: "Categoria",
   common: {
     labels: {
       close: "Fechar",

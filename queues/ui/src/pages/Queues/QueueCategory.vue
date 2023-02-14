@@ -5,7 +5,7 @@
           <q-btn
             dense
             color="primary"
-            label="Novo"
+            :label="$t(`Add`)"
             @click="newQueue = true"
           ></q-btn>
         </div>
@@ -15,7 +15,7 @@
       <q-dialog v-model="newQueue">
         <q-card>
           <q-card-section>
-            <span class="text-h6">Adicionar</span>
+            <span class="text-h6"> {{ $t(`Add`) }}</span>
           </q-card-section>
           <QueueCategoryCreate></QueueCategoryCreate>
         </q-card>
