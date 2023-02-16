@@ -2,10 +2,7 @@
   <div class="row">
     <div class="col-12">
       <div class="row q-col-gutter-xs">
-        <div
-          v-if="domainType() !== 'simple'"
-          class="col-xs-12 col-md-3 q-mb-sm"
-        >
+        <div v-if="domainType() !== 'simple'" class="col-xs-12 col-md-3 q-mb-sm">
           <ListAutocomplete
             v-if="isCeg()"
             :source="getCarItens"
@@ -15,7 +12,8 @@
             placeholder="Gol, Corsa, Uno..."
             :acceptInput="true"
           />
-          <q-select dense outlined 
+          <q-select
+            dense
             outlined
             v-else
             :options="productCategory"
@@ -28,8 +26,8 @@
 
         <div v-if="!isCeg()" class="col-xs-12 col-md-3 q-mb-sm">
           <q-input
-      dense
-      outlined 
+            dense
+            outlined
             stack-label
             lazy-rules
             v-model="values.product"
@@ -47,7 +45,8 @@
             ' q-mb-sm'
           "
         >
-          <q-select dense outlined 
+          <q-select
+            dense
             outlined
             v-if="isCeg()"
             :options="groupTables"
@@ -58,10 +57,9 @@
             placeholder="Selecione uma opção"
           />
           <q-input
-      dense
-      outlined
-            v-else
+            dense
             outlined
+            v-else
             stack-label
             lazy-rules
             v-model="values.type"
@@ -72,8 +70,8 @@
         </div>
         <div class="col-xs-12 col-md-6 q-mb-sm">
           <q-input
-      dense
-      outlined 
+            dense
+            outlined
             stack-label
             lazy-rules
             reverse-fill-mask
@@ -103,17 +101,12 @@
         </div>
 
         <div v-if="cubage == 0" class="col-12">
-          <div
-            v-for="(myPackage, index) in values.packages"
-            :key="index"
-            class="row"
-          >
+          <div v-for="(myPackage, index) in values.packages" :key="index" class="row">
             <div class="col-xs-12 col-sm-11">
               <div class="row justify-between">
                 <div class="col-xs-12 col-sm-2">
                   <q-input
-      dense
-      outlined
+                    dense
                     outlined
                     stack-label
                     lazy-rules
@@ -128,8 +121,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-2">
                   <q-input
-      dense
-      outlined
+                    dense
                     outlined
                     stack-label
                     lazy-rules
@@ -145,8 +137,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-2">
                   <q-input
-      dense
-      outlined
+                    dense
                     outlined
                     stack-label
                     lazy-rules
@@ -162,8 +153,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-2">
                   <q-input
-      dense
-      outlined
+                    dense
                     outlined
                     stack-label
                     lazy-rules
@@ -179,8 +169,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-2">
                   <q-input
-      dense
-      outlined
+                    dense
                     outlined
                     stack-label
                     lazy-rules
@@ -239,13 +228,10 @@
           <div class="text-subtitle2 text-center">{{ $t("Ou") }}</div>
         </div>
 
-        <div
-          v-show="!isCeg() && totalCubage == 0"
-          class="col-xs-6 col-md-3 q-pa-sm"
-        >
+        <div v-show="!isCeg() && totalCubage == 0" class="col-xs-6 col-md-3 q-pa-sm">
           <q-input
-      dense
-      outlined 
+            dense
+            outlined
             stack-label
             lazy-rules
             reverse-fill-mask
@@ -522,11 +508,7 @@ export default {
           return fetch(`/car_models/search/` + text, options)
             .then((response) => response.json())
             .then((data) => {
-              if (
-                data.response &&
-                data.response.data &&
-                data.response.data.length
-              ) {
+              if (data.response && data.response.data && data.response.data.length) {
                 var itens = data.response.data;
 
                 return itens.map((item) => {
@@ -541,13 +523,7 @@ export default {
             });
         }
 
-        let chars = [
-          /[aáàãäâ]/g,
-          /[eéèëê]/g,
-          /[iíìïî]/g,
-          /[oóòõöô]/g,
-          /[uúùüû]/g,
-        ];
+        let chars = [/[aáàãäâ]/g, /[eéèëê]/g, /[iíìïî]/g, /[oóòõöô]/g, /[uúùüû]/g];
         let inputFixed = input.trim().toLowerCase();
 
         inputFixed = inputFixed.replace(chars[0], "a");
@@ -655,10 +631,7 @@ export default {
         else {
           for (let index in this.values.packages) {
             MyPackage._package = this.values.packages[index];
-            if (
-              !MyPackage.canDelivery("postal") ||
-              !MyPackage.canDelivery("aereo")
-            ) {
+            if (!MyPackage.canDelivery("postal") || !MyPackage.canDelivery("aereo")) {
               options.postal = false;
               options.aereo = false;
               break;
@@ -672,8 +645,7 @@ export default {
       if (this.cubage > 0) {
         options.fracion = this.cubage <= 5000.1;
       } else {
-        if (this.sumCubage > 5000.1 || this.sumWeight > 5000.1)
-          options.fracion = false;
+        if (this.sumCubage > 5000.1 || this.sumWeight > 5000.1) options.fracion = false;
         else {
           for (let index in this.values.packages) {
             MyPackage._package = this.values.packages[index];
@@ -690,8 +662,7 @@ export default {
       if (this.cubage > 0) {
         options.lotacao = this.cubage >= 3000.1;
       } else {
-        if (this.sumCubage > 3000.1 || this.sumWeight > 3000.1)
-          options.lotacao = true;
+        if (this.sumCubage > 3000.1 || this.sumWeight > 3000.1) options.lotacao = true;
       }
 
       this.delivery.motoboy = options.motoboy;
@@ -740,8 +711,7 @@ export default {
     isInvalid(key) {
       return (val) => {
         if (key == "cubage" && this.sumCubage == 0) {
-          if (!(val && val.length > 0))
-            return this.$t("messages.fieldRequired");
+          if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
           return true;
         }

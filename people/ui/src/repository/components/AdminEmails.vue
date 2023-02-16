@@ -1,22 +1,44 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">{{ $t('E-Mails') }}</div>
+      <div class="text-subtitle1 text-left">{{ $t("E-Mails") }}</div>
     </div>
     <div class="col-9">
       <div class="row justify-end">
-        <q-btn  no-caps icon="add" size="sm" color="positive" class="q-ml-sm" @click="dialog = !dialog" />
+        <q-btn
+          no-caps
+          icon="add"
+          size="sm"
+          color="positive"
+          class="q-ml-sm"
+          @click="dialog = !dialog"
+        />
       </div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table dense  :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
-        :loading="isLoading" bordered>
+      <q-table
+        dense
+        :data="items"
+        :columns="settings.columns"
+        :visible-columns="settings.visibleColumns"
+        row-key="id"
+        :loading="isLoading"
+        bordered
+      >
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="email" :props="props">{{ props.cols[0].value }}</q-td>
             <q-td auto-width>
-              <q-btn flat round dense unelevated color="red" icon="delete" @click="removeItem(props.row)"
-                :loading="props.row._bussy" />
+              <q-btn
+                flat
+                round
+                dense
+                unelevated
+                color="red"
+                icon="delete"
+                @click="removeItem(props.row)"
+                :loading="props.row._bussy"
+              />
             </q-td>
           </q-tr>
         </template>
@@ -24,7 +46,7 @@
     </div>
 
     <q-dialog v-model="dialog">
-      <q-card style="width: 700px; max-width: 80vw;">
+      <q-card style="width: 700px; max-width: 80vw">
         <q-card-section class="row items-center">
           <div class="text-h6">Novo email</div>
           <q-space />
@@ -33,13 +55,29 @@
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
             <q-input
-      dense
-      outlined lazy-rules stack-label v-model="item.email" type="text" label="Email" class="q-mt-md" outlined
-              :rules="[isInvalid('email')]" />
+              dense
+              outlined
+              lazy-rules
+              stack-label
+              v-model="item.email"
+              type="text"
+              label="Email"
+              class="q-mt-md"
+              :rules="[isInvalid('email')]"
+            />
 
             <div class="row justify-end">
-              <q-btn :loading="saving" icon="save" no-caps type="submit" label="Salvar" size="md" color="primary"
-                class="q-mt-md" unelevated />
+              <q-btn
+                :loading="saving"
+                icon="save"
+                no-caps
+                type="submit"
+                label="Salvar"
+                size="md"
+                color="primary"
+                class="q-mt-md"
+                unelevated
+              />
             </div>
           </q-form>
         </q-card-section>
@@ -49,21 +87,18 @@
 </template>
 
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
 
 const SETTINGS = {
-  visibleColumns: [
-    'email',
-    'action',
-  ],
+  visibleColumns: ["email", "action"],
   columns: [
     {
-      name: 'email',
-      field: row => row.email,
-      align: 'left',
-      label: 'Email'
+      name: "email",
+      field: (row) => row.email,
+      align: "left",
+      label: "Email",
     },
-    { name: 'action' },
+    { name: "action" },
   ],
 };
 
@@ -76,11 +111,11 @@ export default {
     },
     api: {
       type: Api,
-      required: true
+      required: true,
     },
     people_type: {
       type: String,
-      required: true
+      required: true,
     },
   },
 
@@ -92,8 +127,8 @@ export default {
       saving: false,
       isLoading: false,
       item: {
-        email: null
-      }
+        email: null,
+      },
     };
   },
 
@@ -105,9 +140,10 @@ export default {
     // store method
     getItems() {
       let endpoint = `${this.people_type}/${this.id}/emails`;
-      return this.api.private(endpoint)
-        .then(response => response.json())
-        .then(result => {
+      return this.api
+        .private(endpoint)
+        .then((response) => response.json())
+        .then((result) => {
           return result.response.data;
         });
     },
@@ -115,18 +151,18 @@ export default {
     // store method
     save(values) {
       let options = {
-        method: 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+        method: "PUT",
+        headers: new Headers({ "Content-Type": "application/ld+json" }),
         body: JSON.stringify(values),
       };
 
       let endpoint = `${this.people_type}/${this.id}/emails`;
-      return this.api.private(endpoint, options)
-        .then(response => response.json())
-        .then(data => {
+      return this.api
+        .private(endpoint, options)
+        .then((response) => response.json())
+        .then((data) => {
           if (data.response) {
-            if (data.response.success === false)
-              throw new Error(data.response.error);
+            if (data.response.success === false) throw new Error(data.response.error);
 
             return data.response.data;
           }
@@ -138,18 +174,18 @@ export default {
     // store method
     delete(id) {
       let options = {
-        method: 'DELETE',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+        method: "DELETE",
+        headers: new Headers({ "Content-Type": "application/ld+json" }),
         body: JSON.stringify({ id }),
       };
 
       let endpoint = `${this.people_type}/${this.id}/emails`;
-      return this.api.private(endpoint, options)
-        .then(response => response.json())
-        .then(data => {
+      return this.api
+        .private(endpoint, options)
+        .then((response) => response.json())
+        .then((data) => {
           if (data.response) {
-            if (data.response.success === false)
-              throw new Error(data.response.error);
+            if (data.response.success === false) throw new Error(data.response.error);
 
             return data.response.data;
           }
@@ -159,47 +195,46 @@ export default {
     },
 
     onSubmit() {
-      this.$refs.myForm.validate()
-        .then(success => {
-          if (success) {
-            this.saving = true;
+      this.$refs.myForm.validate().then((success) => {
+        if (success) {
+          this.saving = true;
 
-            this.save({
-              "email": this.item.email,
-            })
-              .then(data => {
-                if (data) {
-                  this.$refs.myForm.reset();
-
-                  this.onRequest();
-
-                  this.$emit('saved', data);
-                }
-              })
-              .catch(error => {
+          this.save({
+            email: this.item.email,
+          })
+            .then((data) => {
+              if (data) {
                 this.$refs.myForm.reset();
 
-                this.$emit('error', { message: error.message });
-              })
-              .finally(() => {
-                this.saving = false;
-              });
-          }
-        })
+                this.onRequest();
+
+                this.$emit("saved", data);
+              }
+            })
+            .catch((error) => {
+              this.$refs.myForm.reset();
+
+              this.$emit("error", { message: error.message });
+            })
+            .finally(() => {
+              this.saving = false;
+            });
+        }
+      });
     },
 
     removeItem(item) {
-      if (window.confirm('Tem certeza que deseja eliminar este registro?')) {
+      if (window.confirm("Tem certeza que deseja eliminar este registro?")) {
         item._bussy = true;
 
         this.delete(item.id)
-          .then(data => {
+          .then((data) => {
             if (data) {
               this.cleanItem(item.id);
             }
           })
-          .catch(error => {
-            this.$emit('error', { message: error.message });
+          .catch((error) => {
+            this.$emit("error", { message: error.message });
           })
           .finally(() => {
             item._bussy = false;
@@ -208,19 +243,18 @@ export default {
     },
 
     cleanItem(id) {
-      let item = this.items.find(obj => obj['id'] == id);
+      let item = this.items.find((obj) => obj["id"] == id);
       let indx = this.items.indexOf(item);
       this.items = [...this.items.slice(0, indx), ...this.items.slice(indx + 1)];
     },
 
     onRequest() {
-      if (this.isLoading)
-        return;
+      if (this.isLoading) return;
 
       this.isLoading = true;
 
       this.getItems()
-        .then(data => {
+        .then((data) => {
           let _items = [];
 
           if (data.members.length) {
@@ -241,15 +275,14 @@ export default {
     },
 
     isInvalid(key) {
-      return val => {
+      return (val) => {
         switch (key) {
-          case 'email':
+          case "email":
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-              return 'O email informado não é válido';
+              return "O email informado não é válido";
             break;
           default:
-            if (!(val && val.length > 0))
-              return 'Este campo é obrigatório';
+            if (!(val && val.length > 0)) return "Este campo é obrigatório";
         }
         return true;
       };

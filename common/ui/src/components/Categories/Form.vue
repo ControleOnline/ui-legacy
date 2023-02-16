@@ -7,11 +7,12 @@
     </div>
     <div class="row q-col-gutter-y-sm q-pt-md">
       <div class="col-xs-12">
-        <q-select dense outlined 
+        <q-select
+          dense
+          outlined
           stack-label
           emit-value
           map-options
-          outlined
           v-model="item.parent"
           :label="$t('Categoria pai')"
           :options="categories"
@@ -19,11 +20,10 @@
       </div>
       <div class="col-xs-12">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           lazy-rules
           stack-label
-          outlined
           v-model="item.name"
           type="text"
           :label="$t('Nome categoria')"
@@ -34,11 +34,10 @@
 
       <div class="col-xs-12">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           lazy-rules
           stack-label
-          outlined
           v-model="item.color"
           type="text"
           :label="$t('Cor')"
@@ -49,11 +48,10 @@
 
       <div class="col-xs-12">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           lazy-rules
           stack-label
-          outlined
           v-model="item.icon"
           type="text"
           :label="$t('Ícone')"
@@ -236,8 +234,7 @@ export default {
 
     isInvalid(field) {
       return (val) => {
-        if (!(val && val.length > 0))
-          return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
 
         return true;
       };

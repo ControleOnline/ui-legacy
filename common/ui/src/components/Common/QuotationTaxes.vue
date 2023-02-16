@@ -27,10 +27,9 @@
 
     <q-card-section :class="showTaxes == false ? 'hidden' : ''">
       <q-separator />
-      <div class="text-subtitle2 q-mt-sm q-mb-sm text-center">
-        Taxas opcionais
-      </div>
-      <q-select dense outlined 
+      <div class="text-subtitle2 q-mt-sm q-mb-sm text-center">Taxas opcionais</div>
+      <q-select
+        dense
         outlined
         filled
         stack-label
@@ -42,8 +41,8 @@
       >
       </q-select>
       <q-input
-      dense
-      outlined
+        dense
+        outlined
         lazy-rules
         stack-label
         reverse-fill-mask
@@ -131,9 +130,7 @@ export default {
         return;
       }
 
-      let taxVal = this.taxValue
-        ? this.taxValue.toString().replace(",", ".")
-        : 0;
+      let taxVal = this.taxValue ? this.taxValue.toString().replace(",", ".") : 0;
 
       if (this.newTax.label.toUpperCase() == "DESCONTO") {
         taxVal = parseFloat(taxVal) * -1;
@@ -195,8 +192,7 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           if (data.response) {
-            if (data.response.success === false)
-              throw Error(data.response.error);
+            if (data.response.success === false) throw Error(data.response.error);
 
             return data.response.data !== null ? data.response.data : null;
           }

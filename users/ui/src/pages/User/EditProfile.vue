@@ -30,7 +30,7 @@
       dense
       outlined
             v-model="userEdit.description_provider"
-            dense
+            
             label-color="secondary"
             color="secondary"
             autogrow
@@ -188,7 +188,7 @@
       dense
       outlined
               v-model="userEdit.cnpj_cpf"
-              dense
+              
               label-color="secondary"
               color="secondary"
               autogrow

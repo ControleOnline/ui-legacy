@@ -3,37 +3,36 @@
     <div v-if="generalWarningVisible" class="aviso_alerta">
       <q-icon name="warning" class="text-red" style="font-size: 14rem" />
       <q-banner dense inline-actions class="text-white bg-red q-pa-lg">
-        <span v-html="htmlGeneralFailureWarning" style="font-size: 18px">
-        </span>
+        <span v-html="htmlGeneralFailureWarning" style="font-size: 18px"> </span>
       </q-banner>
     </div>
     <div v-if="generalContentVisible">
       <q-form @submit="onSubmit" class="q-mt-sm" ref="myForm">
         <div class="q-pb-lg">
           <div class="row justify-center">
-            <h5 class="no-padding no-margin">Vistoria ID: #{{ route.tasksSurveys_id }}</h5>
+            <h5 class="no-padding no-margin">
+              Vistoria ID: #{{ route.tasksSurveys_id }}
+            </h5>
           </div>
         </div>
 
         <q-list bordered class="rounded-borders">
-          <q-expansion-item
-            expand-separator
-            group="somegroup"
-            default-opened
-          >
-            <template v-slot:header >
+          <q-expansion-item expand-separator group="somegroup" default-opened>
+            <template v-slot:header>
               <q-item-section avatar class="avatar_margin">
-                <q-avatar icon="source" size="48px"/>
+                <q-avatar icon="source" size="48px" />
               </q-item-section>
-              <q-item-section>
-                Dados Principais
-              </q-item-section>
+              <q-item-section> Dados Principais </q-item-section>
               <q-item-section side>
                 <div class="row items-center">
                   <q-badge :color="status.bgColor" class="text-subtitle1 q-mr-md">
-                    {{main_data_survey.status}}
+                    {{ main_data_survey.status }}
                   </q-badge>
-                  <q-badge v-if="!verifyAllFields('main_data')" color="red" class="text-subtitle1 q-mr-md">
+                  <q-badge
+                    v-if="!verifyAllFields('main_data')"
+                    color="red"
+                    class="text-subtitle1 q-mr-md"
+                  >
                     Campos vazios
                   </q-badge>
                 </div>
@@ -42,12 +41,12 @@
 
             <div class="row q-px-md q-pt-md q-col-gutter-md">
               <div class="col-12 text-center" v-if="main_data_survey.updated_at">
-                {{main_data_survey.updated_at}}
+                {{ main_data_survey.updated_at }}
               </div>
               <div class="col-sm-6 col-12">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   class="full-width"
                   v-model="main_data_survey.customer"
                   standout
@@ -58,8 +57,8 @@
               </div>
               <div class="col-sm-6 col-12">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   class="full-width"
                   v-model="main_data_survey.customer_email"
                   standout
@@ -77,8 +76,8 @@
             <div class="row q-pa-md q-col-gutter-md">
               <div class="col-sm-4 col-12">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   class="full-width"
                   v-model="main_data_survey.vehicle_name"
                   standout
@@ -89,8 +88,8 @@
               </div>
               <div class="col-sm-4 col-12">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   class="full-width"
                   v-model="main_data_survey.vehicle_plate"
                   standout
@@ -101,8 +100,8 @@
               </div>
               <div class="col-sm-4 col-12">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   class="full-width"
                   v-model="main_data_survey.vehicle_color"
                   standout
@@ -115,9 +114,10 @@
 
             <div class="row q-pa-md q-col-gutter-md">
               <div class="col-sm-4 col-12">
-                <q-select dense outlined 
-                  class="full-width"
+                <q-select
+                  dense
                   outlined
+                  class="full-width"
                   v-model="main_data_survey.type_survey"
                   :options="options_type_survey"
                   label="Tipo Vistoria"
@@ -129,11 +129,10 @@
 
               <div class="col-sm-4 col-12">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   class="full-width"
                   v-model="main_data_survey.surveyor_email"
-                  outlined
                   label="E-Mail Vistoriador"
                   :rules="[isInvalid('email')]"
                   @blur="onBlur('surveyor_email_inp')"
@@ -151,13 +150,12 @@
 
               <div class="col-sm-4 col-12">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   ref="surveyor_name_inp"
                   :tabindex="tabIndexInp.surveyor_name"
                   class="full-width"
                   v-model="main_data_survey.surveyor_name"
-                  outlined
                   label="Nome Vistoriador"
                   :readonly="readonly.surveyor_name_inp || generalLock.readOnly"
                   @click="clickSurveyorTextField"
@@ -173,12 +171,11 @@
             <div class="row q-px-md q-pb-md q-col-gutter-md">
               <div class="col-sm-4 col-12">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   type="number"
                   class="full-width"
                   v-model="main_data_survey.vehicle_km"
-                  outlined
                   label="Km Odômetro"
                   suffix="Km"
                   :rules="[isInvalid('vehicle_km')]"
@@ -187,21 +184,23 @@
                 />
               </div>
               <div class="col-sm-4 col-12">
-                <q-select dense outlined 
-                  class="full-width"
+                <q-select
+                  dense
                   outlined
+                  class="full-width"
                   v-model="main_data_survey.vehicle_fuel"
                   :options="fuel_options"
-                  label="Combustível"            
+                  label="Combustível"
                   :rules="[isInvalid('vehicle_fuel')]"
                   :readonly="generalLock.readOnly"
                   :bg-color="generalLock.bgColor"
                 />
               </div>
               <div class="col-sm-4 col-12">
-                <q-select dense outlined 
-                  class="full-width"
+                <q-select
+                  dense
                   outlined
+                  class="full-width"
                   v-model="main_data_survey.belongings_removed"
                   :options="options_no_yes"
                   label="Pertences Retirados"
@@ -212,12 +211,12 @@
               </div>
             </div>
 
-
             <div class="row q-px-md q-pb-md q-col-gutter-md">
               <div class="col-12">
-                <q-select dense outlined 
-                  class="full-width"
+                <q-select
+                  dense
                   outlined
+                  class="full-width"
                   v-model="main_data_survey.service_location.model"
                   use-input
                   use-chips
@@ -234,15 +233,12 @@
                 >
                   <template v-slot:no-option>
                     <q-item>
-                      <q-item-section class="text-grey">
-                        Sem resultado
-                      </q-item-section>
+                      <q-item-section class="text-grey"> Sem resultado </q-item-section>
                     </q-item>
                   </template>
                 </q-select>
               </div>
             </div>
-
           </q-expansion-item>
 
           <q-expansion-item
@@ -251,16 +247,18 @@
             group="somegroup"
             label="Condições Gerais"
           >
-            <template v-slot:header >
+            <template v-slot:header>
               <q-item-section avatar class="avatar_margin">
-                <q-avatar icon="source" size="48px"/>
+                <q-avatar icon="source" size="48px" />
               </q-item-section>
-              <q-item-section>
-                Condições Gerais
-              </q-item-section>
+              <q-item-section> Condições Gerais </q-item-section>
               <q-item-section side>
                 <div class="row items-center">
-                  <q-badge v-if="!verifyAllFields('general_conditions')" color="red" class="text-subtitle1 q-mr-md">
+                  <q-badge
+                    v-if="!verifyAllFields('general_conditions')"
+                    color="red"
+                    class="text-subtitle1 q-mr-md"
+                  >
                     Campos vazios
                   </q-badge>
                 </div>
@@ -273,7 +271,9 @@
                 :key="i"
                 class="col-sm-4 col-12 text-center"
               >
-                <span :id="'carcase_fields_' + i" class="text-bold"> {{ field.label }}</span>
+                <span :id="'carcase_fields_' + i" class="text-bold">
+                  {{ field.label }}</span
+                >
                 <q-field
                   borderless
                   dense
@@ -300,16 +300,18 @@
             label="Rodas"
             group="somegroup"
           >
-            <template v-slot:header >
+            <template v-slot:header>
               <q-item-section avatar class="avatar_margin">
-                <q-avatar icon="source" size="48px"/>
+                <q-avatar icon="source" size="48px" />
               </q-item-section>
-              <q-item-section>
-                Rodas
-              </q-item-section>
+              <q-item-section> Rodas </q-item-section>
               <q-item-section side>
                 <div class="row items-center">
-                  <q-badge v-if="!verifyAllFields('wheels')" color="red" class="text-subtitle1 q-mr-md">
+                  <q-badge
+                    v-if="!verifyAllFields('wheels')"
+                    color="red"
+                    class="text-subtitle1 q-mr-md"
+                  >
                     Campos vazios
                   </q-badge>
                 </div>
@@ -322,7 +324,9 @@
                 :key="i"
                 class="col-sm-4 col-12 text-center"
               >
-                <span :id="'wheels_fields_' + i" class="text-bold"> {{ field.label }}</span>
+                <span :id="'wheels_fields_' + i" class="text-bold">
+                  {{ field.label }}</span
+                >
                 <q-field
                   class="qfield_aqui"
                   borderless
@@ -343,8 +347,6 @@
                 <q-separator />
               </div>
             </div>
-
-
           </q-expansion-item>
 
           <q-expansion-item
@@ -353,16 +355,18 @@
             label="Acessórios"
             group="somegroup"
           >
-            <template v-slot:header >
+            <template v-slot:header>
               <q-item-section avatar class="avatar_margin">
-                <q-avatar icon="source" size="48px"/>
+                <q-avatar icon="source" size="48px" />
               </q-item-section>
-              <q-item-section>
-                Acessórios
-              </q-item-section>
+              <q-item-section> Acessórios </q-item-section>
               <q-item-section side>
                 <div class="row items-center">
-                  <q-badge v-if="!verifyAllFields('accessories')" color="red" class="text-subtitle1 q-mr-md">
+                  <q-badge
+                    v-if="!verifyAllFields('accessories')"
+                    color="red"
+                    class="text-subtitle1 q-mr-md"
+                  >
                     Campos vazios
                   </q-badge>
                 </div>
@@ -373,9 +377,10 @@
                 v-for="(field, i) in accessories_fields"
                 :key="i"
                 class="col-sm-3 col-12 text-center"
-
               >
-                <span :id="'accessories_fields_' + i" class="text-bold"> {{ field.label }}</span>
+                <span :id="'accessories_fields_' + i" class="text-bold">
+                  {{ field.label }}</span
+                >
                 <q-field
                   class="qfield_aqui"
                   borderless
@@ -399,12 +404,7 @@
             </div>
           </q-expansion-item>
 
-          <q-expansion-item
-            expand-separator
-            icon="image"
-            label="Fotos"
-            group="somegroup"
-          >
+          <q-expansion-item expand-separator icon="image" label="Fotos" group="somegroup">
             <div class="row">
               <template>
                 <div class="q-pa-sm-md q-pt-sm-lg q-pb-sm-none">
@@ -438,7 +438,9 @@
               >
                 <q-card-section>
                   <div>
-                    <q-select dense outlined 
+                    <q-select
+                      dense
+                      outlined
                       v-model="galleryModels.region['photoId' + field.id]"
                       :options="region"
                       label="Região"
@@ -457,7 +459,9 @@
                 />
                 <q-card-section>
                   <div>
-                    <q-select dense outlined 
+                    <q-select
+                      dense
+                      outlined
                       v-model="galleryModels.breakdown['photoId' + field.id]"
                       :options="breakdown"
                       label="Avaria"
@@ -474,7 +478,6 @@
                 <q-spinner-gears size="120px" color="blue-grey-6" />
               </q-inner-loading>
             </div>
-
           </q-expansion-item>
 
           <q-expansion-item
@@ -507,16 +510,14 @@
               />
             </div>
           </q-expansion-item>
-
         </q-list>
-        
+
         <div class="q-pa-md">
-          A empresa não se responsabiliza pelos seguintes defeitos do veículo:
-          Descarga da bateria, total ou parcial, queima de farol, luzes ou
-          celibim, ou qualquer mal funcionamento do motor, vazamento do
-          radiador, mangueiras ou correias arrebentadas, caixa escapando,
-          disco platinado, objetos de valor, dinheiro, jóias, armas e
-          documentos sob hipótese alguma.
+          A empresa não se responsabiliza pelos seguintes defeitos do veículo: Descarga da
+          bateria, total ou parcial, queima de farol, luzes ou celibim, ou qualquer mal
+          funcionamento do motor, vazamento do radiador, mangueiras ou correias
+          arrebentadas, caixa escapando, disco platinado, objetos de valor, dinheiro,
+          jóias, armas e documentos sob hipótese alguma.
         </div>
 
         <div class="row">
@@ -533,11 +534,7 @@
         </div>
       </q-form>
     </div>
-    <q-dialog
-      v-model="modalViewPhoto"
-      transition-show="rotate"
-      transition-hide="rotate"
-    >
+    <q-dialog v-model="modalViewPhoto" transition-show="rotate" transition-hide="rotate">
       <q-card style="width: 100%; max-width: unset">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6" v-html="dialogModalTextTop"></div>
@@ -984,52 +981,56 @@ export default {
   methods: {
     verifyAllFields(context) {
       switch (context) {
-        case 'main_data':
-          return this.main_data_survey.type_survey
-            && this.main_data_survey.surveyor_email
-            && this.main_data_survey.surveyor_name
-            && this.main_data_survey.vehicle_km
-            && this.main_data_survey.belongings_removed
-            && this.main_data_survey.service_location.model
+        case "main_data":
+          return (
+            this.main_data_survey.type_survey &&
+            this.main_data_survey.surveyor_email &&
+            this.main_data_survey.surveyor_name &&
+            this.main_data_survey.vehicle_km &&
+            this.main_data_survey.belongings_removed &&
+            this.main_data_survey.service_location.model
+          );
           break;
-        case 'general_conditions':
-          return this.group.paint
-            && this.group.lining
-            && this.group.tapestry
+        case "general_conditions":
+          return this.group.paint && this.group.lining && this.group.tapestry;
           break;
-        case 'wheels':
-          return this.group.left_front_tire
-            && this.group.right_front_tire
-            && this.group.left_rear_tire
-            && this.group.right_rear_tire
-            && this.group.spare
+        case "wheels":
+          return (
+            this.group.left_front_tire &&
+            this.group.right_front_tire &&
+            this.group.left_rear_tire &&
+            this.group.right_rear_tire &&
+            this.group.spare
+          );
           break;
-        case 'accessories':
-          return this.group.cigarette_lighter
-            && this.group.air_conditioning
-            && this.group.common_antenna
-            && this.group.horn
-            && this.group.seat_belt
-            && this.group.carpets
-            && this.group.battery
-            && this.group.speaker
-            && this.group.hubcap
-            && this.group.hitch
-            && this.group.auxiliary_headlight
-            && this.group.common_wheel
-            && this.group.special_wheel
-            && this.group.radio_cd
-            && this.group.radio_fm
-            && this.group.document
-            && this.group.manual
-            && this.group.keys
-            && this.group.extra_key
-            && this.group.back_cap
-            && this.group.extinguisher
-            && this.group.triangle
-            && this.group.jack
-            && this.group.tire_iron
-            && this.group.screwdriver
+        case "accessories":
+          return (
+            this.group.cigarette_lighter &&
+            this.group.air_conditioning &&
+            this.group.common_antenna &&
+            this.group.horn &&
+            this.group.seat_belt &&
+            this.group.carpets &&
+            this.group.battery &&
+            this.group.speaker &&
+            this.group.hubcap &&
+            this.group.hitch &&
+            this.group.auxiliary_headlight &&
+            this.group.common_wheel &&
+            this.group.special_wheel &&
+            this.group.radio_cd &&
+            this.group.radio_fm &&
+            this.group.document &&
+            this.group.manual &&
+            this.group.keys &&
+            this.group.extra_key &&
+            this.group.back_cap &&
+            this.group.extinguisher &&
+            this.group.triangle &&
+            this.group.jack &&
+            this.group.tire_iron &&
+            this.group.screwdriver
+          );
           break;
         default:
           break;
@@ -1055,29 +1056,22 @@ export default {
       let labelTmpBreakdown = null;
       let labelSplit = null;
 
-      if (
-        typeof this.galleryModels.region["photoId" + idPhoto] !== "undefined"
-      ) {
+      if (typeof this.galleryModels.region["photoId" + idPhoto] !== "undefined") {
         let labelRegion = this.galleryModels.region["photoId" + idPhoto].label;
         labelTmpRegion = labelRegion;
       } else {
         labelTmpRegion = "";
       }
-      if (
-        typeof this.galleryModels.breakdown["photoId" + idPhoto] !== "undefined"
-      ) {
-        let labelBreakdown =
-          this.galleryModels.breakdown["photoId" + idPhoto].label;
+      if (typeof this.galleryModels.breakdown["photoId" + idPhoto] !== "undefined") {
+        let labelBreakdown = this.galleryModels.breakdown["photoId" + idPhoto].label;
         labelTmpBreakdown = labelBreakdown;
       } else {
         labelTmpBreakdown = "";
       }
-      labelSplit =
-        labelTmpRegion !== "" && labelTmpBreakdown !== "" ? " - " : "";
+      labelSplit = labelTmpRegion !== "" && labelTmpBreakdown !== "" ? " - " : "";
 
       if (labelTmpRegion || labelTmpBreakdown) {
-        this.dialogModalTextTop =
-          labelTmpRegion + labelSplit + labelTmpBreakdown;
+        this.dialogModalTextTop = labelTmpRegion + labelSplit + labelTmpBreakdown;
       } else {
         this.dialogModalTextTop = "";
       }
@@ -1125,11 +1119,9 @@ export default {
           region: null,
           breakdown: null,
           path_real_size:
-            ENTRYPOINT +
-            `/tasks_surveys/${surveyId}/${surveyFilesId}/viewphoto/realsize`,
+            ENTRYPOINT + `/tasks_surveys/${surveyId}/${surveyFilesId}/viewphoto/realsize`,
           path_thumb:
-            ENTRYPOINT +
-            `/tasks_surveys/${surveyId}/${surveyFilesId}/viewphoto/thumb`,
+            ENTRYPOINT + `/tasks_surveys/${surveyId}/${surveyFilesId}/viewphoto/thumb`,
         };
 
         if (this.photoGallery === null) {
@@ -1152,10 +1144,7 @@ export default {
         return;
       }
       if (this.loading.galerry) {
-        this.alertNotify(
-          "Aguarde primeiramente o carregamento das imagens",
-          "n"
-        );
+        this.alertNotify("Aguarde primeiramente o carregamento das imagens", "n");
         return;
       }
       if (this.photoGallery === null) {
@@ -1301,20 +1290,16 @@ export default {
           // ---------------------- Retorna dados do Local de Atendimento somente pelo ID do Endereço
           if (data.data.selectedAddressId !== null) {
             let address_id = data.data.selectedAddressId;
-            let index_location =
-              this.main_data_survey.service_location.optionsLoadedAjax
-                .map((el) => el.address_id)
-                .indexOf(address_id);
-            this.main_data_survey.service_location.model =
-              this.main_data_survey.service_location.optionsLoadedAjaxFormated[
-                index_location
-              ];
-            this.main_data_survey.service_location.selectedAddressId =
-              address_id;
-            this.main_data_survey.service_location.selectedTrainedId =
-              this.main_data_survey.service_location.optionsLoadedAjax[
-                index_location
-              ].trainer_id;
+            let index_location = this.main_data_survey.service_location.optionsLoadedAjax
+              .map((el) => el.address_id)
+              .indexOf(address_id);
+            this.main_data_survey.service_location.model = this.main_data_survey.service_location.optionsLoadedAjaxFormated[
+              index_location
+            ];
+            this.main_data_survey.service_location.selectedAddressId = address_id;
+            this.main_data_survey.service_location.selectedTrainedId = this.main_data_survey.service_location.optionsLoadedAjax[
+              index_location
+            ].trainer_id;
           }
           // ------------------------------------------------------------------------------
 
@@ -1323,19 +1308,11 @@ export default {
           }
 
           this.qUpUrlUpload =
-            ENTRYPOINT +
-            "/tasks_surveys/" +
-            id_local +
-            "/" +
-            token_url +
-            "/filesimages"; // Define a URL de upload do componente q-uploader
+            ENTRYPOINT + "/tasks_surveys/" + id_local + "/" + token_url + "/filesimages"; // Define a URL de upload do componente q-uploader
 
           this.callAjaxGetAllPhotoGallery().then((response) => {
             // Carrega, se já existir a galeria de imagens
-            if (
-              objStatus.value === "complete" ||
-              objStatus.value === "canceled"
-            ) {
+            if (objStatus.value === "complete" || objStatus.value === "canceled") {
               // Anexa evento para alerta de Status bloqueado para edição quando o usuário tentar clicar em algum campo
               this.lockAndReloadSurvey(true, false);
             }
@@ -1372,10 +1349,8 @@ export default {
           vehicle_km: this.main_data_survey.vehicle_km,
           vehicle_fuel: this.main_data_survey.vehicle_fuel,
           belongings_removed: this.main_data_survey.belongings_removed.value,
-          selectedTrainedId:
-            this.main_data_survey.service_location.selectedTrainedId,
-          selectedAddressId:
-            this.main_data_survey.service_location.selectedAddressId,
+          selectedTrainedId: this.main_data_survey.service_location.selectedTrainedId,
+          selectedAddressId: this.main_data_survey.service_location.selectedAddressId,
           comments: this.main_data_survey.comments,
           group: this.group,
           galleryModels: this.galleryModels,
@@ -1394,10 +1369,7 @@ export default {
 
         if (data.success) {
           // Quando o salvamento é executado com Êxito
-          if (
-            data.data.status === "complete" ||
-            data.data.status === "canceled"
-          ) {
+          if (data.data.status === "complete" || data.data.status === "canceled") {
             this.lockAndReloadSurvey(true, true);
           }
           this.alertNotify("Dados Salvos com Êxito.", "p");
@@ -1415,18 +1387,15 @@ export default {
     },
     serviceLocationGetSelection(val) {
       // Quando seleciona um resultado no select do "Local Atendimento"
-      let index =
-        this.main_data_survey.service_location.optionsLoadedAjaxFormated.indexOf(
-          val
-        );
+      let index = this.main_data_survey.service_location.optionsLoadedAjaxFormated.indexOf(
+        val
+      );
       if (index >= 0) {
         // Quando selecionar um Resultado
-        let trainer_id =
-          this.main_data_survey.service_location.optionsLoadedAjax[index]
-            .trainer_id;
-        let address_id =
-          this.main_data_survey.service_location.optionsLoadedAjax[index]
-            .address_id;
+        let trainer_id = this.main_data_survey.service_location.optionsLoadedAjax[index]
+          .trainer_id;
+        let address_id = this.main_data_survey.service_location.optionsLoadedAjax[index]
+          .address_id;
         this.main_data_survey.service_location.selectedTrainedId = trainer_id;
         this.main_data_survey.service_location.selectedAddressId = address_id;
       } else {
@@ -1440,14 +1409,12 @@ export default {
       // call abort() at any time if you can't retrieve data somehow
       update(() => {
         if (val === "") {
-          this.main_data_survey.service_location.options =
-            this.main_data_survey.service_location.optionsLoadedAjaxFormated;
+          this.main_data_survey.service_location.options = this.main_data_survey.service_location.optionsLoadedAjaxFormated;
         } else {
           const needle = val.toLowerCase();
-          this.main_data_survey.service_location.options =
-            this.main_data_survey.service_location.optionsLoadedAjaxFormated.filter(
-              (v) => v.toLowerCase().indexOf(needle) > -1
-            );
+          this.main_data_survey.service_location.options = this.main_data_survey.service_location.optionsLoadedAjaxFormated.filter(
+            (v) => v.toLowerCase().indexOf(needle) > -1
+          );
         }
       });
     },
@@ -1548,8 +1515,7 @@ export default {
               this.main_data_survey.surveyor_name = null;
               this.main_data_survey.surveyor_people_id = null;
               this.readonly.surveyor_name_inp = false;
-              this.surveyor_validations.lastMailVerifiedInBD =
-                this.main_data_survey.surveyor_email;
+              this.surveyor_validations.lastMailVerifiedInBD = this.main_data_survey.surveyor_email;
               this.loading.surveyor_name_inp = false;
               this.surveyor_validations.mail_validate_ok = false;
               this.surveyor_validations.foundMailInDatabase = false;
@@ -1578,10 +1544,7 @@ export default {
             this.main_data_survey.surveyor_name === null ||
             !this.surveyor_validations.mail_validate_ok)
         ) {
-          this.alertNotify(
-            "Preencha Primeiramente o E-Mail do Vistoriador",
-            "n"
-          );
+          this.alertNotify("Preencha Primeiramente o E-Mail do Vistoriador", "n");
         }
       }
     },
@@ -1628,8 +1591,7 @@ export default {
               `${tmp[p].alias} - ${tmp[p].district} - ${tmp[p].city} - ${tmp[p].UF}`
             );
           }
-          this.main_data_survey.service_location.options =
-            this.main_data_survey.service_location.optionsLoadedAjaxFormated;
+          this.main_data_survey.service_location.options = this.main_data_survey.service_location.optionsLoadedAjaxFormated;
           this.main_data_survey.service_location.optionsLoadedAjax = data.data;
           this.loading.service_location_inp = false;
           this.readonly.service_location_inp = false;
@@ -1654,8 +1616,7 @@ export default {
           this.main_data_survey.surveyor_name = null;
           this.main_data_survey.surveyor_people_id = null;
           this.readonly.surveyor_name_inp = false;
-          this.surveyor_validations.lastMailVerifiedInBD =
-            this.main_data_survey.surveyor_email;
+          this.surveyor_validations.lastMailVerifiedInBD = this.main_data_survey.surveyor_email;
           this.surveyor_validations.foundMailInDatabase = false;
           this.surveyor_validations.mail_consulted_bd = true;
           this.surveyor_validations.mail_existis_bd = false;
@@ -1672,8 +1633,7 @@ export default {
 
           this.main_data_survey.surveyor_name = data.data[0].name;
           this.main_data_survey.surveyor_people_id = data.data[0].id;
-          this.surveyor_validations.lastMailVerifiedInBD =
-            this.main_data_survey.surveyor_email;
+          this.surveyor_validations.lastMailVerifiedInBD = this.main_data_survey.surveyor_email;
           this.surveyor_validations.foundMailInDatabase = true;
           this.surveyor_validations.mail_consulted_bd = true;
           this.surveyor_validations.mail_existis_bd = true;
@@ -1715,32 +1675,23 @@ export default {
     preencheTeste() {
       // ---------------------- Retorna dados do Local de Atendimento somente pelo ID do Endereço
       let address_id = 139;
-      let index_location =
-        this.main_data_survey.service_location.optionsLoadedAjax
-          .map((el) => el.address_id)
-          .indexOf(address_id);
-      this.main_data_survey.service_location.model =
-        this.main_data_survey.service_location.optionsLoadedAjaxFormated[
-          index_location
-        ];
+      let index_location = this.main_data_survey.service_location.optionsLoadedAjax
+        .map((el) => el.address_id)
+        .indexOf(address_id);
+      this.main_data_survey.service_location.model = this.main_data_survey.service_location.optionsLoadedAjaxFormated[
+        index_location
+      ];
       this.main_data_survey.service_location.selectedAddressId = address_id;
-      this.main_data_survey.service_location.selectedTrainedId =
-        this.main_data_survey.service_location.optionsLoadedAjax[
-          index_location
-        ].trainer_id;
+      this.main_data_survey.service_location.selectedTrainedId = this.main_data_survey.service_location.optionsLoadedAjax[
+        index_location
+      ].trainer_id;
       // ------------------------------------------------------------------------------
 
-      this.main_data_survey.type_survey = findIn(
-        this.options_type_survey,
-        "delivery"
-      );
+      this.main_data_survey.type_survey = findIn(this.options_type_survey, "delivery");
       this.main_data_survey.surveyor_email = "gilberto@eletronicamais.com.br";
       this.main_data_survey.surveyor_name = "Gilberto Lima";
       this.main_data_survey.vehicle_km = "407";
-      this.main_data_survey.belongings_removed = findIn(
-        this.options_no_yes,
-        "yes"
-      );
+      this.main_data_survey.belongings_removed = findIn(this.options_no_yes, "yes");
 
       // ------------------- Condições Gerais
 
@@ -1844,5 +1795,4 @@ export default {
     max-width: unset;
   }
 }
-
 </style>

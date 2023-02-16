@@ -18,7 +18,7 @@
               </div>
               </router-link>
               <router-link v-bind:to="props.row.href" tag='a' class='t-link'>
-              <div class="text-main-text2 main-text" v-html="props.row.excerpt.rendered">                
+              <div class="text-main-text2 main-text">                
                   {{ props.row.excerpt.rendered }}                
               </div>                      
               </router-link>

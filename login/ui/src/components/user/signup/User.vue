@@ -4,8 +4,8 @@
       <div v-if="hasUserField('name')" class="col-xs-12 col-sm-6 q-mb-md">
         <label class="q-input-label">{{ $t("login.name") }}</label>
         <q-input
-      dense
-      outlined 
+          dense
+          outlined
           stack-label
           lazy-rules
           v-model="item.name"
@@ -17,8 +17,8 @@
       <div v-if="hasUserField('phone')" class="col-xs-12 col-sm-6 q-mb-md">
         <label class="q-input-label">{{ $t("login.phone") }}</label>
         <q-input
-      dense
-      outlined 
+          dense
+          outlined
           stack-label
           lazy-rules
           unmasked-value
@@ -35,8 +35,8 @@
       <div v-if="hasUserField('email')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.email") }}</label>
         <q-input
-      dense
-      outlined 
+          dense
+          outlined
           stack-label
           lazy-rules
           v-model="item.email"
@@ -49,8 +49,8 @@
       <div v-if="hasUserField('confirmEmail')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.confirmEmail") }}</label>
         <q-input
-      dense
-      outlined 
+          dense
+          outlined
           stack-label
           lazy-rules
           v-model="item.confirmEmail"
@@ -69,7 +69,6 @@
       dense
       outlined
       v-if="hasUserField('username')"
-      outlined
       stack-label
       lazy-rules
       reverse-fill-mask
@@ -86,8 +85,8 @@
       <div v-if="hasUserField('password')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.password") }}</label>
         <q-input
-      dense
-      outlined 
+          dense
+          outlined
           stack-label
           lazy-rules
           v-model="item.password"
@@ -100,8 +99,8 @@
       <div v-if="hasUserField('confirmPassword')" class="col-xs-12">
         <label class="q-input-label">{{ $t("login.confirm") }}</label>
         <q-input
-      dense
-      outlined 
+          dense
+          outlined
           stack-label
           lazy-rules
           v-model="item.confirmPassword"
@@ -207,11 +206,7 @@ export default {
     },
 
     notifyError(message) {
-      if (
-        /password: This password has been leaked in a data breach/gi.test(
-          message
-        )
-      )
+      if (/password: This password has been leaked in a data breach/gi.test(message))
         message = this.$t("login.weakPass");
       else if (/This account already exists/gi.test(message))
         message = this.$t("login.duplicateEmail");
@@ -235,8 +230,7 @@ export default {
         if (key == "phone" && !/^\d{10,11}$/.test(val))
           return this.$t("messages.phoneInvalid");
 
-        if (key == "password" && val.length < 6)
-          return this.$t("login.passMessage");
+        if (key == "password" && val.length < 6) return this.$t("login.passMessage");
 
         if (
           key == "confirmEmail" &&

@@ -5,7 +5,6 @@
       outlined
       id="inputUsername"
       ref="username"
-      outlined
       v-model="item.username"
       color="primary"
       :label="$t('login.yourUser')"
@@ -15,7 +14,6 @@
       dense
       outlined
       class="q-pt-md"
-      outlined
       :type="isPwd ? 'password' : 'text'"
       id="inputPassword"
       ref="password"
@@ -33,7 +31,8 @@
 
     <div class="column q-pt-md">
       <q-btn
-        unelevated color="primary"
+        unelevated
+        color="primary"
         :loading="isLoading"
         type="submit"
         :label="$t('login.send')"
@@ -123,8 +122,7 @@ export default {
       return (val) => {
         if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
-        if (key == "password" && val.length < 6)
-          return this.$t("login.passMessage");
+        if (key == "password" && val.length < 6) return this.$t("login.passMessage");
 
         return true;
       };

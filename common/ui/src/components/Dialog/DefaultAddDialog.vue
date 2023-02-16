@@ -1,19 +1,12 @@
 <template>
   <q-dialog>
-    <div class="bg-white full-width" style="max-height: 70%;">
+    <div class="bg-white full-width" style="max-height: 70%">
       <q-item class="bg-secondary items-center">
         <q-item-label class="text-bold text-white">
           {{ title }}
         </q-item-label>
         <q-space></q-space>
-        <q-btn
-          icon="close"
-          size="1rem"
-          round
-          color="white"
-          flat
-          v-close-popup>
-        </q-btn>
+        <q-btn icon="close" size="1rem" round color="white" flat v-close-popup> </q-btn>
       </q-item>
 
       <div class="flex items-center full-width">
@@ -23,10 +16,9 @@
               {{ subtitle }}
             </q-item-label>
             <q-input
-      dense
-      outlined
-              v-model="text"
               dense
+              outlined
+              v-model="text"
               label-color="secondary"
               color="secondary"
               autogrow
@@ -44,7 +36,7 @@
               :label="$t('send_included')"
               @click="addIncluded(text)"
               v-close-popup
-              style="width: 4rem;"
+              style="width: 4rem"
             >
             </q-btn>
           </q-item-section>
@@ -56,16 +48,16 @@
 
 <script>
 export default {
-  emits: 'ok',
+  emits: "ok",
 
   props: {
     title: {
       type: String,
-      default: '',
+      default: "",
     },
     subtitle: {
       type: String,
-      default: '',
+      default: "",
     },
   },
 
@@ -77,7 +69,7 @@ export default {
 
   methods: {
     addIncluded(value) {
-      this.$emit('add-included', value);
+      this.$emit("add-included", value);
 
       this.text = null;
     },

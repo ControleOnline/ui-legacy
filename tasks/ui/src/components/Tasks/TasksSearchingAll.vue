@@ -1,10 +1,17 @@
 <template>
   <div class="row q-pt-md q-col-gutter-md">
-
     <div class="row col-12 items-center">
       <div class="col-xs-12 col-sm-auto">
-        <q-btn v-if="orderId || client || context != 'relationship'" :label="$t('Add')" icon="add" size="md"
-          color="primary" @click="dialog = !dialog" unelevated no-caps />
+        <q-btn
+          v-if="orderId || client || context != 'relationship'"
+          :label="$t('Add')"
+          icon="add"
+          size="md"
+          color="primary"
+          @click="dialog = !dialog"
+          unelevated
+          no-caps
+        />
         <q-dialog v-model="dialog">
           <q-card style="width: 700px; max-width: 80vw">
             <q-card-section class="row items-center">
@@ -13,19 +20,41 @@
               <q-btn icon="close" flat round dense v-close-popup />
             </q-card-section>
             <q-card-section>
-              <FormTasks :context="context" ref="myForm" :orderId="orderId" :client="client" :api="API"
-                :statuses="getClear(statuses)" :task_type="task_type" :categories="getClear(categories)"
+              <FormTasks
+                :context="context"
+                ref="myForm"
+                :orderId="orderId"
+                :client="client"
+                :api="API"
+                :statuses="getClear(statuses)"
+                :task_type="task_type"
+                :categories="getClear(categories)"
                 :categories_criticality="getClear(categories_criticality)"
-                :categories_reason="getClear(categories_reason)" @saved="onTaskSave" />
+                :categories_reason="getClear(categories_reason)"
+                @saved="onTaskSave"
+              />
             </q-card-section>
           </q-card>
         </q-dialog>
       </div>
       <div class="col-xs-12 col-sm q-pl-none">
-        <q-option-group v-model="people_filter" :options="people_filter_options" color="primary" inline dense />
+        <q-option-group
+          v-model="people_filter"
+          :options="people_filter_options"
+          color="primary"
+          inline
+          dense
+        />
       </div>
-      <q-select dense outlined  class="col-xs-12 col-sm q-pl-none" outlined stack-label :label="$t(task_type + '.task_for')"
-        v-model="filters.task_for" :options="task_for">
+      <q-select
+        dense
+        outlined
+        class="col-xs-12 col-sm q-pl-none"
+        stack-label
+        :label="$t(task_type + '.task_for')"
+        v-model="filters.task_for"
+        :options="task_for"
+      >
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -34,8 +63,15 @@
       </q-select>
     </div>
     <div class="row col-xs-12 q-col-gutter-x-md q-ma-none q-py-md">
-      <q-select dense outlined  class="col-xs-12 col-sm q-pl-none" outlined stack-label :label="$t(task_type + '.status_label')"
-        v-model="filters.status" :options="statuses">
+      <q-select
+        dense
+        outlined
+        class="col-xs-12 col-sm q-pl-none"
+        stack-label
+        :label="$t(task_type + '.status_label')"
+        v-model="filters.status"
+        :options="statuses"
+      >
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -43,8 +79,16 @@
         </template>
       </q-select>
 
-      <q-select dense outlined  class="col-xs-12 col-sm  q-pl-none" v-if="categories.length > 0" outlined stack-label
-        :label="$t(task_type + '.category')" v-model="filters.category" :options="categories">
+      <q-select
+        dense
+        outlined
+        class="col-xs-12 col-sm q-pl-none"
+        v-if="categories.length > 0"
+        stack-label
+        :label="$t(task_type + '.category')"
+        v-model="filters.category"
+        :options="categories"
+      >
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -52,8 +96,16 @@
         </template>
       </q-select>
 
-      <q-select dense outlined  class="col-xs-12 col-sm q-pl-none" v-if="categories_criticality.length > 0" outlined stack-label
-        :label="$t(task_type + '.criticality')" v-model="filters.criticality" :options="categories_criticality">
+      <q-select
+        dense
+        outlined
+        class="col-xs-12 col-sm q-pl-none"
+        v-if="categories_criticality.length > 0"
+        stack-label
+        :label="$t(task_type + '.criticality')"
+        v-model="filters.criticality"
+        :options="categories_criticality"
+      >
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -61,8 +113,16 @@
         </template>
       </q-select>
 
-      <q-select dense outlined  class="col-xs-12 col-sm q-pl-none" v-if="categories_reason.length > 0" outlined stack-label
-        :label="$t(task_type + '.reason')" v-model="filters.reason" :options="categories_reason">
+      <q-select
+        dense
+        outlined
+        class="col-xs-12 col-sm q-pl-none"
+        v-if="categories_reason.length > 0"
+        stack-label
+        :label="$t(task_type + '.reason')"
+        v-model="filters.reason"
+        :options="categories_reason"
+      >
         <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -99,57 +159,103 @@
           </div>
         </div>
 
-        <div v-else-if="!isLoading && data.length == 0" class="column col-12 items-center q-col-gutter-y-md">
+        <div
+          v-else-if="!isLoading && data.length == 0"
+          class="column col-12 items-center q-col-gutter-y-md"
+        >
           <q-icon color="grey-7" name="error" size="3rem"></q-icon>
           <div class="text-grey-7">Nenhum resultado encontrado</div>
         </div>
 
-        <div v-else v-for="task in data" :key="task.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div
+          v-else
+          v-for="task in data"
+          :key="task.id"
+          class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
+        >
           <q-card class="column full-height">
             <q-card-actions align="center" class="row">
               <div class="col-6 text-center">
-                <q-btn :to="{
-                  name: (task_type.charAt(0).toUpperCase() + task_type.slice(1)) + 'Details',
-                  params: {
-                    id: task.id,
-                  },
-                }" outline dense flat no-caps color="grey-9" icon="edit" :label="`#${task.id}`"
-                  class="full-width q-py-xs" />
+                <q-btn
+                  :to="{
+                    name:
+                      task_type.charAt(0).toUpperCase() + task_type.slice(1) + 'Details',
+                    params: {
+                      id: task.id,
+                    },
+                  }"
+                  outline
+                  dense
+                  flat
+                  no-caps
+                  color="grey-9"
+                  icon="edit"
+                  :label="`#${task.id}`"
+                  class="full-width q-py-xs"
+                />
               </div>
 
-
-              <div v-if="task.status" class="col-6 text-center"
-                :style="task.status.color ? 'color:' + task.status.color : ''">
+              <div
+                v-if="task.status"
+                class="col-6 text-center"
+                :style="task.status.color ? 'color:' + task.status.color : ''"
+              >
                 <q-icon v-if="task.status" name="schedule" />
                 {{ task.status.label }}
               </div>
             </q-card-actions>
             <q-separator />
             <q-card-section align="center" class="row">
-
-              <div v-if="task.client && task.client.peopleType == 'F'" class="col-12 text-center">
-                <q-btn :to="{
-                  name: 'CustomersDetails',
-                  params: {
-                    id: task.client.id,
-                  },
-                }" outline dense flat no-caps color="grey-9" icon="person" :label="task.client.name"
-                  class="full-width q-py-xs" />
+              <div
+                v-if="task.client && task.client.peopleType == 'F'"
+                class="col-12 text-center"
+              >
+                <q-btn
+                  :to="{
+                    name: 'CustomersDetails',
+                    params: {
+                      id: task.client.id,
+                    },
+                  }"
+                  outline
+                  dense
+                  flat
+                  no-caps
+                  color="grey-9"
+                  icon="person"
+                  :label="task.client.name"
+                  class="full-width q-py-xs"
+                />
               </div>
-              <div v-if="task.client && task.client.peopleType != 'F'" class="col-12 text-center">
-                <q-btn :to="{
-                  name: 'CustomersDetails',
-                  params: {
-                    id: task.client.id,
-                  },
-                }" outline dense flat no-caps color="grey-9" icon="factory" :label="task.client.alias"
-                  class="full-width q-py-xs" />
+              <div
+                v-if="task.client && task.client.peopleType != 'F'"
+                class="col-12 text-center"
+              >
+                <q-btn
+                  :to="{
+                    name: 'CustomersDetails',
+                    params: {
+                      id: task.client.id,
+                    },
+                  }"
+                  outline
+                  dense
+                  flat
+                  no-caps
+                  color="grey-9"
+                  icon="factory"
+                  :label="task.client.alias"
+                  class="full-width q-py-xs"
+                />
               </div>
               <div v-if="task.name.length > 0" class="text-center col-12 text-bold">
                 {{ task.name }}
               </div>
-              <div v-if="task.reason" class="text-body2 text-center col-12"
-                :style="task.reason.color ? 'color:' + task.reason.color : ''">
+              <div
+                v-if="task.reason"
+                class="text-body2 text-center col-12"
+                :style="task.reason.color ? 'color:' + task.reason.color : ''"
+              >
                 <q-icon name="help" />
                 {{ task.reason.label }}
               </div>
@@ -160,19 +266,34 @@
                 <q-icon name="person" />
                 {{ task.taskFor }}
               </div>
-              <div class="text-body2 text-center col-6"
-                :style="task.category && task.category.color ? 'color:' + task.category.color : ''">
+              <div
+                class="text-body2 text-center col-6"
+                :style="
+                  task.category && task.category.color
+                    ? 'color:' + task.category.color
+                    : ''
+                "
+              >
                 <q-icon v-if="task.category" name="bookmarks" />
-                {{ task.category ? task.category.label : '' }}
+                {{ task.category ? task.category.label : "" }}
               </div>
-              <div class="col-6 text-center" :style="(new Date(task.dueDate) < new Date()) ? 'color:red' : ''">
+              <div
+                class="col-6 text-center"
+                :style="new Date(task.dueDate) < new Date() ? 'color:red' : ''"
+              >
                 <q-icon v-if="task.dueDate.length > 0" name="calendar_month" />
                 {{ formatDate(task.dueDate) }}
               </div>
-              <div class="text-body2 text-center col-6"
-                :style="task.criticality && task.criticality.color ? 'color:' + task.criticality.color : ''">
+              <div
+                class="text-body2 text-center col-6"
+                :style="
+                  task.criticality && task.criticality.color
+                    ? 'color:' + task.criticality.color
+                    : ''
+                "
+              >
                 <q-icon v-if="task.criticality" name="warning" />
-                {{ task.criticality ? task.criticality.label : '' }}
+                {{ task.criticality ? task.criticality.label : "" }}
               </div>
               <div v-if="task.order.length > 0" class="text-body2 text-center col-12">
                 <q-icon name="shopping_cart" />
@@ -186,25 +307,30 @@
 
     <div v-if="data.length > 0" class="col-12 q-pl-lg q-px-xs">
       <q-card class="flex flex-center q-pa-md q-mt-md">
-        <q-pagination v-model="page" :max-pages="6" :max="maxPages" :boundary-numbers="maxPages > 9" direction-links />
+        <q-pagination
+          v-model="page"
+          :max-pages="6"
+          :max="maxPages"
+          :boundary-numbers="maxPages > 9"
+          direction-links
+        />
       </q-card>
     </div>
   </div>
 </template>
 
 <script>
-import categories from '@controleonline/quasar-common-ui/src/store/categories'
-import { date } from 'quasar';
+import categories from "@controleonline/quasar-common-ui/src/store/categories";
+import { date } from "quasar";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { mapGetters } from "vuex";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import FormTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/FormTasks.vue";
 
-
 export default {
   components: {
     Api,
-    FormTasks
+    FormTasks,
   },
 
   props: {
@@ -221,10 +347,9 @@ export default {
       required: false,
     },
 
-
     provider: {
       type: Number,
-      required: true
+      required: true,
     },
     task_type: {
       type: String,
@@ -232,11 +357,11 @@ export default {
     },
     registeredBy: {
       type: Number,
-      required: false
+      required: false,
     },
     taskFor: {
       type: Number,
-      required: false
+      required: false,
     },
     orderId: {
       type: Number,
@@ -249,8 +374,6 @@ export default {
   },
 
   data() {
-
-
     return {
       API: new Api(this.$store.getters["auth/user"].token),
       settings: {
@@ -300,28 +423,28 @@ export default {
       categories: [],
       categories_criticality: [],
       categories_reason: [],
-      people_filter: this.orderId || this.client ? 'all' : 'my',
+      people_filter: this.orderId || this.client ? "all" : "my",
       //people_filter: 'all',
       people_filter_options: [
         {
-          label: this.$t(this.task_type + '.myTasks'),
-          value: 'my'
+          label: this.$t(this.task_type + ".myTasks"),
+          value: "my",
         },
         {
-          label: this.$t(this.task_type + '.allTasks'),
-          value: 'all'
+          label: this.$t(this.task_type + ".allTasks"),
+          value: "all",
         },
 
         {
-          label: this.$t(this.task_type + '.create'),
-          value: 'created'
-        }
+          label: this.$t(this.task_type + ".create"),
+          value: "created",
+        },
       ],
       task_for: [
         {
-          label: this.$t(this.task_type + '.allTasks'),
-          value: null
-        }
+          label: this.$t(this.task_type + ".allTasks"),
+          value: null,
+        },
       ],
       statuses: [],
       loadingStatuses: false,
@@ -344,12 +467,11 @@ export default {
     this.requestTaskFor();
   },
 
-
   watch: {
     page(value) {
       this.pagination = {
         ...this.pagination,
-        page: value
+        page: value,
       };
 
       this.onRequest({
@@ -430,18 +552,22 @@ export default {
         return this.$route.query.page || 1;
       },
       set(value) {
-        this.$router.push({ ...this.$route.name, query: { ...this.$route.query, page: value } })
-      }
+        this.$router.push({
+          ...this.$route.name,
+          query: { ...this.$route.query, page: value },
+        });
+      },
     },
   },
   methods: {
-
     formatSearchDate(dateString) {
-      return date.formatDate(date.extractDate(dateString, 'DD-MM-YYYY'), 'YYYY-MM-DD');
+      return date.formatDate(date.extractDate(dateString, "DD-MM-YYYY"), "YYYY-MM-DD");
     },
 
     getClear(category) {
-      let cat = category.map(function (e) { return e; });
+      let cat = category.map(function (e) {
+        return e;
+      });
       cat.shift();
       return cat;
     },
@@ -456,9 +582,9 @@ export default {
     },
     getCategories(criticality) {
       let params = [];
-      params.context = this.context + (criticality || '');
+      params.context = this.context + (criticality || "");
       params.company = this.provider;
-      params['order[name]'] = 'ASC';
+      params["order[name]"] = "ASC";
 
       return this.API.private("/categories", { params })
         .then((response) => response.json())
@@ -472,8 +598,10 @@ export default {
     requestCategories() {
       this.getCategories().then((categories) => {
         if (categories.totalItems) {
-
-          this.categories.push({ label: this.$t(this.task_type + ".status.all"), value: -1 });
+          this.categories.push({
+            label: this.$t(this.task_type + ".status.all"),
+            value: -1,
+          });
 
           for (let index in categories.members) {
             let item = categories.members[index];
@@ -486,9 +614,12 @@ export default {
           }
         }
       });
-      this.getCategories('-criticality').then((categories) => {
+      this.getCategories("-criticality").then((categories) => {
         if (categories.totalItems) {
-          this.categories_criticality.push({ label: this.$t(this.task_type + ".status.all"), value: -1 });
+          this.categories_criticality.push({
+            label: this.$t(this.task_type + ".status.all"),
+            value: -1,
+          });
           for (let index in categories.members) {
             let item = categories.members[index];
             this.categories_criticality.push({
@@ -499,9 +630,12 @@ export default {
           }
         }
       });
-      this.getCategories('-reason').then((categories) => {
+      this.getCategories("-reason").then((categories) => {
         if (categories.totalItems) {
-          this.categories_reason.push({ label: this.$t(this.task_type + ".status.all"), value: -1 });
+          this.categories_reason.push({
+            label: this.$t(this.task_type + ".status.all"),
+            value: -1,
+          });
           for (let index in categories.members) {
             let item = categories.members[index];
             this.categories_reason.push({
@@ -516,7 +650,7 @@ export default {
     getStatuses() {
       let params = [];
       params.context = this.context;
-      params['order[name]'] = 'ASC';
+      params["order[name]"] = "ASC";
 
       return this.API.private("/statuses", { params })
         .then((response) => response.json())
@@ -532,7 +666,7 @@ export default {
       let params = [];
       params.context = this.context;
       params.company = this.provider;
-      params['order[name]'] = 'ASC';
+      params["order[name]"] = "ASC";
 
       return this.API.private("/tasks/people", { params })
         .then((response) => response.json())
@@ -549,7 +683,11 @@ export default {
     },
     requestStatuses() {
       this.loadingStatuses = true;
-      this.statuses.push({ label: this.$t(this.task_type + ".status.all"), value: -1, color: '#000000' });
+      this.statuses.push({
+        label: this.$t(this.task_type + ".status.all"),
+        value: -1,
+        color: "#000000",
+      });
       this.getStatuses().then((statuses) => {
         if (statuses.totalItems) {
           for (let index in statuses.members) {
@@ -557,18 +695,19 @@ export default {
             this.statuses.push({
               original: item.status,
               label: this.$t(this.task_type + ".status." + item.status),
-              value: parseInt(item['@id'].match(/^\/statuses\/([a-z0-9-]*)$/)[1]),
+              value: parseInt(item["@id"].match(/^\/statuses\/([a-z0-9-]*)$/)[1]),
               color: item.color,
             });
           }
-
         }
         this.loadingStatuses = false;
         if (!this.orderId && !this.client)
-          this.filters.status = this.statuses.find((status) => 'open' == status.original);
+          this.filters.status = this.statuses.find((status) => "open" == status.original);
         else
-          this.filters.status = { label: this.$t(this.task_type + ".status.all"), value: -1 };
-
+          this.filters.status = {
+            label: this.$t(this.task_type + ".status.all"),
+            value: -1,
+          };
       });
     },
     onTaskSave(id) {
@@ -595,8 +734,7 @@ export default {
 
       this.isLoading = true;
 
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page: this.page };
 
       if (this.filters.status && this.filters.status.value > 0) {
@@ -604,27 +742,23 @@ export default {
       }
       params.task_type = this.task_type;
 
-      if (this.registeredBy && this.people_filter != 'all' && this.people_filter != 'my')
+      if (this.registeredBy && this.people_filter != "all" && this.people_filter != "my")
         params.registeredBy = this.registeredBy;
 
-      if (this.taskFor && this.people_filter != 'all' && this.people_filter != 'created')
+      if (this.taskFor && this.people_filter != "all" && this.people_filter != "created")
         params.taskFor = this.taskFor;
 
       if (this.filters.task_for && this.filters.task_for.value !== null)
         params.taskFor = this.filters.task_for.value;
 
-      if (this.orderId)
-        params.order = this.orderId;
+      if (this.orderId) params.order = this.orderId;
 
-      if (this.provider)
-        params.provider = this.provider;
+      if (this.provider) params.provider = this.provider;
 
-      if (this.client)
-        params.client = this.client.id;
+      if (this.client) params.client = this.client.id;
 
       if (this.filters.category && this.filters.category.value > 0)
         params.category = this.filters.category.value;
-
 
       if (this.filters.criticality && this.filters.criticality.value > 0)
         params.criticality = this.filters.criticality.value;
@@ -632,16 +766,13 @@ export default {
       if (this.filters.reason && this.filters.reason.value > 0)
         params.reason = this.filters.reason.value;
 
-
       if (this.filters.fromDate)
         params.fromDate = this.formatSearchDate(this.filters.fromDate);
 
       if (this.filters.fromDate)
         params.toDate = this.formatSearchDate(this.filters.toDate);
 
-      if (this.filters.searchBy)
-        params.searchBy = this.filters.searchBy;
-
+      if (this.filters.searchBy) params.searchBy = this.filters.searchBy;
 
       this.getTasks(params)
         .then((data) => {
@@ -651,33 +782,42 @@ export default {
             let item = data.members[index];
 
             const reasonSelected = !item.reason
-              ? ''
-              : this.categories_reason
-                .find((category) => Number(item.reason.replace(/[^0-9]/g, '')) == category.value);
+              ? ""
+              : this.categories_reason.find(
+                  (category) =>
+                    Number(item.reason.replace(/[^0-9]/g, "")) == category.value
+                );
 
             const categorySelected = !item.category
-              ? ''
-              : this.categories
-                .find((category) => Number(item.category.replace(/[^0-9]/g, '')) == category.value);
+              ? ""
+              : this.categories.find(
+                  (category) =>
+                    Number(item.category.replace(/[^0-9]/g, "")) == category.value
+                );
 
             const criticalitySelected = !item.criticality
-              ? ''
-              : this.categories_criticality
-                .find((category) => Number(item.criticality.replace(/[^0-9]/g, '')) == category.value);
+              ? ""
+              : this.categories_criticality.find(
+                  (category) =>
+                    Number(item.criticality.replace(/[^0-9]/g, "")) == category.value
+                );
 
             _data.push({
               id: item.id,
               name: item.name,
-              status: this.statuses
-                .find((status) => Number(item.taskStatus.match(/^\/statuses\/([a-z0-9-]*)$/)[1]) == status.value),
+              status: this.statuses.find(
+                (status) =>
+                  Number(item.taskStatus.match(/^\/statuses\/([a-z0-9-]*)$/)[1]) ==
+                  status.value
+              ),
               taskFor: item.taskFor.name,
               dueDate: item.dueDate,
               registeredBy: item.registeredBy.name,
               client: item.client,
-              order: item.order?.name ?? '',
-              reason: reasonSelected || '',
-              category: categorySelected || '',
-              criticality: criticalitySelected || '',
+              order: item.order?.name ?? "",
+              reason: reasonSelected || "",
+              category: categorySelected || "",
+              criticality: criticalitySelected || "",
             });
           }
           this.data = _data;
@@ -692,8 +832,6 @@ export default {
           this.isLoading = false;
         });
     },
-
-
   },
 };
 </script>
