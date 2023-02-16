@@ -34,7 +34,6 @@
 
 
 <script>
-import { METHODS } from "http";
 import { mapActions, mapGetters } from "vuex";
 import Api from "@controleonline/quasar-common-ui/src/utils/api";
 
