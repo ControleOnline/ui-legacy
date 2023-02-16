@@ -74,7 +74,7 @@ export default {
     ...mapActions({}),
 
     getMenu() {
-      return this.API.private(`menus/people`, {
+      return this.API.private(`menus-people`, {
         params: { myCompany: this.company.id },
       })
         .then((response) => response.json())
