@@ -128,7 +128,7 @@ export const createContact = ({ commit }, values) => {
 export const myCompanies = ({ commit, dispatch }) => {
   commit(types.SET_ISLOADING);
 
-  return fetch(`${RESOURCE_ENDPOINT}/my-companies`)
+  return fetch(`${RESOURCE_ENDPOINT}/companies/my`)
     .then(response => response.json())
     .then(data => {
       commit(types.SET_ISLOADING, false);
