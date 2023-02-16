@@ -20,7 +20,7 @@ export default class acl {
       if (!storedUser.actions) storedUser.actions = {};
 
         if (storedUser.mycompany && route)
-      return API.private(`acoes/people`, {
+      return API.private(`/actions/people`, {
         params: { myCompany: storedUser.mycompany, route: route },
       }).then((response) => response.json())
         .then((result) => {        
