@@ -1,8 +1,9 @@
 <template>
   <div class="row items-center justify-center">
     <div class="flex flex-center" v-if="isLoading">
-      <q-circular-progress :indeterminate="isLoading"
-        size ="sm"
+      <q-circular-progress
+        :indeterminate="isLoading"
+        size="sm"
         color="primary"
         class="q-ma-md"
       />
@@ -16,14 +17,16 @@
             <div class="text-left text-bold">Faturamento</div>
             <div class="text-left">
               <q-input
-      dense
-      outlined lazy-rules stack-label reverse-fill-mask
-                v-model  ="item.billing"
+                dense
                 outlined
-                prefix   ="R$"
-                type     ="text"
-                :rules   ="[isInvalid('money')]"
-                mask     ="#,##"
+                lazy-rules
+                stack-label
+                reverse-fill-mask
+                v-model="item.billing"
+                prefix="R$"
+                type="text"
+                :rules="[isInvalid('money')]"
+                mask="#,##"
                 fill-mask="0"
               />
             </div>
@@ -32,16 +35,17 @@
           <div class="col q-px-md">
             <div class="text-left text-bold">Fechamento</div>
             <div class="text-left">
-              <q-select dense outlined  stack-label map-options
+              <q-select
+                dense
                 outlined
-                v-model ="item.billingDays"
+                stack-label
+                map-options
+                v-model="item.billingDays"
                 :options="settings.select.periods"
               >
                 <template v-slot:no-option>
                   <q-item>
-                    <q-item-section class="text-grey">
-                      Sem resultados
-                    </q-item-section>
+                    <q-item-section class="text-grey"> Sem resultados </q-item-section>
                   </q-item>
                 </template>
               </q-select>
@@ -52,13 +56,15 @@
             <div class="text-left text-bold">Prazo de pagamento</div>
             <div class="text-left">
               <q-input
-      dense
-      outlined lazy-rules stack-label reverse-fill-mask
-                v-model="item.paymentTerm"
+                dense
                 outlined
-                type   ="text"
-                :rules ="[isInvalid('monthday')]"
-                mask   ="#"
+                lazy-rules
+                stack-label
+                reverse-fill-mask
+                v-model="item.paymentTerm"
+                type="text"
+                :rules="[isInvalid('monthday')]"
+                mask="#"
               />
             </div>
           </div>
@@ -67,12 +73,12 @@
             <q-btn
               unelevated
               :loading="saving"
-              icon    ="save"
-              label   ="Salvar"
-              size    ="md"
-              color   ="primary"
-              class   ="q-mt-md"
-              @click  ="onSubmit"
+              icon="save"
+              label="Salvar"
+              size="md"
+              color="primary"
+              class="q-mt-md"
+              @click="onSubmit"
             />
           </div>
         </div>
@@ -82,26 +88,26 @@
 </template>
 
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
 
 const SETTINGS = {
   select: {
     periods: [
       {
-        label: 'Diário',
-        value: 'daily',
+        label: "Diário",
+        value: "daily",
       },
       {
-        label: 'Semanal',
-        value: 'weekly',
+        label: "Semanal",
+        value: "weekly",
       },
       {
-        label: 'Quinzenal',
-        value: 'biweekly',
+        label: "Quinzenal",
+        value: "biweekly",
       },
       {
-        label: 'Mensal',
-        value: 'monthly',
+        label: "Mensal",
+        value: "monthly",
       },
     ],
   },
@@ -115,25 +121,25 @@ export default {
       required: true,
     },
     api: {
-      type    : Api,
-      required: true
+      type: Api,
+      required: true,
     },
     people_type: {
       type: String,
-      required: true
+      required: true,
     },
   },
 
   data() {
     return {
-      saving   : false,
-      settings : SETTINGS,
+      saving: false,
+      settings: SETTINGS,
       isLoading: false,
-      item     : {
-        billing    : null,
+      item: {
+        billing: null,
         billingDays: null,
         paymentTerm: null,
-      }
+      },
     };
   },
 
@@ -145,9 +151,10 @@ export default {
     // store method
     getItems() {
       let endpoint = `${this.people_type}/${this.id}/billing`;
-      return this.api.private(endpoint)
-        .then(response => response.json())
-        .then(result => {
+      return this.api
+        .private(endpoint)
+        .then((response) => response.json())
+        .then((result) => {
           return result.response.data;
         });
     },
@@ -155,18 +162,18 @@ export default {
     // store method
     save(values) {
       let options = {
-        method : 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify(values),
+        method: "PUT",
+        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        body: JSON.stringify(values),
       };
 
       let endpoint = `${this.people_type}/${this.id}/billing`;
-      return this.api.private(endpoint, options)
-        .then(response => response.json())
-        .then(data => {
+      return this.api
+        .private(endpoint, options)
+        .then((response) => response.json())
+        .then((data) => {
           if (data.response) {
-            if (data.response.success === false)
-              throw new Error(data.response.error);
+            if (data.response.success === false) throw new Error(data.response.error);
 
             return data.response.data;
           }
@@ -179,17 +186,17 @@ export default {
       this.saving = true;
 
       this.save({
-        "billing"    : parseFloat(this.item.billing.replace(',', '.')),
-        "billingDays": this.item.billingDays.value,
-        "paymentTerm": parseInt(this.item.paymentTerm)
+        billing: parseFloat(this.item.billing.replace(",", ".")),
+        billingDays: this.item.billingDays.value,
+        paymentTerm: parseInt(this.item.paymentTerm),
       })
-        .then (data => {
+        .then((data) => {
           if (data) {
-            this.$emit('saved', data);
+            this.$emit("saved", data);
           }
         })
-        .catch(error => {
-          this.$emit('error', { message: error.message });
+        .catch((error) => {
+          this.$emit("error", { message: error.message });
         })
         .finally(() => {
           this.saving = false;
@@ -197,14 +204,13 @@ export default {
     },
 
     onRequest() {
-      if (this.isLoading)
-        return;
+      if (this.isLoading) return;
 
       this.isLoading = true;
 
       this.getItems()
-        .then(data => {
-          this.item.billing     = (parseFloat(data.billing) + 0.001).toFixed(2);
+        .then((data) => {
+          this.item.billing = (parseFloat(data.billing) + 0.001).toFixed(2);
           this.item.billingDays = data.billingDays;
           this.item.paymentTerm = data.paymentTerm;
         })
@@ -214,23 +220,22 @@ export default {
     },
 
     isInvalid(key) {
-      return val => {
-        if (key == 'money') {
-          if (!val || !(parseFloat(val.replace(',', '.')) > 0))
-            return this.$t('messages.fieldRequired');
+      return (val) => {
+        if (key == "money") {
+          if (!val || !(parseFloat(val.replace(",", ".")) > 0))
+            return this.$t("messages.fieldRequired");
 
           return true;
         }
 
-        if (key == 'monthday') {
+        if (key == "monthday") {
           if (!val || !(parseInt(val) > 0 && parseInt(val) < 32))
-            return this.$t('messages.fieldRequired');
+            return this.$t("messages.fieldRequired");
 
           return true;
         }
 
-        if (!(val && val.length > 0))
-          return this.$t('messages.fieldRequired');
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         return true;
       };
