@@ -2,59 +2,32 @@
   <q-form @submit="onSubmit">
     <div class="row items-center">
       <div class="text-h6">
-        {{ item.id === null ? $t("Novo Menu") : $t("Edição de Menu") }}
+        {{ item.id === null ? $t("Novo Modulo") : $t("Edição de modulos") }}
       </div>
     </div>
     <div class="row q-col-gutter-y-sm q-pt-md">
       <div class="col-xs-12">
-        <q-select
-          dense
-          outlined
-          stack-label
-          emit-value
-          map-options
-          v-model="item.category"
-          :label="$t('Categoria')"
-          :options="categories"
-        />
-      </div>
-
-      <div class="col-xs-12">
-        <q-select
-          dense
-          outlined
-          stack-label
-          emit-value
-          map-options
-          v-model="item.module"
-          :label="$t('Modulo')"
-          :options="modules"
-        />
-      </div>
-
-      <div class="col-xs-12">
         <q-input
           dense
           outlined
           lazy-rules
           stack-label
-          v-model="item.menu"
+          v-model="item.name"
           type="text"
-          :label="$t('Nome Menu')"
+          :label="$t('name')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
       </div>
-
       <div class="col-xs-12">
         <q-input
           dense
           outlined
           lazy-rules
           stack-label
-          v-model="item.route"
+          v-model="item.description"
           type="text"
-          :label="$t('Rota')"
+          :label="$t('description')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
@@ -129,20 +102,10 @@ export default {
 
     if (this.id !== null) {
       this.getItem(this.id).then((item) => {
-        this.item.route = item.route;
         this.item.color = item.color;
-        this.item.menu = item.menu;
         this.item.icon = item.icon;
-        this.item.context = this.context;
-
-        this.item.module =
-          item.module !== null && item.module !== undefined
-            ? item.module.id
-            : null;
-        this.item.category =
-          item.category !== null && item.category !== undefined
-            ? item.category.id
-            : null;
+        this.item.description = item.description;
+        this.item.name = item.name;
       });
     }
   },
@@ -151,17 +114,12 @@ export default {
     return {
       saving: false,
       item: {
-        module: null,
-        route: null,
         color: null,
         icon: null,
         id: this.id,
-        menu: null,
-        context: this.context,
-        category: null,
+        name: null,
+        description: null,
       },
-      categories: [],
-      modules: [],
     };
   },
 
@@ -180,7 +138,7 @@ export default {
     // store method
     getItem(id) {
       return this.api
-        .private(`menus/${id}`)
+        .private(`modules/${id}`)
         .then((response) => response.json())
         .then((response) => {
           return response;
@@ -196,7 +154,7 @@ export default {
         params: params,
       };
 
-      let endpoint = this.id === null ? "menus" : `menus/${this.id}`;
+      let endpoint = this.id === null ? "roles" : `modules/${this.id}`;
 
       return this.api
         .private(endpoint, options)
@@ -209,8 +167,7 @@ export default {
               type: "positive",
             });
 
-            this.loadCategories();
-            this.loadModules();
+
             return data;
           }
 
@@ -227,71 +184,25 @@ export default {
 
     loadSelectableOptions() {
       // load categories
-      this.loadCategories();
-      this.loadModules();
+
     },
 
     onSubmit() {
       this.saving = true;
 
       this.save({
-        route: this.item.route,
-        menu: this.item.menu,
-        module: "/module/" + this.item.module,
+        description: this.item.description,
         color: this.item.color,
         icon: this.item.icon,
-        category: "/category/" + this.item.category,
-        //company: `/people/${this.myCompany.id}`,
+        name: this.item.name,
       }).finally(() => {
         this.saving = false;
       });
     },
 
-    loadModules() {
-      this.api
-        .private(`modules`)
-        .then((response) => response.json())
-        .then((response) => {
-          let data = response["hydra:member"];
-          data.forEach((item, i) => {
-            this.modules.push({
-              label: item.name,
-              value: item.id,
-            });
-          });
-        });
-    },
-
-    loadCategories() {
-      this.getCategories({
-        params: {
-          context: this.context,
-          company: this.myCompany.id,
-        },
-      }).then((members) => {
-        if (members.length) {
-          let items = [];
-
-          items.push({
-            label: null,
-            value: null,
-          });
-
-          members.forEach((item, i) => {
-            items.push({
-              label: item.name,
-              value: item.id,
-            });
-          });
-          this.categories = items;
-        }
-      });
-    },
-
     isInvalid(field) {
       return (val) => {
-        if (!(val && val.length > 0))
-          return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
 
         return true;
       };

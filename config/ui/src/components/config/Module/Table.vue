@@ -51,9 +51,7 @@
           <q-td key="color" :props="props">
             <span
               :style="
-                'background:' +
-                props.row.color +
-                ';padding: 15px;border: 1px solid #000;'
+                'background:' + props.row.color + ';padding: 15px;border: 1px solid #000;'
               "
             >
               {{ props.row.color }}
@@ -63,9 +61,7 @@
             <q-btn :icon="props.row.icon" />
           </q-td>
 
-          <q-td key="description" :props="props">{{
-            props.row.description
-          }}</q-td>
+          <q-td key="description" :props="props">{{ props.row.description }}</q-td>
         </q-tr>
       </template>
     </q-table>
@@ -76,7 +72,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <FormMenu :id="dialogs.menu.id" :api="api" />
+          <FormMenu  :context="context" :id="dialogs.menu.id" :api="api" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -138,6 +134,7 @@ export default {
 
   data() {
     return {
+      context: "menu",
       api: new Api(this.$store.getters["auth/user"].token),
       settings: SETTINGS,
       items: [],
@@ -249,8 +246,7 @@ export default {
     onRequest(props) {
       if (this.isLoading) return;
 
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
       params.context = this.context;
       if (this.myCompany != null) {

@@ -19,18 +19,7 @@
         />
       </div>
 
-      <div class="col-xs-12">
-        <q-select
-          dense
-          outlined
-          stack-label
-          emit-value
-          map-options
-          v-model="item.module"
-          :label="$t('Modulo')"
-          :options="modules"
-        />
-      </div>
+
 
       <div class="col-xs-12">
         <q-input
@@ -47,16 +36,17 @@
       </div>
 
       <div class="col-xs-12">
-        <q-input
+              <q-select
           dense
-          lazy-rules
+          outlined
           stack-label
+          emit-value
+          map-options
           v-model="item.route"
-          type="text"
-          :label="$t('Rota')"
-          class="q-mt-md"
-          :rules="[isInvalid()]"
+          :label="$t('Route')"
+          :options="routes"
         />
+
       </div>
 
       <div class="col-xs-12">
@@ -134,9 +124,9 @@ export default {
         this.item.icon = item.icon;
         this.item.context = this.context;
 
-        this.item.module =
-          item.module !== null && item.module !== undefined
-            ? item.module.id
+        this.item.route =
+          item.route !== null && item.route !== undefined
+            ? item.route.id
             : null;
         this.item.category =
           item.category !== null && item.category !== undefined
@@ -150,7 +140,7 @@ export default {
     return {
       saving: false,
       item: {
-        module: null,
+        route: null,
         route: null,
         color: null,
         icon: null,
@@ -160,7 +150,7 @@ export default {
         category: null,
       },
       categories: [],
-      modules: [],
+      routes:[],
     };
   },
 
@@ -209,7 +199,7 @@ export default {
             });
 
             this.loadCategories();
-            this.loadModules();
+            this.loadRoutes();
             return data;
           }
 
@@ -227,34 +217,33 @@ export default {
     loadSelectableOptions() {
       // load categories
       this.loadCategories();
-      this.loadModules();
+      this.loadRoutes();
     },
 
     onSubmit() {
       this.saving = true;
 
-      this.save({
-        route: this.item.route,
+      this.save({        
         menu: this.item.menu,
-        module: "/module/" + this.item.module,
+        route: "/routes/" + this.item.route,
         color: this.item.color,
         icon: this.item.icon,
-        category: "/category/" + this.item.category,
+        category: "/categories/" + this.item.category,
         //company: `/people/${this.myCompany.id}`,
       }).finally(() => {
         this.saving = false;
       });
     },
 
-    loadModules() {
+    loadRoutes() {
       this.api
-        .private(`modules`)
+        .private(`routes`)
         .then((response) => response.json())
         .then((response) => {
           let data = response["hydra:member"];
           data.forEach((item, i) => {
-            this.modules.push({
-              label: item.name,
+            this.routes.push({
+              label: item.route,
               value: item.id,
             });
           });

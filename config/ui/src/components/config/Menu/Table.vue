@@ -45,9 +45,9 @@
                 }
               "
             />
-          </q-td>
+          </q-td>          
+          <q-td key="route" :props="props">{{ props.row.route.route }}</q-td>
           <q-td key="menu" :props="props">{{ props.row.menu }}</q-td>
-          <q-td key="route" :props="props">{{ props.row.route }}</q-td>
           <q-td key="color" :props="props">
             <span
               :style="
@@ -63,9 +63,6 @@
             <q-btn :icon="props.row.icon" />
           </q-td>
 
-          <q-td key="module" :props="props">{{
-            $t("menu." + props.row.module.name)
-          }}</q-td>
           <q-td key="category" :props="props">{{
             $t("category." + props.row.category.name)
           }}</q-td>
@@ -120,11 +117,6 @@ const SETTINGS = {
       label: "Ícone",
     },
 
-    {
-      name: "module",
-      align: "left",
-      label: "Módulo",
-    },
 
     {
       name: "category",
@@ -286,8 +278,7 @@ export default {
                 menu: data.members[index].menu,
                 color: data.members[index].color,
                 icon: data.members[index].icon,
-                category: data.members[index].category,
-                module: data.members[index].module,
+                category: data.members[index].category,                
                 _bussy: false,
               });
             }

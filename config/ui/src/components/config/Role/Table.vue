@@ -46,7 +46,7 @@
               "
             />
           </q-td>
-          <q-td key="role" :props="props">{{ props.row.role }}</q-td>          
+          <q-td key="role" :props="props">{{ props.row.role }}</q-td>
         </q-tr>
       </template>
     </q-table>
@@ -57,7 +57,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <FormMenu :id="dialogs.menu.id" :api="api" />
+          <FormMenu :context="context" :id="dialogs.menu.id" :api="api" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -102,7 +102,8 @@ export default {
   },
 
   data() {
-    return {      
+    return {
+      context: "menu",
       api: new Api(this.$store.getters["auth/user"].token),
       settings: SETTINGS,
       items: [],
@@ -214,15 +215,14 @@ export default {
     onRequest(props) {
       if (this.isLoading) return;
 
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
       params.context = this.context;
+
       if (this.myCompany != null) {
         params.company = this.myCompany.id;
       }
       params["order[name]"] = "ASC";
-
       this.isLoading = true;
       this.getItems(params)
         .then((data) => {
@@ -232,7 +232,7 @@ export default {
             for (let index in data.members) {
               _items.push({
                 id: data.members[index].id,
-                role: data.members[index].role,                
+                role: data.members[index].role,
                 _bussy: false,
               });
             }

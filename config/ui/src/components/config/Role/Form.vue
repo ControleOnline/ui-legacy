@@ -2,87 +2,19 @@
   <q-form @submit="onSubmit">
     <div class="row items-center">
       <div class="text-h6">
-        {{ item.id === null ? $t("Novo Menu") : $t("Edição de Menu") }}
+        {{ item.id === null ? $t("Novo Regras") : $t("Edição de Regras") }}
       </div>
     </div>
     <div class="row q-col-gutter-y-sm q-pt-md">
       <div class="col-xs-12">
-        <q-select
-          dense
-          outlined
-          stack-label
-          emit-value
-          map-options
-          v-model="item.category"
-          :label="$t('Categoria')"
-          :options="categories"
-        />
-      </div>
-
-      <div class="col-xs-12">
-        <q-select
-          dense
-          outlined
-          stack-label
-          emit-value
-          map-options
-          v-model="item.module"
-          :label="$t('Modulo')"
-          :options="modules"
-        />
-      </div>
-
-      <div class="col-xs-12">
         <q-input
           dense
           outlined
           lazy-rules
           stack-label
-          v-model="item.menu"
+          v-model="item.role"
           type="text"
-          :label="$t('Nome Menu')"
-          class="q-mt-md"
-          :rules="[isInvalid()]"
-        />
-      </div>
-
-      <div class="col-xs-12">
-        <q-input
-          dense
-          outlined
-          lazy-rules
-          stack-label
-          v-model="item.route"
-          type="text"
-          :label="$t('Rota')"
-          class="q-mt-md"
-          :rules="[isInvalid()]"
-        />
-      </div>
-
-      <div class="col-xs-12">
-        <q-input
-          dense
-          outlined
-          lazy-rules
-          stack-label
-          v-model="item.color"
-          type="text"
-          :label="$t('Cor')"
-          class="q-mt-md"
-          :rules="[isInvalid()]"
-        />
-      </div>
-
-      <div class="col-xs-12">
-        <q-input
-          dense
-          outlined
-          lazy-rules
-          stack-label
-          v-model="item.icon"
-          type="text"
-          :label="$t('Ícone')"
+          :label="$t('Role')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
@@ -129,20 +61,7 @@ export default {
 
     if (this.id !== null) {
       this.getItem(this.id).then((item) => {
-        this.item.route = item.route;
-        this.item.color = item.color;
-        this.item.menu = item.menu;
-        this.item.icon = item.icon;
-        this.item.context = this.context;
-
-        this.item.module =
-          item.module !== null && item.module !== undefined
-            ? item.module.id
-            : null;
-        this.item.category =
-          item.category !== null && item.category !== undefined
-            ? item.category.id
-            : null;
+        this.item.role = item.role;
       });
     }
   },
@@ -151,17 +70,8 @@ export default {
     return {
       saving: false,
       item: {
-        module: null,
-        route: null,
-        color: null,
-        icon: null,
-        id: this.id,
-        menu: null,
-        context: this.context,
-        category: null,
+        role: null,
       },
-      categories: [],
-      modules: [],
     };
   },
 
@@ -180,7 +90,7 @@ export default {
     // store method
     getItem(id) {
       return this.api
-        .private(`menus/${id}`)
+        .private(`roles/${id}`)
         .then((response) => response.json())
         .then((response) => {
           return response;
@@ -196,7 +106,7 @@ export default {
         params: params,
       };
 
-      let endpoint = this.id === null ? "menus" : `menus/${this.id}`;
+      let endpoint = this.id === null ? "roles" : `roles/${this.id}`;
 
       return this.api
         .private(endpoint, options)
@@ -209,8 +119,6 @@ export default {
               type: "positive",
             });
 
-            this.loadCategories();
-            this.loadModules();
             return data;
           }
 
@@ -227,71 +135,22 @@ export default {
 
     loadSelectableOptions() {
       // load categories
-      this.loadCategories();
-      this.loadModules();
     },
 
     onSubmit() {
       this.saving = true;
 
       this.save({
-        route: this.item.route,
-        menu: this.item.menu,
-        module: "/module/" + this.item.module,
-        color: this.item.color,
-        icon: this.item.icon,
-        category: "/category/" + this.item.category,
-        //company: `/people/${this.myCompany.id}`,
+        role: this.item.role,
+        company: `/people/${this.myCompany.id}`,
       }).finally(() => {
         this.saving = false;
       });
     },
 
-    loadModules() {
-      this.api
-        .private(`modules`)
-        .then((response) => response.json())
-        .then((response) => {
-          let data = response["hydra:member"];
-          data.forEach((item, i) => {
-            this.modules.push({
-              label: item.name,
-              value: item.id,
-            });
-          });
-        });
-    },
-
-    loadCategories() {
-      this.getCategories({
-        params: {
-          context: this.context,
-          company: this.myCompany.id,
-        },
-      }).then((members) => {
-        if (members.length) {
-          let items = [];
-
-          items.push({
-            label: null,
-            value: null,
-          });
-
-          members.forEach((item, i) => {
-            items.push({
-              label: item.name,
-              value: item.id,
-            });
-          });
-          this.categories = items;
-        }
-      });
-    },
-
     isInvalid(field) {
       return (val) => {
-        if (!(val && val.length > 0))
-          return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
 
         return true;
       };
