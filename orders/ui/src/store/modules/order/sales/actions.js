@@ -229,7 +229,7 @@ export const updateParkingDate = ({ commit }, { id, newParkingDate, params = {} 
 
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
-  return fetch(`${RESOURCE_ENDPOINT}/${id}`, options)
+  return fetch(`${RESOURCE_ENDPOINT}/fields/${id}`, options)
     .then(response => response.json())
     .then(data => {
 
