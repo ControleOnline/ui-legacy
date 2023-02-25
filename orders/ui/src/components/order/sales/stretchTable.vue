@@ -98,9 +98,9 @@
               <q-btn color="primary" label="Limpar filtro" @click="cleanFilter()"></q-btn>
             </div>
           </div>
-          <div v-if="hasOrderId" class="row col-12 q-gutter-x-md">
+          <div v-if="hasOrderId" class="row col-12 q-gutter-sm">
             <q-input
-              class="col-3"
+              class="col-2"
               dense
               outlined
               readonly
@@ -109,7 +109,7 @@
               v-model="myCompany.alias"
             ></q-input>
             <q-input
-              class="col-3"
+              class="col-2"
               dense
               outlined
               readonly
@@ -118,7 +118,7 @@
               v-model="car"
             ></q-input>
             <q-input
-              class="col-3"
+              class="col-2"
               dense
               outlined
               readonly
@@ -127,7 +127,7 @@
               v-model="collectionAddress"
             ></q-input>
             <q-input
-              class="col-3"
+              class="col-2"
               dense
               outlined
               readonly
@@ -135,9 +135,9 @@
               label="Endereço da entrega"
               v-model="destinationAddress"
             ></q-input>
-            <div class="row col-4">
+            <div class="row col-3">
               <q-input
-                class="col-10"
+                class="col-4"
                 dense
                 outlined
                 :disable="!invoiceTotalEdit"
@@ -147,7 +147,7 @@
                 debounce="2000"
               ></q-input>
               <q-btn
-                class="col-2"
+                class="col-1"
                 dense
                 flat
                 color="primary"
