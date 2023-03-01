@@ -566,7 +566,7 @@ export default {
           },
         };
 
-        return fetch(`/delivery_tax_groups/grouped`, options)
+        return fetch(`/delivery_tax_groups_grouped`, options)
           .then((response) => response.json())
           .then((response) => {
             if (
