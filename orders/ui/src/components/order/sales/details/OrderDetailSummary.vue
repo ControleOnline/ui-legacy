@@ -388,17 +388,55 @@
               <tbody>
                 <tr>
                   <td v-if="!isCeg()" class="text-center">
-                    {{
-                      `${new Intl.NumberFormat("pt-br").format(
-                        this.product.sumCubage
-                      )} kg`
-                    }}
+                    <div class="flex justify-center items-center q-gutter-x-xs">
+                      <div v-if="!editCubage">
+                        {{
+                          `${new Intl.NumberFormat("pt-br").format(
+                            this.product.sumCubage
+                          )} kg`
+                        }}
+                      </div>
+                      <q-input
+                        v-if="editCubage"
+                        dense
+                        type="number"
+                        label="Cubagem"
+                        v-model="editCubageValue"
+                      ></q-input>
+                      <q-btn v-if="editCubage" @click="updateCubage()" size="xs" dense color="primary" icon="check"></q-btn>
+                      <q-btn @click="editCubage = !editCubage" size="xs" dense color="primary" :icon="editCubage ? 'cancel' : 'edit'"></q-btn>
+                    </div>
                   </td>
                   <td class="text-center">
-                    {{ this.product.type }}
-                  </td>
+                    <div class="flex justify-center items-center q-gutter-x-xs">
+                      <div v-if="!editCar">
+                        {{ this.product.type }}
+                      </div>
+                      <q-input
+                        v-if="editCar"
+                        dense
+                        label="Automóvel"
+                        v-model="editCarValue"
+                      ></q-input>
+                      <q-btn v-if="editCar" @click="updateCar()" size="xs" dense color="primary" icon="check"></q-btn>
+                      <q-btn @click="editCar = !editCar" size="xs" dense color="primary" :icon="editCar ? 'cancel' : 'edit'"></q-btn>
+                    </div>
+                    </td>
                   <td class="text-center">
-                    {{ formatMoney(this.product.totalPrice) }}
+                    <div class="flex justify-center items-center q-gutter-x-xs">
+                      <div v-if="!editTotalPrice">
+                        {{ formatMoney(this.product.totalPrice) }}
+                      </div>
+                      <q-input
+                        v-if="editTotalPrice"
+                        dense
+                        type="number"
+                        label="Valor"
+                        v-model="editTotalPriceValue"
+                      ></q-input>
+                      <q-btn v-if="editTotalPrice" @click="updateTotalPrice()" size="xs" dense color="primary" icon="check"></q-btn>
+                      <q-btn @click="editTotalPrice = !editTotalPrice" size="xs" dense color="primary" :icon="editTotalPrice ? 'cancel' : 'edit'"></q-btn>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -442,8 +480,23 @@
               v-model="comments"
               type="textarea"
               label="Observações"
-              :readonly="!editable"
+              :readonly="!editComments"
             />
+            <div class="col-xs-12 flex justify-end q-mt-xs q-gutter-x-sm">
+              <q-btn
+                v-if="editComments"
+                size="sm"
+                color="primary"
+                label="Salvar"
+                @click="updateComments()"
+              ></q-btn>
+              <q-btn
+                size="sm"
+                color="primary"
+                :label="editComments ? 'Cancelar' : 'Editar'"
+                @click="editComments = !editComments"
+              ></q-btn>
+            </div>
           </div>
         </div>
       </div>
@@ -643,6 +696,7 @@ import {
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete.vue";
 import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm.vue";
 import { fetch } from '../../../../../../../../src/boot/myapi';
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
 
 export default {
   props: {
@@ -669,6 +723,7 @@ export default {
 
   data() {
     return {
+      api: new Api(this.$store.getters["auth/user"].token),
       isSearching: false,
       summary: null,
       isLoading: false,
@@ -679,6 +734,13 @@ export default {
       payerContact: null,
       showByAddressType: false,
       forceHidden: false,
+      editTotalPrice: false,
+      editTotalPriceValue: null,
+      editCar: false,
+      editCarValue: null,
+      editCubage: false,
+      editCubageValue: null,
+      editComments: false,
       CompaniesSelect: [],
       address_type: [
         { label: "Guincho", value: "winch" },
@@ -971,6 +1033,10 @@ export default {
   methods: {
     ...mapActions({
       getSummary: "salesOrder/getDetailSummary",
+      updateTotalPrice: "salesOrder/updateInvoiceTotal",
+      updateCar: "salesOrder/updateProductType",
+      updateCubage: "salesOrder/updateCubage",
+      updateComments: "salesOrder/updateComments",
       changeAddress: "salesOrder/changeAddress",
       sendProposta: "quote/sendProposta",
       updateStatus: "salesOrder/updateRemote",
@@ -989,6 +1055,207 @@ export default {
 
         return true;
       };
+    },
+    updateComments() {
+
+      this.isUpdating = true;
+
+      let values = {};
+      values.comments = this.comments;
+      let options = {
+        method: 'PUT',
+        body: JSON.stringify(values),
+        params: {}
+      };
+
+      return this.api
+        .private(`/sales/orders/fields/${this.orderId}`, options)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data["@id"]) {
+            this.$q.notify({
+              message: "O campo foi atualizado",
+              position: "bottom",
+              type: "positive",
+            });
+          } else {
+            this.$q.notify({
+              message: "O campo não pode ser atualizado",
+              position: "bottom",
+              type: "negative",
+            });
+          }
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: error.message,
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally(() => {
+          this.isUpdating = false;
+          this.editComments = false;
+          this.requestSummary(this.orderId);
+        });
+    },
+    updateCubage() {
+      if (this.editCubageValue == '' || this.editCubageValue == null) {
+        this.$q.notify({
+          message: "O valor não pode ser vazio",
+          position: "bottom",
+          type: "negative",
+        });
+        return false;
+      }
+
+      this.isUpdating = true;
+      let values = {};
+      values.cubage = parseFloat(this.editCubageValue);
+      let options = {
+        method: 'PUT',
+        body: JSON.stringify(values),
+        params: {}
+      };
+      this.isUpdating = true;
+
+      return this.api
+        .private(`/sales/orders/fields/${this.orderId}`, options)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data["@id"]) {
+            this.$q.notify({
+              message: "O valor foi atualizado",
+              position: "bottom",
+              type: "positive",
+            });
+          } else {
+            this.$q.notify({
+              message: "O valor não pode ser atualizado",
+              position: "bottom",
+              type: "negative",
+            });
+          }
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: error.message,
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally(() => {
+          this.isUpdating = false;
+          this.editCubage = false;
+          this.editCubageValue = null;
+          this.requestSummary(this.orderId);
+        });
+    },
+    updateCar() {
+      if (this.editCarValue == '' || this.editCarValue == null) {
+        this.$q.notify({
+          message: "O campo não pode ser vazio",
+          position: "bottom",
+          type: "negative",
+        });
+        return false;
+      }
+
+      let values = {};
+      values.productType = this.editCarValue;
+      let options = {
+        method: 'PUT',
+        body: JSON.stringify(values),
+        params: {}
+      };
+      this.isUpdating = true;
+
+      return this.api
+        .private(`/sales/orders/fields/${this.orderId}`, options)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data["@id"]) {
+            this.$q.notify({
+              message: "O campo foi atualizado",
+              position: "bottom",
+              type: "positive",
+            });
+          } else {
+            this.$q.notify({
+              message: "O campo não pode ser atualizado",
+              position: "bottom",
+              type: "negative",
+            });
+          }
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: error.message,
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally(() => {
+          this.isUpdating = false;
+          this.editCar = false;
+          this.requestSummary(this.orderId);
+        });
+    },
+    updateTotalPrice() {
+      if (this.editTotalPriceValue == '' || this.editTotalPriceValue == null) {
+        this.$q.notify({
+          message: "O valor não pode ser vazio",
+          position: "bottom",
+          type: "negative",
+        });
+        return false;
+      }
+      if (this.editTotalPriceValue.includes('.'))
+        this.editTotalPriceValue = this.editTotalPriceValue.replaceAll('.','');
+
+      if (this.editTotalPriceValue.includes(','))
+        this.editTotalPriceValue = this.editTotalPriceValue.replaceAll(',','');
+
+
+      let values = {};
+      values.invoiceTotal = parseFloat(this.editTotalPriceValue);
+      let options = {
+        method: 'PUT',
+        body: JSON.stringify(values),
+        params: {}
+      };
+      this.isUpdating = true;
+
+      return this.api
+        .private(`/sales/orders/fields/${this.orderId}`, options)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data["@id"]) {
+            this.$q.notify({
+              message: "O valor foi atualizado",
+              position: "bottom",
+              type: "positive",
+            });
+          } else {
+            this.$q.notify({
+              message: "O valor não pode ser atualizado",
+              position: "bottom",
+              type: "negative",
+            });
+          }
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: error.message,
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally(() => {
+          this.isUpdating = false;
+          this.editTotalPrice = false;
+          this.requestSummary(this.orderId);
+        });
     },
     onSelect(item) {
       this.dialogs.details.data.country = item.country;

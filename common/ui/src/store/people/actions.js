@@ -51,7 +51,7 @@ export const searchPeople = ({ commit }, search) => {
     params: { input: search }
   };
 
-  return fetch('people/search', params)
+  return fetch('people-search', params)
     .then(response => response.json())
     .then(data => {
 
