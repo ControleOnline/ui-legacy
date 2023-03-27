@@ -500,12 +500,14 @@ export default {
         const result = [];
 
         function requestCarItens(text) {
+          let params = {};
+          params.search = text;
           let options = {
             method: "GET",
-            params: {},
+            params: params,
           };
 
-          return fetch(`/car_models/search/` + text, options)
+          return fetch(`/car_models_search`, options)
             .then((response) => response.json())
             .then((data) => {
               if (data.response && data.response.data && data.response.data.length) {

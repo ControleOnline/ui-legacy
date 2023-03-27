@@ -256,7 +256,6 @@
                         flat
                         type="date"
                         v-model="parkingDate"
-                        :rules="[(val) => val != null]"
                       ></q-input>
                     </q-form>
                   </td>
@@ -334,14 +333,14 @@
           <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
             <q-tab name="resumo" label="Resumo" />
             <q-tab name="quotation" label="Cotação" />
-            <q-tab name="notafiscal" label="Nota Fiscal" />
+            <!-- <q-tab name="notafiscal" label="Nota Fiscal" /> -->
             <q-tab name="invoice" label="Fatura" />
             <q-tab v-if="showDacteTab" name="dacte" label="DACTE" />
 
             <q-tab name="tasks" label="Ocorrências" />
-            <q-tab name="tracking" label="Rastreamento" />
+            <!-- <q-tab name="tracking" label="Rastreamento" /> -->
 
-            <q-tab name="tag" label="Etiqueta" />
+            <!-- <q-tab name="tag" label="Etiqueta" /> -->
 
             <q-tab name="logistica" label="Logística" />
             <q-tab name="vistorias" label="Vistorias" />
@@ -358,9 +357,9 @@
               <OrderDetailQuotation :orderId="orderId" @finished="onCheckoutFinished" />
             </q-tab-panel>
 
-            <q-tab-panel name="notafiscal" class="q-pa-none">
+            <!-- <q-tab-panel name="notafiscal" class="q-pa-none">
               <OrderDetailNotaFiscal :orderId="orderId" @fileUploaded="onInvoiceTaxUploaded" />
-            </q-tab-panel>
+            </q-tab-panel> -->
 
             <q-tab-panel name="invoice" class="q-pa-none">
               <OrderDetailInvoice :orderId="orderId" />
@@ -372,14 +371,14 @@
             <q-tab-panel name="tasks" class="q-pa-none">
               <OrderTasks :task_type="'support'" :orderId="orderId" :client="client" />
             </q-tab-panel>
-            <q-tab-panel name="tracking" class="q-pa-none">
+            <!-- <q-tab-panel name="tracking" class="q-pa-none">
               <OrderDetailTracking :orderId="orderId" />
-            </q-tab-panel>
+            </q-tab-panel> -->
 
-            <q-tab-panel name="tag" class="q-pa-none">
+            <!-- <q-tab-panel name="tag" class="q-pa-none">
               <OrderDetailTag :total_packages="total_packages" :orderId="orderId" :status="status"
                 :integrationType="integrationType" />
-            </q-tab-panel>
+            </q-tab-panel> -->
 
             <q-tab-panel name="logistica" class="q-pa-none">
               <OrderDetailLogistics :total_packages="total_packages" :orderId="orderId" :orderPrice="price" :status="status"
@@ -953,6 +952,10 @@ export default {
             this.realPecentage = data.realPecentage;
             this.orderDate = data.orderDate;
             this.alterDate = data.alterDate;
+            this.parkingDate = data.parkingDate;
+            console.log('parkingDate')
+            console.log(this.parkingDate)
+            console.log(data.parkingDate)
             this.other_informations = data.other_informations;
             this.carrier = data.carrier;
             this.app = data.app;

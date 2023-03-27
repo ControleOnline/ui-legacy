@@ -132,13 +132,13 @@
         <div class="col-12">
           <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
             <q-tab name="resumo" label="Resumo" />
-            <q-tab name="quotation" label="Cotação" />
-            <q-tab name="notafiscal" label="Nota Fiscal" />
+            <!-- <q-tab name="quotation" label="Cotação" /> -->
+            <!-- <q-tab name="notafiscal" label="Nota Fiscal" /> -->
             <q-tab name="invoice" label="Fatura" />
-            <q-tab v-if="showDacteTab" name="dacte" label="DACTE" />
+            <!-- <q-tab v-if="showDacteTab" name="dacte" label="DACTE" /> -->
             <q-tab name="tasks" label="Ocorrências" />
-            <q-tab name="tracking" label="Rastreamento" />
-            <q-tab name="tag" label="Etiqueta" />
+            <!-- <q-tab name="tracking" label="Rastreamento" /> -->
+            <!-- <q-tab name="tag" label="Etiqueta" /> -->
           </q-tabs>
 
           <q-separator />
@@ -148,32 +148,32 @@
               <OrderDetailSummary :orderId="orderId" />
             </q-tab-panel>
 
-            <q-tab-panel name="quotation" class="q-pa-none">
+            <!-- <q-tab-panel name="quotation" class="q-pa-none">
               <OrderDetailQuotation :orderId="orderId" @finished="onCheckoutFinished" />
-            </q-tab-panel>
+            </q-tab-panel> -->
 
-            <q-tab-panel name="notafiscal" class="q-pa-none">
+            <!-- <q-tab-panel name="notafiscal" class="q-pa-none">
               <OrderDetailNotaFiscal :orderId="orderId" @fileUploaded="onInvoiceTaxUploaded" />
-            </q-tab-panel>
+            </q-tab-panel> -->
 
             <q-tab-panel name="invoice" class="q-pa-none">
               <OrderDetailInvoice :orderId="orderId" />
             </q-tab-panel>
 
-            <q-tab-panel v-if="showDacteTab" name="dacte" class="q-pa-none">
+            <!-- <q-tab-panel v-if="showDacteTab" name="dacte" class="q-pa-none">
               <OrderDetailDACTE :orderId="orderId" @fileUploaded="onDacteUploaded" />
-            </q-tab-panel>
+            </q-tab-panel> -->
             <q-tab-panel name="tasks" class="q-pa-none">
               <OrderTasks :task_type="'support'" :orderId="orderId"
                 :client="provider" />
             </q-tab-panel>
-            <q-tab-panel name="tracking" class="q-pa-none">
+            <!-- <q-tab-panel name="tracking" class="q-pa-none">
               <OrderDetailTracking :orderId="orderId" />
-            </q-tab-panel>
+            </q-tab-panel> -->
 
-            <q-tab-panel name="tag" class="q-pa-none">
+            <!-- <q-tab-panel name="tag" class="q-pa-none">
               <OrderDetailTag :orderId="orderId" :status="status" :integrationType="integrationType" />
-            </q-tab-panel>
+            </q-tab-panel> -->
           </q-tab-panels>
         </div>
       </div>
