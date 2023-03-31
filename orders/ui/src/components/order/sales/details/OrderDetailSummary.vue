@@ -429,11 +429,13 @@
                       </div>
                       <q-input
                         v-if="editTotalPrice"
-                        dense
-                        type="number"
-                        label="Valor"
-                        v-model="editTotalPriceValue"
-                      ></q-input>
+                        dense 
+                        stack-label :label="$t('Valor')" 
+                        type="text"
+                        prefix="R$" 
+                        reverse-fill-mask mask="#,##" fill-mask="0" 
+                        v-model="editTotalPriceValue" 
+                      />
                       <q-btn v-if="editTotalPrice" @click="updateTotalPrice()" size="xs" dense color="primary" icon="check"></q-btn>
                       <q-btn @click="editTotalPrice = !editTotalPrice" size="xs" dense color="primary" :icon="editTotalPrice ? 'cancel' : 'edit'"></q-btn>
                     </div>

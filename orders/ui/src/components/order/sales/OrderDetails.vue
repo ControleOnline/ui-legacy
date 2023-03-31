@@ -943,6 +943,12 @@ export default {
           this.isLoading = false;
 
           if (data["@id"]) {
+
+            let parkingDate = new Date(data.parkingDate.date);
+            let brTimeZoneOffset = -180;
+            let brDate = new Date(parkingDate.getTime() + brTimeZoneOffset * 60 * 1000);
+            let formattedParkingDate = brDate.toLocaleString('pt-BR').replaceAll(',','');
+
             this.status = data.status;
             this.invoices = data.invoiceTax;
             this.deliveryDueDate = data.deliveryDueDate;
@@ -952,10 +958,7 @@ export default {
             this.realPecentage = data.realPecentage;
             this.orderDate = data.orderDate;
             this.alterDate = data.alterDate;
-            this.parkingDate = data.parkingDate;
-            console.log('parkingDate')
-            console.log(this.parkingDate)
-            console.log(data.parkingDate)
+            this.parkingDate = formattedParkingDate;
             this.other_informations = data.other_informations;
             this.carrier = data.carrier;
             this.app = data.app;
@@ -1033,16 +1036,24 @@ export default {
         });
     },
     saveParkingDate(input) {
+      
+      let date = this.parkingDate;
+      let time = new Date();
+      let hours = time.getHours().toString().padStart(2,'0');
+      let min = time.getMinutes().toString().padStart(2,'0');
+      let sec = time.getSeconds().toString().padStart(2,'0');
+      let now = hours + ':' + min + ':' + sec;
+      
+      let dateTimeNow = new Date(date + ' ' + now);
+      
 
-      this.$refs.myForm.validate().then(success => {
-        if (success) {
-          let params = {
+      let params = {
             myCompany: this.myCompany.id,
           };
           this.isUpdating = true;
           this.updateParkingDate({
             id: this.orderId,
-            newParkingDate: this.parkingDate,
+            newParkingDate: dateTimeNow,
             params,
           })
             .then(data => {
@@ -1070,10 +1081,8 @@ export default {
             .finally(() => {
               this.isUpdating = false;
               this.editParkingDate = false;
+              this.requestStatus(this.orderId);
             });
-        }
-      });
-
       
     },
   },
