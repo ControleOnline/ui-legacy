@@ -2136,7 +2136,7 @@ export default {
       stretch.price = parseFloat(this.stretch.price);
       stretch.amountPaid = parseFloat(this.stretch.amountPaid);
 
-      stretch.inCharge = "/people/" + LocalStorage.getItem("session").people;
+      // stretch.inCharge = "/people/" + LocalStorage.getItem("session").people;
       stretch.lastModified = this.lastModified();
 
       let endpoint = this.stretch.id
@@ -2148,40 +2148,40 @@ export default {
         headers: new Headers(),
         body: JSON.stringify(stretch),
       };
-      console.log(stretch)
+      // console.log(JSON.stringify(stretch))
       console.log(options)
-      // this.api
-      //   .private(endpoint, options)
-      //   .then((response) => response.json())
-      //   .then((result) => {
-      //     if (result.id) {
-      //       this.$q.notify({
-      //         message: this.$t("Dados salvos com sucesso!"),
-      //         position: "bottom",
-      //         type: "positive",
-      //       });
-      //     } else {
-      //       this.$q.notify({
-      //         message: this.$t("Não foi possível salvar os dados!"),
-      //         position: "bottom",
-      //         type: "negative",
-      //       });
-      //     }
-      //     this.toggleAddStretch = false;
-      //     return null;
-      //   })
-      //   .catch((error) => {
-      //     this.$q.notify({
-      //       message: this.$t(error.message),
-      //       position: "bottom",
-      //       type: "negative",
-      //     });
-      //   })
-      //   .finally(() => {
-      //     this.isSaving = false;
-      //     this.onReset();
-      //     this.getValuesToLoad();
-      //   });
+      this.api
+        .private(endpoint, options)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.id) {
+            this.$q.notify({
+              message: this.$t("Dados salvos com sucesso!"),
+              position: "bottom",
+              type: "positive",
+            });
+          } else {
+            this.$q.notify({
+              message: this.$t("Não foi possível salvar os dados!"),
+              position: "bottom",
+              type: "negative",
+            });
+          }
+          this.toggleAddStretch = false;
+          return null;
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: this.$t(error.message),
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally(() => {
+          this.isSaving = false;
+          this.onReset();
+          this.getValuesToLoad();
+        });
     },
     getStretchies(params) {
       const endpoint = "/order_logistics";
