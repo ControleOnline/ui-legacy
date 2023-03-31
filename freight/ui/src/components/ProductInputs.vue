@@ -505,7 +505,7 @@ export default {
             params: {},
           };
 
-          return fetch(`/car_models/search/` + text, options)
+          return fetch(`/car_models_search/` + text, options)
             .then((response) => response.json())
             .then((data) => {
               if (data.response && data.response.data && data.response.data.length) {

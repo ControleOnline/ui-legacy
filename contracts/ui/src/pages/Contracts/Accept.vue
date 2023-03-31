@@ -97,7 +97,7 @@ export default {
         params: {},
       };
 
-      return fetch(`/accept/order/${this.id}/payer`, options)
+      return fetch(`accept-order-payer/${this.id}`, options)
         .then((response) => response.json())
         .then((data) => {
           this.pageLoading = false;
@@ -113,7 +113,7 @@ export default {
         params: {},
       };
 
-      return fetch(`/accept/order/${this.id}/payer`, options)
+      return fetch(`accept-order-payer/${this.id}`, options)
         .then((response) => response.json())
         .then((data) => {
           this.pageLoading = false;
