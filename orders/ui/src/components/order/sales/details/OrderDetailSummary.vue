@@ -1678,7 +1678,7 @@ export default {
     requestSummary(orderId) {
       let params = {};
 
-      params["myCompany"] = this.myCompany.id;
+      // params["myCompany"] = this.myCompany.id;
 
       this.isLoading = true;
 

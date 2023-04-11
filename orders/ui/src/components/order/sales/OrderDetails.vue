@@ -930,11 +930,12 @@ export default {
     },
 
     requestStatus(orderId) {
+      console.log('requestStatus')
       if (this.isLoading) return;
 
       let params = {};
 
-      params["myCompany"] = this.myCompany.id;
+      // params["myCompany"] = this.myCompany.id;
 
       this.isLoading = true;
 
@@ -944,11 +945,13 @@ export default {
 
           if (data["@id"]) {
 
-            let parkingDate = new Date(data.parkingDate.date);
-            let brTimeZoneOffset = -180;
-            let brDate = new Date(parkingDate.getTime() + brTimeZoneOffset * 60 * 1000);
-            let formattedParkingDate = brDate.toLocaleString('pt-BR').replaceAll(',','');
-
+            if (data.parkingDate != null && Object.keys(data.parkingDate).length) {
+              let parkingDate = new Date(data.parkingDate.date);
+              let brTimeZoneOffset = -180;
+              let brDate = new Date(parkingDate.getTime() + brTimeZoneOffset * 60 * 1000);
+              let formattedParkingDate = brDate.toLocaleString('pt-BR').replaceAll(',','');
+              this.parkingDate = formattedParkingDate;
+            }
             this.status = data.status;
             this.invoices = data.invoiceTax;
             this.deliveryDueDate = data.deliveryDueDate;
@@ -958,7 +961,6 @@ export default {
             this.realPecentage = data.realPecentage;
             this.orderDate = data.orderDate;
             this.alterDate = data.alterDate;
-            this.parkingDate = formattedParkingDate;
             this.other_informations = data.other_informations;
             this.carrier = data.carrier;
             this.app = data.app;
@@ -993,6 +995,7 @@ export default {
           return data;
         })
         .catch((error) => {
+          console.log('catch')
           this.isLoading = false;
           this.status = null;
           this.deliveryDueDate = null;
