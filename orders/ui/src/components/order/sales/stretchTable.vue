@@ -183,6 +183,13 @@
                       <q-item-section> Finalizar </q-item-section>
                     </q-item>
                     <q-separator></q-separator>
+                    <q-item clickable @click="addSurvey(props)">
+                      <q-item-section side>
+                        <q-icon name="check"></q-icon>
+                      </q-item-section>
+                      <q-item-section> Vistoria </q-item-section>
+                    </q-item>
+                    <q-separator></q-separator>
                     <!-- <q-item clickable @click="deleteTrecho(props.rowIndex)">
                     <q-item-section side>
                       <q-icon name="delete"></q-icon>
@@ -195,8 +202,15 @@
                 </q-menu>
               </q-btn>
             </q-td>
-            <q-td :props="props" key="Id">
-              {{ props.row.id }}
+            <q-td :props="props" key="Vistoria">
+              <q-btn
+                v-if="props.row.order"
+                outline
+                dense
+                :to="{ name: 'PayDetails', params: { id: props.row.orderInvoice } }"
+                label="Vistoria Id"
+                class="full-width"
+              />
             </q-td>
             <q-td :props="props" key="IdPedido">
               {{ props.row.order }}
@@ -293,7 +307,7 @@
               ></q-select>
 
             <!-- Origem -->
-            <div class="row col-xs-12 col-sm-12 col-md-9 q-col-gutter-x-sm" v-if="!isFirstStretch">
+            <div class="row col-xs-12 col-sm-12 col-md-9 q-col-gutter-x-sm" >
                 <q-select
                   class="col-xs-5 col-sm-3 col-md-3"
                   dense
@@ -722,7 +736,7 @@
                       :source="getGeoPlaces"
                       :isLoading="isSearching"
                       label="Busca de endereço"
-                      @selected="onSelectOriginEdit"
+                      @selected="onSelectDestinationEdit"
                       placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
                     />
                     <div class="col-1">
@@ -1041,13 +1055,18 @@ import {
 import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/DataFilter.vue";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
-import { LocalStorage } from "quasar";
 
 const SETTINGS = {
   columns: [
     {
       name: "",
       label: "",
+    },
+    {
+      name: "Vistoria",
+      label: "Vistoria",
+      align: "center",
+      format: (val) => `${val}`,
     },
     {
       name: "Id",
@@ -1457,11 +1476,7 @@ export default {
       }
 
       if (value && !this.isFirstStretch) {
-        let lastStretch = this.data[this.data.length - 1];
-        this.stretch.originRegion = lastStretch.destinationRegion;
-        this.stretch.originState = lastStretch.destinationState;
-        this.stretch.originCity = lastStretch.destinationCity;
-        this.stretch.originAdress = lastStretch.destinationAdress;
+        // this.requestPreviewStretch();
       }
     },
     tempOriginAddressAdd(address) {
@@ -1568,10 +1583,25 @@ export default {
       this.stretch.originRegion = this.getRegion(item.state);
     },
     onSelectDestination(item) {
-      this.getRegion(item.state);
+      this.stretch.destinationRegion = this.getRegion(item.state);
       this.stretch.destinationState = item.state;
       this.stretch.destinationCity = item.city;
       this.stretch.destinationAdress = item.description;
+    },
+    onSelectDestinationEdit(item) {
+      console.log('onSelectDestinationEdit')
+      this.tempDestinationAdress.region = this.stretch.destinationRegion;
+      this.tempDestinationAdress.state = this.stretch.destinationState;
+      this.tempDestinationAdress.city = this.stretch.destinationCity;
+      this.tempDestinationAdress.adress = this.stretch.destinationAdress;
+      
+      this.stretch.destinationRegion = this.getRegion(item.state);
+      this.stretch.destinationState = item.state;
+      this.stretch.destinationCity = item.city;
+      this.stretch.destinationAdress = item.description;
+      console.log(item)
+      console.log(this.tempDestinationAdress)
+      console.log(this.stretch)
     },
     onSelectDestinationCity(item) {
       this.stretch.destinationCityMeeting = item.city;
@@ -1689,6 +1719,52 @@ export default {
         }
       }
     },
+
+    addSurvey(props) {
+      console.log('addSurvey');
+      console.log(props);
+      let row = props.row;
+
+      let values = {};
+      values.providerId = row.provider.value;
+
+      let options = {
+        method: "POST",
+        headers: new Headers(),
+        body: JSON.stringify(values),
+      };
+
+      let endpoint = `/order_logistic_surveys/${row.id}/surveys`;
+      return this.api
+        .private(endpoint, options)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.response.success) {
+            this.$q.notify({
+              message: "Vistoria criada com sucesso.",
+              position: "bottom",
+              type: "positive",
+            });
+          } else {
+            this.$q.notify({
+              message: "Não foi possível criar a vistoria.",
+              position: "bottom",
+              type: "negative",
+            });
+          }
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: error.message,
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally(() => {
+          this.getValuesToLoad();
+        })
+    },
+
     getquotationId(orderId) {
       return this.api
         .private(`/sales/orders/${orderId}/detail/summary`, {})
@@ -1739,6 +1815,32 @@ export default {
     },
     checkOrderId() {
       this.hasOrderId = this.orderId ? true : false;
+    },
+    requestPreviewStretch() {
+      let params = {};
+      params.order = this.orderId;
+      this.stretch.originAdress = 'teste'
+      let lastStretch;
+      let text = 'ddddd';
+      return this.api
+        .private('order_logistics', {params})
+        .then((response) => response.json())
+        .then((result) => {
+          let members = result["hydra:member"];
+          if (members) {
+            console.log('members')
+            let lastStretch = members[members.length - 1];
+            console.log(lastStretch)
+            this.stretch.originRegion = lastStretch.destinationRegion;
+            this.stretch.originState = lastStretch.destinationState;
+            this.stretch.originCity = lastStretch.destinationCity;
+            this.stretch.originAdress = lastStretch.destinationAdress;
+            console.log(this.stretch.originAdress)
+            // setTimeout(() => {
+            //   this.stretch.originAdress = lastStretch.destinationAdress;
+            // }, 1000)
+          }
+        });
     },
     openEditModal(props) {
       this.editAdress = false;
@@ -2086,6 +2188,7 @@ export default {
         });
     },
     getValuesToLoad() {
+      this.requestPreviewStretch();
       this.onRequest({ pagination: this.pagination });
       this.getStatuses();
       if (this.orderId) this.getquotationId(this.orderId);
@@ -2102,21 +2205,16 @@ export default {
       });
     },
     saveStretch() {
+      console.log('saveStretch')
       let stretch = structuredClone(this.stretch);
       this.addModal = false;
       this.editModal = false;
 
-      stretch.status = "/statuses/" + stretch.status.value;
+      stretch.status = stretch.status.value;
       if (stretch.provider)
-        stretch.provider =
-          "/people/" +
-          (stretch.provider.value ? stretch.provider.value : stretch.provider);
+        stretch.provider = stretch.provider.value ? stretch.provider.value : stretch.provider;
       if (stretch.destinationProvider)
-        stretch.destinationProvider =
-          "/people/" +
-          (stretch.destinationProvider.value
-            ? stretch.destinationProvider.value
-            : stretch.destinationProvider);
+        stretch.destinationProvider = stretch.destinationProvider.value ? stretch.destinationProvider.value : stretch.destinationProvider;
 
       if (stretch.originType == "Base") stretch.originType = "b";
 
@@ -2130,31 +2228,34 @@ export default {
 
       if (stretch.destinationType == "Ponto de encontro") stretch.destinationType = "p";
 
-      if (stretch.order == null) stretch.order = this.orderId;
-      stretch.order = "/sales/orders/" + stretch.order;
-
+      if (stretch.order == null) 
+        stretch.order = this.orderId;
+      
       stretch.price = parseFloat(this.stretch.price);
       stretch.amountPaid = parseFloat(this.stretch.amountPaid);
 
-      // stretch.inCharge = "/people/" + LocalStorage.getItem("session").people;
       stretch.lastModified = this.lastModified();
 
+
+      console.log(stretch)
+
+
       let endpoint = this.stretch.id
-        ? `/order_logistics/${this.stretch.id}`
-        : `/order_logistics`;
+        ? `/order_logistics/update`
+        : `/order_logistics/create`;
 
       let options = {
         method: this.stretch.id ? "PUT" : "POST",
         headers: new Headers(),
         body: JSON.stringify(stretch),
       };
-      // console.log(JSON.stringify(stretch))
+      console.log(JSON.stringify(stretch))
       console.log(options)
       this.api
         .private(endpoint, options)
         .then((response) => response.json())
         .then((result) => {
-          if (result.id) {
+          if (result.response.success) {
             this.$q.notify({
               message: this.$t("Dados salvos com sucesso!"),
               position: "bottom",
@@ -2188,6 +2289,27 @@ export default {
       const options = {};
       options.params = params;
 
+      return this.api
+        .private(endpoint, options)
+        .then((response) => response.json())
+        .then((result) => {
+          return {
+            members: result["hydra:member"],
+            total: result["hydra:totalItems"],
+          };
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: this.$t(error.message),
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally(() => {
+          this.isSaving = false;
+        });
+    },
+    getSurveyId() {
       return this.api
         .private(endpoint, options)
         .then((response) => response.json())
@@ -2257,6 +2379,7 @@ export default {
         .then((data) => {
           this.data = [];
           if (data.members) {
+
             for (let index in data.members) {
               let originType = "";
               let destinationType = "";
@@ -2288,7 +2411,7 @@ export default {
                 originRegion: data.members[index].originRegion,
                 originState: data.members[index].originState,
                 originCity: data.members[index].originCity,
-                originAdress: data.members[index].originAdress,
+                originAdress: data.members[index].originAddress,
                 provider:
                   data.members[index].provider == null
                     ? null
@@ -2305,7 +2428,7 @@ export default {
                   data.members[index].destinationProvider == null
                     ? null
                     : {
-                        label: data.members[index].destinationProvider.alias,
+                        label: data.members[index].destinationProvider.name,
                         value: data.members[index].destinationProvider.id,
                       },
                 price: data.members[index].price,

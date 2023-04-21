@@ -11,7 +11,7 @@
         <div class="q-pb-lg">
           <div class="row justify-center">
             <h5 class="no-padding no-margin">
-              Vistoria ID: #{{ route.tasksSurveys_id }}
+              Vistoria ID: #{{ route.orderLogisticSurveys_id }}
             </h5>
           </div>
         </div>
@@ -600,7 +600,7 @@ export default {
         defaultCompanyId: null,
       },
       route: {
-        tasksSurveys_id: this.$route.params.id,
+        orderLogisticSurveys_id: this.$route.params.id,
         token_url: this.$route.params.token_url,
       },
       tabIndexInp: {
@@ -965,6 +965,39 @@ export default {
       };
     },
   },
+  beforeCreate() {
+    // this.$q.loading.show();
+  },
+  mounted() {
+    // this.carcase_options[0].color = "green";
+    // this.carcase_options[1].color = "yellow";
+    // this.carcase_options[2].color = "red";
+
+    // this.wheels_options[0].color = "green";
+    // this.wheels_options[1].color = "yellow";
+    // this.wheels_options[2].color = "red";
+    // this.wheels_options[3].color = "grey";
+
+    // this.accessories_options[0].color = "green";
+    // this.accessories_options[1].color = "red";
+
+    if (!this.intervalo && !this.storage.defaultCompanyId) {
+      this.intervalo = setInterval(() => {
+        if (this.defaultCompany !== null) {
+          this.storage.defaultCompanyId = this.defaultCompany.id;
+          this.callAjaxGetAllPeopleTrainerByDefaultCompanyId(
+            this.storage.defaultCompanyId
+          ).then((data) => {
+            this.preencheTeste();
+            this.callAjaxGetOneSurveyById();
+          });
+          clearInterval(this.intervalo);
+        }
+      }, 50);
+    }
+    this.$q.loading.hide();
+    // this.surveyInfo();
+  },
   watch: {
     deep: true,
     // --- Observa o TextField 'Vistoriador Nome' se está como somente leitura(readonly:true) ou editável (readonly: false)
@@ -979,6 +1012,123 @@ export default {
     },
   },
   methods: {
+
+    surveyInfo() {
+
+      let id = this.route.orderLogisticSurveys_id;
+      let token = this.route.token_url;
+
+      return axios({
+        url:
+          ENTRYPOINT +
+          `/order_logistic_surveys/surveys?id=${id}&token=${token}`,
+        method: "get",
+      }).then((response) => {
+        let data = response.data.response;
+
+        if (!data.success) {
+          // Quando falha o retorno dos dados
+          this.alertNotify(data.message, "n");
+          this.htmlGeneralFailureWarning = data.message;
+          this.generalContentVisible = false;
+          this.generalWarningVisible = true;
+          this.$q.loading.hide();
+        }
+
+        if (data.success) {
+          // Quando os dados são retornados com êxito
+
+          let dado = data.data;
+
+          this.main_data_survey.customer = dado.clientName;
+          this.main_data_survey.customer_email = dado.clientEmail ? dado.clientEmail : null;
+
+          if (dado.belongings_removed !== null) {
+            this.main_data_survey.belongings_removed = findIn(
+              this.options_no_yes,
+              dado.belongings_removed
+            );
+          }
+          if (dado.type_survey !== null) {
+            this.main_data_survey.type_survey = findIn(
+              this.options_type_survey,
+              dado.type_survey
+            );
+          }
+          // --------------- Defini Status e Cor e Alerta de Edição bloqueada
+          let objStatus = findIn(this.status_survey, dado.status);
+
+          this.main_data_survey.status = objStatus.label;
+          this.status.bgColor = this.colorStatus(objStatus.value);
+          // ------------------------------------------------------------
+          // this.main_data_survey.surveyor_email = dado.surveyor_email;
+          // this.main_data_survey.surveyor_name = dado.surveyor_name;
+          this.surveyor_validations.lastMailVerifiedInBD = dado.surveyor_email;
+          this.surveyor_validations.mail_consulted_bd = true;
+          this.surveyor_validations.mail_existis_bd = true;
+          this.surveyor_validations.mail_validate_ok = true;
+          this.surveyor_validations.foundMailInDatabase = true;
+          this.main_data_survey.surveyor_people_id = dado.surveyor_people_id;
+          if (dado.vehicle_km !== null) {
+            this.main_data_survey.vehicle_km = String(dado.vehicle_km);
+          }
+          this.main_data_survey.vehicle_name = dado.car_type;
+          this.main_data_survey.updated_at = dado.updated_at;
+          this.main_data_survey.vehicle_plate = dado.car_inf.carNumber ? dado.car_inf.carNumber : "Não Cadastrado";
+          this.main_data_survey.vehicle_color = dado.car_inf.carColor ? dado.car_inf.carColor : "Não Cadastrado";
+          this.main_data_survey.comments = dado.comments;
+
+          // ---------------------- Retorna dados do Local de Atendimento somente pelo ID do Endereço
+          if (data.data.selectedAddressId !== null) {
+            let address_id = data.data.selectedAddressId;
+            let index_location = this.main_data_survey.service_location.optionsLoadedAjax
+              .map((el) => el.address_id)
+              .indexOf(address_id);
+            this.main_data_survey.service_location.model = this.main_data_survey.service_location.optionsLoadedAjaxFormated[
+              index_location
+            ];
+            this.main_data_survey.service_location.selectedAddressId = address_id;
+            this.main_data_survey.service_location.selectedTrainedId = this.main_data_survey.service_location.optionsLoadedAjax[
+              index_location
+            ].trainer_id;
+          }
+          // ------------------------------------------------------------------------------
+
+          if (dado.group !== null) {
+            this.group = dado.group;
+          }
+
+          this.qUpUrlUpload =
+            ENTRYPOINT + `/order_logistic_surveys/filesimages?id=${id_local}&token=${token_url}`; // Define a URL de upload do componente q-uploader
+
+          this.callAjaxGetAllPhotoGallery().then((response) => {
+            // Carrega, se já existir a galeria de imagens
+            if (objStatus.value === "complete" || objStatus.value === "canceled") {
+              // Anexa evento para alerta de Status bloqueado para edição quando o usuário tentar clicar em algum campo
+              this.lockAndReloadSurvey(true, false);
+            }
+            this.$q.loading.hide();
+          });
+
+        
+        // if (data.success) {
+        //   console.log('if')
+        //   console.log(data)
+        //   this.main_data_survey.customer = data.data.clientName;
+        //   this.main_data_survey.customer_email = data.data.clientEmail ? data.data.clientEmail : null;
+        //   this.main_data_survey.vehicle_name = data.data.car_type;
+        //   this.main_data_survey.vehicle_name = data.data.car_inf;
+        // }
+
+        // this.loading.galerry = false;
+        // this.$nextTick(() => {
+        //   this.$refs.myForm.resetValidation();
+        // });
+        }
+      });
+    },
+
+
     verifyAllFields(context) {
       switch (context) {
         case "main_data":
@@ -1088,10 +1238,12 @@ export default {
       });
     },
     qUpAddFiles(files) {
+      console.log('qUpAddFiles')
       // Quando os arquivos são selecionados para Upload Único ou Múltiplo
       this.loading.galerry = true;
     },
     qUploaded(info) {
+      console.log('qUploaded')
       // Quando cada arquivo da lista é concluído
       let fileName = info.files[0].name;
       let response = JSON.parse(info.xhr.response);
@@ -1132,6 +1284,7 @@ export default {
       }
     },
     qUpFinishUploadAll() {
+      console.log('qUpFinishUploadAll')
       // Quando o upload da lista chega a 100%, tendo ou não falhas.
       this.loading.galerry = false;
       this.$nextTick(() => {
@@ -1155,13 +1308,13 @@ export default {
       this.callAjaxSaveSurveyDataById();
     },
     callAjaxGetAllPhotoGallery() {
-      let idSurvey = this.route.tasksSurveys_id;
+      let idSurvey = this.route.orderLogisticSurveys_id;
       let tokenUrl = this.route.token_url;
 
       return axios({
         url:
           ENTRYPOINT +
-          `/tasks_surveys/${idSurvey}/${tokenUrl}/getphotogallery?timestamp=${new Date().getTime()}`,
+          `order_logistic_surveys/filesimages?id=${idSurvey}&token=${tokenUrl}`,
         method: "get",
       }).then((response) => {
         let data = response.data.response;
@@ -1222,13 +1375,13 @@ export default {
       }
     },
     callAjaxGetOneSurveyById() {
-      let id_local = this.route.tasksSurveys_id;
+      let id_local = this.route.orderLogisticSurveys_id;
       let token_url = this.route.token_url;
 
       axios({
         url:
           ENTRYPOINT +
-          `/tasks_surveys/${id_local}/${token_url}/getonesurvey?timestamp=${new Date().getTime()}`,
+          `/order_logistic_surveys/surveys?id=${id_local}&token=${token_url}`,
         method: "get",
       }).then((response) => {
         let data = response.data.response;
@@ -1246,6 +1399,10 @@ export default {
           // Quando os dados são retornados com êxito
 
           let dado = data.data;
+
+          this.main_data_survey.customer = dado.clientName;
+          this.main_data_survey.customer_email = dado.clientEmail ? dado.clientEmail : null;
+
           if (dado.belongings_removed !== null) {
             this.main_data_survey.belongings_removed = findIn(
               this.options_no_yes,
@@ -1263,8 +1420,8 @@ export default {
           this.main_data_survey.status = objStatus.label;
           this.status.bgColor = this.colorStatus(objStatus.value);
           // ------------------------------------------------------------
-          this.main_data_survey.surveyor_email = dado.surveyor_email;
-          this.main_data_survey.surveyor_name = dado.surveyor_name;
+          // this.main_data_survey.surveyor_email = dado.surveyor_email;
+          // this.main_data_survey.surveyor_name = dado.surveyor_name;
           this.surveyor_validations.lastMailVerifiedInBD = dado.surveyor_email;
           this.surveyor_validations.mail_consulted_bd = true;
           this.surveyor_validations.mail_existis_bd = true;
@@ -1274,17 +1431,12 @@ export default {
           if (dado.vehicle_km !== null) {
             this.main_data_survey.vehicle_km = String(dado.vehicle_km);
           }
-          this.main_data_survey.customer = dado.client_name;
-          this.main_data_survey.customer_email = dado.client_email;
+          // this.main_data_survey.customer = dado.client_name;
+          // this.main_data_survey.customer_email = dado.client_email;
           this.main_data_survey.vehicle_name = dado.car_type;
           this.main_data_survey.updated_at = dado.updated_at;
-          if (dado.car_inf !== null) {
-            this.main_data_survey.vehicle_plate = dado.car_inf.carNumber;
-            this.main_data_survey.vehicle_color = dado.car_inf.carColor;
-          } else {
-            this.main_data_survey.vehicle_plate = "Não Cadastrado";
-            this.main_data_survey.vehicle_color = "Não Cadastrado";
-          }
+          this.main_data_survey.vehicle_plate = dado.car_inf.carNumber ? dado.car_inf.carNumber : "Não Cadastrado";
+          this.main_data_survey.vehicle_color = dado.car_inf.carColor ? dado.car_inf.carColor : "Não Cadastrado";
           this.main_data_survey.comments = dado.comments;
 
           // ---------------------- Retorna dados do Local de Atendimento somente pelo ID do Endereço
@@ -1308,7 +1460,7 @@ export default {
           }
 
           this.qUpUrlUpload =
-            ENTRYPOINT + "/tasks_surveys/" + id_local + "/" + token_url + "/filesimages"; // Define a URL de upload do componente q-uploader
+            ENTRYPOINT + "/order_logistic_surveys/" + id_local + "/" + token_url + "/filesimages"; // Define a URL de upload do componente q-uploader
 
           this.callAjaxGetAllPhotoGallery().then((response) => {
             // Carrega, se já existir a galeria de imagens
@@ -1334,7 +1486,7 @@ export default {
       }
     },
     callAjaxSaveSurveyDataById() {
-      let id_local = this.route.tasksSurveys_id;
+      let id_local = this.route.orderLogisticSurveys_id;
       let token_url = this.route.token_url;
 
       axios({
@@ -1378,6 +1530,7 @@ export default {
         this.loading.btn_save = false;
       });
     },
+
     surveyorEmailInputChangeValue(val) {
       this.surveyor_validations.mail_consulted_bd = false;
       this.surveyor_validations.mail_existis_bd = false;
@@ -1574,7 +1727,7 @@ export default {
       return axios({
         url:
           ENTRYPOINT +
-          `/tasks_surveys/${defaultCompanyId_local}/findpeopletrainer?timestamp=${new Date().getTime()}`,
+          `/order_logistic_surveys/findpeopleprofessional?companyId=${defaultCompanyId_local}`,
         method: "get",
       }).then((response) => {
         let data = response.data.response;
@@ -1606,7 +1759,7 @@ export default {
       axios({
         url:
           ENTRYPOINT +
-          `/tasks_surveys/findsurveyor?email=${email}&timestamp=${new Date().getTime()}`,
+          `/order_logistic_surveys/findpsurveyorbyemail?email=${email}`,
         method: "get",
       }).then((response) => {
         let data = response.data.response;
@@ -1735,37 +1888,6 @@ export default {
       this.group.tire_iron = "yes"; // Chave de Roda
       this.group.screwdriver = "no"; // Chave de Fenda
     },
-  },
-  beforeCreate() {
-    this.$q.loading.show();
-  },
-  mounted() {
-    // this.carcase_options[0].color = "green";
-    // this.carcase_options[1].color = "yellow";
-    // this.carcase_options[2].color = "red";
-
-    // this.wheels_options[0].color = "green";
-    // this.wheels_options[1].color = "yellow";
-    // this.wheels_options[2].color = "red";
-    // this.wheels_options[3].color = "grey";
-
-    // this.accessories_options[0].color = "green";
-    // this.accessories_options[1].color = "red";
-
-    if (!this.intervalo && !this.storage.defaultCompanyId) {
-      this.intervalo = setInterval(() => {
-        if (this.defaultCompany !== null) {
-          this.storage.defaultCompanyId = this.defaultCompany.id;
-          this.callAjaxGetAllPeopleTrainerByDefaultCompanyId(
-            this.storage.defaultCompanyId
-          ).then((data) => {
-            //this.preencheTeste();
-            this.callAjaxGetOneSurveyById();
-          });
-          clearInterval(this.intervalo);
-        }
-      }, 50);
-    }
   },
 };
 </script>
