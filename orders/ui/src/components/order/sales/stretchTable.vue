@@ -204,10 +204,10 @@
             </q-td>
             <q-td :props="props" key="Vistoria">
               <q-btn
-                v-if="props.row.order"
+                v-if="props.row.surveyId"
                 outline
                 dense
-                :to="{ name: 'PayDetails', params: { id: props.row.orderInvoice } }"
+                :to="{ name: 'ChecklistDetails', params: { id: props.row.surveyId, token_url: props.row.surveyToken } }"
                 label="Vistoria Id"
                 class="full-width"
               />
@@ -2399,6 +2399,8 @@ export default {
 
               this.data.push({
                 id: data.members[index].id,
+                surveyId: data.members[index].orderLogisticSurvey ? data.members[index].orderLogisticSurvey.id : '',
+                surveyToken: data.members[index].orderLogisticSurvey ? data.members[index].orderLogisticSurvey.token_url : '',
                 status: {
                   label: this.$t(
                     `logistic.statuses.${data.members[index].status.status}`

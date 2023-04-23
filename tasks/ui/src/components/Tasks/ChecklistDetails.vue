@@ -988,7 +988,7 @@ export default {
           this.callAjaxGetAllPeopleTrainerByDefaultCompanyId(
             this.storage.defaultCompanyId
           ).then((data) => {
-            this.preencheTeste();
+            // this.preencheTeste();
             this.callAjaxGetOneSurveyById();
           });
           clearInterval(this.intervalo);
@@ -1012,123 +1012,6 @@ export default {
     },
   },
   methods: {
-
-    surveyInfo() {
-
-      let id = this.route.orderLogisticSurveys_id;
-      let token = this.route.token_url;
-
-      return axios({
-        url:
-          ENTRYPOINT +
-          `/order_logistic_surveys/surveys?id=${id}&token=${token}`,
-        method: "get",
-      }).then((response) => {
-        let data = response.data.response;
-
-        if (!data.success) {
-          // Quando falha o retorno dos dados
-          this.alertNotify(data.message, "n");
-          this.htmlGeneralFailureWarning = data.message;
-          this.generalContentVisible = false;
-          this.generalWarningVisible = true;
-          this.$q.loading.hide();
-        }
-
-        if (data.success) {
-          // Quando os dados são retornados com êxito
-
-          let dado = data.data;
-
-          this.main_data_survey.customer = dado.clientName;
-          this.main_data_survey.customer_email = dado.clientEmail ? dado.clientEmail : null;
-
-          if (dado.belongings_removed !== null) {
-            this.main_data_survey.belongings_removed = findIn(
-              this.options_no_yes,
-              dado.belongings_removed
-            );
-          }
-          if (dado.type_survey !== null) {
-            this.main_data_survey.type_survey = findIn(
-              this.options_type_survey,
-              dado.type_survey
-            );
-          }
-          // --------------- Defini Status e Cor e Alerta de Edição bloqueada
-          let objStatus = findIn(this.status_survey, dado.status);
-
-          this.main_data_survey.status = objStatus.label;
-          this.status.bgColor = this.colorStatus(objStatus.value);
-          // ------------------------------------------------------------
-          // this.main_data_survey.surveyor_email = dado.surveyor_email;
-          // this.main_data_survey.surveyor_name = dado.surveyor_name;
-          this.surveyor_validations.lastMailVerifiedInBD = dado.surveyor_email;
-          this.surveyor_validations.mail_consulted_bd = true;
-          this.surveyor_validations.mail_existis_bd = true;
-          this.surveyor_validations.mail_validate_ok = true;
-          this.surveyor_validations.foundMailInDatabase = true;
-          this.main_data_survey.surveyor_people_id = dado.surveyor_people_id;
-          if (dado.vehicle_km !== null) {
-            this.main_data_survey.vehicle_km = String(dado.vehicle_km);
-          }
-          this.main_data_survey.vehicle_name = dado.car_type;
-          this.main_data_survey.updated_at = dado.updated_at;
-          this.main_data_survey.vehicle_plate = dado.car_inf.carNumber ? dado.car_inf.carNumber : "Não Cadastrado";
-          this.main_data_survey.vehicle_color = dado.car_inf.carColor ? dado.car_inf.carColor : "Não Cadastrado";
-          this.main_data_survey.comments = dado.comments;
-
-          // ---------------------- Retorna dados do Local de Atendimento somente pelo ID do Endereço
-          if (data.data.selectedAddressId !== null) {
-            let address_id = data.data.selectedAddressId;
-            let index_location = this.main_data_survey.service_location.optionsLoadedAjax
-              .map((el) => el.address_id)
-              .indexOf(address_id);
-            this.main_data_survey.service_location.model = this.main_data_survey.service_location.optionsLoadedAjaxFormated[
-              index_location
-            ];
-            this.main_data_survey.service_location.selectedAddressId = address_id;
-            this.main_data_survey.service_location.selectedTrainedId = this.main_data_survey.service_location.optionsLoadedAjax[
-              index_location
-            ].trainer_id;
-          }
-          // ------------------------------------------------------------------------------
-
-          if (dado.group !== null) {
-            this.group = dado.group;
-          }
-
-          this.qUpUrlUpload =
-            ENTRYPOINT + `/order_logistic_surveys/filesimages?id=${id_local}&token=${token_url}`; // Define a URL de upload do componente q-uploader
-
-          this.callAjaxGetAllPhotoGallery().then((response) => {
-            // Carrega, se já existir a galeria de imagens
-            if (objStatus.value === "complete" || objStatus.value === "canceled") {
-              // Anexa evento para alerta de Status bloqueado para edição quando o usuário tentar clicar em algum campo
-              this.lockAndReloadSurvey(true, false);
-            }
-            this.$q.loading.hide();
-          });
-
-        
-        // if (data.success) {
-        //   console.log('if')
-        //   console.log(data)
-        //   this.main_data_survey.customer = data.data.clientName;
-        //   this.main_data_survey.customer_email = data.data.clientEmail ? data.data.clientEmail : null;
-        //   this.main_data_survey.vehicle_name = data.data.car_type;
-        //   this.main_data_survey.vehicle_name = data.data.car_inf;
-        // }
-
-        // this.loading.galerry = false;
-        // this.$nextTick(() => {
-        //   this.$refs.myForm.resetValidation();
-        // });
-        }
-      });
-    },
-
-
     verifyAllFields(context) {
       switch (context) {
         case "main_data":
@@ -1271,9 +1154,9 @@ export default {
           region: null,
           breakdown: null,
           path_real_size:
-            ENTRYPOINT + `/tasks_surveys/${surveyId}/${surveyFilesId}/viewphoto/realsize`,
+            ENTRYPOINT + `/order_logistic_surveys/${surveyId}/${surveyFilesId}/viewphoto/realsize`,
           path_thumb:
-            ENTRYPOINT + `/tasks_surveys/${surveyId}/${surveyFilesId}/viewphoto/thumb`,
+            ENTRYPOINT + `/order_logistic_surveys/${surveyId}/${surveyFilesId}/viewphoto/thumb`,
         };
 
         if (this.photoGallery === null) {
@@ -1310,25 +1193,30 @@ export default {
     callAjaxGetAllPhotoGallery() {
       let idSurvey = this.route.orderLogisticSurveys_id;
       let tokenUrl = this.route.token_url;
-
+      console.log('chamada callAjaxGetAllPhotoGallery')
       return axios({
         url:
           ENTRYPOINT +
-          `order_logistic_surveys/filesimages?id=${idSurvey}&token=${tokenUrl}`,
+          `/order_logistic_surveys/${idSurvey}/${tokenUrl}/allfilesimages`,
         method: "get",
       }).then((response) => {
         let data = response.data.response;
-
+        console.log('1')
         if (!data.success) {
+          console.log('2')
           // Quando falha o retorno dos dados
           // --- 344 erro de imagens inexistentes na galeria
           if (data.error_code !== 344) {
+            console.log('2.5')
+
             // Qualquer erro que não seja o erro de imagens inexistentes será apresentado
             this.alertNotify(data.message, "n");
           }
         }
 
         if (data.success) {
+          console.log('2')
+          
           // Quando os dados são retornados com êxito
 
           this.photoGallery = data.data;
@@ -1420,8 +1308,8 @@ export default {
           this.main_data_survey.status = objStatus.label;
           this.status.bgColor = this.colorStatus(objStatus.value);
           // ------------------------------------------------------------
-          // this.main_data_survey.surveyor_email = dado.surveyor_email;
-          // this.main_data_survey.surveyor_name = dado.surveyor_name;
+          this.main_data_survey.surveyor_email = dado.surveyor_email ? dado.surveyor_email : null;
+          this.main_data_survey.surveyor_name = dado.surveyor_name ? dado.surveyor_name : null;
           this.surveyor_validations.lastMailVerifiedInBD = dado.surveyor_email;
           this.surveyor_validations.mail_consulted_bd = true;
           this.surveyor_validations.mail_existis_bd = true;
@@ -1461,8 +1349,10 @@ export default {
 
           this.qUpUrlUpload =
             ENTRYPOINT + "/order_logistic_surveys/" + id_local + "/" + token_url + "/filesimages"; // Define a URL de upload do componente q-uploader
+            console.log('antes')
 
           this.callAjaxGetAllPhotoGallery().then((response) => {
+            console.log('callAjaxGetAllPhotoGallery')
             // Carrega, se já existir a galeria de imagens
             if (objStatus.value === "complete" || objStatus.value === "canceled") {
               // Anexa evento para alerta de Status bloqueado para edição quando o usuário tentar clicar em algum campo
@@ -1474,6 +1364,7 @@ export default {
       });
     },
     lockAndReloadSurvey(lock, reload) {
+      console.log('lockAndReloadSurvey');
       if (lock && !this.generalLock.readOnly) {
         // Apenas trava a vistoria contra edição
         this.generalLock.readOnly = true;
@@ -1492,7 +1383,7 @@ export default {
       axios({
         url:
           ENTRYPOINT +
-          `/tasks_surveys/${id_local}/${token_url}/survey?action=save&timestamp=${new Date().getTime()}`,
+          `/order_logistic_surveys/${id_local}/${token_url}/surveys/update`,
         method: "put",
         data: {
           type_survey: this.main_data_survey.type_survey.value,
@@ -1539,17 +1430,22 @@ export default {
       }, 10);
     },
     serviceLocationGetSelection(val) {
+      console.log('serviceLocationGetSelection')
       // Quando seleciona um resultado no select do "Local Atendimento"
       let index = this.main_data_survey.service_location.optionsLoadedAjaxFormated.indexOf(
         val
       );
       if (index >= 0) {
+        console.log('1')
+        console.log(this.main_data_survey.service_location.optionsLoadedAjax[index])
         // Quando selecionar um Resultado
-        let trainer_id = this.main_data_survey.service_location.optionsLoadedAjax[index]
-          .trainer_id;
+        let professional_id = this.main_data_survey.service_location.optionsLoadedAjax[index]
+          .professional_id;
+        console.log(professional_id)
+        
         let address_id = this.main_data_survey.service_location.optionsLoadedAjax[index]
           .address_id;
-        this.main_data_survey.service_location.selectedTrainedId = trainer_id;
+        this.main_data_survey.service_location.selectedTrainedId = professional_id;
         this.main_data_survey.service_location.selectedAddressId = address_id;
       } else {
         // Quando excluir um Resultado
@@ -1739,10 +1635,13 @@ export default {
         if (data.success) {
           // Quando encontra resultado com sucesso
           let tmp = data.data;
+          console.log('tmp')
+          console.log(tmp)
           for (let p = 0; p < tmp.length; p++) {
-            this.main_data_survey.service_location.optionsLoadedAjaxFormated.push(
-              `${tmp[p].alias} - ${tmp[p].district} - ${tmp[p].city} - ${tmp[p].UF}`
-            );
+            this.main_data_survey.service_location.optionsLoadedAjaxFormated.push({
+              label: `${tmp[p].alias} - ${tmp[p].district} - ${tmp[p].city} - ${tmp[p].UF}`,
+              value: tmp[p].professional_id,
+            });
           }
           this.main_data_survey.service_location.options = this.main_data_survey.service_location.optionsLoadedAjaxFormated;
           this.main_data_survey.service_location.optionsLoadedAjax = data.data;
