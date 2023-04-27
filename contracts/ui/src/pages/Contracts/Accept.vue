@@ -113,7 +113,7 @@ export default {
         params: {},
       };
 
-      return fetch(`accept-order-payer/${this.id}`, options)
+      return fetch(`accept-order-payer/save/${this.id}`, options)
         .then((response) => response.json())
         .then((data) => {
           this.pageLoading = false;
@@ -134,7 +134,14 @@ export default {
           }
 
           return data;
-        });
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: error.message,
+            position: "bottom",
+            type: "negative",
+          });
+        })
     },
   },
 };
