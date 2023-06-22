@@ -31,10 +31,13 @@ export default function(id, options = {}) {
 
     id = `${id}?${params.join('&')}`;
   }
-
-  const entryPoint = ENTRYPOINT + (ENTRYPOINT.endsWith('/') ? '' : '/');
+  const entryPoint = (    
+    id.indexOf('searchBy') != -1 &&
+    id.indexOf('/sales/orders') != -1 && 
+    id.indexOf('/detail/status') == -1
+  ?'https://api.dev.foccuscegonhas.com.br/':ENTRYPOINT + (ENTRYPOINT.endsWith('/') ? '' : '/')
+  );
   const domain = DOMAIN + (DOMAIN.endsWith('/') ? '' : '/');
-
   return fetch(new URL(id, entryPoint), options).then(response => {
     if (response.ok) return response;
 
