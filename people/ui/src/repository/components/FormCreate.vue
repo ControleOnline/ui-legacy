@@ -14,7 +14,7 @@
       />
     </div>
 
-    <div class="row q-col-gutter-sm">
+    <!-- <div class="row q-col-gutter-sm">
       <div v-if="personType == 'PF'" class="col-xs-12 row">
         <q-input
           dense
@@ -42,7 +42,7 @@
           placeholder="Digite um telefone"
           mask="(##) #####-####"
         />
-      </div>
+      </div> -->
 
       <div v-if="personType == 'PJ'" class="col-xs-12">
         <q-input
@@ -63,7 +63,7 @@
     </div>
     <!--@input="searchCustomerById"-->
     <div class="row q-col-gutter-x-sm">
-      <div :class="personType == 'PJ' ? 'col-xs-12 col-sm-6' : 'col-8'">
+      <div class="col-xs-12 col-sm-6">
         <q-input
           dense
           outlined
@@ -71,7 +71,7 @@
           lazy-rules
           v-model="item.name"
           type="text"
-          :label="personType == 'PJ' ? $t('Razão social') : $t('Nome Completo')"
+          :label="personType == 'PJ' ? $t('Razão social') : $t('Nome')"
           :placeholder="
             personType == 'PJ'
               ? 'Digite a Razão social'
@@ -80,7 +80,7 @@
           :rules="[isInvalid('name')]"
         />
       </div>
-      <div v-if="personType !== 'PJ'" class="col-4">
+      <!-- <div v-if="personType !== 'PJ'" class="col-4">
         <q-input
           dense
           outlined
@@ -92,8 +92,8 @@
           placeholder="Nome social ou apelido"
           :rules="[isInvalid('alias')]"
         />
-      </div>
-      <div v-if="personType !== 'PJ'" class="col-xs-12">
+      </div> -->
+      <!-- <div v-if="personType !== 'PJ'" class="col-xs-12">
         <q-select
           dense
           outlined
@@ -101,7 +101,7 @@
           :options="contact_origin_options"
           label="Origem do contato"
         />
-      </div>
+      </div> -->
       <div class="col-xs-12 col-sm-6">
         <q-input
           dense
@@ -110,8 +110,7 @@
           lazy-rules
           v-model="item.alias"
           type="text"
-          :label="$t('Nome Fantasia')"
-          v-if="personType == 'PJ'"
+          :label="personType == 'PJ' ? $t('Nome Fantasia') : $t('Sobrenome')"
           :placeholder="
             personType == 'PJ'
               ? 'Digite o Nome fantasia'
@@ -175,7 +174,7 @@ export default {
       isSaving: false,
       isSearching: false,
       particulars: [],
-      contact_origin_options: ["Whatsapp", "E-mail", "Evo", "Outros"],
+      // contact_origin_options: ["Whatsapp", "E-mail", "Evo", "Outros"],
     };
   },
 
