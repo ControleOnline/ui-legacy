@@ -2,6 +2,7 @@
   <q-page padding>
     <ClientPage
       :people_type="'providers'"
+      :context_type="'providers'"
       :id="clientId"
       :config="{
         endpoint: endpoint,
