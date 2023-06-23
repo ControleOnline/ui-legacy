@@ -19,5 +19,18 @@ export const translate = {
     Prospects: 'Prospects',
     Acvive: 'Transportadoras Ativas',
     New: 'Novas Transportadoras'
-  }
+  },
+  providers: {
+    Leads: 'Leads',
+    Oportunities: 'Oportunidades',
+    Customers: 'Fornecedores',
+    Inactive: 'Fornecedores Inativas',
+    Prospects: 'Prospects',
+    Acvive: 'Fornecedores Ativas',
+    New: 'Novas Fornecedores'
+  },
+  New: 'Novo(a)',
+  provider: 'Fornecedor',
+  carrier: 'Transpotadora',
+  customer: 'Cliente'
 }

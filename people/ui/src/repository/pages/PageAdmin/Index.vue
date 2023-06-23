@@ -31,7 +31,8 @@
         <q-card-section class="row items-center">
           <div class="text-h6">
             {{ $t("New") }}
-            {{ $t(people_type.substring(0, people_type.length - 1)) }}
+            {{ $t(people_type.substring(0, people_type.length - 1)) | capitalizeFirst }}
+
           </div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
