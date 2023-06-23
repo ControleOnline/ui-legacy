@@ -157,6 +157,10 @@ export default {
       type: String,
       required: true,
     },
+    particulars_context: {
+      type: String,
+      required: false
+    }
   },
 
   data() {
@@ -273,7 +277,7 @@ export default {
     getParticulars() {
       let params = {
         peopleType: this.item.type,
-        context: "peoples",
+        context: this.particulars_context || 'peoples',
         fieldType: ["text", "password"],
       };
 

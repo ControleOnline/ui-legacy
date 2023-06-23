@@ -30,7 +30,7 @@
           :rules="[isInvalid('email')]"
           :loading="isSearching"
           debounce="800"
-        />ß
+        />
         <q-input
           dense
           outlined
