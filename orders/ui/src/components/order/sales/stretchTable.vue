@@ -166,7 +166,7 @@
         <!-- <template v-slot:header-selection="scope"></template> -->
         <template v-slot:body="props">
           <q-tr :props="props">
-            <q-td>
+            <q-td   key="acoes">
               <q-btn dense flat icon="settings">
                 <q-menu>
                   <q-list>
@@ -176,6 +176,7 @@
                       </q-item-section>
                       <q-item-section> Editar </q-item-section>
                     </q-item>
+                    <q-separator></q-separator>
                     <q-item clickable @click="finish(props)">
                       <q-item-section side>
                         <q-icon name="check"></q-icon>
@@ -185,7 +186,7 @@
                     <q-separator></q-separator>
                     <q-item clickable @click="addSurvey(props)">
                       <q-item-section side>
-                        <q-icon name="check"></q-icon>
+                        <q-icon name="checklist"></q-icon>
                       </q-item-section>
                       <q-item-section> Vistoria </q-item-section>
                     </q-item>
@@ -212,8 +213,22 @@
                 class="full-width"
               />
             </q-td>
+            <q-td :props="props" key="Id">
+              {{ props.row.id }}
+            </q-td>
             <q-td :props="props" key="IdPedido">
-              {{ props.row.order }}
+              <template v-if="hasOrderId">
+                {{ props.row.order }}
+              </template>
+              <q-btn
+                v-else
+                outline
+                dense
+                :to="{ name: 'OrderDetails', params: { id: props.row.order } }"
+                :label="props.row.orderInvoice"
+                class="full-width"
+              />
+
             </q-td>
             <q-td :props="props" key="IdFatura">
               <q-btn
@@ -225,9 +240,8 @@
                 class="full-width"
               />
             </q-td>
-            <q-td
+            <q-td key="stretchstatus"
               :props="props"
-              key="stretchstatus"
               :style="{ color: getStatusColor(props.row.status.label) }"
             >
               {{ props.row.status.label }}
@@ -1059,7 +1073,7 @@ import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/
 const SETTINGS = {
   columns: [
     {
-      name: "",
+      name: "acoes",
       label: "",
     },
     {
@@ -1072,7 +1086,7 @@ const SETTINGS = {
       name: "Id",
       label: "Id",
       align: "center",
-      field: (row) => row.id,
+      field: (row) => row.id, 
       format: (val) => `${val}`,
     },
     {
@@ -1258,7 +1272,9 @@ export default {
     if (this.myCompany !== null) {
       this.filters.company = this.myCompany;
       this.getValuesToLoad();
-      this.getSummaryInfo();
+      if (this.hasOrderId) {
+        this.getSummaryInfo();
+      }
     }
   },
 
@@ -1589,7 +1605,6 @@ export default {
       this.stretch.destinationAdress = item.description;
     },
     onSelectDestinationEdit(item) {
-      console.log('onSelectDestinationEdit')
       this.tempDestinationAdress.region = this.stretch.destinationRegion;
       this.tempDestinationAdress.state = this.stretch.destinationState;
       this.tempDestinationAdress.city = this.stretch.destinationCity;
@@ -1599,9 +1614,6 @@ export default {
       this.stretch.destinationState = item.state;
       this.stretch.destinationCity = item.city;
       this.stretch.destinationAdress = item.description;
-      console.log(item)
-      console.log(this.tempDestinationAdress)
-      console.log(this.stretch)
     },
     onSelectDestinationCity(item) {
       this.stretch.destinationCityMeeting = item.city;
@@ -1722,11 +1734,12 @@ export default {
 
     addSurvey(props) {
       console.log('addSurvey');
-      console.log(props);
       let row = props.row;
 
       let values = {};
+      values.orderLogisticId = row.id;
       values.providerId = row.provider.value;
+      values.timestamp = new Date().getTime();
 
       let options = {
         method: "POST",
@@ -1734,16 +1747,21 @@ export default {
         body: JSON.stringify(values),
       };
 
-      let endpoint = `/order_logistic_surveys/${row.id}/surveys`;
+      let endpoint = `/order_logistic_surveys/surveys_create`;
       return this.api
         .private(endpoint, options)
         .then((response) => response.json())
         .then((result) => {
+          let data = result.response.data;
           if (result.response.success) {
             this.$q.notify({
               message: "Vistoria criada com sucesso.",
               position: "bottom",
               type: "positive",
+            });
+            this.$router.push({
+              name: 'ChecklistDetails',
+              params: { id: data.order_logistic_surveys_id, token_url: data.order_logistic_surveys_token_url },
             });
           } else {
             this.$q.notify({
@@ -1828,14 +1846,11 @@ export default {
         .then((result) => {
           let members = result["hydra:member"];
           if (members) {
-            console.log('members')
             let lastStretch = members[members.length - 1];
-            console.log(lastStretch)
             this.stretch.originRegion = lastStretch.destinationRegion;
             this.stretch.originState = lastStretch.destinationState;
             this.stretch.originCity = lastStretch.destinationCity;
             this.stretch.originAdress = lastStretch.destinationAdress;
-            console.log(this.stretch.originAdress)
             // setTimeout(() => {
             //   this.stretch.originAdress = lastStretch.destinationAdress;
             // }, 1000)
@@ -2079,7 +2094,6 @@ export default {
     //   if (selectedDate == null)
     //     return "Preencha o campo";
 
-    //   console.log('aqui')
     //   let formatedDate = date.extractDate(selectedDate, "YYYY-MM-DD");
     //   let today = new Date();
     //   today.setHours(0);
@@ -2094,7 +2108,6 @@ export default {
     //   if (selectedDate == null)
     //     return "Preencha o campo";
 
-    //   console.log('aqui')
     //   let formatedDate = date.extractDate(selectedDate, "YYYY-MM-DD");
     //   let today = new Date();
     //   today.setHours(0);
@@ -2205,7 +2218,6 @@ export default {
       });
     },
     saveStretch() {
-      console.log('saveStretch')
       let stretch = structuredClone(this.stretch);
       this.addModal = false;
       this.editModal = false;
@@ -2237,7 +2249,6 @@ export default {
       stretch.lastModified = this.lastModified();
 
 
-      console.log(stretch)
 
 
       let endpoint = this.stretch.id
@@ -2249,8 +2260,6 @@ export default {
         headers: new Headers(),
         body: JSON.stringify(stretch),
       };
-      console.log(JSON.stringify(stretch))
-      console.log(options)
       this.api
         .private(endpoint, options)
         .then((response) => response.json())
@@ -2448,7 +2457,6 @@ export default {
               });
             }
           }
-          // console.log(data)
           this.pagination.page = page;
           this.pagination.rowsPerPage = rowsPerPage;
           this.pagination.sortBy = sortBy;

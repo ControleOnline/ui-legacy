@@ -1121,12 +1121,10 @@ export default {
       });
     },
     qUpAddFiles(files) {
-      console.log('qUpAddFiles')
       // Quando os arquivos são selecionados para Upload Único ou Múltiplo
       this.loading.galerry = true;
     },
     qUploaded(info) {
-      console.log('qUploaded')
       // Quando cada arquivo da lista é concluído
       let fileName = info.files[0].name;
       let response = JSON.parse(info.xhr.response);
@@ -1167,7 +1165,6 @@ export default {
       }
     },
     qUpFinishUploadAll() {
-      console.log('qUpFinishUploadAll')
       // Quando o upload da lista chega a 100%, tendo ou não falhas.
       this.loading.galerry = false;
       this.$nextTick(() => {
@@ -1193,7 +1190,6 @@ export default {
     callAjaxGetAllPhotoGallery() {
       let idSurvey = this.route.orderLogisticSurveys_id;
       let tokenUrl = this.route.token_url;
-      console.log('chamada callAjaxGetAllPhotoGallery')
       return axios({
         url:
           ENTRYPOINT +
@@ -1201,13 +1197,10 @@ export default {
         method: "get",
       }).then((response) => {
         let data = response.data.response;
-        console.log('1')
         if (!data.success) {
-          console.log('2')
           // Quando falha o retorno dos dados
           // --- 344 erro de imagens inexistentes na galeria
           if (data.error_code !== 344) {
-            console.log('2.5')
 
             // Qualquer erro que não seja o erro de imagens inexistentes será apresentado
             this.alertNotify(data.message, "n");
@@ -1215,7 +1208,6 @@ export default {
         }
 
         if (data.success) {
-          console.log('2')
           
           // Quando os dados são retornados com êxito
 
@@ -1349,10 +1341,8 @@ export default {
 
           this.qUpUrlUpload =
             ENTRYPOINT + "/order_logistic_surveys/" + id_local + "/" + token_url + "/filesimages"; // Define a URL de upload do componente q-uploader
-            console.log('antes')
 
           this.callAjaxGetAllPhotoGallery().then((response) => {
-            console.log('callAjaxGetAllPhotoGallery')
             // Carrega, se já existir a galeria de imagens
             if (objStatus.value === "complete" || objStatus.value === "canceled") {
               // Anexa evento para alerta de Status bloqueado para edição quando o usuário tentar clicar em algum campo
@@ -1364,7 +1354,6 @@ export default {
       });
     },
     lockAndReloadSurvey(lock, reload) {
-      console.log('lockAndReloadSurvey');
       if (lock && !this.generalLock.readOnly) {
         // Apenas trava a vistoria contra edição
         this.generalLock.readOnly = true;
@@ -1430,18 +1419,14 @@ export default {
       }, 10);
     },
     serviceLocationGetSelection(val) {
-      console.log('serviceLocationGetSelection')
       // Quando seleciona um resultado no select do "Local Atendimento"
       let index = this.main_data_survey.service_location.optionsLoadedAjaxFormated.indexOf(
         val
       );
       if (index >= 0) {
-        console.log('1')
-        console.log(this.main_data_survey.service_location.optionsLoadedAjax[index])
         // Quando selecionar um Resultado
         let professional_id = this.main_data_survey.service_location.optionsLoadedAjax[index]
           .professional_id;
-        console.log(professional_id)
         
         let address_id = this.main_data_survey.service_location.optionsLoadedAjax[index]
           .address_id;
@@ -1468,7 +1453,6 @@ export default {
       });
     },
     serviceLocationAbortFilterFn() {
-      console.log("delayed filter aborted");
     },
     onKeyUp(inputAndKey) {
       switch (inputAndKey) {
@@ -1635,8 +1619,6 @@ export default {
         if (data.success) {
           // Quando encontra resultado com sucesso
           let tmp = data.data;
-          console.log('tmp')
-          console.log(tmp)
           for (let p = 0; p < tmp.length; p++) {
             this.main_data_survey.service_location.optionsLoadedAjaxFormated.push({
               label: `${tmp[p].alias} - ${tmp[p].district} - ${tmp[p].city} - ${tmp[p].UF}`,

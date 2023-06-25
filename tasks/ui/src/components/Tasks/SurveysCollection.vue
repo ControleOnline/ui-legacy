@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="col-12">
-      <div class="row q-mb-md">
+      <!-- <div class="row q-mb-md">
         <q-btn
           :loading="addLoading"
           :disable="addDisable"
@@ -11,7 +11,7 @@
           class="full-width"
           @click="addSurvey"
         />
-      </div>
+      </div> -->
     </div>
     <div
         v-if="generalWarningVisible"
@@ -101,7 +101,7 @@
         <q-card-actions align="right">
           <q-btn flat label="Desistir" color="primary" @click="setClassRow(idRowToDelete, false);" v-close-popup/>
           <q-btn flat label="Sim" color="primary"
-                 @click="changeStatusSurvey(idRowToDelete, 'canceled', 'dialogDelete');" v-close-popup/>
+                @click="changeStatusSurvey(idRowToDelete, 'canceled', 'dialogDelete');" v-close-popup/>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -329,7 +329,7 @@ export default {
       }
 
       axios({
-        url: ENTRYPOINT + `/tasks_surveys/${id}/surveys?timestamp=${new Date().getTime()}`,
+        url: ENTRYPOINT + `/order_logistic_surveys/${id}/surveys/status_update?timestamp=${new Date().getTime()}`,
         params,
         method: 'PUT',
         headers: {'api-token': this.API.token}
@@ -417,11 +417,11 @@ export default {
     callAjaxGetCollection(orderId) {
       this.isLoading = true;
       return axios({
-        url: ENTRYPOINT + `/tasks_surveys/${orderId}/surveys?timestamp=${new Date().getTime()}`,
+        url: ENTRYPOINT + `/order_logistics_surveys/surveys/${orderId}`,
         method: 'get',
         headers: {'api-token': this.API.token}
       }).then((response) => {
-
+        console.log('response', response);
         let data = response.data.response;
 
         if (!data.success) { // Quando falha o retorno dos dados
