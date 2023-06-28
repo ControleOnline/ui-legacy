@@ -86,6 +86,7 @@
                 ref="myDataFilter"
                 class="data-filter"
                 style="justify-content: flex-start"
+                :labels="['Embarque', 'Chegada']"
                 :fromDate="filters.from"
                 :toDate="filters.to"
                 :showButton="false"
@@ -216,12 +217,8 @@
             <q-td :props="props" key="Id">
               {{ props.row.id }}
             </q-td>
-            <q-td :props="props" key="IdPedido">
-              <template v-if="hasOrderId">
-                {{ props.row.order }}
-              </template>
+            <q-td v-if="!hasOrderId" :props="props" key="IdPedido">
               <q-btn
-                v-else
                 outline
                 dense
                 :to="{ name: 'OrderDetails', params: { id: props.row.order } }"
@@ -1269,6 +1266,8 @@ export default {
 
     this.checkOrderId();
 
+    this.isInOrder();
+
     if (this.myCompany !== null) {
       this.filters.company = this.myCompany;
       this.getValuesToLoad();
@@ -1387,6 +1386,7 @@ export default {
         order: null,
         origin: null,
         provider: null,
+        destination: null,
         destinationProvider: null,
         status: "Todos",
         from: "",
@@ -1445,6 +1445,13 @@ export default {
     },
 
     "filters.provider"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+
+    "filters.destination"() {
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
@@ -1698,10 +1705,10 @@ export default {
       this.stretch.provider = item.id;
     },
     onSelectOriginFilter(item) {
-      if (item) this.filters.origin = item.description;
+      if (item) this.filters.origin = item.city;
     },
     onSelectDestinationFilter(item) {
-      this.filters.destination = item.description;
+      if (item) this.filters.destination = item.city;
     },
     onSelectOriginPeopleFilter(item) {
       if (item) this.filters.provider = item.id;
@@ -1732,13 +1739,21 @@ export default {
       }
     },
 
+    isInOrder() {
+      if (this.hasOrderId) {
+        let columnName = 'IdPedido';
+        let column = SETTINGS.columns.find((x) => x.name == columnName);
+        let position = SETTINGS.columns.indexOf(column);
+        SETTINGS.columns.splice(position, 1);
+      }
+    },
+
     addSurvey(props) {
-      console.log('addSurvey');
+      this.isLoading = true;
       let row = props.row;
 
       let values = {};
       values.orderLogisticId = row.id;
-      values.providerId = row.provider.value;
       values.timestamp = new Date().getTime();
 
       let options = {
@@ -1779,6 +1794,7 @@ export default {
           });
         })
         .finally(() => {
+          this.isLoading = false;
           this.getValuesToLoad();
         })
     },
@@ -2353,7 +2369,11 @@ export default {
       }
 
       if (this.filters.origin != null && this.filters.origin.length > 0) {
-        params["originAddress"] = this.filters.origin;
+        params["originCity"] = this.filters.origin;
+      }
+
+      if (this.filters.destination != null && this.filters.destination.length > 0) {
+        params["destinationCity"] = this.filters.destination;
       }
 
       if (this.filters.provider != null) {

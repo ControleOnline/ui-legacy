@@ -10,7 +10,7 @@
       stack-label
       class="bg-transparent margin-filter element-filter"
       v-model="date.from"
-      :label="$t('dashboard.from_date')"
+      :label="labelFrom || $t('dashboard.from_date')"
       mask="##/##/####"
     >
       <template v-slot:append>
@@ -35,7 +35,7 @@
       stack-label
       class="bg-transparent margin-filter element-filter"
       v-model="date.to"
-      :label="$t('dashboard.to_date')"
+      :label="labelTo || $t('dashboard.to_date')"
       mask="##/##/####"
     >
       <template v-slot:append>
@@ -79,6 +79,10 @@ export default {
       type: Boolean,
       required: false,
     },
+    labels: {
+      type: Array,
+      required: false,
+    },
   },
 
   watch: {
@@ -94,12 +98,21 @@ export default {
     },
   },
 
+  created() {
+    if (this.labels && this.labels.length) {
+      this.labelFrom = this.labels[0];
+      this.labelTo = this.labels[1];
+    }
+  },
+
   data() {
     return {
       date: {
         from: this.fromDate,
         to: this.toDate,
       },
+      labelFrom: null,
+      labelTo: null,
       isLoading: false,
     };
   },
