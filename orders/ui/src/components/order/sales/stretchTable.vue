@@ -222,7 +222,7 @@
                 outline
                 dense
                 :to="{ name: 'OrderDetails', params: { id: props.row.order } }"
-                :label="props.row.orderInvoice"
+                :label="props.row.order"
                 class="full-width"
               />
 
