@@ -171,6 +171,7 @@
               <q-btn dense flat icon="settings">
                 <q-menu>
                   <q-list>
+                  <!--
                     <q-item clickable @click="openEditModal(props)">
                       <q-item-section side>
                         <q-icon name="edit"></q-icon>
@@ -178,14 +179,15 @@
                       <q-item-section> Editar </q-item-section>
                     </q-item>
                     <q-separator></q-separator>
-                    <q-item clickable @click="finish(props)">
+                    -->
+                    <q-item clickable @click="finish(props)" v-if="props.row.status.label != 'Finalizado'">
                       <q-item-section side>
                         <q-icon name="check"></q-icon>
                       </q-item-section>
                       <q-item-section> Finalizar </q-item-section>
                     </q-item>
                     <q-separator></q-separator>
-                    <q-item clickable @click="addSurvey(props)">
+                    <q-item clickable @click="addSurvey(props)" v-if="!props.row.surveyId">
                       <q-item-section side>
                         <q-icon name="checklist"></q-icon>
                       </q-item-section>
@@ -1388,7 +1390,10 @@ export default {
         provider: null,
         destination: null,
         destinationProvider: null,
-        status: "Todos",
+        status: {
+          value:46,
+          label: "Aberto"
+        },
         from: "",
         to: "",
       },
@@ -2143,6 +2148,11 @@ export default {
       return modified;
     },
     finish(props) {
+
+
+if (props.row.status.label == 'Finalizado')
+return;
+
       let arrivalDate = this.buildAmericanDate(new Date().toLocaleDateString());
       this.stretch = structuredClone(props.row);
 
