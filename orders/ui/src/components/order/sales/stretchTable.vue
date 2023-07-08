@@ -289,8 +289,14 @@
             <q-td :props="props" key="ValorPago">
               {{ formatMoney(props.row.amountPaid) }}
             </q-td>
+            <q-td :props="props" key="PrevisaoDataEmbarque">
+              {{ formatDate(props.row.estimatedShippingDate) }}
+            </q-td>
             <q-td :props="props" key="DataEmbarque">
               {{ formatDate(props.row.shippingDate) }}
+            </q-td>
+            <q-td :props="props" key="PrevisaoDataChegada">
+              {{ formatDate(props.row.estimatedArrivalDate) }}
             </q-td>
             <q-td :props="props" key="DataChegada">
               {{ formatDate(props.row.arrivalDate) }}
@@ -307,17 +313,16 @@
       <div class="row">
         <div class="row col-12" style="overflow-x: scroll;" v-if="toggleAddStretch == true">
           <q-form class="row flex no-wrap items-center col-xs-12 col-sm-12 col-md-12 q-py-md q-col-gutter-x-sm" ref="myForm" @submit="onSubmit">
-              <q-select
-                dense
-                class="col-xs-6 col-sm-4 col-md-3 q-mr-xl"
-                outlined
-                stack-label
-                label="Status"
-                :options="statusOptions"
-                v-model="stretch.status"
-                :rules="[(val) => val != null]"
-                hide-bottom-space
-              ></q-select>
+            <q-select class="col-xs-6 col-sm-4 col-md-3 q-mr-xl"
+              dense
+              outlined
+              stack-label
+              label="Status"
+              :options="statusOptions"
+              v-model="stretch.status"
+              :rules="[(val) => val != null]"
+              hide-bottom-space
+            ></q-select>
 
             <!-- Origem -->
             <div class="row col-xs-12 col-sm-12 col-md-9 q-col-gutter-x-sm" >
@@ -345,12 +350,13 @@
                 <div class="row col-xs-3 col-sm-4 col-md-4">
                   <div class="col-12">
                     <q-input
+                      :key="update"
                       v-if="editAdress == false"
                       dense
                       outlined
                       readonly
                       stack-label
-                      label="Tipo endereço de origem"
+                      label="Endereço de origem"
                       v-model="stretch.originAdress"
                     >
                       <template v-slot:append>
@@ -475,27 +481,47 @@
               ></q-input>
             </div>
 
-            <div class="row col-xs-12 col-sm-7 col-md-4 q-gutter-x-sm">
-              <q-input
-                class="col-xs-4 col-sm-5 col-md-5"
-                dense
-                type="date"
-                outlined
-                stack-label
-                label="Embarque"
-                v-model="stretch.shippingDate"
-                :rules="[(val) => val != null]"
-                hide-bottom-space
-              ></q-input>
-              <q-input
-                class="col-xs-4 col-sm-5 col-md-5"
-                dense
-                type="date"
-                outlined
-                stack-label
-                label="Chegada"
-                v-model="stretch.arrivalDate"
-              ></q-input>
+            <div class="row col-xs-12 col-sm-7 col-md-7">
+              <div class="row col-6 q-gutter-x-sm">
+                <q-input class="col-xs-4 col-sm-5 col-md-5"
+                  dense
+                  type="date"
+                  outlined
+                  stack-label
+                  label="Previsão de embarque"
+                  v-model="stretch.estimatedShippingDate"
+                  :rules="[(val) => val != null]"
+                  hide-bottom-space
+                ></q-input>
+                <q-input class="col-xs-4 col-sm-5 col-md-5"
+                  dense
+                  type="date"
+                  outlined
+                  stack-label
+                  label="Embarque"
+                  v-model="stretch.shippingDate"
+                ></q-input>
+              </div>
+              <div class="row col-6 q-gutter-x-sm">
+                <q-input class="col-xs-4 col-sm-5 col-md-5"
+                  dense
+                  type="date"
+                  outlined
+                  stack-label
+                  label="Previsão de Chegada"
+                  v-model="stretch.estimatedArrivalDate"
+                  :rules="[(val) => val != null]"
+                  hide-bottom-space
+                ></q-input>
+                <q-input class="col-xs-4 col-sm-5 col-md-5"
+                  dense
+                  type="date"
+                  outlined
+                  stack-label
+                  label="Chegada"
+                  v-model="stretch.arrivalDate"
+                ></q-input>
+              </div>
             </div>
 
             <div class="col-xs-1 col-sm-1 col-md-1 q-gutter-sm flex justify-end">
@@ -807,15 +833,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="col-xs-12 q-mb-sm" v-if="stretch.originType == 'Coleta'">
-                        <ListAutocomplete
-                          :source="getGeoPlaces"
-                          :isLoading="isSearching"
-                          label="Busca de endereço"
-                          @selected="onSelectOrigin"
-                          placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                        />
-                      </div> -->
                 </div>
               </div>
               <!-- Destino Fim -->
@@ -862,8 +879,32 @@
                   type="date"
                   outlined
                   stack-label
+                  label="Previsão de embarque"
+                  v-model="stretch.estimatedShippingDate"
+                ></q-input>
+              </div>
+
+              <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                <q-input
+                  dense
+                  type="date"
+                  outlined
+                  stack-label
                   label="Embarque"
                   v-model="stretch.shippingDate"
+                ></q-input>
+              </div>
+            </div>
+
+            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-between q-gutter-xs">
+              <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                <q-input
+                  dense
+                  type="date"
+                  outlined
+                  stack-label
+                  label="Previsão de chegada"
+                  v-model="stretch.estimatedArrivalDate"
                 ></q-input>
               </div>
 
@@ -1208,10 +1249,24 @@ const SETTINGS = {
       format: (val) => `${val}`,
     },
     {
+      name: "PrevisaoDataEmbarque",
+      label: "Previsão Data embarque",
+      align: "right",
+      field: (row) => row.estimatedShippingDate,
+      format: (val) => `${val}`,
+    },
+    {
       name: "DataEmbarque",
       label: "Data embarque",
       align: "right",
       field: (row) => row.shippingDate,
+      format: (val) => `${val}`,
+    },
+    {
+      name: "PrevisaoDataChegada",
+      label: "Previsão Data chegada",
+      align: "right",
+      field: (row) => row.estimatedArrivalDate,
       format: (val) => `${val}`,
     },
     {
@@ -1286,6 +1341,7 @@ export default {
       api: new Api(this.$store.getters["auth/user"].token),
       isLoading: false,
       isSearching: false,
+      update: 1,
       editShippingTax: true,
       shippingTax: null,
       hasOrderId: null,
@@ -1633,32 +1689,30 @@ export default {
       this.getRegion(item.state);
     },
     onSelectOriginPeople(item) {
+      console.log('onSelectOriginPeople')
       this.stretch.provider = item.id;
       if (this.stretch.originType == "Base") {
+        console.log('if')
         this.getProviderAddress(item.id).then((data) => {
-          if (data != null) {
+          console.log('getProviderAddress', data);
+          if (data.length != 0) {
             this.originProviderHasAddress = true;
-            this.originProviderAddressOptions = [];
-
-            for (let index in data) {
+            
               let address = {};
               address.country =
-                data[index].street.district.city.state.country.countryname || "";
-              address.state = data[index].street.district.city.state.uf || "";
+                data[0].street.district.city.state.country.countryname || "";
+              address.state = data[0].street.district.city.state.uf || "";
               address.region = this.getRegion(address.state) || "";
-              address.city = data[index].street.district.city.city || "";
-              address.district = data[index].street.district.district || "";
-              address.cep = data[index].street.cep.cep || "";
-              address.street = data[index].street.street || "";
-              address.number = data[index].number || "";
-              address.complement = data[index].complement || "";
+              address.city = data[0].street.district.city.city || "";
+              address.district = data[0].street.district.district || "";
+              address.cep = data[0].street.cep.cep || "";
+              address.street = data[0].street.street || "";
+              address.number = data[0].number || "";
+              address.complement = data[0].complement || "";
               let formatedAddress = `${address.street}, ${address.number}, ${address.complement} - ${address.district}, ${address.cep}, ${address.city} ${address.state}, ${address.country}`;
 
-              this.originProviderAddressOptions.push({
-                label: formatedAddress,
-                value: address,
-              });
-            }
+              this.stretch.originAdress = formatedAddress;
+              this.update++;
           } else {
             this.originProviderHasAddress = false;
           }
@@ -1745,7 +1799,10 @@ export default {
     },
 
     isInOrder() {
+      console.log('isInOrder')
       if (this.hasOrderId) {
+        console.log('1')
+
         let columnName = 'IdPedido';
         let column = SETTINGS.columns.find((x) => x.name == columnName);
         let position = SETTINGS.columns.indexOf(column);
@@ -1856,17 +1913,16 @@ export default {
       this.hasOrderId = this.orderId ? true : false;
     },
     requestPreviewStretch() {
+      console.log('requestPreviewStretch')
       let params = {};
       params.order = this.orderId;
-      this.stretch.originAdress = 'teste'
-      let lastStretch;
-      let text = 'ddddd';
       return this.api
         .private('order_logistics', {params})
         .then((response) => response.json())
         .then((result) => {
           let members = result["hydra:member"];
-          if (members) {
+          console.log('members', members)
+          if (members.length) {
             let lastStretch = members[members.length - 1];
             this.stretch.originRegion = lastStretch.destinationRegion;
             this.stretch.originState = lastStretch.destinationState;
@@ -1887,8 +1943,16 @@ export default {
       if (!this.orderId) this.getquotationId(props.row.order);
 
       this.stretch = structuredClone(props.row);
+      
+      this.stretch.estimatedShippingDate = this.formatDate(this.stretch.estimatedShippingDate);
+      this.stretch.estimatedShippingDate = this.buildAmericanDate(this.stretch.estimatedShippingDate);
+
       this.stretch.shippingDate = this.formatDate(this.stretch.shippingDate);
       this.stretch.shippingDate = this.buildAmericanDate(this.stretch.shippingDate);
+      
+      this.stretch.estimatedArrivalDate = this.formatDate(this.stretch.estimatedArrivalDate);
+      this.stretch.estimatedArrivalDate = this.buildAmericanDate(this.stretch.estimatedArrivalDate);
+      
       this.stretch.arrivalDate = this.formatDate(this.stretch.arrivalDate);
       this.stretch.arrivalDate = this.buildAmericanDate(this.stretch.arrivalDate);
     },
@@ -1949,7 +2013,9 @@ export default {
       this.editModal = false;
       this.stretch.id = null;
       this.stretch.status = null;
+      this.stretch.estimatedShippingDate = null;
       this.stretch.shippingDate = null;
+      this.stretch.estimatedArrivalDate = null;
       this.stretch.arrivalDate = null;
       if (this.isFirstStretch) {
         this.stretch.originType = null;
@@ -2227,12 +2293,12 @@ return;
         });
     },
     getValuesToLoad() {
+      this.isLoading = true;
       this.requestPreviewStretch();
       this.onRequest({ pagination: this.pagination });
       this.getStatuses();
       if (this.orderId) this.getquotationId(this.orderId);
 
-      this.isLoading = true;
     },
 
     // CRUD
@@ -2286,6 +2352,8 @@ return;
         headers: new Headers(),
         body: JSON.stringify(stretch),
       };
+      console.log(stretch)
+      console.log(JSON.stringify(stretch))
       this.api
         .private(endpoint, options)
         .then((response) => response.json())
@@ -2446,7 +2514,9 @@ return;
                   ),
                   value: data.members[index].status.id,
                 },
+                estimatedShippingDate: data.members[index].estimatedShippingDate,
                 shippingDate: data.members[index].shippingDate,
+                estimatedArrivalDate: data.members[index].estimatedArrivalDate,
                 arrivalDate: data.members[index].arrivalDate,
                 originType: originType,
                 originRegion: data.members[index].originRegion,
