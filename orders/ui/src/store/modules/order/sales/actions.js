@@ -220,6 +220,24 @@ export const updateDeadline = ({ commit }, { id, newDeadline, params = {} }) => 
     });
 };
 
+export const updateEstimatedParkingDate = ({ commit }, { id, newEstimatedParkingDate, params = {} }) => {
+  let options = {
+    method: 'PUT',
+    body: JSON.stringify({ estimatedParkingDate: newEstimatedParkingDate }),
+    params: params
+  };
+
+  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+
+  return fetch(`${RESOURCE_ENDPOINT}/fields/${id}`, options)
+    .then(response => response.json())
+    .then(data => {
+
+      return data;
+
+    });
+};
+
 export const updateParkingDate = ({ commit }, { id, newParkingDate, params = {} }) => {
   let options = {
     method: 'PUT',

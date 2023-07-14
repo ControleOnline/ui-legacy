@@ -42,6 +42,14 @@
           <q-icon v-if="hasPendingTasks(props.row.task) == true" name="priority_high" color="yellow" />
           <q-icon v-if="hasOpenedTasks(props.row.task) == true" name="priority_high" color="red" />
         </q-td>
+        <q-td key="contrato" :props="props">
+          <q-btn v-if="props.row.contrato" flat dense :to="{
+              name: 'ContractDetails',
+              params: { id: props.row.contrato },
+            }" :label="props.row.contrato || '-'" class="full-width" 
+          />
+          <div v-else> - </div>
+        </q-td>
         <q-td key="notaFiscal" :props="props">{{ props.row.notaFiscal }}</q-td>
         <q-td key="dataPedido" :props="props">{{ props.cols[2].value }}</q-td>
         <q-td key="dataEntrega" :props="props">{{ props.cols[3].value }}</q-td>
@@ -75,6 +83,7 @@ import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/D
 const SETTINGS = {
   visibleColumns: [
     "id",
+    "contrato",
     "notaFiscal",
     "dataPedido",
     "dataEntrega",
@@ -91,6 +100,15 @@ const SETTINGS = {
       field: "id",
       align: "left",
       label: "ID",
+    },
+    {
+      name: "contrato",
+      field: "contrato",
+      align: "center",
+      label: "Contrato",
+      format: (val, row) => {
+        return val ? "#" + val : "";
+      },
     },
     {
       name: "notaFiscal",
@@ -274,7 +292,6 @@ export default {
 
     items(items) {
       if (!items) return;
-
       let data = [];
 
       for (let index in items) {
@@ -299,6 +316,7 @@ export default {
           "@id": item["@id"],
           id: item["@id"].match(/^\/sales\/orders\/([a-z0-9-]*)$/)[1],
           app: item.app,
+          contrato: item.contract ? item.contract.id : null,
           notaFiscal:
             item.invoiceTax.length > 0
               ? "#" + item.invoiceTax[0].invoiceTax.invoiceNumber

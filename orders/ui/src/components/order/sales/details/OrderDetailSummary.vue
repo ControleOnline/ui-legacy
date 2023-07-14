@@ -410,16 +410,23 @@
                   <td class="text-center">
                     <div class="flex justify-center items-center q-gutter-x-xs">
                       <div v-if="!editCar">
-                        {{ this.product.type }}
+                        {{ this.product.type }} - {{ this.product.carNumber }}
                       </div>
-                      <q-input
-                        v-if="editCar"
-                        dense
-                        label="Automóvel"
-                        v-model="editCarValue"
-                      ></q-input>
+                      <div class="flex items-end q-gutter-x-sm" v-if="editCar">
+                        <q-input
+                          dense
+                          label="Automóvel"
+                          v-model="product.type"
+                        ></q-input>
+                        {{ product.carNumber }}
+                        <!-- <q-input
+                          dense
+                          label="Placa"
+                          v-model="product.carNumber"
+                        ></q-input> -->
+                      </div>
                       <q-btn v-if="editCar" @click="updateCar()" size="xs" dense color="primary" icon="check"></q-btn>
-                      <q-btn @click="editCar = !editCar" size="xs" dense color="primary" :icon="editCar ? 'cancel' : 'edit'"></q-btn>
+                      <q-btn @click="toggleEditCar()" size="xs" dense color="primary" :icon="editCar ? 'cancel' : 'edit'"></q-btn>
                     </div>
                     </td>
                   <td class="text-center">
@@ -740,6 +747,7 @@ export default {
       editTotalPriceValue: null,
       editCar: false,
       editCarValue: null,
+      editCarNumberValue: null,
       editCubage: false,
       editCubageValue: null,
       editComments: false,
@@ -967,6 +975,7 @@ export default {
 
       this.product.sumCubage = this.summary.cubage;
       this.product.type = this.summary.productType;
+      this.product.carNumber = this.summary.carNumber;
       this.product.totalPrice = this.summary.invoiceTotal;
       this.product.packages = this.summary.packages;
       this.retrieve.address.country =
@@ -1058,6 +1067,15 @@ export default {
         return true;
       };
     },
+    toggleEditCar() {
+      if (this.editCar) {
+        this.product.type = this.tempProductType;
+      } else {
+        this.tempProductType = this.product.type;
+      }
+      this.editCar = !this.editCar;
+    },
+
     updateComments() {
 
       this.isUpdating = true;
@@ -1154,7 +1172,7 @@ export default {
         });
     },
     updateCar() {
-      if (this.editCarValue == '' || this.editCarValue == null) {
+      if (this.product.type == '' || this.product.type == null) {
         this.$q.notify({
           message: "O campo não pode ser vazio",
           position: "bottom",
@@ -1164,7 +1182,7 @@ export default {
       }
 
       let values = {};
-      values.productType = this.editCarValue;
+      values.productType = this.product.type;
       let options = {
         method: 'PUT',
         body: JSON.stringify(values),
@@ -1203,6 +1221,48 @@ export default {
           this.requestSummary(this.orderId);
         });
     },
+    // updateCarNumber() {
+    //   console.log('updateCarNumber');
+    //   let values = {};
+    //   values.other_informations = ['5'];
+    //   values.other_informations_type = 'route_time';
+    //   let options = {
+    //     method: 'POST',
+    //     body: JSON.stringify(values),
+    //     params: {}
+    //   };
+    //   this.isUpdating = true;
+    //   return this.api
+    //     .private(`/sales/orders/${this.orderId}/other-informations`, options)
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       if (data["@id"]) {
+    //         this.$q.notify({
+    //           message: "O campo placa foi atualizado",
+    //           position: "bottom",
+    //           type: "positive",
+    //         });
+    //       } else {
+    //         this.$q.notify({
+    //           message: "O campo placa não pode ser atualizado",
+    //           position: "bottom",
+    //           type: "negative",
+    //         });
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       this.$q.notify({
+    //         message: error.message,
+    //         position: "bottom",
+    //         type: "negative",
+    //       });
+    //     })
+    //     .finally(() => {
+    //       this.isUpdating = false;
+    //       this.editCar = false;
+    //       this.requestSummary(this.orderId);
+    //     });
+    // },
     updateTotalPrice() {
       if (this.editTotalPriceValue == '' || this.editTotalPriceValue == null) {
         this.$q.notify({
@@ -1687,6 +1747,7 @@ export default {
           this.isLoading = false;
 
           if (response.success) {
+            console.log('response',response.data)
             this.summary = response.data;
 
             return true;

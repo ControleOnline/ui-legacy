@@ -103,6 +103,15 @@
                     %)
                   </td>
                 </tr>
+                <tr>
+                  <td class="text-left text-bold">Contrato</td>
+                  <td class="text-left">
+                    <q-btn flat dense :to="{
+                      name: 'ContractDetails',
+                      params: { id: contract },
+                    }" :label="contract || '-'" class="full-width" />
+                  </td>
+                </tr>
               </tbody>
             </q-markup-table>
           </div>
@@ -227,6 +236,41 @@
                 </tr>
                 <tr>
                   <td class="text-left text-bold">
+                    Previsão de Entrada no pátio
+                    <q-btn
+                      v-if="editEstimatedParkingDate == true"
+                      size="0.8em"
+                      dense
+                      flat
+                      color="positive"
+                      icon="done"
+                      @click="saveEstimatedParkingDate()"
+                    ></q-btn>
+                    <q-btn
+                      size="0.8em"
+                      dense
+                      flat
+                      :color="editEstimatedParkingDate ? 'negative' : 'primary'"
+                      :icon="editEstimatedParkingDate ? 'close' : 'edit'"
+                      @click="toggleEditEstimatedParkingDate()"
+                    ></q-btn>
+                  </td>
+                  <td v-if="editEstimatedParkingDate == false" class="text-left">
+                    {{ this.estimatedParkingDate ? this.estimatedParkingDate : "-" }}
+                  </td>
+                  <td v-else class="text-left">
+                    <q-form ref="myForm">
+                      <q-input
+                        dense
+                        flat
+                        type="date"
+                        v-model="estimatedParkingDate"
+                      ></q-input>
+                    </q-form>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">
                     Entrada no pátio
                     <q-btn
                       v-if="editParkingDate == true"
@@ -259,6 +303,14 @@
                       ></q-input>
                     </q-form>
                   </td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">Automóvel</td>
+                  <td>{{ productType }}</td>
+                </tr>
+                <tr>
+                  <td class="text-left text-bold">Placa</td>
+                  <td>{{ other_informations.carNumber ? other_informations.carNumber : ''}}</td>
                 </tr>
               </tbody>
             </q-markup-table>
@@ -454,11 +506,13 @@ export default {
       integrationType: null,
       currentTab: "resumo",
       orderId: null,
+      contract: null,
       status: null,
       deliveryDueDate: null,
       clientInvoiceTax: null,
       orderDate: null,
       alterDate: null,
+      productType: null,
       other_informations: null,
       invoiceTax: null,
       carrier: null,
@@ -484,7 +538,11 @@ export default {
       notFound: false,
       isLoading: false,
       isUpdating: false,
+      tempEstimatedParkingDate: null,
+      estimatedParkingDate: null,
+      editEstimatedParkingDate: false,
       editParkingDate: false,
+      tempParkingDate: null,
       parkingDate: null,
     };
   },
@@ -523,14 +581,27 @@ export default {
       remakeOrder: "salesOrder/remakeOrder",
       getStatus: "salesOrder/getDetailStatus",
       updateStatus: "salesOrder/updateStatus",
+      updateEstimatedParkingDate: "salesOrder/updateEstimatedParkingDate",
       updateParkingDate: "salesOrder/updateParkingDate",
       updateDeadline: "salesOrder/updateDeadline",
       choose: "quote/choose_quote",
       email: "people/email",
       contact: "people/createContact",
     }),
+    toggleEditEstimatedParkingDate() {
+      if (this.editEstimatedParkingDate) {
+        this.estimatedParkingDate = this.tempEstimatedParkingDate;
+      } else {
+        this.tempEstimatedParkingDate = this.estimatedParkingDate;
+        this.estimatedParkingDate = null;
+      }
+      this.editEstimatedParkingDate = !this.editEstimatedParkingDate;
+    },
     toggleEditParkingDate() {
       if (this.editParkingDate) {
+        this.parkingDate = this.tempParkingDate;
+      } else {
+        this.tempParkingDate = this.parkingDate;
         this.parkingDate = null;
       }
       this.editParkingDate = !this.editParkingDate;
@@ -942,8 +1013,14 @@ export default {
       return this.getStatus({ orderId, params })
         .then((data) => {
           this.isLoading = false;
-
           if (data["@id"]) {
+            if (data.estimatedParkingDate != null && Object.keys(data.estimatedParkingDate).length) {
+              let estimatedParkingDate = new Date(data.estimatedParkingDate.date);
+              let brTimeZoneOffset = -180;
+              let brDate = new Date(estimatedParkingDate.getTime() + brTimeZoneOffset * 60 * 1000);
+              let formattedEstimatedParkingDate = brDate.toLocaleString('pt-BR').replaceAll(',','');
+              this.estimatedParkingDate = formattedEstimatedParkingDate;
+            }
 
             if (data.parkingDate != null && Object.keys(data.parkingDate).length) {
               let parkingDate = new Date(data.parkingDate.date);
@@ -952,6 +1029,7 @@ export default {
               let formattedParkingDate = brDate.toLocaleString('pt-BR').replaceAll(',','');
               this.parkingDate = formattedParkingDate;
             }
+            this.contract = data.contract;
             this.status = data.status;
             this.invoices = data.invoiceTax;
             this.deliveryDueDate = data.deliveryDueDate;
@@ -961,6 +1039,7 @@ export default {
             this.realPecentage = data.realPecentage;
             this.orderDate = data.orderDate;
             this.alterDate = data.alterDate;
+            this.productType = data.productType;
             this.other_informations = data.other_informations;
             this.carrier = data.carrier;
             this.app = data.app;
@@ -991,7 +1070,7 @@ export default {
               data.status.status === "retrieved";
             this.integrationType = data.integrationType;
           }
-
+          // this.update++;
           return data;
         })
         .catch((error) => {
@@ -1037,6 +1116,56 @@ export default {
 
           this.isUpdating = false;
         });
+    },
+    saveEstimatedParkingDate(input) {
+      
+      let date = this.estimatedParkingDate;
+      let time = new Date();
+      let hours = time.getHours().toString().padStart(2,'0');
+      let min = time.getMinutes().toString().padStart(2,'0');
+      let sec = time.getSeconds().toString().padStart(2,'0');
+      let now = hours + ':' + min + ':' + sec;
+      
+      let dateTimeNow = new Date(date + ' ' + now);
+      
+
+      let params = {
+            myCompany: this.myCompany.id,
+          };
+          this.isUpdating = true;
+          this.updateEstimatedParkingDate({
+            id: this.orderId,
+            newEstimatedParkingDate: dateTimeNow,
+            params,
+          })
+            .then(data => {
+              if (data["@id"]) {
+                this.$q.notify({
+                  message: "A data foi atualizada",
+                  position: "bottom",
+                  type: "positive",
+                });
+              } else {
+                this.$q.notify({
+                  message: "A data não pode ser atualizada",
+                  position: "bottom",
+                  type: "negative",
+                });
+              }
+            })
+            .catch((error) => {
+              this.$q.notify({
+                message: "A data não pode ser atualizada",
+                position: "bottom",
+                type: "negative",
+              });
+            })
+            .finally(() => {
+              this.isUpdating = false;
+              this.editEstimatedParkingDate = false;
+              this.requestStatus(this.orderId);
+            });
+      
     },
     saveParkingDate(input) {
       

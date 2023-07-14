@@ -229,6 +229,18 @@
               />
 
             </q-td>
+            <q-td :props="props" key="IdContrato">
+              <q-btn
+                v-if="props.row.contract"
+                outline
+                dense
+                :to="{ name: 'ContractDetails', params: { id: props.row.contract } }"
+                :label="props.row.contract"
+                class="full-width"
+              />
+              <div v-else> - </div>
+
+            </q-td>
             <q-td :props="props" key="IdFatura">
               <q-btn
                 v-if="props.row.orderInvoice"
@@ -238,6 +250,7 @@
                 :label="props.row.orderInvoice"
                 class="full-width"
               />
+              <div v-else> - </div>
             </q-td>
             <q-td key="stretchstatus"
               :props="props"
@@ -288,6 +301,9 @@
             </q-td>
             <q-td :props="props" key="ValorPago">
               {{ formatMoney(props.row.amountPaid) }}
+            </q-td>
+            <q-td :props="props" key="Saldo">
+              {{ formatMoney(props.row.balance) }}
             </q-td>
             <q-td :props="props" key="PrevisaoDataEmbarque">
               {{ formatDate(props.row.estimatedShippingDate) }}
@@ -348,27 +364,48 @@
                 />
 
                 <div class="row col-xs-3 col-sm-4 col-md-4">
-                  <div class="col-12">
-                    <q-input
-                      :key="update"
-                      v-if="editAdress == false"
+                  <div v-if="stretch.originType == 'Base'" class="col-12">
+                    <q-select
+                      v-if="originProviderHasAddress"
+                      :options="originProviderAddressOptions"
                       dense
                       outlined
-                      readonly
                       stack-label
-                      label="Endereço de origem"
-                      v-model="stretch.originAdress"
-                    >
-                      <template v-slot:append>
-                        <q-btn
-                          dense
-                          flat
-                          icon="edit"
-                          color="primary"
-                          @click="editAdress = true"
-                        ></q-btn>
-                      </template>
-                    </q-input>
+                      label="Origem endereço"
+                      v-model="tempOriginAddressAdd"
+                    ></q-select>
+                    <ListAutocomplete
+                      v-else
+                      class="reset-padding-bottom"
+                      :source="getGeoPlaces"
+                      :isLoading="isSearching"
+                      label="Busca de endereço"
+                      @selected="onSelectOrigin"
+                      placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                    />
+                  </div>
+                  <div v-else class="col-12">
+                    <div class="col-12">
+                      <q-input
+                        v-if="editAdress == false"
+                        dense
+                        outlined
+                        readonly
+                        stack-label
+                        label="Endereço de origem"
+                        v-model="stretch.originAdress"
+                      >
+                        <template v-slot:append>
+                          <q-btn
+                            dense
+                            flat
+                            icon="edit"
+                            color="primary"
+                            @click="editAdress = true"
+                          ></q-btn>
+                        </template>
+                      </q-input>
+                    </div>
                     <div class="row flex items-center" v-if="editAdress == true">
                       <ListAutocomplete
                         class="col-11"
@@ -451,7 +488,7 @@
 
             <div class="row col-xs-12 col-sm-7 col-md-6 q-gutter-x-sm">
               <q-select
-                class="col-xs-5 col-sm-5 col-md-5"
+                class="col-xs-3 col-sm-3 col-md-3"
                 dense
                 outlined
                 stack-label
@@ -460,7 +497,7 @@
                 v-model="stretchValueSelected"
               ></q-select>
               <q-input
-                class="col-xs-3 col-sm-3 col-md-3"
+                class="col-xs-2 col-sm-2 col-md-2"
                 dense
                 type="number"
                 outlined
@@ -471,13 +508,23 @@
                 hide-bottom-space
               ></q-input>
               <q-input
-                class="col-xs-3 col-sm-3 col-md-3"
+                class="col-xs-2 col-sm-2 col-md-2"
                 dense
                 type="number"
                 outlined
                 stack-label
                 label="Valor Pago"
                 v-model="stretch.amountPaid"
+              ></q-input>
+              <q-input
+                class="col-xs-2 col-sm-2 col-md-2"
+                dense
+                type="number"
+                outlined
+                readonly
+                stack-label
+                label="Saldo"
+                v-model="stretch.balance"
               ></q-input>
             </div>
 
@@ -1137,6 +1184,13 @@ const SETTINGS = {
       format: (val) => `${val}`,
     },
     {
+      name: "IdContrato",
+      label: "Id Contrato",
+      align: "center",
+      field: (row) => row.contract,
+      format: (val) => `${val}`,
+    },
+    {
       name: "IdFatura",
       label: "Id Fatura",
       align: "center",
@@ -1249,6 +1303,13 @@ const SETTINGS = {
       format: (val) => `${val}`,
     },
     {
+      name: "Saldo",
+      label: "Saldo",
+      align: "center",
+      field: (row) => row.balance,
+      format: (val) => `${val}`,
+    },
+    {
       name: "PrevisaoDataEmbarque",
       label: "Previsão Data embarque",
       align: "right",
@@ -1341,7 +1402,6 @@ export default {
       api: new Api(this.$store.getters["auth/user"].token),
       isLoading: false,
       isSearching: false,
-      update: 1,
       editShippingTax: true,
       shippingTax: null,
       hasOrderId: null,
@@ -1581,6 +1641,18 @@ export default {
         this.stretch.price = parseFloat(val);
       }
     },
+
+    "stretch.price"(val) {
+      if (this.stretch.amountPaid && this.stretch.amountPaid != null) {
+        this.stretch.balance = val - this.stretch.amountPaid;
+      }
+    } ,
+
+    "stretch.amountPaid"(val) {
+      if (this.stretch.price && this.stretch.price != null) {
+        this.stretch.balance = this.stretch.price - val;
+      }
+    } ,
   },
 
   methods: {
@@ -1689,30 +1761,31 @@ export default {
       this.getRegion(item.state);
     },
     onSelectOriginPeople(item) {
-      console.log('onSelectOriginPeople')
       this.stretch.provider = item.id;
       if (this.stretch.originType == "Base") {
-        console.log('if')
         this.getProviderAddress(item.id).then((data) => {
-          console.log('getProviderAddress', data);
-          if (data.length != 0) {
+          if (data != null && data.length != 0) {
             this.originProviderHasAddress = true;
             
+            for (let index in data) {
               let address = {};
               address.country =
-                data[0].street.district.city.state.country.countryname || "";
-              address.state = data[0].street.district.city.state.uf || "";
+                data[index].street.district.city.state.country.countryname || "";
+              address.state = data[index].street.district.city.state.uf || "";
               address.region = this.getRegion(address.state) || "";
-              address.city = data[0].street.district.city.city || "";
-              address.district = data[0].street.district.district || "";
-              address.cep = data[0].street.cep.cep || "";
-              address.street = data[0].street.street || "";
-              address.number = data[0].number || "";
-              address.complement = data[0].complement || "";
+              address.city = data[index].street.district.city.city || "";
+              address.district = data[index].street.district.district || "";
+              address.cep = data[index].street.cep.cep || "";
+              address.street = data[index].street.street || "";
+              address.number = data[index].number || "";
+              address.complement = data[index].complement || "";
               let formatedAddress = `${address.street}, ${address.number}, ${address.complement} - ${address.district}, ${address.cep}, ${address.city} ${address.state}, ${address.country}`;
 
-              this.stretch.originAdress = formatedAddress;
-              this.update++;
+              this.originProviderAddressOptions.push({
+                label: formatedAddress,
+                value: address,
+              });
+            }
           } else {
             this.originProviderHasAddress = false;
           }
@@ -1779,6 +1852,7 @@ export default {
       if (date.from || date.to) {
         this.filters.from = date.from;
         this.filters.to = date.to;
+        console.log('dateChanged')
         this.onRequest({
           pagination: this.pagination,
           filter: this.filters,
@@ -1799,9 +1873,7 @@ export default {
     },
 
     isInOrder() {
-      console.log('isInOrder')
       if (this.hasOrderId) {
-        console.log('1')
 
         let columnName = 'IdPedido';
         let column = SETTINGS.columns.find((x) => x.name == columnName);
@@ -1913,7 +1985,6 @@ export default {
       this.hasOrderId = this.orderId ? true : false;
     },
     requestPreviewStretch() {
-      console.log('requestPreviewStretch')
       let params = {};
       params.order = this.orderId;
       return this.api
@@ -1921,7 +1992,6 @@ export default {
         .then((response) => response.json())
         .then((result) => {
           let members = result["hydra:member"];
-          console.log('members', members)
           if (members.length) {
             let lastStretch = members[members.length - 1];
             this.stretch.originRegion = lastStretch.destinationRegion;
@@ -2032,7 +2102,9 @@ export default {
       this.stretch.destinationProvider = null;
       this.stretch.destinationCity = null;
       this.stretch.destinationAdress = null;
+      this.stretch.price = null;
       this.stretch.amountPaid = null;
+      this.stretch.balance = null;
       this.stretch.order = null;
     },
     formatFullDateTime(date) {
@@ -2337,6 +2409,7 @@ return;
       
       stretch.price = parseFloat(this.stretch.price);
       stretch.amountPaid = parseFloat(this.stretch.amountPaid);
+      stretch.balance = parseFloat(this.stretch.balance);
 
       stretch.lastModified = this.lastModified();
 
@@ -2434,6 +2507,7 @@ return;
         });
     },
     onRequest(props) {
+      console.log('onRequest')
       let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
       // let params = {};
@@ -2441,43 +2515,43 @@ return;
       if (this.orderId) {
         params["order"] = this.orderId;
       }
+      if (!this.orderId) {
+        if (this.filters.order != null) {
+          params["order"] = this.filters.order;
+        }
 
-      if (this.filters.order != null) {
-        params["order"] = this.filters.order;
+        if (this.filters.origin != null && this.filters.origin.length > 0) {
+          params["originCity"] = this.filters.origin;
+        }
+
+        if (this.filters.destination != null && this.filters.destination.length > 0) {
+          params["destinationCity"] = this.filters.destination;
+        }
+
+        if (this.filters.provider != null) {
+          params["provider"] = this.filters.provider;
+        }
+
+        if (this.filters.destinationProvider != null) {
+          params["destinationProvider"] = this.filters.destinationProvider;
+        }
+
+        if (
+          this.filters.status != null &&
+          this.filters.status.value != "Todos" &&
+          this.filters.status.value != undefined
+        ) {
+          params["status"] = this.filters.status.value;
+        }
+
+        if (this.filters.from != null && this.filters.from != "") {
+          params["shippingDate"] = this.buildAmericanDate(this.filters.from);
+        }
+
+        if (this.filters.to != null && this.filters.to != "") {
+          params["arrivalDate"] = this.buildAmericanDate(this.filters.to);
+        }
       }
-
-      if (this.filters.origin != null && this.filters.origin.length > 0) {
-        params["originCity"] = this.filters.origin;
-      }
-
-      if (this.filters.destination != null && this.filters.destination.length > 0) {
-        params["destinationCity"] = this.filters.destination;
-      }
-
-      if (this.filters.provider != null) {
-        params["provider"] = this.filters.provider;
-      }
-
-      if (this.filters.destinationProvider != null) {
-        params["destinationProvider"] = this.filters.destinationProvider;
-      }
-
-      if (
-        this.filters.status != null &&
-        this.filters.status.value != "Todos" &&
-        this.filters.status.value != undefined
-      ) {
-        params["status"] = this.filters.status.value;
-      }
-
-      if (this.filters.from != null && this.filters.from != "") {
-        params["shippingDate"] = this.buildAmericanDate(this.filters.from);
-      }
-
-      if (this.filters.to != null && this.filters.to != "") {
-        params["arrivalDate"] = this.buildAmericanDate(this.filters.to);
-      }
-
       if (this.filters.company != null) {
         params["myCompany"] = this.filters.company.id;
       }
@@ -2544,7 +2618,9 @@ return;
                       },
                 price: data.members[index].price,
                 amountPaid: data.members[index].amountPaid,
+                balance: data.members[index].balance,
                 order: data.members[index].order.id,
+                contract: data.members[index].order.contract ? data.members[index].order.contract.id : '',
                 orderInvoice: this.getInvoice(data.members[index].purchasingOrder),
                 lastModified:
                   data.members[index].lastModified == null
