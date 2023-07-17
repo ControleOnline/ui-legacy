@@ -416,16 +416,15 @@
                         <q-input
                           dense
                           label="Automóvel"
-                          v-model="product.type"
+                          v-model="editCarValue"
                         ></q-input>
-                        {{ product.carNumber }}
-                        <!-- <q-input
+                        <q-input
                           dense
                           label="Placa"
-                          v-model="product.carNumber"
-                        ></q-input> -->
+                          v-model="editCarNumberValue"
+                        ></q-input>
                       </div>
-                      <q-btn v-if="editCar" @click="updateCar()" size="xs" dense color="primary" icon="check"></q-btn>
+                      <q-btn v-if="editCar" @click="updateCar(); updateCarNumber()" size="xs" dense color="primary" icon="check"></q-btn>
                       <q-btn @click="toggleEditCar()" size="xs" dense color="primary" :icon="editCar ? 'cancel' : 'edit'"></q-btn>
                     </div>
                     </td>
@@ -1068,10 +1067,9 @@ export default {
       };
     },
     toggleEditCar() {
-      if (this.editCar) {
-        this.product.type = this.tempProductType;
-      } else {
-        this.tempProductType = this.product.type;
+      if (!this.editCar) {
+        this.editCarValue = this.product.type;
+        this.editCarNumberValue = this.product.carNumber;
       }
       this.editCar = !this.editCar;
     },
@@ -1174,15 +1172,14 @@ export default {
     updateCar() {
       if (this.product.type == '' || this.product.type == null) {
         this.$q.notify({
-          message: "O campo não pode ser vazio",
+          message: "O campo automóvel não pode ser vazio",
           position: "bottom",
           type: "negative",
         });
         return false;
       }
-
       let values = {};
-      values.productType = this.product.type;
+      values.productType = this.editCarValue;
       let options = {
         method: 'PUT',
         body: JSON.stringify(values),
@@ -1196,13 +1193,13 @@ export default {
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
-              message: "O campo foi atualizado",
+              message: "O campo automóvel foi atualizado",
               position: "bottom",
               type: "positive",
             });
           } else {
             this.$q.notify({
-              message: "O campo não pode ser atualizado",
+              message: "O campo automóvel não pode ser atualizado",
               position: "bottom",
               type: "negative",
             });
@@ -1221,48 +1218,47 @@ export default {
           this.requestSummary(this.orderId);
         });
     },
-    // updateCarNumber() {
-    //   console.log('updateCarNumber');
-    //   let values = {};
-    //   values.other_informations = ['5'];
-    //   values.other_informations_type = 'route_time';
-    //   let options = {
-    //     method: 'POST',
-    //     body: JSON.stringify(values),
-    //     params: {}
-    //   };
-    //   this.isUpdating = true;
-    //   return this.api
-    //     .private(`/sales/orders/${this.orderId}/other-informations`, options)
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       if (data["@id"]) {
-    //         this.$q.notify({
-    //           message: "O campo placa foi atualizado",
-    //           position: "bottom",
-    //           type: "positive",
-    //         });
-    //       } else {
-    //         this.$q.notify({
-    //           message: "O campo placa não pode ser atualizado",
-    //           position: "bottom",
-    //           type: "negative",
-    //         });
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       this.$q.notify({
-    //         message: error.message,
-    //         position: "bottom",
-    //         type: "negative",
-    //       });
-    //     })
-    //     .finally(() => {
-    //       this.isUpdating = false;
-    //       this.editCar = false;
-    //       this.requestSummary(this.orderId);
-    //     });
-    // },
+    updateCarNumber() {
+      let values = {};
+      values.other_informations = this.editCarNumberValue;
+      values.other_informations_type = 'carNumber';
+      let options = {
+        method: 'POST',
+        body: JSON.stringify(values),
+        params: {}
+      };
+      this.isUpdating = true;
+      return this.api
+        .private(`/sales/orders/${this.orderId}/other-informations`, options)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data["@id"]) {
+            this.$q.notify({
+              message: "O campo placa foi atualizado",
+              position: "bottom",
+              type: "positive",
+            });
+          } else {
+            this.$q.notify({
+              message: "O campo placa não pode ser atualizado",
+              position: "bottom",
+              type: "negative",
+            });
+          }
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: error.message,
+            position: "bottom",
+            type: "negative",
+          });
+        })
+        .finally(() => {
+          this.isUpdating = false;
+          this.editCar = false;
+          this.requestSummary(this.orderId);
+        });
+    },
     updateTotalPrice() {
       if (this.editTotalPriceValue == '' || this.editTotalPriceValue == null) {
         this.$q.notify({
