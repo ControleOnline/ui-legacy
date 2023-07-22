@@ -1001,7 +1001,6 @@ export default {
     },
 
     requestStatus(orderId) {
-      console.log('requestStatus')
       if (this.isLoading) return;
 
       let params = {};
@@ -1074,7 +1073,6 @@ export default {
           return data;
         })
         .catch((error) => {
-          console.log('catch')
           this.isLoading = false;
           this.status = null;
           this.deliveryDueDate = null;
