@@ -1,20 +1,29 @@
-
 export const routes = [
-    {
-      path     : '/',
-      component: () => import('../../../../../src/layouts/AdminLayout.vue'),
-      children : [  
-        { 
-            name: 'ProductList', 
-            path: 'products/', 
-            component: () => import('../pages/Products/List.vue')
-        },
-        { 
-            name: 'ProductDetails', 
-            path: 'product/id/:id', 
-            component: () => import('../pages/Products/Details.vue') 
-        },
-        
-      ]
-    },
+  {
+    path: "/products/",
+    component: () => import("../../../../../src/layouts/AdminLayout.vue"),
+    children: [
+      {
+        name: "ProductList",
+        path: "",
+        component: () => import("../pages/Products/List.vue"),
+      },
+    ],
+  },
+  {
+    path: "/product/",
+    component: () => import("../../../../../src/layouts/AdminLayout.vue"),
+    children: [
+      {
+        name: "ProductDetails",
+        path: "id/:id",
+        component: () => import("../pages/Products/Details.vue"),
+      },
+      {
+        name: "ProductNew",
+        path: "new",
+        component: () => import("../pages/new/product.vue"),
+      },
+    ],
+  },
 ];
