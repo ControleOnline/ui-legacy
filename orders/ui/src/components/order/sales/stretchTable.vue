@@ -158,7 +158,7 @@
         flat
         :loading="isLoading"
         :data="data"
-        :columns="settings.columns"
+        :columns="columns"
         :pagination.sync="pagination"
         @request="onRequest"
         row-key="Id"
@@ -219,7 +219,7 @@
             <q-td :props="props" key="Id">
               {{ props.row.id }}
             </q-td>
-            <q-td v-if="!hasOrderId" :props="props" key="IdPedido">
+            <q-td  :props="props" key="IdPedido">
               <q-btn
                 outline
                 dense
@@ -1006,205 +1006,6 @@ import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/D
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 
-const SETTINGS = {
-  columns: [
-    {
-      name: "acoes",
-      label: "",
-    },
-    {
-      name: "Vistoria",
-      label: "Vistoria",
-      align: "center",
-      format: (val) => `${val}`,
-    },
-    {
-      name: "Id",
-      label: "Id",
-      align: "center",
-      field: (row) => row.id, 
-      format: (val) => `${val}`,
-    },
-    {
-      name: "IdPedido",
-      label: "Id Pedido",
-      align: "center",
-      field: (row) => row.order,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "IdContrato",
-      label: "Id Contrato",
-      align: "center",
-      field: (row) => row.contract,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "IdFatura",
-      label: "Id Fatura",
-      align: "center",
-      field: (row) => row.orderInvoice,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "stretchstatus",
-      label: "Status",
-      align: "center",
-      field: (row) => row.stretchstatus,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "OrigemTipo",
-      label: "Origem Tipo",
-      align: "center",
-      field: (row) => row.originType,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "OrigemRegiao",
-      label: "Origem Região",
-      align: "center",
-      field: (row) => row.originRegion,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "OrigemEstado",
-      label: "Origem Estado",
-      align: "center",
-      field: (row) => row.originState,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "OrigemCidade",
-      label: "Origem Cidade",
-      align: "center",
-      field: (row) => row.originCity,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "OrigemEndereco",
-      label: "Endereço de origem",
-      align: "center",
-      field: (row) => row.originAdress,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "Fornecedor",
-      label: "Fornecedor",
-      align: "left",
-      field: (row) => row.people,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "DestinoTipo",
-      label: "Destino Tipo",
-      align: "center",
-      field: (row) => row.destinationype,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "DestinoRegiao",
-      label: "Destino Região",
-      align: "center",
-      field: (row) => row.destinationRegion,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "DestinoEstado",
-      label: "Destino Estado",
-      align: "center",
-      field: (row) => row.destinationState,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "DestinoCidade",
-      label: "Destino Cidade",
-      align: "center",
-      field: (row) => row.destinationCity,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "DestinoEndereco",
-      label: "Endereço de destino",
-      align: "center",
-      field: (row) => row.destinationAdress,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "DestinoFornecedor",
-      label: "Fornecedor de destino",
-      align: "center",
-      field: (row) => row.destinationProvider,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "Valor",
-      label: "Valor",
-      align: "center",
-      field: (row) => row.price,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "ValorPago",
-      label: "Valor Pago",
-      align: "center",
-      field: (row) => row.amountPaid,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "Saldo",
-      label: "Saldo",
-      align: "center",
-      field: (row) => row.balance,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "PrevisaoDataEmbarque",
-      label: "Previsão Data embarque",
-      align: "right",
-      field: (row) => row.estimatedShippingDate,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "DataEmbarque",
-      label: "Data embarque",
-      align: "right",
-      field: (row) => row.shippingDate,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "PrevisaoDataChegada",
-      label: "Previsão Data chegada",
-      align: "right",
-      field: (row) => row.estimatedArrivalDate,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "DataChegada",
-      label: "Data chegada",
-      align: "right",
-      field: (row) => row.arrivalDate,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "UltimaModificacao",
-      label: "Modificado",
-      align: "center",
-      field: (row) => row.lastModified,
-      format: (val) => `${val}`,
-    },
-    {
-      name: "Responsavel",
-      label: "Responsável",
-      align: "right",
-      field: (row) => row.inCharge,
-      format: (val) => `${val}`,
-    },
-  ],
-};
-
-Object.freeze(SETTINGS);
-
 export default {
   props: {
     orderId: {
@@ -1233,7 +1034,7 @@ export default {
 
     this.checkOrderId();
 
-    this.isInOrder();
+    // this.isInOrder();
 
     if (this.myCompany !== null) {
       this.filters.company = this.myCompany;
@@ -1255,6 +1056,7 @@ export default {
       shippingTax: null,
       hasOrderId: null,
       isSuper: null,
+      testes:true,
       confirmDelete: false,
       idRowToDelete: false,
       isFirstStretch: null,
@@ -1348,7 +1150,6 @@ export default {
       originUfRegionOptions: [],
       destinationUfRegionOptions: [],
       data: [],
-      settings: SETTINGS,
       filters: {
         company: null,
         defaultCompany: null,
@@ -1371,6 +1172,202 @@ export default {
         rowsNumber: 10,
       },
       loadingStatuses: false,
+      columns: [
+        {
+          name: "acoes",
+          label: "",
+        },
+        {
+          name: "Vistoria",
+          label: "Vistoria",
+          align: "center",
+          format: (val) => `${val}`,
+        },
+        {
+          name: "Id",
+          label: "Id",
+          align: "center",
+          field: (row) => row.id,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "IdPedido",
+          label: "Id Pedido",
+          align: "center",
+          classes: this.hideOrderIdColumn() ? 'hidden':'',
+          headerClasses: this.hideOrderIdColumn() ? 'hidden':'',
+          field: (row) => row.order,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "IdContrato",
+          label: "Id Contrato",
+          align: "center",
+          field: (row) => row.contract,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "IdFatura",
+          label: "Id Fatura",
+          align: "center",
+          field: (row) => row.orderInvoice,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "stretchstatus",
+          label: "Status",
+          align: "center",
+          field: (row) => row.stretchstatus,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "OrigemTipo",
+          label: "Origem Tipo",
+          align: "center",
+          field: (row) => row.originType,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "OrigemRegiao",
+          label: "Origem Região",
+          align: "center",
+          field: (row) => row.originRegion,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "OrigemEstado",
+          label: "Origem Estado",
+          align: "center",
+          field: (row) => row.originState,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "OrigemCidade",
+          label: "Origem Cidade",
+          align: "center",
+          field: (row) => row.originCity,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "OrigemEndereco",
+          label: "Endereço de origem",
+          align: "center",
+          field: (row) => row.originAdress,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "Fornecedor",
+          label: "Fornecedor",
+          align: "left",
+          field: (row) => row.people,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "DestinoTipo",
+          label: "Destino Tipo",
+          align: "center",
+          field: (row) => row.destinationype,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "DestinoRegiao",
+          label: "Destino Região",
+          align: "center",
+          field: (row) => row.destinationRegion,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "DestinoEstado",
+          label: "Destino Estado",
+          align: "center",
+          field: (row) => row.destinationState,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "DestinoCidade",
+          label: "Destino Cidade",
+          align: "center",
+          field: (row) => row.destinationCity,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "DestinoEndereco",
+          label: "Endereço de destino",
+          align: "center",
+          field: (row) => row.destinationAdress,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "DestinoFornecedor",
+          label: "Fornecedor de destino",
+          align: "center",
+          field: (row) => row.destinationProvider,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "Valor",
+          label: "Valor",
+          align: "center",
+          field: (row) => row.price,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "ValorPago",
+          label: "Valor Pago",
+          align: "center",
+          field: (row) => row.amountPaid,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "Saldo",
+          label: "Saldo",
+          align: "center",
+          field: (row) => row.balance,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "PrevisaoDataEmbarque",
+          label: "Previsão Data embarque",
+          align: "right",
+          field: (row) => row.estimatedShippingDate,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "DataEmbarque",
+          label: "Data embarque",
+          align: "right",
+          field: (row) => row.shippingDate,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "PrevisaoDataChegada",
+          label: "Previsão Data chegada",
+          align: "right",
+          field: (row) => row.estimatedArrivalDate,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "DataChegada",
+          label: "Data chegada",
+          align: "right",
+          field: (row) => row.arrivalDate,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "UltimaModificacao",
+          label: "Modificado",
+          align: "center",
+          field: (row) => row.lastModified,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "Responsavel",
+          label: "Responsável",
+          align: "right",
+          field: (row) => row.inCharge,
+          format: (val) => `${val}`,
+        },
+      ],
     };
   },
 
@@ -1511,6 +1508,10 @@ export default {
       geoplace: "gmaps/geoplace",
       search: "people/searchPeople",
     }),
+
+    hideOrderIdColumn() {
+      return this.orderId ? true : false;
+    },
 
     // Componentes
     searchPeople(input) {
@@ -1703,7 +1704,6 @@ export default {
       if (date.from || date.to) {
         this.filters.from = date.from;
         this.filters.to = date.to;
-        console.log('dateChanged')
         this.onRequest({
           pagination: this.pagination,
           filter: this.filters,
@@ -1716,22 +1716,22 @@ export default {
       if (!this.isSuper) {
         let columnsName = ["Valor", "ValorPago"];
         for (let i in columnsName) {
-          let column = SETTINGS.columns.find((x) => x.name == columnsName[i]);
-          let position = SETTINGS.columns.indexOf(column);
-          SETTINGS.columns.splice(position, 1);
+          let column = this.columns.find((x) => x.name == columnsName[i]);
+          let position = this.columns.indexOf(column);
+          this.columns.splice(position, 1);
         }
       }
     },
 
-    isInOrder() {
-      if (this.hasOrderId) {
+    // isInOrder() {
+    //   if (this.hasOrderId) {
 
-        let columnName = 'IdPedido';
-        let column = SETTINGS.columns.find((x) => x.name == columnName);
-        let position = SETTINGS.columns.indexOf(column);
-        SETTINGS.columns.splice(position, 1);
-      }
-    },
+    //     let columnName = 'IdPedido';
+    //     let column = SETTINGS.columns.find((x) => x.name == columnName);
+    //     let position = SETTINGS.columns.indexOf(column);
+    //     SETTINGS.columns.splice(position, 1);
+    //   }
+    // },
 
     addSurvey(props) {
       this.isLoading = true;
@@ -2276,8 +2276,6 @@ export default {
         headers: new Headers(),
         body: JSON.stringify(stretch),
       };
-      console.log(stretch)
-      console.log(JSON.stringify(stretch))
       this.api
         .private(endpoint, options)
         .then((response) => response.json())
@@ -2358,7 +2356,7 @@ export default {
         });
     },
     onRequest(props) {
-      console.log('onRequest')
+      console.log(1)
       let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
       // let params = {};
@@ -2367,8 +2365,11 @@ export default {
         params["order"] = this.orderId;
       }
       if (!this.orderId) {
+        console.log(2, this.filters.order)
+
         if (this.filters.order != null) {
-          params["order"] = this.filters.order;
+          console.log ('aqui', params)
+          params["order.id"] = this.filters.order;
         }
 
         if (this.filters.origin != null && this.filters.origin.length > 0) {
@@ -2471,7 +2472,7 @@ export default {
                 amountPaid: data.members[index].amountPaid,
                 balance: data.members[index].balance,
                 order: data.members[index].order.id,
-                contract: data.members[index].order.contract ? data.members[index].order.contract.id : '',
+                contract: data.members[index].order.contract ? data.members[index].order.contract.id : '-',
                 orderInvoice: this.getInvoice(data.members[index].purchasingOrder),
                 lastModified:
                   data.members[index].lastModified == null

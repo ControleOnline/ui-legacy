@@ -25,7 +25,7 @@
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="id" :props="props">
-          <q-btn outline dense :to="{ name: 'OrderDetails', params: { id: props.row.id } }" :label="`#${props.row.id}`"
+          <q-btn outline dense :to="{ name: 'OrderDetails', params: { id: props.cols[0].value } }" :label="`#${props.cols[0].value}`"
             :style="{ color: props.row.color_status }" class="full-width" />
 
           <q-icon v-if="
@@ -43,32 +43,32 @@
           <q-icon v-if="hasOpenedTasks(props.row.task) == true" name="priority_high" color="red" />
         </q-td>
         <q-td key="contrato" :props="props">
-          <q-btn v-if="props.row.contrato" flat dense :to="{
+          <q-btn v-if="props.cols[1].value" flat dense :to="{
               name: 'ContractDetails',
-              params: { id: props.row.contrato },
-            }" :label="props.row.contrato || '-'" class="full-width" 
+              params: { id: props.cols[1].value },
+            }" :label="props.cols[1].value || '-'" class="full-width" 
           />
           <div v-else> - </div>
         </q-td>
-        <q-td key="notaFiscal" :props="props">{{ props.row.notaFiscal }}</q-td>
-        <q-td key="dataPedido" :props="props">{{ props.cols[2].value }}</q-td>
-        <q-td key="dataEntrega" :props="props">{{ props.cols[3].value }}</q-td>
+        <q-td key="notaFiscal" :props="props">{{ props.cols[2].value }}</q-td>
+        <q-td key="dataPedido" :props="props">{{ props.cols[3].value }}</q-td>
+        <q-td key="dataEntrega" :props="props">{{ props.cols[4].value }}</q-td>
         <q-td key="ultimaModificacao" :props="props">{{
-            props.cols[4].value
+            props.cols[5].value
         }}</q-td>
         <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
-          {{ $t(`order.statuses.${props.row.status}`) }}
+          {{ $t(`order.statuses.${props.cols[6].value}`) }}
         </q-td>
         <q-td key="coleta" :props="props">
           {{ props.row.localColeta }}<br />{{ props.row.coleta }}
         </q-td>
         <q-td key="entrega" :props="props">
-          {{ props.row.localEntrega }}<br />{{ props.row.entrega }}
+          {{ props.row.localEntrega }}<br />{{ props.cols[8].value }}
         </q-td>
         <q-td key="transportadora" :props="props">
-          {{ props.row.transportadora }}
+          {{ props.cols[9].value }}
         </q-td>
-        <q-td key="preco" :props="props">{{ props.cols[9].value }}</q-td>
+        <q-td key="preco" :props="props">{{ props.cols[10].value }}</q-td>
       </q-tr>
     </template>
   </q-table>
