@@ -2,26 +2,24 @@
   <q-page padding>
     <div class="row">
       <div class="col-12">
-        <InvoiceSearching />
+        <InvoiceSearching context="receive" />
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import InvoiceSearching from '../../../components/invoice/receive/InvoiceSearching.vue';
+import InvoiceSearching from "../../../components/invoice/invoice/InvoiceSearching.vue";
 
 export default {
-  name      : 'InvoiceIndexPage',
+  name: "InvoiceIndexPage",
 
   components: {
     InvoiceSearching,
   },
 
-  data () {
-    return {
-
-    }
-  }
-}
+  data() {
+    return {};
+  },
+};
 </script>

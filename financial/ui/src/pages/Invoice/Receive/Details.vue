@@ -1,23 +1,21 @@
 <template>
   <q-page padding>
-    <InvoiceDetails />
+    <InvoiceDetails context="receive" />
   </q-page>
 </template>
 
 <script>
-import InvoiceDetails from '../../../components/invoice/receive/InvoiceDetails.vue';
+import InvoiceDetails from "../../../components/invoice/invoice/InvoiceDetails.vue";
 
 export default {
-  name      : 'InvoiceDetailsPage',
+  name: "InvoiceDetailsPage",
 
   components: {
     InvoiceDetails,
   },
 
-  data () {
-    return {
-
-    }
-  }
-}
+  data() {
+    return {};
+  },
+};
 </script>

@@ -1,33 +1,25 @@
 <template>
   <q-page padding>
-    <q-card style="min-height: 90vh" :bordered="false" :flat="true">
-      <q-card-section class="text-h6">
-        {{ $t("Contas a pagar") }}
-      </q-card-section>
-      <div class="row">
-        <div class="col-12">
-          <InvoiceSearching />
-        </div>
+    <div class="row">
+      <div class="col-12">
+        <InvoiceSearching context="pay" />
       </div>
-    </q-card>
+    </div>
   </q-page>
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
-import InvoiceSearching from "../../../components/invoice/pay/InvoiceSearching.vue";
+import InvoiceSearching from "../../../components/invoice/invoice/InvoiceSearching.vue";
 
 export default {
+  name: "InvoiceIndexPage",
+
   components: {
     InvoiceSearching,
   },
 
   data() {
-    return {      
-      api: new Api(this.$store.getters["auth/user"].token),
-    };
+    return {};
   },
-
-  created() {},
 };
 </script>
