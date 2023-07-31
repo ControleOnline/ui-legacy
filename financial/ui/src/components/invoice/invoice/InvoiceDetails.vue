@@ -61,13 +61,12 @@
             <q-tab name="details" label="Detalhes" />
             <q-tab name="orders" label="Despesa" />
           </q-tabs>
-
           <q-separator />
-
           <q-tab-panels v-model="currentTab">
             <q-tab-panel name="details" class="q-pa-none">
-              <InvoiceInvoice
-                :invoiceId="invoiceId"
+              <InvoiceDetail
+                :id="invoiceId"
+                @deleted="$router.push({ name: 'Admin.InvoicePay.Index' })"
                 @updated="requestInvoice(invoiceId)"
               />
             </q-tab-panel>
@@ -78,7 +77,6 @@
         </div>
       </div>
     </transition-group>
-
     <div
       v-if="invoice === null && notFound"
       class="row items-center justify-center"
@@ -97,7 +95,9 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import InvoiceOrders from "./details/InvoiceOrders";
-import InvoiceInvoice from "./details/InvoiceInvoice";
+
+import InvoiceDetail from "./details/InvoiceDetail";
+
 import {
   formatMoney,
   formatDateYmdTodmY,
@@ -105,7 +105,7 @@ import {
 
 export default {
   components: {
-    InvoiceInvoice,
+    InvoiceDetail,
     InvoiceOrders,
   },
 

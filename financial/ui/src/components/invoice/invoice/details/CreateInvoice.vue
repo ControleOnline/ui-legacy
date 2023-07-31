@@ -19,7 +19,9 @@
     <q-form @submit="addExpense">
       <div class="row">
         <div class="col-xs-12 q-mb-md">
-          <q-select dense outlined 
+          <q-select
+            dense
+            outlined
             stack-label
             emit-value
             map-options
@@ -32,8 +34,8 @@
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
-      dense
-      outlined
+            dense
+            outlined
             lazy-rules
             stack-label
             v-model="item.description"
@@ -54,8 +56,8 @@
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
-      dense
-      outlined
+            dense
+            outlined
             lazy-rules
             stack-label
             reverse-fill-mask
@@ -82,7 +84,9 @@
           />
         </div>
         <div v-if="item.recurrence == 'single'" class="col-xs-12 q-mb-md">
-          <q-select dense outlined 
+          <q-select
+            dense
+            outlined
             stack-label
             emit-value
             map-options
@@ -96,8 +100,8 @@
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
-      dense
-      outlined
+            dense
+            outlined
             stack-label
             v-model="item.dueDate"
             :label="$t('Data primeiro vencimento')"
@@ -147,7 +151,9 @@
           <q-form @submit="addCategory" class="q-mb-md">
             <div class="row">
               <div class="col-xs-12 q-mb-md">
-                <q-select dense outlined 
+                <q-select
+                  dense
+                  outlined
                   stack-label
                   emit-value
                   map-options
@@ -158,8 +164,8 @@
               </div>
               <div class="col-xs-12 q-mb-md">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   lazy-rules
                   stack-label
                   v-model="dialogs.category.expense.name"
@@ -211,16 +217,14 @@
               </div>
               <div class="col-xs-12">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   stack-label
                   lazy-rules
                   unmasked-value
                   v-model="dialogs.provider.item.document"
                   type="text"
-                  :label="
-                    dialogs.provider.item.type == 'J' ? $t('CNPJ') : $t('CPF')
-                  "
+                  :label="dialogs.provider.item.type == 'J' ? $t('CNPJ') : $t('CPF')"
                   :mask="
                     dialogs.provider.item.type == 'J'
                       ? '##.###.###/####-##'
@@ -230,25 +234,23 @@
               </div>
               <div class="col-xs-12">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   stack-label
                   lazy-rules
                   v-model="dialogs.provider.item.name"
                   type="text"
                   class="q-mb-sm"
                   :label="
-                    dialogs.provider.item.type == 'J'
-                      ? $t('Razão social')
-                      : $t('Nome')
+                    dialogs.provider.item.type == 'J' ? $t('Razão social') : $t('Nome')
                   "
                   :rules="[isInvalid('name')]"
                 />
               </div>
               <div class="col-xs-12">
                 <q-input
-      dense
-      outlined
+                  dense
+                  outlined
                   stack-label
                   lazy-rules
                   v-model="dialogs.provider.item.alias"
@@ -295,7 +297,7 @@ export default {
 
   data() {
     return {
-      isSearching:false,
+      isSearching: false,
       saving: false,
       item: {
         parent: null,
@@ -343,9 +345,9 @@ export default {
   methods: {
     ...mapActions({
       getStatuses: "payInvoice/getStatuses",
-      getCategories : 'categories/getCategories',      
+      getCategories: "categories/getCategories",
       getProviders: "expense/getProviders",
-      createExpense: "expense/createExpense",
+      createInvoice: "expense/createInvoice",
       createCategory: "expense/createCategory",
       createProvider: "expense/createProvider",
       search: "people/searchPeople",
@@ -355,7 +357,6 @@ export default {
       this.dialogs.category.expense.context = "expense";
       this.dialogs.category.expense.parent = null;
     },
-
 
     onSelectClient(item) {
       this.item.provider = item.id;
@@ -403,8 +404,6 @@ export default {
 
       // load categories
       this.loadCategories();
-
-  
     },
 
     addCategory() {
@@ -494,19 +493,15 @@ export default {
     addExpense() {
       this.saving = true;
 
-      this.createExpense({
+      this.createInvoice({
         values: {
           company: this.myCompany.id,
           category: parseInt(this.item.category.replace(/\D/g, "")),
           provider: parseInt(this.item.provider),
-          paymentMode:
-            this.item.recurrence == "monthly" ? 0 : this.item.parcels,
+          paymentMode: this.item.recurrence == "monthly" ? 0 : this.item.parcels,
           amount: parseFloat(this.item.amount.replace(",", ".")),
           dueDate: this.item.dueDate
-            ? this.item.dueDate.replace(
-                /^(\d{2})\/(\d{2})\/(\d{4})$/g,
-                "$3-$2-$1"
-              )
+            ? this.item.dueDate.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/g, "$3-$2-$1")
             : null,
           description: this.item.description,
         },
@@ -538,12 +533,10 @@ export default {
     isInvalid(field) {
       return (val) => {
         if (field == "date") {
-          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val))
-            return this.$t("A data não é válida");
+          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val)) return this.$t("A data não é válida");
         }
 
-        if (!(val && val.length > 0))
-          return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
 
         return true;
       };

@@ -108,7 +108,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <CreateExpense @created="onRequest({ pagination, filters })" />
+          <CreateInvoice @created="onRequest({ pagination, filters })" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -121,13 +121,13 @@ import {
   formatMoney,
   formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import CreateExpense from "../expense/CreateExpense";
+import CreateInvoice from "../expense/CreateInvoice";
 import { date } from "quasar";
 import Filters from "../../common/Filters.vue";
 
 export default {
   components: {
-    CreateExpense,
+    CreateInvoice,
     Filters,
   },
 

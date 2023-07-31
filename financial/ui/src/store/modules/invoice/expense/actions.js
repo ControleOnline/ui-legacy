@@ -17,7 +17,7 @@ export function getProviders({ commit }, data) {
     })
 }
 
-export const createExpense = ({ commit }, data) => {
+export const createInvoice = ({ commit }, data) => {
   let options = {
     method: 'POST',
     body: JSON.stringify(data.values),
