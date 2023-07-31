@@ -40,16 +40,10 @@
           <q-td key="description" :props="props">
             {{ props.row.description }}
           </q-td>
-          <q-td key="dataVencimento" :props="props">{{
-            props.cols[3].value
-          }}</q-td>
+          <q-td key="dataVencimento" :props="props">{{ props.cols[3].value }}</q-td>
           <q-td key="categoria" :props="props">{{ props.cols[4].value }}</q-td>
           <q-td key="fornecedor" :props="props">{{ props.cols[5].value }}</q-td>
-          <q-td
-            key="status"
-            :props="props"
-            :style="{ color: props.row.color_status }"
-          >
+          <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
             {{ $t(`invoice.statuses.${props.row.status}`) }}
           </q-td>
           <q-td key="preco" :props="props">{{ props.cols[7].value }}</q-td>
@@ -62,10 +56,7 @@
       transition-show="scale"
       transition-hide="scale"
     >
-      <q-card
-        class="text-white"
-        style="background-color: #00519b; width: 300px"
-      >
+      <q-card class="text-white" style="background-color: #00519b; width: 300px">
         <q-card-section>
           <div class="row items-center">
             <div class="text-h6">
@@ -121,7 +112,7 @@ import {
   formatMoney,
   formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import CreateInvoice from "../expense/CreateInvoice";
+import CreateInvoice from "./details/CreateInvoice";
 import { date } from "quasar";
 import Filters from "../../common/Filters.vue";
 
@@ -290,9 +281,7 @@ export default {
 
         for (let o in item.order) {
           orders.push(
-            item.order[o].order["@id"].match(
-              /^\/purchasing\/orders\/([a-z0-9-]*)$/
-            )[1]
+            item.order[o].order["@id"].match(/^\/purchasing\/orders\/([a-z0-9-]*)$/)[1]
           );
         }
 
@@ -324,10 +313,7 @@ export default {
 
     formatDate(dateString) {
       if (dateString)
-        return date.formatDate(
-          date.extractDate(dateString, "DD/MM/YYYY"),
-          "YYYY-MM-DD"
-        );
+        return date.formatDate(date.extractDate(dateString, "DD/MM/YYYY"), "YYYY-MM-DD");
       else return null;
     },
 
