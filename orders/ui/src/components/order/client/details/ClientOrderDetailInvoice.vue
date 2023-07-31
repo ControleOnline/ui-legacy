@@ -7,41 +7,31 @@
 </template>
 
 <script>
-import { date, extend } from 'quasar';
-import InvoiceSearching   from '@controleonline/quasar-financial-ui/src/components/invoice/client/InvoiceSearching';
+import { date, extend } from "quasar";
+import InvoiceSearching from "@controleonline/quasar-financial-ui/src/components/invoice/invoice/InvoiceSearching";
 
 export default {
   props: {
     orderId: {
-      type    : String,
+      type: String,
       required: true,
-    }
+    },
   },
 
   components: {
     InvoiceSearching,
   },
-  
-  created() {
 
-  },
+  created() {},
 
   data() {
-    return {
-
-    };
+    return {};
   },
 
-  computed: {
+  computed: {},
 
-  },
+  watch: {},
 
-  watch: {
-
-  },
-
-  methods: {
-
-  },
+  methods: {},
 };
 </script>
