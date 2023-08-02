@@ -1,52 +1,65 @@
 <template>
-  <q-table :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
-    @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" style="min-height: 90vh">
-    <template v-slot:top v-if="search === true">      
+  <q-table
+    :loading="isLoading"
+    :data="data"
+    :columns="settings.columns"
+    :pagination.sync="pagination"
+    @request="onRequest"
+    row-key="id"
+    :visible-columns="settings.visibleColumns"
+    style="min-height: 90vh"
+  >
+    <template v-slot:top v-if="search === true">
       <div class="col-sm-3 col-xs-12 q-pa-md">
-        <q-input stack-label label="Buscar por" debounce="1000" v-model="filters.text" class="full-width" />
+        <q-input
+          stack-label
+          label="Buscar por"
+          debounce="1000"
+          v-model="filters.text"
+          class="full-width"
+        />
       </div>
       <div class="col-sm-3 col-xs-12 q-pa-md">
-        <q-select stack-label label="Status do pedido" v-model="filters.status" :options="statuses" class="full-width"
-          :loading="loadingStatuses">
+        <q-select
+          stack-label
+          label="Status do pedido"
+          v-model="filters.status"
+          :options="statuses"
+          class="full-width"
+          :loading="loadingStatuses"
+        >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                Sem resultados
-              </q-item-section>
+              <q-item-section class="text-grey"> Sem resultados </q-item-section>
             </q-item>
           </template>
         </q-select>
       </div>
       <div class="col-sm-6 col-xs-12 q-pa-md">
-        <DataFilter :fromDate="filters.from" :toDate="filters.to" :showButton="false" @dateChanged="dateChanged" />
+        <DataFilter
+          :fromDate="filters.from"
+          :toDate="filters.to"
+          :showButton="false"
+          @dateChanged="dateChanged"
+        />
       </div>
     </template>
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="id" :props="props">
-          <q-btn outline dense :to="{ name: 'OrderDetails', params: { id: props.row.id } }" :label="`#${props.row.id}`"
-            :style="{ color: props.row.color_status }" class="full-width" />
-
-          <q-icon v-if="
-            props.row.app == 'app' ||
-            props.row.app == 'Cota Fácil' ||
-            props.row.app == 'Gestor'
-          " name="touch_app" color="blue" />
-          <q-icon v-else name="electrical_services" color="green" />
-
-          <q-icon v-if="hasSchedule(props.row.other_informations) == true" name="schedule" color="blue" />
-          <q-icon v-if="hasRural(props.row.other_informations) == true" name="agriculture" color="red" />
-          <q-icon v-if="hasDificult(props.row.other_informations) == true" name="fmd_bad" color="red" />
-          <q-icon v-if="hasClosedTasks(props.row.task) == true" name="priority_high" color="green" />
-          <q-icon v-if="hasPendingTasks(props.row.task) == true" name="priority_high" color="yellow" />
-          <q-icon v-if="hasOpenedTasks(props.row.task) == true" name="priority_high" color="red" />
+          <q-btn
+            outline
+            dense
+            :to="{ name: 'OrderDetails', params: { id: props.row.id } }"
+            :label="`#${props.row.id}`"
+            :style="{ color: props.row.color_status }"
+            class="full-width"
+          />
         </q-td>
         <q-td key="notaFiscal" :props="props">{{ props.row.notaFiscal }}</q-td>
         <q-td key="dataPedido" :props="props">{{ props.cols[2].value }}</q-td>
         <q-td key="dataEntrega" :props="props">{{ props.cols[3].value }}</q-td>
-        <q-td key="ultimaModificacao" :props="props">{{
-            props.cols[4].value
-        }}</q-td>
+        <q-td key="ultimaModificacao" :props="props">{{ props.cols[4].value }}</q-td>
         <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
           {{ $t(`order.statuses.${props.row.status}`) }}
         </q-td>
@@ -184,31 +197,12 @@ export default {
   components: {
     DataFilter,
   },
-  props: {
-    client_id: {
-      required: false,
-    },
-    search: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
-    invoiceId: {
-      type: String,
-      required: false,
-      default: null,
-    },
-  },
+  props: {},
 
   created() {
     if (this.myCompany !== null) {
-      this.filters.company = this.myCompany;
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
+      this.onRequest();
     }
-    this.requestStatuses();
   },
 
   beforeDestroy() {
@@ -226,12 +220,7 @@ export default {
       data: [],
       statuses: statuses,
       filters: {
-        text: null,
-        status: statuses[0],
-        company: null,
-        defaultCompany: null,
-        from: "",
-        to: "",
+        status: statuses[0].value,
       },
       pagination: {
         sortBy: "ultimaModificacao",
@@ -247,274 +236,35 @@ export default {
   computed: {
     ...mapGetters({
       defaultCompany: "people/defaultCompany",
-      isLoading: "salesOrder/isLoading",
-      error: "salesOrder/error",
-      violations: "salesOrder/violations",
-      items: "salesOrder/items",
-      totalItems: "salesOrder/totalItems",
+      isLoading: "products/isLoading",
+      error: "products/error",
+      violations: "products/violations",
       myCompany: "people/currentCompany",
     }),
   },
 
   watch: {
+    isLoading(isLoading) {
+      //if (isLoading) this.$q.loading.show();
+      //else this.$q.loading.hide();
+    },
+
     myCompany(company) {
       if (company !== null) {
         this.filters.company = company;
-        this.onRequest({
-          pagination: this.pagination,
-          filter: this.filters,
-        });
+        this.onRequest();
       }
-    },
-
-    totalItems(val) {
-      this.pagination.rowsNumber = val;
-    },
-
-    items(items) {
-      if (!items) return;
-
-      let data = [];
-
-      for (let index in items) {
-        let item = items[index];
-
-        var dataEntrega = new Date(item.alterDate);
-
-        if (!item.quote) {
-          dataEntrega = null;
-        } else if (item.quote.deadline) {
-          if (
-            item.status.status === "on the way" ||
-            item.status.status === "retrieved"
-          ) {
-            dataEntrega.setDate(dataEntrega.getDate() + item.quote.deadline);
-          } else {
-            dataEntrega = null;
-          }
-        }
-
-        data.push({
-          "@id": item["@id"],
-          id: item["@id"].match(/^\/sales\/orders\/([a-z0-9-]*)$/)[1],
-          app: item.app,
-          notaFiscal:
-            item.invoiceTax.length > 0
-              ? "#" + item.invoiceTax[0].invoiceTax.invoiceNumber
-              : "",
-          dataPedido: item.orderDate,
-          dataEntrega: dataEntrega,
-          ultimaModificacao: item.alterDate,
-          status: item.status.status,
-          color_status: item.status.color,
-          task: item.task,
-          other_informations: item.otherInformations,
-          fornecedor: item.client ? item.client.alias : null,
-          coleta: item.retrievePeople !== null ? item.retrievePeople.name : "",
-          localColeta:
-            item.quote !== null
-              ? `${item.quote.cityOrigin.city} / ${item.quote.cityOrigin.state.uf}`
-              : "",
-          entrega: item.deliveryPeople !== null ? item.deliveryPeople.name : "",
-          localEntrega:
-            item.quote !== null
-              ? `${item.quote.cityDestination.city} / ${item.quote.cityDestination.state.uf}`
-              : "",
-          transportadora: item.quote !== null ? item.quote.carrier.name : "",
-          preco: item.price,
-        });
-      }
-
-      this.data = data;
-    },
-
-    "filters.text"() {
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
-    },
-
-    "filters.status"() {
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
-    },
-
-    "filters.from"() {
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
-    },
-    "filters.to"() {
-      this.onRequest({
-        pagination: this.pagination,
-        filter: this.filters,
-      });
     },
   },
 
   methods: {
     ...mapActions({
-      getItems: "salesOrder/getItems",
-      reset: "salesOrder/reset",
-      getStatuses: "salesOrder/getStatuses",
+      getItems: "products/getProducts",
+      reset: "products/reset",
     }),
-    dateChanged(date) {
-      if (date.from || date.to) {
-        this.filters.from = date.from;
-        this.filters.to = date.to;
-        this.onRequest({
-          pagination: this.pagination,
-          filter: this.filters,
-        });
-      }
-    },
-    formatDate(dateString) {
-      if (dateString)
-        return date.formatDate(
-          date.extractDate(dateString, "DD/MM/YYYY"),
-          "YYYY-MM-DD"
-        );
-      else return null;
-    },
-    requestStatuses() {
-      this.loadingStatuses = true;
-      this.getStatuses({
-        visibility: "public",
-        realStatus: ["open", "pending", "closed", "canceled"],
-        context: 'order'
-      }).then((statuses) => {
-        if (statuses.length) {
-          for (let index in statuses) {
-            let item = statuses[index];
-            this.statuses.push({
-              label: this.$t(`order.statuses.${item.status}`),
-              value: item["@id"].match(/^\/statuses\/([a-z0-9-]*)$/)[1],
-            });
-          }
-          this.statuses.sort(function (a, b) {
-            return (a.label > b.label) - (a.label < b.label);
-          });
-        }
-        this.loadingStatuses = false;
-      });
-    },
-    hasPendingTasks(tasks) {
-      let has = false;
-      tasks.forEach((task) => {
-        if (task.taskStatus.status == 'pending') {
-          has = true;
-        }
-      });
-      return has;
-    },
-    hasOpenedTasks(tasks) {
-      let has = false;
-      tasks.forEach((task) => {
-        if (task.taskStatus.status == 'open') {
-          has = true;
-        }
-      });
-      return has;
-    },
-    hasClosedTasks(tasks) {
-      let has = false;
-      tasks.forEach((task) => {
-        if (task.taskStatus.status == 'closed') {
-          has = true;
-        }
-      });
-      return has;
-    },
-    hasSchedule(o_i) {
-      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
-      let has = false;
-      if (
-        other_informations &&
-        other_informations.schedule &&
-        other_informations.schedule.retrieve
-      ) {
-        has = true;
-      }
-      return has;
-    },
-
-    hasDificult(o_i) {
-      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
-
-      let has = false;
-      if (
-        other_informations &&
-        other_informations.dificult
-      ) {
-        has = true;
-      }
-      return has;
-    },
-
-    hasRural(o_i) {
-      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
-
-      let has = false;
-      if (
-        other_informations &&
-        other_informations.rural
-      ) {
-        has = true;
-      }
-      return has;
-    },
-    onRequest(props) {
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
-      let filter = props.filter;
-      let params = { itemsPerPage: rowsPerPage, page };
-
-      if (this.filters.text != null && this.filters.text.length > 0) {
-        if (this.filters.text.length < 2) return;
-
-        params["searchBy"] = this.filters.text;
-      }
-
-      if (this.filters.status != null && this.filters.status.value == -1) {
-        params["status.realStatus"] =
-          this.defaultCompany.configs &&
-            typeof this.defaultCompany.configs.salesOrdersStartRealStatus !=
-            "undefined"
-            ? JSON.parse(this.defaultCompany.configs.salesOrdersStartRealStatus)
-            : ["pending"];
-      } else if (
-        this.filters.status != null &&
-        this.filters.status.value != 0
-      ) {
-        params["status"] = this.filters.status.value;
-      }
-      params.fromDate = this.formatDate(this.filters.from) || "";
-      params.toDate = this.formatDate(this.filters.to) || "";
-
-      if (this.filters.company != null) {
-        params["myCompany"] = this.filters.company.id;
-      }
-
-      if (this.invoiceId !== null) {
-        params["invoice.invoice"] = this.invoiceId;
-      }
-
-      params["order[alterDate]"] = "desc";
-
-      if (this.client_id) {
-        params["client"] = this.client_id;
-      }
-
-      this.getItems(params).then(() => {
-        this.pagination.page = page;
-        this.pagination.rowsPerPage = rowsPerPage;
-        this.pagination.sortBy = sortBy;
-        this.pagination.descending = descending;
-      });
+    onRequest() {
+      this.filters.company = "/people/" + this.myCompany.id;
+      this.getItems(this.filters);
     },
   },
 };

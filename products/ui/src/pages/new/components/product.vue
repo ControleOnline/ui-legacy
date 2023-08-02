@@ -6,8 +6,7 @@
     <div
       class="row col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 justify-content q-pa-sm"
     >
-    <Imagens :product="product" />    
-    
+      <Imagens :product="product" />
     </div>
     <div
       class="row col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 justify-content q-pa-sm"
@@ -19,7 +18,7 @@
           label-color="black"
           stack-label
           dense
-          :label="$t('dashboard.name')"
+          :label="$t('product')"
           hide-bottom-space
           v-model="product.product"
         />
@@ -34,7 +33,7 @@
           label-color="black"
           stack-label
           dense
-          :label="$t('dashboard.sku')"
+          :label="$t('sku')"
           hide-bottom-space
           v-model="product.sku"
         />
@@ -48,7 +47,7 @@
           label-color="black"
           stack-label
           dense
-          :label="$t('dashboard.type')"
+          :label="$t('type')"
           hide-bottom-space
           v-model="product.type"
         />
@@ -62,7 +61,7 @@
           label-color="black"
           stack-label
           dense
-          :label="$t('dashboard.price')"
+          :label="$t('price')"
           hide-bottom-space
           v-model="product.price"
         />
@@ -76,7 +75,7 @@
           label-color="black"
           stack-label
           dense
-          :label="$t('dashboard.unity')"
+          :label="$t('unity')"
           hide-bottom-space
           v-model="product.unity"
         />
@@ -90,7 +89,7 @@
           label-color="black"
           stack-label
           dense
-          :label="$t('dashboard.condition')"
+          :label="$t('condition')"
           hide-bottom-space
           v-model="product.condition"
         />
@@ -104,10 +103,31 @@
           label-color="black"
           stack-label
           dense
-          :label="$t('dashboard.active')"
+          :label="$t('active')"
           hide-bottom-space
           v-model="product.active"
         />
+      </div>
+
+      <div
+        class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-content q-pa-sm"
+      >
+        <label class="full-width">
+          <div class="text-h6">
+            {{ $t("description") }}
+            <q-icon name="help" color="secondary">
+              <q-tooltip class="bg-indigo">
+                {{ $t("product.tooltip.description") }}
+              </q-tooltip>
+            </q-icon>
+          </div>
+          <q-editor
+            :label="$t('description')"
+            class="full-width scroll overflow-hidden"
+            style="max-height: 190px"
+            v-model="product.description"
+          />
+        </label>
       </div>
     </div>
   </div>
@@ -116,11 +136,11 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import Imagens from './imagens';
+import Imagens from "./imagens";
 
 export default {
   components: {
-    Imagens
+    Imagens,
   },
   props: {
     product: {
