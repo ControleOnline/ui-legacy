@@ -8,7 +8,7 @@ export const getItems = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch(RESOURCE_ENDPOINT, { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -38,7 +38,7 @@ export const reset = ({ commit }) => {
 
 export const getStatuses = ({ commit }, params = {}) => {
   return fetch('/statuses', { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data['hydra:member'];
@@ -57,7 +57,7 @@ export const getStatuses = ({ commit }, params = {}) => {
 
 export const getInvoice = ({ commit }, { invoiceId, params }) => {
   return fetch(`/finance/pay/${invoiceId}`, { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -74,7 +74,7 @@ export const updateInvoiceDuedate = ({ commit }, { id, dueDate, params }) => {
   };
 
   return fetch(`${id}`, options)
-    .then(response => response.json())
+    
     .then(invoice => {
       if (invoice['@id'])
         return invoice;
@@ -91,7 +91,7 @@ export const deleteInvoiceOrder = ({ commit }, { invoiceId, orderId, params }) =
   };
 
   return fetch(`${invoiceId}/remove-order`, options)
-    .then(response => response.json())
+    
     .then(data => {
       if (data.response) {
         if (data.response.success === false)
@@ -104,7 +104,7 @@ export const deleteInvoiceOrder = ({ commit }, { invoiceId, orderId, params }) =
 
 export const bankItau = ({ commit }, { invoiceId, operation, params = {} }) => {
   return fetch(`/finance/pay/${invoiceId}/bank/itau/${operation}`, { params })
-    .then(response => response.json())
+    
     .then(data => {
       if (data.response)
         return data.response.data !== null ? data.response.data : null;

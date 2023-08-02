@@ -587,7 +587,7 @@ export default {
       params["order[name]"] = "ASC";
 
       return this.API.private("/categories", { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           return {
             members: result["hydra:member"],
@@ -653,7 +653,7 @@ export default {
       params["order[name]"] = "ASC";
 
       return this.API.private("/statuses", { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           return {
             members: result["hydra:member"],
@@ -669,7 +669,7 @@ export default {
       params["order[name]"] = "ASC";
 
       return this.API.private("/tasks/people", { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           return result.response.data;
         });
@@ -721,7 +721,7 @@ export default {
     // store method
     getTasks(params) {
       return this.API.private("/tasks", { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           return {
             members: result["hydra:member"],

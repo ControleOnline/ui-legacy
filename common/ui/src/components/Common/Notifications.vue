@@ -67,7 +67,7 @@ export default {
       return this.API.private(`/notifications`, {
         params,
       })
-        .then((response) => response.json())
+        
         .then((result) => {
           this.notifications = result["hydra:member"];
           this.notificationsUnread = result["hydra:totalItems"];

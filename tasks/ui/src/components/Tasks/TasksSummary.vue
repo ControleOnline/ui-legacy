@@ -83,7 +83,7 @@ export default {
       params['order[name]'] = 'ASC';
 
       return this.API.private("/categories", { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           return {
             members: result["hydra:member"],
@@ -146,7 +146,7 @@ export default {
       params['order[name]'] = 'ASC';
 
       return this.API.private("/statuses", { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           return {
             members: result["hydra:member"],

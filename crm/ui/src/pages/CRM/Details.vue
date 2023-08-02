@@ -78,7 +78,7 @@ export default {
   methods: {
     getTask() {
       return this.API.private(`tasks/${this.taskId}`)
-        .then(response => response.json())
+        
         .then(data => {
           if (data['@id']) {
             this.task = data;

@@ -190,7 +190,7 @@ export default {
         )
          .then(response => {
            if (response.ok) {
-             return response.json()
+             return response
                .then(data => {
                  if (data.response) {
                    if (data.response.success) {
@@ -205,7 +205,7 @@ export default {
                });
            }
            else {
-             return response.json()
+             return response
                .then(responseJson => {
                  throw new Error('Unknown error');
                });

@@ -90,7 +90,7 @@ export default {
   methods: {
     getTask() {
       return this.API.private(`tasks/${this.taskId}`)
-        .then(response => response.json())
+        
         .then(data => {
           if (data['@id']) {
             this.task = data;
@@ -109,7 +109,7 @@ export default {
       return this.API.private(`/task_interations`, {
         params,
       })
-        .then((response) => response.json())
+        
         .then((result) => {
           result['hydra:member'].forEach(element => {
             
@@ -120,7 +120,7 @@ export default {
               body: JSON.stringify({ read: 1 }),
             };
             return this.API.private('task_interations/' + element.id, options)
-              .then(response => response.json());
+              ;
           });
           
         });

@@ -96,7 +96,7 @@ export default {
 
       let endpoint = `carriers/${this.region.carrier}/regions/${this.region.id}`;
       return this.api.private(endpoint, options)
-        .then(response => response.json())
+        
         .then(data => {
           if (data.response) {
             if (data.response.success === false)

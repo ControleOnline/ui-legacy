@@ -231,7 +231,7 @@ export default {
 
             this.api
                 .private(endpoint, options)
-                .then((response) => response.json())
+                
                 .then((result) => {
                     if (result["@id"]) {
                         this.$q.notify({

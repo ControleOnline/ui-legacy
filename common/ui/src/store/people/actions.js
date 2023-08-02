@@ -20,7 +20,7 @@ export const company = ({ commit }, values) => {
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
-      return response.json();
+      return response;
     })
     .then(data => {
       if (data.response && data.response.success) {
@@ -52,7 +52,7 @@ export const searchPeople = ({ commit }, search) => {
   };
 
   return fetch('people-search', params)
-    .then(response => response.json())
+    
     .then(data => {
 
       commit(types.SET_ISLOADING, false);
@@ -81,7 +81,7 @@ export const contact = ({ commit }, { params = {} }) => {
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
-      return response.json();
+      return response;
     })
     .then(data => {
       if (data.response)
@@ -107,7 +107,7 @@ export const createContact = ({ commit }, values) => {
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
-      return response.json();
+      return response;
     })
     .then(data => {
       if (data.response)
@@ -129,7 +129,7 @@ export const myCompanies = ({ commit, dispatch }) => {
   commit(types.SET_ISLOADING);
 
   return fetch(`${RESOURCE_ENDPOINT}/companies/my`)
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -161,7 +161,7 @@ export const mySaleCompanies = ({ commit }) => {
   commit(types.SET_ISLOADING);
 
   return fetch(`${RESOURCE_ENDPOINT}/my-sale-companies`)
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -189,7 +189,7 @@ export const defaultCompany = ({ commit, dispatch }) => {
   commit(types.SET_ISLOADING);
 
   return fetch(`${RESOURCE_ENDPOINT}/company/default?domain=` + DOMAIN)
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -223,7 +223,7 @@ export const currentCompany = ({ commit }, company) => {
 
 export const getPeople = ({ commit }, id) => {
   return fetch(`${RESOURCE_ENDPOINT}/${id}`)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -233,7 +233,7 @@ export const getPeople = ({ commit }, id) => {
 
 export const getClientContact = ({ commit }, document) => {
   return fetch(`${RESOURCE_ENDPOINT}/client-company`, { params: { document } })
-    .then(response => response.json())
+    
     .then(data => {
       if (data.response) {
         return data.response;
@@ -245,7 +245,7 @@ export const getClientContact = ({ commit }, document) => {
 
 export const getCloseProfessionals = ({ commit }, values) => {
   return fetch(encodeURI(RESOURCE_ENDPOINT + '/professionals/close/' + values.lat.toString().replace('.', ',') + '/' + values.lng.toString().replace('.', ',')))
-    .then(response => response.json())
+    
     .then(data => {
       if (data.response) {
         return data.response;

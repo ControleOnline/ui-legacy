@@ -510,7 +510,7 @@ export default {
         `/sales/orders/` + this.order_.id + "/other_informations",
         options
       )
-        .then((response) => response.json())
+        
         .then((data) => {
           return data;
         });
@@ -532,7 +532,7 @@ export default {
         };
 
         return fetch(`/sales/orders/` + order.id + `/competitor`, options)
-          .then((response) => response.json())
+          
           .then((response) => response.response)
           .then((response) => {
             let data = response.data.competitor;
@@ -565,7 +565,7 @@ export default {
           body: JSON.stringify(values),
         };
         return fetch(`/sales/orders/` + order.id + `/competitor`, options)
-          .then((response) => response.json())
+          
           .then((response) => response.response)
           .then((response) => {
             let data = response.data.competitor;
@@ -599,7 +599,7 @@ export default {
         };
 
         return fetch(`/sales/orders/` + order.id + `/competitor`, options)
-          .then((response) => response.json())
+          
           .then((response) => response.response)
           .then((response) => {
             let data = response.data.competitor;
@@ -643,7 +643,7 @@ export default {
         currency: "BRL",
       });
       return fetch(`/quote_detail/${quote.id}`)
-        .then((response) => response.json())
+        
         .then((response) => {
           let quotation = response.response.data;
           for (let index in quotation.taxes) {

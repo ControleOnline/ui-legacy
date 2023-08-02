@@ -98,7 +98,7 @@ export default {
       };
 
       return fetch(`accept-order-payer/${this.id}`, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           this.pageLoading = false;
           return data;
@@ -114,7 +114,7 @@ export default {
       };
 
       return fetch(`accept-order-payer/save/${this.id}`, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           this.pageLoading = false;
 

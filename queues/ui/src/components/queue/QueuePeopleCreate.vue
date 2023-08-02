@@ -231,7 +231,7 @@ export default {
 
             this.api
                 .private(endpoint, options)
-                .then((response) => response.json())
+                
                 .then((result) => {
                     if (result["@id"]) {
                         this.$q.notify({
@@ -285,7 +285,7 @@ export default {
 
             this.api
                 .private("statuses", { params })
-                .then((response) => response.json())
+                
                 .then((result) => {
                     let members = result["hydra:member"];
 

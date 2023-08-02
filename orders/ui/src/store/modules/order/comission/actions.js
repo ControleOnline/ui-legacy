@@ -8,7 +8,7 @@ export const getItems = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch(RESOURCE_ENDPOINT, { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING , false);
 
@@ -38,7 +38,7 @@ export const reset = ({ commit }) => {
 
 export const getStatuses = ({ commit }, params = {}) => {
   return fetch('/statuses', { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data['hydra:member'];
@@ -57,7 +57,7 @@ export const getStatuses = ({ commit }, params = {}) => {
 
 export const getDetailStatus = ({ commit }, { orderId, params }) => {
   return fetch(`${RESOURCE_ENDPOINT}/${orderId}/detail/status`, { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -67,7 +67,7 @@ export const getDetailStatus = ({ commit }, { orderId, params }) => {
 
 export const getDetailSummary = ({ commit }, { orderId, params }) => {
   return fetch(`${RESOURCE_ENDPOINT}/${orderId}/detail/summary`, { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data.response;
@@ -77,7 +77,7 @@ export const getDetailSummary = ({ commit }, { orderId, params }) => {
 
 export const getDetailQuotation = ({ commit }, { orderId, params }) => {
   return fetch(`${RESOURCE_ENDPOINT}/${orderId}/detail/quotation`, { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data.response;
@@ -89,7 +89,7 @@ export const getDetailOrder = ({ commit }, { id, params = {} }) => {
   commit(types.SET_ISLOADING);
 
   return fetch(`${RESOURCE_ENDPOINT}/${id}/detail/invoice`, { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -120,7 +120,7 @@ export const updateStatus = ({ commit }, { id, values, params = {} }) => {
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
   return fetch(`${RESOURCE_ENDPOINT}/${id}/update-status`, options)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;

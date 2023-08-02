@@ -139,7 +139,7 @@ export default {
     getItem(id) {
       return this.api
         .private(`modules/${id}`)
-        .then((response) => response.json())
+        
         .then((response) => {
           return response;
         });
@@ -158,7 +158,7 @@ export default {
 
       return this.api
         .private(endpoint, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({

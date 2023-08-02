@@ -189,7 +189,7 @@ export default {
 
       let endpoint = `carriers/${this.region.carrier}/regions/${this.region.id}`;
       return this.api.private(endpoint, options)
-        .then(response => response.json())
+        
         .then(data => {
           if (data.response) {
             if (data.response.success === false)
@@ -205,7 +205,7 @@ export default {
     // store method
     getStates() {
       return this.api.private('states', { params: { 'order[state]': 'ASC' } })
-        .then(response => response.json())
+        
         .then(result => {
           return result['hydra:member'];
         });

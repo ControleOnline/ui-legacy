@@ -51,7 +51,7 @@ export default {
       };
 
       return fetch(`${this.invoice['@id']}/update-notified`, options)
-        .then(response => response.json())
+        
         .then(invoice => {
           if (invoice !== null) {
             this.$q.notify({

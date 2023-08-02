@@ -184,7 +184,7 @@ export default {
     getItems(params) {
       return this.api
         .private("menus", { params })
-        .then((response) => response.json())
+        
         .then((response) => {
           return {
             members: response["hydra:member"],
@@ -204,7 +204,7 @@ export default {
 
       let endpoint = `customers/${this.id}/addresses`;
       return this.api.private(endpoint, options)
-        .then(response => response.json())
+        
         .then(data => {
           if (data.response) {
             if (data.response.success === false)

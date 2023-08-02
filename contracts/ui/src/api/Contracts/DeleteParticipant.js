@@ -12,7 +12,7 @@ export default class DeleteParticipant extends Resource {
           return true;
         }
         else {
-          return response.json()
+          return response
             .then(responseJson => {
               if (responseJson['@type'] === 'hydra:Error') {
                 let message = responseJson['hydra:description'];

@@ -132,7 +132,7 @@ export default {
     // store method
     getItems(params) {
       return this.api.private('my_contract_peoples', { params })
-        .then(response => response.json())
+        
         .then(result => {
           return {
             members: result['hydra:member'],

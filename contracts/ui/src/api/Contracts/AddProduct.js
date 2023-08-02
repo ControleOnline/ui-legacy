@@ -10,7 +10,7 @@ export default class AddProduct extends Resource {
     return super.fetch(options)
       .then((response) => {
         if (response.ok) {
-          return response.json()
+          return response
             .then(data => {
               if (data.response) {
                 if (data.response.success) {
@@ -25,7 +25,7 @@ export default class AddProduct extends Resource {
             });
         }
         else {
-          return response.json()
+          return response
             .then(responseJson => {
               throw new Error('Unknown error');
             });

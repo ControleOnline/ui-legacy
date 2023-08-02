@@ -119,7 +119,7 @@ export default {
       };
 
       return fetch(`${this.order["@id"]}/create-invoice`, options)
-        .then((response) => response.json())
+        
         .then((order) => {
           if (order !== null) {
             this.$q.notify({

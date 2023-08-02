@@ -100,7 +100,7 @@ export default {
 
             this.api
                 .private(`hardware`, { params })
-                .then((response) => response.json())
+                
                 .then((result) => {
                     let members = result["hydra:member"];
 
@@ -132,7 +132,7 @@ export default {
         getQueues() {
             this.api
                 .private(`queues`, {})
-                .then((response) => response.json())
+                
                 .then((result) => {
                     let members = result["hydra:member"];
 
@@ -185,7 +185,7 @@ export default {
 
             this.api
                 .private(endpoint, options)
-                .then((response) => response.json())
+                
                 .then((result) => {
                     if (result["@id"]) {
                         this.$q.notify({

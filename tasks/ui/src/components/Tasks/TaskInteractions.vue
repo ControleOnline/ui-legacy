@@ -124,7 +124,7 @@ export default {
             this.isLoading = true;
 
             return this.api.private(`task_interations`, { params })
-                .then(response => response.json())
+                
                 .then(data => {
                     if (data['hydra:member'] && data['hydra:member'].length) {
                         var items = data['hydra:member'];
@@ -205,7 +205,7 @@ export default {
             }
 
             return this.api.private('/task_interations/task/' + this.id, options)
-                .then(response => response.json())
+                
                 .then(result => {
                     return result;
                 });

@@ -10,7 +10,7 @@ export function getProductCategories({ commit }, data) {
   };
 
   return fetch('/product_categories', options)
-    .then(response => response.json())
+    
     .then(response => {
       return response['hydra:member'];
     })
@@ -24,7 +24,7 @@ export const getProductDetails = ({ commit }, { id, params }) => {
   };
 
   return fetch('/products/' + id , options)
-    .then(response => response.json())
+    
     .then(response => {
 
       return response;
@@ -40,7 +40,7 @@ export const getProductDetails = ({ commit }, { id, params }) => {
 //   };
 
 //   return fetch(`/products/${id}`, options)
-//     .then(response => response.json())
+//     
 //     .then(data => {
 //       return data;
 //     })
@@ -60,7 +60,7 @@ export function getProductsInCategories({commit}, data) {
   }
 
   return fetch('/products', options)
-  .then(response => response.json())
+  
   .then(response => {
     return response['hydra:member'];
   })

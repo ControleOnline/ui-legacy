@@ -9,7 +9,7 @@ export default class GetAll extends Resource {
     return super.fetch(options)
       .then((response) => {
         if (response.ok) {
-          return response.json()
+          return response
             .then(data => {
               if (data['hydra:member']) {
                 return data['hydra:member']

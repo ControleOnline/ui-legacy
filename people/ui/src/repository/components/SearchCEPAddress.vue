@@ -98,7 +98,7 @@ export default {
 
     getAddressByCEP(cep) {
       return this.api.private(`/cep_address/${cep}`)
-        .then(response => response.json())
+        
         .then(data => {
 
           return data;

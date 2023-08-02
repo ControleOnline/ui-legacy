@@ -594,7 +594,7 @@ export default {
     getPeople(params) {
       return this.api
         .private("/people/client-company", { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           if (result.response.count == 0) {
             this.$q.notify({
@@ -614,7 +614,7 @@ export default {
     getOrder(orderId) {
       return this.api
         .private("/sales/orders/" + orderId)
-        .then((response) => response.json())
+        
         .then((result) => {
           if (!result["@id"]) {
             this.$q.notify({
@@ -714,7 +714,7 @@ export default {
           body: JSON.stringify(payload),
           method: this.taskId ? "PUT" : "POST",
         })
-        .then((response) => response.json())
+        
         .then((result) => {
           if (
             result.response &&

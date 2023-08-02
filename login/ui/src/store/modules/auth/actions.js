@@ -14,7 +14,7 @@ export const signIn = ({ commit }, values) => {
     .then(response => {
       commit(types.LOGIN_SET_ISLOADING, false);
 
-      return response.json();
+      return response;
     })
     .then(data => {
       commit(types.LOGIN_SET_USER, data);
@@ -50,7 +50,7 @@ export const signUp = ({ commit }, values) => {
     .then(response => {
       commit(types.LOGIN_SET_ISLOADING, false);
 
-      return response.json();
+      return response;
     })
     .then(data => {
       if (data.response) {

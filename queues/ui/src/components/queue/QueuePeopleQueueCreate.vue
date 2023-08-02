@@ -98,7 +98,7 @@ export default {
         getQueuePeopleOptions() {
             this.api
                 .private("queue_people", {})
-                .then((response) => response.json())
+                
                 .then((result) => {
                     let members = result["hydra:member"];
 
@@ -133,7 +133,7 @@ export default {
         getQueueOptions() {
             this.api
                 .private("queues", {})
-                .then((response) => response.json())
+                
                 .then((result) => {
                     let members = result["hydra:member"];
 
@@ -186,7 +186,7 @@ export default {
 
             this.api
                 .private(endpoint, options)
-                .then((response) => response.json())
+                
                 .then((result) => {
                     if (result["@id"]) {
                         this.$q.notify({

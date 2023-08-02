@@ -12,7 +12,7 @@ export function getCategories({ commit }, data) {
     };
   
     return fetch('/categories', options)
-      .then(response => response.json())
+      
       .then(response => {
         return response['hydra:member'];
       })
@@ -27,7 +27,7 @@ export function getCategories({ commit }, data) {
     };
   
     return fetch('/categories', options)
-      .then(response => response.json())
+      
       .then(response => {
         return response;
       })

@@ -11,7 +11,7 @@ export const appConfig = ({ commit }) => {
   }
 
   return fetch('/configs/app-config', params)
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false)
 
@@ -51,7 +51,7 @@ export const getConfig = ({ commit }, peopleId) => {
   };
 
   return myapi.fetch(`/configs/${peopleId}`, params)
-    .then(response => response.json())
+    
     .then(response => {
 
       return response.response ? response.response.data : null;
@@ -67,7 +67,7 @@ export const saveConfig = ({ commit }, { peopleId, values, params }) => {
   };
 
   return myapi.fetch(`/configs/${peopleId}`, options)
-    .then(response => response.json())
+    
     .then(response => {
       return response;
     });

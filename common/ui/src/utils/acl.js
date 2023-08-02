@@ -22,7 +22,7 @@ export default class acl {
         if (storedUser.mycompany && route)
       return API.private(`/actions/people`, {
         params: { myCompany: storedUser.mycompany, route: route },
-      }).then((response) => response.json())
+      })
         .then((result) => {        
           storedUser.actions[route]=  result.response?result.response.data:{};                       
           LocalStorage.set("session", storedUser);

@@ -1750,7 +1750,7 @@ export default {
       let endpoint = `/order_logistic_surveys/surveys_create`;
       return this.api
         .private(endpoint, options)
-        .then((response) => response.json())
+        
         .then((result) => {
           let data = result.response.data;
           if (result.response.success) {
@@ -1787,7 +1787,7 @@ export default {
     getquotationId(orderId) {
       return this.api
         .private(`/sales/orders/${orderId}/detail/summary`, {})
-        .then((response) => response.json())
+        
         .then((result) => {
           if (result.response.data.quotations.length) {
             // condicionar com length
@@ -1805,7 +1805,7 @@ export default {
     getQuotationValues(quotationId) {
       return this.api
         .private(`/quote_detail/${quotationId}`, {})
-        .then((response) => response.json())
+        
         .then((result) => {
           if (result.response.data.taxes.length) {
             let taxesFilter = ["TRECHO", "VALOR", "ACRÉSCIMO", "BASE", "GUINCHO"];
@@ -1840,7 +1840,7 @@ export default {
       params.order = this.orderId;
       return this.api
         .private('order_logistics', {params})
-        .then((response) => response.json())
+        
         .then((result) => {
           let members = result["hydra:member"];
           if (members.length) {
@@ -2006,7 +2006,7 @@ export default {
       };
       return this.api
         .private(endpoint, options)
-        .then((response) => response.json())
+        
         .then((result) => {
           let members = result["hydra:member"];
           if (members) {
@@ -2168,7 +2168,7 @@ export default {
     getProviderAddress(providerId) {
       return this.api
         .private(`/people/${providerId}`, {})
-        .then((response) => response.json())
+        
         .then((result) => {
           let addresses = result.address;
           if (result["@id"] && result.address.length > 0) {
@@ -2196,7 +2196,7 @@ export default {
 
       return this.api
         .private(`/sales/orders/${this.orderId}/detail/summary`, { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           if (result) {
             this.car = result.response.data.productType
@@ -2278,7 +2278,7 @@ export default {
       };
       this.api
         .private(endpoint, options)
-        .then((response) => response.json())
+        
         .then((result) => {
           if (result.response.success) {
             this.$q.notify({
@@ -2316,7 +2316,7 @@ export default {
 
       return this.api
         .private(endpoint, options)
-        .then((response) => response.json())
+        
         .then((result) => {
           return {
             members: result["hydra:member"],
@@ -2337,7 +2337,7 @@ export default {
     getSurveyId() {
       return this.api
         .private(endpoint, options)
-        .then((response) => response.json())
+        
         .then((result) => {
           return {
             members: result["hydra:member"],
@@ -2526,7 +2526,7 @@ export default {
 
       return this.api
         .private('order_logistics/' + stretchId, options)
-        .then((response) => response.json())
+        
         .then((result) => {
           let data = result.response.data;
           if (result.response.success) {

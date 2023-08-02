@@ -108,7 +108,7 @@ export default {
       let endpoint = `delivery_tax_groups/${this.table.id}/increase-taxes`;
       return this.api
         .private(endpoint, options)
-        .then((response) => response.json())
+        
         .catch((e) => {
           if (e instanceof SubmissionError) throw new Error(e.errors._error);
 
@@ -121,7 +121,7 @@ export default {
       const endpoint = `carriers/${this.table.carrier}/regions`;
       return this.api
         .private(endpoint, { params: { limit: 1000 } })
-        .then((response) => response.json())
+        
         .then((result) => {
           return result.response.data;
         });
@@ -132,7 +132,7 @@ export default {
       const endpoint = `delivery_tax_groups/${this.table.id}/tax-names`;
       return this.api
         .private(endpoint)
-        .then((response) => response.json())
+        
         .then((result) => {
           return result.response.data;
         });

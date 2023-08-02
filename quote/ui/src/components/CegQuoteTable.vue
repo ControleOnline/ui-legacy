@@ -624,7 +624,7 @@ export default {
         currency: "BRL",
       });
       return fetch(`/quote_detail/${quote.id}`)
-        .then((response) => response.json())
+        
         .then((response) => {
           let quotation = response.response.data;
           for (let index in quotation.taxes) {

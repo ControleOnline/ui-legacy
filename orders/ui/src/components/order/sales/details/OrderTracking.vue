@@ -173,7 +173,7 @@ export default {
       return this.API.private(`sales_orders/${this.orderId}/trackings`, {
         params,
       })
-        .then((response) => response.json())
+        
         .then((result) => {
           return {
             members: result["hydra:member"],

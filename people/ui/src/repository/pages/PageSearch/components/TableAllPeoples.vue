@@ -286,7 +286,7 @@ export default {
       }
 
       return this.api.private(`/people_${this.peopleType}/${people.people_people_id}/change-status`, options)
-        .then(response => response.json())
+        
         .then(result => {
           return this.$q.notify({
             message: "Alterado com sucesso.",
@@ -299,7 +299,7 @@ export default {
     getCustomers(params) {
       this.onBeforeLoadPeople(params);
       return this.api.private(`/${this.peopleType}`, { params })
-        .then(response => response.json())
+        
         .then(result => {
           return {
             members: result.response.data.members,

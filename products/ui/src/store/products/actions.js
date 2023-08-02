@@ -9,7 +9,7 @@ export const getProducts = ({ commit }, params = {}) => {
     commit(types.SET_ISLOADING, false);    
 
     return fetch(RESOURCE_ENDPOINT, { params })
-        .then(response => response.json())
+        
         .then(data => {            
             commit(types.SET_ITEMS, data['hydra:member']);
             commit(types.SET_VIEW, data['hydra:view']);
@@ -40,7 +40,7 @@ export const deleteInvoiceOrder = ({ commit }, { invoiceId, orderId, params }) =
     };
 
     return fetch(`${invoiceId}/remove-order`, options)
-        .then(response => response.json())
+        
         .then(data => {
             if (data.response) {
                 if (data.response.success === false)

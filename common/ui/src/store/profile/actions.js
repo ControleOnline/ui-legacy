@@ -11,7 +11,7 @@ export const updateProfile = ({ commit }, { id, component, payload }) => {
   };
 
   return fetch(`people/${id}/profile/${component}`, params)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -22,7 +22,7 @@ export const getPhones = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch('/phones', { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING , false);
 
@@ -35,7 +35,7 @@ export const getAddress = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch('/addresses', { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -48,7 +48,7 @@ export const getEmails = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch('/emails', { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -61,7 +61,7 @@ export const getUsers = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch('/users', { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -74,7 +74,7 @@ export const getDocuments = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch('/documents', { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -87,7 +87,7 @@ export const getEmployees = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch('/people', { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -100,7 +100,7 @@ export const getBilling = ({ commit }, companyId) => {
   commit(types.SET_ISLOADING);
 
   return fetch(`/people/${companyId}`)
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 

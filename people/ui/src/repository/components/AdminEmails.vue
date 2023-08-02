@@ -142,7 +142,7 @@ export default {
       let endpoint = `${this.people_type}/${this.id}/emails`;
       return this.api
         .private(endpoint)
-        .then((response) => response.json())
+        
         .then((result) => {
           return result.response.data;
         });
@@ -159,7 +159,7 @@ export default {
       let endpoint = `${this.people_type}/${this.id}/emails`;
       return this.api
         .private(endpoint, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data.response) {
             if (data.response.success === false) throw new Error(data.response.error);
@@ -182,7 +182,7 @@ export default {
       let endpoint = `${this.people_type}/${this.id}/emails`;
       return this.api
         .private(endpoint, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data.response) {
             if (data.response.success === false) throw new Error(data.response.error);

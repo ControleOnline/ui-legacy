@@ -132,7 +132,7 @@ export default {
     getItems(params) {
       return this.api
         .private(`hardware_queues`, { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           return {
             members: result["hydra:member"],

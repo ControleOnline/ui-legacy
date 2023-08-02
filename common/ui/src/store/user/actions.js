@@ -9,7 +9,7 @@ export const passwordRecovery = ({ commit }, values) => {
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
-      return response.json();
+      return response;
     })
     .then(data => {
       if (data.response) {
@@ -27,7 +27,7 @@ export const recoveryAccess = ({ commit }, values) => {
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
-      return response.json();
+      return response;
     })
     .then(data => {
       if (data.response) {

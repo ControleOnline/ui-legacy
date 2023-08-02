@@ -235,7 +235,7 @@ export default {
       };
 
       return fetch(`sales/orders/${this.orderId}/detail/create-dacte`, options)
-        .then((response) => response.json())
+        
         .then((order) => {
           if (order && order.response && order.response.success) {
             this.$q.notify({
@@ -273,7 +273,7 @@ export default {
       };
 
       return fetch(`sales/orders/${this.orderId}/detail/update-dacte`, options)
-        .then((response) => response.json())
+        
         .then((order) => {
           if (order !== null) {
             this.$q.notify({

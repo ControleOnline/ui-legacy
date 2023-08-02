@@ -135,7 +135,7 @@ export default {
   methods: {
     getRegion() {
       return this.API.private(`delivery_regions/${this.regionId}`)
-        .then(response => response.json())
+        
         .then(data => {
           if (data['@id']) {
             this.region.carrier  = this.carrierId;

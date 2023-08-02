@@ -508,7 +508,7 @@ export default {
           };
 
           return fetch(`/car_models_search`, options)
-            .then((response) => response.json())
+            
             .then((data) => {
               if (data.response && data.response.data && data.response.data.length) {
                 var itens = data.response.data;
@@ -569,7 +569,7 @@ export default {
         };
 
         return fetch(`/delivery_tax_groups_grouped`, options)
-          .then((response) => response.json())
+          
           .then((response) => {
             if (
               response &&

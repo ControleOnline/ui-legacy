@@ -104,7 +104,7 @@ export default {
       };
 
       return fetch(`${params.id}/update-status`, options)
-        .then(response => response.json())
+        
         .then(invoice => {
           return invoice;
         });

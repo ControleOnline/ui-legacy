@@ -622,7 +622,7 @@ export default {
           this.summary.id,
           params
         )
-          .then((response) => response.json())
+          
           .then(
             ((data) => {
               this.isLoading = false;

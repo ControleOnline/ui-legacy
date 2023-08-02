@@ -160,7 +160,7 @@ export default {
       };
 
       return this.api.private('people', options)
-        .then(response => response.json())
+        
         .then(result => {
           return {
             members: result['hydra:member'],
@@ -180,7 +180,7 @@ export default {
 
       let endpoint = `people/${this.id}/profile/employee`;
       return this.api.private(endpoint, options)
-        .then(response => response.json())
+        
         .then(data => {
           if (data.response) {
             if (data.response.success === false)
@@ -206,7 +206,7 @@ export default {
 
       let endpoint = `people/${this.id}/profile/employee`;
       return this.api.private(endpoint, options)
-        .then(response => response.json())
+        
         .then(data => {
           if (data.response) {
             if (data.response.success === false)

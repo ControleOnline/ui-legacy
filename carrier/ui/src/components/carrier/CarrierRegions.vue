@@ -226,7 +226,7 @@ export default {
     getItems(params) {
       let endpoint = `carriers/${this.id}/regions`;
       return this.api.private(endpoint, { params })
-        .then(response => response.json())
+        
         .then(result => {
           return result.response.data;
         });
@@ -242,7 +242,7 @@ export default {
 
       let endpoint = `carriers/${this.id}/regions`;
       return this.api.private(endpoint, options)
-        .then(response => response.json())
+        
         .then(data => {
           if (data.response) {
             if (data.response.success === false)
@@ -265,7 +265,7 @@ export default {
 
       let endpoint = `carriers/${this.id}/regions`;
       return this.api.private(endpoint, options)
-        .then(response => response.json())
+        
         .then(data => {
           if (data.response) {
             if (data.response.success === false)

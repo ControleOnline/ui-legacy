@@ -205,7 +205,7 @@ export default {
       };
 
       return fetch(`purchasing/orders/${this.orderId}/detail/update-dacte`, options)
-        .then((response) => response.json())
+        
         .then((order) => {
           if (order !== null) {
             this.$q.notify({

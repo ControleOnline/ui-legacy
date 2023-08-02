@@ -189,7 +189,7 @@ export default {
 
     getDeliveryTaxes() {
       return fetch(`/quotations/${this.quote.id}/optional-taxes`)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data.response) {
             if (data.response.success === false) throw Error(data.response.error);
@@ -212,7 +212,7 @@ export default {
       };
 
       return fetch(`/quotations/${this.quote.id}/add-deliverytax`, options)
-        .then((response) => response.json())
+        
         .then((quotation) => {
           return quotation;
         })

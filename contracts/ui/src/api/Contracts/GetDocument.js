@@ -12,7 +12,7 @@ export default class GetDocument extends Resource {
           return response.text();
         }
         else {
-          return response.json()
+          return response
             .then(responseJson => {
               throw new Error('Unknown error');
             });

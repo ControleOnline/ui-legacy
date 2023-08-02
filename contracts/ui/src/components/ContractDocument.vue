@@ -115,7 +115,7 @@ export default {
       this.isLoading = true;
 
       fetch("/contracts/" + this.contract.id + "/change/payment", params)
-        .then((response) => response.json())
+        
         .then(
           ((data) => {
             this.isLoading = false;
@@ -272,7 +272,7 @@ export default {
       this.isLoading = true;
 
       fetch("/contracts/" + this.contract.id + "/status/Active", params)
-        .then((response) => response.json())
+        
         .then(
           ((data) => {
             this.isLoading = false;

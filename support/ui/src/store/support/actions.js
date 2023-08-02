@@ -6,7 +6,7 @@ export const getNews = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch('/support/news', { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -19,7 +19,7 @@ export const getFaqs = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch('/support/faqs', { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 

@@ -9,7 +9,7 @@ export default class GetProducts extends Resource {
     return super.fetch(options)
       .then((response) => {
         if (response.ok) {
-          return response.json()
+          return response
             .then(data => {
               return data;
             });

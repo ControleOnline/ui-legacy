@@ -8,7 +8,7 @@ export const getItems = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch(RESOURCE_ENDPOINT, { params })
-    .then(response => response.json())
+    
     .then(data => {
 
 
@@ -48,7 +48,7 @@ export const createCoupon = ({ commit }, data) => {
   };
 
   return fetch(RESOURCE_ENDPOINT, options)
-    .then(response => response.json())
+    
     .then(response => {
       return response.data ? response.data : null;
     })
@@ -64,7 +64,7 @@ export const createCoupon = ({ commit }, data) => {
 
 export const getStatuses = ({ commit }, params = {}) => {
   return fetch('/coupon_statuses', { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data['hydra:member'];

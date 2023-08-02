@@ -294,7 +294,7 @@ export default {
       params.import_type = this.importType.import_type.value;
 
       return this.api.private(endpoint, { params })
-        .then(response => response.json())
+        
         .then(result => {
           return {
             imports: result.response.data.imports,

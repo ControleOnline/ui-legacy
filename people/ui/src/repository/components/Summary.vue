@@ -202,7 +202,7 @@ export default {
           `/${people_type}/${people.people_people_id}/change-status/${people.enabled}`,
           options
         )
-        .then((response) => response.json())
+        
         .then((result) => {
           return this.$q.notify({
             message: "Alterado com sucesso.",
@@ -244,7 +244,7 @@ export default {
     getSummary() {
       return this.api
         .private(`${this.people_type}/${this.id}/summary`)
-        .then((response) => response.json())
+        
         .then((result) => {
           return result.response.data;
         });
@@ -261,7 +261,7 @@ export default {
       let endpoint = `${this.people_type}/${this.id}/summary`;
       return this.api
         .private(endpoint, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data.response) {
             if (data.response.success === false) throw new Error(data.response.error);
@@ -283,7 +283,7 @@ export default {
 
       return this.api
         .private("particulars_types", { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           return result["hydra:member"];
         });

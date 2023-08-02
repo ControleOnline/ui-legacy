@@ -1088,7 +1088,7 @@ export default {
 
       return this.api
         .private(`/sales/orders/fields/${this.orderId}`, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -1139,7 +1139,7 @@ export default {
 
       return this.api
         .private(`/sales/orders/fields/${this.orderId}`, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -1189,7 +1189,7 @@ export default {
 
       return this.api
         .private(`/sales/orders/fields/${this.orderId}`, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -1230,7 +1230,7 @@ export default {
       this.isUpdating = true;
       return this.api
         .private(`/sales/orders/${this.orderId}/other-informations`, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -1286,7 +1286,7 @@ export default {
 
       return this.api
         .private(`/sales/orders/fields/${this.orderId}`, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -1416,7 +1416,7 @@ export default {
             this.summary.id,
           params
         )
-          .then((response) => response.json())
+          
           .then(
             ((data) => {
               this.isLoading = false;

@@ -280,7 +280,7 @@ export default {
   methods: {
     getTable() {
       return this.API.private(`delivery_tax_groups/${this.tableId}`)
-        .then(response => response.json())
+        
         .then(data => {
           if (data['@id']) {
             this.table.carrier = this.carrierId;

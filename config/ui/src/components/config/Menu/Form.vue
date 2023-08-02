@@ -170,7 +170,7 @@ export default {
     getItem(id) {
       return this.api
         .private(`menus/${id}`)
-        .then((response) => response.json())
+        
         .then((response) => {
           return response;
         });
@@ -189,7 +189,7 @@ export default {
 
       return this.api
         .private(endpoint, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -238,7 +238,7 @@ export default {
     loadRoutes() {
       this.api
         .private(`routes`)
-        .then((response) => response.json())
+        
         .then((response) => {
           let data = response["hydra:member"];
           data.forEach((item, i) => {

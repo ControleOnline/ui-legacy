@@ -20,7 +20,7 @@ export function getOrders ({ commit }, data)  {
 
 
   return fetch(RESOURCE_ENDPOINT, options)
-    .then(response => response.json())
+    
     .then(data => {
 
       commit(types.SET_ISLOADING, false);
@@ -54,7 +54,7 @@ export function getCategories({ commit }, data) {
   };
 
   return fetch('/categories', options)
-    .then(response => response.json())
+    
     .then(response => {
       return response['hydra:member'];
     })

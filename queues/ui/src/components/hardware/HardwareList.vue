@@ -140,7 +140,7 @@ export default {
 
       return this.api
         .private(`hardware`, { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           return {
             members: result["hydra:member"],

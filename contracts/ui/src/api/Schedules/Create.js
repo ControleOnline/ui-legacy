@@ -10,13 +10,13 @@ export default class Create extends Resource {
     return super.fetch(options)
       .then((response) => {
         if (response.ok) {
-          return response.json()
+          return response
             .then(data => {
               return data;
             });
         }
         else {
-          return response.json()
+          return response
             .then(responseJson => {
               if (responseJson['@type'] === 'hydra:Error') {
                 let message = responseJson['hydra:description'];

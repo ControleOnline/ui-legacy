@@ -1,13 +1,28 @@
 <template>
   <div class="row">
     <div class="col-12 q-mt-md">
-      <q-table dense  :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
-        :loading="isLoading" :pagination.sync="pagination" @request="onRequest">
+      <q-table
+        dense
+        :data="items"
+        :columns="settings.columns"
+        :visible-columns="settings.visibleColumns"
+        row-key="id"
+        :loading="isLoading"
+        :pagination.sync="pagination"
+        @request="onRequest"
+      >
         <template v-slot:top>
           <div class="col-3 q-mb-md text-h6">Lista de tabelas</div>
           <div class="col-9 q-mb-md">
             <div class="row justify-end">
-              <q-btn label="Adicionar" icon="add" size="md" color="primary" class="q-ml-sm" @click="dialog = !dialog" />
+              <q-btn
+                label="Adicionar"
+                icon="add"
+                size="md"
+                color="primary"
+                class="q-ml-sm"
+                @click="dialog = !dialog"
+              />
             </div>
           </div>
         </template>
@@ -15,26 +30,38 @@
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="id" :props="props">
-              <q-btn outline dense :to="{
-                name: 'CarrierTableDetails',
-                params: { id: id, tableId: props.row.id },
-              }" :label="`#${props.row.id}`" class="full-width" />
+              <q-btn
+                outline
+                dense
+                :to="{
+                  name: 'CarrierTableDetails',
+                  params: { id: id, tableId: props.row.id },
+                }"
+                :label="`#${props.row.id}`"
+                class="full-width"
+              />
             </q-td>
             <q-td key="code" :props="props">{{ props.row.code }}</q-td>
             <q-td key="name" :props="props">{{ props.row.name }}</q-td>
             <q-td key="market" :props="props">
-              <q-checkbox v-model="props.row.market" @input="
-                (value) => {
-                  enableTable('marketplace', props.row.id, value);
-                }
-              " />
+              <q-checkbox
+                v-model="props.row.market"
+                @input="
+                  (value) => {
+                    enableTable('marketplace', props.row.id, value);
+                  }
+                "
+              />
             </q-td>
             <q-td key="website" :props="props">
-              <q-checkbox v-model="props.row.website" @input="
-                (value) => {
-                  enableTable('website', props.row.id, value);
-                }
-              " />
+              <q-checkbox
+                v-model="props.row.website"
+                @input="
+                  (value) => {
+                    enableTable('website', props.row.id, value);
+                  }
+                "
+              />
             </q-td>
           </q-tr>
         </template>
@@ -51,35 +78,110 @@
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
             <q-input
-      dense
-      outlined stack-label v-model="item.code" type="text" label="Código" class="q-mt-md" />
+              dense
+              outlined
+              stack-label
+              v-model="item.code"
+              type="text"
+              label="Código"
+              class="q-mt-md"
+            />
 
-            <q-select dense outlined  class="q-mt-md" v-model="item.name" label="Tipo de Tabela" :options="tableNames"
-              :rules="[isInvalid('name')]" />
+            <q-select
+              dense
+              outlined
+              class="q-mt-md"
+              v-model="item.name"
+              label="Tipo de Tabela"
+              :options="tableNames"
+              :rules="[isInvalid('name')]"
+            />
 
             <q-input
-      dense
-      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxHeight" suffix="m" type="text"
-              label="Altura máxima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
+              dense
+              outlined
+              lazy-rules
+              stack-label
+              reverse-fill-mask
+              v-model="item.maxHeight"
+              suffix="m"
+              type="text"
+              label="Altura máxima"
+              class="q-mt-md"
+              :rules="[isInvalid('float')]"
+              mask="#,##"
+              fill-mask="0"
+            />
             <q-input
-      dense
-      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxWidth" suffix="m" type="text"
-              label="Largura máxima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
+              dense
+              outlined
+              lazy-rules
+              stack-label
+              reverse-fill-mask
+              v-model="item.maxWidth"
+              suffix="m"
+              type="text"
+              label="Largura máxima"
+              class="q-mt-md"
+              :rules="[isInvalid('float')]"
+              mask="#,##"
+              fill-mask="0"
+            />
             <q-input
-      dense
-      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxDepth" suffix="m" type="text"
-              label="Comprimento máximo" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
+              dense
+              outlined
+              lazy-rules
+              stack-label
+              reverse-fill-mask
+              v-model="item.maxDepth"
+              suffix="m"
+              type="text"
+              label="Comprimento máximo"
+              class="q-mt-md"
+              :rules="[isInvalid('float')]"
+              mask="#,##"
+              fill-mask="0"
+            />
             <q-input
-      dense
-      outlined lazy-rules stack-label reverse-fill-mask v-model="item.minCubage" suffix="kg" type="text"
-              label="Cubagem mínima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
+              dense
+              outlined
+              lazy-rules
+              stack-label
+              reverse-fill-mask
+              v-model="item.minCubage"
+              suffix="kg"
+              type="text"
+              label="Cubagem mínima"
+              class="q-mt-md"
+              :rules="[isInvalid('float')]"
+              mask="#,##"
+              fill-mask="0"
+            />
             <q-input
-      dense
-      outlined lazy-rules stack-label reverse-fill-mask v-model="item.maxCubage" suffix="kg" type="text"
-              label="Cubagem Máxima" class="q-mt-md" :rules="[isInvalid('float')]" mask="#,##" fill-mask="0" />
+              dense
+              outlined
+              lazy-rules
+              stack-label
+              reverse-fill-mask
+              v-model="item.maxCubage"
+              suffix="kg"
+              type="text"
+              label="Cubagem Máxima"
+              class="q-mt-md"
+              :rules="[isInvalid('float')]"
+              mask="#,##"
+              fill-mask="0"
+            />
             <div class="row justify-end">
-              <q-btn :loading="saving" icon="save" type="submit" label="Salvar" size="md" color="primary"
-                class="q-mt-md" />
+              <q-btn
+                :loading="saving"
+                icon="save"
+                type="submit"
+                label="Salvar"
+                size="md"
+                color="primary"
+                class="q-mt-md"
+              />
             </div>
           </q-form>
         </q-card-section>
@@ -154,8 +256,8 @@ export default {
     defaultCompany(company) {
       this.tableNames =
         company &&
-          company.configs &&
-          typeof company.configs.groupTableNames != "undefined"
+        company.configs &&
+        typeof company.configs.groupTableNames != "undefined"
           ? JSON.parse(company.configs.groupTableNames)
           : [];
     },
@@ -163,24 +265,24 @@ export default {
   data() {
     return {
       tableNames: [
-        'BALCAO',
-        'FRACIONADO',
-        'FRACIONADO / AEREO',
-        'FRACIONADO / EXPRESSO',
-        'LOTACAO / GERAL',
-        'LOTACAO / GRANEL LIQUIDO',
-        'LOTACAO / GRANEL SOLIDO',
-        'LOTACAO / GRANEL PRESSURIZADA',
-        'LOTACAO / CONTEINERIZADA',
-        'LOTACAO / FRIGORIFICADA',
-        'LOTACAO / NEOGRANEL',
-        'LOTACAO / PERIGOSA GERAL',
-        'LOTACAO / PERIGOSA GRANEL SOLIDO',
-        'LOTACAO / PERIGOSA GRANEL LIQUIDO',
-        'LOTACAO / PERIGOSA FRIGORIFICADA',
-        'LOTACAO / PERIGOSA CONTEINERIZADA',
-        'MOTO FRETE',
-        'VEICULO DEDICADO'
+        "BALCAO",
+        "FRACIONADO",
+        "FRACIONADO / AEREO",
+        "FRACIONADO / EXPRESSO",
+        "LOTACAO / GERAL",
+        "LOTACAO / GRANEL LIQUIDO",
+        "LOTACAO / GRANEL SOLIDO",
+        "LOTACAO / GRANEL PRESSURIZADA",
+        "LOTACAO / CONTEINERIZADA",
+        "LOTACAO / FRIGORIFICADA",
+        "LOTACAO / NEOGRANEL",
+        "LOTACAO / PERIGOSA GERAL",
+        "LOTACAO / PERIGOSA GRANEL SOLIDO",
+        "LOTACAO / PERIGOSA GRANEL LIQUIDO",
+        "LOTACAO / PERIGOSA FRIGORIFICADA",
+        "LOTACAO / PERIGOSA CONTEINERIZADA",
+        "MOTO FRETE",
+        "VEICULO DEDICADO",
       ],
       items: [],
       dialog: false,
@@ -217,7 +319,7 @@ export default {
     getItems(params) {
       return this.api
         .private("delivery_tax_groups", { params })
-        .then((response) => response.json())
+
         .then((result) => {
           return {
             members: result["hydra:member"],
@@ -236,7 +338,7 @@ export default {
 
       return this.api
         .private("delivery_tax_groups", options)
-        .then((response) => response.json())
+
         .catch((e) => {
           if (e instanceof SubmissionError) throw new Error(e.errors._error);
 
@@ -254,7 +356,7 @@ export default {
 
       return this.api
         .private(`delivery_tax_groups/${id}`, options)
-        .then((response) => response.json())
+
         .catch((e) => {
           if (e instanceof SubmissionError) throw new Error(e.errors._error);
 
@@ -342,17 +444,13 @@ export default {
     cleanItem(id) {
       let item = this.items.find((obj) => obj["id"] == id);
       let indx = this.items.indexOf(item);
-      this.items = [
-        ...this.items.slice(0, indx),
-        ...this.items.slice(indx + 1),
-      ];
+      this.items = [...this.items.slice(0, indx), ...this.items.slice(indx + 1)];
     },
 
     onRequest(props) {
       if (this.isLoading) return;
 
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
 
       params["carrier"] = this.id;

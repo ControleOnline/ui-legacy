@@ -1,24 +1,34 @@
 <template>
   <div class="row items-center justify-center">
     <div class="flex flex-center" v-if="isLoading">
-      <q-circular-progress :indeterminate="isLoading"
-        size ="sm"
+      <q-circular-progress
+        :indeterminate="isLoading"
+        size="sm"
         color="primary"
         class="q-ma-md"
       />
       Carregando...
     </div>
 
-    <div class="col-12 q-mt-md" :style="isLoading ? 'visibility:hidden' : 'visibility:visible'">
+    <div
+      class="col-12 q-mt-md"
+      :style="isLoading ? 'visibility:hidden' : 'visibility:visible'"
+    >
       <q-markup-table v-if="item !== null">
         <tbody>
           <tr>
             <td class="text-left text-bold">Tipo de integração</td>
             <td class="text-left">
-              <q-select dense outlined  lazy-rules stack-label emit-value map-options
-                v-model ="item.type"
+              <q-select
+                dense
+                outlined
+                lazy-rules
+                stack-label
+                emit-value
+                map-options
+                v-model="item.type"
                 :options="settings.select.types"
-                :rules  ="[val => val !== null || 'Selecione um tipo']"
+                :rules="[(val) => val !== null || 'Selecione um tipo']"
               />
             </td>
           </tr>
@@ -26,12 +36,14 @@
             <td class="text-left text-bold">Usuário</td>
             <td class="text-left">
               <q-input
-      dense
-      outlined lazy-rules stack-label
-                v-model  ="item.user"
-                type     ="text"
-                class    ="q-mt-md"
-                :rules   ="[isInvalid('user')]"
+                dense
+                outlined
+                lazy-rules
+                stack-label
+                v-model="item.user"
+                type="text"
+                class="q-mt-md"
+                :rules="[isInvalid('user')]"
               />
             </td>
           </tr>
@@ -39,12 +51,14 @@
             <td class="text-left text-bold">Senha</td>
             <td class="text-left">
               <q-input
-      dense
-      outlined lazy-rules stack-label
+                dense
+                outlined
+                lazy-rules
+                stack-label
                 v-model="item.password"
-                type   ="text"
-                class  ="q-mt-md"
-                :rules ="[isInvalid('password')]"
+                type="text"
+                class="q-mt-md"
+                :rules="[isInvalid('password')]"
               />
             </td>
           </tr>
@@ -54,12 +68,12 @@
       <div class="row justify-end">
         <q-btn
           :loading="saving"
-          icon    ="save"
-          label   ="Salvar"
-          size    ="md"
-          color   ="primary"
-          class   ="q-mt-md"
-          @click  ="onSubmit"
+          icon="save"
+          label="Salvar"
+          size="md"
+          color="primary"
+          class="q-mt-md"
+          @click="onSubmit"
         />
       </div>
     </div>
@@ -67,26 +81,26 @@
 </template>
 
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
+import Api from "@controleonline/quasar-common-ui/src/utils/api";
 
 const SETTINGS = {
   select: {
     types: [
       {
-        label: 'Selecione um tipo',
+        label: "Selecione um tipo",
         value: null,
       },
       {
-        label: 'Correios',
-        value: 'correios',
+        label: "Correios",
+        value: "correios",
       },
       {
-        label: 'Jad Log',
-        value: 'jadlog',
+        label: "Jad Log",
+        value: "jadlog",
       },
       {
-        label: 'SSW',
-        value: 'ssw',
+        label: "SSW",
+        value: "ssw",
       },
     ],
   },
@@ -100,21 +114,21 @@ export default {
       required: true,
     },
     api: {
-      type    : Api,
-      required: true
+      type: Api,
+      required: true,
     },
   },
 
   data() {
     return {
-      saving   : false,
-      settings : SETTINGS,
+      saving: false,
+      settings: SETTINGS,
       isLoading: false,
-      item     : {
-        type    : SETTINGS.select.types[0],
-        user    : null,
+      item: {
+        type: SETTINGS.select.types[0],
+        user: null,
         password: null,
-      }
+      },
     };
   },
 
@@ -126,9 +140,10 @@ export default {
     // store method
     getItems() {
       let endpoint = `carriers/${this.id}/integration`;
-      return this.api.private(endpoint)
-        .then(response => response.json())
-        .then(result => {
+      return this.api
+        .private(endpoint)
+
+        .then((result) => {
           return result.response.data;
         });
     },
@@ -136,18 +151,18 @@ export default {
     // store method
     save(values) {
       let options = {
-        method : 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
-        body   : JSON.stringify(values),
+        method: "PUT",
+        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        body: JSON.stringify(values),
       };
 
       let endpoint = `carriers/${this.id}/integration`;
-      return this.api.private(endpoint, options)
-        .then(response => response.json())
-        .then(data => {
+      return this.api
+        .private(endpoint, options)
+
+        .then((data) => {
           if (data.response) {
-            if (data.response.success === false)
-              throw new Error(data.response.error);
+            if (data.response.success === false) throw new Error(data.response.error);
 
             return data.response.data;
           }
@@ -160,17 +175,17 @@ export default {
       this.saving = true;
 
       this.save({
-        "type"    : this.item.type,
-        "user"    : this.item.user,
-        "password": this.item.password
+        type: this.item.type,
+        user: this.item.user,
+        password: this.item.password,
       })
-        .then (data => {
+        .then((data) => {
           if (data) {
-            this.$emit('saved', data);
+            this.$emit("saved", data);
           }
         })
-        .catch(error => {
-          this.$emit('error', { message: error.message });
+        .catch((error) => {
+          this.$emit("error", { message: error.message });
         })
         .finally(() => {
           this.saving = false;
@@ -178,16 +193,15 @@ export default {
     },
 
     onRequest() {
-      if (this.isLoading)
-        return;
+      if (this.isLoading) return;
 
       this.isLoading = true;
 
       this.getItems()
-        .then(data => {
+        .then((data) => {
           if (data !== null) {
-            this.item.type     = data.type === null ? SETTINGS.select.types[0] : data.type;
-            this.item.user     = data.user;
+            this.item.type = data.type === null ? SETTINGS.select.types[0] : data.type;
+            this.item.user = data.user;
             this.item.password = data.password;
           }
         })
@@ -197,9 +211,8 @@ export default {
     },
 
     isInvalid(key) {
-      return val => {
-        if (!(val && val.length > 0))
-          return this.$t('messages.fieldRequired');
+      return (val) => {
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         return true;
       };

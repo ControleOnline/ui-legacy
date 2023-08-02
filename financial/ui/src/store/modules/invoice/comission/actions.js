@@ -8,7 +8,7 @@ export const getItems = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch(RESOURCE_ENDPOINT, { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING , false);
 
@@ -38,7 +38,7 @@ export const reset = ({ commit }) => {
 
 export const getStatuses = ({ commit }, params = {}) => {
   return fetch('/statuses', { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data['hydra:member'];
@@ -57,7 +57,7 @@ export const getStatuses = ({ commit }, params = {}) => {
 
 export const getInvoice = ({ commit }, { invoiceId, params }) => {
   return fetch(`/finance/comission/${invoiceId}`, { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;

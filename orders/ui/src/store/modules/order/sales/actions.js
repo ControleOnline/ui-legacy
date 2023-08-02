@@ -8,7 +8,7 @@ export const getItems = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return fetch(RESOURCE_ENDPOINT, { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -47,7 +47,7 @@ export const alterQuotation = ({ commit }, { id, values, params = {} }) => {
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
   return fetch(`${RESOURCE_ENDPOINT}/${id}/alter/quote`, options)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -59,7 +59,7 @@ export const alterQuotation = ({ commit }, { id, values, params = {} }) => {
 
 export const getStatuses = ({ commit }, params = {}) => {
   return fetch('/statuses', { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data['hydra:member'];
@@ -78,7 +78,7 @@ export const getStatuses = ({ commit }, params = {}) => {
 
 export const getDetailStatus = ({ commit }, { orderId, params }) => {
   return fetch(`/sales/orders/${orderId}/detail/status`, { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -88,7 +88,7 @@ export const getDetailStatus = ({ commit }, { orderId, params }) => {
 
 export const getDetailSummary = ({ commit }, { orderId, params }) => {
   return fetch(`/sales/orders/${orderId}/detail/summary`, { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data.response;
@@ -98,7 +98,7 @@ export const getDetailSummary = ({ commit }, { orderId, params }) => {
 
 export const getDetailQuotation = ({ commit }, { orderId, params }) => {
   return fetch(`/sales/orders/${orderId}/detail/quotation`, { params })
-    .then(response => response.json())
+    
     .then(data => {
 
       return data.response;
@@ -110,7 +110,7 @@ export const getDetailOrder = ({ commit }, { id, params = {} }) => {
   commit(types.SET_ISLOADING);
 
   return fetch(`/sales/orders/${id}/detail/invoice`, { params })
-    .then(response => response.json())
+    
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -141,7 +141,7 @@ export const removeInvoiceTax = ({ commit }, { id, values, params = {} }) => {
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
   return fetch(`${RESOURCE_ENDPOINT}/${id}/remove-invoice-tax`, options)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -159,7 +159,7 @@ export const changeAddress = ({ commit }, { id, values }) => {
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
   return fetch(`${RESOURCE_ENDPOINT}/${id}/add-address`, options)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -178,7 +178,7 @@ export const updateStatus = ({ commit }, { id, values, params = {} }) => {
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
   return fetch(`${RESOURCE_ENDPOINT}/${id}/update-status`, options)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -194,7 +194,7 @@ export const updateRemote = ({ commit }, { id, providerId, params = {} }) => {
   };
 
   return fetch(`/sales/orders/${id}/detail/update-remote`, options)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -212,7 +212,7 @@ export const updateDeadline = ({ commit }, { id, newDeadline, params = {} }) => 
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
   return fetch(`${RESOURCE_ENDPOINT}/${id}/detail/update-deadline`, options)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -230,7 +230,7 @@ export const updateEstimatedParkingDate = ({ commit }, { id, newEstimatedParking
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
   return fetch(`${RESOURCE_ENDPOINT}/fields/${id}`, options)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -248,7 +248,7 @@ export const updateParkingDate = ({ commit }, { id, newParkingDate, params = {} 
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
   return fetch(`${RESOURCE_ENDPOINT}/fields/${id}`, options)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;
@@ -266,7 +266,7 @@ export const createNewLabelTag = ({ commit }, { id }) => {
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
   return fetch(`/label/` + id, options)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;

@@ -247,7 +247,7 @@ export default {
     getItems(params) {
       const endpoint = `delivery_tax_groups/${this.table.id}/delivery_taxes`;
       return this.api.private(endpoint, { params })
-        .then(response => response.json())
+        
         .then(result => {
           return {
             members: result['hydra:member'],
@@ -267,7 +267,7 @@ export default {
       const endpoint = options.method == 'PUT' ? `delivery_taxes/${this.item.id}` : 'delivery_taxes';
 
       return this.api.private(endpoint, options)
-        .then(response => response.json())
+        
         .catch(e => {
           if (e instanceof SubmissionError)
             throw new Error(e.errors._error);

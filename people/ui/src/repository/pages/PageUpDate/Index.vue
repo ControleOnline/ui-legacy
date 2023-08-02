@@ -516,7 +516,7 @@ export default {
     getPeople() {
       return this.api
         .private(`people/${this.peopleId}`)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data["@id"]) {
             this.people = data;

@@ -11,7 +11,7 @@ export const geoplace = ({ commit }, address) => {
     };
 
   return fetch('/geo_places', params)
-    .then(response => response.json())
+    
     .then(data => {
 
       commit(types.SET_ISLOADING, false);
@@ -34,7 +34,7 @@ export const geoplace = ({ commit }, address) => {
 
 export const getAddressByCEP = ({ commit }, cep) => {
   return fetch(`/cep_address/${cep}`)
-    .then(response => response.json())
+    
     .then(data => {
 
       return data;

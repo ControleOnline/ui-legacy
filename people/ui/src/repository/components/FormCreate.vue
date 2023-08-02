@@ -207,7 +207,7 @@ export default {
 
       return this.api
         .private("/" + this.people_type, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data.response) {
             if (data.response.success === false)
@@ -223,7 +223,7 @@ export default {
     searchCustomer(id) {
       return this.api
         .private("/people/people-company", { params: id })
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data.response) {
             if (data.response.success === false)

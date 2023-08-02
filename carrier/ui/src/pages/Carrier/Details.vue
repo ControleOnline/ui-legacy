@@ -481,7 +481,7 @@ export default {
   methods: {
     getCarrier() {
       return this.api.private(`people/${this.carrierId}`)
-        .then((response) => response.json())
+        
         .then((data) => {
           this.people = data;
           this.people.id = this.carrierId;

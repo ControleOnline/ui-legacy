@@ -232,7 +232,7 @@ export default {
     getItems(params) {
       return this.api
         .private(`companies/${this.id}/salesman`, { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           return result.response.data;
         });
@@ -248,7 +248,7 @@ export default {
 
       return this.api
         .private(`companies/${this.id}/salesman`, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data.response) {
             if (data.response.success === false)
@@ -271,7 +271,7 @@ export default {
 
       return this.api
         .private(`companies/${this.id}/salesman`, options)
-        .then((response) => response.json())
+        
         .then((data) => {
           if (data.response) {
             if (data.response.success === false)

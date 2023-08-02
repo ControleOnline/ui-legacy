@@ -11,7 +11,7 @@ export function getProviders({ commit }, data) {
   };
 
   return fetch('/providers', options)
-    .then(response => response.json())
+    
     .then(response => {
       return response['hydra:member'];
     })
@@ -25,7 +25,7 @@ export const createInvoice = ({ commit }, data) => {
   };
 
   return fetch('/invoices', options)
-    .then(response => response.json())
+    
     .then(response => {
       return response.data ? response.data : null;
     })
@@ -46,7 +46,7 @@ export const createProvider = ({ commit }, data) => {
   };
 
   return fetch('/providers', options)
-    .then(response => response.json())
+    
     .then(response => {
       return response;
     })
@@ -67,7 +67,7 @@ export const updateExpense = ({ commit }, data) => {
   };
 
   return fetch(`/invoices/${data.id}`, options)
-    .then(response => response.json())
+    
     .then(response => {
       return response.data ? response.data : null;
     })

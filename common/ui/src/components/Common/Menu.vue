@@ -77,7 +77,7 @@ export default {
       return this.API.private(`menus-people`, {
         params: { myCompany: this.company.id },
       })
-        .then((response) => response.json())
+        
         .then((result) => {
           this.menu = result.response?.data;
         });

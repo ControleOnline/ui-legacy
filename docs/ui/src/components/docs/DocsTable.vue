@@ -248,7 +248,7 @@ export default {
       params['order[name]'] = 'ASC';
 
       return this.API.private("/statuses", { params })
-        .then((response) => response.json())
+        
         .then((result) => {
           return {
             members: result["hydra:member"],
@@ -294,7 +294,7 @@ export default {
       };
 
       return fetch('/filesb/' + id, params)
-        .then(response => response.json())
+        
         .then(data => {
           if (data !== null) {
             let success = data.response.success;
@@ -346,7 +346,7 @@ export default {
       };
 
       fetch('/filesb', params)
-        .then(response => response.json())
+        
         .then(data => {
 
           if (data !== null) {
