@@ -1,5 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch }       from '../../../../../../../../src/boot/myapi';
+import { api }       from '../../../../../../../../src/boot/api';
 import * as types      from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/finance/receive';
@@ -7,7 +7,7 @@ const RESOURCE_ENDPOINT = '/finance/receive';
 export const getItems = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
-  return fetch(RESOURCE_ENDPOINT, { params })
+  return api.fetch(RESOURCE_ENDPOINT, { params })
     
     .then(data => {
       commit(types.SET_ISLOADING , false);
@@ -37,7 +37,7 @@ export const reset = ({ commit }) => {
 };
 
 export const getStatuses = ({ commit }, params = {}) => {
-  return fetch('/statuses', { params })
+  return api.fetch('/statuses', { params })
     
     .then(data => {
 
@@ -56,7 +56,7 @@ export const getStatuses = ({ commit }, params = {}) => {
 };
 
 export const getInvoice = ({ commit }, { invoiceId, params }) => {
-  return fetch(`/finance/receive/${invoiceId}`, { params })
+  return api.fetch(`/finance/receive/${invoiceId}`, { params })
     
     .then(data => {
 
@@ -66,7 +66,7 @@ export const getInvoice = ({ commit }, { invoiceId, params }) => {
 };
 
 export const bankItau = ({ commit }, { invoiceId, operation, params = {} }) => {
-  return fetch(`/finance/receive/${invoiceId}/bank/itau/${operation}`, { params })
+  return api.fetch(`/finance/receive/${invoiceId}/bank/itau/${operation}`, { params })
     
     .then(data => {
       if (data.response)

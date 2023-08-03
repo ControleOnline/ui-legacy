@@ -50,9 +50,7 @@
           <q-td key="color" :props="props">
             <span
               :style="
-                'background:' +
-                props.row.color +
-                ';padding: 15px;border: 1px solid #000;'
+                'background:' + props.row.color + ';padding: 15px;border: 1px solid #000;'
               "
             >
               {{ props.row.color }}
@@ -72,11 +70,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <FormCategory
-            :id="dialogs.category.id"
-            :api="api"
-            :context="context"
-          />
+          <FormCategory :id="dialogs.category.id"  :context="context" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -85,7 +79,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import FormCategory from "./Form";
 
 const SETTINGS = {
@@ -142,7 +136,6 @@ export default {
 
   data() {
     return {
-      api: new Api(this.$store.getters["auth/user"].token),
       settings: SETTINGS,
       items: [],
       pagination: {
@@ -179,9 +172,9 @@ export default {
   methods: {
     // store method
     getItems(params) {
-      return this.api
-        .private("categories", { params })
-        
+      return api.fetch
+        ("categories", { params })
+
         .then((response) => {
           return {
             members: response["hydra:member"],
@@ -200,8 +193,8 @@ export default {
       };
 
       let endpoint = `customers/${this.id}/addresses`;
-      return this.api.private(endpoint, options)
-        
+      return api.fetch(endpoint, options)
+
         .then(data => {
           if (data.response) {
             if (data.response.success === false)
@@ -253,8 +246,7 @@ export default {
     onRequest(props) {
       if (this.isLoading) return;
 
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
       params.context = this.context;
       if (this.myCompany != null) {

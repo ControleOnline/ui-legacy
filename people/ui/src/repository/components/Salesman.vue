@@ -157,7 +157,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      return this.api.private(`${this.people_type}/${this.id}/salesman`)
+      return api.fetch(`${this.people_type}/${this.id}/salesman`)
         
         .then(result => {
           return result.response.data;
@@ -175,7 +175,7 @@ export default {
         }
       };
 
-      return this.api.private(`${this.people_type}/${this.id}/salesman`, options)
+      return api.fetch(`${this.people_type}/${this.id}/salesman`, options)
         
         .then(data => {
           if (data.response) {
@@ -197,7 +197,7 @@ export default {
         body: JSON.stringify({ id }),
       };
 
-      return this.api.private(`${this.people_type}/${this.id}/salesman`, options)
+      return api.fetch(`${this.people_type}/${this.id}/salesman`, options)
         
         .then(data => {
           if (data.response) {
@@ -214,7 +214,7 @@ export default {
     // store method
     getSalesman(id) {
 
-      return this.api.private(`${this.people_type}/search-salesman`, { params: { document: id } })
+      return api.fetch(`${this.people_type}/search-salesman`, { params: { document: id } })
         
         .then(data => {
           if (data.response) {

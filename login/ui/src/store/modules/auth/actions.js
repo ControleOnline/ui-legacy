@@ -1,6 +1,6 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-//import { fetch } from '../../../../../../../src/boot/myapi';
-import fetch from '@controleonline/quasar-common-ui/src/utils/fetch';
+import { api } from '../../../../../../../src/boot/api';
+
 import axios from 'axios';
 
 import { ENTRYPOINT } from '../../../../../../../src/config/entrypoint';
@@ -10,7 +10,7 @@ export const signIn = ({ commit }, values) => {
   commit(types.LOGIN_SET_ERROR, '');
   commit(types.LOGIN_SET_ISLOADING);
 
-  return fetch('token', { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch('token', { method: 'POST', body: JSON.stringify(values) })
     .then(response => {
       commit(types.LOGIN_SET_ISLOADING, false);
 
@@ -46,7 +46,7 @@ export const signUp = ({ commit }, values) => {
   commit(types.LOGIN_SET_ERROR, '');
   commit(types.LOGIN_SET_ISLOADING);
 
-  return fetch('accounts', { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch('accounts', { method: 'POST', body: JSON.stringify(values) })
     .then(response => {
       commit(types.LOGIN_SET_ISLOADING, false);
 

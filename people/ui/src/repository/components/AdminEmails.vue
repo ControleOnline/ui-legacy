@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 
 const SETTINGS = {
   visibleColumns: ["email", "action"],
@@ -109,10 +109,7 @@ export default {
     id: {
       required: true,
     },
-    api: {
-      type: Api,
-      required: true,
-    },
+
     people_type: {
       type: String,
       required: true,
@@ -140,7 +137,7 @@ export default {
     // store method
     getItems() {
       let endpoint = `${this.people_type}/${this.id}/emails`;
-      return this.api
+      return api.fetch
         .private(endpoint)
         
         .then((result) => {
@@ -157,7 +154,7 @@ export default {
       };
 
       let endpoint = `${this.people_type}/${this.id}/emails`;
-      return this.api
+      return api.fetch
         .private(endpoint, options)
         
         .then((data) => {
@@ -180,7 +177,7 @@ export default {
       };
 
       let endpoint = `${this.people_type}/${this.id}/emails`;
-      return this.api
+      return api.fetch
         .private(endpoint, options)
         
         .then((data) => {

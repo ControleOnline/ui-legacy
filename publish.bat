@@ -52,6 +52,12 @@ npm publish --access=public
 cd ..
 cd ..
 
+cd delivery
+cd ui
+npm publish --access=public
+cd ..
+cd ..
+
 cd docs
 cd ui
 npm publish --access=public
@@ -59,6 +65,12 @@ cd ..
 cd ..
 
 cd financial
+cd ui
+npm publish --access=public
+cd ..
+cd ..
+
+cd freight
 cd ui
 npm publish --access=public
 cd ..
@@ -94,6 +106,12 @@ npm publish --access=public
 cd ..
 cd ..
 
+cd products
+cd ui
+npm publish --access=public
+cd ..
+cd ..
+
 cd professionals
 cd ui
 npm publish --access=public
@@ -106,7 +124,19 @@ npm publish --access=public
 cd ..
 cd ..
 
+cd queues
+cd ui
+npm publish --access=public
+cd ..
+cd ..
+
 cd quote
+cd ui
+npm publish --access=public
+cd ..
+cd ..
+
+cd shop
 cd ui
 npm publish --access=public
 cd ..

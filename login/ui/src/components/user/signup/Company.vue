@@ -322,13 +322,7 @@ export default {
               this.item.address.number = address.number;
             }
           })
-          .catch((error) => {
-            this.$q.notify({
-              message: "Nenhum endereço foi encontrado",
-              position: "bottom",
-              type: "negative",
-            });
-          })
+
           .finally(() => {
             this.loading = false;
           });
@@ -369,26 +363,22 @@ export default {
     getGeoPlaces(input) {
       this.isSearching = true;
 
-      return this.geoplace(input).then((result) => {
-        this.isSearching = false;
-
-        if (result.success) {
-          let items = [];
-          for (let i = 0; i < result.data.length; i++) {
-            items.push({
-              label: result.data[i].description,
-              value: result.data[i],
-            });
+      return this.geoplace(input)
+        .then((result) => {
+          if (result.success) {
+            let items = [];
+            for (let i = 0; i < result.data.length; i++) {
+              items.push({
+                label: result.data[i].description,
+                value: result.data[i],
+              });
+            }
+            return items;
           }
-          return items;
-        } else {
-          this.$q.notify({
-            message: this.$t("messages.gmapsReqNoData"),
-            type: "negative",
-            position: "bottom",
-          });
-        }
-      });
+        })
+        .finally(() => {
+          this.isSearching = false;
+        });
     },
 
     onSelect(item) {

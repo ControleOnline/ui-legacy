@@ -46,9 +46,7 @@
             v-if="editCompany === false"
             :value="
               summary.providerAlias +
-              (summary.providerDocument
-                ? ' (' + summary.providerDocument + ')'
-                : '')
+              (summary.providerDocument ? ' (' + summary.providerDocument + ')' : '')
             "
             type="text"
             label="Responsável pelo pedido"
@@ -131,25 +129,17 @@
               <tbody>
                 <tr>
                   <td colspan="2">
-                    <div class="text-subtitle2 text-blue">
-                      Endereço da coleta
-                    </div>
+                    <div class="text-subtitle2 text-blue">Endereço da coleta</div>
                   </td>
                 </tr>
-                <tr
-                  v-if="
-                    this.retrieve.address && this.retrieve.address.postal_code
-                  "
-                >
+                <tr v-if="this.retrieve.address && this.retrieve.address.postal_code">
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
                     {{ this.formatCEP(this.retrieve.address.postal_code) }}
                   </td>
                 </tr>
 
-                <tr
-                  v-if="this.retrieve.address && this.retrieve.address.street"
-                >
+                <tr v-if="this.retrieve.address && this.retrieve.address.street">
                   <td class="text-left text-bold">Endereço</td>
                   <td class="text-left">
                     {{
@@ -157,9 +147,7 @@
                     }}
                   </td>
                 </tr>
-                <tr
-                  v-if="this.retrieve.address && this.retrieve.address.district"
-                >
+                <tr v-if="this.retrieve.address && this.retrieve.address.district">
                   <td class="text-left text-bold">Bairro</td>
                   <td class="text-left">
                     {{ `${this.retrieve.address.district}` }}
@@ -168,15 +156,12 @@
                 <tr v-if="this.retrieve.address && this.retrieve.address.city">
                   <td class="text-left text-bold">Cidade</td>
                   <td class="text-left">
-                    {{
-                      `${this.retrieve.address.city} / ${this.retrieve.address.state}`
-                    }}
+                    {{ `${this.retrieve.address.city} / ${this.retrieve.address.state}` }}
                   </td>
                 </tr>
                 <tr
                   v-if="
-                    (this.retrieve.address &&
-                      this.retrieve.address.postal_code) ||
+                    (this.retrieve.address && this.retrieve.address.postal_code) ||
                     isCeg() ||
                     this.summary.quote.origin.city
                   "
@@ -196,9 +181,7 @@
               <tbody>
                 <tr>
                   <td colspan="2">
-                    <div class="text-subtitle2 text-blue">
-                      Responsável pela coleta
-                    </div>
+                    <div class="text-subtitle2 text-blue">Responsável pela coleta</div>
                   </td>
                 </tr>
                 <tr v-if="this.retrieve.name">
@@ -241,11 +224,7 @@
           </div>
           <div class="col-xs-12 col-sm-2 gt-xs">
             <div class="row justify-center items-center full-height">
-              <q-icon
-                name="local_shipping"
-                class="text-primary"
-                style="font-size: 3em"
-              />
+              <q-icon name="local_shipping" class="text-primary" style="font-size: 3em" />
             </div>
           </div>
           <div class="col-xs-12 col-sm-5">
@@ -262,25 +241,17 @@
               <tbody>
                 <tr>
                   <td colspan="2">
-                    <div class="text-subtitle2 text-blue">
-                      Endereço da entrega
-                    </div>
+                    <div class="text-subtitle2 text-blue">Endereço da entrega</div>
                   </td>
                 </tr>
-                <tr
-                  v-if="
-                    this.delivery.address && this.delivery.address.postal_code
-                  "
-                >
+                <tr v-if="this.delivery.address && this.delivery.address.postal_code">
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
                     {{ this.formatCEP(this.delivery.address.postal_code) }}
                   </td>
                 </tr>
 
-                <tr
-                  v-if="this.delivery.address && this.delivery.address.street"
-                >
+                <tr v-if="this.delivery.address && this.delivery.address.street">
                   <td class="text-left text-bold">Endereço</td>
                   <td class="text-left">
                     {{
@@ -288,9 +259,7 @@
                     }}
                   </td>
                 </tr>
-                <tr
-                  v-if="this.delivery.address && this.delivery.address.district"
-                >
+                <tr v-if="this.delivery.address && this.delivery.address.district">
                   <td class="text-left text-bold">Bairro</td>
                   <td class="text-left">
                     {{ `${this.delivery.address.district}` }}
@@ -299,15 +268,12 @@
                 <tr v-if="this.delivery.address && this.delivery.address.city">
                   <td class="text-left text-bold">Cidade</td>
                   <td class="text-left">
-                    {{
-                      `${this.delivery.address.city} / ${this.delivery.address.state}`
-                    }}
+                    {{ `${this.delivery.address.city} / ${this.delivery.address.state}` }}
                   </td>
                 </tr>
                 <tr
                   v-if="
-                    (this.delivery.address &&
-                      this.delivery.address.postal_code) ||
+                    (this.delivery.address && this.delivery.address.postal_code) ||
                     isCeg() ||
                     this.summary.quote.origin.city
                   "
@@ -328,9 +294,7 @@
               <tbody>
                 <tr>
                   <td colspan="2">
-                    <div class="text-subtitle2 text-blue">
-                      Responsável pela entrega
-                    </div>
+                    <div class="text-subtitle2 text-blue">Responsável pela entrega</div>
                   </td>
                 </tr>
                 <tr v-if="this.delivery.name">
@@ -403,8 +367,21 @@
                         label="Cubagem"
                         v-model="editCubageValue"
                       ></q-input>
-                      <q-btn v-if="editCubage" @click="updateCubage()" size="xs" dense color="primary" icon="check"></q-btn>
-                      <q-btn @click="editCubage = !editCubage" size="xs" dense color="primary" :icon="editCubage ? 'cancel' : 'edit'"></q-btn>
+                      <q-btn
+                        v-if="editCubage"
+                        @click="updateCubage()"
+                        size="xs"
+                        dense
+                        color="primary"
+                        icon="check"
+                      ></q-btn>
+                      <q-btn
+                        @click="editCubage = !editCubage"
+                        size="xs"
+                        dense
+                        color="primary"
+                        :icon="editCubage ? 'cancel' : 'edit'"
+                      ></q-btn>
                     </div>
                   </td>
                   <td class="text-center">
@@ -413,21 +390,33 @@
                         {{ this.product.type }} - {{ this.product.carNumber }}
                       </div>
                       <div class="flex items-end q-gutter-x-sm" v-if="editCar">
-                        <q-input
-                          dense
-                          label="Automóvel"
-                          v-model="editCarValue"
-                        ></q-input>
+                        <q-input dense label="Automóvel" v-model="editCarValue"></q-input>
                         <q-input
                           dense
                           label="Placa"
                           v-model="editCarNumberValue"
                         ></q-input>
                       </div>
-                      <q-btn v-if="editCar" @click="updateCar(); updateCarNumber()" size="xs" dense color="primary" icon="check"></q-btn>
-                      <q-btn @click="toggleEditCar()" size="xs" dense color="primary" :icon="editCar ? 'cancel' : 'edit'"></q-btn>
+                      <q-btn
+                        v-if="editCar"
+                        @click="
+                          updateCar();
+                          updateCarNumber();
+                        "
+                        size="xs"
+                        dense
+                        color="primary"
+                        icon="check"
+                      ></q-btn>
+                      <q-btn
+                        @click="toggleEditCar()"
+                        size="xs"
+                        dense
+                        color="primary"
+                        :icon="editCar ? 'cancel' : 'edit'"
+                      ></q-btn>
                     </div>
-                    </td>
+                  </td>
                   <td class="text-center">
                     <div class="flex justify-center items-center q-gutter-x-xs">
                       <div v-if="!editTotalPrice">
@@ -435,15 +424,31 @@
                       </div>
                       <q-input
                         v-if="editTotalPrice"
-                        dense 
-                        stack-label :label="$t('Valor')" 
+                        dense
+                        stack-label
+                        :label="$t('Valor')"
                         type="text"
-                        prefix="R$" 
-                        reverse-fill-mask mask="#,##" fill-mask="0" 
-                        v-model="editTotalPriceValue" 
+                        prefix="R$"
+                        reverse-fill-mask
+                        mask="#,##"
+                        fill-mask="0"
+                        v-model="editTotalPriceValue"
                       />
-                      <q-btn v-if="editTotalPrice" @click="updateTotalPrice()" size="xs" dense color="primary" icon="check"></q-btn>
-                      <q-btn @click="editTotalPrice = !editTotalPrice" size="xs" dense color="primary" :icon="editTotalPrice ? 'cancel' : 'edit'"></q-btn>
+                      <q-btn
+                        v-if="editTotalPrice"
+                        @click="updateTotalPrice()"
+                        size="xs"
+                        dense
+                        color="primary"
+                        icon="check"
+                      ></q-btn>
+                      <q-btn
+                        @click="editTotalPrice = !editTotalPrice"
+                        size="xs"
+                        dense
+                        color="primary"
+                        :icon="editTotalPrice ? 'cancel' : 'edit'"
+                      ></q-btn>
                     </div>
                   </td>
                 </tr>
@@ -452,9 +457,7 @@
           </div>
 
           <div v-if="product.packages.length > 0" class="col-xs-12">
-            <div class="col-xs-12 text-subtitle2 q-mb-sm">
-              Detalhes dos produtos
-            </div>
+            <div class="col-xs-12 text-subtitle2 q-mb-sm">Detalhes dos produtos</div>
             <q-markup-table class="q-mb-md">
               <thead>
                 <tr>
@@ -519,14 +522,7 @@
             <div class="row items-center">
               <div class="text-h6">Detalhes</div>
               <q-space />
-              <q-btn
-                icon="close"
-                color="white"
-                flat
-                round
-                dense
-                v-close-popup
-              />
+              <q-btn icon="close" color="white" flat round dense v-close-popup />
             </div>
           </q-card-section>
 
@@ -632,10 +628,7 @@
                   :rules="[isInvalid('district')]"
                 />
               </div>
-              <div
-                v-if="showByAddressType"
-                class="col-xs-12 col-sm-grow q-mb-sm"
-              >
+              <div v-if="showByAddressType" class="col-xs-12 col-sm-grow q-mb-sm">
                 <q-input
                   stack-label
                   lazy-rules
@@ -646,10 +639,7 @@
                   :rules="[isInvalid('city')]"
                 />
               </div>
-              <div
-                v-if="showByAddressType"
-                class="col-xs-12 col-sm-grow q-mb-sm"
-              >
+              <div v-if="showByAddressType" class="col-xs-12 col-sm-grow q-mb-sm">
                 <q-input
                   stack-label
                   lazy-rules
@@ -676,12 +666,7 @@
                 />
               </div>
               <div class="col-xs-12 col-sm-grow q-mb-sm">
-                <q-btn
-                  size="sm"
-                  color="primary"
-                  label="Salvar"
-                  @click="saveAddress()"
-                />
+                <q-btn size="sm" color="primary" label="Salvar" @click="saveAddress()" />
               </div>
             </div>
           </q-card-section>
@@ -703,8 +688,8 @@ import {
 
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete.vue";
 import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm.vue";
-import { fetch } from '../../../../../../../../src/boot/myapi';
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+import { api } from "../../../../../../../../src/boot/api";
+
 
 export default {
   props: {
@@ -731,7 +716,7 @@ export default {
 
   data() {
     return {
-      api: new Api(this.$store.getters["auth/user"].token),
+      ,
       isSearching: false,
       summary: null,
       isLoading: false,
@@ -892,26 +877,18 @@ export default {
         this.retrieve.document = retrieveDocs;
         if (this.summary.retrievePeople.contact) {
           this.retrieve.contact.name = `${this.summary.retrievePeople.contact.name} ${this.summary.retrievePeople.contact.alias}`;
-          this.retrieve.contact.email =
-            this.summary.retrievePeople.contact.email;
-          this.retrieve.contact.phone =
-            this.summary.retrievePeople.contact.phone;
+          this.retrieve.contact.email = this.summary.retrievePeople.contact.email;
+          this.retrieve.contact.phone = this.summary.retrievePeople.contact.phone;
         }
 
         if (this.summary.retrievePeople.address) {
-          this.retrieve.address.district =
-            this.summary.retrievePeople.address.district;
-          this.retrieve.address.postal_code =
-            this.summary.retrievePeople.address.postalCode;
-          this.retrieve.address.street =
-            this.summary.retrievePeople.address.street;
-          this.retrieve.address.number =
-            this.summary.retrievePeople.address.number;
+          this.retrieve.address.district = this.summary.retrievePeople.address.district;
+          this.retrieve.address.postal_code = this.summary.retrievePeople.address.postalCode;
+          this.retrieve.address.street = this.summary.retrievePeople.address.street;
+          this.retrieve.address.number = this.summary.retrievePeople.address.number;
           this.retrieve.address.city = this.summary.retrievePeople.address.city;
-          this.retrieve.address.state =
-            this.summary.retrievePeople.address.state;
-          this.retrieve.address.complement =
-            this.summary.retrievePeople.address.complement;
+          this.retrieve.address.state = this.summary.retrievePeople.address.state;
+          this.retrieve.address.complement = this.summary.retrievePeople.address.complement;
         } else {
           this.retrieve.address.city =
             this.summary.quote.origin.city || data.quote.origin.city;
@@ -939,31 +916,22 @@ export default {
         this.delivery.document = deliveryDocs;
         if (this.summary.deliveryPeople.contact) {
           this.delivery.contact.name = `${this.summary.deliveryPeople.contact.name} ${this.summary.deliveryPeople.contact.alias}`;
-          this.delivery.contact.email =
-            this.summary.deliveryPeople.contact.email;
-          this.delivery.contact.phone =
-            this.summary.deliveryPeople.contact.phone;
+          this.delivery.contact.email = this.summary.deliveryPeople.contact.email;
+          this.delivery.contact.phone = this.summary.deliveryPeople.contact.phone;
         }
         if (this.summary.deliveryPeople.address) {
-          this.delivery.address.district =
-            this.summary.deliveryPeople.address.district;
-          this.delivery.address.postal_code =
-            this.summary.deliveryPeople.address.postalCode;
-          this.delivery.address.street =
-            this.summary.deliveryPeople.address.street;
-          this.delivery.address.number =
-            this.summary.deliveryPeople.address.number;
+          this.delivery.address.district = this.summary.deliveryPeople.address.district;
+          this.delivery.address.postal_code = this.summary.deliveryPeople.address.postalCode;
+          this.delivery.address.street = this.summary.deliveryPeople.address.street;
+          this.delivery.address.number = this.summary.deliveryPeople.address.number;
           this.delivery.address.city = this.summary.deliveryPeople.address.city;
-          this.delivery.address.state =
-            this.summary.deliveryPeople.address.state;
-          this.delivery.address.complement =
-            this.summary.deliveryPeople.address.complement;
+          this.delivery.address.state = this.summary.deliveryPeople.address.state;
+          this.delivery.address.complement = this.summary.deliveryPeople.address.complement;
         } else {
           this.retrieve.address.city =
             this.summary.quote.destination.city || data.quote.destination.city;
           this.retrieve.address.state =
-            this.summary.quote.destination.state ||
-            data.quote.destination.state;
+            this.summary.quote.destination.state || data.quote.destination.state;
         }
       } else {
         if (data.quote !== null) {
@@ -977,10 +945,8 @@ export default {
       this.product.carNumber = this.summary.carNumber;
       this.product.totalPrice = this.summary.invoiceTotal;
       this.product.packages = this.summary.packages;
-      this.retrieve.address.country =
-        this.summary.quote.origin.country || "Brasil";
-      this.delivery.address.country =
-        this.summary.quote.destination.country || "Brasil";
+      this.retrieve.address.country = this.summary.quote.origin.country || "Brasil";
+      this.delivery.address.country = this.summary.quote.destination.country || "Brasil";
 
       this.comments = this.summary.comments;
 
@@ -993,14 +959,8 @@ export default {
           .reduce((res, key) => Object.assign(res, { [key]: obj[key] }), {});
 
       this.$emit("quote-details", {
-        destination: Object.filter(
-          this.delivery.address,
-          (score) => score.length > 1
-        ),
-        origin: Object.filter(
-          this.retrieve.address,
-          (score) => score.length > 1
-        ),
+        destination: Object.filter(this.delivery.address, (score) => score.length > 1),
+        origin: Object.filter(this.retrieve.address, (score) => score.length > 1),
         mainOrder: this.orderId,
         packages:
           this.product.packages.length > 0
@@ -1075,20 +1035,19 @@ export default {
     },
 
     updateComments() {
-
       this.isUpdating = true;
 
       let values = {};
       values.comments = this.comments;
       let options = {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(values),
-        params: {}
+        params: {},
       };
 
-      return this.api
+      return api.fetch
         .private(`/sales/orders/fields/${this.orderId}`, options)
-        
+
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -1104,13 +1063,7 @@ export default {
             });
           }
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: error.message,
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isUpdating = false;
           this.editComments = false;
@@ -1118,7 +1071,7 @@ export default {
         });
     },
     updateCubage() {
-      if (this.editCubageValue == '' || this.editCubageValue == null) {
+      if (this.editCubageValue == "" || this.editCubageValue == null) {
         this.$q.notify({
           message: "O valor não pode ser vazio",
           position: "bottom",
@@ -1131,15 +1084,15 @@ export default {
       let values = {};
       values.cubage = parseFloat(this.editCubageValue);
       let options = {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(values),
-        params: {}
+        params: {},
       };
       this.isUpdating = true;
 
-      return this.api
+      return api.fetch
         .private(`/sales/orders/fields/${this.orderId}`, options)
-        
+
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -1155,13 +1108,7 @@ export default {
             });
           }
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: error.message,
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isUpdating = false;
           this.editCubage = false;
@@ -1170,7 +1117,7 @@ export default {
         });
     },
     updateCar() {
-      if (this.product.type == '' || this.product.type == null) {
+      if (this.product.type == "" || this.product.type == null) {
         this.$q.notify({
           message: "O campo automóvel não pode ser vazio",
           position: "bottom",
@@ -1181,15 +1128,15 @@ export default {
       let values = {};
       values.productType = this.editCarValue;
       let options = {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(values),
-        params: {}
+        params: {},
       };
       this.isUpdating = true;
 
-      return this.api
+      return api.fetch
         .private(`/sales/orders/fields/${this.orderId}`, options)
-        
+
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -1205,13 +1152,7 @@ export default {
             });
           }
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: error.message,
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isUpdating = false;
           this.editCar = false;
@@ -1221,16 +1162,16 @@ export default {
     updateCarNumber() {
       let values = {};
       values.other_informations = this.editCarNumberValue;
-      values.other_informations_type = 'carNumber';
+      values.other_informations_type = "carNumber";
       let options = {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(values),
-        params: {}
+        params: {},
       };
       this.isUpdating = true;
-      return this.api
+      return api.fetch
         .private(`/sales/orders/${this.orderId}/other-informations`, options)
-        
+
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -1246,13 +1187,7 @@ export default {
             });
           }
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: error.message,
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isUpdating = false;
           this.editCar = false;
@@ -1260,7 +1195,7 @@ export default {
         });
     },
     updateTotalPrice() {
-      if (this.editTotalPriceValue == '' || this.editTotalPriceValue == null) {
+      if (this.editTotalPriceValue == "" || this.editTotalPriceValue == null) {
         this.$q.notify({
           message: "O valor não pode ser vazio",
           position: "bottom",
@@ -1268,25 +1203,24 @@ export default {
         });
         return false;
       }
-      if (this.editTotalPriceValue.includes('.'))
-        this.editTotalPriceValue = this.editTotalPriceValue.replaceAll('.','');
+      if (this.editTotalPriceValue.includes("."))
+        this.editTotalPriceValue = this.editTotalPriceValue.replaceAll(".", "");
 
-      if (this.editTotalPriceValue.includes(','))
-        this.editTotalPriceValue = this.editTotalPriceValue.replaceAll(',','');
-
+      if (this.editTotalPriceValue.includes(","))
+        this.editTotalPriceValue = this.editTotalPriceValue.replaceAll(",", "");
 
       let values = {};
       values.invoiceTotal = parseFloat(this.editTotalPriceValue);
       let options = {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(values),
-        params: {}
+        params: {},
       };
       this.isUpdating = true;
 
-      return this.api
+      return api.fetch
         .private(`/sales/orders/fields/${this.orderId}`, options)
-        
+
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -1302,13 +1236,7 @@ export default {
             });
           }
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: error.message,
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isUpdating = false;
           this.editTotalPrice = false;
@@ -1409,18 +1337,12 @@ export default {
 
         this.isLoading = true;
 
-        fetch(
-          "/my_contracts/provider/" +
-            this.myCompany.id +
-            "/order/" +
-            this.summary.id,
+        api.fetch(
+          "/my_contracts/provider/" + this.myCompany.id + "/order/" + this.summary.id,
           params
         )
-          
           .then(
             ((data) => {
-              this.isLoading = false;
-
               if (
                 data.response &&
                 data.response.success &&
@@ -1434,8 +1356,7 @@ export default {
                 });
               } else {
                 this.$q.notify({
-                  message:
-                    "Não foi possível gerar um contrato para esse pedido!",
+                  message: "Não foi possível gerar um contrato para esse pedido!",
                   position: "bottom",
                   type: "negative",
                 });
@@ -1445,18 +1366,13 @@ export default {
             }).bind(this)
           )
           .catch((e) => {
-            this.isLoading = false;
-
-            this.$q.notify({
-              message: "Não foi possível gerar um contrato para esse pedido!",
-              position: "bottom",
-              type: "negative",
-            });
-
             if (e instanceof SubmissionError) {
               return e.errors._error;
             }
             return e.message;
+          })
+          .finally((data) => {
+            this.isLoading = false;
           });
       } else {
         this.$q.notify({
@@ -1468,9 +1384,7 @@ export default {
     },
 
     onPropostaClick() {
-      var quote = this.summary.quotations
-        ? this.summary.quotations[0]
-        : undefined;
+      var quote = this.summary.quotations ? this.summary.quotations[0] : undefined;
 
       if (quote) {
         this.isLoading = true;
@@ -1488,10 +1402,7 @@ export default {
             var pdfName = "Proposta - " + quote.id + ".pdf";
 
             if (window.navigator.msSaveOrOpenBlob) {
-              window.navigator.msSaveBlob(
-                b64toBlob(pdf, "Aplication/PDF"),
-                pdfName
-              );
+              window.navigator.msSaveBlob(b64toBlob(pdf, "Aplication/PDF"), pdfName);
             } else {
               const downloadLink = window.document.createElement("a");
               const blob = this.b64toBlob(pdf, "Aplication/PDF");
@@ -1530,11 +1441,7 @@ export default {
       const byteCharacters = atob(b64Data);
       const byteArrays = [];
 
-      for (
-        let offset = 0;
-        offset < byteCharacters.length;
-        offset += sliceSize
-      ) {
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
         const slice = byteCharacters.slice(offset, offset + sliceSize);
 
         const byteNumbers = new Array(slice.length);
@@ -1564,26 +1471,22 @@ export default {
     getGeoPlaces(input) {
       this.isSearching = true;
 
-      return this.geoplace(input).then((result) => {
-        this.isSearching = false;
-
-        if (result.success) {
-          let items = [];
-          for (let i = 0; i < result.data.length; i++) {
-            items.push({
-              label: result.data[i].description,
-              value: result.data[i],
-            });
+      return this.geoplace(input)
+        .then((result) => {
+          if (result.success) {
+            let items = [];
+            for (let i = 0; i < result.data.length; i++) {
+              items.push({
+                label: result.data[i].description,
+                value: result.data[i],
+              });
+            }
+            return items;
           }
-          return items;
-        } else {
-          this.$q.notify({
-            message: this.$t("messages.gmapsReqNoData"),
-            type: "negative",
-            position: "bottom",
-          });
-        }
-      });
+        })
+        .finally((data) => {
+          this.isSearching = false;
+        });
     },
 
     onSaveCompany() {
@@ -1616,10 +1519,7 @@ export default {
     getPayerOptions() {
       let opts = [];
 
-      if (
-        this.summary.retrievePeople == null ||
-        this.summary.deliveryPeople == null
-      ) {
+      if (this.summary.retrievePeople == null || this.summary.deliveryPeople == null) {
         opts.push({
           label: "Não definido",
           value: -2,
@@ -1716,9 +1616,7 @@ export default {
       this.dialogs.details.data.city = data.address.city;
       this.dialogs.details.data.district = data.address.district;
 
-      this.dialogs.details.data.postal_code = formatCEP(
-        data.address.postal_code
-      );
+      this.dialogs.details.data.postal_code = formatCEP(data.address.postal_code);
 
       this.dialogs.details.data.street = data.address.street;
       this.dialogs.details.data.number = data.address.number;
@@ -1743,7 +1641,7 @@ export default {
           this.isLoading = false;
 
           if (response.success) {
-            console.log('response',response.data)
+            console.log("response", response.data);
             this.summary = response.data;
 
             return true;

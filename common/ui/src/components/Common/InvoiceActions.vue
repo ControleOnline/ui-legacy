@@ -1,64 +1,66 @@
 <template>
   <div class="row q-gutter-xs items-center justify-center">
-    <q-btn v-if="invoice.status.status !== 'canceled'"
-      color   ="negative"
-      label   ="Cancelar"
-      @click  ="changeStatus('canceled')"
+    <q-btn
+      v-if="invoice.status.status !== 'canceled'"
+      color="negative"
+      label="Cancelar"
+      @click="changeStatus('canceled')"
       :loading="isSaving"
     />
 
-    <q-btn v-if="invoice.status.status === 'canceled'"
-      color   ="primary"
-      label   ="Reativar"
-      @click  ="changeStatus('open')"
+    <q-btn
+      v-if="invoice.status.status === 'canceled'"
+      color="primary"
+      label="Reativar"
+      @click="changeStatus('open')"
       :loading="isSaving"
     />
 
-    <q-btn v-if="invoice.status.status === 'open'"
-      color   ="primary"
-      label   ="Fechar"
-      @click  ="changeStatus('waiting payment')"
+    <q-btn
+      v-if="invoice.status.status === 'open'"
+      color="primary"
+      label="Fechar"
+      @click="changeStatus('waiting payment')"
       :loading="isSaving"
     />
 
-    <q-btn v-if="['waiting payment', 'outdated billing'].includes(invoice.status.status)"
-      color   ="positive"
-      label   ="Marcar como paga"
-      @click  ="changeStatus('paid')"
+    <q-btn
+      v-if="['waiting payment', 'outdated billing'].includes(invoice.status.status)"
+      color="positive"
+      label="Marcar como paga"
+      @click="changeStatus('paid')"
       :loading="isSaving"
     />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { fetch }      from '../../../../../../src/boot/myapi';
+import { mapGetters } from "vuex";
 
 export default {
   props: {
     invoice: {
-      type    : Object,
+      type: Object,
       required: true,
     },
   },
 
-  data () {
+  data() {
     return {
-      isSaving : false,
+      isSaving: false,
       newStatus: null,
-    }
+    };
   },
 
   computed: {
     ...mapGetters({
-      myCompany: 'people/currentCompany',
+      myCompany: "people/currentCompany",
     }),
   },
 
   watch: {
     newStatus(status) {
-      if (!status)
-        return;
+      if (!status) return;
 
       this.save();
     },
@@ -66,7 +68,7 @@ export default {
 
   methods: {
     changeStatus(newStatus) {
-      if (window.confirm('Realmente deseja mudar o status da fatura?')) {
+      if (window.confirm("Realmente deseja mudar o status da fatura?")) {
         this.newStatus = newStatus;
       }
     },
@@ -75,39 +77,37 @@ export default {
       this.isSaving = true;
 
       this.updateStatus({
-        id    : this.invoice['@id'],
-        status: this.newStatus
+        id: this.invoice["@id"],
+        status: this.newStatus,
       })
-      .then(invoice => {
-        if (invoice !== null) {
-          this.$q.notify({
-            message : 'Os dados foram salvos com sucesso',
-            position: 'bottom',
-            type    : 'positive',
-          });
+        .then((invoice) => {
+          if (invoice !== null) {
+            this.$q.notify({
+              message: "Os dados foram salvos com sucesso",
+              position: "bottom",
+              type: "positive",
+            });
 
-          this.$emit('changed', invoice);
-        }
-      })
-      .finally(() => {
-        this.isSaving = false;
-      });
+            this.$emit("changed", invoice);
+          }
+        })
+        .finally(() => {
+          this.isSaving = false;
+        });
     },
 
     updateStatus(params) {
       let options = {
-        method: 'PUT',
-        body  : JSON.stringify({ status: params.status }),
+        method: "PUT",
+        body: JSON.stringify({ status: params.status }),
         params: {
-          myCompany: this.myCompany.id
-        }
+          myCompany: this.myCompany.id,
+        },
       };
 
-      return fetch(`${params.id}/update-status`, options)
-        
-        .then(invoice => {
-          return invoice;
-        });
+      return api.fetch(`${params.id}/update-status`, options).then((invoice) => {
+        return invoice;
+      });
     },
   },
 };

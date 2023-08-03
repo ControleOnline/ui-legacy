@@ -57,7 +57,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <FormMenu :context="context" :id="dialogs.menu.id" :api="api" />
+          <FormMenu :context="context" :id="dialogs.menu.id"  />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -66,7 +66,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import FormMenu from "./Form";
 
 const SETTINGS = {
@@ -104,7 +104,7 @@ export default {
   data() {
     return {
       context: "menu",
-      api: new Api(this.$store.getters["auth/user"].token),
+      ,
       settings: SETTINGS,
       items: [],
       pagination: {
@@ -141,7 +141,7 @@ export default {
   methods: {
     // store method
     getItems(params) {
-      return this.api
+      return api.fetch
         .private("roles", { params })
         
         .then((response) => {
@@ -162,7 +162,7 @@ export default {
       };
 
       let endpoint = `customers/${this.id}/addresses`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         
         .then(data => {
           if (data.response) {

@@ -33,7 +33,7 @@ export default class Resource {
     this.isFake     = isFake;
   }
 
-  fetch(options) {
+  api.fetch(options) {
     let _options = {
       method: this.operation,
     };

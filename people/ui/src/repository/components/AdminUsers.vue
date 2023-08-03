@@ -125,7 +125,7 @@ export default {
     // store method
     getItems() {
       let endpoint = `${this.people_type}/${this.id}/users`;
-      return this.api.private(endpoint)
+      return api.fetch(endpoint)
         
         .then(result => {
           return result.response.data;
@@ -141,7 +141,7 @@ export default {
       };
 
       let endpoint = `${this.people_type}/${this.id}/users`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         
         .then(data => {
           if (data.response) {
@@ -164,7 +164,7 @@ export default {
       };
 
       let endpoint = `${this.people_type}/${this.id}/users`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         
         .then(data => {
           if (data.response) {

@@ -1,5 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch }       from '../../../../../../../../src/boot/myapi';
+import { api }       from '../../../../../../../../src/boot/api';
 import * as types      from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/comission/orders';
@@ -7,7 +7,7 @@ const RESOURCE_ENDPOINT = '/comission/orders';
 export const getItems = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
-  return fetch(RESOURCE_ENDPOINT, { params })
+  return api.fetch(RESOURCE_ENDPOINT, { params })
     
     .then(data => {
       commit(types.SET_ISLOADING , false);
@@ -37,7 +37,7 @@ export const reset = ({ commit }) => {
 };
 
 export const getStatuses = ({ commit }, params = {}) => {
-  return fetch('/statuses', { params })
+  return api.fetch('/statuses', { params })
     
     .then(data => {
 
@@ -56,7 +56,7 @@ export const getStatuses = ({ commit }, params = {}) => {
 };
 
 export const getDetailStatus = ({ commit }, { orderId, params }) => {
-  return fetch(`${RESOURCE_ENDPOINT}/${orderId}/detail/status`, { params })
+  return api.fetch(`${RESOURCE_ENDPOINT}/${orderId}/detail/status`, { params })
     
     .then(data => {
 
@@ -66,7 +66,7 @@ export const getDetailStatus = ({ commit }, { orderId, params }) => {
 };
 
 export const getDetailSummary = ({ commit }, { orderId, params }) => {
-  return fetch(`${RESOURCE_ENDPOINT}/${orderId}/detail/summary`, { params })
+  return api.fetch(`${RESOURCE_ENDPOINT}/${orderId}/detail/summary`, { params })
     
     .then(data => {
 
@@ -76,7 +76,7 @@ export const getDetailSummary = ({ commit }, { orderId, params }) => {
 };
 
 export const getDetailQuotation = ({ commit }, { orderId, params }) => {
-  return fetch(`${RESOURCE_ENDPOINT}/${orderId}/detail/quotation`, { params })
+  return api.fetch(`${RESOURCE_ENDPOINT}/${orderId}/detail/quotation`, { params })
     
     .then(data => {
 
@@ -88,7 +88,7 @@ export const getDetailQuotation = ({ commit }, { orderId, params }) => {
 export const getDetailOrder = ({ commit }, { id, params = {} }) => {
   commit(types.SET_ISLOADING);
 
-  return fetch(`${RESOURCE_ENDPOINT}/${id}/detail/invoice`, { params })
+  return api.fetch(`${RESOURCE_ENDPOINT}/${id}/detail/invoice`, { params })
     
     .then(data => {
       commit(types.SET_ISLOADING, false);
@@ -101,7 +101,7 @@ export const getDetailOrder = ({ commit }, { id, params = {} }) => {
 };
 
 export const downloadNF = ({ commit }, id) => {
-  return fetch(`/invoice_taxes/${id}/download-nf`)
+  return api.fetch(`/invoice_taxes/${id}/download-nf`)
     .then(response => response.blob())
     .then(data => {
 
@@ -119,7 +119,7 @@ export const updateStatus = ({ commit }, { id, values, params = {} }) => {
 
   options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
 
-  return fetch(`${RESOURCE_ENDPOINT}/${id}/update-status`, options)
+  return api.fetch(`${RESOURCE_ENDPOINT}/${id}/update-status`, options)
     
     .then(data => {
 

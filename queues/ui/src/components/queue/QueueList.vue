@@ -1,7 +1,12 @@
 <template>
   <div class="col-12">
     <div class="flex flex-center" v-if="isLoading || loadingStatuses">
-      <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary" class="q-ma-md" />
+      <q-circular-progress
+        :indeterminate="isLoading || loadingStatuses"
+        size="sm"
+        color="primary"
+        class="q-ma-md"
+      />
       {{ $t(`loading`) }}
     </div>
 
@@ -19,22 +24,17 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td>
-            <q-btn
-              dense
-              flat
-              color="primary"
-              icon="settings"
-            >
-            <q-menu>
-              <q-list>
-                <q-item clickable @click="openEditModal(props.row)">
-                  <q-item-section side>
-                    <q-icon name="edit"></q-icon>
-                  </q-item-section>
-                  <q-item-section> {{ $t(`Edit`) }} </q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
+            <q-btn dense flat color="primary" icon="settings">
+              <q-menu>
+                <q-list>
+                  <q-item clickable @click="openEditModal(props.row)">
+                    <q-item-section side>
+                      <q-icon name="edit"></q-icon>
+                    </q-item-section>
+                    <q-item-section> {{ $t(`Edit`) }} </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
             </q-btn>
           </q-td>
           <q-td :props="props" key="Id"> {{ props.row.id }}</q-td>
@@ -45,19 +45,18 @@
     </q-table>
 
     <q-dialog v-model="editQueue">
-      <q-card style="width:50%">
+      <q-card style="width: 50%">
         <q-card-section>
           <span class="text-h6"> {{ $t(`Edit`) }}</span>
         </q-card-section>
         <QueueCreate :queueObj="this.selectedQueue" @savedItem="saved"></QueueCreate>
       </q-card>
     </q-dialog>
-
   </div>
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 import QueueCreate from "@controleonline/quasar-queues-ui/src/components/queue/QueueCreate.vue";
 
@@ -71,10 +70,10 @@ export default {
 
   data() {
     return {
-      api: new Api(this.$store.getters["auth/user"].token),
+      ,
       loadingStatuses: null,
       isLoading: null,
-      
+
       pagination: {
         sortBy: "ultimaModificacao",
         page: 1,
@@ -85,7 +84,7 @@ export default {
       selectedQueue: null,
 
       editQueue: false,
-      
+
       data: [],
       columns: [
         {
@@ -113,92 +112,77 @@ export default {
           format: (val) => `${val}`,
         },
       ],
-    }
+    };
   },
 
   created() {
     this.getCollectionFiles();
   },
-  watch: {
-
-  },
+  watch: {},
 
   methods: {
     onRequest(pagination) {
-      console.log('onRequest')
-      console.log(onRequest)
+      console.log("onRequest");
+      console.log(onRequest);
       this.pagination = pagination;
     },
 
     getItems(params) {
-      return this.api
+      return api.fetch
         .private(`queues`, { params })
-        
+
         .then((result) => {
           return {
             members: result["hydra:member"],
-            total: result["hydra:total"]
-          }
-        })
+            total: result["hydra:total"],
+          };
+        });
     },
 
     getCollectionFiles() {
       this.isLoading = true;
-      
+
       let { page, rowsPerPage, rowsNumber, sortBy, descending } = this.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
 
       this.getItems(params)
-      .then((data) => {
-        if (data.members) {
-          this.data = [];
-          for (let index in data.members) {
-            this.data.push({
-              id: data.members[index]["id"],
-              queue: data.members[index]["queue"],
-              company: {
-                label: data.members[index]["company"]["name"],
-                value: data.members[index]["company"]["@id"].replaceAll("/people/", ""),
-              }
-            });
+        .then((data) => {
+          if (data.members) {
+            this.data = [];
+            for (let index in data.members) {
+              this.data.push({
+                id: data.members[index]["id"],
+                queue: data.members[index]["queue"],
+                company: {
+                  label: data.members[index]["company"]["name"],
+                  value: data.members[index]["company"]["@id"].replaceAll("/people/", ""),
+                },
+              });
+            }
+            console.log(this.data);
           }
-          console.log(this.data)
-        } else {
-          this.$q.notify({
-            message: this.$t(`messages.anErrorOccurred`),
-            position: "bottom",
-            type: "negative",
-          });
-        }
-        this.pagination.page = page;
-        this.pagination.rowsPerPage = rowsPerPage;
-        this.pagination.sortBy = sortBy;
-        this.pagination.descending = descending;
-        this.pagination.rowsNumber = data.total;
-      })
-      .catch((error) => {
-        this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-      })
-      .finally(() => {
-      this.isLoading = false;
-      });
+          this.pagination.page = page;
+          this.pagination.rowsPerPage = rowsPerPage;
+          this.pagination.sortBy = sortBy;
+          this.pagination.descending = descending;
+          this.pagination.rowsNumber = data.total;
+        })
+
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
 
     saved(item) {
-      console.log('saved')
-      console.log(item)
-      if (item["@id"])
-      console.log('entrou')
-        this.getCollectionFiles();
-        this.editQueue = false;
+      console.log("saved");
+      console.log(item);
+      if (item["@id"]) console.log("entrou");
+      this.getCollectionFiles();
+      this.editQueue = false;
     },
 
     openEditModal(row) {
-      this.selectedQueue = row
+      this.selectedQueue = row;
       this.editQueue = true;
     },
   },

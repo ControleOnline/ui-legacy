@@ -5,8 +5,8 @@ export default class GetTrainers extends Resource {
     super(client, '/people_trainers', 'GET', true)
   }
 
-  fetch(options) {
-    return super.fetch(options)
+  api.fetch(options) {
+    return super.api.fetch(options)
       .then((response) => {
         if (response.ok) {
           return response

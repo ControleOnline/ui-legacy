@@ -19,8 +19,6 @@
         />
       </div>
 
-
-
       <div class="col-xs-12">
         <q-input
           dense
@@ -36,7 +34,7 @@
       </div>
 
       <div class="col-xs-12">
-              <q-select
+        <q-select
           dense
           outlined
           stack-label
@@ -46,7 +44,6 @@
           :label="$t('Route')"
           :options="routes"
         />
-
       </div>
 
       <div class="col-xs-12">
@@ -95,7 +92,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 
 export default {
   props: {
@@ -103,10 +100,7 @@ export default {
       required: false,
       default: null,
     },
-    api: {
-      type: Api,
-      required: true,
-    },
+
     context: {
       type: String,
       required: true,
@@ -125,13 +119,9 @@ export default {
         this.item.context = this.context;
 
         this.item.route =
-          item.route !== null && item.route !== undefined
-            ? item.route.id
-            : null;
+          item.route !== null && item.route !== undefined ? item.route.id : null;
         this.item.category =
-          item.category !== null && item.category !== undefined
-            ? item.category.id
-            : null;
+          item.category !== null && item.category !== undefined ? item.category.id : null;
       });
     }
   },
@@ -150,7 +140,7 @@ export default {
         category: null,
       },
       categories: [],
-      routes:[],
+      routes: [],
     };
   },
 
@@ -168,9 +158,9 @@ export default {
 
     // store method
     getItem(id) {
-      return this.api
+      return api.fetch
         .private(`menus/${id}`)
-        
+
         .then((response) => {
           return response;
         });
@@ -187,9 +177,9 @@ export default {
 
       let endpoint = this.id === null ? "menus" : `menus/${this.id}`;
 
-      return this.api
+      return api.fetch
         .private(endpoint, options)
-        
+
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -204,13 +194,6 @@ export default {
           }
 
           return null;
-        })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
         });
     },
 
@@ -223,7 +206,7 @@ export default {
     onSubmit() {
       this.saving = true;
 
-      this.save({        
+      this.save({
         menu: this.item.menu,
         route: "/routes/" + this.item.route,
         color: this.item.color,
@@ -238,7 +221,7 @@ export default {
     loadRoutes() {
       this.api
         .private(`routes`)
-        
+
         .then((response) => {
           let data = response["hydra:member"];
           data.forEach((item, i) => {
@@ -278,8 +261,7 @@ export default {
 
     isInvalid(field) {
       return (val) => {
-        if (!(val && val.length > 0))
-          return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
 
         return true;
       };

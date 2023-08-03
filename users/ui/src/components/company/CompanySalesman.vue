@@ -173,7 +173,7 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import { formatDocument } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import md5 from "md5";
 import { mapGetters } from "vuex";
@@ -230,7 +230,7 @@ export default {
   methods: {
     // store method
     getItems(params) {
-      return this.api
+      return api.fetch
         .private(`companies/${this.id}/salesman`, { params })
         
         .then((result) => {
@@ -246,7 +246,7 @@ export default {
         body: JSON.stringify(values),
       };
 
-      return this.api
+      return api.fetch
         .private(`companies/${this.id}/salesman`, options)
         
         .then((data) => {
@@ -269,7 +269,7 @@ export default {
         body: JSON.stringify({ id }),
       };
 
-      return this.api
+      return api.fetch
         .private(`companies/${this.id}/salesman`, options)
         
         .then((data) => {

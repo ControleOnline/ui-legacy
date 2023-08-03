@@ -50,7 +50,7 @@
                   :rules="[isInvalid('nickname')]" class="q-mb-sm"  />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <SearchCEPAddress :api="api" @found="onCEPFound" @error="(error) => {
+                <SearchCEPAddress  @found="onCEPFound" @error="(error) => {
                   this.item.postalCode = error.postalCode;
                 
                   this.$q.notify({
@@ -240,7 +240,7 @@ export default {
     // store method
     getItems() {
       let endpoint = `${this.people_type}/${this.id}/addresses`;
-      return this.api.private(endpoint)
+      return api.fetch(endpoint)
         
         .then(result => {
           return result.response.data;
@@ -256,7 +256,7 @@ export default {
       };
 
       let endpoint = `${this.people_type}/${this.id}/addresses`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         
         .then(data => {
           if (data.response) {
@@ -279,7 +279,7 @@ export default {
       };
 
       let endpoint = `${this.people_type}/${this.id}/addresses`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         
         .then(data => {
           if (data.response) {

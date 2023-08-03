@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 import { mapActions, mapGetters } from "vuex";
 
@@ -69,10 +69,7 @@ export default {
     table: {
       required: true,
     },
-    api: {
-      type: Api,
-      required: true,
-    },
+
   },
 
   computed: {
@@ -128,7 +125,7 @@ export default {
       };
 
       let endpoint = `delivery_tax_groups/${this.table.id}`;
-      return this.api
+      return api.fetch
         .private(endpoint, options)
         
         .catch((e) => {

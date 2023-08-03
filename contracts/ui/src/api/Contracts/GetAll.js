@@ -5,8 +5,8 @@ export default class GetAll extends Resource {
     super(client, '/my_contracts', 'GET', true)
   }
 
-  fetch(options) {
-    return super.fetch(options)
+  api.fetch(options) {
+    return super.api.fetch(options)
       .then((response) => {
         if (response.ok) {
           return response

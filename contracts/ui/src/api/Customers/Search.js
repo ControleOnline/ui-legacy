@@ -6,8 +6,8 @@ export default class Search extends Resource {
     super(client, '/people/client-company', 'GET', true)
   }
 
-  fetch(options) {
-    return super.fetch(options)
+  api.fetch(options) {
+    return super.api.fetch(options)
       .then((response) => {
         if (response.ok) {
           return response

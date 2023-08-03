@@ -44,7 +44,7 @@ export default function (id, options = {}) {
       ? "https://api.dev.foccuscegonhas.com.br/"
       : ENTRYPOINT + (ENTRYPOINT.endsWith("/") ? "" : "/");
   const domain = DOMAIN + (DOMAIN.endsWith("/") ? "" : "/");
-  return fetch(new URL(id, entryPoint), options)
+  return api.fetch(new URL(id, entryPoint), options)
     .then((response) => {
       if (response.ok) {
         let method = options ? options.method : null;

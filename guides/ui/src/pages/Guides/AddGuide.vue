@@ -770,7 +770,7 @@ export default {
 
       this.$router.push({ name: 'guides', params: { id: this.guideEdit.main_information.category } });
     },
-    fetchGuide() {
+    api.fetchGuide() {
       const getterString = this.$route.query.id ? 'Guides/getGuideDetails' : 'Guides/getNewGuide';
 
       this.guideEdit = JSON.parse(JSON.stringify(this.$store.getters[getterString]));
@@ -778,7 +778,7 @@ export default {
   },
 
   created() {
-    this.fetchGuide();
+    api.fetchGuide();
   },
 };
 </script>

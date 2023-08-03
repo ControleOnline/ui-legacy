@@ -1,5 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch } from '../../../../../../../../src/boot/myapi';
+import { api } from '../../../../../../../../src/boot/api';
 import * as types from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/finance/receive';
@@ -7,7 +7,7 @@ const RESOURCE_ENDPOINT = '/finance/receive';
 export const getItems = ({ commit }, params = {}) => {
     commit(types.SET_ISLOADING);
 
-    return fetch(RESOURCE_ENDPOINT, { params })
+    return api.fetch(RESOURCE_ENDPOINT, { params })
         
         .then(data => {
             commit(types.SET_ISLOADING, false);
@@ -37,7 +37,7 @@ export const reset = ({ commit }) => {
 };
 
 export const getStatuses = ({ commit }, params = {}) => {
-    return fetch('/statuses', { params })
+    return api.fetch('/statuses', { params })
         
         .then(data => {
 
@@ -56,7 +56,7 @@ export const getStatuses = ({ commit }, params = {}) => {
 };
 
 export const getInvoice = ({ commit }, { invoiceId, params }) => {
-    return fetch(`/finance/receive/${invoiceId}`, { params })
+    return api.fetch(`/finance/receive/${invoiceId}`, { params })
         
         .then(data => {
             return data;
@@ -70,7 +70,7 @@ export const renewInvoice = ({ commit }, { invoiceId, params }) => {
         method: 'PUT',
         body: JSON.stringify({ params })
     };
-    return fetch(`/finance/receive/${invoiceId}/renew`, options)
+    return api.fetch(`/finance/receive/${invoiceId}/renew`, options)
         
         .then(data => {
 
@@ -83,7 +83,7 @@ export const renewInvoice = ({ commit }, { invoiceId, params }) => {
 };
 
 export const bankItau = ({ commit }, { invoiceId, operation, params = {} }) => {
-    return fetch(`/finance/receive/${invoiceId}/bank/itau/${operation}`, { params })
+    return api.fetch(`/finance/receive/${invoiceId}/bank/itau/${operation}`, { params })
         
         .then(data => {
             if (data.response) {
@@ -94,7 +94,7 @@ export const bankItau = ({ commit }, { invoiceId, operation, params = {} }) => {
 };
 
 export const bankInter = ({ commit }, { invoiceId, operation, params = {} }) => {
-    return fetch(`/finance/receive/${invoiceId}/bank/inter/${operation}`, { params })
+    return api.fetch(`/finance/receive/${invoiceId}/bank/inter/${operation}`, { params })
         
         .then(data => {
             if (data.response) {
@@ -105,7 +105,7 @@ export const bankInter = ({ commit }, { invoiceId, operation, params = {} }) => 
 };
 
 export const getBankPerInvoiceId = ({ commit }, { invoiceId, params = {} }) => {
-    return fetch(`/finance/receive/${invoiceId}/bank`, { params })
+    return api.fetch(`/finance/receive/${invoiceId}/bank`, { params })
         
         .then(data => {
             if (data.response)
@@ -122,7 +122,7 @@ export const updateInvoiceDuedate = ({ commit }, { id, dueDate, params }) => {
         params: params
     };
 
-    return fetch(`${id}`, options)
+    return api.fetch(`${id}`, options)
         
         .then(invoice => {
             if (invoice['@id'])
@@ -139,7 +139,7 @@ export const deleteInvoiceOrder = ({ commit }, { invoiceId, orderId, params }) =
         params: params
     };
 
-    return fetch(`${invoiceId}/remove-order`, options)
+    return api.fetch(`${invoiceId}/remove-order`, options)
         
         .then(data => {
             if (data.response) {

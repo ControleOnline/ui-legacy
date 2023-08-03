@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { fetch } from 'boot/myapi';
+import { api } from 'boot/api';
 import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
@@ -170,7 +170,7 @@ export default {
 
     return {
       loadingStatuses: false,
-      API: new Api(this.$store.getters["auth/user"].token),
+      ,
       loadArr: [],
       loadingDownloadReceipt: false,
       loadingDownloadGuide: false,
@@ -247,7 +247,7 @@ export default {
       params.context = this.docs_type;
       params['order[name]'] = 'ASC';
 
-      return this.API.private("/statuses", { params })
+      return api.fetch("/statuses", { params })
         
         .then((result) => {
           return {
@@ -293,7 +293,7 @@ export default {
         params: { 'myProvider': this.myCompanyLocal }
       };
 
-      return fetch('/filesb/' + id, params)
+      return api.fetch('/filesb/' + id, params)
         
         .then(data => {
           if (data !== null) {
@@ -345,7 +345,7 @@ export default {
         }
       };
 
-      fetch('/filesb', params)
+      api.fetch('/filesb', params)
         
         .then(data => {
 

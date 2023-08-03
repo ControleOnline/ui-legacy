@@ -22,7 +22,7 @@
           token: config.token,
         }"
         :provider="provider"
-        :fetchs="fetchs"
+        :api.fetchs="api.fetchs"
       />
     </div>
 
@@ -41,11 +41,11 @@
           <FormCreatePeople
             ref="myForm"
             :people_type="people_type"
-            :api="api"
+            
             @before="
               (params) => {
-                if (this.fetchs.createPeople) {
-                  this.fetchs.createPeople.before(params);
+                if (api.fetchs.createPeople) {
+                  api.fetchs.createPeople.before(params);
                 }
               }
             "
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import FormCreatePeople from "../../components/FormCreate.vue";
 import PageSearchPeople from "../PageSearch/Index.vue";
 
@@ -89,7 +89,7 @@ export default {
       type: Object,
       required: true,
     },
-    fetchs: {
+    api.fetchs: {
       type: Object,
       required: false,
     },

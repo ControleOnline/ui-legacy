@@ -34,8 +34,8 @@
     <div class="row q-col-gutter-xs q-pb-xs">
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-      dense
-      outlined 
+          dense
+          outlined
           stack-label
           lazy-rules
           v-model="item.contact.email"
@@ -48,8 +48,8 @@
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-      dense
-      outlined 
+          dense
+          outlined
           stack-label
           lazy-rules
           v-model="item.contact.name"
@@ -61,8 +61,8 @@
       </div>
       <div class="col-xs-12 col-sm-6 q-mb-sm">
         <q-input
-      dense
-      outlined 
+          dense
+          outlined
           stack-label
           lazy-rules
           unmasked-value
@@ -75,8 +75,8 @@
       </div>
       <div class="hidden">
         <q-input
-      dense
-      outlined 
+          dense
+          outlined
           stack-label
           lazy-rules
           v-model="item.contact.email"
@@ -94,8 +94,8 @@
       <div class="row q-col-gutter-xs q-pb-xs">
         <div class="col-xs-12 col-sm-6 q-mb-sm" v-if="item.personType == 'PJ'">
           <q-input
-      dense
-      outlined 
+            dense
+            outlined
             stack-label
             v-model="item.name"
             type="text"
@@ -105,8 +105,8 @@
         </div>
         <div class="col-xs-12 col-sm-6 q-mb-sm" v-if="item.personType == 'PJ'">
           <q-input
-      dense
-      outlined 
+            dense
+            outlined
             stack-label
             v-model="item.alias"
             type="text"
@@ -135,8 +135,8 @@
     <div class="row q-col-gutter-sm q-pb-xs">
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           stack-label
           lazy-rules
           unmasked-value
@@ -155,8 +155,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -165,16 +165,14 @@
           :label="$t('Rua')"
           :rules="[isInvalid('street')]"
           :borderless="
-            order.address.origin === null
-              ? false
-              : order.address.origin.street.length > 0
+            order.address.origin === null ? false : order.address.origin.street.length > 0
           "
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -183,16 +181,14 @@
           :label="$t('Número')"
           :rules="[isInvalid('number')]"
           :borderless="
-            order.address.origin === null
-              ? false
-              : order.address.origin.number.length > 0
+            order.address.origin === null ? false : order.address.origin.number.length > 0
           "
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           stack-label
           hide-bottom-space
           v-model="item.address.complement"
@@ -207,8 +203,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -225,8 +221,8 @@
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -235,21 +231,17 @@
           :label="$t('Cidade')"
           :rules="[isInvalid('city')]"
           :readonly="
-            order.address.origin === null
-              ? false
-              : order.address.origin.city.length > 0
+            order.address.origin === null ? false : order.address.origin.city.length > 0
           "
           :borderless="
-            order.address.origin === null
-              ? false
-              : order.address.origin.city.length > 0
+            order.address.origin === null ? false : order.address.origin.city.length > 0
           "
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -259,21 +251,17 @@
           mask="AA"
           :rules="[isInvalid('state')]"
           :readonly="
-            order.address.origin === null
-              ? false
-              : order.address.origin.state.length > 0
+            order.address.origin === null ? false : order.address.origin.state.length > 0
           "
           :borderless="
-            order.address.origin === null
-              ? false
-              : order.address.origin.state.length > 0
+            order.address.origin === null ? false : order.address.origin.state.length > 0
           "
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
         <q-input
-      dense
-      outlined
+          dense
+          outlined
           stack-label
           lazy-rules
           hide-bottom-space
@@ -296,12 +284,7 @@
     </div>
 
     <div class="row justify-end">
-      <q-btn
-        type="submit"
-        color="primary"
-        label="Seguinte"
-        :loading="isLoading"
-      />
+      <q-btn type="submit" color="primary" label="Seguinte" :loading="isLoading" />
     </div>
   </q-form>
 </template>
@@ -375,9 +358,7 @@ export default {
     if (this.steps.retrieve.id !== null) {
       if (
         !this.quoteContact ||
-        (!this.quoteContact.name &&
-          !this.quoteContact.email &&
-          !this.quoteContact.phone)
+        (!this.quoteContact.name && !this.quoteContact.email && !this.quoteContact.phone)
       ) {
         data.item.whereRetrieve = this.extra.whereRetrieve;
 
@@ -515,11 +496,9 @@ export default {
     },
 
     retira_acentos(str) {
-      let com_acento =
-        "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝŔÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿŕ";
+      let com_acento = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝŔÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿŕ";
 
-      let sem_acento =
-        "AAAAAAACEEEEIIIIDNOOOOOOUUUUYRsBaaaaaaaceeeeiiiionoooooouuuuybyr";
+      let sem_acento = "AAAAAAACEEEEIIIIDNOOOOOOUUUUYRsBaaaaaaaceeeeiiiionoooooouuuuybyr";
       let novastr = "";
       let troca = false;
       for (let i = 0; i < str.length; i++) {
@@ -538,10 +517,7 @@ export default {
       return novastr;
     },
     setContactData() {
-      if (
-        (this.quoteContact && this.quoteContact.length > 0) ||
-        this.order.contact
-      ) {
+      if ((this.quoteContact && this.quoteContact.length > 0) || this.order.contact) {
         var contact = this.order.contact || this.quoteContact;
         //this.steps.retrieve.id = contact.id;
         if (contact.name) {
@@ -608,8 +584,7 @@ export default {
           this.isNewPeople = true;
           this.item.contact = [];
           this.contacts = [];
-          this.item.personType =
-            response.data.peopleType === "PF" ? "PF" : "PJ";
+          this.item.personType = response.data.peopleType === "PF" ? "PF" : "PJ";
           this.item.contact.email = document;
 
           if (!hasErrors) {
@@ -627,11 +602,7 @@ export default {
             }
 
             if (response.data.contact.length > 0 && response.data.contact[0]) {
-              for (
-                let index = 0;
-                index < response.data.contact.length;
-                index++
-              ) {
+              for (let index = 0; index < response.data.contact.length; index++) {
                 this.contacts.push({
                   label: `${response.data.contact[index].name} ${response.data.contact[index].alias}`,
                   value: response.data.contact[index],
@@ -644,8 +615,7 @@ export default {
             // set the person type
 
             if (response.data.document) {
-              this.item.personType =
-                response.data.document.type == "PJ" ? "PJ" : "PF";
+              this.item.personType = response.data.document.type == "PJ" ? "PJ" : "PF";
             }
 
             // set the address
@@ -653,10 +623,8 @@ export default {
             if (response.data.address) {
               if (this.order.address.origin !== null) {
                 if (
-                  response.data.address.country !=
-                    this.order.address.origin.country ||
-                  response.data.address.state !=
-                    this.order.address.origin.state ||
+                  response.data.address.country != this.order.address.origin.country ||
+                  response.data.address.state != this.order.address.origin.state ||
                   response.data.address.city != this.order.address.origin.city
                 ) {
                   return;
@@ -689,26 +657,22 @@ export default {
     getGeoPlaces(input) {
       this.isSearching = true;
 
-      return this.geoplace(input).then((result) => {
-        this.isSearching = false;
-
-        if (result.success) {
-          let items = [];
-          for (let i = 0; i < result.data.length; i++) {
-            items.push({
-              label: result.data[i].description,
-              value: result.data[i],
-            });
+      return this.geoplace(input)
+        .then((result) => {
+          if (result.success) {
+            let items = [];
+            for (let i = 0; i < result.data.length; i++) {
+              items.push({
+                label: result.data[i].description,
+                value: result.data[i],
+              });
+            }
+            return items;
           }
-          return items;
-        } else {
-          this.$q.notify({
-            message: this.$t("messages.gmapsReqNoData"),
-            type: "negative",
-            position: "bottom",
-          });
-        }
-      });
+        })
+        .finally(() => {
+          this.isSearching = false;
+        });
     },
 
     onSelect(item) {

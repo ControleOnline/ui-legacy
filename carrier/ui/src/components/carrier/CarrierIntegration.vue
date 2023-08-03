@@ -81,8 +81,6 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
-
 const SETTINGS = {
   select: {
     types: [
@@ -113,10 +111,7 @@ export default {
     id: {
       required: true,
     },
-    api: {
-      type: Api,
-      required: true,
-    },
+
   },
 
   data() {
@@ -140,8 +135,8 @@ export default {
     // store method
     getItems() {
       let endpoint = `carriers/${this.id}/integration`;
-      return this.api
-        .private(endpoint)
+      return api.fetch
+        (endpoint)
 
         .then((result) => {
           return result.response.data;
@@ -157,8 +152,8 @@ export default {
       };
 
       let endpoint = `carriers/${this.id}/integration`;
-      return this.api
-        .private(endpoint, options)
+      return api.fetch
+        (endpoint, options)
 
         .then((data) => {
           if (data.response) {

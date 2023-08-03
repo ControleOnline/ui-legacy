@@ -21,7 +21,7 @@
             </q-tab-panel>
 
             <q-tab-panel name="categories" class="q-px-none">
-              <!--<TableCategories :context="'expense'" :api="api" />-->
+              <!--<TableCategories :context="'expense'"  />-->
             </q-tab-panel>
           </q-tab-panels>
         </div>

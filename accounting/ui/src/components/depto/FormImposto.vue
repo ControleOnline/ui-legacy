@@ -164,7 +164,7 @@ export default {
 
     downloadFile(file) {
       /*
-      return this.api.private(`download/${this.id}/files/${file.id}`)
+      return api.fetch(`download/${this.id}/files/${file.id}`)
         .then(response => response.blob())
         .then((blob) => {
           if (!exportFile(file.name, blob, blob.type)) {

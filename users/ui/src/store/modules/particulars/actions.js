@@ -1,10 +1,10 @@
 /* eslint-disable */
 import SubmissionError from '../../../error/SubmissionError';
-import { fetch }       from '../../../boot/myapi';
+import { api }       from '../../../boot/api';
 import * as types      from './mutation_types';
 
 export const getParticularsTypes = ({ commit }, params = {}) => {
-  return fetch('/particulars_types', { params })
+  return api.fetch('/particulars_types', { params })
     
     .then(data => {
 

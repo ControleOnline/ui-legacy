@@ -1,5 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch } from '../../../../../../src/boot/myapi';
+import { api } from '../../../../../../src/boot/api';
 import * as types from './mutation_types';
 
 import { DOMAIN } from '../../../../../../src/config/domain';
@@ -16,7 +16,7 @@ export const company = ({ commit }, values) => {
     values.origin.state = values.address.state;
   }
 
-  return fetch('companies', { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch('companies', { method: 'POST', body: JSON.stringify(values) })
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
@@ -51,7 +51,7 @@ export const searchPeople = ({ commit }, search) => {
     params: { input: search }
   };
 
-  return fetch('people-search', params)
+  return api.fetch('people-search', params)
     
     .then(data => {
 
@@ -77,7 +77,7 @@ export const contact = ({ commit }, { params = {} }) => {
   commit(types.SET_ERROR, '');
   commit(types.SET_ISLOADING);
 
-  return fetch(`${RESOURCE_ENDPOINT}/contact`, { params })
+  return api.fetch(`${RESOURCE_ENDPOINT}/contact`, { params })
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
@@ -103,7 +103,7 @@ export const createContact = ({ commit }, values) => {
   commit(types.SET_ERROR, '');
   commit(types.SET_ISLOADING);
 
-  return fetch(`${RESOURCE_ENDPOINT}/contact`, { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch(`${RESOURCE_ENDPOINT}/contact`, { method: 'POST', body: JSON.stringify(values) })
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
@@ -128,7 +128,7 @@ export const createContact = ({ commit }, values) => {
 export const myCompanies = ({ commit, dispatch }) => {
   commit(types.SET_ISLOADING);
 
-  return fetch(`${RESOURCE_ENDPOINT}/companies/my`)
+  return api.fetch(`${RESOURCE_ENDPOINT}/companies/my`)
     
     .then(data => {
       commit(types.SET_ISLOADING, false);
@@ -160,7 +160,7 @@ export const myCompanies = ({ commit, dispatch }) => {
 export const mySaleCompanies = ({ commit }) => {
   commit(types.SET_ISLOADING);
 
-  return fetch(`${RESOURCE_ENDPOINT}/my-sale-companies`)
+  return api.fetch(`${RESOURCE_ENDPOINT}/my-sale-companies`)
     
     .then(data => {
       commit(types.SET_ISLOADING, false);
@@ -188,7 +188,7 @@ export const mySaleCompanies = ({ commit }) => {
 export const defaultCompany = ({ commit, dispatch }) => {
   commit(types.SET_ISLOADING);
 
-  return fetch(`${RESOURCE_ENDPOINT}/company/default?domain=` + DOMAIN)
+  return api.fetch(`${RESOURCE_ENDPOINT}/company/default?domain=` + DOMAIN)
     
     .then(data => {
       commit(types.SET_ISLOADING, false);
@@ -222,7 +222,7 @@ export const currentCompany = ({ commit }, company) => {
 };
 
 export const getPeople = ({ commit }, id) => {
-  return fetch(`${RESOURCE_ENDPOINT}/${id}`)
+  return api.fetch(`${RESOURCE_ENDPOINT}/${id}`)
     
     .then(data => {
 
@@ -232,7 +232,7 @@ export const getPeople = ({ commit }, id) => {
 };
 
 export const getClientContact = ({ commit }, document) => {
-  return fetch(`${RESOURCE_ENDPOINT}/client-company`, { params: { document } })
+  return api.fetch(`${RESOURCE_ENDPOINT}/client-company`, { params: { document } })
     
     .then(data => {
       if (data.response) {
@@ -244,7 +244,7 @@ export const getClientContact = ({ commit }, document) => {
 };
 
 export const getCloseProfessionals = ({ commit }, values) => {
-  return fetch(encodeURI(RESOURCE_ENDPOINT + '/professionals/close/' + values.lat.toString().replace('.', ',') + '/' + values.lng.toString().replace('.', ',')))
+  return api.fetch(encodeURI(RESOURCE_ENDPOINT + '/professionals/close/' + values.lat.toString().replace('.', ',') + '/' + values.lng.toString().replace('.', ',')))
     
     .then(data => {
       if (data.response) {

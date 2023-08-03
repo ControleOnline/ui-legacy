@@ -20,7 +20,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import API from "@controleonline/quasar-common-ui/src/utils/api";
+
 
 export default {
   props: {
@@ -31,7 +31,7 @@ export default {
 
   data() {
     return {
-      API: new API(this.$store.getters["auth/user"].token),
+      ,
       company: null,
       notifications: [],
       notificationsUnread: 0,
@@ -64,7 +64,7 @@ export default {
       params["read"] = 0;
       params.itemsPerPage = 10;
 
-      return this.API.private(`/notifications`, {
+      return api.fetch(`/notifications`, {
         params,
       })
         

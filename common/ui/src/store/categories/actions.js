@@ -1,5 +1,4 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch } from '../../../../../../src/boot/myapi';
 
 
 export function getCategories({ commit }, data) {
@@ -11,7 +10,7 @@ export function getCategories({ commit }, data) {
       params: params
     };
   
-    return fetch('/categories', options)
+    return api.fetch('/categories', options)
       
       .then(response => {
         return response['hydra:member'];
@@ -26,7 +25,7 @@ export function getCategories({ commit }, data) {
       params: data.params ? data.params : {}
     };
   
-    return fetch('/categories', options)
+    return api.fetch('/categories', options)
       
       .then(response => {
         return response;

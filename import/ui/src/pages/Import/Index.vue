@@ -1,5 +1,5 @@
 <template>
-    <CarrierImports :api="API" />
+    <CarrierImports  />
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
     },
     data() {
         return {
-            API: new Api(this.$store.getters['auth/user'].token),
+            
         }
     },
 }

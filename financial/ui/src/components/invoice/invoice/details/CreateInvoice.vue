@@ -365,32 +365,27 @@ export default {
     searchPeople(input) {
       this.isSearching = true;
 
-      return this.search(input).then((result) => {
-        this.isSearching = false;
-
-        if (result && result.success) {
-          let items = [];
-          for (let i = 0; i < result.data.length; i++) {
-            items.push({
-              label:
-                result.data[i].id +
-                " - " +
-                result.data[i].name +
-                " - " +
-                result.data[i].alias,
-              value: result.data[i],
-            });
+      return this.search(input)
+        .then((result) => {
+          if (result && result.success) {
+            let items = [];
+            for (let i = 0; i < result.data.length; i++) {
+              items.push({
+                label:
+                  result.data[i].id +
+                  " - " +
+                  result.data[i].name +
+                  " - " +
+                  result.data[i].alias,
+                value: result.data[i],
+              });
+            }
+            return items;
           }
-          return items;
-        } else {
+        })
+        .finally(() => {
           this.isSearching = false;
-          this.$q.notify({
-            message: this.$t("messages.gmapsReqNoData"),
-            position: "bottom",
-            type: "negative",
-          });
-        }
-      });
+        });
     },
     loadSelectableOptions() {
       // load parcels
@@ -452,13 +447,6 @@ export default {
             type: "positive",
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        })
         .finally(() => {
           this.dialogs.provider.saving = false;
         });
@@ -518,13 +506,7 @@ export default {
 
           this.$emit("created", data);
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.saving = false;
         });

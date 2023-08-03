@@ -4,12 +4,21 @@
       <q-spinner-gears size="50px" color="primary" />
     </q-inner-loading>
 
-    <transition-group appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+    <transition-group
+      appear
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+    >
       <div v-if="status !== null" class="row q-pa-sm q-col-gutter-sm" key="status">
         <div class="col-xs-12">
           <div class="text-h5 q-pt-sm q-pb-sm">
-            <q-btn flat dense :to="{ name: 'CustomersDetails', params: { id: client.id } }" :label="client.name"
-              class="full-width" />
+            <q-btn
+              flat
+              dense
+              :to="{ name: 'CustomersDetails', params: { id: client.id } }"
+              :label="client.name"
+              class="full-width"
+            />
           </div>
         </div>
         <div class="col-12 row bg-grey-4">
@@ -33,8 +42,12 @@
                 <tr v-if="this.childOrders.length > 0">
                   <td class="text-left text-bold">Pedidos vinculados</td>
                   <td class="text-left text-bold">
-                    <router-link v-for="order in childOrders" :key="order.id" v-ripple
-                      v-bind:to="'/sales/order/id/' + order.id">
+                    <router-link
+                      v-for="order in childOrders"
+                      :key="order.id"
+                      v-ripple
+                      v-bind:to="'/sales/order/id/' + order.id"
+                    >
                       (#{{ order.id }})
                     </router-link>
                   </td>
@@ -43,8 +56,12 @@
                 <tr v-if="this.royaltiesOrders.length > 0">
                   <td class="text-left text-bold">Royalties</td>
                   <td class="text-left text-bold">
-                    <router-link v-for="order in royaltiesOrders" :key="order.id" v-ripple
-                      v-bind:to="'/sales/order/id/' + order.id">
+                    <router-link
+                      v-for="order in royaltiesOrders"
+                      :key="order.id"
+                      v-ripple
+                      v-bind:to="'/sales/order/id/' + order.id"
+                    >
                       (#{{ order.id }})
                     </router-link>
                   </td>
@@ -52,8 +69,12 @@
                 <tr v-if="this.comissionOrders.length > 0">
                   <td class="text-left text-bold">Comissões</td>
                   <td class="text-left text-bold">
-                    <router-link v-for="order in comissionOrders" :key="order.id" v-ripple
-                      v-bind:to="'/sales/order/id/' + order.id">
+                    <router-link
+                      v-for="order in comissionOrders"
+                      :key="order.id"
+                      v-ripple
+                      v-bind:to="'/sales/order/id/' + order.id"
+                    >
                       (#{{ order.id }})
                     </router-link>
                   </td>
@@ -67,9 +88,9 @@
                 <tr v-if="this.purchasingOrderId">
                   <td class="text-left text-bold">
                     Valor do fornecedor
-                    <router-link v-bind:to="
-                      '/purchasing/order/id/' + this.purchasingOrderId
-                    ">
+                    <router-link
+                      v-bind:to="'/purchasing/order/id/' + this.purchasingOrderId"
+                    >
                       (#{{ this.purchasingOrderId }})
                     </router-link>
                   </td>
@@ -78,18 +99,22 @@
                   </td>
                 </tr>
                 <tr v-if="this.purchasingOrderId">
-                  <td :class="
-                    this.price - this.purchasingPrice < this.correctValue
-                      ? 'red text-left text-bold'
-                      : 'green text-left text-bold'
-                  ">
+                  <td
+                    :class="
+                      this.price - this.purchasingPrice < this.correctValue
+                        ? 'red text-left text-bold'
+                        : 'green text-left text-bold'
+                    "
+                  >
                     Valor do ticket
                   </td>
-                  <td :class="
-                    this.price - this.purchasingPrice < this.correctValue
-                      ? 'red text-left text-bold'
-                      : 'green text-left text-bold'
-                  ">
+                  <td
+                    :class="
+                      this.price - this.purchasingPrice < this.correctValue
+                        ? 'red text-left text-bold'
+                        : 'green text-left text-bold'
+                    "
+                  >
                     {{ formatMoney(this.price - this.purchasingPrice) }}
                     ({{ parseFloat(this.realPecentage).toFixed(2) }}
                     %)
@@ -106,18 +131,29 @@
                 <tr>
                   <td class="text-left text-bold">Contrato</td>
                   <td class="text-left">
-                    <q-btn flat dense :to="{
-                      name: 'ContractDetails',
-                      params: { id: contract },
-                    }" :label="contract || '-'" class="full-width" />
+                    <q-btn
+                      flat
+                      dense
+                      :to="{
+                        name: 'ContractDetails',
+                        params: { id: contract },
+                      }"
+                      :label="contract || '-'"
+                      class="full-width"
+                    />
                   </td>
                 </tr>
               </tbody>
             </q-markup-table>
           </div>
           <div class="col-xs-12 col-sm-4">
-            <q-markup-table flat dense separator="none" class="text-white"
-              :style="`background-color: ${this.status.color}`">
+            <q-markup-table
+              flat
+              dense
+              separator="none"
+              class="text-white"
+              :style="`background-color: ${this.status.color}`"
+            >
               <tbody>
                 <tr>
                   <td class="text-center">
@@ -128,22 +164,48 @@
                 </tr>
               </tbody>
             </q-markup-table>
-            <q-markup-table flat dense separator="none" v-if="this.carrier" style="background-color: transparent">
+            <q-markup-table
+              flat
+              dense
+              separator="none"
+              v-if="this.carrier"
+              style="background-color: transparent"
+            >
               <tbody>
                 <tr>
                   <td class="text-center">
-                    <q-btn flat dense :to="{
-                      name: 'CarrierDetails',
-                      params: { id: carrier.id },
-                    }" :label="carrier.alias" class="full-width" />
+                    <q-btn
+                      flat
+                      dense
+                      :to="{
+                        name: 'CarrierDetails',
+                        params: { id: carrier.id },
+                      }"
+                      :label="carrier.alias"
+                      class="full-width"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td class="text-center">
-                    <q-icon v-if="hasRural(other_informations) == true" name="agriculture" color="red" size="30px" />
-                    <q-icon v-if="hasDificult(other_informations) == true" name="fmd_bad" color="red" size="30px" />
-                    <q-icon v-if="app == 'app' || app == 'Cota Fácil' || app == 'Gestor'" name="touch_app" color="blue"
-                      size="30px" />
+                    <q-icon
+                      v-if="hasRural(other_informations) == true"
+                      name="agriculture"
+                      color="red"
+                      size="30px"
+                    />
+                    <q-icon
+                      v-if="hasDificult(other_informations) == true"
+                      name="fmd_bad"
+                      color="red"
+                      size="30px"
+                    />
+                    <q-icon
+                      v-if="app == 'app' || app == 'Cota Fácil' || app == 'Gestor'"
+                      name="touch_app"
+                      color="blue"
+                      size="30px"
+                    />
                     <q-icon v-else name="electrical_services" color="green" size="30px" />
                   </td>
                 </tr>
@@ -157,26 +219,24 @@
                   <td class="text-left text-bold">Data do pedido</td>
                   <td class="text-left">
                     {{
-                        this.orderDate
-                          ? this.formatDate(this.orderDate, "DD/MM/YYYY")
-                          : "-"
+                      this.orderDate ? this.formatDate(this.orderDate, "DD/MM/YYYY") : "-"
                     }}
                   </td>
                 </tr>
-                <tr v-if="
-                  other_informations &&
-                  other_informations.schedule &&
-                  other_informations.schedule.retrieve
-                ">
-                  <td class="text-left text-bold text-red">
-                    Retirada à partir de
-                  </td>
+                <tr
+                  v-if="
+                    other_informations &&
+                    other_informations.schedule &&
+                    other_informations.schedule.retrieve
+                  "
+                >
+                  <td class="text-left text-bold text-red">Retirada à partir de</td>
                   <td class="text-left text-bold text-red">
                     {{
-                        this.formatDate(
-                          this.other_informations.schedule.retrieve,
-                          "DD/MM/YYYY"
-                        )
+                      this.formatDate(
+                        this.other_informations.schedule.retrieve,
+                        "DD/MM/YYYY"
+                      )
                     }}
                   </td>
                 </tr>
@@ -184,9 +244,7 @@
                   <td class="text-left text-bold">Última alteração</td>
                   <td class="text-left">
                     {{
-                        this.alterDate
-                          ? this.formatDate(this.alterDate, "DD/MM/YYYY")
-                          : "-"
+                      this.alterDate ? this.formatDate(this.alterDate, "DD/MM/YYYY") : "-"
                     }}
                   </td>
                 </tr>
@@ -194,24 +252,48 @@
                   <td class="text-left text-bold">Previsão de entrega</td>
                   <td class="text-left">
                     {{ this.deliveryDueDate || "-" }}
-                    <q-btn v-if="deliveryDueDate && isEditable" class="btn-edit" icon="edit" color="black" flat round
-                      dense />
-                    <q-popup-edit v-if="deliveryDueDate && isEditable" v-model="inputDeadline" @save="onSaveDeadline">
-                      <template v-slot="{
-                        initialValue,
-                        value,
-                        emitValue,
-                        validate,
-                        set,
-                        cancel,
-                      }">
-                        <q-input autofocus dense :value="inputDeadline" @input="emitValue" mask="##/##/####">
+                    <q-btn
+                      v-if="deliveryDueDate && isEditable"
+                      class="btn-edit"
+                      icon="edit"
+                      color="black"
+                      flat
+                      round
+                      dense
+                    />
+                    <q-popup-edit
+                      v-if="deliveryDueDate && isEditable"
+                      v-model="inputDeadline"
+                      @save="onSaveDeadline"
+                    >
+                      <template
+                        v-slot="{ initialValue, value, emitValue, validate, set, cancel }"
+                      >
+                        <q-input
+                          autofocus
+                          dense
+                          :value="inputDeadline"
+                          @input="emitValue"
+                          mask="##/##/####"
+                        >
                           <template v-slot:after>
-                            <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
-                            <q-btn flat dense color="positive" icon="check_circle" @click.stop="set" :disable="
-                              validate(value) === false ||
-                              initialValue === value
-                            " />
+                            <q-btn
+                              flat
+                              dense
+                              color="negative"
+                              icon="cancel"
+                              @click.stop="cancel"
+                            />
+                            <q-btn
+                              flat
+                              dense
+                              color="positive"
+                              icon="check_circle"
+                              @click.stop="set"
+                              :disable="
+                                validate(value) === false || initialValue === value
+                              "
+                            />
                           </template>
                         </q-input>
                       </template>
@@ -222,9 +304,7 @@
                   <td class="text-left text-bold">Nota Fiscal</td>
                   <td class="text-left">
                     #{{
-                        this.clientInvoiceTax
-                          ? this.clientInvoiceTax.invoiceNumber
-                          : "-"
+                      this.clientInvoiceTax ? this.clientInvoiceTax.invoiceNumber : "-"
                     }}
                   </td>
                 </tr>
@@ -295,12 +375,7 @@
                   </td>
                   <td v-else class="text-left">
                     <q-form ref="myForm">
-                      <q-input
-                        dense
-                        flat
-                        type="date"
-                        v-model="parkingDate"
-                      ></q-input>
+                      <q-input dense flat type="date" v-model="parkingDate"></q-input>
                     </q-form>
                   </td>
                 </tr>
@@ -310,12 +385,13 @@
                 </tr>
                 <tr>
                   <td class="text-left text-bold">Placa</td>
-                  <td>{{ other_informations.carNumber ? other_informations.carNumber : ''}}</td>
+                  <td>
+                    {{ other_informations.carNumber ? other_informations.carNumber : "" }}
+                  </td>
                 </tr>
               </tbody>
             </q-markup-table>
           </div>
-
         </div>
         <div v-if="hasRural(other_informations) == true" class="row warning">
           <h6>
@@ -330,39 +406,105 @@
         <div class="row items-center justify-center buttons-container bg-primary">
           <div class="col-xs-12 col-sm-4">
             <center>
-              <q-btn v-if="status.status == 'analysis'" color="positive" label="Aprovar Pedido"
-                @click="approveOrder" :loading="isUpdating" />
-              <q-btn v-if="status.status == 'waiting client invoice tax' || status.status == 'pending'"
-                color="positive" label="Aprovar Declaração" @click="approveDeclaration" :loading="isUpdating" />
-              <q-btn v-if="status.status == 'waiting retrieve'" color="positive" label="Coleta realizada"
-                @click="addRetrieve" :loading="isUpdating" />
-              <q-btn v-if="status.status == 'on the way'" color="positive" label="Entrega realizada"
-                @click="addDelivered" :loading="isUpdating" />
-              <q-btn v-if="status.status == 'retrieved'" color="negative" label="Coleta não Realizada"
-                @click="backToWaitingRetrieve" :loading="isUpdating" />
-              <q-btn v-if="['waiting payment'].includes(status.status)" color="positive" label="Liberar Pagamento"
-                @click="releasePayment" :loading="isUpdating" />
+              <q-btn
+                v-if="status.status == 'analysis'"
+                color="positive"
+                label="Aprovar Pedido"
+                @click="approveOrder"
+                :loading="isUpdating"
+              />
+              <q-btn
+                v-if="
+                  status.status == 'waiting client invoice tax' ||
+                  status.status == 'pending'
+                "
+                color="positive"
+                label="Aprovar Declaração"
+                @click="approveDeclaration"
+                :loading="isUpdating"
+              />
+              <q-btn
+                v-if="status.status == 'waiting retrieve'"
+                color="positive"
+                label="Coleta realizada"
+                @click="addRetrieve"
+                :loading="isUpdating"
+              />
+              <q-btn
+                v-if="status.status == 'on the way'"
+                color="positive"
+                label="Entrega realizada"
+                @click="addDelivered"
+                :loading="isUpdating"
+              />
+              <q-btn
+                v-if="status.status == 'retrieved'"
+                color="negative"
+                label="Coleta não Realizada"
+                @click="backToWaitingRetrieve"
+                :loading="isUpdating"
+              />
+              <q-btn
+                v-if="['waiting payment'].includes(status.status)"
+                color="positive"
+                label="Liberar Pagamento"
+                @click="releasePayment"
+                :loading="isUpdating"
+              />
 
-              <q-btn v-if="(status.realStatus == 'open' || status.realStatus == 'pending') &&
-              status.status != 'pending'" color="negative" label="Aguardar Documentação" @click="stopOrder"
-                :loading="isUpdating" />
-              <q-btn v-if="status.status == 'pending'" color="positive" label="Aprovar Pedido"
-                @click="restartOrder" :loading="isUpdating" />
+              <q-btn
+                v-if="
+                  (status.realStatus == 'open' || status.realStatus == 'pending') &&
+                  status.status != 'pending'
+                "
+                color="negative"
+                label="Aguardar Documentação"
+                @click="stopOrder"
+                :loading="isUpdating"
+              />
+              <q-btn
+                v-if="status.status == 'pending'"
+                color="positive"
+                label="Aprovar Pedido"
+                @click="restartOrder"
+                :loading="isUpdating"
+              />
             </center>
           </div>
           <div class="col-xs-12 col-sm-4">
             <q-list padding bordered class="rounded-borders">
-              <q-expansion-item dense dense-toggle expand-separator icon="receipt" header-class="text-white"
-                label="Novos pedidos">
+              <q-expansion-item
+                dense
+                dense-toggle
+                expand-separator
+                icon="receipt"
+                header-class="text-white"
+                label="Novos pedidos"
+              >
                 <q-card class="bg-primary">
                   <q-card-section>
                     <center>
-                      <q-btn v-if="status.realStatus != 'canceled'" color="positive" label="Gerar Reentrega"
-                        @click="remakeRoute" :loading="isUpdating" />
-                      <q-btn v-if="status.realStatus != 'canceled'" color="positive" label="Gerar Reenvio"
-                        @click="resendQuote" :loading="isUpdating" />
-                      <q-btn v-if="status.realStatus != 'canceled'" color="warning" label="Gerar Devolução"
-                        @click="devolutionQuote" :loading="isUpdating" />
+                      <q-btn
+                        v-if="status.realStatus != 'canceled'"
+                        color="positive"
+                        label="Gerar Reentrega"
+                        @click="remakeRoute"
+                        :loading="isUpdating"
+                      />
+                      <q-btn
+                        v-if="status.realStatus != 'canceled'"
+                        color="positive"
+                        label="Gerar Reenvio"
+                        @click="resendQuote"
+                        :loading="isUpdating"
+                      />
+                      <q-btn
+                        v-if="status.realStatus != 'canceled'"
+                        color="warning"
+                        label="Gerar Devolução"
+                        @click="devolutionQuote"
+                        :loading="isUpdating"
+                      />
                     </center>
                   </q-card-section>
                 </q-card>
@@ -371,10 +513,20 @@
           </div>
           <div class="col-xs-12 col-sm-4">
             <center>
-              <q-btn v-if="status.realStatus == 'canceled'" color="positive" label="Revalidar Cotação"
-                @click="remakeQuote" :loading="isUpdating" />
-              <q-btn v-if="status.realStatus != 'canceled'" color="negative" label="Cancelar Pedido"
-                @click="cancelOrder" :loading="isUpdating" />
+              <q-btn
+                v-if="status.realStatus == 'canceled'"
+                color="positive"
+                label="Revalidar Cotação"
+                @click="remakeQuote"
+                :loading="isUpdating"
+              />
+              <q-btn
+                v-if="status.realStatus != 'canceled'"
+                color="negative"
+                label="Cancelar Pedido"
+                @click="cancelOrder"
+                :loading="isUpdating"
+              />
             </center>
           </div>
         </div>
@@ -382,7 +534,12 @@
 
       <div v-if="status !== null" class="row" key="order_tabs">
         <div class="col-12">
-          <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
+          <q-tabs
+            :horizontal="$q.screen.gt.xs"
+            align="justify"
+            v-model="currentTab"
+            class="bg-white text-primary"
+          >
             <q-tab name="resumo" label="Resumo" />
             <q-tab name="quotation" label="Cotação" />
             <!-- <q-tab name="notafiscal" label="Nota Fiscal" /> -->
@@ -433,19 +590,27 @@
             </q-tab-panel> -->
 
             <q-tab-panel name="logistica" class="q-pa-none">
-              <OrderDetailLogistics :total_packages="total_packages" :orderId="orderId" :orderPrice="price" :status="status"
-                :integrationType="integrationType" />
+              <OrderDetailLogistics
+                :total_packages="total_packages"
+                :orderId="orderId"
+                :orderPrice="price"
+                :status="status"
+                :integrationType="integrationType"
+              />
             </q-tab-panel>
             <q-tab-panel name="vistorias" class="q-pa-none">
               <SurveysCollection :orderId="orderId" />
             </q-tab-panel>
-
           </q-tab-panels>
         </div>
       </div>
     </transition-group>
 
-    <div v-if="status === null && notFound" class="row items-center justify-center" style="min-height: 90vh">
+    <div
+      v-if="status === null && notFound"
+      class="row items-center justify-center"
+      style="min-height: 90vh"
+    >
       <q-banner class="text-white bg-red text-center text-h3" rounded>
         <template v-slot:avatar>
           <q-icon name="error" color="white" />
@@ -453,7 +618,6 @@
         O pedido não foi encontrado
       </q-banner>
     </div>
-
   </q-card>
 </template>
 
@@ -488,8 +652,8 @@ export default {
     OrderDetailTracking,
     OrderDetailTag,
     OrderTasks,
-    SurveysCollection
-},
+    SurveysCollection,
+  },
 
   created() {
     if (this.$route.params.id)
@@ -611,30 +775,22 @@ export default {
     },
 
     hasDificult(o_i) {
-      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
+      let other_informations = typeof o_i == "object" ? o_i : JSON.parse(o_i);
       let has = false;
-      if (
-        other_informations &&
-        other_informations.dificult
-      ) {
+      if (other_informations && other_informations.dificult) {
         has = true;
       }
       return has;
     },
     hasRural(o_i) {
-      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
+      let other_informations = typeof o_i == "object" ? o_i : JSON.parse(o_i);
       let has = false;
-      if (
-        other_informations &&
-        other_informations.rural
-      ) {
+      if (other_informations && other_informations.rural) {
         has = true;
       }
       return has;
     },
     stopOrder() {
-
-
       let params = {
         myCompany: this.myCompany.id,
       };
@@ -653,17 +809,11 @@ export default {
             this.isUpdating = false;
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+        .finally(() => {
+          this.isUpdating = false;
         });
-
     },
     restartOrder() {
-
       let params = {
         myCompany: this.myCompany.id,
       };
@@ -682,12 +832,8 @@ export default {
             this.isUpdating = false;
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+        .finally((data) => {
+          this.isUpdating = false;
         });
     },
     releasePayment() {
@@ -709,12 +855,8 @@ export default {
             this.isUpdating = false;
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+        .finally((data) => {
+          this.isUpdating = false;
         });
     },
     cancelOrder() {
@@ -736,12 +878,8 @@ export default {
             this.isUpdating = false;
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+        .finally((data) => {
+          this.isUpdating = false;
         });
     },
     backToWaitingRetrieve() {
@@ -762,12 +900,8 @@ export default {
             this.isUpdating = false;
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+        .finally((data) => {
+          this.isUpdating = false;
         });
     },
     addDelivered() {
@@ -788,12 +922,8 @@ export default {
             this.isUpdating = false;
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+        .finally((data) => {
+          this.isUpdating = false;
         });
     },
     addRetrieve() {
@@ -815,12 +945,8 @@ export default {
             this.isUpdating = false;
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+        .finally((data) => {
+          this.isUpdating = false;
         });
     },
 
@@ -835,13 +961,7 @@ export default {
             params: { id: response.response.data.order.id },
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser refeito",
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally((data) => {
           this.isUpdating = false;
         });
@@ -859,13 +979,7 @@ export default {
             params: { id: response.response.data.order.id },
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser refeito",
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally((data) => {
           this.isUpdating = false;
         });
@@ -884,13 +998,7 @@ export default {
             params: { id: response.response.data.order.id },
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser refeito",
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally((data) => {
           this.isUpdating = false;
         });
@@ -909,19 +1017,12 @@ export default {
             params: { id: response.response.data.order.id },
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser refeito",
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally((data) => {
           this.isUpdating = false;
         });
     },
     approveDeclaration() {
-
       let params = {
         myCompany: this.myCompany.id,
       };
@@ -940,12 +1041,8 @@ export default {
             this.isUpdating = false;
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+        .finally((data) => {
+          this.isUpdating = false;
         });
     },
     approveOrder() {
@@ -967,12 +1064,8 @@ export default {
             this.isUpdating = false;
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+        .finally((data) => {
+          this.isUpdating = false;
         });
     },
 
@@ -1013,11 +1106,18 @@ export default {
         .then((data) => {
           this.isLoading = false;
           if (data["@id"]) {
-            if (data.estimatedParkingDate != null && Object.keys(data.estimatedParkingDate).length) {
+            if (
+              data.estimatedParkingDate != null &&
+              Object.keys(data.estimatedParkingDate).length
+            ) {
               let estimatedParkingDate = new Date(data.estimatedParkingDate.date);
               let brTimeZoneOffset = -180;
-              let brDate = new Date(estimatedParkingDate.getTime() + brTimeZoneOffset * 60 * 1000);
-              let formattedEstimatedParkingDate = brDate.toLocaleString('pt-BR').replaceAll(',','');
+              let brDate = new Date(
+                estimatedParkingDate.getTime() + brTimeZoneOffset * 60 * 1000
+              );
+              let formattedEstimatedParkingDate = brDate
+                .toLocaleString("pt-BR")
+                .replaceAll(",", "");
               this.estimatedParkingDate = formattedEstimatedParkingDate;
             }
 
@@ -1025,7 +1125,9 @@ export default {
               let parkingDate = new Date(data.parkingDate.date);
               let brTimeZoneOffset = -180;
               let brDate = new Date(parkingDate.getTime() + brTimeZoneOffset * 60 * 1000);
-              let formattedParkingDate = brDate.toLocaleString('pt-BR').replaceAll(',','');
+              let formattedParkingDate = brDate
+                .toLocaleString("pt-BR")
+                .replaceAll(",", "");
               this.parkingDate = formattedParkingDate;
             }
             this.contract = data.contract;
@@ -1105,115 +1207,91 @@ export default {
             this.isUpdating = false;
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "A previsão de entrega do pedido não pode ser atualizada",
-            position: "bottom",
-            type: "negative",
-          });
-
+        .finally((data) => {
           this.isUpdating = false;
         });
     },
     saveEstimatedParkingDate(input) {
-      
       let date = this.estimatedParkingDate;
       let time = new Date();
-      let hours = time.getHours().toString().padStart(2,'0');
-      let min = time.getMinutes().toString().padStart(2,'0');
-      let sec = time.getSeconds().toString().padStart(2,'0');
-      let now = hours + ':' + min + ':' + sec;
-      
-      let dateTimeNow = new Date(date + ' ' + now);
-      
+      let hours = time.getHours().toString().padStart(2, "0");
+      let min = time.getMinutes().toString().padStart(2, "0");
+      let sec = time.getSeconds().toString().padStart(2, "0");
+      let now = hours + ":" + min + ":" + sec;
+
+      let dateTimeNow = new Date(date + " " + now);
 
       let params = {
-            myCompany: this.myCompany.id,
-          };
-          this.isUpdating = true;
-          this.updateEstimatedParkingDate({
-            id: this.orderId,
-            newEstimatedParkingDate: dateTimeNow,
-            params,
-          })
-            .then(data => {
-              if (data["@id"]) {
-                this.$q.notify({
-                  message: "A data foi atualizada",
-                  position: "bottom",
-                  type: "positive",
-                });
-              } else {
-                this.$q.notify({
-                  message: "A data não pode ser atualizada",
-                  position: "bottom",
-                  type: "negative",
-                });
-              }
-            })
-            .catch((error) => {
-              this.$q.notify({
-                message: "A data não pode ser atualizada",
-                position: "bottom",
-                type: "negative",
-              });
-            })
-            .finally(() => {
-              this.isUpdating = false;
-              this.editEstimatedParkingDate = false;
-              this.requestStatus(this.orderId);
+        myCompany: this.myCompany.id,
+      };
+      this.isUpdating = true;
+      this.updateEstimatedParkingDate({
+        id: this.orderId,
+        newEstimatedParkingDate: dateTimeNow,
+        params,
+      })
+        .then((data) => {
+          if (data["@id"]) {
+            this.$q.notify({
+              message: "A data foi atualizada",
+              position: "bottom",
+              type: "positive",
             });
-      
+          } else {
+            this.$q.notify({
+              message: "A data não pode ser atualizada",
+              position: "bottom",
+              type: "negative",
+            });
+          }
+        })
+
+        .finally(() => {
+          this.isUpdating = false;
+          this.editEstimatedParkingDate = false;
+          this.requestStatus(this.orderId);
+        });
     },
     saveParkingDate(input) {
-      
       let date = this.parkingDate;
       let time = new Date();
-      let hours = time.getHours().toString().padStart(2,'0');
-      let min = time.getMinutes().toString().padStart(2,'0');
-      let sec = time.getSeconds().toString().padStart(2,'0');
-      let now = hours + ':' + min + ':' + sec;
-      
-      let dateTimeNow = new Date(date + ' ' + now);
-      
+      let hours = time.getHours().toString().padStart(2, "0");
+      let min = time.getMinutes().toString().padStart(2, "0");
+      let sec = time.getSeconds().toString().padStart(2, "0");
+      let now = hours + ":" + min + ":" + sec;
+
+      let dateTimeNow = new Date(date + " " + now);
 
       let params = {
-            myCompany: this.myCompany.id,
-          };
-          this.isUpdating = true;
-          this.updateParkingDate({
-            id: this.orderId,
-            newParkingDate: dateTimeNow,
-            params,
-          })
-            .then(data => {
-              if (data["@id"]) {
-                this.$q.notify({
-                  message: "A data foi atualizada",
-                  position: "bottom",
-                  type: "positive",
-                });
-              } else {
-                this.$q.notify({
-                  message: "A data não pode ser atualizada",
-                  position: "bottom",
-                  type: "negative",
-                });
-              }
-            })
-            .catch((error) => {
-              this.$q.notify({
-                message: "A data não pode ser atualizada",
-                position: "bottom",
-                type: "negative",
-              });
-            })
-            .finally(() => {
-              this.isUpdating = false;
-              this.editParkingDate = false;
-              this.requestStatus(this.orderId);
+        myCompany: this.myCompany.id,
+      };
+      this.isUpdating = true;
+      this.updateParkingDate({
+        id: this.orderId,
+        newParkingDate: dateTimeNow,
+        params,
+      })
+        .then((data) => {
+          if (data["@id"]) {
+            this.$q.notify({
+              message: "A data foi atualizada",
+              position: "bottom",
+              type: "positive",
             });
-      
+          } else {
+            this.$q.notify({
+              message: "A data não pode ser atualizada",
+              position: "bottom",
+              type: "negative",
+            });
+          }
+        })
+
+        .finally(() => {
+          this.isUpdating = false;
+          this.editParkingDate = false;
+          this.requestStatus(this.orderId);
+        });
     },
   },
 };
@@ -1243,4 +1321,4 @@ export default {
 .buttons-container {
   width: 100%;
 }
-</style>  
+</style>

@@ -1,11 +1,11 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch }       from '../../../../../../src/boot/myapi';
+import { api }       from '../../../../../../src/boot/api';
 import * as types      from './mutation_types';
 
 export const passwordRecovery = ({ commit }, values) => {
   commit(types.SET_ISLOADING);
 
-  return fetch('/password_recoveries', { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch('/password_recoveries', { method: 'POST', body: JSON.stringify(values) })
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
@@ -23,7 +23,7 @@ export const passwordRecovery = ({ commit }, values) => {
 export const recoveryAccess = ({ commit }, values) => {
   commit(types.SET_ISLOADING);
 
-  return fetch('/recovery_accesses', { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch('/recovery_accesses', { method: 'POST', body: JSON.stringify(values) })
     .then(response => {
       commit(types.SET_ISLOADING, false);
 

@@ -44,7 +44,6 @@
             >
               <q-tab-panel name="summary">
                 <CarrierRegionSummary
-                  :api   ="API"
                   :region="region"
                   @error ="(error) => {
                     this.$q.notify({
@@ -69,7 +68,6 @@
 
               <q-tab-panel name="cities">
                 <CarrierRegionCities
-                  :api   ="API"
                   :region="region"
                   @error ="(error) => {
                     this.$q.notify({
@@ -101,7 +99,6 @@
 </template>
 
 <script>
-import Api                  from '@controleonline/quasar-common-ui/src/utils/api';
 import CarrierRegionSummary from '../../components/carrier/RegionSummary';
 import CarrierRegionCities  from '../../components/carrier/RegionCities';
 
@@ -117,7 +114,6 @@ export default {
 
   data () {
     return {
-      API       : new Api(this.$store.getters['auth/user'].token),
       currentTab: 'cities',
       carrierId : this.$route.params.id,
       regionId  : this.$route.params.regionId,
@@ -134,7 +130,7 @@ export default {
 
   methods: {
     getRegion() {
-      return this.API.private(`delivery_regions/${this.regionId}`)
+      return api.fetch(`delivery_regions/${this.regionId}`)
         
         .then(data => {
           if (data['@id']) {

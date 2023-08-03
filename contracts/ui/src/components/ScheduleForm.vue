@@ -345,13 +345,7 @@ export default {
           });
           this.$emit("added");
         })
-        .catch((e) => {
-          this.$q.notify({
-            message: e.message,
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isSaving = false;
         });

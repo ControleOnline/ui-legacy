@@ -71,7 +71,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { fetch } from "../../../../../../src/boot/myapi";
 
 export default {
   props: {
@@ -118,7 +117,7 @@ export default {
         },
       };
 
-      return fetch(`${this.order["@id"]}/create-invoice`, options)
+      return api.fetch(`${this.order["@id"]}/create-invoice`, options)
         
         .then((order) => {
           if (order !== null) {

@@ -39,7 +39,7 @@ export default {
 
   data() {
     return {
-      API: new Api(this.$store.getters['auth/user'].token),
+      
       newQueue: false,
     }
   },

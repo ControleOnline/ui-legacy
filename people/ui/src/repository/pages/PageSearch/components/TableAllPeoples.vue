@@ -285,7 +285,7 @@ export default {
         },
       }
 
-      return this.api.private(`/people_${this.peopleType}/${people.people_people_id}/change-status`, options)
+      return api.fetch(`/people_${this.peopleType}/${people.people_people_id}/change-status`, options)
         
         .then(result => {
           return this.$q.notify({
@@ -298,7 +298,7 @@ export default {
     // store method
     getCustomers(params) {
       this.onBeforeLoadPeople(params);
-      return this.api.private(`/${this.peopleType}`, { params })
+      return api.fetch(`/${this.peopleType}`, { params })
         
         .then(result => {
           return {

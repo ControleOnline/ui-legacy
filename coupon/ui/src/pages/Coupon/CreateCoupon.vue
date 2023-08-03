@@ -12,17 +12,13 @@
           />
         </div>
         <div class="col-xs-12 q-mb-md text-center">
-          <q-radio
-            v-model="item.type"
-            val="percentage"
-            :label="$t('Porcentagem')"
-          />
+          <q-radio v-model="item.type" val="percentage" :label="$t('Porcentagem')" />
           <q-radio v-model="item.type" val="amount" :label="$t('Valor')" />
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
-      dense
-      outlined
+            dense
+            outlined
             lazy-rules
             stack-label
             reverse-fill-mask
@@ -40,8 +36,8 @@
 
         <div class="col-xs-6 q-mb-md">
           <q-input
-      dense
-      outlined
+            dense
+            outlined
             stack-label
             v-model="item.discountStartDate"
             :label="$t('Inicio da Promoção')"
@@ -68,8 +64,8 @@
         </div>
         <div class="col-xs-6 q-mb-md">
           <q-input
-      dense
-      outlined
+            dense
+            outlined
             stack-label
             v-model="item.discountEndDate"
             :label="$t('Fim da Promoção')"
@@ -170,32 +166,27 @@ export default {
     searchPeople(input) {
       this.isSearching = true;
 
-      return this.search(input).then((result) => {
-        this.isSearching = false;
-
-        if (result && result.success) {
-          let items = [];
-          for (let i = 0; i < result.data.length; i++) {
-            items.push({
-              label:
-                result.data[i].id +
-                " - " +
-                result.data[i].name +
-                " - " +
-                result.data[i].alias,
-              value: result.data[i],
-            });
+      return this.search(input)
+        .then((result) => {
+          if (result && result.success) {
+            let items = [];
+            for (let i = 0; i < result.data.length; i++) {
+              items.push({
+                label:
+                  result.data[i].id +
+                  " - " +
+                  result.data[i].name +
+                  " - " +
+                  result.data[i].alias,
+                value: result.data[i],
+              });
+            }
+            return items;
           }
-          return items;
-        } else {
+        })
+        .finally(() => {
           this.isSearching = false;
-          this.$q.notify({
-            message: this.$t("messages.gmapsReqNoData"),
-            position: "bottom",
-            type: "negative",
-          });
-        }
-      });
+        });
     },
     loadSelectableOptions() {
       // load parcels
@@ -245,13 +236,7 @@ export default {
 
           this.$emit("created", data);
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.saving = false;
         });
@@ -261,12 +246,10 @@ export default {
       return (val) => {
         if (field == "date") {
           if (!val) return true;
-          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val))
-            return this.$t("A data não é válida");
+          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val)) return this.$t("A data não é válida");
         }
 
-        if (!(val && val.length > 0))
-          return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
 
         return true;
       };

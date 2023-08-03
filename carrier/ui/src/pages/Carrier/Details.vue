@@ -45,7 +45,7 @@
 
               <q-tab-panel name="summary" class="q-px-none row q-col-gutter-y-lg">
                 <div class="col-12">
-                  <CustomerSummary :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                  <CustomerSummary  :people_type="'carriers'" :id="carrierId" @error="
                     (error) => {
                       this.$q.notify({
                         message: error.message,
@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="col-12">
-                  <PeopleAdminAddresses :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                  <PeopleAdminAddresses  :people_type="'carriers'" :id="carrierId" @error="
                     (error) => {
                       this.$q.notify({
                         message: error.message,
@@ -86,7 +86,7 @@
 
                 <div class="col-12 row">
                   <div class="col-xs-12 col-sm-6">
-                    <PeopleAdminEmails class="full-height" :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                    <PeopleAdminEmails class="full-height"  :people_type="'carriers'" :id="carrierId" @error="
                       (error) => {
                         this.$q.notify({
                           message: error.message,
@@ -106,7 +106,7 @@
                   </div>
 
                   <div class="col-xs-12 col-sm-6 q-pl-lg">
-                    <PeopleAdminPhones class="full-height" :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                    <PeopleAdminPhones class="full-height"  :people_type="'carriers'" :id="carrierId" @error="
                       (error) => {
                         this.$q.notify({
                           message: error.message,
@@ -127,7 +127,7 @@
                 </div>
 
                 <div class="col-12">
-                  <PeopleAdminDocuments :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                  <PeopleAdminDocuments  :people_type="'carriers'" :id="carrierId" @error="
                     (error) => {
                       this.$q.notify({
                         message: error.message,
@@ -147,7 +147,7 @@
                 </div>
 
                 <div class="col-12" v-if="carrier.peopleType === 'F'">
-                  <PeopleAdminUsers :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                  <PeopleAdminUsers  :people_type="'carriers'" :id="carrierId" @error="
                     (error) => {
                       this.$q.notify({
                         message: error.message,
@@ -167,7 +167,7 @@
                 </div>
 
                 <div class="col-12" v-if="carrier.peopleType === 'F'">
-                  <CustomerCompany :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                  <CustomerCompany  :people_type="'carriers'" :id="carrierId" @error="
                     (error) => {
                       this.$q.notify({
                         message: error.message,
@@ -199,7 +199,7 @@
               </q-tab-panel>
               <q-tab-panel name="employees" class="q-px-none row q-col-gutter-y-lg">
                 <div class="col-12" v-if="carrier.peopleType === 'J'">
-                  <PeopleAdminEmployees :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                  <PeopleAdminEmployees  :people_type="'carriers'" :id="carrierId" @error="
                     (error) => {
                       this.$q.notify({
                         message: error.message,
@@ -226,7 +226,7 @@
                 </div>
 
                 <div class="col-12">
-                  <CustomerSalesman :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                  <CustomerSalesman  :people_type="'carriers'" :id="carrierId" @error="
                     (error) => {
                       this.$q.notify({
                         message: error.message,
@@ -248,7 +248,7 @@
 
               <q-tab-panel name="billing" class="q-px-none row q-col-gutter-y-lg">
                 <div class="col-12">
-                  <PeopleAdminBilling :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                  <PeopleAdminBilling  :people_type="'carriers'" :id="carrierId" @error="
                     (error) => {
                       this.$q.notify({
                         message: error.message,
@@ -268,7 +268,7 @@
                 </div>
 
                 <div class="col-12">
-                  <CustomerOrders :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                  <CustomerOrders  :people_type="'carriers'" :id="carrierId" @error="
                     (error) => {
                       this.$q.notify({
                         message: error.message,
@@ -288,7 +288,7 @@
                 </div>
 
                 <div class="col-12">
-                  <CustomerContracts :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                  <CustomerContracts  :people_type="'carriers'" :id="carrierId" @error="
                     (error) => {
                       this.$q.notify({
                         message: error.message,
@@ -311,7 +311,7 @@
                 <OrderTasks :provider="provider" :client="people" :task_type="'relationship'" />
               </q-tab-panel>
               <q-tab-panel name="regions">
-                <CarrierRegions :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                <CarrierRegions  :people_type="'carriers'" :id="carrierId" @error="
                   (error) => {
                     this.$q.notify({
                       message: error.message,
@@ -339,7 +339,7 @@
               </q-tab-panel>
 
               <q-tab-panel name="tables">
-                <CarrierTables :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                <CarrierTables  :people_type="'carriers'" :id="carrierId" @error="
                   (error) => {
                     this.$q.notify({
                       message: error.message,
@@ -369,7 +369,7 @@
               </q-tab-panel>
 
               <q-tab-panel name="integration">
-                <CarrierIntegration :api="api" :people_type="'carriers'" :id="carrierId" @error="
+                <CarrierIntegration  :people_type="'carriers'" :id="carrierId" @error="
                   (error) => {
                     this.$q.notify({
                       message: error.message,
@@ -396,7 +396,7 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import CarrierRegions from "../../components/carrier/CarrierRegions";
 import CarrierTables from "../../components/carrier/CarrierTables";
 import CarrierIntegration from "../../components/carrier/CarrierIntegration";
@@ -457,7 +457,7 @@ export default {
 
   data() {
     return {
-      api: new Api(this.$store.getters["auth/user"].token),
+      ,
       baseUrl: ENTRYPOINT,
       currentTab: "summary",
       carrierId: this.$route.params.id,
@@ -480,7 +480,7 @@ export default {
   },
   methods: {
     getCarrier() {
-      return this.api.private(`people/${this.carrierId}`)
+      return api.fetch(`people/${this.carrierId}`)
         
         .then((data) => {
           this.people = data;

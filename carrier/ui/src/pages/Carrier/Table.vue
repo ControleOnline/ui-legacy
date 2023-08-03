@@ -1,23 +1,40 @@
 <template>
   <q-page padding>
-    <q-card style="min-height: 90vh;">
+    <q-card style="min-height: 90vh">
       <q-card-section>
-        <q-btn flat no-caps icon="arrow_back" :to="{ name: 'CarrierDetails', params: { id: this.carrierId } }"
-          label="Voltar à transportadora" />
+        <q-btn
+          flat
+          no-caps
+          icon="arrow_back"
+          :to="{ name: 'CarrierDetails', params: { id: this.carrierId } }"
+          label="Voltar à transportadora"
+        />
       </q-card-section>
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md">
             <div class="row">
               <div class="col-xs-12 col-sm-6 text-h6 text-left">
-                {{ table.name || 'Carregando...' }}
+                {{ table.name || "Carregando..." }}
               </div>
               <div class="col-xs-12 col-sm-6 text-right q-mt-sm">
                 <div class="row justify-end q-gutter-xs">
-                  <q-btn label="Incrementar taxas" icon="add" size="md" color="primary" @click="dialog = !dialog"
-                    :class="$q.screen.lt.sm ? 'full-width' : ''" />
-                  <q-btn label="Adicionar conjunto taxas" icon="add" size="md" color="primary"
-                    @click="dialog2 = !dialog2" :class="$q.screen.lt.sm ? 'full-width' : ''" />
+                  <q-btn
+                    label="Incrementar taxas"
+                    icon="add"
+                    size="md"
+                    color="primary"
+                    @click="dialog = !dialog"
+                    :class="$q.screen.lt.sm ? 'full-width' : ''"
+                  />
+                  <q-btn
+                    label="Adicionar conjunto taxas"
+                    icon="add"
+                    size="md"
+                    color="primary"
+                    @click="dialog2 = !dialog2"
+                    :class="$q.screen.lt.sm ? 'full-width' : ''"
+                  />
                 </div>
               </div>
             </div>
@@ -40,127 +57,191 @@
 
             <q-tab-panels v-model="currentTab">
               <q-tab-panel name="summary">
-                <CarrierTableSummary :api="API" :table="table" @error="(error) => {
-                  this.$q.notify({
-                    message: error.message,
-                    position: 'bottom',
-                    type: 'negative',
-                  });
-                }" @saved="(data) => {
-  this.$q.notify({
-    message: 'Os dados foram salvos com sucesso',
-    position: 'bottom',
-    type: 'positive',
-  });
-}" />
+                <CarrierTableSummary
+                  :table="table"
+                  @error="
+                    (error) => {
+                      this.$q.notify({
+                        message: error.message,
+                        position: 'bottom',
+                        type: 'negative',
+                      });
+                    }
+                  "
+                  @saved="
+                    (data) => {
+                      this.$q.notify({
+                        message: 'Os dados foram salvos com sucesso',
+                        position: 'bottom',
+                        type: 'positive',
+                      });
+                    }
+                  "
+                />
               </q-tab-panel>
               <q-tab-panel name="import">
-                <CarrierImports :tableId="tableId" :api="API" />
+                <CarrierImports :tableId="tableId" />
               </q-tab-panel>
               <q-tab-panel name="fixedTax">
-                <CarrierTableFixedtax :api="API" :table="table" @error="(error) => {
-                  this.$q.notify({
-                    message: error.message,
-                    position: 'bottom',
-                    type: 'negative',
-                  });
-                }" @saved="(data) => {
-  this.$q.notify({
-    message: 'Os dados foram salvos com sucesso',
-    position: 'bottom',
-    type: 'positive',
-  });
-}" />
+                <CarrierTableFixedtax
+                  :table="table"
+                  @error="
+                    (error) => {
+                      this.$q.notify({
+                        message: error.message,
+                        position: 'bottom',
+                        type: 'negative',
+                      });
+                    }
+                  "
+                  @saved="
+                    (data) => {
+                      this.$q.notify({
+                        message: 'Os dados foram salvos com sucesso',
+                        position: 'bottom',
+                        type: 'positive',
+                      });
+                    }
+                  "
+                />
               </q-tab-panel>
               <q-tab-panel name="fixedPercentage">
-                <CarrierTableFixedpercentage :api="API" :table="table" @error="(error) => {
-                  this.$q.notify({
-                    message: error.message,
-                    position: 'bottom',
-                    type: 'negative',
-                  });
-                }" @saved="(data) => {
-  this.$q.notify({
-    message: 'Os dados foram salvos com sucesso',
-    position: 'bottom',
-    type: 'positive',
-  });
-}" />
+                <CarrierTableFixedpercentage
+                  :table="table"
+                  @error="
+                    (error) => {
+                      this.$q.notify({
+                        message: error.message,
+                        position: 'bottom',
+                        type: 'negative',
+                      });
+                    }
+                  "
+                  @saved="
+                    (data) => {
+                      this.$q.notify({
+                        message: 'Os dados foram salvos com sucesso',
+                        position: 'bottom',
+                        type: 'positive',
+                      });
+                    }
+                  "
+                />
               </q-tab-panel>
               <q-tab-panel name="fixedKg">
-                <CarrierTableFixedkg :api="API" :table="table" @error="(error) => {
-                  this.$q.notify({
-                    message: error.message,
-                    position: 'bottom',
-                    type: 'negative',
-                  });
-                }" @saved="(data) => {
-  this.$q.notify({
-    message: 'Os dados foram salvos com sucesso',
-    position: 'bottom',
-    type: 'positive',
-  });
-}" />
+                <CarrierTableFixedkg
+                  :table="table"
+                  @error="
+                    (error) => {
+                      this.$q.notify({
+                        message: error.message,
+                        position: 'bottom',
+                        type: 'negative',
+                      });
+                    }
+                  "
+                  @saved="
+                    (data) => {
+                      this.$q.notify({
+                        message: 'Os dados foram salvos com sucesso',
+                        position: 'bottom',
+                        type: 'positive',
+                      });
+                    }
+                  "
+                />
               </q-tab-panel>
               <q-tab-panel name="table">
-                <CarrierTableTabela :api="API" :table="table" @error="(error) => {
-                  this.$q.notify({
-                    message: error.message,
-                    position: 'bottom',
-                    type: 'negative',
-                  });
-                }" @saved="(data) => {
-  this.$q.notify({
-    message: 'Os dados foram salvos com sucesso',
-    position: 'bottom',
-    type: 'positive',
-  });
-}" />
+                <CarrierTableTabela
+                  :table="table"
+                  @error="
+                    (error) => {
+                      this.$q.notify({
+                        message: error.message,
+                        position: 'bottom',
+                        type: 'negative',
+                      });
+                    }
+                  "
+                  @saved="
+                    (data) => {
+                      this.$q.notify({
+                        message: 'Os dados foram salvos com sucesso',
+                        position: 'bottom',
+                        type: 'positive',
+                      });
+                    }
+                  "
+                />
               </q-tab-panel>
               <q-tab-panel name="taxPercentInvoice">
-                <CarrierTableTaxpercentinvoice :api="API" :table="table" @error="(error) => {
-                  this.$q.notify({
-                    message: error.message,
-                    position: 'bottom',
-                    type: 'negative',
-                  });
-                }" @saved="(data) => {
-  this.$q.notify({
-    message: 'Os dados foram salvos com sucesso',
-    position: 'bottom',
-    type: 'positive',
-  });
-}" />
+                <CarrierTableTaxpercentinvoice
+                  :table="table"
+                  @error="
+                    (error) => {
+                      this.$q.notify({
+                        message: error.message,
+                        position: 'bottom',
+                        type: 'negative',
+                      });
+                    }
+                  "
+                  @saved="
+                    (data) => {
+                      this.$q.notify({
+                        message: 'Os dados foram salvos com sucesso',
+                        position: 'bottom',
+                        type: 'positive',
+                      });
+                    }
+                  "
+                />
               </q-tab-panel>
               <q-tab-panel name="taxRegion">
-                <CarrierTableTaxregion :api="API" :table="table" @error="(error) => {
-                  this.$q.notify({
-                    message: error.message,
-                    position: 'bottom',
-                    type: 'negative',
-                  });
-                }" @saved="(data) => {
-  this.$q.notify({
-    message: 'Os dados foram salvos com sucesso',
-    position: 'bottom',
-    type: 'positive',
-  });
-}" />
+                <CarrierTableTaxregion
+                  :table="table"
+                  @error="
+                    (error) => {
+                      this.$q.notify({
+                        message: error.message,
+                        position: 'bottom',
+                        type: 'negative',
+                      });
+                    }
+                  "
+                  @saved="
+                    (data) => {
+                      this.$q.notify({
+                        message: 'Os dados foram salvos com sucesso',
+                        position: 'bottom',
+                        type: 'positive',
+                      });
+                    }
+                  "
+                />
               </q-tab-panel>
               <q-tab-panel name="fixedKm">
-                <CarrierTableFixedkm :api="API" :table="table" @error="(error) => {
-                  this.$q.notify({
-                    message: error.message,
-                    position: 'bottom',
-                    type: 'negative',
-                  });
-                }" @saved="(data) => {
-  this.$q.notify({
-    message: 'Os dados foram salvos com sucesso',
-    position: 'bottom',
-    type: 'positive',
-  });
-}" />
+                <CarrierTableFixedkm
+                  :table="table"
+                  @error="
+                    (error) => {
+                      this.$q.notify({
+                        message: error.message,
+                        position: 'bottom',
+                        type: 'negative',
+                      });
+                    }
+                  "
+                  @saved="
+                    (data) => {
+                      this.$q.notify({
+                        message: 'Os dados foram salvos com sucesso',
+                        position: 'bottom',
+                        type: 'positive',
+                      });
+                    }
+                  "
+                />
               </q-tab-panel>
             </q-tab-panels>
           </div>
@@ -169,51 +250,67 @@
     </q-card>
 
     <q-dialog v-model="dialog">
-      <q-card style="width: 700px; max-width: 95vw;">
+      <q-card style="width: 700px; max-width: 95vw">
         <q-card-section class="row items-center">
-          <div class="text-h6">{{ $t('Incrementar valor taxas') }}</div>
+          <div class="text-h6">{{ $t("Incrementar valor taxas") }}</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <TableIncreaseTaxes :table="table" :api="API" @error="(error) => {
-            this.$q.notify({
-              message: error.message,
-              position: 'bottom',
-              type: 'negative',
-            });
-          }" @saved="(data) => {
-  this.$q.notify({
-    message: 'Os dados foram salvos com sucesso',
-    position: 'bottom',
-    type: 'positive',
-  });
-}" />
+          <TableIncreaseTaxes
+            :table="table"
+            @error="
+              (error) => {
+                this.$q.notify({
+                  message: error.message,
+                  position: 'bottom',
+                  type: 'negative',
+                });
+              }
+            "
+            @saved="
+              (data) => {
+                this.$q.notify({
+                  message: 'Os dados foram salvos com sucesso',
+                  position: 'bottom',
+                  type: 'positive',
+                });
+              }
+            "
+          />
         </q-card-section>
       </q-card>
     </q-dialog>
 
     <q-dialog v-model="dialog2">
-      <q-card style="width: 1200px; max-width: 95vw;">
+      <q-card style="width: 1200px; max-width: 95vw">
         <q-card-section class="row items-center">
-          <div class="text-h6">{{ $t('Adicionar conjunto taxas') }}</div>
+          <div class="text-h6">{{ $t("Adicionar conjunto taxas") }}</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <TableMultipleTaxes :table="table" :api="API" @error="(error) => {
-            this.$q.notify({
-              message: error.message,
-              position: 'bottom',
-              type: 'negative',
-            });
-          }" @saved="(data) => {
-  this.$q.notify({
-    message: 'Os dados foram salvos com sucesso',
-    position: 'bottom',
-    type: 'positive',
-  });
-}" />
+          <TableMultipleTaxes
+            :table="table"
+            @error="
+              (error) => {
+                this.$q.notify({
+                  message: error.message,
+                  position: 'bottom',
+                  type: 'negative',
+                });
+              }
+            "
+            @saved="
+              (data) => {
+                this.$q.notify({
+                  message: 'Os dados foram salvos com sucesso',
+                  position: 'bottom',
+                  type: 'positive',
+                });
+              }
+            "
+          />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -221,18 +318,17 @@
 </template>
 
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
-import CarrierTableSummary from '../../components/carrier/TableSummary';
-import CarrierTableFixedtax from '../../components/carrier/TableFixedtax';
-import CarrierTableFixedpercentage from '../../components/carrier/TableFixedpercentage';
-import CarrierTableFixedkg from '../../components/carrier/TableFixedkg';
-import CarrierTableTabela from '../../components/carrier/TableTabela';
-import CarrierTableTaxpercentinvoice from '../../components/carrier/TableTaxpercentinvoice';
-import CarrierTableTaxregion from '../../components/carrier/TableTaxregion';
-import CarrierTableFixedkm from '../../components/carrier/TableFixedkm';
-import TableIncreaseTaxes from '../../components/carrier/TableIncreaseTaxes';
-import TableMultipleTaxes from '../../components/carrier/TableMultipleTaxes';
-import CarrierImports from '@controleonline/quasar-import-ui/src/components/Import/ImportsList';
+import CarrierTableSummary from "../../components/carrier/TableSummary";
+import CarrierTableFixedtax from "../../components/carrier/TableFixedtax";
+import CarrierTableFixedpercentage from "../../components/carrier/TableFixedpercentage";
+import CarrierTableFixedkg from "../../components/carrier/TableFixedkg";
+import CarrierTableTabela from "../../components/carrier/TableTabela";
+import CarrierTableTaxpercentinvoice from "../../components/carrier/TableTaxpercentinvoice";
+import CarrierTableTaxregion from "../../components/carrier/TableTaxregion";
+import CarrierTableFixedkm from "../../components/carrier/TableFixedkm";
+import TableIncreaseTaxes from "../../components/carrier/TableIncreaseTaxes";
+import TableMultipleTaxes from "../../components/carrier/TableMultipleTaxes";
+import CarrierImports from "@controleonline/quasar-import-ui/src/components/Import/ImportsList";
 
 export default {
   components: {
@@ -246,7 +342,7 @@ export default {
     CarrierTableFixedkm,
     TableIncreaseTaxes,
     TableMultipleTaxes,
-    CarrierImports
+    CarrierImports,
   },
 
   created() {
@@ -255,8 +351,7 @@ export default {
 
   data() {
     return {
-      API: new Api(this.$store.getters['auth/user'].token),
-      currentTab: 'summary',
+      currentTab: "summary",
       carrierId: this.$route.params.id,
       tableId: this.$route.params.tableId,
       dialog: false,
@@ -273,30 +368,29 @@ export default {
         maxCubage: null,
         marketplace: null,
         website: null,
-      }
-    }
+      },
+    };
   },
 
   methods: {
     getTable() {
-      return this.API.private(`delivery_tax_groups/${this.tableId}`)
-        
-        .then(data => {
-          if (data['@id']) {
-            this.table.carrier = this.carrierId;
-            this.table.id = this.tableId;
-            this.table.code = data.code;
-            this.table.name = data.groupName;
-            this.table.maxHeight = (parseFloat(data.maxHeight) + 0.001).toFixed(2);
-            this.table.maxWidth = (parseFloat(data.maxWidth) + 0.001).toFixed(2);
-            this.table.maxDepth = (parseFloat(data.maxDepth) + 0.001).toFixed(2);
-            this.table.minCubage = (parseFloat(data.minCubage) + 0.001).toFixed(2);
-            this.table.maxCubage = (parseFloat(data.maxCubage) + 0.001).toFixed(2);
-            this.table.marketplace = data.marketplace;
-            this.table.website = data.website;
-          }
-        });
-    }
+      return api.fetch(`delivery_tax_groups/${this.tableId}`)
+      .then((data) => {
+        if (data["@id"]) {
+          this.table.carrier = this.carrierId;
+          this.table.id = this.tableId;
+          this.table.code = data.code;
+          this.table.name = data.groupName;
+          this.table.maxHeight = (parseFloat(data.maxHeight) + 0.001).toFixed(2);
+          this.table.maxWidth = (parseFloat(data.maxWidth) + 0.001).toFixed(2);
+          this.table.maxDepth = (parseFloat(data.maxDepth) + 0.001).toFixed(2);
+          this.table.minCubage = (parseFloat(data.minCubage) + 0.001).toFixed(2);
+          this.table.maxCubage = (parseFloat(data.maxCubage) + 0.001).toFixed(2);
+          this.table.marketplace = data.marketplace;
+          this.table.website = data.website;
+        }
+      });
+    },
   },
-}
+};
 </script>

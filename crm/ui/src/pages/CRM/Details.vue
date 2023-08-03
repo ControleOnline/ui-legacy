@@ -12,14 +12,14 @@
       </div>
 
       <div v-if="provider" class="row q-pa-sm q-col-gutter-sm">
-        <TasksSummary :api="API" :id="taskId" :task="task" :context="context" :provider="provider" :key="key"/>
+        <TasksSummary  :id="taskId" :task="task" :context="context" :provider="provider" :key="key"/>
         <div v-if="task.name" class="col-12">
           <br />
           <q-separator />
 
           <h5 class="q-my-md">{{ $t(context + '.interactions') }}</h5>
 
-          <TaskInteractions :api="API" :id="taskId" :taskData="task" />
+          <TaskInteractions  :id="taskId" :taskData="task" />
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       context: 'relationship',
-      API: new Api(this.$store.getters['auth/user'].token),
+      
       currentTab: 'summary',
       taskId: Number(this.$route.params.id),
       task: {},
@@ -77,7 +77,7 @@ export default {
 
   methods: {
     getTask() {
-      return this.API.private(`tasks/${this.taskId}`)
+      return api.fetch(`tasks/${this.taskId}`)
         
         .then(data => {
           if (data['@id']) {

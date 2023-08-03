@@ -5,7 +5,7 @@ export default class Save extends Resource {
     super(client, '/my_contracts', 'POST', true)
   }
 
-  fetch(options) {
+  api.fetch(options) {
     if (options.params) {
       if (options.params.id) {
         this.operation  = 'PUT';
@@ -13,7 +13,7 @@ export default class Save extends Resource {
       }
     }
 
-    return super.fetch(options)
+    return super.api.fetch(options)
       .then((response) => {
         if (response.ok) {
           return response

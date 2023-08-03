@@ -5,8 +5,8 @@ export default class GetAll extends Resource {
     super(client, '/school_team_schedules', 'GET', true)
   }
 
-  fetch(options) {
-    return super.fetch(options)
+  api.fetch(options) {
+    return super.api.fetch(options)
       .then((response) => {
         if (response.ok) {
           return response

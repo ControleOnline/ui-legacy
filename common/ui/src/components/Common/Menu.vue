@@ -35,7 +35,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 
 export default {
   props: {
@@ -49,7 +49,7 @@ export default {
 
   data() {
     return {
-      API: new Api(this.$store.getters["auth/user"].token),
+      ,
       company: null,
       menu: [],
     };
@@ -74,7 +74,7 @@ export default {
     ...mapActions({}),
 
     getMenu() {
-      return this.API.private(`menus-people`, {
+      return api.fetch(`menus-people`, {
         params: { myCompany: this.company.id },
       })
         

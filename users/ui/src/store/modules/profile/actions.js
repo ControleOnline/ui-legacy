@@ -1,4 +1,4 @@
-import { fetch } from '../../../boot/myapi'
+import { api } from '../../../boot/api'
 import * as types from './mutation_types'
 
 export const updateProfile = ({ commit }, { id, component, payload }) => {
@@ -8,7 +8,7 @@ export const updateProfile = ({ commit }, { id, component, payload }) => {
     body: JSON.stringify(payload)
   }
 
-  return fetch(`people/${id}/profile/${component}`, params)
+  return api.fetch(`people/${id}/profile/${component}`, params)
     
     .then(data => {
       return data
@@ -18,7 +18,7 @@ export const updateProfile = ({ commit }, { id, component, payload }) => {
 export const getPhones = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING)
 
-  return fetch('/phones', { params })
+  return api.fetch('/phones', { params })
     
     .then(data => {
       commit(types.SET_ISLOADING, false)
@@ -30,7 +30,7 @@ export const getPhones = ({ commit }, params = {}) => {
 export const getAddress = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING)
 
-  return fetch('/addresses', { params })
+  return api.fetch('/addresses', { params })
     
     .then(data => {
       commit(types.SET_ISLOADING, false)
@@ -42,7 +42,7 @@ export const getAddress = ({ commit }, params = {}) => {
 export const getEmails = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING)
 
-  return fetch('/emails', { params })
+  return api.fetch('/emails', { params })
     
     .then(data => {
       commit(types.SET_ISLOADING, false)
@@ -54,7 +54,7 @@ export const getEmails = ({ commit }, params = {}) => {
 export const getUsers = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING)
 
-  return fetch('/users', { params })
+  return api.fetch('/users', { params })
     
     .then(data => {
       commit(types.SET_ISLOADING, false)
@@ -66,7 +66,7 @@ export const getUsers = ({ commit }, params = {}) => {
 export const getDocuments = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING)
 
-  return fetch('/documents', { params })
+  return api.fetch('/documents', { params })
     
     .then(data => {
       commit(types.SET_ISLOADING, false)
@@ -78,7 +78,7 @@ export const getDocuments = ({ commit }, params = {}) => {
 export const getEmployees = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING)
 
-  return fetch('/people', { params })
+  return api.fetch('/people', { params })
     
     .then(data => {
       commit(types.SET_ISLOADING, false)
@@ -90,7 +90,7 @@ export const getEmployees = ({ commit }, params = {}) => {
 export const getBilling = ({ commit }, companyId) => {
   commit(types.SET_ISLOADING)
 
-  return fetch(`/people/${companyId}`)
+  return api.fetch(`/people/${companyId}`)
     
     .then(data => {
       commit(types.SET_ISLOADING, false)

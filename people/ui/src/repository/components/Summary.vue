@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import { mapGetters } from "vuex";
 
 export default {
@@ -149,10 +149,7 @@ export default {
     id: {
       required: true,
     },
-    api: {
-      type: Api,
-      required: true,
-    },
+
     people_type: {
       type: String,
       required: true,
@@ -197,7 +194,7 @@ export default {
         params: { company: this.theCompany.id },
       };
 
-      return this.api
+      return api.fetch
         .private(
           `/${people_type}/${people.people_people_id}/change-status/${people.enabled}`,
           options
@@ -242,7 +239,7 @@ export default {
     },
     // store method
     getSummary() {
-      return this.api
+      return api.fetch
         .private(`${this.people_type}/${this.id}/summary`)
         
         .then((result) => {
@@ -259,7 +256,7 @@ export default {
       };
 
       let endpoint = `${this.people_type}/${this.id}/summary`;
-      return this.api
+      return api.fetch
         .private(endpoint, options)
         
         .then((data) => {
@@ -281,7 +278,7 @@ export default {
         fieldType: ["text", "password"],
       };
 
-      return this.api
+      return api.fetch
         .private("particulars_types", { params })
         
         .then((result) => {

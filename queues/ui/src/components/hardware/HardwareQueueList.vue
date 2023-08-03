@@ -1,7 +1,12 @@
 <template>
   <div class="col-12">
     <div class="flex flex-center" v-if="isLoading || loadingStatuses">
-      <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary" class="q-ma-md" />
+      <q-circular-progress
+        :indeterminate="isLoading || loadingStatuses"
+        size="sm"
+        color="primary"
+        class="q-ma-md"
+      />
       {{ $t(`loading`) }}
     </div>
 
@@ -19,22 +24,17 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td>
-            <q-btn
-              dense
-              flat
-              color="primary"
-              icon="settings"
-            >
-            <q-menu>
-              <q-list>
-                <q-item clickable @click="openEditModal(props.row)">
-                  <q-item-section side>
-                    <q-icon name="edit"></q-icon>
-                  </q-item-section>
-                  <q-item-section> {{ $t(`Edit`) }} </q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
+            <q-btn dense flat color="primary" icon="settings">
+              <q-menu>
+                <q-list>
+                  <q-item clickable @click="openEditModal(props.row)">
+                    <q-item-section side>
+                      <q-icon name="edit"></q-icon>
+                    </q-item-section>
+                    <q-item-section> {{ $t(`Edit`) }} </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
             </q-btn>
           </q-td>
           <q-td :props="props" key="Id"> {{ props.row.id }}</q-td>
@@ -45,18 +45,21 @@
     </q-table>
 
     <q-dialog v-model="editHardwareQueue">
-      <q-card style="width:50%">
+      <q-card style="width: 50%">
         <q-card-section>
           <span class="text-h6"> {{ $t(`Edit`) }}</span>
         </q-card-section>
-        <HardwareQueueCreate :hardwareQueue="this.selectedHardwareQueue" @savedItem="saved"></HardwareQueueCreate>
+        <HardwareQueueCreate
+          :hardwareQueue="this.selectedHardwareQueue"
+          @savedItem="saved"
+        ></HardwareQueueCreate>
       </q-card>
     </q-dialog>
   </div>
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 import HardwareQueueCreate from "@controleonline/quasar-queues-ui/src/components/hardware/HardwareQueueCreate.vue";
 
@@ -70,7 +73,7 @@ export default {
 
   data() {
     return {
-      api: new Api(this.$store.getters["auth/user"].token),
+      ,
       loadingStatuses: null,
       isLoading: null,
 
@@ -84,7 +87,7 @@ export default {
       selectedHardwareQueue: null,
 
       editHardwareQueue: false,
-      
+
       data: [],
       columns: [
         {
@@ -112,33 +115,31 @@ export default {
           format: (val) => `${val}`,
         },
       ],
-    }
+    };
   },
 
   created() {
     this.getCollectionFiles();
   },
-  watch: {
-
-  },
+  watch: {},
 
   methods: {
     onRequest(pagination) {
-      console.log('onRequest')
-      console.log(onRequest)
+      console.log("onRequest");
+      console.log(onRequest);
       this.pagination = pagination;
     },
 
     getItems(params) {
-      return this.api
+      return api.fetch
         .private(`hardware_queues`, { params })
-        
+
         .then((result) => {
           return {
             members: result["hydra:member"],
-            total: result["hydra:total"]
-          }
-        })
+            total: result["hydra:total"],
+          };
+        });
     },
 
     getCollectionFiles() {
@@ -148,54 +149,41 @@ export default {
       let params = { itemsPerPage: rowsPerPage, page };
 
       this.getItems(params)
-      .then((data) => {
-        if (data.members) {
-          this.data = [];
-          for (let index in data.members) {
-            this.data.push({
-              id: data.members[index]["id"],
-              hardware: {
-                label: data.members[index]["hardware"]["hardware"],
-                value: data.members[index]["hardware"]["id"],
-              },
-              queue: {
-                label: data.members[index]["queue"]["queue"],
-                value: data.members[index]["queue"]["id"],
-              },
-            });
+        .then((data) => {
+          if (data.members) {
+            this.data = [];
+            for (let index in data.members) {
+              this.data.push({
+                id: data.members[index]["id"],
+                hardware: {
+                  label: data.members[index]["hardware"]["hardware"],
+                  value: data.members[index]["hardware"]["id"],
+                },
+                queue: {
+                  label: data.members[index]["queue"]["queue"],
+                  value: data.members[index]["queue"]["id"],
+                },
+              });
+            }
           }
-        } else {
-          this.$q.notify({
-            message: this.$t(`messages.anErrorOccurred`),
-            position: "bottom",
-            type: "negative",
-          });
-        }
-        this.pagination.page = page;
-        this.pagination.rowsPerPage = rowsPerPage;
-        this.pagination.sortBy = sortBy;
-        this.pagination.descending = descending;
-        this.pagination.rowsNumber = data.total;
-      })
-      .catch((error) => {
-        this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-      })
-      .finally(() => {
-      this.isLoading = false;
-      });
+          this.pagination.page = page;
+          this.pagination.rowsPerPage = rowsPerPage;
+          this.pagination.sortBy = sortBy;
+          this.pagination.descending = descending;
+          this.pagination.rowsNumber = data.total;
+        })
+
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
 
     saved(item) {
-      if (item["@id"])
-        this.getCollectionFiles();
+      if (item["@id"]) this.getCollectionFiles();
     },
 
     openEditModal(row) {
-      this.selectedHardwareQueue = row
+      this.selectedHardwareQueue = row;
       this.editHardwareQueue = true;
     },
   },

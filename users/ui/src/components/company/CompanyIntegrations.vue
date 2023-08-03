@@ -1,11 +1,6 @@
 <template>
   <div>
-    <q-tabs
-      no-caps
-      align="justify"
-      v-model="currentTab"
-      class="bg-white text-primary"
-    >
+    <q-tabs no-caps align="justify" v-model="currentTab" class="bg-white text-primary">
       <q-tab name="configs" label="Configurações gerais" />
       <q-tab name="zapsign" label="Zapsign" />
       <q-tab name="clicksign" label="Clicksign" />
@@ -22,15 +17,11 @@
               emit-value
               map-options
               label="Serviço de assinaturas padrão"
-              v-model="
-                integrations.default_provider['provider-signature'].value
-              "
+              v-model="integrations.default_provider['provider-signature'].value"
               :options="select.signature_providers"
               @input="
                 (value) => {
-                  this.integrations.default_provider[
-                    'provider-signature'
-                  ].changed = true;
+                  this.integrations.default_provider['provider-signature'].changed = true;
                 }
               "
             />
@@ -94,10 +85,7 @@
       </q-tab-panel>
 
       <q-tab-panel v-if="integrations !== null" name="clicksign">
-        <div
-          v-if="integrations !== null && integrations.clicksign"
-          class="row q-pt-md"
-        >
+        <div v-if="integrations !== null && integrations.clicksign" class="row q-pt-md">
           <div
             v-for="(field, fieldId) in integrations.clicksign"
             :key="fieldId"
@@ -247,21 +235,13 @@ export default {
               email: this.items.email.value,
             },
           },
-        })
-          .then((data) => {
-            this.$q.notify({
-              message: "Dados salvos com sucesso!",
-              position: "bottom",
-              type: "positive",
-            });
-          })
-          .catch((error) => {
-            this.$q.notify({
-              message: error.message,
-              position: "bottom",
-              type: "negative",
-            });
+        }).then((data) => {
+          this.$q.notify({
+            message: "Dados salvos com sucesso!",
+            position: "bottom",
+            type: "positive",
           });
+        });
       }
     },
 
@@ -272,13 +252,11 @@ export default {
 
       let config = {};
 
-      Object.entries(this.integrations.default_provider).forEach(
-        ([fieldId, field]) => {
-          if (field.changed && field.value !== null) {
-            config[fieldId] = field.value;
-          }
+      Object.entries(this.integrations.default_provider).forEach(([fieldId, field]) => {
+        if (field.changed && field.value !== null) {
+          config[fieldId] = field.value;
         }
-      );
+      });
 
       Object.entries(this.integrations.zapsign).forEach(([fieldId, field]) => {
         if (field.changed && field.value !== null) {
@@ -286,13 +264,11 @@ export default {
         }
       });
 
-      Object.entries(this.integrations.clicksign).forEach(
-        ([fieldId, field]) => {
-          if (field.changed && field.value !== null) {
-            config[fieldId] = field.value;
-          }
+      Object.entries(this.integrations.clicksign).forEach(([fieldId, field]) => {
+        if (field.changed && field.value !== null) {
+          config[fieldId] = field.value;
         }
-      );
+      });
 
       if (!Object.keys(config).length) {
         return;

@@ -1,28 +1,66 @@
 <template>
   <div>
     <div class="row q-mb-md q-gutter-sm justify-end">
-      <q-btn :label="$t('Cancelar despesa')" icon="cancel" color="negative" @click="removeExpense"
-        :loading="deleting" />
+      <q-btn
+        :label="$t('Cancelar despesa')"
+        icon="cancel"
+        color="negative"
+        @click="removeExpense"
+        :loading="deleting"
+      />
     </div>
     <q-form @submit="editExpense">
       <div class="row">
         <div class="col-xs-12 q-mb-md">
-          <q-select dense outlined  stack-label emit-value map-options lazy-rules v-model="item.category"
-            :label="$t('Categoria da despesa')" :options="categories"
-            :rules="[(val) => val !== null || 'Selecione uma categoria']" />
+          <q-select
+            dense
+            outlined
+            stack-label
+            emit-value
+            map-options
+            lazy-rules
+            v-model="item.category"
+            :label="$t('Categoria da despesa')"
+            :options="categories"
+            :rules="[(val) => val !== null || 'Selecione uma categoria']"
+          />
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
-      dense
-      outlined lazy-rules stack-label v-model="item.description" type="text" :label="$t('Descrição da despesa')"
-            class="q-mt-md" :rules="[isInvalid()]" />
+            dense
+            outlined
+            lazy-rules
+            stack-label
+            v-model="item.description"
+            type="text"
+            :label="$t('Descrição da despesa')"
+            class="q-mt-md"
+            :rules="[isInvalid()]"
+          />
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-select dense outlined  v-if="item.provider" stack-label emit-value map-options lazy-rules v-model="item.provider"
-            :label="$t('Fornecedor')" :options="providers"
-            :rules="[(val) => val !== null || 'Selecione um fornecedor']" />
-          <PeopleAutocomplete v-else :source="searchPeople" option-value="optionValue" :isLoading="isSearching"
-            label="Definir o fornecedor" @selected="onSelectClient" placeholder="Pesquisar..." />
+          <q-select
+            dense
+            outlined
+            v-if="item.provider"
+            stack-label
+            emit-value
+            map-options
+            lazy-rules
+            v-model="item.provider"
+            :label="$t('Fornecedor')"
+            :options="providers"
+            :rules="[(val) => val !== null || 'Selecione um fornecedor']"
+          />
+          <PeopleAutocomplete
+            v-else
+            :source="searchPeople"
+            option-value="optionValue"
+            :isLoading="isSearching"
+            label="Definir o fornecedor"
+            @selected="onSelectClient"
+            placeholder="Pesquisar..."
+          />
 
           <q-btn v-if="item.provider" @click="item.provider = null" align="right">
             Alterar
@@ -30,32 +68,74 @@
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
-      dense
-      outlined lazy-rules stack-label reverse-fill-mask v-model="item.amount" prefix="R$" type="text"
-            :label="$t('Valor')" class="q-mt-md" :rules="[isInvalid()]" mask="#,##" fill-mask="0" />
+            dense
+            outlined
+            lazy-rules
+            stack-label
+            reverse-fill-mask
+            v-model="item.amount"
+            prefix="R$"
+            type="text"
+            :label="$t('Valor')"
+            class="q-mt-md"
+            :rules="[isInvalid()]"
+            mask="#,##"
+            fill-mask="0"
+          />
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
-      dense
-      outlined stack-label v-model="item.dueDate" :label="$t('Data primeiro vencimento')" mask="##/##/####"
-            class="q-mb-sm" :rules="[isInvalid('date')]">
+            dense
+            outlined
+            stack-label
+            v-model="item.dueDate"
+            :label="$t('Data primeiro vencimento')"
+            mask="##/##/####"
+            class="q-mb-sm"
+            :rules="[isInvalid('date')]"
+          >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">
-                  <q-date v-model="item.dueDate" mask="DD/MM/YYYY" @input="() => $refs.qDateProxy1.hide()" />
+                <q-popup-proxy
+                  ref="qDateProxy1"
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="item.dueDate"
+                    mask="DD/MM/YYYY"
+                    @input="() => $refs.qDateProxy1.hide()"
+                  />
                 </q-popup-proxy>
               </q-icon>
             </template>
           </q-input>
         </div>
         <div class="col-xs-12 q-mb-md">
-          <q-select dense outlined  stack-label emit-value map-options lazy-rules v-model="item.status" :label="$t('Status')"
-            :options="statuses" :rules="[(val) => val !== null || 'Selecione um status']" />
+          <q-select
+            dense
+            outlined
+            stack-label
+            emit-value
+            map-options
+            lazy-rules
+            v-model="item.status"
+            :label="$t('Status')"
+            :options="statuses"
+            :rules="[(val) => val !== null || 'Selecione um status']"
+          />
         </div>
       </div>
       <div class="row justify-end">
-        <q-btn :loading="saving" icon="save" type="submit" :label="$t('Salvar')" size="md" color="primary"
-          class="q-mt-md" />
+        <q-btn
+          :loading="saving"
+          icon="save"
+          type="submit"
+          :label="$t('Salvar')"
+          size="md"
+          color="primary"
+          class="q-mt-md"
+        />
       </div>
     </q-form>
   </div>
@@ -112,7 +192,7 @@ export default {
   methods: {
     ...mapActions({
       getStatuses: "payInvoice/getStatuses",
-      getCategories: 'categories/getCategories',
+      getCategories: "categories/getCategories",
       getInvoice: "payInvoice/getInvoice",
       createCategory: "expense/createCategory",
       createProvider: "expense/createProvider",
@@ -127,32 +207,29 @@ export default {
     searchPeople(input) {
       this.isSearching = true;
 
-      return this.search(input).then((result) => {
-        this.isSearching = false;
-
-        if (result && result.success) {
-          let items = [];
-          for (let i = 0; i < result.data.length; i++) {
-            items.push({
-              label:
-                result.data[i].id +
-                " - " +
-                result.data[i].name +
-                " - " +
-                result.data[i].alias,
-              value: result.data[i],
-            });
-          }
-          return items;
-        } else {
+      return this.search(input)
+        .then((result) => {
           this.isSearching = false;
-          this.$q.notify({
-            message: this.$t("messages.gmapsReqNoData"),
-            position: "bottom",
-            type: "negative",
-          });
-        }
-      });
+
+          if (result && result.success) {
+            let items = [];
+            for (let i = 0; i < result.data.length; i++) {
+              items.push({
+                label:
+                  result.data[i].id +
+                  " - " +
+                  result.data[i].name +
+                  " - " +
+                  result.data[i].alias,
+                value: result.data[i],
+              });
+            }
+            return items;
+          }
+        })
+        .finally(() => {
+          this.isSearching = false;
+        });
     },
     loadSelectableOptions() {
       // load categories
@@ -253,13 +330,7 @@ export default {
             type: "positive",
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.dialogs.provider.saving = false;
         });
@@ -276,10 +347,7 @@ export default {
           provider: parseInt(this.item.provider.replace(/\D/g, "")),
           amount: parseFloat(this.item.amount.replace(",", ".")),
           dueDate: this.item.dueDate
-            ? this.item.dueDate.replace(
-              /^(\d{2})\/(\d{2})\/(\d{4})$/g,
-              "$3-$2-$1"
-            )
+            ? this.item.dueDate.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/g, "$3-$2-$1")
             : null,
           description: this.item.description,
           status: this.item.status,
@@ -297,13 +365,7 @@ export default {
 
           this.$emit("updated", data);
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.saving = false;
         });
@@ -330,13 +392,7 @@ export default {
 
             this.$emit("updated", data);
           })
-          .catch((error) => {
-            this.$q.notify({
-              message: this.$t(error.message),
-              position: "bottom",
-              type: "negative",
-            });
-          })
+
           .finally(() => {
             this.deleting = false;
           });
@@ -365,8 +421,7 @@ export default {
 
             this.providers.push({
               label:
-                data.order[0].order.provider.name ||
-                data.order[0].order.provider.alias,
+                data.order[0].order.provider.name || data.order[0].order.provider.alias,
               value: this.item.provider,
             });
 
@@ -375,7 +430,7 @@ export default {
             this.item.status = data.status.status;
           }
         })
-        .catch((error) => { })
+        .catch((error) => {})
         .finally(() => {
           this.isLoading = false;
         });
@@ -384,12 +439,10 @@ export default {
     isInvalid(field) {
       return (val) => {
         if (field == "date") {
-          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val))
-            return this.$t("A data não é válida");
+          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val)) return this.$t("A data não é válida");
         }
 
-        if (!(val && val.length > 0))
-          return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
 
         return true;
       };

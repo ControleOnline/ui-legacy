@@ -23,14 +23,8 @@
         </q-td>
         <q-td key="notaFiscal" :props="props">{{ props.row.notaFiscal }}</q-td>
         <q-td key="dataPedido" :props="props">{{ props.cols[2].value }}</q-td>
-        <q-td key="ultimaModificacao" :props="props">{{
-          props.cols[3].value
-        }}</q-td>
-        <q-td
-          key="status"
-          :props="props"
-          :style="{ color: props.row.color_status }"
-        >
+        <q-td key="ultimaModificacao" :props="props">{{ props.cols[3].value }}</q-td>
+        <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
           {{ $t(`order.statuses.${props.row.status}`) }}
         </q-td>
         <q-td key="coleta" :props="props">
@@ -307,8 +301,8 @@ export default {
         if (element.invoice.id == this.invoiceId) {
           price = element.realPrice;
         }
-      });      
-      return price == invoice.price || price == 0  ? "-----" : price;
+      });
+      return price == invoice.price || price == 0 ? "-----" : price;
     },
     removeItem(item) {
       if (window.confirm("Tem certeza que deseja eliminar este registro?")) {
@@ -327,13 +321,7 @@ export default {
               filter: this.filters,
             });
           })
-          .catch((error) => {
-            this.$q.notify({
-              message: error.message,
-              position: "bottom",
-              type: "negative",
-            });
-          })
+
           .finally(() => {
             item._bussy = false;
           });
@@ -343,8 +331,7 @@ export default {
     onRequest(props) {
       if (this.isLoading) return;
 
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let filter = props.filter;
       let params = { itemsPerPage: rowsPerPage, page };
 

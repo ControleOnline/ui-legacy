@@ -20,7 +20,7 @@
 
         <q-tab-panels v-model="currentTab" class="bg-transparent col-12">
           <q-tab-panel name="summary" class="q-pa-none no-scroll">
-            <TasksSummary v-if="task" :api="API" :id="taskId" :task="task" :context="context" :provider="provider"
+            <TasksSummary v-if="task"  :id="taskId" :task="task" :context="context" :provider="provider"
               :key="key" />
 
             <div v-if="task.name" class="col-12">
@@ -29,7 +29,7 @@
 
               <h5 class="q-my-md">{{ $t(context + '.interactions') }}</h5>
 
-              <TaskInteractions :api="API" :id="taskId" :taskData="task" />
+              <TaskInteractions  :id="taskId" :taskData="task" />
             </div>
           </q-tab-panel>
         </q-tab-panels>
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       context: 'support',
-      API: new Api(this.$store.getters['auth/user'].token),
+      
       currentTab: 'summary',
       taskId: Number(this.$route.params.id),
       task: {},
@@ -89,7 +89,7 @@ export default {
 
   methods: {
     getTask() {
-      return this.API.private(`tasks/${this.taskId}`)
+      return api.fetch(`tasks/${this.taskId}`)
         
         .then(data => {
           if (data['@id']) {
@@ -106,7 +106,7 @@ export default {
       params['task.id'] = element.id;
       params['read'] = 0;
 
-      return this.API.private(`/task_interations`, {
+      return api.fetch(`/task_interations`, {
         params,
       })
         
@@ -119,7 +119,7 @@ export default {
               headers: new Headers({ "Content-Type": "application/ld+json" }),
               body: JSON.stringify({ read: 1 }),
             };
-            return this.API.private('task_interations/' + element.id, options)
+            return api.fetch('task_interations/' + element.id, options)
               ;
           });
           

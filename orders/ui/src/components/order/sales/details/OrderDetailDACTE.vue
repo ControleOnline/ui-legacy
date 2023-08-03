@@ -63,12 +63,7 @@
               </div>
 
               <div class="row justify-end q-mt-lg">
-                <q-btn
-                  type="submit"
-                  color="primary"
-                  label="Salvar"
-                  :loading="isSaving"
-                />
+                <q-btn type="submit" color="primary" label="Salvar" :loading="isSaving" />
               </div>
             </q-form>
           </div>
@@ -78,9 +73,7 @@
           <div class="col-12">
             <div class="row">
               <div class="col-12">
-                <div class="text-subtitle1 q-mt-md q-mb-md">
-                  Faça upload do DACTE
-                </div>
+                <div class="text-subtitle1 q-mt-md q-mb-md">Faça upload do DACTE</div>
                 <UploadFileForm
                   class="q-mb-md"
                   :endpoint="updEndpoint"
@@ -111,9 +104,7 @@
         <div class="row" v-else>
           <div class="col-12">
             <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-              <h6 class="q-mb-md q-mt-md">
-                DACTE: #{{ invoiceTax.invoice_number }}
-              </h6>
+              <h6 class="q-mb-md q-mt-md">DACTE: #{{ invoiceTax.invoice_number }}</h6>
             </div>
             <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
               <q-btn
@@ -148,7 +139,7 @@
 
 <script>
 import { date } from "quasar";
-import { fetch } from "../../../../../../../../src/boot/myapi";
+import { api } from "../../../../../../../../src/boot/api";
 import UploadFileForm from "@controleonline/quasar-common-ui/src/components/Common/UploadFileForm.vue";
 import { mapActions, mapGetters } from "vuex";
 import { ENTRYPOINT } from "../../../../../../../../src/config/entrypoint";
@@ -234,8 +225,7 @@ export default {
         },
       };
 
-      return fetch(`sales/orders/${this.orderId}/detail/create-dacte`, options)
-        
+      return api.fetch(`sales/orders/${this.orderId}/detail/create-dacte`, options)
         .then((order) => {
           if (order && order.response && order.response.success) {
             this.$q.notify({
@@ -244,12 +234,6 @@ export default {
               type: "positive",
             });
             this.onRequest();
-          } else {
-            this.$q.notify({
-              message: order.response.error,
-              position: "bottom",
-              type: "negative",
-            });
           }
         })
         .finally(() => {
@@ -272,8 +256,7 @@ export default {
         },
       };
 
-      return fetch(`sales/orders/${this.orderId}/detail/update-dacte`, options)
-        
+      return api.fetch(`sales/orders/${this.orderId}/detail/update-dacte`, options)
         .then((order) => {
           if (order !== null) {
             this.$q.notify({
@@ -324,25 +307,12 @@ export default {
           orderId: this.orderId,
           invoiceTax: this.invoiceTax.id,
         },
-      })
-        .then((order) => {
-          if (order.response && order.response.error) {
-            this.$q.notify({
-              message: order.response.error,
-              position: "bottom",
-              type: "negative",
-            });
-          } else {
-            location.reload();
-          }
-        })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
-        });
+      }).then((order) => {
+        if (order.response && order.response.error) {
+        } else {
+          location.reload();
+        }
+      });
     },
     onRequest() {
       if (this.isLoading) return;
@@ -356,9 +326,7 @@ export default {
         if (order !== null) {
           this.order = order;
           if (order.invoiceTax.length > 0) {
-            let invoiceTax = order.invoiceTax.find(
-              (inv) => inv.invoice_type == 57
-            );
+            let invoiceTax = order.invoiceTax.find((inv) => inv.invoice_type == 57);
             this.invoiceTax = invoiceTax || null;
           }
 
@@ -371,8 +339,7 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0))
-          return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
         return true;
       };
     },

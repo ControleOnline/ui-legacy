@@ -1,5 +1,5 @@
 import { LocalStorage } from "quasar";
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 
 export default class acl {
   getPermissions() {    
@@ -10,10 +10,10 @@ export default class acl {
 
   };
   setPermission() {         
-   this.fetchPermission();           
+   api.fetchPermission();           
   }
 
-  fetchPermission(){
+  api.fetchPermission(){
       let storedUser = LocalStorage.getItem("session");
       let API = new Api(storedUser.token);
       let route = storedUser.route;

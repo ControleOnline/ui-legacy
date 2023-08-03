@@ -191,7 +191,6 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import {
   formatDocument,
   formatMoney,
@@ -245,10 +244,6 @@ export default {
   },
   props: {
     id: {
-      required: true,
-    },
-    api: {
-      type: Api,
       required: true,
     },
   },
@@ -317,7 +312,7 @@ export default {
   methods: {
     // store method
     getItems(params) {
-      return this.api
+      return api.fetch
         .private("delivery_tax_groups", { params })
 
         .then((result) => {
@@ -336,7 +331,7 @@ export default {
         body: JSON.stringify(values),
       };
 
-      return this.api
+      return api.fetch
         .private("delivery_tax_groups", options)
 
         .catch((e) => {
@@ -354,7 +349,7 @@ export default {
         body: JSON.stringify(values),
       };
 
-      return this.api
+      return api.fetch
         .private(`delivery_tax_groups/${id}`, options)
 
         .catch((e) => {
@@ -371,7 +366,7 @@ export default {
       };
 
       let endpoint = `delivery_tax_groups/${id}`;
-      return this.api.private(endpoint, options).catch((e) => {
+      return api.fetch(endpoint, options).catch((e) => {
         if (e instanceof SubmissionError) throw new Error(e.errors._error);
 
         throw new Error(e.message);

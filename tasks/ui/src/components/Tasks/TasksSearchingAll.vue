@@ -25,7 +25,7 @@
                 ref="myForm"
                 :orderId="orderId"
                 :client="client"
-                :api="API"
+                
                 :statuses="getClear(statuses)"
                 :task_type="task_type"
                 :categories="getClear(categories)"
@@ -322,7 +322,7 @@
 <script>
 import categories from "@controleonline/quasar-common-ui/src/store/categories";
 import { date } from "quasar";
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import { mapGetters } from "vuex";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import FormTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/FormTasks.vue";
@@ -375,7 +375,7 @@ export default {
 
   data() {
     return {
-      API: new Api(this.$store.getters["auth/user"].token),
+      ,
       settings: {
         visibleColumns: ["id", "name", "status", "registeredBy", "dueDate"],
         columns: [
@@ -586,7 +586,7 @@ export default {
       params.company = this.provider;
       params["order[name]"] = "ASC";
 
-      return this.API.private("/categories", { params })
+      return api.fetch("/categories", { params })
         
         .then((result) => {
           return {
@@ -652,7 +652,7 @@ export default {
       params.context = this.context;
       params["order[name]"] = "ASC";
 
-      return this.API.private("/statuses", { params })
+      return api.fetch("/statuses", { params })
         
         .then((result) => {
           return {
@@ -668,7 +668,7 @@ export default {
       params.company = this.provider;
       params["order[name]"] = "ASC";
 
-      return this.API.private("/tasks/people", { params })
+      return api.fetch("/tasks/people", { params })
         
         .then((result) => {
           return result.response.data;
@@ -720,7 +720,7 @@ export default {
 
     // store method
     getTasks(params) {
-      return this.API.private("/tasks", { params })
+      return api.fetch("/tasks", { params })
         
         .then((result) => {
           return {

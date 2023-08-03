@@ -57,7 +57,7 @@ import configurable from "./../mixins/configurable";
 import Contract from "./../entity/Contract";
 import { formatBRDocument } from "./../library/formatter";
 import { formatBRPostalCode } from "./../library/formatter";
-import { fetch } from '../../../../../src/boot/myapi';
+import { api } from "../../../../../src/boot/api";
 
 export default {
   name: "ContractDocument",
@@ -114,47 +114,29 @@ export default {
 
       this.isLoading = true;
 
-      fetch("/contracts/" + this.contract.id + "/change/payment", params)
-        
+      api.fetch("/contracts/" + this.contract.id + "/change/payment", params)
         .then(
           ((data) => {
-            this.isLoading = false;
-
-            if (
-              data.response &&
-              data.response.success &&
-              data.response.data.contractId
-            ) {
+            if (data.response && data.response.success && data.response.data.contractId) {
               this.$q.notify({
                 message: "Contrato atualizado com sucesso",
                 position: "bottom",
                 type: "positive",
               });
               this.loadDocument();
-            } else {
-              this.$q.notify({
-                message: "Não foi possível atualizar o contrato neste momento!",
-                position: "bottom",
-                type: "negative",
-              });
             }
 
             return data;
           }).bind(this)
         )
         .catch((e) => {
-          this.isLoading = false;
-
-          this.$q.notify({
-            message: "Não foi possível atualizar o contrato neste momento!",
-            position: "bottom",
-            type: "negative",
-          });
-
           if (e instanceof SubmissionError) {
             return e.errors._error;
           }
           return e.message;
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
   },
@@ -184,9 +166,7 @@ export default {
             info += ` Com sede na`;
             info += ` ${participant.people.address.street}`;
             info += ` nº ${participant.people.address.number}`;
-            info += ` - CEP ${formatBRPostalCode(
-              participant.people.address.postalCode
-            )}`;
+            info += ` - CEP ${formatBRPostalCode(participant.people.address.postalCode)}`;
             info += ` - ${participant.people.address.district}`;
             info += ` - ${participant.people.address.city}`;
             info += ` - ${participant.people.address.state}`;
@@ -220,17 +200,9 @@ export default {
           company: this.Params.Company.get(),
           myCompany: this.Params.Company.get(),
         },
-      })
-        .then((content) => {
-          this.$refs.contractDocument.innerHTML = content;
-        })
-        .catch((error) => {
-          this.$q.notify({
-            message: error.message,
-            position: "bottom",
-            type: "negative",
-          });
-        });
+      }).then((content) => {
+        this.$refs.contractDocument.innerHTML = content;
+      });
     },
 
     requestSignatures() {
@@ -248,13 +220,6 @@ export default {
         .then((contract) => {
           this.$emit("requested", contract);
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: error.message,
-            position: "bottom",
-            type: "negative",
-          });
-        })
         .finally(() => {
           this.isRequesting = false;
         });
@@ -271,17 +236,10 @@ export default {
 
       this.isLoading = true;
 
-      fetch("/contracts/" + this.contract.id + "/status/Active", params)
-        
+      api.fetch("/contracts/" + this.contract.id + "/status/Active", params)
         .then(
           ((data) => {
-            this.isLoading = false;
-
-            if (
-              data.response &&
-              data.response.success &&
-              data.response.data.contractId
-            ) {
+            if (data.response && data.response.success && data.response.data.contractId) {
               this.$q.notify({
                 message: "Contrato atualizado com sucesso",
                 position: "bottom",
@@ -289,30 +247,19 @@ export default {
               });
 
               location.reload();
-            } else {
-              this.$q.notify({
-                message: "Não foi possível atualizar o contrato neste momento!",
-                position: "bottom",
-                type: "negative",
-              });
             }
 
             return data;
           }).bind(this)
         )
         .catch((e) => {
-          this.isLoading = false;
-
-          this.$q.notify({
-            message: "Não foi possível atualizar o contrato neste momento!",
-            position: "bottom",
-            type: "negative",
-          });
-
           if (e instanceof SubmissionError) {
             return e.errors._error;
           }
           return e.message;
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
   },

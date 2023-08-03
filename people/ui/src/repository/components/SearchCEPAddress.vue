@@ -21,10 +21,7 @@ import Api from '@controleonline/quasar-common-ui/src/utils/api';
 
 export default {
   props: {
-    api       : {
-      type    : Api,
-      required: true
-    },
+
     editMode  : {
       type    : Boolean,
       required: false,
@@ -97,7 +94,7 @@ export default {
     },
 
     getAddressByCEP(cep) {
-      return this.api.private(`/cep_address/${cep}`)
+      return api.fetch(`/cep_address/${cep}`)
         
         .then(data => {
 

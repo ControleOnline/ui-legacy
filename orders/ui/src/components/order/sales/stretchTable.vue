@@ -136,15 +136,15 @@
               label="Endereço da entrega"
               v-model="destinationAddress"
             ></q-input>
-              <q-input
-                class="col-xs-12 col-sm-2 col-md-1"
-                dense
-                outlined
-                readonly
-                stack-label
-                label="Valor do seguro"
-                v-model="invoiceTotal"
-              ></q-input>
+            <q-input
+              class="col-xs-12 col-sm-2 col-md-1"
+              dense
+              outlined
+              readonly
+              stack-label
+              label="Valor do seguro"
+              v-model="invoiceTotal"
+            ></q-input>
           </div>
         </div>
       </div>
@@ -171,7 +171,6 @@
               <q-btn dense flat icon="settings">
                 <q-menu>
                   <q-list>
-                  
                     <q-item clickable @click="openEditModal(props)">
                       <q-item-section side>
                         <q-icon name="edit"></q-icon>
@@ -179,15 +178,23 @@
                       <q-item-section> Editar </q-item-section>
                     </q-item>
                     <q-separator></q-separator>
-                    
-                    <q-item clickable @click="finish(props)" v-if="props.row.status.label != 'Finalizado'">
+
+                    <q-item
+                      clickable
+                      @click="finish(props)"
+                      v-if="props.row.status.label != 'Finalizado'"
+                    >
                       <q-item-section side>
                         <q-icon name="check"></q-icon>
                       </q-item-section>
                       <q-item-section> Finalizar </q-item-section>
                     </q-item>
                     <q-separator></q-separator>
-                    <q-item clickable @click="addSurvey(props)" v-if="!props.row.surveyId">
+                    <q-item
+                      clickable
+                      @click="addSurvey(props)"
+                      v-if="!props.row.surveyId"
+                    >
                       <q-item-section side>
                         <q-icon name="checklist"></q-icon>
                       </q-item-section>
@@ -195,12 +202,10 @@
                     </q-item>
                     <q-separator></q-separator>
                     <q-item clickable @click="deleteTrecho(props)">
-                    <q-item-section side>
-                      <q-icon name="delete"></q-icon>
-                    </q-item-section>
-                    <q-item-section>
-                      Excluir
-                    </q-item-section>
+                      <q-item-section side>
+                        <q-icon name="delete"></q-icon>
+                      </q-item-section>
+                      <q-item-section> Excluir </q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -211,7 +216,10 @@
                 v-if="props.row.surveyId"
                 outline
                 dense
-                :to="{ name: 'ChecklistDetails', params: { id: props.row.surveyId, token_url: props.row.surveyToken } }"
+                :to="{
+                  name: 'ChecklistDetails',
+                  params: { id: props.row.surveyId, token_url: props.row.surveyToken },
+                }"
                 label="Vistoria Id"
                 class="full-width"
               />
@@ -219,7 +227,7 @@
             <q-td :props="props" key="Id">
               {{ props.row.id }}
             </q-td>
-            <q-td  :props="props" key="IdPedido">
+            <q-td :props="props" key="IdPedido">
               <q-btn
                 outline
                 dense
@@ -227,7 +235,6 @@
                 :label="props.row.order"
                 class="full-width"
               />
-
             </q-td>
             <q-td :props="props" key="IdContrato">
               <q-btn
@@ -238,8 +245,7 @@
                 :label="props.row.contract"
                 class="full-width"
               />
-              <div v-else> - </div>
-
+              <div v-else>-</div>
             </q-td>
             <q-td :props="props" key="IdFatura">
               <q-btn
@@ -250,9 +256,10 @@
                 :label="props.row.orderInvoice"
                 class="full-width"
               />
-              <div v-else> - </div>
+              <div v-else>-</div>
             </q-td>
-            <q-td key="stretchstatus"
+            <q-td
+              key="stretchstatus"
               :props="props"
               :style="{ color: getStatusColor(props.row.status.label) }"
             >
@@ -327,9 +334,15 @@
         </template>
       </q-table>
       <div class="row justify-center">
-        <q-form v-if="toggleAddStretch == true" class="row justify-start col-12 q-col-gutter-lg" ref="myForm" @submit="onSubmit">
+        <q-form
+          v-if="toggleAddStretch == true"
+          class="row justify-start col-12 q-col-gutter-lg"
+          ref="myForm"
+          @submit="onSubmit"
+        >
           <div class="row justify-start center col-xs-12 col-sm-12 col-md-12">
-            <q-select class="col-xs-12 col-sm-12 col-md-3"
+            <q-select
+              class="col-xs-12 col-sm-12 col-md-3"
               dense
               outlined
               stack-label
@@ -488,7 +501,8 @@
           </div>
 
           <div class="row justify-start col-xs-12 col-sm-12 col-md-12 q-col-gutter-sm">
-            <q-select class="col-xs-6 col-sm-6 col-md-2"
+            <q-select
+              class="col-xs-6 col-sm-6 col-md-2"
               dense
               outlined
               stack-label
@@ -496,7 +510,8 @@
               :options="stretchValueOptions"
               v-model="stretchValueSelected"
             ></q-select>
-            <q-input class="col-xs-6 col-sm-6 col-md-2"
+            <q-input
+              class="col-xs-6 col-sm-6 col-md-2"
               dense
               type="number"
               outlined
@@ -506,7 +521,8 @@
               :rules="[(val) => val != null]"
               hide-bottom-space
             ></q-input>
-            <q-input class="col-xs-6 col-sm-6 col-md-2"
+            <q-input
+              class="col-xs-6 col-sm-6 col-md-2"
               dense
               type="number"
               outlined
@@ -514,7 +530,8 @@
               label="Valor Pago"
               v-model="stretch.amountPaid"
             ></q-input>
-            <q-input class="col-xs-6 col-sm-6 col-md-2"
+            <q-input
+              class="col-xs-6 col-sm-6 col-md-2"
               dense
               type="number"
               outlined
@@ -527,7 +544,8 @@
 
           <div class="row justify-start col-xs-12 col-sm-12 col-md-12 q-col-gutter-y-sm">
             <div class="row col-xs-12 col-sm-12 col-md-5 q-col-gutter-sm">
-              <q-input class="col-xs-6 col-sm-6 col-md-5"
+              <q-input
+                class="col-xs-6 col-sm-6 col-md-5"
                 dense
                 type="date"
                 outlined
@@ -537,7 +555,8 @@
                 :rules="[(val) => val != null]"
                 hide-bottom-space
               ></q-input>
-              <q-input class="col-xs-6 col-sm-6 col-md-5"
+              <q-input
+                class="col-xs-6 col-sm-6 col-md-5"
                 dense
                 type="date"
                 outlined
@@ -547,7 +566,8 @@
               ></q-input>
             </div>
             <div class="row col-xs-12 col-sm-12 col-md-5 q-col-gutter-sm">
-              <q-input class="col-xs-6 col-sm-6 col-md-5"
+              <q-input
+                class="col-xs-6 col-sm-6 col-md-5"
                 dense
                 type="date"
                 outlined
@@ -557,7 +577,8 @@
                 :rules="[(val) => val != null]"
                 hide-bottom-space
               ></q-input>
-              <q-input class="col-xs-6 col-sm-6 col-md-5"
+              <q-input
+                class="col-xs-6 col-sm-6 col-md-5"
                 dense
                 type="date"
                 outlined
@@ -614,7 +635,9 @@
 
             <div class="row justify-between q-gutter-sm">
               <!-- Origem -->
-              <div class="row col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5 q-gutter-y-sm">
+              <div
+                class="row col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5 q-gutter-y-sm"
+              >
                 <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <label>Origem</label>
                 </div>
@@ -746,7 +769,9 @@
               <!-- Origem Fim -->
 
               <!-- Destino -->
-              <div class="row col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5 q-gutter-y-sm">
+              <div
+                class="row col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5 q-gutter-y-sm"
+              >
                 <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <label>Destino</label>
                 </div>
@@ -915,7 +940,9 @@
               ></q-input>
             </div>
 
-            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-between q-gutter-xs">
+            <div
+              class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-between q-gutter-xs"
+            >
               <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
                 <q-input
                   dense
@@ -939,7 +966,9 @@
               </div>
             </div>
 
-            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-between q-gutter-xs">
+            <div
+              class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-between q-gutter-xs"
+            >
               <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
                 <q-input
                   dense
@@ -963,11 +992,12 @@
               </div>
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 flex justify-end q-gutter-sm">
+            <div
+              class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 flex justify-end q-gutter-sm"
+            >
               <q-btn color="positive" label="Salvar" @click="saveStretch()"></q-btn>
               <q-btn color="negative" label="Cancelar" v-close-popup></q-btn>
             </div>
-
           </q-form>
         </q-card>
       </q-dialog>
@@ -975,27 +1005,23 @@
     <!-- Modal Edit Fim -->
 
     <q-dialog v-model="confirmDelete" persistent>
-      <q-card style="width: 600px;">
+      <q-card style="width: 600px">
         <q-card-section class="row items-center q-pb-none">
           <q-avatar icon="delete" color="red" text-color="white" />
-          <div class="text-h6 q-ml-md">
-            Excluir Trecho
-          </div>
+          <div class="text-h6 q-ml-md">Excluir Trecho</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="Cancelar" color="primary" v-close-popup />
-          <q-btn flat label="Sim" color="primary" @click="nowDelete();" v-close-popup />
+          <q-btn flat label="Sim" color="primary" @click="nowDelete()" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
-
-</div>
+  </div>
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
 import { mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
 import {
@@ -1049,14 +1075,13 @@ export default {
 
   data() {
     return {
-      api: new Api(this.$store.getters["auth/user"].token),
       isLoading: false,
       isSearching: false,
       editShippingTax: true,
       shippingTax: null,
       hasOrderId: null,
       isSuper: null,
-      testes:true,
+      testes: true,
       confirmDelete: false,
       idRowToDelete: false,
       isFirstStretch: null,
@@ -1159,8 +1184,8 @@ export default {
         destination: null,
         destinationProvider: null,
         status: {
-          value:46,
-          label: "Aberto"
+          value: 46,
+          label: "Aberto",
         },
         from: "",
         to: "",
@@ -1194,8 +1219,8 @@ export default {
           name: "IdPedido",
           label: "Id Pedido",
           align: "center",
-          classes: this.hideOrderIdColumn() ? 'hidden':'',
-          headerClasses: this.hideOrderIdColumn() ? 'hidden':'',
+          classes: this.hideOrderIdColumn() ? "hidden" : "",
+          headerClasses: this.hideOrderIdColumn() ? "hidden" : "",
           field: (row) => row.order,
           format: (val) => `${val}`,
         },
@@ -1494,13 +1519,13 @@ export default {
       if (this.stretch.amountPaid && this.stretch.amountPaid != null) {
         this.stretch.balance = val - this.stretch.amountPaid;
       }
-    } ,
+    },
 
     "stretch.amountPaid"(val) {
       if (this.stretch.price && this.stretch.price != null) {
         this.stretch.balance = this.stretch.price - val;
       }
-    } ,
+    },
   },
 
   methods: {
@@ -1517,56 +1542,59 @@ export default {
     searchPeople(input) {
       this.isSearching = true;
 
-      return this.search(input).then((result) => {
-        this.isSearching = false;
-
-        if (result && result.success) {
-          let items = [];
-          for (let i = 0; i < result.data.length; i++) {
-            items.push({
-              label:
-                result.data[i].id +
-                " - " +
-                result.data[i].name +
-                " - " +
-                result.data[i].alias,
-              value: result.data[i],
+      return this.search(input)
+        .then((result) => {
+          if (result && result.success) {
+            let items = [];
+            for (let i = 0; i < result.data.length; i++) {
+              items.push({
+                label:
+                  result.data[i].id +
+                  " - " +
+                  result.data[i].name +
+                  " - " +
+                  result.data[i].alias,
+                value: result.data[i],
+              });
+            }
+            return items;
+          } else {
+            this.$q.notify({
+              message: this.$t("Forncedor não encontrado"),
+              position: "bottom",
+              type: "negative",
             });
           }
-          return items;
-        } else {
-          this.isSearching = false;
-          this.$q.notify({
-            message: this.$t("Forncedor não encontrado"),
-            position: "bottom",
-            type: "negative",
-          });
-        }
-      });
+        })
+        .finally((data) => {
+          this.isUpdating = false;
+        });
     },
     getGeoPlaces(input) {
       this.isSearching = true;
 
-      return this.geoplace(input).then((result) => {
-        this.isSearching = false;
-
-        if (result.success) {
-          let items = [];
-          for (let i = 0; i < result.data.length; i++) {
-            items.push({
-              label: result.data[i].description,
-              value: result.data[i],
+      return this.geoplace(input)
+        .then((result) => {
+          if (result.success) {
+            let items = [];
+            for (let i = 0; i < result.data.length; i++) {
+              items.push({
+                label: result.data[i].description,
+                value: result.data[i],
+              });
+            }
+            return items;
+          } else {
+            this.$q.notify({
+              message: this.$t("messages.gmapsReqNoData"),
+              type: "negative",
+              position: "bottom",
             });
           }
-          return items;
-        } else {
-          this.$q.notify({
-            message: this.$t("messages.gmapsReqNoData"),
-            type: "negative",
-            position: "bottom",
-          });
-        }
-      });
+        })
+        .finally((data) => {
+          this.isUpdating = false;
+        });
     },
     onSelectOrigin(item) {
       this.stretch.originRegion = this.getRegion(item.state);
@@ -1601,7 +1629,7 @@ export default {
       this.tempDestinationAdress.state = this.stretch.destinationState;
       this.tempDestinationAdress.city = this.stretch.destinationCity;
       this.tempDestinationAdress.adress = this.stretch.destinationAdress;
-      
+
       this.stretch.destinationRegion = this.getRegion(item.state);
       this.stretch.destinationState = item.state;
       this.stretch.destinationCity = item.city;
@@ -1618,7 +1646,7 @@ export default {
         this.getProviderAddress(item.id).then((data) => {
           if (data != null && data.length != 0) {
             this.originProviderHasAddress = true;
-            
+
             for (let index in data) {
               let address = {};
               address.country =
@@ -1748,9 +1776,7 @@ export default {
       };
 
       let endpoint = `/order_logistic_surveys/surveys_create`;
-      return this.api
-        .private(endpoint, options)
-        
+      return api.fetch(endpoint, options)
         .then((result) => {
           let data = result.response.data;
           if (result.response.success) {
@@ -1760,77 +1786,62 @@ export default {
               type: "positive",
             });
             this.$router.push({
-              name: 'ChecklistDetails',
-              params: { id: data.order_logistic_surveys_id, token_url: data.order_logistic_surveys_token_url },
-            });
-          } else {
-            this.$q.notify({
-              message: "Não foi possível criar a vistoria.",
-              position: "bottom",
-              type: "negative",
+              name: "ChecklistDetails",
+              params: {
+                id: data.order_logistic_surveys_id,
+                token_url: data.order_logistic_surveys_token_url,
+              },
             });
           }
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: error.message,
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isLoading = false;
           this.getValuesToLoad();
-        })
+        });
     },
 
     getquotationId(orderId) {
-      return this.api
-        .private(`/sales/orders/${orderId}/detail/summary`, {})
-        
-        .then((result) => {
-          if (result.response.data.quotations.length) {
-            // condicionar com length
-            let quotations = result.response.data.quotations;
-            // let quotationId = 29236;
-            for (let index in quotations) {
-              let quotationId = quotations[index].id;
-              this.getQuotationValues(quotationId);
-            }
-          } else {
-            this.stretchValueSelected = "SEM COTAÇÃO";
+      return api.fetch(`/sales/orders/${orderId}/detail/summary`, {}).then((result) => {
+        if (result.response.data.quotations.length) {
+          // condicionar com length
+          let quotations = result.response.data.quotations;
+          // let quotationId = 29236;
+          for (let index in quotations) {
+            let quotationId = quotations[index].id;
+            this.getQuotationValues(quotationId);
           }
-        });
+        } else {
+          this.stretchValueSelected = "SEM COTAÇÃO";
+        }
+      });
     },
     getQuotationValues(quotationId) {
-      return this.api
-        .private(`/quote_detail/${quotationId}`, {})
-        
-        .then((result) => {
-          if (result.response.data.taxes.length) {
-            let taxesFilter = ["TRECHO", "VALOR", "ACRÉSCIMO", "BASE", "GUINCHO"];
-            let allTaxes = result.response.data.taxes;
-            let taxes = [];
+      return api.fetch(`/quote_detail/${quotationId}`, {}).then((result) => {
+        if (result.response.data.taxes.length) {
+          let taxesFilter = ["TRECHO", "VALOR", "ACRÉSCIMO", "BASE", "GUINCHO"];
+          let allTaxes = result.response.data.taxes;
+          let taxes = [];
 
-            for (let index in taxesFilter) {
-              let res = allTaxes.filter((allTaxes) =>
-                allTaxes.name.includes(taxesFilter[index])
-              );
-              if (res.length) {
-                taxes.push.apply(taxes, res);
-              }
-            }
-
-            this.stretchValueOptions = [];
-            for (let index in taxes) {
-              this.stretchValueOptions.push({
-                label: taxes[index].name,
-                id: taxes[index].id,
-                price: taxes[index].total,
-              });
+          for (let index in taxesFilter) {
+            let res = allTaxes.filter((allTaxes) =>
+              allTaxes.name.includes(taxesFilter[index])
+            );
+            if (res.length) {
+              taxes.push.apply(taxes, res);
             }
           }
-        });
+
+          this.stretchValueOptions = [];
+          for (let index in taxes) {
+            this.stretchValueOptions.push({
+              label: taxes[index].name,
+              id: taxes[index].id,
+              price: taxes[index].total,
+            });
+          }
+        }
+      });
     },
     checkOrderId() {
       this.hasOrderId = this.orderId ? true : false;
@@ -1838,22 +1849,19 @@ export default {
     requestPreviewStretch() {
       let params = {};
       params.order = this.orderId;
-      return this.api
-        .private('order_logistics', {params})
-        
-        .then((result) => {
-          let members = result["hydra:member"];
-          if (members.length) {
-            let lastStretch = members[members.length - 1];
-            this.stretch.originRegion = lastStretch.destinationRegion;
-            this.stretch.originState = lastStretch.destinationState;
-            this.stretch.originCity = lastStretch.destinationCity;
-            this.stretch.originAdress = lastStretch.destinationAdress;
-            // setTimeout(() => {
-            //   this.stretch.originAdress = lastStretch.destinationAdress;
-            // }, 1000)
-          }
-        });
+      return api.fetch("order_logistics", { params }).then((result) => {
+        let members = result["hydra:member"];
+        if (members.length) {
+          let lastStretch = members[members.length - 1];
+          this.stretch.originRegion = lastStretch.destinationRegion;
+          this.stretch.originState = lastStretch.destinationState;
+          this.stretch.originCity = lastStretch.destinationCity;
+          this.stretch.originAdress = lastStretch.destinationAdress;
+          // setTimeout(() => {
+          //   this.stretch.originAdress = lastStretch.destinationAdress;
+          // }, 1000)
+        }
+      });
     },
     openEditModal(props) {
       this.editAdress = false;
@@ -1864,16 +1872,24 @@ export default {
       if (!this.orderId) this.getquotationId(props.row.order);
 
       this.stretch = structuredClone(props.row);
-      
-      this.stretch.estimatedShippingDate = this.formatDate(this.stretch.estimatedShippingDate);
-      this.stretch.estimatedShippingDate = this.buildAmericanDate(this.stretch.estimatedShippingDate);
+
+      this.stretch.estimatedShippingDate = this.formatDate(
+        this.stretch.estimatedShippingDate
+      );
+      this.stretch.estimatedShippingDate = this.buildAmericanDate(
+        this.stretch.estimatedShippingDate
+      );
 
       this.stretch.shippingDate = this.formatDate(this.stretch.shippingDate);
       this.stretch.shippingDate = this.buildAmericanDate(this.stretch.shippingDate);
-      
-      this.stretch.estimatedArrivalDate = this.formatDate(this.stretch.estimatedArrivalDate);
-      this.stretch.estimatedArrivalDate = this.buildAmericanDate(this.stretch.estimatedArrivalDate);
-      
+
+      this.stretch.estimatedArrivalDate = this.formatDate(
+        this.stretch.estimatedArrivalDate
+      );
+      this.stretch.estimatedArrivalDate = this.buildAmericanDate(
+        this.stretch.estimatedArrivalDate
+      );
+
       this.stretch.arrivalDate = this.formatDate(this.stretch.arrivalDate);
       this.stretch.arrivalDate = this.buildAmericanDate(this.stretch.arrivalDate);
     },
@@ -2004,30 +2020,27 @@ export default {
       options.params = {
         context: "logistic",
       };
-      return this.api
-        .private(endpoint, options)
-        
-        .then((result) => {
-          let members = result["hydra:member"];
-          if (members) {
-            this.statusOptions = [];
-            this.filterStatusOptions = [];
-            for (let index in members) {
-              this.statusOptions.push({
-                value: members[index]["@id"].replaceAll("/statuses/", ""),
-                label: this.$t(`logistic.statuses.${members[index].status}`),
-              });
-              this.filterStatusOptions.push({
-                value: members[index]["@id"].replaceAll("/statuses/", ""),
-                label: this.$t(`logistic.statuses.${members[index].status}`),
-              });
-            }
-            this.filterStatusOptions.unshift({
-              value: "Todos",
-              label: "Todos",
+      return api.fetch(endpoint, options).then((result) => {
+        let members = result["hydra:member"];
+        if (members) {
+          this.statusOptions = [];
+          this.filterStatusOptions = [];
+          for (let index in members) {
+            this.statusOptions.push({
+              value: members[index]["@id"].replaceAll("/statuses/", ""),
+              label: this.$t(`logistic.statuses.${members[index].status}`),
+            });
+            this.filterStatusOptions.push({
+              value: members[index]["@id"].replaceAll("/statuses/", ""),
+              label: this.$t(`logistic.statuses.${members[index].status}`),
             });
           }
-        });
+          this.filterStatusOptions.unshift({
+            value: "Todos",
+            label: "Todos",
+          });
+        }
+      });
     },
     getStatusColor(status) {
       let color = "";
@@ -2137,10 +2150,7 @@ export default {
       return modified;
     },
     finish(props) {
-
-
-      if (props.row.status.label == 'Finalizado')
-      return;
+      if (props.row.status.label == "Finalizado") return;
 
       let arrivalDate = this.buildAmericanDate(new Date().toLocaleDateString());
       this.stretch = structuredClone(props.row);
@@ -2152,11 +2162,6 @@ export default {
       );
       if (finishedStatus) this.stretch.status = finishedStatus;
       else {
-        this.$q.notify({
-          message: "Não foi possível finalizar o trecho. Status não encontrado.",
-          position: "bottom",
-          type: "negative",
-        });
         return null;
       }
 
@@ -2166,54 +2171,42 @@ export default {
       this.saveStretch();
     },
     getProviderAddress(providerId) {
-      return this.api
-        .private(`/people/${providerId}`, {})
-        
-        .then((result) => {
-          let addresses = result.address;
-          if (result["@id"] && result.address.length > 0) {
-            return addresses;
-          } else {
-            this.$q.notify({
-              message: "Endereço de fornecedor não encontrado",
-              position: "bottom",
-              type: "negative",
-            });
-            return null;
-          }
-        })
-        .catch((error) => {
+      return api.fetch(`/people/${providerId}`, {}).then((result) => {
+        let addresses = result.address;
+        if (result["@id"] && result.address.length > 0) {
+          return addresses;
+        } else {
           this.$q.notify({
-            message: this.$t(error.message),
+            message: "Endereço de fornecedor não encontrado",
             position: "bottom",
             type: "negative",
           });
-        });
+          return null;
+        }
+      });
     },
     getSummaryInfo() {
       let params = {};
-      params.myCompany = this.myCompany.id
+      params.myCompany = this.myCompany.id;
 
-      return this.api
-        .private(`/sales/orders/${this.orderId}/detail/summary`, { params })
-        
-        .then((result) => {
+      return api.fetch(`/sales/orders/${this.orderId}/detail/summary`, { params }).then(
+        (result) => {
           if (result) {
-            this.car = result.response.data.productType
-            this.invoiceTotal = this.formatMoney(result.response.data.invoiceTotal)
+            this.car = result.response.data.productType;
+            this.invoiceTotal = this.formatMoney(result.response.data.invoiceTotal);
             if (result.response.data.quote) {
-              this.collectionAddress = result.response.data.quote.origin.city + " / " + result.response.data.quote.origin.state
-              this.destinationAddress = result.response.data.quote.destination.city + " / " + result.response.data.quote.destination.state
+              this.collectionAddress =
+                result.response.data.quote.origin.city +
+                " / " +
+                result.response.data.quote.origin.state;
+              this.destinationAddress =
+                result.response.data.quote.destination.city +
+                " / " +
+                result.response.data.quote.destination.state;
+            }
           }
         }
-        })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        });
+      );
     },
     getValuesToLoad() {
       this.isLoading = true;
@@ -2221,7 +2214,6 @@ export default {
       this.onRequest({ pagination: this.pagination });
       this.getStatuses();
       if (this.orderId) this.getquotationId(this.orderId);
-
     },
 
     // CRUD
@@ -2239,9 +2231,13 @@ export default {
 
       stretch.status = stretch.status.value;
       if (stretch.provider)
-        stretch.provider = stretch.provider.value ? stretch.provider.value : stretch.provider;
+        stretch.provider = stretch.provider.value
+          ? stretch.provider.value
+          : stretch.provider;
       if (stretch.destinationProvider)
-        stretch.destinationProvider = stretch.destinationProvider.value ? stretch.destinationProvider.value : stretch.destinationProvider;
+        stretch.destinationProvider = stretch.destinationProvider.value
+          ? stretch.destinationProvider.value
+          : stretch.destinationProvider;
 
       if (stretch.originType == "Base") stretch.originType = "b";
 
@@ -2255,17 +2251,13 @@ export default {
 
       if (stretch.destinationType == "Ponto de encontro") stretch.destinationType = "p";
 
-      if (stretch.order == null) 
-        stretch.order = this.orderId;
-      
+      if (stretch.order == null) stretch.order = this.orderId;
+
       stretch.price = parseFloat(this.stretch.price);
       stretch.amountPaid = parseFloat(this.stretch.amountPaid);
       stretch.balance = parseFloat(this.stretch.balance);
 
       stretch.lastModified = this.lastModified();
-
-
-
 
       let endpoint = this.stretch.id
         ? `/order_logistics/update`
@@ -2276,9 +2268,8 @@ export default {
         headers: new Headers(),
         body: JSON.stringify(stretch),
       };
-      this.api
-        .private(endpoint, options)
-        
+      this.api(endpoint, options)
+
         .then((result) => {
           if (result.response.success) {
             this.$q.notify({
@@ -2286,23 +2277,11 @@ export default {
               position: "bottom",
               type: "positive",
             });
-          } else {
-            this.$q.notify({
-              message: this.$t("Não foi possível salvar os dados!"),
-              position: "bottom",
-              type: "negative",
-            });
           }
           this.toggleAddStretch = false;
           return null;
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isSaving = false;
           this.onReset();
@@ -2314,49 +2293,33 @@ export default {
       const options = {};
       options.params = params;
 
-      return this.api
-        .private(endpoint, options)
-        
+      return api.fetch(endpoint, options)
         .then((result) => {
           return {
             members: result["hydra:member"],
             total: result["hydra:totalItems"],
           };
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isSaving = false;
         });
     },
     getSurveyId() {
-      return this.api
-        .private(endpoint, options)
-        
+      return api.fetch(endpoint, options)
         .then((result) => {
           return {
             members: result["hydra:member"],
             total: result["hydra:totalItems"],
           };
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isSaving = false;
         });
     },
     onRequest(props) {
-      console.log(1)
+      console.log(1);
       let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
       // let params = {};
@@ -2365,10 +2328,10 @@ export default {
         params["order"] = this.orderId;
       }
       if (!this.orderId) {
-        console.log(2, this.filters.order)
+        console.log(2, this.filters.order);
 
         if (this.filters.order != null) {
-          console.log ('aqui', params)
+          console.log("aqui", params);
           params["order.id"] = this.filters.order;
         }
 
@@ -2412,7 +2375,6 @@ export default {
         .then((data) => {
           this.data = [];
           if (data.members) {
-
             for (let index in data.members) {
               let originType = "";
               let destinationType = "";
@@ -2432,8 +2394,12 @@ export default {
 
               this.data.push({
                 id: data.members[index].id,
-                surveyId: data.members[index].orderLogisticSurvey ? data.members[index].orderLogisticSurvey.id : '',
-                surveyToken: data.members[index].orderLogisticSurvey ? data.members[index].orderLogisticSurvey.token_url : '',
+                surveyId: data.members[index].orderLogisticSurvey
+                  ? data.members[index].orderLogisticSurvey.id
+                  : "",
+                surveyToken: data.members[index].orderLogisticSurvey
+                  ? data.members[index].orderLogisticSurvey.token_url
+                  : "",
                 status: {
                   label: this.$t(
                     `logistic.statuses.${data.members[index].status.status}`
@@ -2472,7 +2438,9 @@ export default {
                 amountPaid: data.members[index].amountPaid,
                 balance: data.members[index].balance,
                 order: data.members[index].order.id,
-                contract: data.members[index].order.contract ? data.members[index].order.contract.id : '-',
+                contract: data.members[index].order.contract
+                  ? data.members[index].order.contract.id
+                  : "-",
                 orderInvoice: this.getInvoice(data.members[index].purchasingOrder),
                 lastModified:
                   data.members[index].lastModified == null
@@ -2491,13 +2459,7 @@ export default {
           this.pagination.descending = descending;
           this.pagination.rowsNumber = data.total;
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isSaving = false;
           this.isLoading = false;
@@ -2519,14 +2481,12 @@ export default {
     },
     nowDelete(props) {
       let stretchId = this.idRowToDelete;
-      
-      let options = {
-        method: 'DELETE',
-      }
 
-      return this.api
-        .private('order_logistics/' + stretchId, options)
-        
+      let options = {
+        method: "DELETE",
+      };
+
+      return api.fetch("order_logistics/" + stretchId, options)
         .then((result) => {
           let data = result.response.data;
           if (result.response.success) {
@@ -2536,29 +2496,20 @@ export default {
               type: "positive",
             });
             this.$router.push({
-              name: 'ChecklistDetails',
-              params: { id: data.order_logistic_surveys_id, token_url: data.order_logistic_surveys_token_url },
-            });
-          } else {
-            this.$q.notify({
-              message: "Não foi possível criar a vistoria.",
-              position: "bottom",
-              type: "negative",
+              name: "ChecklistDetails",
+              params: {
+                id: data.order_logistic_surveys_id,
+                token_url: data.order_logistic_surveys_token_url,
+              },
             });
           }
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: error.message,
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isLoading = false;
           this.getValuesToLoad();
-        })
-    }
+        });
+    },
   },
 };
 </script>

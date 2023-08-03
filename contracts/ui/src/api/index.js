@@ -19,7 +19,7 @@ const add = function(api, apiModule, modulekey) {
 
     api[modulekey][resourceClassName]
       = function(options = {}) {
-        return api[modulekey][`_${resourceClassName}`].fetch(options);
+        return api[modulekey][`_${resourceClassName}`].api.fetch(options);
       }
   }
 };

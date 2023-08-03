@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 
 export default {
@@ -69,10 +69,7 @@ export default {
     table: {
       required: true,
     },
-    api: {
-      type: Api,
-      required: true,
-    },
+
   },
 
   data() {
@@ -106,7 +103,7 @@ export default {
       };
 
       let endpoint = `delivery_tax_groups/${this.table.id}/increase-taxes`;
-      return this.api
+      return api.fetch
         .private(endpoint, options)
         
         .catch((e) => {
@@ -119,7 +116,7 @@ export default {
     // store method
     getCarrierRegions() {
       const endpoint = `carriers/${this.table.carrier}/regions`;
-      return this.api
+      return api.fetch
         .private(endpoint, { params: { limit: 1000 } })
         
         .then((result) => {
@@ -130,7 +127,7 @@ export default {
     // store method
     getTableTaxes() {
       const endpoint = `delivery_tax_groups/${this.table.id}/tax-names`;
-      return this.api
+      return api.fetch
         .private(endpoint)
         
         .then((result) => {

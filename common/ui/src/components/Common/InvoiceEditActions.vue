@@ -13,7 +13,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { fetch }      from '../../../../../../src/boot/myapi';
 
 export default {
   props: {
@@ -50,7 +49,7 @@ export default {
         }
       };
 
-      return fetch(`${this.invoice['@id']}/update-notified`, options)
+      return api.fetch(`${this.invoice['@id']}/update-notified`, options)
         
         .then(invoice => {
           if (invoice !== null) {

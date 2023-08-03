@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import API from "@controleonline/quasar-common-ui/src/utils/api";
+
 import {ENTRYPOINT} from '../../../../../../src/config/entrypoint';
 import axios from "axios";
 

@@ -160,7 +160,7 @@ export default {
   methods: {
     // store method
     getItems(params) {
-      return this.API.private(`sales_orders/${this.orderId}/trackings`, { params })
+      return api.fetch(`sales_orders/${this.orderId}/trackings`, { params })
         
         .then(result => {
           return {

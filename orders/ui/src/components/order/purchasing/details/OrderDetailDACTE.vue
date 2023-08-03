@@ -119,7 +119,7 @@
 
 <script>
 import { date } from "quasar";
-import { fetch } from "../../../../../../../../src/boot/myapi";
+import { api } from "../../../../../../../../src/boot/api";
 import UploadFileForm from "@controleonline/quasar-common-ui/src/components/Common/UploadFileForm.vue";
 import { mapActions, mapGetters } from "vuex";
 import { ENTRYPOINT } from "../../../../../../../../src/config/entrypoint";
@@ -204,7 +204,7 @@ export default {
         },
       };
 
-      return fetch(`purchasing/orders/${this.orderId}/detail/update-dacte`, options)
+      return api.fetch(`purchasing/orders/${this.orderId}/detail/update-dacte`, options)
         
         .then((order) => {
           if (order !== null) {

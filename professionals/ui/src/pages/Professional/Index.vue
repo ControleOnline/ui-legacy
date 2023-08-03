@@ -4,7 +4,7 @@
       :key="key" :config="{
         endpoint: endpoint,
         token: $store.getters['auth/user'].token,
-      }" :fetchs="{
+      }" :api.fetchs="{
   loadPeoples: {
     before: this.onBeforeLoadPeople
   },

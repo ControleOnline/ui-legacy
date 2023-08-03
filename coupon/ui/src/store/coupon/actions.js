@@ -1,5 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch } from '../../../../../../src/boot/myapi';
+import { api } from '../../../../../../src/boot/api';
 import * as types from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/coupons';
@@ -7,7 +7,7 @@ const RESOURCE_ENDPOINT = '/coupons';
 export const getItems = ({ commit }, params = {}) => {  
   commit(types.SET_ISLOADING);
 
-  return fetch(RESOURCE_ENDPOINT, { params })
+  return api.fetch(RESOURCE_ENDPOINT, { params })
     
     .then(data => {
 
@@ -47,7 +47,7 @@ export const createCoupon = ({ commit }, data) => {
     params: data.params ? data.params : {}
   };
 
-  return fetch(RESOURCE_ENDPOINT, options)
+  return api.fetch(RESOURCE_ENDPOINT, options)
     
     .then(response => {
       return response.data ? response.data : null;
@@ -63,7 +63,7 @@ export const createCoupon = ({ commit }, data) => {
 
 
 export const getStatuses = ({ commit }, params = {}) => {
-  return fetch('/coupon_statuses', { params })
+  return api.fetch('/coupon_statuses', { params })
     
     .then(data => {
 

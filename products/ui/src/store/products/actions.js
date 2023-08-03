@@ -1,5 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch } from '../../../../../../src/boot/myapi';
+import { api } from '../../../../../../src/boot/api';
 import * as types from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/products';
@@ -8,7 +8,7 @@ export const getProducts = ({ commit }, params = {}) => {
 
     commit(types.SET_ISLOADING, false);    
 
-    return fetch(RESOURCE_ENDPOINT, { params })
+    return api.fetch(RESOURCE_ENDPOINT, { params })
         
         .then(data => {            
             commit(types.SET_ITEMS, data['hydra:member']);
@@ -39,7 +39,7 @@ export const deleteInvoiceOrder = ({ commit }, { invoiceId, orderId, params }) =
         params: params
     };
 
-    return fetch(`${invoiceId}/remove-order`, options)
+    return api.fetch(`${invoiceId}/remove-order`, options)
         
         .then(data => {
             if (data.response) {

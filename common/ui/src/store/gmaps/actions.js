@@ -1,5 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch }       from '../../../../../../src/boot/myapi';
+import { api }       from '../../../../../../src/boot/api';
 import * as types      from './mutation_types';
 
 export const geoplace = ({ commit }, address) => {
@@ -10,7 +10,7 @@ export const geoplace = ({ commit }, address) => {
       params: { input: address }
     };
 
-  return fetch('/geo_places', params)
+  return api.fetch('/geo_places', params)
     
     .then(data => {
 
@@ -33,7 +33,7 @@ export const geoplace = ({ commit }, address) => {
 };
 
 export const getAddressByCEP = ({ commit }, cep) => {
-  return fetch(`/cep_address/${cep}`)
+  return api.fetch(`/cep_address/${cep}`)
     
     .then(data => {
 

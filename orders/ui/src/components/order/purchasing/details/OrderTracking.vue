@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 const SETTINGS = {
@@ -153,7 +153,7 @@ export default {
 
   data() {
     return {
-      API: new Api(this.$store.getters["auth/user"].token),
+      ,
       settings: SETTINGS,
       items: [],
       isLoading: false,
@@ -170,7 +170,7 @@ export default {
   methods: {
     // store method
     getItems(params) {
-      return this.API.private(`purchasing_orders/${this.orderId}/trackings`, {
+      return api.fetch(`purchasing_orders/${this.orderId}/trackings`, {
         params,
       })
         

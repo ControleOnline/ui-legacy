@@ -6,7 +6,7 @@
     </div>
 
     <div v-else class="col-12 q-mt-md">
-      <FormTasks ref="myForm" :taskId="id" :taskData="task" :api="api" :context="context" :statuses="statuses"
+      <FormTasks ref="myForm" :taskId="id" :taskData="task"  :context="context" :statuses="statuses"
         :categories="categories" :categories_criticality="categories_criticality" :categories_reason="categories_reason"
         @saved="onTaskSave" />
     </div>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import FormTasks from "./FormTasks.vue";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 
@@ -28,10 +28,7 @@ export default {
       type: Number,
       required: true,
     },
-    api: {
-      type: Api,
-      required: true,
-    },
+
     task: {
       type: Object,
       required: true,
@@ -50,7 +47,7 @@ export default {
     let statuses = this.task ? [] : [{ label: this.$t(this.context + ".status.all"), value: -1 }];
 
     return {
-      API: new Api(this.$store.getters["auth/user"].token),
+      ,
       saving: false,
       isLoading: true,
       statuses: statuses,
@@ -82,7 +79,7 @@ export default {
       params.company = this.provider;
       params['order[name]'] = 'ASC';
 
-      return this.API.private("/categories", { params })
+      return api.fetch("/categories", { params })
         
         .then((result) => {
           return {
@@ -145,7 +142,7 @@ export default {
       params.context = this.context;
       params['order[name]'] = 'ASC';
 
-      return this.API.private("/statuses", { params })
+      return api.fetch("/statuses", { params })
         
         .then((result) => {
           return {

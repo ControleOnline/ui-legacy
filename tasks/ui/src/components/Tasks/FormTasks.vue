@@ -33,9 +33,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                Sem resultados
-              </q-item-section>
+              <q-item-section class="text-grey"> Sem resultados </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -56,9 +54,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                Sem resultados
-              </q-item-section>
+              <q-item-section class="text-grey"> Sem resultados </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -79,9 +75,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                Sem resultados
-              </q-item-section>
+              <q-item-section class="text-grey"> Sem resultados </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -103,9 +97,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                Sem resultados
-              </q-item-section>
+              <q-item-section class="text-grey"> Sem resultados </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -133,12 +125,7 @@
                 />
               </q-popup-proxy>
             </q-icon>
-            <q-btn
-              round
-              flat
-              v-if="item.dueDate !== ''"
-              @click="removeDueDateClick()"
-            >
+            <q-btn round flat v-if="item.dueDate !== ''" @click="removeDueDateClick()">
               <q-icon name="close" />
             </q-btn>
           </template>
@@ -232,10 +219,7 @@
         </div>
       </div>
 
-      <div
-        v-if="editTask == false"
-        class="col-xs-12 col-md-6 flex items-center"
-      >
+      <div v-if="editTask == false" class="col-xs-12 col-md-6 flex items-center">
         <div class="row items-center full-width q-col-gutter-sm">
           <q-input
             dense
@@ -270,7 +254,7 @@
 <script>
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import { mapGetters, mapActions } from "vuex";
 import categories from "@controleonline/quasar-common-ui/src/store/categories";
 import { date } from "quasar";
@@ -280,10 +264,7 @@ export default {
     PeopleAutocomplete,
   },
   props: {
-    api: {
-      type: Api,
-      required: true,
-    },
+
     statuses: {
       type: Array,
       required: true,
@@ -380,8 +361,7 @@ export default {
 
     if (this.orderId) {
       this.editTask = true;
-      var inputVal =
-        "(#" + this.orderId + ") " + (this.client ? this.client.alias : "");
+      var inputVal = "(#" + this.orderId + ") " + (this.client ? this.client.alias : "");
 
       this.orderSelected = this.orderId;
       this.searchOrder = inputVal;
@@ -409,8 +389,7 @@ export default {
       this.taskForSelected = this.taskData.taskFor;
       this.item.taskFor = this.taskData.taskFor.id;
 
-      var clientVal =
-        "(#" + this.taskData.client.id + ") " + this.taskData.client.name;
+      var clientVal = "(#" + this.taskData.client.id + ") " + this.taskData.client.name;
       this.searchClient = clientVal;
       this.clientSelected = this.taskData.client;
       this.item.client = this.taskData.client.id;
@@ -418,8 +397,7 @@ export default {
       if (this.categories && this.taskData.category) {
         let categorySelected = this.categories.find(
           (category) =>
-            Number(this.taskData.category.replace(/[^0-9]/g, "")) ==
-            category.value
+            Number(this.taskData.category.replace(/[^0-9]/g, "")) == category.value
         );
         this.item.category = categorySelected;
       }
@@ -427,15 +405,13 @@ export default {
       if (this.categories_criticality && this.taskData.criticality) {
         let criticalitySelected = this.categories_criticality.find(
           (criticality) =>
-            Number(this.taskData.criticality.replace(/[^0-9]/g, "")) ==
-            criticality.value
+            Number(this.taskData.criticality.replace(/[^0-9]/g, "")) == criticality.value
         );
         this.item.criticality = criticalitySelected;
       }
       if (this.categories_reason && this.taskData.reason) {
         let reasonSelected = this.categories_reason.find(
-          (reason) =>
-            Number(this.taskData.reason.replace(/[^0-9]/g, "")) == reason.value
+          (reason) => Number(this.taskData.reason.replace(/[^0-9]/g, "")) == reason.value
         );
         this.item.reason = reasonSelected;
       }
@@ -459,8 +435,7 @@ export default {
       if (this.categories && this.taskData.category) {
         let categorySelected = this.categories.find(
           (category) =>
-            Number(this.taskData.category.replace(/[^0-9]/g, "")) ==
-            category.value
+            Number(this.taskData.category.replace(/[^0-9]/g, "")) == category.value
         );
         this.item.category = categorySelected;
       }
@@ -469,8 +444,7 @@ export default {
       if (this.categories_criticality && this.taskData.criticality) {
         let criticalitySelected = this.categories_criticality.find(
           (criticality) =>
-            Number(this.taskData.criticality.replace(/[^0-9]/g, "")) ==
-            criticality.value
+            Number(this.taskData.criticality.replace(/[^0-9]/g, "")) == criticality.value
         );
         this.item.criticality = criticalitySelected;
       }
@@ -478,8 +452,7 @@ export default {
     categories_reason(categories_reason) {
       if (this.categories_reason && this.taskData.reason) {
         let reasonSelected = this.categories_reason.find(
-          (reason) =>
-            Number(this.taskData.reason.replace(/[^0-9]/g, "")) == reason.value
+          (reason) => Number(this.taskData.reason.replace(/[^0-9]/g, "")) == reason.value
         );
         this.item.reason = reasonSelected;
       }
@@ -563,38 +536,35 @@ export default {
     searchPeople(input) {
       this.isSearching = true;
 
-      return this.search(input).then((result) => {
-        this.isSearching = false;
-
-        if (result && result.success) {
-          let items = [];
-          for (let i = 0; i < result.data.length; i++) {
-            items.push({
-              label:
-                result.data[i].id +
-                " - " +
-                result.data[i].name +
-                " - " +
-                result.data[i].alias,
-              value: result.data[i],
-            });
-          }
-          return items;
-        } else {
+      return this.search(input)
+        .then((result) => {
           this.isSearching = false;
-          this.$q.notify({
-            message: this.$t("messages.gmapsReqNoData"),
-            position: "bottom",
-            type: "negative",
-          });
-        }
-      });
+
+          if (result && result.success) {
+            let items = [];
+            for (let i = 0; i < result.data.length; i++) {
+              items.push({
+                label:
+                  result.data[i].id +
+                  " - " +
+                  result.data[i].name +
+                  " - " +
+                  result.data[i].alias,
+                value: result.data[i],
+              });
+            }
+            return items;
+          }
+        })
+        .finally((data) => {
+          this.isSearching = false;
+        });
     },
     getGeoPlaces(input) {},
     getPeople(params) {
-      return this.api
+      return api.fetch
         .private("/people/client-company", { params })
-        
+
         .then((result) => {
           if (result.response.count == 0) {
             this.$q.notify({
@@ -612,9 +582,9 @@ export default {
     },
 
     getOrder(orderId) {
-      return this.api
+      return api.fetch
         .private("/sales/orders/" + orderId)
-        
+
         .then((result) => {
           if (!result["@id"]) {
             this.$q.notify({
@@ -671,8 +641,7 @@ export default {
         this[method](query)
           .then((result) => {
             if (result.totalItems) {
-              var inputVal =
-                "(#" + result.members.id + ") " + result.members.name;
+              var inputVal = "(#" + result.members.id + ") " + result.members.name;
 
               switch (fromField) {
                 case "order":
@@ -702,25 +671,22 @@ export default {
             });
 
             reset();
-
+          })
+          .finally((data) => {
             this.isSearchingOrder = false;
           });
       }
     },
 
     saveTask(payload) {
-      return this.api
+      return api.fetch
         .private("/task" + (this.taskId ? "/" + this.taskId : ""), {
           body: JSON.stringify(payload),
           method: this.taskId ? "PUT" : "POST",
         })
-        
+
         .then((result) => {
-          if (
-            result.response &&
-            result.response.data &&
-            result.response.data.id
-          ) {
+          if (result.response && result.response.data && result.response.data.id) {
             return {
               success: true,
               id: result.response.data.id,
@@ -766,21 +732,12 @@ export default {
 
       if (this.item.dueDate) {
         var dueDate = this.item.dueDate.split("/");
-        payload.dueDate =
-          dueDate[2] + "-" + dueDate[1] + "-" + dueDate[0] + " 00:00:00";
+        payload.dueDate = dueDate[2] + "-" + dueDate[1] + "-" + dueDate[0] + " 00:00:00";
       }
 
       if (this.item.order) {
         payload.order = this.item.order;
       }
-
-      var error = () => {
-        this.$q.notify({
-          message: "Não foi possível cadastrar, tente novamente mais tarde.",
-          position: "bottom",
-          type: "negative",
-        });
-      };
 
       this.saveTask(payload)
         .then((res) => {
@@ -788,20 +745,15 @@ export default {
             this.$emit("saved", res.id);
             this.$router.push({
               name:
-                this.context.charAt(0).toUpperCase() +
-                this.context.slice(1) +
-                "Details",
+                this.context.charAt(0).toUpperCase() + this.context.slice(1) + "Details",
               params: {
                 id: res.id,
               },
             });
-          } else {
-            error();
           }
           this.isSaving = false;
         })
-        .catch((e) => {
-          error();
+        .finally((data) => {
           this.isSaving = false;
         });
     },
@@ -811,8 +763,7 @@ export default {
         if (
           !(
             val &&
-            (val.length > 0 ||
-              (typeof val === "object" && Object.keys(val).length))
+            (val.length > 0 || (typeof val === "object" && Object.keys(val).length))
           )
         )
           return this.$t("messages.fieldRequired");

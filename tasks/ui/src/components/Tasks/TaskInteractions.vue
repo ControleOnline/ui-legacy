@@ -123,7 +123,7 @@ export default {
 
             this.isLoading = true;
 
-            return this.api.private(`task_interations`, { params })
+            return api.fetch(`task_interations`, { params })
                 
                 .then(data => {
                     if (data['hydra:member'] && data['hydra:member'].length) {
@@ -204,7 +204,7 @@ export default {
                 options.file = file;
             }
 
-            return this.api.private('/task_interations/task/' + this.id, options)
+            return api.fetch('/task_interations/task/' + this.id, options)
                 
                 .then(result => {
                     return result;

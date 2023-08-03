@@ -4,7 +4,11 @@
       <q-spinner-gears size="50px" color="primary" />
     </q-inner-loading>
 
-    <transition-group appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+    <transition-group
+      appear
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+    >
       <div v-if="status !== null" class="row q-pa-sm q-col-gutter-sm" key="status">
         <div class="col-xs-12 col-sm-4">
           <q-markup-table flat dense separator="none" class="bg-grey-4">
@@ -13,10 +17,9 @@
                 <td class="text-left text-bold">Número do pedido</td>
                 <td class="text-left">
                   {{
-                      `#${this.status["@id"].match(
-                        /^\/purchasing\/orders\/([a-z0-9-]*)$/
-                      )[1]
-                      }`
+                    `#${
+                      this.status["@id"].match(/^\/purchasing\/orders\/([a-z0-9-]*)$/)[1]
+                    }`
                   }}
                 </td>
               </tr>
@@ -36,8 +39,13 @@
           </q-markup-table>
         </div>
         <div class="col-xs-12 col-sm-8">
-          <q-markup-table flat dense separator="none" class="text-white"
-            :style="`background-color: ${this.status.status.color}`">
+          <q-markup-table
+            flat
+            dense
+            separator="none"
+            class="text-white"
+            :style="`background-color: ${this.status.status.color}`"
+          >
             <tbody>
               <tr>
                 <td class="text-center">
@@ -49,24 +57,38 @@
               <tr>
                 <td class="text-center text-bold">
                   <div class="row q-gutter-xs items-center justify-center">
-                    <q-btn v-if="status.status.realStatus == 'canceled'" color="positive"
-                      label="Revalidar Cotação" @click="remakeQuote" :loading="isUpdating" />
-                    <q-btn v-if="
-                      status.status.status == 'waiting retrieve'
-                    " color="positive" label="Coleta realizada" @click="addRetrieve" :loading="isUpdating" />
+                    <q-btn
+                      v-if="status.status.realStatus == 'canceled'"
+                      color="positive"
+                      label="Revalidar Cotação"
+                      @click="remakeQuote"
+                      :loading="isUpdating"
+                    />
+                    <q-btn
+                      v-if="status.status.status == 'waiting retrieve'"
+                      color="positive"
+                      label="Coleta realizada"
+                      @click="addRetrieve"
+                      :loading="isUpdating"
+                    />
                   </div>
                 </td>
               </tr>
             </tbody>
           </q-markup-table>
-
         </div>
-        <div v-if="hasRural(other_informations) == true" class="row warning  q-pa-sm q-col-gutter-sm">
+        <div
+          v-if="hasRural(other_informations) == true"
+          class="row warning q-pa-sm q-col-gutter-sm"
+        >
           <h6>
             <q-icon name="agriculture" size="30px" /> {{ $t(`order.warning.rural`) }}
           </h6>
         </div>
-        <div v-if="hasDificult(other_informations) == true" class="row warning  q-pa-sm q-col-gutter-sm">
+        <div
+          v-if="hasDificult(other_informations) == true"
+          class="row warning q-pa-sm q-col-gutter-sm"
+        >
           <h6>
             <q-icon name="fmd_bad" size="30px" /> {{ $t(`order.warning.dificult`) }}
           </h6>
@@ -75,7 +97,12 @@
 
       <div v-if="status !== null" class="row" key="order_tabs">
         <div class="col-12">
-          <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
+          <q-tabs
+            :horizontal="$q.screen.gt.xs"
+            align="justify"
+            v-model="currentTab"
+            class="bg-white text-primary"
+          >
             <q-tab name="resumo" label="Resumo" />
             <q-tab name="quotation" label="Cotação" />
             <q-tab name="notafiscal" label="Nota Fiscal" />
@@ -89,15 +116,24 @@
 
           <q-tab-panels v-model="currentTab">
             <q-tab-panel name="resumo" class="q-pa-none">
-              <ClientOrderDetailsummary @quote-details="setQuoteDetails" :orderId="orderId" />
+              <ClientOrderDetailsummary
+                @quote-details="setQuoteDetails"
+                :orderId="orderId"
+              />
             </q-tab-panel>
 
             <q-tab-panel name="quotation" class="q-pa-none">
-              <ClientOrderDetailQuotation :orderId="orderId" @finished="onCheckoutFinished" />
+              <ClientOrderDetailQuotation
+                :orderId="orderId"
+                @finished="onCheckoutFinished"
+              />
             </q-tab-panel>
 
             <q-tab-panel name="notafiscal" class="q-pa-none">
-              <ClientOrderDetailNotaFiscal :orderId="orderId" @fileUploaded="onInvoiceTaxUploaded" />
+              <ClientOrderDetailNotaFiscal
+                :orderId="orderId"
+                @fileUploaded="onInvoiceTaxUploaded"
+              />
             </q-tab-panel>
             <q-tab-panel name="invoice" class="q-pa-none">
               <ClientOrderDetailInvoice :orderId="orderId" />
@@ -111,14 +147,22 @@
               <ClientOrderDetailTracking :orderId="orderId" />
             </q-tab-panel>
             <q-tab-panel name="tag" class="q-pa-none">
-              <OrderDetailTag :total_packages="total_packages" :orderId="orderId" :status="status" />
+              <OrderDetailTag
+                :total_packages="total_packages"
+                :orderId="orderId"
+                :status="status"
+              />
             </q-tab-panel>
           </q-tab-panels>
         </div>
       </div>
     </transition-group>
 
-    <div v-if="status === null && notFound" class="row items-center justify-center" style="min-height: 90vh">
+    <div
+      v-if="status === null && notFound"
+      class="row items-center justify-center"
+      style="min-height: 90vh"
+    >
       <q-banner class="text-white bg-red text-center text-h3" rounded>
         <template v-slot:avatar>
           <q-icon name="error" color="white" />
@@ -139,7 +183,6 @@ import ClientOrderDetailTracking from "./details/ClientOrderTracking";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import OrderDetailTag from "../sales/details/OrderDetailTag";
-
 
 export default {
   components: {
@@ -203,23 +246,17 @@ export default {
       updateStatus: "purchasingOrder/updateStatus",
     }),
     hasDificult(o_i) {
-      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
+      let other_informations = typeof o_i == "object" ? o_i : JSON.parse(o_i);
       let has = false;
-      if (
-        other_informations &&
-        other_informations.dificult
-      ) {
+      if (other_informations && other_informations.dificult) {
         has = true;
       }
       return has;
     },
     hasRural(o_i) {
-      let other_informations = typeof o_i == 'object' ? o_i : JSON.parse(o_i);
+      let other_informations = typeof o_i == "object" ? o_i : JSON.parse(o_i);
       let has = false;
-      if (
-        other_informations &&
-        other_informations.rural
-      ) {
+      if (other_informations && other_informations.rural) {
         has = true;
       }
       return has;
@@ -241,13 +278,7 @@ export default {
         .then((order) => {
           this.requestStatus(this.orderId);
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally((data) => {
           this.isUpdating = false;
         });
@@ -266,13 +297,7 @@ export default {
             params: { id: response.response.data.order.id },
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser refeito",
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally((data) => {
           this.isUpdating = false;
         });

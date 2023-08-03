@@ -174,7 +174,7 @@ export default {
     },
 
     requestQuery(queryName) {
-      return this.Api.client
+      return api.fetch.client
         .private(
           '/dashboards',
           {

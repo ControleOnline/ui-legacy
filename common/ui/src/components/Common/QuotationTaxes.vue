@@ -84,7 +84,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { fetch } from "../../../../../../src/boot/myapi";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 
 export default {
@@ -188,7 +187,7 @@ export default {
     },
 
     getDeliveryTaxes() {
-      return fetch(`/quotations/${this.quote.id}/optional-taxes`)
+      return api.fetch(`/quotations/${this.quote.id}/optional-taxes`)
         
         .then((data) => {
           if (data.response) {
@@ -211,7 +210,7 @@ export default {
         }),
       };
 
-      return fetch(`/quotations/${this.quote.id}/add-deliverytax`, options)
+      return api.fetch(`/quotations/${this.quote.id}/add-deliverytax`, options)
         
         .then((quotation) => {
           return quotation;

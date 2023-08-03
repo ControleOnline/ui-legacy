@@ -118,7 +118,6 @@
 </template>
 
 <script>
-import Api                             from '@controleonline/quasar-common-ui/src/utils/api';
 import { formatDocument, formatMoney } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 const SETTINGS = {
@@ -187,10 +186,7 @@ export default {
     id: {
       required: true,
     },
-    api: {
-      type    : Api,
-      required: true
-    },
+    
   },
 
   data() {
@@ -225,7 +221,7 @@ export default {
     // store method
     getItems(params) {
       let endpoint = `carriers/${this.id}/regions`;
-      return this.api.private(endpoint, { params })
+      return api.fetch(endpoint, { params })
         
         .then(result => {
           return result.response.data;
@@ -241,7 +237,7 @@ export default {
       };
 
       let endpoint = `carriers/${this.id}/regions`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         
         .then(data => {
           if (data.response) {
@@ -264,7 +260,7 @@ export default {
       };
 
       let endpoint = `carriers/${this.id}/regions`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         
         .then(data => {
           if (data.response) {

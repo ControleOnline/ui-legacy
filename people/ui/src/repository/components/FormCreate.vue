@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -146,10 +146,7 @@ export default {
     pjOnly: {
       required: false,
     },
-    api: {
-      type: Api,
-      required: true,
-    },
+
     people_type: {
       type: String,
       required: true,
@@ -205,7 +202,7 @@ export default {
         params: params,
       };
 
-      return this.api
+      return api.fetch
         .private("/" + this.people_type, options)
         
         .then((data) => {
@@ -221,7 +218,7 @@ export default {
     },
 
     searchCustomer(id) {
-      return this.api
+      return api.fetch
         .private("/people/people-company", { params: id })
         
         .then((data) => {

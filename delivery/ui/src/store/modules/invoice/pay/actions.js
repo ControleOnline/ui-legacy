@@ -1,5 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch } from '../../../../../../../../src/boot/myapi';
+import { api } from '../../../../../../../../src/boot/api';
 import * as types from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/finance/pay';
@@ -7,7 +7,7 @@ const RESOURCE_ENDPOINT = '/finance/pay';
 export const getItems = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
-  return fetch(RESOURCE_ENDPOINT, { params })
+  return api.fetch(RESOURCE_ENDPOINT, { params })
     
     .then(data => {
       commit(types.SET_ISLOADING, false);
@@ -37,7 +37,7 @@ export const reset = ({ commit }) => {
 };
 
 export const getStatuses = ({ commit }, params = {}) => {
-  return fetch('/statuses', { params })
+  return api.fetch('/statuses', { params })
     
     .then(data => {
 
@@ -56,7 +56,7 @@ export const getStatuses = ({ commit }, params = {}) => {
 };
 
 export const getInvoice = ({ commit }, { invoiceId, params }) => {
-  return fetch(`/finance/pay/${invoiceId}`, { params })
+  return api.fetch(`/finance/pay/${invoiceId}`, { params })
     
     .then(data => {
 
@@ -73,7 +73,7 @@ export const updateInvoiceDuedate = ({ commit }, { id, dueDate, params }) => {
     params: params
   };
 
-  return fetch(`${id}`, options)
+  return api.fetch(`${id}`, options)
     
     .then(invoice => {
       if (invoice['@id'])
@@ -90,7 +90,7 @@ export const deleteInvoiceOrder = ({ commit }, { invoiceId, orderId, params }) =
     params: params
   };
 
-  return fetch(`${invoiceId}/remove-order`, options)
+  return api.fetch(`${invoiceId}/remove-order`, options)
     
     .then(data => {
       if (data.response) {
@@ -103,7 +103,7 @@ export const deleteInvoiceOrder = ({ commit }, { invoiceId, orderId, params }) =
 };
 
 export const bankItau = ({ commit }, { invoiceId, operation, params = {} }) => {
-  return fetch(`/finance/pay/${invoiceId}/bank/itau/${operation}`, { params })
+  return api.fetch(`/finance/pay/${invoiceId}/bank/itau/${operation}`, { params })
     
     .then(data => {
       if (data.response)

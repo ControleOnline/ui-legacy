@@ -99,7 +99,6 @@
 </template>
 
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
 
 const SETTINGS = {
   visibleColumns: [
@@ -138,10 +137,7 @@ export default {
     region: {
       required: true,
     },
-    api: {
-      type    : Api,
-      required: true
-    },
+    
   },
 
   data() {
@@ -188,7 +184,7 @@ export default {
       };
 
       let endpoint = `carriers/${this.region.carrier}/regions/${this.region.id}`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         
         .then(data => {
           if (data.response) {
@@ -204,7 +200,7 @@ export default {
 
     // store method
     getStates() {
-      return this.api.private('states', { params: { 'order[state]': 'ASC' } })
+      return api.fetch('states', { params: { 'order[state]': 'ASC' } })
         
         .then(result => {
           return result['hydra:member'];

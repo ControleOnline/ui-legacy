@@ -5,8 +5,8 @@ export default class Delete extends Resource {
     super(client, '/school_team_schedules/{id}', 'DELETE', true)
   }
 
-  fetch(options) {
-    return super.fetch(options)
+  api.fetch(options) {
+    return super.api.fetch(options)
       .then((response) => {
         if (response.ok) {
           return true;

@@ -134,15 +134,15 @@
             ref="leads"
             :people_type="people_type"
             :pageType="'leads'"
-            :api="API"
+            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
+                if (api.fetchs.loadPeoples) {
+                  api.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -155,15 +155,15 @@
             ref="allPeoples"
             :people_type="people_type"
             :pageType="'all'"
-            :api="API"
+            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
+                if (api.fetchs.loadPeoples) {
+                  api.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -176,15 +176,15 @@
             ref="inactivePeople"
             :people_type="people_type"
             :pageType="'inactive'"
-            :api="API"
+            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
+                if (api.fetchs.loadPeoples) {
+                  api.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -197,15 +197,15 @@
             ref="prospectsPeople"
             :people_type="people_type"
             :pageType="'prospect'"
-            :api="API"
+            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
+                if (api.fetchs.loadPeoples) {
+                  api.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -218,15 +218,15 @@
             ref="activePeople"
             :people_type="people_type"
             :pageType="'active'"
-            :api="API"
+            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
+                if (api.fetchs.loadPeoples) {
+                  api.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -239,15 +239,15 @@
             ref="newPeople"
             :people_type="people_type"
             :pageType="'new'"
-            :api="API"
+            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
+                if (api.fetchs.loadPeoples) {
+                  api.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -261,7 +261,7 @@
 <script>
 import { date } from "quasar";
 import TableAllPeoples from "./components/TableAllPeoples.vue";
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import { mapGetters } from "vuex";
 
@@ -278,7 +278,7 @@ export default {
       type: String,
       required: true,
     },
-    fetchs: {
+    api.fetchs: {
       type: Object,
       required: false,
     },

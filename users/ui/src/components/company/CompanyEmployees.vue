@@ -112,7 +112,7 @@ export default {
 
   data() {
     return {
-      api: new Api(this.$store.getters['auth/user'].token),
+      
       items: [],
       dialog: false,
       saving: false,
@@ -159,7 +159,7 @@ export default {
         params: params
       };
 
-      return this.api.private('people', options)
+      return api.fetch('people', options)
         
         .then(result => {
           return {
@@ -179,7 +179,7 @@ export default {
       };
 
       let endpoint = `people/${this.id}/profile/employee`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         
         .then(data => {
           if (data.response) {
@@ -205,7 +205,7 @@ export default {
       };
 
       let endpoint = `people/${this.id}/profile/employee`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         
         .then(data => {
           if (data.response) {

@@ -1,7 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import fetch           from '@controleonline/quasar-common-ui/src/utils/fetch'
 import * as types      from './mutation_types'
-import * as myapi      from '../../../../../../src/boot/myapi';
 
 export const appConfig = ({ commit }) => {
   commit(types.SET_ISLOADING)
@@ -10,7 +8,7 @@ export const appConfig = ({ commit }) => {
     method: 'GET'
   }
 
-  return fetch('/configs/app-config', params)
+  return api.fetch('/configs/app-config', params)
     
     .then(data => {
       commit(types.SET_ISLOADING, false)
@@ -50,7 +48,7 @@ export const getConfig = ({ commit }, peopleId) => {
     method: 'GET'
   };
 
-  return myapi.fetch(`/configs/${peopleId}`, params)
+  return api.fetch(`/configs/${peopleId}`, params)
     
     .then(response => {
 
@@ -66,7 +64,7 @@ export const saveConfig = ({ commit }, { peopleId, values, params }) => {
     params: params
   };
 
-  return myapi.fetch(`/configs/${peopleId}`, options)
+  return api.fetch(`/configs/${peopleId}`, options)
     
     .then(response => {
       return response;

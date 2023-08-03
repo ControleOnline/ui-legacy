@@ -1,5 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch } from '../../../../../../../../src/boot/myapi';
+import { api } from '../../../../../../../../src/boot/api';
 
 
 
@@ -10,7 +10,7 @@ export function getProviders({ commit }, data) {
     params: data.params ? data.params : {}
   };
 
-  return fetch('/providers', options)
+  return api.fetch('/providers', options)
     
     .then(response => {
       return response['hydra:member'];
@@ -24,7 +24,7 @@ export const createExpense = ({ commit }, data) => {
     params: data.params ? data.params : {}
   };
 
-  return fetch('/invoices', options)
+  return api.fetch('/invoices', options)
     
     .then(response => {
       return response.data ? response.data : null;
@@ -45,7 +45,7 @@ export const createProvider = ({ commit }, data) => {
     params: data.params ? data.params : {}
   };
 
-  return fetch('/providers', options)
+  return api.fetch('/providers', options)
     
     .then(response => {
       return response;
@@ -66,7 +66,7 @@ export const updateExpense = ({ commit }, data) => {
     params: data.params ? data.params : {}
   };
 
-  return fetch(`/invoices/${data.id}`, options)
+  return api.fetch(`/invoices/${data.id}`, options)
     
     .then(response => {
       return response.data ? response.data : null;
@@ -87,7 +87,7 @@ export const deleteExpense = ({ commit }, data) => {
     params: data.params ? data.params : {}
   };
 
-  return fetch(`/invoices/${data.id}`, options)
+  return api.fetch(`/invoices/${data.id}`, options)
     .catch(e => {
       if (e instanceof SubmissionError) {
         throw new Error(e.errors._error);

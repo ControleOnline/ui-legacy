@@ -1,7 +1,12 @@
 <template>
   <div class="col-12">
     <div class="flex flex-center" v-if="isLoading || loadingStatuses">
-      <q-circular-progress :indeterminate="isLoading || loadingStatuses" size="sm" color="primary" class="q-ma-md" />
+      <q-circular-progress
+        :indeterminate="isLoading || loadingStatuses"
+        size="sm"
+        color="primary"
+        class="q-ma-md"
+      />
       {{ $t(`loading`) }}
     </div>
 
@@ -19,22 +24,17 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td>
-            <q-btn
-              dense
-              flat
-              color="primary"
-              icon="settings"
-            >
-            <q-menu>
-              <q-list>
-                <q-item clickable @click="openEditModal(props.row)">
-                  <q-item-section side>
-                    <q-icon name="edit"></q-icon>
-                  </q-item-section>
-                  <q-item-section> {{ $t(`Edit`) }} </q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
+            <q-btn dense flat color="primary" icon="settings">
+              <q-menu>
+                <q-list>
+                  <q-item clickable @click="openEditModal(props.row)">
+                    <q-item-section side>
+                      <q-icon name="edit"></q-icon>
+                    </q-item-section>
+                    <q-item-section> {{ $t(`Edit`) }} </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
             </q-btn>
           </q-td>
           <q-td :props="props" key="Id"> {{ props.row.id }}</q-td>
@@ -45,18 +45,21 @@
     </q-table>
 
     <q-dialog v-model="editQueuePeopleQueue">
-      <q-card style="width:50%">
+      <q-card style="width: 50%">
         <q-card-section>
           <span class="text-h6"> {{ $t(`Edit`) }}</span>
         </q-card-section>
-        <QueuePeopleQueueCreate :queuePeopleQueueObj="this.selectedQueuePeopleQueue" @savedItem="saved"></QueuePeopleQueueCreate>
+        <QueuePeopleQueueCreate
+          :queuePeopleQueueObj="this.selectedQueuePeopleQueue"
+          @savedItem="saved"
+        ></QueuePeopleQueueCreate>
       </q-card>
     </q-dialog>
   </div>
 </template>
 
 <script>
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 import QueuePeopleQueueCreate from "@controleonline/quasar-queues-ui/src/components/queue/QueuePeopleQueueCreate.vue";
 
@@ -70,7 +73,7 @@ export default {
 
   data() {
     return {
-      api: new Api(this.$store.getters["auth/user"].token),
+      ,
       loadingStatuses: null,
       isLoading: null,
 
@@ -84,7 +87,7 @@ export default {
       selectedQueuePeopleQueue: null,
 
       editQueuePeopleQueue: false,
-      
+
       data: [],
       columns: [
         {
@@ -112,98 +115,87 @@ export default {
           format: (val) => `${val}`,
         },
       ],
-    }
+    };
   },
 
   created() {
     this.getCollectionFiles();
   },
-  watch: {
-
-  },
+  watch: {},
 
   methods: {
     onRequest(pagination) {
-      console.log('onRequest')
-      console.log(onRequest)
+      console.log("onRequest");
+      console.log(onRequest);
       this.pagination = pagination;
     },
 
     getItems(params) {
-      return this.api
+      return api.fetch
         .private(`queue_people_queues`, { params })
-        
+
         .then((result) => {
           return {
             members: result["hydra:member"],
-            total: result["hydra:total"]
-          }
-        })
+            total: result["hydra:total"],
+          };
+        });
     },
 
     getCollectionFiles() {
       this.isLoading = true;
-      
+
       let { page, rowsPerPage, rowsNumber, sortBy, descending } = this.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
 
       this.getItems(params)
-      .then((data) => {
-        console.log(data)
-        if (data.members) {
-          this.data = [];
-          for (let index in data.members) {
-            let translatedStatus = this.$t(`queue.status.${data.members[index]["queuePeople"]["status"]["status"]}`)
-            let translatedPriority = this.$t(`queue.priority.${data.members[index]["queuePeople"]["priority"]}`)
-            
-            this.data.push({
-              id: data.members[index]["@id"].replaceAll("/queue_people_queues/",""),
-              queuePeople: {
-                label: `${data.members[index]["queuePeople"]["people"]["name"]} - ${translatedPriority} - ${translatedStatus}`,
-                value: data.members[index]["queuePeople"]["id"],
-              },
-              queue: {
-                label: data.members[index]["queue"]["queue"],
-                value: data.members[index]["queue"]["id"],
-              }
-            });
+        .then((data) => {
+          console.log(data);
+          if (data.members) {
+            this.data = [];
+            for (let index in data.members) {
+              let translatedStatus = this.$t(
+                `queue.status.${data.members[index]["queuePeople"]["status"]["status"]}`
+              );
+              let translatedPriority = this.$t(
+                `queue.priority.${data.members[index]["queuePeople"]["priority"]}`
+              );
+
+              this.data.push({
+                id: data.members[index]["@id"].replaceAll("/queue_people_queues/", ""),
+                queuePeople: {
+                  label: `${data.members[index]["queuePeople"]["people"]["name"]} - ${translatedPriority} - ${translatedStatus}`,
+                  value: data.members[index]["queuePeople"]["id"],
+                },
+                queue: {
+                  label: data.members[index]["queue"]["queue"],
+                  value: data.members[index]["queue"]["id"],
+                },
+              });
+            }
           }
-        } else {
-          this.$q.notify({
-            message: this.$t(`messages.anErrorOccurred`),
-            position: "bottom",
-            type: "negative",
-          });
-        }
-        this.pagination.page = page;
-        this.pagination.rowsPerPage = rowsPerPage;
-        this.pagination.sortBy = sortBy;
-        this.pagination.descending = descending;
-        this.pagination.rowsNumber = data.total;
-      })
-      .catch((error) => {
-        this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-      })
-      .finally(() => {
-        this.isLoading = false;
+          this.pagination.page = page;
+          this.pagination.rowsPerPage = rowsPerPage;
+          this.pagination.sortBy = sortBy;
+          this.pagination.descending = descending;
+          this.pagination.rowsNumber = data.total;
+        })
+
+        .finally(() => {
+          this.isLoading = false;
         });
     },
 
     saved(item) {
-      console.log('saved')
-      console.log(item)
-      if (item["@id"])
-      console.log('entrou')
-        this.getCollectionFiles();
-        this.editQueuePeopleQueue = false;
+      console.log("saved");
+      console.log(item);
+      if (item["@id"]) console.log("entrou");
+      this.getCollectionFiles();
+      this.editQueuePeopleQueue = false;
     },
 
     openEditModal(row) {
-      this.selectedQueuePeopleQueue = row
+      this.selectedQueuePeopleQueue = row;
       this.editQueuePeopleQueue = true;
     },
   },

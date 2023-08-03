@@ -79,7 +79,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 
 export default {
   props: {
@@ -87,10 +87,7 @@ export default {
       required: false,
       default: null,
     },
-    api: {
-      type: Api,
-      required: true,
-    },
+
     context: {
       type: String,
       required: true,
@@ -137,9 +134,9 @@ export default {
 
     // store method
     getItem(id) {
-      return this.api
+      return api.fetch
         .private(`modules/${id}`)
-        
+
         .then((response) => {
           return response;
         });
@@ -156,9 +153,9 @@ export default {
 
       let endpoint = this.id === null ? "roles" : `modules/${this.id}`;
 
-      return this.api
+      return api.fetch
         .private(endpoint, options)
-        
+
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
@@ -167,24 +164,15 @@ export default {
               type: "positive",
             });
 
-
             return data;
           }
 
           return null;
-        })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
         });
     },
 
     loadSelectableOptions() {
       // load categories
-
     },
 
     onSubmit() {

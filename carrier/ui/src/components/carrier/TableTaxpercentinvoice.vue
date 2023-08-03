@@ -261,7 +261,6 @@
 </template>
 
 <script>
-import Api             from '@controleonline/quasar-common-ui/src/utils/api';
 import { formatMoney } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
 
@@ -369,10 +368,7 @@ export default {
     table: {
       required: true,
     },
-    api: {
-      type    : Api,
-      required: true
-    },
+    
   },
 
   data() {
@@ -444,7 +440,7 @@ export default {
     // store method
     getItems(params) {
       const endpoint = `delivery_tax_groups/${this.table.id}/delivery_taxes`;
-      return this.api.private(endpoint, { params })
+      return api.fetch(endpoint, { params })
         
         .then(result => {
           return {
@@ -457,7 +453,7 @@ export default {
     // store method
     getCarrierRegions() {
       const endpoint = `carriers/${this.table.carrier}/regions`;
-      return this.api.private(endpoint, { params: { limit: 1000 } })
+      return api.fetch(endpoint, { params: { limit: 1000 } })
         
         .then(result => {
           return result.response.data;
@@ -474,7 +470,7 @@ export default {
 
       const endpoint = options.method == 'PUT' ? `delivery_taxes/${this.item.id}` : 'delivery_taxes';
 
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         
         .catch(e => {
           if (e instanceof SubmissionError)
@@ -492,7 +488,7 @@ export default {
         body   : JSON.stringify(values),
       };
 
-      return this.api.private(`delivery_tax_groups/${this.table.id}/copy-taxes`, options)
+      return api.fetch(`delivery_tax_groups/${this.table.id}/copy-taxes`, options)
         
         .then(data => {
           if (data.response) {
@@ -513,7 +509,7 @@ export default {
       };
 
       let endpoint = `delivery_taxes/${id}`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         .catch(e => {
           if (e instanceof SubmissionError)
             throw new Error(e.errors._error);

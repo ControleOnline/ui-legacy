@@ -1,7 +1,12 @@
 <template>
   <div class="row items-center justify-center">
     <div class="flex flex-center" v-if="isLoading">
-      <q-circular-progress :indeterminate="isLoading" size="sm" color="primary" class="q-ma-md" />
+      <q-circular-progress
+        :indeterminate="isLoading"
+        size="sm"
+        color="primary"
+        class="q-ma-md"
+      />
       Carregando...
     </div>
 
@@ -12,42 +17,93 @@
           Quem pagará pelo frete?
         </div>
         <div class="col-xs-12 text-center q-mb-md">
-          <q-btn-toggle no-caps v-model="payer" toggle-color="primary" :options="options" :disable="!editable" />
+          <q-btn-toggle
+            no-caps
+            v-model="payer"
+            toggle-color="primary"
+            :options="options"
+            :disable="!editable"
+          />
         </div>
       </div>
 
-      <ContactForm v-if="payer === null" :itemData="payerContact" :withSave="false" :canEdit="editable" />
+      <ContactForm
+        v-if="payer === null"
+        :itemData="payerContact"
+        :withSave="false"
+        :canEdit="editable"
+      />
 
       <q-separator />
 
       <div class="row" style="margin: 10px">
         <div class="col-10 col-sm-7">
-          <q-input stack-label lazy-rules unmasked-value hide-bottom-space v-if="editCompany === false" :value="
-            summary.providerAlias +
-            (summary.providerDocument
-              ? ' (' + summary.providerDocument + ')'
-              : '')
-          " type="text" label="Responsável pelo pedido" :disable="true" />
-          <ListAutocomplete v-else :source="getCompaniesSelect" :isLoading="false" label="Responsável pelo pedido"
-            placeholder="Digite o nome da empresa responsável..." @selected="onCompanySelect" />
+          <q-input
+            stack-label
+            lazy-rules
+            unmasked-value
+            hide-bottom-space
+            v-if="editCompany === false"
+            :value="
+              summary.providerAlias +
+              (summary.providerDocument ? ' (' + summary.providerDocument + ')' : '')
+            "
+            type="text"
+            label="Responsável pelo pedido"
+            :disable="true"
+          />
+          <ListAutocomplete
+            v-else
+            :source="getCompaniesSelect"
+            :isLoading="false"
+            label="Responsável pelo pedido"
+            placeholder="Digite o nome da empresa responsável..."
+            @selected="onCompanySelect"
+          />
         </div>
         <div class="col-2 col-sm-1">
-          <q-btn flat round dense style="margin-top: 13px" color="primary" :icon="editCompany ? 'cancel' : 'edit'"
-            @click="editCompany = !editCompany">
+          <q-btn
+            flat
+            round
+            dense
+            style="margin-top: 13px"
+            color="primary"
+            :icon="editCompany ? 'cancel' : 'edit'"
+            @click="editCompany = !editCompany"
+          >
             <q-tooltip>Editar</q-tooltip>
           </q-btn>
-          <q-btn flat round dense v-if="editCompany" style="margin-top: 13px" color="primary" icon="check"
-            @click="onSaveCompany" :disable="updatedCompanyId === null">
+          <q-btn
+            flat
+            round
+            dense
+            v-if="editCompany"
+            style="margin-top: 13px"
+            color="primary"
+            icon="check"
+            @click="onSaveCompany"
+            :disable="updatedCompanyId === null"
+          >
             <q-tooltip>Salvar</q-tooltip>
           </q-btn>
         </div>
         <div v-if="status != 'quote'" class="col-6 col-sm-2">
-          <q-btn dense style="margin-top: 13px" color="primary" @click="onPropostaClick()">
+          <q-btn
+            dense
+            style="margin-top: 13px"
+            color="primary"
+            @click="onPropostaClick()"
+          >
             Gerar Proposta
           </q-btn>
         </div>
         <div v-if="status != 'quote'" class="col-6 col-sm-2">
-          <q-btn dense style="margin-top: 13px" color="primary" @click="createNewContract()">
+          <q-btn
+            dense
+            style="margin-top: 13px"
+            color="primary"
+            @click="createNewContract()"
+          >
             {{ hasContract() ? "Ver" : "Gerar" }} Contrato
           </q-btn>
         </div>
@@ -73,9 +129,7 @@
                   <td class="text-left text-bold">Nome</td>
                   <td class="text-left">
                     {{
-                        this.retrieve.name
-                          ? this.retrieve.name
-                          : this.retrieve.contact.name
+                      this.retrieve.name ? this.retrieve.name : this.retrieve.contact.name
                     }}
                   </td>
                 </tr>
@@ -88,15 +142,23 @@
                 <tr>
                   <td class="text-left text-bold">Cidade</td>
                   <td class="text-left">
-                    {{
-                        `${this.retrieve.address.city} / ${this.retrieve.address.state}`
-                    }}
+                    {{ `${this.retrieve.address.city} / ${this.retrieve.address.state}` }}
                   </td>
                 </tr>
                 <tr>
                   <td colspan="2" class="text-right">
-                    <q-btn size="sm" color="primary bt-edit" label="Editar" @click="btEditRem()" />
-                    <q-btn size="sm" color="primary" label="Detalhes da coleta" @click="seeDetails(retrieve)" />
+                    <q-btn
+                      size="sm"
+                      color="primary bt-edit"
+                      label="Editar"
+                      @click="btEditRem()"
+                    />
+                    <q-btn
+                      size="sm"
+                      color="primary"
+                      label="Detalhes da coleta"
+                      @click="seeDetails(retrieve)"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -121,9 +183,7 @@
                   <td class="text-left text-bold">Nome</td>
                   <td class="text-left">
                     {{
-                        this.delivery.name
-                          ? this.delivery.name
-                          : this.delivery.contact.name
+                      this.delivery.name ? this.delivery.name : this.delivery.contact.name
                     }}
                   </td>
                 </tr>
@@ -136,15 +196,23 @@
                 <tr>
                   <td class="text-left text-bold">Cidade</td>
                   <td class="text-left">
-                    {{
-                        `${this.delivery.address.city} / ${this.delivery.address.state}`
-                    }}
+                    {{ `${this.delivery.address.city} / ${this.delivery.address.state}` }}
                   </td>
                 </tr>
                 <tr>
                   <td colspan="2" class="text-right">
-                    <q-btn size="sm" color="primary bt-edit" label="Editar" @click="btEditDest()" />
-                    <q-btn size="sm" color="primary" label="Detalhes da entrega" @click="seeDetails(delivery)" />
+                    <q-btn
+                      size="sm"
+                      color="primary bt-edit"
+                      label="Editar"
+                      @click="btEditDest()"
+                    />
+                    <q-btn
+                      size="sm"
+                      color="primary"
+                      label="Detalhes da entrega"
+                      @click="seeDetails(delivery)"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -168,9 +236,9 @@
                 <tr>
                   <td v-if="!isCeg()" class="text-center">
                     {{
-                        `${new Intl.NumberFormat("pt-br").format(
-                          this.product.sumCubage
-                        )} kg`
+                      `${new Intl.NumberFormat("pt-br").format(
+                        this.product.sumCubage
+                      )} kg`
                     }}
                   </td>
                   <td class="text-center">
@@ -185,9 +253,7 @@
           </div>
 
           <div v-if="product.packages.length > 0" class="col-xs-12">
-            <div class="col-xs-12 text-subtitle2 q-mb-sm">
-              Detalhes dos produtos
-            </div>
+            <div class="col-xs-12 text-subtitle2 q-mb-sm">Detalhes dos produtos</div>
             <q-markup-table class="q-mb-md">
               <thead>
                 <tr>
@@ -215,13 +281,23 @@
 
         <div class="row q-mt-lg">
           <div class="col-xs-12">
-            <q-input outlined stack-label v-model="comments" type="textarea" label="Observações"
-              :readonly="!editable" />
+            <q-input
+              outlined
+              stack-label
+              v-model="comments"
+              type="textarea"
+              label="Observações"
+              :readonly="!editable"
+            />
           </div>
         </div>
       </div>
 
-      <q-dialog v-model="dialogs.details.visible" transition-show="scale" transition-hide="scale">
+      <q-dialog
+        v-model="dialogs.details.visible"
+        transition-show="scale"
+        transition-hide="scale"
+      >
         <q-card class="text-white" style="background-color: #00519b">
           <q-card-section>
             <div class="row items-center">
@@ -292,7 +368,7 @@ import {
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete.vue";
 import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm.vue";
-import { fetch } from '../../../../../../../../src/boot/myapi';
+import { api } from "../../../../../../../../src/boot/api";
 
 export default {
   props: {
@@ -463,14 +539,10 @@ export default {
         this.retrieve.contact.name = `${this.summary.retrievePeople.contact.name} ${this.summary.retrievePeople.contact.alias}`;
         this.retrieve.contact.email = this.summary.retrievePeople.contact.email;
         this.retrieve.contact.phone = this.summary.retrievePeople.contact.phone;
-        this.retrieve.address.district =
-          this.summary.retrievePeople.address.district;
-        this.retrieve.address.postal_code =
-          this.summary.retrievePeople.address.postalCode;
-        this.retrieve.address.street =
-          this.summary.retrievePeople.address.street;
-        this.retrieve.address.number =
-          this.summary.retrievePeople.address.number;
+        this.retrieve.address.district = this.summary.retrievePeople.address.district;
+        this.retrieve.address.postal_code = this.summary.retrievePeople.address.postalCode;
+        this.retrieve.address.street = this.summary.retrievePeople.address.street;
+        this.retrieve.address.number = this.summary.retrievePeople.address.number;
         this.retrieve.address.city = this.summary.retrievePeople.address.city;
         this.retrieve.address.state = this.summary.retrievePeople.address.state;
       } else {
@@ -497,14 +569,10 @@ export default {
         this.delivery.contact.name = `${this.summary.deliveryPeople.contact.name} ${this.summary.deliveryPeople.contact.alias}`;
         this.delivery.contact.email = this.summary.deliveryPeople.contact.email;
         this.delivery.contact.phone = this.summary.deliveryPeople.contact.phone;
-        this.delivery.address.district =
-          this.summary.deliveryPeople.address.district;
-        this.delivery.address.postal_code =
-          this.summary.deliveryPeople.address.postalCode;
-        this.delivery.address.street =
-          this.summary.deliveryPeople.address.street;
-        this.delivery.address.number =
-          this.summary.deliveryPeople.address.number;
+        this.delivery.address.district = this.summary.deliveryPeople.address.district;
+        this.delivery.address.postal_code = this.summary.deliveryPeople.address.postalCode;
+        this.delivery.address.street = this.summary.deliveryPeople.address.street;
+        this.delivery.address.number = this.summary.deliveryPeople.address.number;
         this.delivery.address.city = this.summary.deliveryPeople.address.city;
         this.delivery.address.state = this.summary.deliveryPeople.address.state;
       } else {
@@ -615,14 +683,10 @@ export default {
 
         this.isLoading = true;
 
-        fetch(
-          "/my_contracts/provider/" +
-          this.myCompany.id +
-          "/order/" +
-          this.summary.id,
+        api.fetch(
+          "/my_contracts/provider/" + this.myCompany.id + "/order/" + this.summary.id,
           params
         )
-          
           .then(
             ((data) => {
               this.isLoading = false;
@@ -638,31 +702,19 @@ export default {
                     id: data.response.data.contractId,
                   },
                 });
-              } else {
-                this.$q.notify({
-                  message:
-                    "Não foi possível gerar um contrato para esse pedido!",
-                  position: "bottom",
-                  type: "negative",
-                });
               }
 
               return data;
             }).bind(this)
           )
           .catch((e) => {
-            this.isLoading = false;
-
-            this.$q.notify({
-              message: "Não foi possível gerar um contrato para esse pedido!",
-              position: "bottom",
-              type: "negative",
-            });
-
             if (e instanceof SubmissionError) {
               return e.errors._error;
             }
             return e.message;
+          })
+          .finally(() => {
+            this.isLoading = false;
           });
       } else {
         this.$q.notify({
@@ -674,9 +726,7 @@ export default {
     },
 
     onPropostaClick() {
-      var quote = this.summary.quotations
-        ? this.summary.quotations[0]
-        : undefined;
+      var quote = this.summary.quotations ? this.summary.quotations[0] : undefined;
 
       if (quote) {
         this.isLoading = true;
@@ -686,29 +736,26 @@ export default {
           params: {
             myCompany: this.myCompany.id,
           },
-        }).then((res) => {
-          this.isLoading = false;
-          if (res.response && res.response.data && res.response.data.html) {
-            /*Imprimir PDF*/
-            var pdf = res.response.data.pdf;
-            var pdfName = "Proposta - " + quote.id + ".pdf";
+        })
+          .then((res) => {
+            if (res.response && res.response.data && res.response.data.html) {
+              /*Imprimir PDF*/
+              var pdf = res.response.data.pdf;
+              var pdfName = "Proposta - " + quote.id + ".pdf";
 
-            if (window.navigator.msSaveOrOpenBlob) {
-              window.navigator.msSaveBlob(
-                b64toBlob(pdf, "Aplication/PDF"),
-                pdfName
-              );
-            } else {
-              const downloadLink = window.document.createElement("a");
-              const blob = this.b64toBlob(pdf, "Aplication/PDF");
-              downloadLink.href = window.URL.createObjectURL(blob);
-              downloadLink.download = pdfName;
-              document.body.appendChild(downloadLink);
-              downloadLink.click();
-              document.body.removeChild(downloadLink);
-            }
+              if (window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveBlob(b64toBlob(pdf, "Aplication/PDF"), pdfName);
+              } else {
+                const downloadLink = window.document.createElement("a");
+                const blob = this.b64toBlob(pdf, "Aplication/PDF");
+                downloadLink.href = window.URL.createObjectURL(blob);
+                downloadLink.download = pdfName;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+              }
 
-            /*
+              /*
               var html = atob(res.response.data.html);
               var ww = window.open(
                 "",
@@ -722,8 +769,11 @@ export default {
               ww.document.close();
               ww.focus();
 */
-          }
-        });
+            }
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
       } else {
         this.$q.notify({
           message: "Não foi possível encontrar cotações nesse pedido!",
@@ -736,11 +786,7 @@ export default {
       const byteCharacters = atob(b64Data);
       const byteArrays = [];
 
-      for (
-        let offset = 0;
-        offset < byteCharacters.length;
-        offset += sliceSize
-      ) {
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
         const slice = byteCharacters.slice(offset, offset + sliceSize);
 
         const byteNumbers = new Array(slice.length);
@@ -811,10 +857,7 @@ export default {
     getPayerOptions() {
       let opts = [];
 
-      if (
-        this.summary.retrievePeople == null ||
-        this.summary.deliveryPeople == null
-      ) {
+      if (this.summary.retrievePeople == null || this.summary.deliveryPeople == null) {
         opts.push({
           label: "Não definido",
           value: -2,
@@ -895,9 +938,7 @@ export default {
       this.dialogs.details.data.state = data.address.state;
       this.dialogs.details.data.city = data.address.city;
       this.dialogs.details.data.district = data.address.district;
-      this.dialogs.details.data.postal_code = formatCEP(
-        data.address.postal_code
-      );
+      this.dialogs.details.data.postal_code = formatCEP(data.address.postal_code);
       this.dialogs.details.data.street = data.address.street;
       this.dialogs.details.data.number = data.address.number;
 

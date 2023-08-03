@@ -293,7 +293,7 @@ export default {
       params.status = this.filters.status.value;
       params.import_type = this.importType.import_type.value;
 
-      return this.api.private(endpoint, { params })
+      return api.fetch(endpoint, { params })
         
         .then(result => {
           return {
@@ -311,7 +311,7 @@ export default {
       };
 
       let endpoint = `import/${id}`;
-      return this.api.private(endpoint, options)
+      return api.fetch(endpoint, options)
         .catch(e => {
           if (e instanceof SubmissionError)
             throw new Error(e.errors._error);

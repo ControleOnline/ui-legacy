@@ -5,8 +5,8 @@ export default class AddParticipant extends Resource {
     super(client, '/my_contract_peoples', 'POST', true)
   }
 
-  fetch(options) {
-    return super.fetch(options)
+  api.fetch(options) {
+    return super.api.fetch(options)
       .then((response) => {
         if (response.ok) {
           return response

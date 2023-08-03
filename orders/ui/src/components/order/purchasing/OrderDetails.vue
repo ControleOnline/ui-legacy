@@ -4,12 +4,21 @@
       <q-spinner-gears size="50px" color="primary" />
     </q-inner-loading>
 
-    <transition-group appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+    <transition-group
+      appear
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+    >
       <div v-if="status !== null" class="row q-pa-sm q-col-gutter-sm" key="status">
         <div class="col-xs-12">
           <div class="text-h5 q-pt-sm q-pb-sm">
-            <q-btn flat dense :to="{ name: 'CarrierDetails', params: { id: provider.id } }" :label="provider.alias"
-              class="full-width" />
+            <q-btn
+              flat
+              dense
+              :to="{ name: 'CarrierDetails', params: { id: provider.id } }"
+              :label="provider.alias"
+              class="full-width"
+            />
           </div>
         </div>
         <div class="col-xs-12 col-sm-4">
@@ -39,18 +48,22 @@
                 </td>
               </tr>
               <tr v-if="this.mainOrderId">
-                <td :class="
-                  this.mainPrice - this.price < this.correctValue
-                    ? 'red text-left text-bold'
-                    : 'green text-left text-bold'
-                ">
+                <td
+                  :class="
+                    this.mainPrice - this.price < this.correctValue
+                      ? 'red text-left text-bold'
+                      : 'green text-left text-bold'
+                  "
+                >
                   Valor do ticket
                 </td>
-                <td :class="
-                  this.mainPrice - this.price < this.correctValue
-                    ? 'red text-left text-bold'
-                    : 'green text-left text-bold'
-                ">
+                <td
+                  :class="
+                    this.mainPrice - this.price < this.correctValue
+                      ? 'red text-left text-bold'
+                      : 'green text-left text-bold'
+                  "
+                >
                   {{ formatMoney(this.mainPrice - this.price) }}
                   ({{ parseFloat(this.realPecentage).toFixed(2) }}
                   %)
@@ -68,24 +81,46 @@
                 <td class="text-left text-bold">Previsão de entrega</td>
                 <td class="text-left">
                   {{ this.deliveryDueDate || "-" }}
-                  <q-btn v-if="deliveryDueDate && isEditable" class="btn-edit" icon="edit" color="black" flat round
-                    dense />
-                  <q-popup-edit v-if="deliveryDueDate && isEditable" v-model="inputDeadline" @save="onSaveDeadline">
-                    <template v-slot="{
-                      initialValue,
-                      value,
-                      emitValue,
-                      validate,
-                      set,
-                      cancel,
-                    }">
-                      <q-input autofocus dense :value="inputDeadline" @input="emitValue" mask="##/##/####">
+                  <q-btn
+                    v-if="deliveryDueDate && isEditable"
+                    class="btn-edit"
+                    icon="edit"
+                    color="black"
+                    flat
+                    round
+                    dense
+                  />
+                  <q-popup-edit
+                    v-if="deliveryDueDate && isEditable"
+                    v-model="inputDeadline"
+                    @save="onSaveDeadline"
+                  >
+                    <template
+                      v-slot="{ initialValue, value, emitValue, validate, set, cancel }"
+                    >
+                      <q-input
+                        autofocus
+                        dense
+                        :value="inputDeadline"
+                        @input="emitValue"
+                        mask="##/##/####"
+                      >
                         <template v-slot:after>
-                          <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
-                          <q-btn flat dense color="positive" icon="check_circle" @click.stop="set" :disable="
-                            validate(value) === false ||
-                            initialValue === value
-                          " />
+                          <q-btn
+                            flat
+                            dense
+                            color="negative"
+                            icon="cancel"
+                            @click.stop="cancel"
+                          />
+                          <q-btn
+                            flat
+                            dense
+                            color="positive"
+                            icon="check_circle"
+                            @click.stop="set"
+                            :disable="validate(value) === false || initialValue === value"
+                          />
                         </template>
                       </q-input>
                     </template>
@@ -96,8 +131,13 @@
           </q-markup-table>
         </div>
         <div class="col-xs-12 col-sm-8">
-          <q-markup-table flat dense separator="none" class="text-white"
-            :style="`background-color: ${this.status.color}`">
+          <q-markup-table
+            flat
+            dense
+            separator="none"
+            class="text-white"
+            :style="`background-color: ${this.status.color}`"
+          >
             <tbody>
               <tr>
                 <td class="text-center">
@@ -109,17 +149,41 @@
               <tr>
                 <td class="text-center text-bold">
                   <div class="row items-center justify-around">
-                    <q-btn v-if="status.status == 'analysis'" color="positive" label="Aprovar Pedido"
-                      @click="approveOrder" :loading="isUpdating" />
-                    <q-btn v-if="status.status == 'waiting retrieve'" color="positive" label="Coleta realizada"
-                      @click="addRetrieve" :loading="isUpdating" />
-                    <q-btn v-if="status.status == 'on the way'" color="positive" label="Entrega realizada"
-                      @click="addDelivered" :loading="isUpdating" />
-                    <q-btn v-if="
-                      ['open', 'pending'].includes(status.realStatus)
-                    " color="negative" label="Cancelar Pedido" @click="cancelOrder" :loading="isUpdating" />
-                    <q-btn v-if="['waiting payment'].includes(status.status)" color="positive"
-                      label="Liberar Pagamento" @click="releasePayment" :loading="isUpdating" />
+                    <q-btn
+                      v-if="status.status == 'analysis'"
+                      color="positive"
+                      label="Aprovar Pedido"
+                      @click="approveOrder"
+                      :loading="isUpdating"
+                    />
+                    <q-btn
+                      v-if="status.status == 'waiting retrieve'"
+                      color="positive"
+                      label="Coleta realizada"
+                      @click="addRetrieve"
+                      :loading="isUpdating"
+                    />
+                    <q-btn
+                      v-if="status.status == 'on the way'"
+                      color="positive"
+                      label="Entrega realizada"
+                      @click="addDelivered"
+                      :loading="isUpdating"
+                    />
+                    <q-btn
+                      v-if="['open', 'pending'].includes(status.realStatus)"
+                      color="negative"
+                      label="Cancelar Pedido"
+                      @click="cancelOrder"
+                      :loading="isUpdating"
+                    />
+                    <q-btn
+                      v-if="['waiting payment'].includes(status.status)"
+                      color="positive"
+                      label="Liberar Pagamento"
+                      @click="releasePayment"
+                      :loading="isUpdating"
+                    />
                   </div>
                 </td>
               </tr>
@@ -130,7 +194,12 @@
 
       <div v-if="status !== null" class="row" key="order_tabs">
         <div class="col-12">
-          <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
+          <q-tabs
+            :horizontal="$q.screen.gt.xs"
+            align="justify"
+            v-model="currentTab"
+            class="bg-white text-primary"
+          >
             <q-tab name="resumo" label="Resumo" />
             <!-- <q-tab name="quotation" label="Cotação" /> -->
             <!-- <q-tab name="notafiscal" label="Nota Fiscal" /> -->
@@ -164,8 +233,7 @@
               <OrderDetailDACTE :orderId="orderId" @fileUploaded="onDacteUploaded" />
             </q-tab-panel> -->
             <q-tab-panel name="tasks" class="q-pa-none">
-              <OrderTasks :task_type="'support'" :orderId="orderId"
-                :client="provider" />
+              <OrderTasks :task_type="'support'" :orderId="orderId" :client="provider" />
             </q-tab-panel>
             <!-- <q-tab-panel name="tracking" class="q-pa-none">
               <OrderDetailTracking :orderId="orderId" />
@@ -179,7 +247,11 @@
       </div>
     </transition-group>
 
-    <div v-if="status === null && notFound" class="row items-center justify-center" style="min-height: 90vh">
+    <div
+      v-if="status === null && notFound"
+      class="row items-center justify-center"
+      style="min-height: 90vh"
+    >
       <q-banner class="text-white bg-red text-center text-h3" rounded>
         <template v-slot:avatar>
           <q-icon name="error" color="white" />
@@ -213,7 +285,6 @@ export default {
     OrderDetailTracking,
     OrderDetailTag,
     OrderTasks,
-
   },
 
   created() {
@@ -297,19 +368,11 @@ export default {
           update: "release_payment",
         },
         params: params,
-      })
-        .then((order) => {
-          this.requestStatus(this.orderId).finally((data) => {
-            this.isUpdating = false;
-          });
-        })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+      }).then((order) => {
+        this.requestStatus(this.orderId).finally((data) => {
+          this.isUpdating = false;
         });
+      });
     },
 
     cancelOrder() {
@@ -351,19 +414,11 @@ export default {
           update: "add_delivered",
         },
         params: params,
-      })
-        .then((order) => {
-          this.requestStatus(this.orderId).finally((data) => {
-            this.isUpdating = false;
-          });
-        })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+      }).then((order) => {
+        this.requestStatus(this.orderId).finally((data) => {
+          this.isUpdating = false;
         });
+      });
     },
     addRetrieve() {
       let params = {
@@ -378,19 +433,11 @@ export default {
           update: "add_retrieve",
         },
         params: params,
-      })
-        .then((order) => {
-          this.requestStatus(this.orderId).finally((data) => {
-            this.isUpdating = false;
-          });
-        })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+      }).then((order) => {
+        this.requestStatus(this.orderId).finally((data) => {
+          this.isUpdating = false;
         });
+      });
     },
     approveOrder() {
       let params = {
@@ -405,19 +452,11 @@ export default {
           update: "approve_order",
         },
         params: params,
-      })
-        .then((order) => {
-          this.requestStatus(this.orderId).finally((data) => {
-            this.isUpdating = false;
-          });
-        })
-        .catch((error) => {
-          this.$q.notify({
-            message: "O status do pedido não pode ser atualizado",
-            position: "bottom",
-            type: "negative",
-          });
+      }).then((order) => {
+        this.requestStatus(this.orderId).finally((data) => {
+          this.isUpdating = false;
         });
+      });
     },
 
     onCheckoutFinished() {
@@ -471,8 +510,7 @@ export default {
             this.mainOrderId = data.mainOrderId;
             this.notFound = false;
             this.isEditable =
-              data.status.status === "on the way" ||
-              data.status.status === "retrieved";
+              data.status.status === "on the way" || data.status.status === "retrieved";
             this.integrationType = data.integrationType;
           }
 
@@ -505,13 +543,7 @@ export default {
             this.isUpdating = false;
           });
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: "A previsão de entrega do pedido não pode ser atualizada",
-            position: "bottom",
-            type: "negative",
-          });
-
+        .finally(() => {
           this.isUpdating = false;
         });
     },

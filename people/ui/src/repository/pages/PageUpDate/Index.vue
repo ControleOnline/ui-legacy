@@ -65,7 +65,7 @@
             <PeopleSummary
               :people_type="people_type"
               :particulars_context="context_type"
-              :api="api"
+              
               :id="peopleId"
               @error="
                 (error) => {
@@ -90,7 +90,7 @@
           <div class="col-12">
             <PeopleAdminAddresses
               :people_type="people_type"
-              :api="api"
+              
               :id="peopleId"
               @error="
                 (error) => {
@@ -117,7 +117,7 @@
               <PeopleAdminEmails
                 :people_type="people_type"
                 class="full-height"
-                :api="api"
+                
                 :id="peopleId"
                 @error="
                   (error) => {
@@ -143,7 +143,7 @@
               <PeopleAdminPhones
                 :people_type="people_type"
                 class="full-height"
-                :api="api"
+                
                 :id="peopleId"
                 @error="
                   (error) => {
@@ -170,7 +170,7 @@
           <div class="col-12">
             <PeopleAdminDocuments
               :people_type="people_type"
-              :api="api"
+              
               :id="peopleId"
               @error="
                 (error) => {
@@ -196,7 +196,7 @@
           <div class="col-12" v-if="people.type === 'F'">
             <PeopleAdminUsers
               :people_type="people_type"
-              :api="api"
+              
               :id="peopleId"
               @error="
                 (error) => {
@@ -222,7 +222,7 @@
           <div class="col-12" v-if="people.type === 'F'">
             <PeopleCompany
               :people_type="people_type"
-              :api="api"
+              
               :id="peopleId"
               @error="handleError"
               @saved="handleSaved"
@@ -246,7 +246,7 @@
           <div class="col-12" v-if="people.type === 'J'">
             <PeopleAdminEmployees
               :people_type="people_type"
-              :api="api"
+              
               :id="peopleId"
               @error="handleError"
               @saved="handleSaved"
@@ -256,7 +256,7 @@
           <div class="col-12">
             <PeopleSalesman
               :people_type="people_type"
-              :api="api"
+              
               :id="peopleId"
               @error="
                 (error) => {
@@ -284,7 +284,7 @@
           <div class="col-12">
             <PeopleAdminBilling
               :people_type="people_type"
-              :api="api"
+              
               :id="peopleId"
               @error="
                 (error) => {
@@ -310,7 +310,7 @@
           <div class="col-12">
             <PeopleOrders
               :people_type="people_type"
-              :api="api"
+              
               :client_id="peopleId"
               @error="
                 (error) => {
@@ -336,7 +336,7 @@
           <div class="col-12">
             <PeopleContracts
               :people_type="people_type"
-              :api="api"
+              
               :client_id="peopleId"
               @error="
                 (error) => {
@@ -378,7 +378,7 @@
 
 <script>
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
-import Api from "@controleonline/quasar-common-ui/src/utils/api";
+
 
 import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import PeopleAdminEmails from "../../components/AdminEmails.vue";
@@ -514,7 +514,7 @@ export default {
     },
 
     getPeople() {
-      return this.api
+      return api.fetch
         .private(`people/${this.peopleId}`)
         
         .then((data) => {

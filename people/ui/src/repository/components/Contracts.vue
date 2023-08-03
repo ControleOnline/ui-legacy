@@ -101,10 +101,7 @@ export default {
     id: {
       required: true,
     },
-    api: {
-      type    : Api,
-      required: true
-    },
+    
   },
 
   data() {
@@ -131,7 +128,7 @@ export default {
   methods: {
     // store method
     getItems(params) {
-      return this.api.private('my_contract_peoples', { params })
+      return api.fetch('my_contract_peoples', { params })
         
         .then(result => {
           return {
