@@ -1,5 +1,5 @@
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { fetch }       from '../../../../../../../src/boot/myapi';
+import { api }       from '../../../../../../../src/boot/api';
 import * as types      from './mutation_types';
 
 export const quote = ({ commit }, { values, query = null }) => {
@@ -13,7 +13,7 @@ export const quote = ({ commit }, { values, query = null }) => {
   if (query !== null)
     params.params = query;
 
-  return fetch('/quotes', params)
+  return api.fetch('/quotes', params)
     
     .then(data => {
 
@@ -45,7 +45,7 @@ export const chooseRouteTime = ({ commit }, { id, values, query = null }) => {
     };
 
 
-  return fetch(`/sales/orders/${id}/route/time`, params)
+  return api.fetch(`/sales/orders/${id}/route/time`, params)
     
     .then(data => {
       commit(types.SET_ISLOADING, false);
@@ -75,7 +75,7 @@ export const choose_retireve_quote = ({ commit }, { id, values, query = null }) 
   if (query !== null)
     params.params = query;
 
-  return fetch(`/purchasing/orders/choose/${id}/retrieve`, params)
+  return api.fetch(`/purchasing/orders/choose/${id}/retrieve`, params)
     
     .then(data => {
       commit(types.SET_ISLOADING, false);
@@ -103,7 +103,7 @@ export const choose_delivery_quote = ({ commit }, { id, values, query = null }) 
   if (query !== null)
     params.params = query;
 
-  return fetch(`/purchasing/orders/choose/${id}/delivery`, params)
+  return api.fetch(`/purchasing/orders/choose/${id}/delivery`, params)
     
     .then(data => {
       commit(types.SET_ISLOADING, false);
@@ -132,7 +132,7 @@ export const choose_payer_quote = ({ commit }, { id, values, query = null }) => 
   if (query !== null)
     params.params = query;
 
-  return fetch(`/purchasing/orders/choose/${id}/payer`, params)
+  return api.fetch(`/purchasing/orders/choose/${id}/payer`, params)
     
     .then(data => {
       commit(types.SET_ISLOADING, false);
@@ -161,7 +161,7 @@ export const choose_payment_quote = ({ commit }, { id, values, query = null }) =
   if (query !== null)
     params.params = query;
 
-  return fetch(`/purchasing/orders/choose/${id}/payment`, params)
+  return api.fetch(`/purchasing/orders/choose/${id}/payment`, params)
     
     .then(data => {
       commit(types.SET_ISLOADING, false);
@@ -189,7 +189,7 @@ export const choose_quote = ({ commit }, { id, values, query = null }) => {
   if (query !== null)
     params.params = query;
 
-  return fetch(`/purchasing/orders/choose/${id}/quote`, params)
+  return api.fetch(`/purchasing/orders/choose/${id}/quote`, params)
     
     .then(data => {
       commit(types.SET_ISLOADING, false);
@@ -214,7 +214,7 @@ export const quoteRemote = ({ commit }, { values, params }) => {
     params: params
   };
 
-  return fetch('/quotes/remote', options)
+  return api.fetch('/quotes/remote', options)
     
     .then(response => {
 
@@ -229,7 +229,7 @@ export const sendProposta = ({ commit }, { id, params }) => {
     params: params
   };
 
-  return fetch('/quotations/' + id + '/get-pdf', options)
+  return api.fetch('/quotations/' + id + '/get-pdf', options)
     
     .then(response => {
 

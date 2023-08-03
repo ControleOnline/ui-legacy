@@ -346,7 +346,7 @@
 import { mapGetters } from "vuex";
 import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
-import { fetch } from "../../../../../src/boot/myapi";
+import { api } from "../../../../../src/boot/api";
 import { DOMAIN } from "../../../../../src/config/domain";
 
 export default {
@@ -507,7 +507,7 @@ export default {
             params: params,
           };
 
-          return fetch(`/car_models_search`, options)
+          return api.fetch(`/car_models_search`, options)
             
             .then((data) => {
               if (data.response && data.response.data && data.response.data.length) {
@@ -568,7 +568,7 @@ export default {
           },
         };
 
-        return fetch(`/delivery_tax_groups_grouped`, options)
+        return api.fetch(`/delivery_tax_groups_grouped`, options)
           
           .then((response) => {
             if (

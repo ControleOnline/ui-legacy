@@ -247,7 +247,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import QuotationTaxes from "@controleonline/quasar-common-ui/src/components/Common/QuotationTaxes";
-import { fetch } from "../../../../../src/boot/myapi";
+import { api } from "../../../../../src/boot/api";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 
 export default {
@@ -623,7 +623,7 @@ export default {
         style: "currency",
         currency: "BRL",
       });
-      return fetch(`/quote_detail/${quote.id}`)
+      return api.fetch(`/quote_detail/${quote.id}`)
         
         .then((response) => {
           let quotation = response.response.data;

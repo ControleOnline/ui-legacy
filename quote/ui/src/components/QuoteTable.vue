@@ -289,7 +289,7 @@
 <script>
 import { mapGetters } from "vuex";
 import QuotationTaxes from "@controleonline/quasar-common-ui/src/components/Common/QuotationTaxes";
-import { fetch } from "../../../../../src/boot/myapi";
+import { api } from "../../../../../src/boot/api";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 
 export default {
@@ -506,7 +506,7 @@ export default {
         body: JSON.stringify(values),
       };
 
-      return fetch(
+      return api.fetch(
         `/sales/orders/` + this.order_.id + "/other_informations",
         options
       )
@@ -531,7 +531,7 @@ export default {
           body: JSON.stringify(values),
         };
 
-        return fetch(`/sales/orders/` + order.id + `/competitor`, options)
+        return api.fetch(`/sales/orders/` + order.id + `/competitor`, options)
           
           .then((response) => response.response)
           .then((response) => {
@@ -564,7 +564,7 @@ export default {
           method: "POST",
           body: JSON.stringify(values),
         };
-        return fetch(`/sales/orders/` + order.id + `/competitor`, options)
+        return api.fetch(`/sales/orders/` + order.id + `/competitor`, options)
           
           .then((response) => response.response)
           .then((response) => {
@@ -598,7 +598,7 @@ export default {
           body: JSON.stringify(values),
         };
 
-        return fetch(`/sales/orders/` + order.id + `/competitor`, options)
+        return api.fetch(`/sales/orders/` + order.id + `/competitor`, options)
           
           .then((response) => response.response)
           .then((response) => {
@@ -642,7 +642,7 @@ export default {
         style: "currency",
         currency: "BRL",
       });
-      return fetch(`/quote_detail/${quote.id}`)
+      return api.fetch(`/quote_detail/${quote.id}`)
         
         .then((response) => {
           let quotation = response.response.data;
