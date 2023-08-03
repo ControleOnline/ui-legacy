@@ -690,7 +690,6 @@ import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Co
 import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm.vue";
 import { api } from "../../../../../../../../src/boot/api";
 
-
 export default {
   props: {
     orderId: {
@@ -716,7 +715,6 @@ export default {
 
   data() {
     return {
-      ,
       isSearching: false,
       summary: null,
       isLoading: false,
@@ -1337,10 +1335,11 @@ export default {
 
         this.isLoading = true;
 
-        api.fetch(
-          "/my_contracts/provider/" + this.myCompany.id + "/order/" + this.summary.id,
-          params
-        )
+        api
+          .fetch(
+            "/my_contracts/provider/" + this.myCompany.id + "/order/" + this.summary.id,
+            params
+          )
           .then(
             ((data) => {
               if (

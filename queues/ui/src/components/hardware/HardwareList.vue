@@ -60,7 +60,6 @@
 </template>
 
 <script>
-
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 import HardwareCreate from "./HardwareCreate.vue";
 
@@ -74,7 +73,6 @@ export default {
 
   data() {
     return {
-      ,
       loadingStatuses: null,
       isLoading: null,
 

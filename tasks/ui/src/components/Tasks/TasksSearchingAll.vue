@@ -25,7 +25,6 @@
                 ref="myForm"
                 :orderId="orderId"
                 :client="client"
-                
                 :statuses="getClear(statuses)"
                 :task_type="task_type"
                 :categories="getClear(categories)"
@@ -375,7 +374,6 @@ export default {
 
   data() {
     return {
-      ,
       settings: {
         visibleColumns: ["id", "name", "status", "registeredBy", "dueDate"],
         columns: [
@@ -586,8 +584,9 @@ export default {
       params.company = this.provider;
       params["order[name]"] = "ASC";
 
-      return api.fetch("/categories", { params })
-        
+      return api
+        .fetch("/categories", { params })
+
         .then((result) => {
           return {
             members: result["hydra:member"],
@@ -652,8 +651,9 @@ export default {
       params.context = this.context;
       params["order[name]"] = "ASC";
 
-      return api.fetch("/statuses", { params })
-        
+      return api
+        .fetch("/statuses", { params })
+
         .then((result) => {
           return {
             members: result["hydra:member"],
@@ -668,8 +668,9 @@ export default {
       params.company = this.provider;
       params["order[name]"] = "ASC";
 
-      return api.fetch("/tasks/people", { params })
-        
+      return api
+        .fetch("/tasks/people", { params })
+
         .then((result) => {
           return result.response.data;
         });
@@ -720,8 +721,9 @@ export default {
 
     // store method
     getTasks(params) {
-      return api.fetch("/tasks", { params })
-        
+      return api
+        .fetch("/tasks", { params })
+
         .then((result) => {
           return {
             members: result["hydra:member"],

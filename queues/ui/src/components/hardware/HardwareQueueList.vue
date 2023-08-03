@@ -59,7 +59,6 @@
 </template>
 
 <script>
-
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 import HardwareQueueCreate from "@controleonline/quasar-queues-ui/src/components/hardware/HardwareQueueCreate.vue";
 
@@ -73,7 +72,6 @@ export default {
 
   data() {
     return {
-      ,
       loadingStatuses: null,
       isLoading: null,
 

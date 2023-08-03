@@ -21,7 +21,6 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-
 export default {
   props: {
     peopleId: {
@@ -31,7 +30,6 @@ export default {
 
   data() {
     return {
-      ,
       company: null,
       notifications: [],
       notificationsUnread: 0,
@@ -64,10 +62,11 @@ export default {
       params["read"] = 0;
       params.itemsPerPage = 10;
 
-      return api.fetch(`/notifications`, {
-        params,
-      })
-        
+      return api
+        .fetch(`/notifications`, {
+          params,
+        })
+
         .then((result) => {
           this.notifications = result["hydra:member"];
           this.notificationsUnread = result["hydra:totalItems"];

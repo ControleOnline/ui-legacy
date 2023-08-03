@@ -56,7 +56,6 @@
 </template>
 
 <script>
-
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 import QueueCreate from "@controleonline/quasar-queues-ui/src/components/queue/QueueCreate.vue";
 
@@ -70,7 +69,6 @@ export default {
 
   data() {
     return {
-      ,
       loadingStatuses: null,
       isLoading: null,
 

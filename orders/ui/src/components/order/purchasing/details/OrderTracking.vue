@@ -12,24 +12,16 @@
     >
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="trackingStatus" :props="props">{{
-            props.row.trackingStatus
-          }}</q-td>
+          <q-td key="trackingStatus" :props="props">{{ props.row.trackingStatus }}</q-td>
           <q-td key="dataHora" :props="props">{{ props.cols[1].value }}</q-td>
           <q-td key="dominio" :props="props">{{ props.row.dominio }}</q-td>
           <q-td key="filial" :props="props">{{ props.row.filial }}</q-td>
           <q-td key="cidade" :props="props">{{ props.row.cidade }}</q-td>
-          <q-td key="ocorrencia" :props="props">{{
-            props.row.ocorrencia
-          }}</q-td>
+          <q-td key="ocorrencia" :props="props">{{ props.row.ocorrencia }}</q-td>
           <q-td key="descricao" :props="props">{{ props.row.descricao }}</q-td>
           <q-td key="tipo" :props="props">{{ props.row.tipo }}</q-td>
-          <q-td key="dataHoraEfetiva" :props="props">{{
-            props.cols[8].value
-          }}</q-td>
-          <q-td key="nomeRecebedor" :props="props">{{
-            props.row.nomeRecebedor
-          }}</q-td>
+          <q-td key="dataHoraEfetiva" :props="props">{{ props.cols[8].value }}</q-td>
+          <q-td key="nomeRecebedor" :props="props">{{ props.row.nomeRecebedor }}</q-td>
           <q-td key="nroDocRecebedor" :props="props">{{
             props.row.nroDocRecebedor
           }}</q-td>
@@ -40,7 +32,6 @@
 </template>
 
 <script>
-
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 const SETTINGS = {
@@ -153,7 +144,6 @@ export default {
 
   data() {
     return {
-      ,
       settings: SETTINGS,
       items: [],
       isLoading: false,
@@ -170,10 +160,11 @@ export default {
   methods: {
     // store method
     getItems(params) {
-      return api.fetch(`purchasing_orders/${this.orderId}/trackings`, {
-        params,
-      })
-        
+      return api
+        .fetch(`purchasing_orders/${this.orderId}/trackings`, {
+          params,
+        })
+
         .then((result) => {
           return {
             members: result["hydra:member"],
@@ -183,8 +174,7 @@ export default {
     },
 
     onRequest(props) {
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let filter = props.filter;
       let params = { itemsPerPage: rowsPerPage, page };
 

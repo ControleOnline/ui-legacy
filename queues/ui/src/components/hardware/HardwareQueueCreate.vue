@@ -44,7 +44,6 @@
 </template>
 
 <script>
-
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 
 export default {
@@ -61,7 +60,6 @@ export default {
 
   data() {
     return {
-      ,
       loadingStatuses: null,
       isLoading: null,
 

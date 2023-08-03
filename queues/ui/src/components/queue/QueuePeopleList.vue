@@ -66,7 +66,6 @@
 </template>
 
 <script>
-
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 import QueuePeopleCreate from "@controleonline/quasar-queues-ui/src/components/queue/QueuePeopleCreate.vue";
 
@@ -80,7 +79,6 @@ export default {
 
   data() {
     return {
-      ,
       loadingStatuses: null,
       isLoading: null,
 

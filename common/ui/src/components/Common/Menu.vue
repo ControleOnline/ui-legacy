@@ -22,20 +22,15 @@
           <q-icon class="item-icon" :name="item.icon" :color="item.color" />
         </q-item-section>
         <q-item-section no-wrap>
-          <q-item-label class="menu-list-text">{{
-            $t(item.label)
-          }}</q-item-label>
+          <q-item-label class="menu-list-text">{{ $t(item.label) }}</q-item-label>
         </q-item-section>
       </q-item>
     </q-expansion-item>
   </div>
 </template>
 
-
-
 <script>
 import { mapActions, mapGetters } from "vuex";
-
 
 export default {
   props: {
@@ -49,7 +44,6 @@ export default {
 
   data() {
     return {
-      ,
       company: null,
       menu: [],
     };
@@ -74,10 +68,11 @@ export default {
     ...mapActions({}),
 
     getMenu() {
-      return api.fetch(`menus-people`, {
-        params: { myCompany: this.company.id },
-      })
-        
+      return api
+        .fetch(`menus-people`, {
+          params: { myCompany: this.company.id },
+        })
+
         .then((result) => {
           this.menu = result.response?.data;
         });

@@ -57,7 +57,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <FormMenu :context="context" :id="dialogs.menu.id"  />
+          <FormMenu :context="context" :id="dialogs.menu.id" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -104,7 +104,7 @@ export default {
   data() {
     return {
       context: "menu",
-      ,
+
       settings: SETTINGS,
       items: [],
       pagination: {
@@ -143,7 +143,7 @@ export default {
     getItems(params) {
       return api.fetch
         .private("roles", { params })
-        
+
         .then((response) => {
           return {
             members: response["hydra:member"],

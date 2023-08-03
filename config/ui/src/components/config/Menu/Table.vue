@@ -45,15 +45,13 @@
                 }
               "
             />
-          </q-td>          
+          </q-td>
           <q-td key="route" :props="props">{{ props.row.route.route }}</q-td>
           <q-td key="menu" :props="props">{{ props.row.menu }}</q-td>
           <q-td key="color" :props="props">
             <span
               :style="
-                'background:' +
-                props.row.color +
-                ';padding: 15px;border: 1px solid #000;'
+                'background:' + props.row.color + ';padding: 15px;border: 1px solid #000;'
               "
             >
               {{ props.row.color }}
@@ -76,7 +74,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <FormMenu :id="dialogs.menu.id"  :context="context" />
+          <FormMenu :id="dialogs.menu.id" :context="context" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -117,7 +115,6 @@ const SETTINGS = {
       label: "Ícone",
     },
 
-
     {
       name: "category",
       align: "left",
@@ -145,7 +142,7 @@ export default {
   data() {
     return {
       context: "menu",
-      ,
+
       settings: SETTINGS,
       items: [],
       pagination: {
@@ -184,7 +181,7 @@ export default {
     getItems(params) {
       return api.fetch
         .private("menus", { params })
-        
+
         .then((response) => {
           return {
             members: response["hydra:member"],
@@ -256,8 +253,7 @@ export default {
     onRequest(props) {
       if (this.isLoading) return;
 
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
       params.context = this.context;
       if (this.myCompany != null) {
@@ -278,7 +274,7 @@ export default {
                 menu: data.members[index].menu,
                 color: data.members[index].color,
                 icon: data.members[index].icon,
-                category: data.members[index].category,                
+                category: data.members[index].category,
                 _bussy: false,
               });
             }
