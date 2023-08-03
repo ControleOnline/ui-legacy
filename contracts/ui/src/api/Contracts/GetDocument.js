@@ -5,8 +5,8 @@ export default class GetDocument extends Resource {
     super(client, '/my_contracts/{id}/document', 'GET', true)
   }
 
-  api.fetch(options) {
-    return super.api.fetch(options)
+  fetch(options) {
+    return super.fetch(options)
       .then((response) => {
         if (response.ok) {
           return response.text();
