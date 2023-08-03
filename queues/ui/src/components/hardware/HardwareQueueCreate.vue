@@ -44,12 +44,8 @@
 </template>
 
 <script>
-import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
-
 export default {
-  components: {
-    Api,
-  },
+  components: {},
 
   props: {
     hardwareQueue: {

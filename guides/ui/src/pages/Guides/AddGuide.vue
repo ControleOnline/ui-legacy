@@ -570,10 +570,11 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
-import UploadMultipleArchivesDialog from '@controleonline/quasar-common-ui/src/components/Dialog/UploadMultipleArchivesDialog';
-import DefaultAddDialog from '@controleonline/quasar-common-ui/src/components/Dialog/DefaultAddDialog';
+import { api } from "@controleonline/../../src/boot/api";
 import AdditionalDialog from '@controleonline/quasar-common-ui/src/components/Dialog/AdditionalDialog';
+import DefaultAddDialog from '@controleonline/quasar-common-ui/src/components/Dialog/DefaultAddDialog';
+import UploadMultipleArchivesDialog from '@controleonline/quasar-common-ui/src/components/Dialog/UploadMultipleArchivesDialog';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 
 export default {
   components: {

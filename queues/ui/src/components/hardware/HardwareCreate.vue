@@ -82,9 +82,8 @@
 </template>
 
 <script>
-import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   components: {

@@ -29,8 +29,8 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import AcceptForm from "../../components/AcceptForm.vue";
-import { api } from "../../../../../../src/boot/api";
 
 export default {
   components: {

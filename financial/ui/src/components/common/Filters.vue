@@ -33,13 +33,8 @@
   </q-card>
 </template>      
 <script>
-import { mapActions, mapGetters } from "vuex";
-import {
-  formatMoney,
-  formatDateYmdTodmY,
-} from "@controleonline/quasar-common-ui/src/utils/formatter";
 import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/DataFilter.vue";
-import { date } from "quasar";
+import { mapActions } from "vuex";
 
 export default {
   components: {

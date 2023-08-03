@@ -68,10 +68,11 @@
 
 <script>
 
+import { api } from "@controleonline/../../src/boot/api";
 import { formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
-import FormTaskInteraction from './FormTaskInteraction.vue';
-import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 import { mapGetters } from 'vuex';
+import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
+import FormTaskInteraction from './FormTaskInteraction.vue';
 
 export default {
 

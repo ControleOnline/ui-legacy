@@ -43,7 +43,7 @@
           <div class="col-12">
             <q-tabs align="justify" v-model="currentTab" class="bg-white text-primary">
               <q-tab name="summary" label="Sumário" />
-              <q-tab name="import" label="Importar" />
+              <q-tab name="import " label="import ar" />
               <q-tab name="fixedTax" label="Taxa fixa" />
               <q-tab name="fixedPercentage" label="Taxa por porcentagem" />
               <q-tab name="fixedKg" label="Taxa fixa por KG" />
@@ -79,8 +79,8 @@
                   "
                 />
               </q-tab-panel>
-              <q-tab-panel name="import">
-                <CarrierImports :tableId="tableId" />
+              <q-tab-panel name="import ">
+                <Carrierimport s :tableId="tableId" />
               </q-tab-panel>
               <q-tab-panel name="fixedTax">
                 <CarrierTableFixedtax
@@ -318,17 +318,18 @@
 </template>
 
 <script>
-import CarrierTableSummary from "../../components/carrier/TableSummary";
-import CarrierTableFixedtax from "../../components/carrier/TableFixedtax";
-import CarrierTableFixedpercentage from "../../components/carrier/TableFixedpercentage";
+import { api } from "@controleonline/../../src/boot/api";
+import CarrierImports from "@controleonline/quasar-import-ui/src/components/Import/ImportsList";
 import CarrierTableFixedkg from "../../components/carrier/TableFixedkg";
+import CarrierTableFixedkm from "../../components/carrier/TableFixedkm";
+import CarrierTableFixedpercentage from "../../components/carrier/TableFixedpercentage";
+import CarrierTableFixedtax from "../../components/carrier/TableFixedtax";
+import TableIncreaseTaxes from "../../components/carrier/TableIncreaseTaxes";
+import TableMultipleTaxes from "../../components/carrier/TableMultipleTaxes";
+import CarrierTableSummary from "../../components/carrier/TableSummary";
 import CarrierTableTabela from "../../components/carrier/TableTabela";
 import CarrierTableTaxpercentinvoice from "../../components/carrier/TableTaxpercentinvoice";
 import CarrierTableTaxregion from "../../components/carrier/TableTaxregion";
-import CarrierTableFixedkm from "../../components/carrier/TableFixedkm";
-import TableIncreaseTaxes from "../../components/carrier/TableIncreaseTaxes";
-import TableMultipleTaxes from "../../components/carrier/TableMultipleTaxes";
-import CarrierImports from "@controleonline/quasar-import-ui/src/components/Import/ImportsList";
 
 export default {
   components: {
@@ -374,8 +375,7 @@ export default {
 
   methods: {
     getTable() {
-      return api.fetch(`delivery_tax_groups/${this.tableId}`)
-      .then((data) => {
+      return api.fetch(`delivery_tax_groups/${this.tableId}`).then((data) => {
         if (data["@id"]) {
           this.table.carrier = this.carrierId;
           this.table.id = this.tableId;

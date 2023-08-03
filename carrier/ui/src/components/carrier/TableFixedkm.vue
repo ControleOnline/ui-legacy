@@ -211,8 +211,9 @@
 
 <script>
 
-import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
+import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 const SETTINGS = {
   columns: [

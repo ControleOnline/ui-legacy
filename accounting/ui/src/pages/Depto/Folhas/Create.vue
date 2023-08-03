@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import { mapGetters }     from 'vuex';
 import FormFolhaPagamento from './../../../components/depto/FormFolhaPagamento';
 
 export default {

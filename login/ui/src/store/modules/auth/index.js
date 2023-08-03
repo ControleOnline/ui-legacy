@@ -1,7 +1,7 @@
+import { LocalStorage } from 'quasar';
 import * as actions from './actions';
 import * as getters from './getters';
 import mutations from './mutations';
-import { LocalStorage } from 'quasar';
 
 export default {
   namespaced: true,

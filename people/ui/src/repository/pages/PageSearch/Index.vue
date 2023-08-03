@@ -253,11 +253,11 @@
 </template>
 
 <script>
-import { date } from "quasar";
-import TableAllPeoples from "./components/TableAllPeoples.vue";
-
+import { api } from "@controleonline/../../src/boot/api";
 import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import { date } from "quasar";
 import { mapGetters } from "vuex";
+import TableAllPeoples from "./components/TableAllPeoples.vue";
 
 export default {
   props: {

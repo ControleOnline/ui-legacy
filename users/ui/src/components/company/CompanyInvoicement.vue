@@ -31,9 +31,8 @@
 </template>
 
 <script>
-import { date, extend }           from 'quasar';
+import { formatMoney } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import { mapActions, mapGetters } from 'vuex';
-import { formatMoney }            from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 export default {
   props: {

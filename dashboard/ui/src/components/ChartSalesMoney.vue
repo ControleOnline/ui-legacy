@@ -11,13 +11,14 @@
 </template>
 
 <script>
-import configurable               from './../mixins/configurable';
-import { date }                   from 'quasar';
-import IEcharts                   from 'vue-echarts-v3/src/lite.js';
+import { api } from "@controleonline/../../src/boot/api";
 import 'echarts/lib/chart/line';
-import 'echarts/lib/component/title';
 import 'echarts/lib/component/grid';
 import 'echarts/lib/component/legend';
+import 'echarts/lib/component/title';
+import { date } from 'quasar';
+import IEcharts from 'vue-echarts-v3/src/lite.js';
+import configurable from './../mixins/configurable';
 
 function formatToUSDate(dateString) {
   return date.formatDate(date.extractDate(dateString, 'DD/MM/YYYY'), 'YYYY-MM-DD');

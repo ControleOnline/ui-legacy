@@ -343,10 +343,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
+import { api } from "@controleonline/../../src/boot/api";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
-import { api } from "../../../../../src/boot/api";
+import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
+import { mapGetters } from "vuex";
 import { DOMAIN } from "../../../../../src/config/domain";
 
 export default {

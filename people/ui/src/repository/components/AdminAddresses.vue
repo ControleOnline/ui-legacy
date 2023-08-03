@@ -117,6 +117,7 @@
 
 <script>
 
+import { api } from "@controleonline/../../src/boot/api";
 import { formatCEP } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import SearchCEPAddress from './SearchCEPAddress';
 

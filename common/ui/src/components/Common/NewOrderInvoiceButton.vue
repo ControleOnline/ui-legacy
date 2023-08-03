@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import { mapGetters } from "vuex";
 
 export default {

@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import PeoplesPage from '@controleonline/quasar-people-ui/src/repository/pages/PageAdmin/Index.vue';
+import { mapGetters } from 'vuex';
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 

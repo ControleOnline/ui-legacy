@@ -118,8 +118,7 @@
 </template>
 
 <script>
-import { date } from "quasar";
-import { api } from "../../../../../../../../src/boot/api";
+import { api } from "@controleonline/../../src/boot/api";
 import UploadFileForm from "@controleonline/quasar-common-ui/src/components/Common/UploadFileForm.vue";
 import { mapActions, mapGetters } from "vuex";
 import { ENTRYPOINT } from "../../../../../../../../src/config/entrypoint";

@@ -60,9 +60,8 @@
 </template>
 
 <script>
-import { date, extend }           from 'quasar';
-import FormUser                   from './FormUser';
 import { mapActions, mapGetters } from 'vuex';
+import FormUser from './FormUser';
 
 const SETTINGS = {
   visibleColumns: [

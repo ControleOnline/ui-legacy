@@ -31,8 +31,8 @@
 </template>
 
 <script>
+import Contract from './../entity/Contract';
 import configurable from './../mixins/configurable';
-import Contract     from './../entity/Contract';
 
 export default {
   name  : 'ContractParticipantList',

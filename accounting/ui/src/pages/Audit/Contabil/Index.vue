@@ -58,10 +58,10 @@
 </template>
 
 <script>
-import AuditImpostos       from './../../../components/contabil/AuditImpostos';
-import AuditDeclaracoes    from './../../../components/contabil/AuditDeclaracoes';
 import AuditAdministrativo from './../../../components/contabil/AuditAdministrativo';
-import AuditExtratos       from './../../../components/contabil/AuditExtratos';
+import AuditDeclaracoes from './../../../components/contabil/AuditDeclaracoes';
+import AuditExtratos from './../../../components/contabil/AuditExtratos';
+import AuditImpostos from './../../../components/contabil/AuditImpostos';
 
 export default {
   components: {

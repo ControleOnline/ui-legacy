@@ -25,8 +25,8 @@
   
   <script>
   
-  import Hardware from '@controleonline/quasar-queues-ui/src/components/hardware/HardwareList.vue';
   import HardwareCreate from '@controleonline/quasar-queues-ui/src/components/hardware/HardwareCreate.vue';
+import Hardware from '@controleonline/quasar-queues-ui/src/components/hardware/HardwareList.vue';
   
   import { mapGetters } from "vuex";
   

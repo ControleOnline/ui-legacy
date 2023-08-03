@@ -33,8 +33,9 @@
 </template>
 
 <script>
-import TasksSummary from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSummary.vue";
+import { api } from "@controleonline/../../src/boot/api";
 import TaskInteractions from "@controleonline/quasar-tasks-ui/src/components/Tasks/TaskInteractions.vue";
+import TasksSummary from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSummary.vue";
 
 import { mapGetters } from "vuex";
 

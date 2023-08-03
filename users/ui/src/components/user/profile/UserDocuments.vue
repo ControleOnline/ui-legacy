@@ -60,10 +60,9 @@
 </template>
 
 <script>
-import { date, extend }           from 'quasar';
-import FormDocument               from './FormDocument';
-import { formatDocument }         from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import { mapActions, mapGetters } from 'vuex';
+import FormDocument from './FormDocument';
 
 const SETTINGS = {
   visibleColumns: [

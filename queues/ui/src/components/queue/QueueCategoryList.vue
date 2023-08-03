@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
+import { api } from "@controleonline/../../src/boot/api";
 import QueueCategoryCreate from "./QueueCategoryCreate.vue";
 
 export default {

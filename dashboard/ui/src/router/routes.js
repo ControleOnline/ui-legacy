@@ -1,9 +1,9 @@
 export const routes = [
     {
     path: '/home/',
-    component: () => import('layouts/AdminLayout.vue'),
+    component: () =>  import ('layouts/AdminLayout.vue'),
     children: [
-      { name: 'DashboardIndex', path: 'dashboard', component: () => import('../pages/Dashboard.vue') },      
+      { name: 'DashboardIndex', path: 'dashboard', component: () =>  import ('../pages/Dashboard.vue') },      
     ]
   }
 ];

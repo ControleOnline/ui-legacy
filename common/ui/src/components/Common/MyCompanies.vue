@@ -77,8 +77,8 @@
 
 <script>
 /* eslint-disable */
-import { mapActions, mapGetters } from "vuex";
 import FormCompany from "@controleonline/quasar-login-ui/src/components/user/signup/Company";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {

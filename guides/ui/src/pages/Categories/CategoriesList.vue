@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import Search from '@controleonline/quasar-common-ui/src/components/Header/Search';
-import ToolsFooter from '@controleonline/quasar-common-ui/src/components/Footer/ToolsFooter';
 import CardListHome from '@controleonline/quasar-common-ui/src/components/Card/CardListHome';
+import ToolsFooter from '@controleonline/quasar-common-ui/src/components/Footer/ToolsFooter';
+import Search from '@controleonline/quasar-common-ui/src/components/Header/Search';
 
 export default {
   name: 'CategoriesList',

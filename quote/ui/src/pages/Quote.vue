@@ -148,14 +148,14 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
+import Analytics from "@controleonline/quasar-common-ui/src/utils/analytics";
 import LoginPage from "@controleonline/quasar-login-ui/src/components/user/login/Index.vue";
 import SignUpPage from "@controleonline/quasar-login-ui/src/components/user/signup/Index";
-import Analytics from "@controleonline/quasar-common-ui/src/utils/analytics";
 
 import CegPageContainer from "../components/CegPageContainer";
+import CegQuoteTable from "../components/CegQuoteTable";
 import PageContainer from "../components/PageContainer";
 import QuoteTable from "../components/QuoteTable";
-import CegQuoteTable from "../components/CegQuoteTable";
 import CheckoutPage from "../components/checkout/Index";
 
 export default {

@@ -177,8 +177,8 @@
 </template>
 
 <script>
-import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 import axios from "axios";
+import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 
 function findIn(obj, search) {
   let tmp = obj.find((c) => c.value === search);

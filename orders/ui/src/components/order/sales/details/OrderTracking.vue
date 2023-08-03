@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 const SETTINGS = {

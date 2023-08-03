@@ -74,7 +74,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { ENTRYPOINT } from '../../../../../../src/config/entrypoint'
+import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 export default {
   name: 'ContractDetailsPage',

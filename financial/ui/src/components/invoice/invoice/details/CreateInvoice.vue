@@ -284,8 +284,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {

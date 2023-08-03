@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import { mapGetters }  from 'vuex';
 import { formatMoney } from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { mapGetters } from 'vuex';
 
 const SETTINGS = {
   columns       : [

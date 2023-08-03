@@ -16,8 +16,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import FormDocumento  from './../../../components/contabil/FormDocumento';
+import FormDocumento from './../../../components/contabil/FormDocumento';
 
 export default {
   components: {

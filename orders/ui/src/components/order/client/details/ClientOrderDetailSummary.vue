@@ -342,14 +342,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm.vue";
 import {
-  formatDocument,
-  formatMoney,
-  formatPhone,
-  formatCEP,
+formatCEP,
+formatDocument,
+formatMoney,
+formatPhone,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   props: {

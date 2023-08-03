@@ -40,8 +40,9 @@
 
 <script>
 
-import TasksSummary from '../../components/Tasks/TasksSummary.vue';
+import { api } from "@controleonline/../../src/boot/api";
 import TaskInteractions from '../../components/Tasks/TaskInteractions.vue';
+import TasksSummary from '../../components/Tasks/TasksSummary.vue';
 
 import { mapGetters } from "vuex";
 

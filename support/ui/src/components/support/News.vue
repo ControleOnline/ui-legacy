@@ -31,8 +31,7 @@
 
 <script>
 
-import { extend }           from 'quasar';
-import { mapActions, mapGetters  } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   data() {
     return {

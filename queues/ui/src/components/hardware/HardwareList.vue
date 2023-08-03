@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
+import { api } from "@controleonline/../../src/boot/api";
 import HardwareCreate from "./HardwareCreate.vue";
 
 export default {

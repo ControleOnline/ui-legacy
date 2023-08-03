@@ -60,6 +60,7 @@
 
 <script>
 
+import { api } from "@controleonline/../../src/boot/api";
 import { formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 const SETTINGS = {

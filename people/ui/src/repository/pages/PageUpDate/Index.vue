@@ -356,24 +356,25 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 
-import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
-import PeopleAdminEmails from "../../components/AdminEmails.vue";
-import PeopleAdminUsers from "../../components/AdminUsers.vue";
-import PeopleAdminAddresses from "../../components/AdminAddresses.vue";
-import PeopleAdminPhones from "../../components/AdminPhones.vue";
-import PeopleAdminDocuments from "../../components/AdminDocuments.vue";
-import PeopleAdminEmployees from "../../components/AdminEmployees.vue";
-import PeopleAdminBilling from "../../components/AdminBilling.vue";
-import PeopleOrders from "@controleonline/quasar-orders-ui/src/components/order/sales/OrderSearching.vue";
-import PeopleContracts from "../../components/Contracts.vue";
-import PeopleSummary from "../../components/Summary.vue";
-import PeopleSalesman from "../../components/Salesman.vue";
-import PeopleCompany from "../../components/Company.vue";
-import { ENTRYPOINT } from "../../../../../../../src/config/entrypoint";
 import PersonAvatar from "@controleonline/quasar-common-ui/src/components/Common/PersonAvatar";
+import PeopleOrders from "@controleonline/quasar-orders-ui/src/components/order/sales/OrderSearching.vue";
+import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import { mapGetters } from "vuex";
+import { ENTRYPOINT } from "../../../../../../../src/config/entrypoint";
+import PeopleAdminAddresses from "../../components/AdminAddresses.vue";
+import PeopleAdminBilling from "../../components/AdminBilling.vue";
+import PeopleAdminDocuments from "../../components/AdminDocuments.vue";
+import PeopleAdminEmails from "../../components/AdminEmails.vue";
+import PeopleAdminEmployees from "../../components/AdminEmployees.vue";
+import PeopleAdminPhones from "../../components/AdminPhones.vue";
+import PeopleAdminUsers from "../../components/AdminUsers.vue";
+import PeopleCompany from "../../components/Company.vue";
+import PeopleContracts from "../../components/Contracts.vue";
+import PeopleSalesman from "../../components/Salesman.vue";
+import PeopleSummary from "../../components/Summary.vue";
 
 export default {
   props: {

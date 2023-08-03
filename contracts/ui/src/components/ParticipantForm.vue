@@ -109,10 +109,11 @@
 </template>
 
 <script>
-import configurable from "./../mixins/configurable";
-import validation from "./../mixins/validation";
+import { api } from "@controleonline/../../src/boot/api";
 import Contract from "./../entity/Contract";
 import { formatBRDocument } from "./../library/formatter";
+import configurable from "./../mixins/configurable";
+import validation from "./../mixins/validation";
 import SearchCustomer from "./SearchCustomer";
 
 export default {

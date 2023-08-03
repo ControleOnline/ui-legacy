@@ -27,8 +27,8 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import FormTasks from "./FormTasks.vue";
-import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 
 export default {
   components: {

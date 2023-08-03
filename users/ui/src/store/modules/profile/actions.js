@@ -1,5 +1,5 @@
-import { api } from '../../../boot/api'
-import * as types from './mutation_types'
+import { api } from "@controleonline/../../src/boot/api";
+import * as types from './mutation_types';
 
 export const updateProfile = ({ commit }, { id, component, payload }) => {
   const params = {

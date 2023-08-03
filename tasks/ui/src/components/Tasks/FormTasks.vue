@@ -252,12 +252,13 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
-import { mapGetters, mapActions } from "vuex";
 import categories from "@controleonline/quasar-common-ui/src/store/categories";
 import { date } from "quasar";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {

@@ -18,8 +18,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import FormDeclaracao    from './../../../components/contabil/FormDeclaracao';
+import FormDeclaracao from './../../../components/contabil/FormDeclaracao';
 
 export default {
   components: {

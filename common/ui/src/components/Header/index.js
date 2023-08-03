@@ -1,7 +1,7 @@
-import Search from './Search';
 import GuideDetailsHeader from './GuideDetailsHeader';
-import ProfileHeader from './ProfileHeader';
 import MenuDefaultHeader from './MenuDefaultHeader';
+import ProfileHeader from './ProfileHeader';
+import Search from './Search';
 
 export default {
   Search,

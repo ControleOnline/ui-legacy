@@ -96,10 +96,10 @@
 </template>
 
 <script>
-import { mapActions, mapGetters }    from 'vuex';
+import UploadFileForm from '@controleonline/quasar-common-ui/src/components/Common/UploadFileForm';
 import { formatCEP, formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
-import UploadFileForm                from '@controleonline/quasar-common-ui/src/components/Common/UploadFileForm';
-import { ENTRYPOINT }                from '../../../../../../../../src/config/entrypoint';
+import { mapActions, mapGetters } from 'vuex';
+import { ENTRYPOINT } from '../../../../../../../../src/config/entrypoint';
 
 export default {
   props: {

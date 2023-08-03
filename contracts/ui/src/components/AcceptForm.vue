@@ -294,8 +294,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
+import { mapActions } from "vuex";
 
 export default {
   components: {

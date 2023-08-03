@@ -107,13 +107,13 @@
 import { mapActions, mapGetters } from "vuex";
 
 import ContactInputs from "./ContactInputs";
-import ProductInputs from "./ProductInputs";
-import OriginInputs from "./OriginInputs";
 import DestinationInputs from "./DestinationInputs";
+import OriginInputs from "./OriginInputs";
+import ProductInputs from "./ProductInputs";
 
 import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
-import { DOMAIN } from "../../../../../src/config/domain";
 import { productName } from "../../../../../package.json";
+import { DOMAIN } from "../../../../../src/config/domain";
 
 export default {
   name: "CegPageContainer",

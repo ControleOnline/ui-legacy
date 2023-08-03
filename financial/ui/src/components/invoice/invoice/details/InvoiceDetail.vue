@@ -142,8 +142,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { mapActions, mapGetters } from "vuex";
 
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 

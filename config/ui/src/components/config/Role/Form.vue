@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import { mapActions, mapGetters } from "vuex";
 
 

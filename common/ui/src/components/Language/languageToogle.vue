@@ -12,10 +12,8 @@
 </template>
 
 <script>
-import { LocalStorage } from "quasar";
 import Config from "@controleonline/quasar-common-ui/src/utils/config";
 import Language from "@controleonline/quasar-common-ui/src/utils/language";
-import Quasar from "quasar";
 
 export default {
   components: {

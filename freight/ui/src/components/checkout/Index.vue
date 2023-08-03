@@ -77,8 +77,8 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import Retrieve from "./Retrieve";
 import Delivery from "./Delivery";
+import Retrieve from "./Retrieve";
 import Summary from "./Summary";
 
 export default {

@@ -1,21 +1,37 @@
 <template>
-  <q-table :loading="isLoading" :data="data" :columns="settings.columns" :pagination.sync="pagination"
-    @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" style="min-height: 90vh;">
+  <q-table
+    :loading="isLoading"
+    :data="data"
+    :columns="settings.columns"
+    :pagination.sync="pagination"
+    @request="onRequest"
+    row-key="id"
+    :visible-columns="settings.visibleColumns"
+    style="min-height: 90vh"
+  >
     <template v-slot:top v-if="search === true">
-      <div class="col-xs-12 q-pb-md text-h6">
-        Pedidos
+      <div class="col-xs-12 q-pb-md text-h6">Pedidos</div>
+      <div class="col-sm-6 col-xs-12 q-pa-md">
+        <q-input
+          stack-label
+          label="Buscar por"
+          debounce="1000"
+          v-model="filters.text"
+          class="full-width"
+        />
       </div>
       <div class="col-sm-6 col-xs-12 q-pa-md">
-        <q-input stack-label label="Buscar por" debounce="1000" v-model="filters.text" class="full-width" />
-      </div>
-      <div class="col-sm-6 col-xs-12 q-pa-md">
-        <q-select stack-label label="Status do pedido" v-model="filters.status" :options="statuses" class="full-width"
-          :loading="loadingStatuses">
+        <q-select
+          stack-label
+          label="Status do pedido"
+          v-model="filters.status"
+          :options="statuses"
+          class="full-width"
+          :loading="loadingStatuses"
+        >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                Sem resultados
-              </q-item-section>
+              <q-item-section class="text-grey"> Sem resultados </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -25,8 +41,14 @@
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="id" :props="props">
-          <q-btn outline dense :to="{ name: 'ClientOrderDetails', params: { id: props.row.id } }"
-            :label="`#${props.row.id}`" :style="{ color: props.row.color_status }" class="full-width" />
+          <q-btn
+            outline
+            dense
+            :to="{ name: 'ClientOrderDetails', params: { id: props.row.id } }"
+            :label="`#${props.row.id}`"
+            :style="{ color: props.row.color_status }"
+            class="full-width"
+          />
         </q-td>
         <q-td key="notaFiscal" :props="props">{{ props.row.notaFiscal }}</q-td>
         <q-td key="dataPedido" :props="props">{{ props.cols[2].value }}</q-td>
@@ -50,100 +72,100 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import { date } from 'quasar';
-import { formatMoney } from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { date } from "quasar";
+import { mapActions, mapGetters } from "vuex";
 
 const SETTINGS = {
   visibleColumns: [
-    'id',
-    'notaFiscal',
-    'dataPedido',
-    'ultimaModificacao',
-    'status',
-    'coleta',
-    'entrega',
-    'transportadora',
-    'preco',
+    "id",
+    "notaFiscal",
+    "dataPedido",
+    "ultimaModificacao",
+    "status",
+    "coleta",
+    "entrega",
+    "transportadora",
+    "preco",
   ],
   columns: [
     {
-      name: 'id',
-      field: 'id',
-      align: 'left',
-      label: 'ID'
+      name: "id",
+      field: "id",
+      align: "left",
+      label: "ID",
     },
     {
-      name: 'notaFiscal',
-      field: 'notaFiscal',
-      align: 'left',
-      label: 'Nota Fiscal',
+      name: "notaFiscal",
+      field: "notaFiscal",
+      align: "left",
+      label: "Nota Fiscal",
       format: (val, row) => {
-        return val ? '#' + val : ''
+        return val ? "#" + val : "";
       },
     },
     {
-      name: 'dataPedido',
-      field: 'dataPedido',
-      align: 'left',
+      name: "dataPedido",
+      field: "dataPedido",
+      align: "left",
       format: (val, row) => {
-        return date.formatDate(val, 'DD/MM/YYYY')
+        return date.formatDate(val, "DD/MM/YYYY");
       },
-      label: 'Data do pedido'
+      label: "Data do pedido",
     },
     {
-      name: 'ultimaModificacao',
-      field: 'ultimaModificacao',
-      align: 'left',
+      name: "ultimaModificacao",
+      field: "ultimaModificacao",
+      align: "left",
       format: (val, row) => {
-        return date.formatDate(val, 'DD/MM/YYYY HH:mm:ss')
+        return date.formatDate(val, "DD/MM/YYYY HH:mm:ss");
       },
-      label: 'Ultima alteração'
+      label: "Ultima alteração",
     },
     {
-      name: 'status',
-      field: 'status',
-      align: 'left',
-      label: 'Status'
+      name: "status",
+      field: "status",
+      align: "left",
+      label: "Status",
     },
     {
-      name: 'coleta',
-      field: 'coleta',
-      align: 'left',
-      label: 'Coleta'
+      name: "coleta",
+      field: "coleta",
+      align: "left",
+      label: "Coleta",
     },
     {
-      name: 'localColeta',
-      field: 'localColeta',
-      align: 'left',
-      label: 'Local de coleta'
+      name: "localColeta",
+      field: "localColeta",
+      align: "left",
+      label: "Local de coleta",
     },
     {
-      name: 'entrega',
-      field: 'entrega',
-      align: 'left',
-      label: 'Entrega'
+      name: "entrega",
+      field: "entrega",
+      align: "left",
+      label: "Entrega",
     },
     {
-      name: 'localEntrega',
-      field: 'localEntrega',
-      align: 'left',
-      label: 'Local de entrega'
+      name: "localEntrega",
+      field: "localEntrega",
+      align: "left",
+      label: "Local de entrega",
     },
     {
-      name: 'transportadora',
-      field: 'transportadora',
-      align: 'left',
-      label: 'Transportadora'
+      name: "transportadora",
+      field: "transportadora",
+      align: "left",
+      label: "Transportadora",
     },
     {
-      name: 'preco',
-      field: 'preco',
-      align: 'left',
+      name: "preco",
+      field: "preco",
+      align: "left",
       format: (val, row) => {
-        return formatMoney(val, 'BRL', 'pt-br');
+        return formatMoney(val, "BRL", "pt-br");
       },
-      label: 'Preço'
+      label: "Preço",
     },
   ],
 };
@@ -195,24 +217,24 @@ export default {
         company: null,
       },
       pagination: {
-        sortBy: 'ultimaModificacao',
+        sortBy: "ultimaModificacao",
         descending: false,
         page: 1,
         rowsPerPage: 10,
         rowsNumber: 10,
       },
       loadingStatuses: false,
-    }
+    };
   },
 
   computed: {
     ...mapGetters({
-      isLoading: 'purchasingOrder/isLoading',
-      error: 'purchasingOrder/error',
-      violations: 'purchasingOrder/violations',
-      items: 'purchasingOrder/items',
-      totalItems: 'purchasingOrder/totalItems',
-      myCompany: 'people/currentCompany',
+      isLoading: "purchasingOrder/isLoading",
+      error: "purchasingOrder/error",
+      violations: "purchasingOrder/violations",
+      items: "purchasingOrder/items",
+      totalItems: "purchasingOrder/totalItems",
+      myCompany: "people/currentCompany",
     }),
   },
 
@@ -232,8 +254,7 @@ export default {
     },
 
     items(items) {
-      if (!items)
-        return;
+      if (!items) return;
 
       let data = [];
 
@@ -241,34 +262,43 @@ export default {
         let item = items[index];
 
         data.push({
-          '@id': item['@id'],
-          'id': item['@id'].match(/^\/purchasing\/orders\/([a-z0-9-]*)$/)[1],
-          'notaFiscal': item.invoiceTax.length > 0 ? '#' + item.invoiceTax[0].invoiceTax.invoiceNumber : '',
-          'dataPedido': item.orderDate,
-          'ultimaModificacao': item.alterDate,
-          'status': item.status.status,
-          'color_status': item.status.color,
-          'fornecedor': item.client.alias,
-          'coleta': item.retrievePeople !== null ? item.retrievePeople.name : '',
-          'localColeta': item.quote !== null ? `${item.quote.cityOrigin.city} / ${item.quote.cityOrigin.state.uf}` : '',
-          'entrega': item.deliveryPeople !== null ? item.deliveryPeople.name : '',
-          'localEntrega': item.quote !== null ? `${item.quote.cityDestination.city} / ${item.quote.cityDestination.state.uf}` : '',
-          'transportadora': item.quote !== null ? item.quote.carrier.name : '',
-          'preco': item.price,
+          "@id": item["@id"],
+          id: item["@id"].match(/^\/purchasing\/orders\/([a-z0-9-]*)$/)[1],
+          notaFiscal:
+            item.invoiceTax.length > 0
+              ? "#" + item.invoiceTax[0].invoiceTax.invoiceNumber
+              : "",
+          dataPedido: item.orderDate,
+          ultimaModificacao: item.alterDate,
+          status: item.status.status,
+          color_status: item.status.color,
+          fornecedor: item.client.alias,
+          coleta: item.retrievePeople !== null ? item.retrievePeople.name : "",
+          localColeta:
+            item.quote !== null
+              ? `${item.quote.cityOrigin.city} / ${item.quote.cityOrigin.state.uf}`
+              : "",
+          entrega: item.deliveryPeople !== null ? item.deliveryPeople.name : "",
+          localEntrega:
+            item.quote !== null
+              ? `${item.quote.cityDestination.city} / ${item.quote.cityDestination.state.uf}`
+              : "",
+          transportadora: item.quote !== null ? item.quote.carrier.name : "",
+          preco: item.price,
         });
       }
 
       this.data = data;
     },
 
-    'filters.text'() {
+    "filters.text"() {
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
       });
     },
 
-    'filters.status'() {
+    "filters.status"() {
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
@@ -278,79 +308,67 @@ export default {
 
   methods: {
     ...mapActions({
-      getItems: 'purchasingOrder/getItems',
-      reset: 'purchasingOrder/reset',
-      getStatuses: 'purchasingOrder/getStatuses',
+      getItems: "purchasingOrder/getItems",
+      reset: "purchasingOrder/reset",
+      getStatuses: "purchasingOrder/getStatuses",
     }),
 
     requestStatuses() {
       this.loadingStatuses = true;
       this.getStatuses({
-        visibility: 'public',
-        realStatus: ['open', 'pending', 'closed', 'canceled'],
-        context: 'order'
-      })
-        .then(statuses => {
-          if (statuses.length) {
-            for (let index in statuses) {
-              let item = statuses[index];
-              this.statuses.push({
-                'label': this.$t(`order.statuses.${item.status}`),
-                'value': item['@id'].match(/^\/statuses\/([a-z0-9-]*)$/)[1],
-              });
-            }
-            this.statuses.sort(function (a, b) {
-              return (a.label > b.label) - (a.label < b.label);
+        visibility: "public",
+        realStatus: ["open", "pending", "closed", "canceled"],
+        context: "order",
+      }).then((statuses) => {
+        if (statuses.length) {
+          for (let index in statuses) {
+            let item = statuses[index];
+            this.statuses.push({
+              label: this.$t(`order.statuses.${item.status}`),
+              value: item["@id"].match(/^\/statuses\/([a-z0-9-]*)$/)[1],
             });
           }
-          this.loadingStatuses = false;
-        });
+          this.statuses.sort(function (a, b) {
+            return (a.label > b.label) - (a.label < b.label);
+          });
+        }
+        this.loadingStatuses = false;
+      });
     },
 
     onRequest(props) {
-      let {
-        page,
-        rowsPerPage,
-        rowsNumber,
-        sortBy,
-        descending
-      } = props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let filter = props.filter;
       let params = { itemsPerPage: rowsPerPage, page };
 
       if (this.filters.text != null && this.filters.text.length > 0) {
-        if (this.filters.text.length < 2)
-          return;
+        if (this.filters.text.length < 2) return;
 
-        params['searchBy'] = this.filters.text;
+        params["searchBy"] = this.filters.text;
       }
 
       if (this.filters.status != null && this.filters.status.value == -1) {
         params["status.realStatus"] = ["pending"];
-      } else if (
-        this.filters.status != null &&
-        this.filters.status.value != 0
-      ) {
+      } else if (this.filters.status != null && this.filters.status.value != 0) {
         params["status"] = this.filters.status.value;
       }
 
       if (this.filters.company != null) {
-        params['myCompany'] = this.filters.company.id;
+        params["myCompany"] = this.filters.company.id;
       }
 
       if (this.invoiceId !== null) {
-        params['invoice.invoice'] = this.invoiceId;
+        params["invoice.invoice"] = this.invoiceId;
       }
 
-      params['order[alterDate]'] = 'desc';
+      params["order[alterDate]"] = "desc";
 
-      this.getItems(params)
-        .then(() => {
-          this.pagination.page = page;
-          this.pagination.rowsPerPage = rowsPerPage;
-          this.pagination.sortBy = sortBy;
-          this.pagination.descending = descending;
-        });
+      this.getItems(params).then(() => {
+        this.pagination.page = page;
+        this.pagination.rowsPerPage = rowsPerPage;
+        this.pagination.sortBy = sortBy;
+        this.pagination.descending = descending;
+      });
     },
   },
 };

@@ -1,3 +1,4 @@
+import { api } from "@controleonline/../../src/boot/api";
 import { LocalStorage } from "quasar";
 
 
@@ -20,7 +21,7 @@ export default class acl {
       if (!storedUser.actions) storedUser.actions = {};
 
         if (storedUser.mycompany && route)
-      return API.private(`/actions/people`, {
+      return api.fetch(`/actions/people`, {
         params: { myCompany: storedUser.mycompany, route: route },
       })
         .then((result) => {        

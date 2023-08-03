@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import LoginForm from "./Signin";
-import RecoveryForm from "./Recovery";
 import { mapActions, mapGetters } from "vuex";
+import RecoveryForm from "./Recovery";
+import LoginForm from "./Signin";
 
 export default {
   components: {

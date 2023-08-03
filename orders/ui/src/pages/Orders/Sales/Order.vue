@@ -5,19 +5,18 @@
 </template>
 
 <script>
-import OrderDetails from '../../../components/order/sales/OrderDetails.vue';
+import { api } from "@controleonline/../../src/boot/api";
+import OrderDetails from "../../../components/order/sales/OrderDetails.vue";
 
 export default {
-  name      : 'OrderDetailsPage',
+  name: "OrderDetailsPage",
 
   components: {
     OrderDetails,
   },
 
-  data () {
-    return {
-
-    }
-  }
-}
+  data() {
+    return {};
+  },
+};
 </script>

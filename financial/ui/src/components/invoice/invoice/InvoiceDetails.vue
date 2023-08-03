@@ -99,8 +99,8 @@ import InvoiceOrders from "./details/InvoiceOrders";
 import InvoiceDetail from "./details/InvoiceDetail";
 
 import {
-  formatMoney,
-  formatDateYmdTodmY,
+formatDateYmdTodmY,
+formatMoney,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 export default {

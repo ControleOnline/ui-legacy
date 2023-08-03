@@ -10,7 +10,6 @@
     <!-- SIGNUP STEP TO STEP -->
     <q-dialog
       maximized
-       
       no-backdrop-dismiss
       v-model="dialogs.signup.visible"
       transition-show="slide-left"
@@ -29,8 +28,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import { LocalStorage } from "quasar";
+import { mapActions, mapGetters } from "vuex";
 import LoginPage from "../components/user/login/Index.vue";
 import SignUpPage from "../components/user/signup/Index.vue";
 
@@ -61,8 +60,7 @@ export default {
 
     isLogged() {
       return (
-        this.$store.getters["auth/user"] !== null &&
-        this.$store.getters["auth/user"].user
+        this.$store.getters["auth/user"] !== null && this.$store.getters["auth/user"].user
       );
     },
 
@@ -219,8 +217,7 @@ export default {
               logo = protocol + "//" + item.logo.domain + item.logo.url;
             }
             if (item.background !== null) {
-              background =
-                protocol + "//" + item.background.domain + item.background.url;
+              background = protocol + "//" + item.background.domain + item.background.url;
             }
             data.push({
               id: item.id,

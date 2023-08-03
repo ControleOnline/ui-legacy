@@ -174,15 +174,15 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import ClientOrderDetailsummary from "./details/ClientOrderDetailSummary";
-import ClientOrderDetailQuotation from "./details/ClientOrderDetailQuotation";
-import ClientOrderDetailNotaFiscal from "./details/ClientOrderDetailNotaFiscal";
-import ClientOrderDetailInvoice from "./details/ClientOrderDetailInvoice";
-import ClientOrderDetailTracking from "./details/ClientOrderTracking";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import { mapActions, mapGetters } from "vuex";
 import OrderDetailTag from "../sales/details/OrderDetailTag";
+import ClientOrderDetailInvoice from "./details/ClientOrderDetailInvoice";
+import ClientOrderDetailNotaFiscal from "./details/ClientOrderDetailNotaFiscal";
+import ClientOrderDetailQuotation from "./details/ClientOrderDetailQuotation";
+import ClientOrderDetailsummary from "./details/ClientOrderDetailSummary";
+import ClientOrderDetailTracking from "./details/ClientOrderTracking";
 
 export default {
   components: {

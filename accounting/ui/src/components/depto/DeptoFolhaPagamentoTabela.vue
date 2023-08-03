@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 const SETTINGS = {
   columns       : [

@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import FormDocumento from './../../../components/depto/FormDocumento';
 
 export default {

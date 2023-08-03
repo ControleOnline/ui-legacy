@@ -82,7 +82,7 @@ npm publish --access=public
 cd ..
 cd ..
 
-cd import
+cd import 
 cd ui
 npm publish --access=public
 cd ..

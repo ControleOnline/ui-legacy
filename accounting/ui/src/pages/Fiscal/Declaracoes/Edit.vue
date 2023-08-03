@@ -18,8 +18,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import FormDeclaracao    from './../../../components/fiscal/FormDeclaracao';
+import FormDeclaracao from './../../../components/fiscal/FormDeclaracao';
 
 export default {
   components: {

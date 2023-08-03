@@ -556,8 +556,8 @@
 
 <script>
 import axios from "axios";
-import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 import { mapGetters } from "vuex";
+import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 
 function findIn(obj, search) {
   return obj.find((c) => c.value === search);

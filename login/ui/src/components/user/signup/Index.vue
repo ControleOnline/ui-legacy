@@ -94,9 +94,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import UserForm from "./User";
+import { mapGetters } from "vuex";
 import CompanyForm from "./Company";
+import UserForm from "./User";
 
 export default {
   components: {

@@ -191,12 +191,9 @@
 </template>
 
 <script>
-import {
-  formatDocument,
-  formatMoney,
-} from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 const SETTINGS = {
   visibleColumns: ["id", "code", "name", "market", "website"],

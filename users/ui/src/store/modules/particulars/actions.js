@@ -1,7 +1,7 @@
 /* eslint-disable */
+import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from '../../../error/SubmissionError';
-import { api }       from '../../../boot/api';
-import * as types      from './mutation_types';
+import * as types from './mutation_types';
 
 export const getParticularsTypes = ({ commit }, params = {}) => {
   return api.fetch('/particulars_types', { params })

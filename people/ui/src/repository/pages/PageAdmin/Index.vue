@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import FormCreatePeople from "../../components/FormCreate.vue";
 import PageSearchPeople from "../PageSearch/Index.vue";
 

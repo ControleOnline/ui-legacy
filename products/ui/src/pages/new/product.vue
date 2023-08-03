@@ -63,14 +63,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import Product from "./components/product.vue";
-import Group from "./components/tabs/group.vue";
+import Advertisement from "./components/tabs/advertisement.vue";
 import Categories from "./components/tabs/categories.vue";
+import Group from "./components/tabs/group.vue";
 import Price from "./components/tabs/price.vue";
 import Provider from "./components/tabs/provider.vue";
 import Stock from "./components/tabs/stock.vue";
-import Advertisement from "./components/tabs/advertisement.vue";
 import Taxing from "./components/tabs/taxing.vue";
 
 export default {

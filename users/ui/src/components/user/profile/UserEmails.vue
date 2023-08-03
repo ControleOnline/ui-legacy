@@ -59,9 +59,8 @@
 </template>
 
 <script>
-import { date, extend }           from 'quasar';
-import FormEmail                  from './FormEmail';
 import { mapActions, mapGetters } from 'vuex';
+import FormEmail from './FormEmail';
 
 const SETTINGS = {
   visibleColumns: [

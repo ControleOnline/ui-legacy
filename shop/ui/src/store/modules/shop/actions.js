@@ -1,6 +1,4 @@
-import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { api }       from '../../../../../../../src/boot/api';
-import * as types      from './mutation_types';
+import { api } from "@controleonline/../../src/boot/api";
 
 //This function get categories of products...
 export function getProductCategories({ commit }, data) {
@@ -10,7 +8,7 @@ export function getProductCategories({ commit }, data) {
   };
 
   return api.fetch('/product_categories', options)
-    
+    .then(response => response.json())
     .then(response => {
       return response['hydra:member'];
     })
@@ -24,7 +22,7 @@ export const getProductDetails = ({ commit }, { id, params }) => {
   };
 
   return api.fetch('/products/' + id , options)
-    
+    .then(response => response.json())
     .then(response => {
 
       return response;
@@ -39,8 +37,8 @@ export const getProductDetails = ({ commit }, { id, params }) => {
 //     method: 'GET'
 //   };
 
-//   return api.fetch(`/products/${id}`, options)
-//     
+//   return fetch(`/products/${id}`, options)
+//     .then(response => response.json())
 //     .then(data => {
 //       return data;
 //     })
@@ -60,7 +58,7 @@ export function getProductsInCategories({commit}, data) {
   }
 
   return api.fetch('/products', options)
-  
+  .then(response => response.json())
   .then(response => {
     return response['hydra:member'];
   })

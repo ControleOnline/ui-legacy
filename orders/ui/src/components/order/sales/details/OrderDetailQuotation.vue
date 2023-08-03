@@ -51,11 +51,10 @@
 </template>
 
 <script>
-import { date, extend } from "quasar";
-import { mapActions, mapGetters } from "vuex";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import QuoteTable from "@controleonline/quasar-quote-ui/src/components/QuoteTable";
 import CheckoutPage from "@controleonline/quasar-quote-ui/src/components/checkout/Index";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   props: {

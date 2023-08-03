@@ -1,4 +1,4 @@
-import Client    from './../library/client'
+import Client from './../library/client';
 
 const add = function(api, apiModule, modulekey) {
   for (const resourceClassName in apiModule) {

@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import { mapGetters }     from 'vuex';
 import DeptoFolhasTabela from './../../../components/depto/DeptoFolhasTabela';
 
 export default {

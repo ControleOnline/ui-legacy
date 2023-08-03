@@ -677,18 +677,17 @@
 </template>
 
 <script>
-import params from "@controleonline/quasar-contracts-ui/src/mixins/params";
-import { mapActions, mapGetters } from "vuex";
+import { api } from "@controleonline/../../src/boot/api";
 import {
-  formatDocument,
-  formatMoney,
-  formatPhone,
-  formatCEP,
+formatCEP,
+formatDocument,
+formatMoney,
+formatPhone,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { mapActions, mapGetters } from "vuex";
 
-import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete.vue";
 import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm.vue";
-import { api } from "../../../../../../../../src/boot/api";
+import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete.vue";
 
 export default {
   props: {

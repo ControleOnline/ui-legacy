@@ -3,9 +3,7 @@
 </template>
 
 <script>
-import { LocalStorage } from "quasar";
 import Config from "@controleonline/quasar-common-ui/src/utils/config";
-import { config } from "process";
 
 export default {
   components: {

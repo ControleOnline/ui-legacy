@@ -359,16 +359,16 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import {
-  formatDocument,
-  formatMoney,
-  formatPhone,
-  formatCEP,
-} from "@controleonline/quasar-common-ui/src/utils/formatter";
-import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete.vue";
+import { api } from "@controleonline/../../src/boot/api";
 import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm.vue";
-import { api } from "../../../../../../../../src/boot/api";
+import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete.vue";
+import {
+formatCEP,
+formatDocument,
+formatMoney,
+formatPhone,
+} from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   props: {

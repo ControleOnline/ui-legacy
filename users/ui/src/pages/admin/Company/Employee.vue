@@ -118,15 +118,13 @@
 </template>
 
 <script>
-import { mapActions }   from 'vuex';
-import UserPhones       from './../../../components/user/profile/UserPhones';
-import UserAddress      from './../../../components/user/profile/UserAddress';
-import UserEmails       from './../../../components/user/profile/UserEmails';
-import UserUsers        from './../../../components/user/profile/UserUsers';
-import UserDocuments    from './../../../components/user/profile/UserDocuments';
+import { mapActions, mapGetters } from 'vuex';
 import CompanyEmployees from './../../../components/company/CompanyEmployees';
-import md5              from 'md5';
-import { mapGetters }   from 'vuex';
+import UserAddress from './../../../components/user/profile/UserAddress';
+import UserDocuments from './../../../components/user/profile/UserDocuments';
+import UserEmails from './../../../components/user/profile/UserEmails';
+import UserPhones from './../../../components/user/profile/UserPhones';
+import UserUsers from './../../../components/user/profile/UserUsers';
 
 export default {
   name      : 'UserProfilePage',

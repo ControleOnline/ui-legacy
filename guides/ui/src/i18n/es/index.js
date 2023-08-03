@@ -254,7 +254,7 @@ export const translate = {
   // CancelEventDialog
   damn: 'Caramba...',
   why_do_you_cancel: '¿Por qué quieres cancelarme?',
-  important: 'Importante:',
+  important: 'importante:',
   first_desc: 'Puedes ofrecer crédito a los clientes, en un monto correspondiente al reembolso de los servicios no prestados y no compensados ​​en sustitución, en la forma de participación en otro programa turístico, o mediante reprogramación.',
   second_desc: 'Si aún necesita cancelar, necesitaremos que devuelva el monto, debidamente corregido, correspondiente a los servicios no prestados, para que podamos realizar el reembolso a los clientes.',
   confirm_cancellation: '¿Desea continuar con la cancelación?',

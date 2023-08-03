@@ -118,7 +118,8 @@
 </template>
 
 <script>
-import { formatDocument, formatMoney } from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { api } from "@controleonline/../../src/boot/api";
+import { formatMoney } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 const SETTINGS = {
   visibleColumns: [

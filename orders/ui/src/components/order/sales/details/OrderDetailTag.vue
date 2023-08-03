@@ -58,8 +58,8 @@
 </template>
 
 <script>
-import { ENTRYPOINT } from "../../../../../../../../src/config/entrypoint";
 import { mapActions } from "vuex";
+import { ENTRYPOINT } from "../../../../../../../../src/config/entrypoint";
 
 export default {
   props: {

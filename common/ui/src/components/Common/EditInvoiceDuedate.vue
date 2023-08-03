@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import { isDateGreaterThanToday } from "@controleonline/quasar-common-ui/src/utils/mydate";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   props: {

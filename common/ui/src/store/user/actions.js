@@ -1,6 +1,6 @@
+import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { api }       from '../../../../../../src/boot/api';
-import * as types      from './mutation_types';
+import * as types from './mutation_types';
 
 export const passwordRecovery = ({ commit }, values) => {
   commit(types.SET_ISLOADING);

@@ -319,10 +319,10 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import categories from "@controleonline/quasar-common-ui/src/store/categories";
 import { date } from "quasar";
 
-import { mapGetters } from "vuex";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import FormTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/FormTasks.vue";
 

@@ -107,14 +107,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import {
-  formatMoney,
-  formatDateYmdTodmY,
+formatDateYmdTodmY,
+formatMoney,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
-import CreateInvoice from "./details/CreateInvoice";
 import { date } from "quasar";
+import { mapActions, mapGetters } from "vuex";
 import Filters from "../../common/Filters.vue";
+import CreateInvoice from "./details/CreateInvoice";
 
 export default {
   components: {

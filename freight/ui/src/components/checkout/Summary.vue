@@ -395,13 +395,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import {
-  formatDocument,
-  formatPhone,
-  formatCEP,
-} from "@controleonline/quasar-common-ui/src/utils/formatter";
 import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm";
+import {
+formatDocument,
+formatPhone
+} from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {

@@ -52,12 +52,11 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import { mapGetters } from "vuex";
-import configurable from "./../mixins/configurable";
 import Contract from "./../entity/Contract";
-import { formatBRDocument } from "./../library/formatter";
-import { formatBRPostalCode } from "./../library/formatter";
-import { api } from "../../../../../src/boot/api";
+import { formatBRDocument, formatBRPostalCode } from "./../library/formatter";
+import configurable from "./../mixins/configurable";
 
 export default {
   name: "ContractDocument",
@@ -114,7 +113,8 @@ export default {
 
       this.isLoading = true;
 
-      api.fetch("/contracts/" + this.contract.id + "/change/payment", params)
+      api
+        .fetch("/contracts/" + this.contract.id + "/change/payment", params)
         .then(
           ((data) => {
             if (data.response && data.response.success && data.response.data.contractId) {
@@ -236,7 +236,8 @@ export default {
 
       this.isLoading = true;
 
-      api.fetch("/contracts/" + this.contract.id + "/status/Active", params)
+      api
+        .fetch("/contracts/" + this.contract.id + "/status/Active", params)
         .then(
           ((data) => {
             if (data.response && data.response.success && data.response.data.contractId) {

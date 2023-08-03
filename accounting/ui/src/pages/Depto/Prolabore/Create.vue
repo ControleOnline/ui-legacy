@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import { mapGetters }     from 'vuex';
 import FormProLabore from './../../../components/depto/FormProLabore';
 
 export default {

@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
+import { api } from "@controleonline/../../src/boot/api";
 import QueuePeopleCreate from "@controleonline/quasar-queues-ui/src/components/queue/QueuePeopleCreate.vue";
 
 export default {

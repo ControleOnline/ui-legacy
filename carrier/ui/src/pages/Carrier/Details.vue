@@ -494,27 +494,28 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
+import PersonAvatar from "@controleonline/quasar-common-ui/src/components/Common/PersonAvatar";
+import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
+import CarrierIntegration from "../../components/carrier/CarrierIntegration";
 import CarrierRegions from "../../components/carrier/CarrierRegions";
 import CarrierTables from "../../components/carrier/CarrierTables";
-import CarrierIntegration from "../../components/carrier/CarrierIntegration";
-import PersonAvatar from "@controleonline/quasar-common-ui/src/components/Common/PersonAvatar";
-import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
-import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 
 import { mapGetters } from "vuex";
 
-import PeopleAdminEmails from "@controleonline/quasar-people-ui/src/repository/components/AdminEmails.vue";
-import PeopleAdminUsers from "@controleonline/quasar-people-ui/src/repository/components/AdminUsers.vue";
-import PeopleAdminAddresses from "@controleonline/quasar-people-ui/src/repository/components/AdminAddresses.vue";
-import PeopleAdminPhones from "@controleonline/quasar-people-ui/src/repository/components/AdminPhones.vue";
-import PeopleAdminDocuments from "@controleonline/quasar-people-ui/src/repository/components/AdminDocuments.vue";
-import PeopleAdminEmployees from "@controleonline/quasar-people-ui/src/repository/components/AdminEmployees.vue";
-import PeopleAdminBilling from "@controleonline/quasar-people-ui/src/repository/components/AdminBilling.vue";
 import CustomerOrders from "@controleonline/quasar-orders-ui/src/components/order/purchasing/OrderSearching.vue";
-import CustomerContracts from "@controleonline/quasar-people-ui/src/repository/components/Contracts.vue";
-import CustomerSummary from "@controleonline/quasar-people-ui/src/repository/components/Summary.vue";
-import CustomerSalesman from "@controleonline/quasar-people-ui/src/repository/components/Salesman.vue";
+import PeopleAdminAddresses from "@controleonline/quasar-people-ui/src/repository/components/AdminAddresses.vue";
+import PeopleAdminBilling from "@controleonline/quasar-people-ui/src/repository/components/AdminBilling.vue";
+import PeopleAdminDocuments from "@controleonline/quasar-people-ui/src/repository/components/AdminDocuments.vue";
+import PeopleAdminEmails from "@controleonline/quasar-people-ui/src/repository/components/AdminEmails.vue";
+import PeopleAdminEmployees from "@controleonline/quasar-people-ui/src/repository/components/AdminEmployees.vue";
+import PeopleAdminPhones from "@controleonline/quasar-people-ui/src/repository/components/AdminPhones.vue";
+import PeopleAdminUsers from "@controleonline/quasar-people-ui/src/repository/components/AdminUsers.vue";
 import CustomerCompany from "@controleonline/quasar-people-ui/src/repository/components/Company.vue";
+import CustomerContracts from "@controleonline/quasar-people-ui/src/repository/components/Contracts.vue";
+import CustomerSalesman from "@controleonline/quasar-people-ui/src/repository/components/Salesman.vue";
+import CustomerSummary from "@controleonline/quasar-people-ui/src/repository/components/Summary.vue";
 
 export default {
   components: {

@@ -1,21 +1,21 @@
 export const routes = [{
   path: '/config/',
-  component: () => import('../../../../../src/layouts/AdminLayout.vue'),
+  component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
   children: [
     {
       name: 'MenuIndex',
       path: 'menus',
-      component: () => import('../pages/Config/Menu.vue'),
+      component: () =>  import ('../pages/Config/Menu.vue'),
     },    
     {
       name: 'ModuleIndex',
       path: 'modules',
-      component: () => import('../pages/Config/Module.vue'),
+      component: () =>  import ('../pages/Config/Module.vue'),
     }, 
     {
       name: 'RoleIndex',
       path: 'roles',
-      component: () => import('../pages/Config/Role.vue'),
+      component: () =>  import ('../pages/Config/Role.vue'),
     }, 
   ]
 }];

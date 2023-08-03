@@ -1,19 +1,15 @@
 <template>
-    <CarrierImports  />
+  <CarrierImports />
 </template>
 
 <script>
-import CarrierImports from '../../components/Import/ImportsList';
-
+import CarrierImports from "../../components/Import/ImportsList";
 export default {
-    components: {
-        Api,
-        CarrierImports
-    },
-    data() {
-        return {
-            
-        }
-    },
-}
+  components: {
+    CarrierImports,
+  },
+  data() {
+    return {};
+  },
+};
 </script>

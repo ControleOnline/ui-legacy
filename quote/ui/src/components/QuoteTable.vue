@@ -287,10 +287,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { api } from "@controleonline/../../src/boot/api";
 import QuotationTaxes from "@controleonline/quasar-common-ui/src/components/Common/QuotationTaxes";
-import { api } from "../../../../../src/boot/api";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
+import { mapGetters } from "vuex";
 
 export default {
   props: {

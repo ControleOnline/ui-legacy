@@ -209,8 +209,8 @@
 </template>
 
 <script>
-import { mapActions }   from 'vuex';
-import ListAutocomplete from './ListAutocomplete'
+import { mapActions } from 'vuex';
+import ListAutocomplete from './ListAutocomplete';
 
 export default {
   props     : {

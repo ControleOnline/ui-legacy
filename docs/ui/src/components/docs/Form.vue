@@ -195,8 +195,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { api } from "@controleonline/../../src/boot/api";
 import axios from "axios";
+import { mapGetters } from "vuex";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 
 

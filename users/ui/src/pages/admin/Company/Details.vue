@@ -119,14 +119,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import CompanyEmployees    from './../../../components/company/CompanyEmployees';
-import CompanyAddress      from './../../../components/company/CompanyAddress';
-import CompanyDocuments    from './../../../components/company/CompanyDocuments';
-import CompanyInvoicement  from './../../../components/company/CompanyInvoicement';
-import CompanySalesman     from './../../../components/company/CompanySalesman';
+import { mapActions } from 'vuex';
+import { ENTRYPOINT } from '../../../../../../../src/config/entrypoint';
+import CompanyAddress from './../../../components/company/CompanyAddress';
+import CompanyDocuments from './../../../components/company/CompanyDocuments';
+import CompanyEmployees from './../../../components/company/CompanyEmployees';
 import CompanyIntegrations from './../../../components/company/CompanyIntegrations';
-import { ENTRYPOINT }      from '../../../../../../../src/config/entrypoint';
+import CompanyInvoicement from './../../../components/company/CompanyInvoicement';
+import CompanySalesman from './../../../components/company/CompanySalesman';
 
 export default {
   name      : 'CompanyDetailsPage',

@@ -82,13 +82,13 @@
 </template>
 
 <script>
-import AuditImpostos       from './../../../components/depto/AuditImpostos';
-import AuditDeclaracoes    from './../../../components/depto/AuditDeclaracoes';
 import AuditAdministrativo from './../../../components/depto/AuditAdministrativo';
-import AuditExtratos       from './../../../components/depto/AuditExtratos';
+import AuditDeclaracoes from './../../../components/depto/AuditDeclaracoes';
+import AuditExtratos from './../../../components/depto/AuditExtratos';
 import AuditFolhaPagamento from './../../../components/depto/AuditFolhaPagamento';
-import AuditFolhaPonto     from './../../../components/depto/AuditFolhaPonto';
-import AuditProLabore      from './../../../components/depto/AuditProLabore';
+import AuditFolhaPonto from './../../../components/depto/AuditFolhaPonto';
+import AuditImpostos from './../../../components/depto/AuditImpostos';
+import AuditProLabore from './../../../components/depto/AuditProLabore';
 
 export default {
   components: {

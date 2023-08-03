@@ -61,8 +61,9 @@
 
 <script>
 
+import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   props: {

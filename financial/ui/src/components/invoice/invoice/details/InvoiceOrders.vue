@@ -41,14 +41,8 @@
         <q-td key="client" :props="props">{{ props.row.client }}</q-td>
         <q-td key="notaFiscal" :props="props">{{ props.row.notaFiscal }}</q-td>
         <q-td key="dataPedido" :props="props">{{ props.cols[4].value }}</q-td>
-        <q-td key="ultimaModificacao" :props="props">{{
-          props.cols[5].value
-        }}</q-td>
-        <q-td
-          key="status"
-          :props="props"
-          :style="{ color: props.row.color_status }"
-        >
+        <q-td key="ultimaModificacao" :props="props">{{ props.cols[5].value }}</q-td>
+        <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
           {{ $t(`order.statuses.${props.row.status}`) }}
         </q-td>
         <q-td key="preco" :props="props">{{ props.cols[7].value }}</q-td>
@@ -58,9 +52,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { date } from "quasar";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { date } from "quasar";
+import { mapActions, mapGetters } from "vuex";
 
 const SETTINGS = {
   columns: [
@@ -288,7 +282,7 @@ export default {
       this.getStatuses({
         visibility: "public",
         realStatus: ["open", "pending", "closed"],
-        context:'order'
+        context: "order",
       }).then((statuses) => {
         if (statuses.length) {
           let data = [];
@@ -305,8 +299,7 @@ export default {
     },
 
     onRequest(props) {
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let filter = props.filter;
       let params = { itemsPerPage: rowsPerPage, page };
 

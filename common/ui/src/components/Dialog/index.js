@@ -1,14 +1,14 @@
-import OptionsLangDialog from './OptionsLangDialog';
+import AdditionalDialog from './AdditionalDialog';
+import CancelEventDialog from './CancelEventDialog';
+import ChangePasswordDialog from './ChangePasswordDialog';
+import DefaultAddDialog from './DefaultAddDialog';
+import NotificationDialog from './NotificationDialog';
 import OptionsActDialog from './OptionsActDialog';
+import OptionsLangDialog from './OptionsLangDialog';
+import PaymentDialog from './PaymentDialog';
+import RescheduleDialog from './RescheduleDialog';
 import UploadArchiveDialog from './UploadArchiveDialog';
 import UploadMultipleArchivesDialog from './UploadMultipleArchivesDialog';
-import DefaultAddDialog from './DefaultAddDialog';
-import AdditionalDialog from './AdditionalDialog';
-import RescheduleDialog from './RescheduleDialog';
-import CancelEventDialog from './CancelEventDialog';
-import PaymentDialog from './PaymentDialog';
-import ChangePasswordDialog from './ChangePasswordDialog';
-import NotificationDialog from './NotificationDialog';
 
 export default {
   OptionsLangDialog,

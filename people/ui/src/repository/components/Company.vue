@@ -87,9 +87,10 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
+import { formatDocument } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
 import FormCreatePeople from "./FormCreate.vue";
-import { formatDocument } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 
 export default {

@@ -171,6 +171,7 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import { formatDocument } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import md5 from "md5";
 import { mapGetters } from "vuex";

@@ -626,18 +626,18 @@ import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
 import OrderDetailSummary from "./details/OrderDetailSummary";
 
-import OrderDetailQuotation from "./details/OrderDetailQuotation";
-import OrderDetailNotaFiscal from "./details/OrderDetailNotaFiscal";
-import OrderDetailInvoice from "./details/OrderDetailInvoice";
-import OrderDetailDACTE from "./details/OrderDetailDACTE";
-import OrderDetailLogistics from "./details/OrderDetailLogistics";
-import OrderDetailTracking from "./details/OrderTracking";
-import OrderDetailTag from "./details/OrderDetailTag";
-import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import {
-  formatMoney,
-  formatDateYmdTodmY,
+formatDateYmdTodmY,
+formatMoney,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import OrderDetailDACTE from "./details/OrderDetailDACTE";
+import OrderDetailInvoice from "./details/OrderDetailInvoice";
+import OrderDetailLogistics from "./details/OrderDetailLogistics";
+import OrderDetailNotaFiscal from "./details/OrderDetailNotaFiscal";
+import OrderDetailQuotation from "./details/OrderDetailQuotation";
+import OrderDetailTag from "./details/OrderDetailTag";
+import OrderDetailTracking from "./details/OrderTracking";
 
 import SurveysCollection from "@controleonline/quasar-tasks-ui/src/components/Tasks/SurveysCollection";
 

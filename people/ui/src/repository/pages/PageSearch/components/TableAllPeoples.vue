@@ -76,8 +76,9 @@
 </template>
 
 <script>
-import { date } from 'quasar';
+import { api } from "@controleonline/../../src/boot/api";
 import { formatDocument, formatPhone } from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { date } from 'quasar';
 
 import { mapGetters } from 'vuex';
 

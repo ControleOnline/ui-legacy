@@ -1,66 +1,66 @@
 export const routes = [
   {
     path: '/user/',
-    component: () => import('../../../../../src/layouts/AdminLayout.vue'),    children: [      {
+    component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),    children: [      {
         path: '/view-profile',
         name: 'view-profile',
-        component: () => import('../pages/User/ViewProfile.vue'),
+        component: () =>  import ('../pages/User/ViewProfile.vue'),
       },
 
       {
         path: '/personal-data',
         name: 'personal-data',
-        component: () => import('../pages/User/PersonalData.vue'),
+        component: () =>  import ('../pages/User/PersonalData.vue'),
       },
 
       {
         path: '/edit-profile',
         name: 'edit-profile',
-        component: () => import('../pages/User/EditProfile.vue'),
+        component: () =>  import ('../pages/User/EditProfile.vue'),
       },
 
       {
         path: '/your-favorites',
         name: 'your-favorites',
-        component: () => import('../pages/User/YourFavorites.vue'),
+        component: () =>  import ('../pages/User/YourFavorites.vue'),
       },
 
       {
         path: '/notifications-user',
         name: 'notifications-user',
-        component: () => import('../pages/User/NotificationsUser.vue'),
+        component: () =>  import ('../pages/User/NotificationsUser.vue'),
       },
-      { name: 'UserProfile', path: 'profile', component: () => import('../pages/User/Profile.vue') },
+      { name: 'UserProfile', path: 'profile', component: () =>  import ('../pages/User/Profile.vue') },
     ]
   },
   {
     path: '/company/',
-    component: () => import('../../../../../src/layouts/AdminLayout.vue'),
+    component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
     children: [
       {
         path: 'id/:id/employees/:employeeId',
         name: 'CompanyEmployee',
-        component: () => import('../pages/admin/Company/Employee.vue')
+        component: () =>  import ('../pages/admin/Company/Employee.vue')
       },
       {
         name: 'CompanyIndex',
         path: '',
-        component: () => import('../pages/admin/Company/Index.vue')
+        component: () =>  import ('../pages/admin/Company/Index.vue')
       },
       {
         name: 'CompanyDetailsPage',
         path: 'id/:id',
-        component: () => import('../pages/admin/Company/Details.vue')
+        component: () =>  import ('../pages/admin/Company/Details.vue')
       },
     ]
   },
   {
     path: '/forgot-password',
-    component: () => import('../../../../../src/layouts/MainLayout.vue'),
+    component: () =>  import ('../../../../../src/layouts/MainLayout.vue'),
     children: [
       {
         path: ':hash/:lost',
-        component: () => import('../pages/User/Recovery/AccessRecovery.vue')
+        component: () =>  import ('../pages/User/Recovery/AccessRecovery.vue')
       },
     ]
   },

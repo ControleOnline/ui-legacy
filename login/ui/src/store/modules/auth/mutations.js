@@ -1,5 +1,5 @@
-import * as types from './mutation_types';
 import { LocalStorage } from 'quasar';
+import * as types from './mutation_types';
 
 export default {
   [types.LOGIN_SET_USER](state, payload = null) {

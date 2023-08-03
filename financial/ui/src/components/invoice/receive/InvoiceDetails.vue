@@ -126,16 +126,16 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import InvoiceInvoice from "./details/InvoiceInvoice";
-import InvoiceOrders from "./details/InvoiceOrders";
-import {
-  formatMoney,
-  formatDateYmdTodmY,
-} from "@controleonline/quasar-common-ui/src/utils/formatter";
 import EditInvoiceDuedate from "@controleonline/quasar-common-ui/src/components/Common/EditInvoiceDuedate.vue";
 import InvoiceActions from "@controleonline/quasar-common-ui/src/components/Common/InvoiceActions.vue";
 import InvoiceEditActions from "@controleonline/quasar-common-ui/src/components/Common/InvoiceEditActions.vue";
+import {
+formatDateYmdTodmY,
+formatMoney,
+} from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { mapActions, mapGetters } from "vuex";
+import InvoiceInvoice from "./details/InvoiceInvoice";
+import InvoiceOrders from "./details/InvoiceOrders";
 
 export default {
   components: {

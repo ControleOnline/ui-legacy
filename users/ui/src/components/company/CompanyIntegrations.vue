@@ -141,7 +141,6 @@
 </template>
 
 <script>
-import { date, extend } from "quasar";
 import { mapActions, mapGetters } from "vuex";
 
 export default {

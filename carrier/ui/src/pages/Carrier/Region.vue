@@ -99,8 +99,9 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
+import CarrierRegionCities from '../../components/carrier/RegionCities';
 import CarrierRegionSummary from '../../components/carrier/RegionSummary';
-import CarrierRegionCities  from '../../components/carrier/RegionCities';
 
 export default {
   components: {

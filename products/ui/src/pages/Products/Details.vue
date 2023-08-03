@@ -5,19 +5,15 @@
 </template>
 
 <script>
-//import InvoiceDetails from '../../../components/invoice/pay/InvoiceDetails.vue';
-
 export default {
-  name      : 'InvoiceDetailsPage',
+  name: "InvoiceDetailsPage",
 
   components: {
     //InvoiceDetails,
   },
 
-  data () {
-    return {
-
-    }
-  }
-}
+  data() {
+    return {};
+  },
+};
 </script>

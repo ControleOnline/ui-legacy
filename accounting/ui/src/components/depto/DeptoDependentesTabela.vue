@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import { mapGetters }                         from 'vuex';
-import { formatDocument, formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { formatDateYmdTodmY, formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { mapGetters } from 'vuex';
 
 const SETTINGS = {
   columns       : [

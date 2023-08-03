@@ -1,43 +1,30 @@
-import { name, version } from '../package.json'
+import { name, version } from '../package.json';
 
-import DashboardDefault from './components/DashboardDefault'
-import InactiveCustomers from './components/InactiveCustomers'
-import ActiveCustomers from './components/ActiveCustomers'
-import NewCustomers from './components/NewCustomers'
-import ProspectiveCustomers from './components/ProspectiveCustomers'
-import QuoteOrderTotal from './components/QuoteOrderTotal'
-import SalesOrderTotal from './components/SalesOrderTotal'
-import AverageTicket from './components/AverageTicket'
-import ComissionOrderTotal from './components/ComissionOrderTotal'
-import OperationalExpenses from './components/OperationalExpenses'
-import AdministrativeExpenses from './components/AdministrativeExpenses'
-import ActiveContracts from './components/ActiveContracts'
-import ChartSalesMoney from './components/ChartSalesMoney'
-import ChartSalesOrder from './components/ChartSalesOrder'
-import OperationalProfit from './components/OperationalProfit'
-import NetProfit from './components/NetProfit'
+import ActiveContracts from './components/ActiveContracts';
+import ActiveCustomers from './components/ActiveCustomers';
+import AdministrativeExpenses from './components/AdministrativeExpenses';
+import AverageTicket from './components/AverageTicket';
+import ChartSalesMoney from './components/ChartSalesMoney';
+import ChartSalesOrder from './components/ChartSalesOrder';
+import ComissionOrderTotal from './components/ComissionOrderTotal';
+import DashboardDefault from './components/DashboardDefault';
+import InactiveCustomers from './components/InactiveCustomers';
+import NetProfit from './components/NetProfit';
+import NewCustomers from './components/NewCustomers';
+import OperationalExpenses from './components/OperationalExpenses';
+import OperationalProfit from './components/OperationalProfit';
+import ProspectiveCustomers from './components/ProspectiveCustomers';
+import QuoteOrderTotal from './components/QuoteOrderTotal';
+import SalesOrderTotal from './components/SalesOrderTotal';
 
 export {
-  name,
-  version,
-
-  DashboardDefault,
-  InactiveCustomers,
-  ActiveCustomers,
-  NewCustomers,
-  ProspectiveCustomers,
-  QuoteOrderTotal,
-  SalesOrderTotal,
-  AverageTicket,
-  ComissionOrderTotal,
-  OperationalExpenses,
-  AdministrativeExpenses,
-  ActiveContracts,
-  ChartSalesMoney,
-  ChartSalesOrder,
-  NetProfit,
-  OperationalProfit,
-}
+    ActiveContracts, ActiveCustomers, AdministrativeExpenses, AverageTicket, ChartSalesMoney,
+    ChartSalesOrder, ComissionOrderTotal, DashboardDefault,
+    InactiveCustomers, NetProfit, NewCustomers, OperationalExpenses, OperationalProfit, ProspectiveCustomers,
+    QuoteOrderTotal,
+    SalesOrderTotal, name,
+    version
+};
 
 export default {
   name,

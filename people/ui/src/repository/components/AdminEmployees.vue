@@ -1,14 +1,21 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">{{ $t('Employees') }}</div>
+      <div class="text-subtitle1 text-left">{{ $t("Employees") }}</div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table dense  grid hide-header :loading="isLoading" :data="items" row-key="id">
+      <q-table dense grid hide-header :loading="isLoading" :data="items" row-key="id">
         <template v-slot:top>
           <div class="col-12 q-mb-md">
             <div class="row justify-end">
-              <q-btn no-caps icon="add" size="sm" color="positive" class="q-ml-sm" @click="dialog = !dialog" />
+              <q-btn
+                no-caps
+                icon="add"
+                size="sm"
+                color="positive"
+                class="q-ml-sm"
+                @click="dialog = !dialog"
+              />
             </div>
           </div>
         </template>
@@ -35,17 +42,36 @@
               </q-card-section>
               <q-separator />
               <q-card-actions align="around">
-                <q-btn unelevated no-caps flat round dense :to="{
-                  name: 'CustomersDetails',
-                  params: {
-                    id: props.row.id,
-                  },
-                }" color="primary" icon="edit" :disable="props.row._bussy">
+                <q-btn
+                  unelevated
+                  no-caps
+                  flat
+                  round
+                  dense
+                  :to="{
+                    name: 'CustomersDetails',
+                    params: {
+                      id: props.row.id,
+                    },
+                  }"
+                  color="primary"
+                  icon="edit"
+                  :disable="props.row._bussy"
+                >
                   <q-tooltip>Editar</q-tooltip>
                 </q-btn>
 
-                <q-btn flat unelevated no-caps round dense color="red" icon="delete" @click="removeItem(props.row)"
-                  :loading="props.row._bussy">
+                <q-btn
+                  flat
+                  unelevated
+                  no-caps
+                  round
+                  dense
+                  color="red"
+                  icon="delete"
+                  @click="removeItem(props.row)"
+                  :loading="props.row._bussy"
+                >
                   <q-tooltip>Eliminar</q-tooltip>
                 </q-btn>
               </q-card-actions>
@@ -68,27 +94,57 @@
               <h6 class="col-xs-12 q-mt-sm q-mb-sm">Dados pessoais</h6>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
                 <q-input
-      dense
-      outlined stack-label lazy-rules unmasked-value hide-bottom-space v-model="item.name" type="text"
-                  label="Nome Completo" :rules="[isInvalid('name')]" />
+                  dense
+                  outlined
+                  stack-label
+                  lazy-rules
+                  unmasked-value
+                  hide-bottom-space
+                  v-model="item.name"
+                  type="text"
+                  label="Nome Completo"
+                  :rules="[isInvalid('name')]"
+                />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
                 <q-input
-      dense
-      outlined stack-label lazy-rules hide-bottom-space v-model="item.lastname" type="text"
-                  label="Nome Social" />
+                  dense
+                  outlined
+                  stack-label
+                  lazy-rules
+                  hide-bottom-space
+                  v-model="item.lastname"
+                  type="text"
+                  label="Nome Social"
+                />
               </div>
               <div class="col-xs-12 col-sm-6 q-mb-sm">
                 <q-input
-      dense
-      outlined stack-label lazy-rules hide-bottom-space v-model="item.email" type="text" label="Email"
-                  :rules="[isInvalid('email')]" />
+                  dense
+                  outlined
+                  stack-label
+                  lazy-rules
+                  hide-bottom-space
+                  v-model="item.email"
+                  type="text"
+                  label="Email"
+                  :rules="[isInvalid('email')]"
+                />
               </div>
             </div>
 
             <div class="row justify-end">
-              <q-btn unelevated no-caps :loading="saving" icon="save" type="submit" :label="$t('Save')" size="md"
-                color="primary" class="q-mt-md" />
+              <q-btn
+                unelevated
+                no-caps
+                :loading="saving"
+                icon="save"
+                type="submit"
+                :label="$t('Save')"
+                size="md"
+                color="primary"
+                class="q-mt-md"
+              />
             </div>
           </q-form>
         </q-card-section>
@@ -98,8 +154,7 @@
 </template>
 
 <script>
-
-// import { formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { api } from "@controleonline/../../src/boot/api";
 import md5 from "md5";
 import { mapGetters } from "vuex";
 
@@ -111,7 +166,7 @@ export default {
 
     people_type: {
       type: String,
-      required: true
+      required: true,
     },
   },
 
@@ -159,7 +214,7 @@ export default {
       let endpoint = `${this.people_type}/${this.id}/employees`;
       return api.fetch
         .private(endpoint)
-        
+
         .then((result) => {
           return result.response.data;
         });
@@ -177,11 +232,10 @@ export default {
       let endpoint = `${this.people_type}/${this.id}/employees`;
       return api.fetch
         .private(endpoint, options)
-        
+
         .then((data) => {
           if (data.response) {
-            if (data.response.success === false)
-              throw new Error(data.response.error);
+            if (data.response.success === false) throw new Error(data.response.error);
 
             return data.response.data;
           }
@@ -201,11 +255,10 @@ export default {
       let endpoint = `${this.people_type}/${this.id}/employees`;
       return api.fetch
         .private(endpoint, options)
-        
+
         .then((data) => {
           if (data.response) {
-            if (data.response.success === false)
-              throw new Error(data.response.error);
+            if (data.response.success === false) throw new Error(data.response.error);
 
             return data.response.data;
           }
@@ -269,9 +322,7 @@ export default {
     },
 
     removeItem(item) {
-      if (
-        window.confirm(this.$t("Are you sure about to remove this element?"))
-      ) {
+      if (window.confirm(this.$t("Are you sure about to remove this element?"))) {
         item._bussy = true;
 
         this.delete(item.people_company_id)
@@ -292,10 +343,7 @@ export default {
     cleanItem(id) {
       let item = this.items.find((obj) => obj["id"] == id);
       let indx = this.items.indexOf(item);
-      this.items = [
-        ...this.items.slice(0, indx),
-        ...this.items.slice(indx + 1),
-      ];
+      this.items = [...this.items.slice(0, indx), ...this.items.slice(indx + 1)];
     },
 
     onRequest() {

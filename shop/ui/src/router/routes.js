@@ -3,27 +3,27 @@ export const routes = [
     {
         path: '/shop/',
         name: 'ShopIndex',
-        component: () => import('../../../../../src/layouts/ShopLayout.vue'),
+        component: () =>  import ('../../../../../src/layouts/ShopLayout.vue'),
         children: [
             {
               name: 'ShopDefoult',
               path: '/shop/',
-              component: () => import('../pages/Categories.vue')
+              component: () =>  import ('../pages/Categories.vue')
             },
             {
               name: 'ProductDetails',
               path: 'category/:id/product/details',
-              component: () => import('../components/products/Details.vue')
+              component: () =>  import ('../components/products/Details.vue')
             },
             {
               name: 'ProductsInCategory',
               path: 'category/:id',
-              component: () => import('../pages/Products.vue')
+              component: () =>  import ('../pages/Products.vue')
             },
             {
                 name: 'AllProducts',
                 path: 'products',
-                component: () => import('../pages/Products.vue')
+                component: () =>  import ('../pages/Products.vue')
             },
         ],
         meta: {

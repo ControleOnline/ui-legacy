@@ -1,25 +1,25 @@
 export const routes = [
   {
     path: '/contracts/',
-    component: () => import('../../../../../src/layouts/AdminLayout.vue'),
+    component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
     children: [
       { 
         name: 'ContractIndex'  , 
         path: ''      , 
-        component: () => import('../pages/Contracts/Index.vue'  ) 
+        component: () =>  import ('../pages/Contracts/Index.vue'  ) 
       },
       { 
         name: 'ContractDetails', 
         path: 'id/:id', 
-        component: () => import('../pages/Contracts/Details.vue') 
+        component: () =>  import ('../pages/Contracts/Details.vue') 
       },
     ]
   },
   {
     path: '/contract/',
-    component: () => import('../../../../../src/layouts/MainLayout.vue'),
+    component: () =>  import ('../../../../../src/layouts/MainLayout.vue'),
     children: [      
-      { name: 'ContractAccept', path: 'accept/:id', component: () => import('../pages/Contracts/Accept.vue') },      
+      { name: 'ContractAccept', path: 'accept/:id', component: () =>  import ('../pages/Contracts/Accept.vue') },      
     ]
   }
 ];

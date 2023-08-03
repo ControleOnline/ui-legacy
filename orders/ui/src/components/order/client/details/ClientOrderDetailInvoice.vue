@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import { date, extend } from "quasar";
 import InvoiceSearching from "@controleonline/quasar-financial-ui/src/components/invoice/invoice/InvoiceSearching";
 
 export default {

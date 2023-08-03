@@ -1,6 +1,5 @@
-import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import { api }       from '../../../../../../src/boot/api';
-import * as types      from './mutation_types';
+import { api } from "@controleonline/../../src/boot/api";
+import * as types from './mutation_types';
 
 export const updateProfile = ({ commit }, { id, component, payload }) => {
 

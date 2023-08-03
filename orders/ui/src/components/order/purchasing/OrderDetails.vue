@@ -263,17 +263,17 @@
 </template>
 
 <script>
-import { date } from "quasar";
-import { mapActions, mapGetters } from "vuex";
-import OrderDetailSummary from "./details/OrderDetailSummary";
-import OrderDetailQuotation from "./details/OrderDetailQuotation";
-import OrderDetailNotaFiscal from "./details/OrderDetailNotaFiscal";
-import OrderDetailInvoice from "./details/OrderDetailInvoice";
-import OrderDetailDACTE from "./details/OrderDetailDACTE";
-import OrderDetailTracking from "./details/OrderTracking";
-import OrderDetailTag from "./details/OrderDetailTag";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import { date } from "quasar";
+import { mapActions, mapGetters } from "vuex";
+import OrderDetailDACTE from "./details/OrderDetailDACTE";
+import OrderDetailInvoice from "./details/OrderDetailInvoice";
+import OrderDetailNotaFiscal from "./details/OrderDetailNotaFiscal";
+import OrderDetailQuotation from "./details/OrderDetailQuotation";
+import OrderDetailSummary from "./details/OrderDetailSummary";
+import OrderDetailTag from "./details/OrderDetailTag";
+import OrderDetailTracking from "./details/OrderTracking";
 
 export default {
   components: {

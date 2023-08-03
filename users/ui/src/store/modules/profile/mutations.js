@@ -1,4 +1,4 @@
-import * as types from './mutation_types'
+import * as types from './mutation_types';
 
 export default {
   [types.SET_ISLOADING] (state, isLoading = true) {

@@ -254,7 +254,7 @@ export const translate = {
   // CancelEventDialog
   damn: 'Gee...',
   why_do_you_cancel: 'Why do you want to cancel me?',
-  important: 'Important:',
+  important: 'important:',
   first_desc: 'You can offer credit to customers, in an amount corresponding to the reimbursement of services not provided and not compensated in substitution, in the form of participation in another tourist program, or through rescheduling.',
   second_desc: 'If you still need to cancel, we will need you to return the amount, duly corrected, corresponding to the services not provided, so that we can carry out the refund to customers.',
   confirm_cancellation: 'Do you want to proceed with the cancellation?',

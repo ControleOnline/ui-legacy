@@ -166,9 +166,9 @@
 </template>
 
 <script>
-import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
-import RescheduleDialog from '@controleonline/quasar-common-ui/src/components/Dialog/RescheduleDialog';
 import CancelEventDialog from '@controleonline/quasar-common-ui/src/components/Dialog/CancelEventDialog';
+import RescheduleDialog from '@controleonline/quasar-common-ui/src/components/Dialog/RescheduleDialog';
+import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 
 export default {
   components: {

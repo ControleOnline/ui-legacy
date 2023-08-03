@@ -79,10 +79,10 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { date } from "quasar";
-import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/DataFilter.vue";
+import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { date } from "quasar";
+import { mapActions, mapGetters } from "vuex";
 
 const SETTINGS = {
   visibleColumns: [

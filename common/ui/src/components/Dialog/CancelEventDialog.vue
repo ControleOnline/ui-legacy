@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-dialog v-if="!openConfirmCancellationDialog">
-      <div class="bg-white full-width" style="max-height: 70%;">
+      <div class="bg-white full-width" style="max-height: 70%">
         <q-item class="column q-px-lg">
           <q-btn
             icon="close"
@@ -9,19 +9,19 @@
             round
             color="secondary"
             flat
-            style="align-self: end;"
-            v-close-popup>
+            style="align-self: end"
+            v-close-popup
+          >
           </q-btn>
           <q-item-section class="q-pb-sm">
-            <q-item-label>{{ $t('damn') }}</q-item-label>
+            <q-item-label>{{ $t("damn") }}</q-item-label>
             <q-item-label>
-              {{ $t('why_do_you_cancel') }}
+              {{ $t("why_do_you_cancel") }}
               <q-icon name="mood_bad" size="1.5rem"></q-icon>
             </q-item-label>
             <q-input
-      dense
-      outlined
               dense
+              outlined
               label-color="secondary"
               color="secondary"
               autogrow
@@ -32,19 +32,19 @@
           <q-item-section class="section-no-margin q-py-sm">
             <div class="flex items-center q-pb-md">
               <q-item-label class="q-ma-none title-list text-secondary text-bold">
-                {{ $t('important') }}
+                {{ $t("important") }}
               </q-item-label>
               <q-space></q-space>
               <q-icon name="o_report"></q-icon>
             </div>
             <q-item-label>
-              {{ $t('first_desc') }}
+              {{ $t("first_desc") }}
             </q-item-label>
             <q-item-label>
-              {{ $t('second_desc') }}
+              {{ $t("second_desc") }}
             </q-item-label>
             <q-item-label class="q-pt-md">
-              {{ $t('confirm_cancellation') }}
+              {{ $t("confirm_cancellation") }}
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -82,66 +82,67 @@
             class="q-py-sm q-px-md text-capitalize"
             color="secondary"
             :label="$t('yes_confirm_dialog')"
-            @click="openConfirmCancellationDialog = true;"
+            @click="openConfirmCancellationDialog = true"
           >
           </q-btn>
         </q-item>
       </div>
     </q-dialog>
     <q-dialog v-else>
-      <div class="bg-white full-width text-center column" style="max-height: 70%;">
+      <div class="bg-white full-width text-center column" style="max-height: 70%">
         <q-btn
           icon="close"
           size="1rem"
           round
           color="secondary"
           flat
-          style="align-self: end;"
-          v-close-popup>
+          style="align-self: end"
+          v-close-popup
+        >
         </q-btn>
         <q-item v-if="userRole === 'provider'" class="column q-pa-lg">
           <q-item-section class="q-pb-sm">
             <q-item-label>
-              {{ $t('what_sad_day') }}
+              {{ $t("what_sad_day") }}
               <q-icon name="mood_bad" size="1.5rem"></q-icon>
             </q-item-label>
             <q-item-label class="q-pb-md">
-              {{ $t('you_canceled_this_tour') }}
+              {{ $t("you_canceled_this_tour") }}
             </q-item-label>
             <q-item-label class="q-pb-md">
-              {{ $t('make_payment') }}
+              {{ $t("make_payment") }}
             </q-item-label>
             <q-item-label>
-              {{ $t('bank') }}
+              {{ $t("bank") }}
             </q-item-label>
             <q-item-label>
-              {{ $t('ag') }}
+              {{ $t("ag") }}
             </q-item-label>
             <q-item-label>
-              {{ $t('account') }}
+              {{ $t("account") }}
             </q-item-label>
             <q-item-label>
-              {{ $t('cnpj') }}
+              {{ $t("cnpj") }}
             </q-item-label>
           </q-item-section>
         </q-item>
 
         <q-item v-else class="column q-pa-lg">
           <q-item-label>
-            {{ $t('what_sad_day') }}
+            {{ $t("what_sad_day") }}
             <q-icon name="mood_bad" size="1.5rem"></q-icon>
           </q-item-label>
 
           <q-item-label class="q-pb-md">
-            {{ $t('you_canceled_your_trip') }}
+            {{ $t("you_canceled_your_trip") }}
           </q-item-label>
 
           <q-item-label class="q-pb-md">
-            {{ $t('we_hope_to_see_you_soon') }}
+            {{ $t("we_hope_to_see_you_soon") }}
           </q-item-label>
 
           <q-item-label class="q-pb-md">
-            {{ $t('to_the_next') }}
+            {{ $t("to_the_next") }}
           </q-item-label>
         </q-item>
 
@@ -150,7 +151,7 @@
             class="q-py-sm q-px-md text-capitalize"
             color="secondary"
             label="Ok"
-            style="width: 30%; align-self: end;"
+            style="width: 30%; align-self: end"
             v-close-popup
             @click="close"
           >
@@ -165,7 +166,7 @@
 export default {
   data() {
     return {
-      userRole: null ?? 'cliente',
+      userRole: null ?? "cliente",
       openConfirmCancellationDialog: false,
     };
   },
@@ -173,13 +174,13 @@ export default {
   created() {
     this.openConfirmCancellationDialog = false;
 
-    this.userRole = this.$store.getters['User/getUser'].type_account;
+    this.userRole = this.$store.getters["User/getUser"].type_account;
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .section-no-margin {
-  margin: 0!important;
+  margin: 0 !important;
 }
 </style>

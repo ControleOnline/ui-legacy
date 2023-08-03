@@ -76,12 +76,12 @@
 </template>
 
 <script>
-import UserPhones    from './../../../components/user/profile/UserPhones';
-import UserAddress   from './../../../components/user/profile/UserAddress';
-import UserEmails    from './../../../components/user/profile/UserEmails';
-import UserUsers     from './../../../components/user/profile/UserUsers';
+import md5 from 'md5';
+import UserAddress from './../../../components/user/profile/UserAddress';
 import UserDocuments from './../../../components/user/profile/UserDocuments';
-import md5           from 'md5';
+import UserEmails from './../../../components/user/profile/UserEmails';
+import UserPhones from './../../../components/user/profile/UserPhones';
+import UserUsers from './../../../components/user/profile/UserUsers';
 
 export default {
   name      : 'UserProfilePage',

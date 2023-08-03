@@ -1,23 +1,23 @@
 export const routes = [
   {
     path: '/imports/',
-    component: () => import('../../../../../src/layouts/AdminLayout.vue'),
+    component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
     children: [
       {
-        name: 'ImportIndex',
+        name: 'importIndex',
         path: '',
-        component: () => import('../pages/Import/Index.vue')
+        component: () =>  import ('../pages/import/Index.vue')
       },
 
     ]
   }, {
     path: '/import/',
-    component: () => import('../../../../../src/layouts/MainLayout.vue'),
+    component: () =>  import ('../../../../../src/layouts/MainLayout.vue'),
     children: [
       {
-        name: 'ImportDetails',
+        name: 'importDetails',
         path: 'id/:id',
-        component: () => import('../pages/Import/Details.vue')
+        component: () =>  import ('../pages/import/Details.vue')
       }
     ]
   },

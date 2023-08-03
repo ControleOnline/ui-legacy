@@ -5,9 +5,9 @@ export const translate = {
     import: {
         statuses: {
             'waiting': 'Aguardando',
-            'imported': 'Importado',
+            'imported': 'importado',
             'invalid_table': 'Tabela Inválida',
-            'importing': 'Importando',
+            'importing': 'importando',
             'failed': 'Falhou',
             'error': 'Erro',
             'invalid_format': 'Formato Inválido'
