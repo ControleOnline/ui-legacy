@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
+
 
 const SETTINGS = {
   visibleColumns: [

@@ -46,9 +46,7 @@
                       <q-icon name="perm_identity" />
                     </q-item-section>
                     <q-item-section side>
-                      <q-item-label caption>{{
-                        props.row.document
-                      }}</q-item-label>
+                      <q-item-label caption>{{ props.row.document }}</q-item-label>
                     </q-item-section>
                   </q-item>
                   <q-item dense>
@@ -112,7 +110,7 @@
               <div class="col-xs-12">
                 <q-input
                   dense
-                  outlined 
+                  outlined
                   stack-label
                   lazy-rules
                   unmasked-value
@@ -173,7 +171,6 @@
 </template>
 
 <script>
-
 import { formatDocument } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import md5 from "md5";
 import { mapGetters } from "vuex";
@@ -207,8 +204,6 @@ export default {
   },
 
   created() {
-    this.api = new Api(this.user.token);
-
     this.onRequest({
       pagination: this.pagination,
     });
@@ -232,7 +227,7 @@ export default {
     getItems(params) {
       return api.fetch
         .private(`companies/${this.id}/salesman`, { params })
-        
+
         .then((result) => {
           return result.response.data;
         });
@@ -248,11 +243,10 @@ export default {
 
       return api.fetch
         .private(`companies/${this.id}/salesman`, options)
-        
+
         .then((data) => {
           if (data.response) {
-            if (data.response.success === false)
-              throw new Error(data.response.error);
+            if (data.response.success === false) throw new Error(data.response.error);
 
             return data.response.data;
           }
@@ -271,11 +265,10 @@ export default {
 
       return api.fetch
         .private(`companies/${this.id}/salesman`, options)
-        
+
         .then((data) => {
           if (data.response) {
-            if (data.response.success === false)
-              throw new Error(data.response.error);
+            if (data.response.success === false) throw new Error(data.response.error);
 
             return data.response.data;
           }
@@ -320,9 +313,7 @@ export default {
     },
 
     removeItem(item) {
-      if (
-        window.confirm(this.$t("Are you sure about to remove this element?"))
-      ) {
+      if (window.confirm(this.$t("Are you sure about to remove this element?"))) {
         item._bussy = true;
 
         this.delete(item.id)
@@ -343,17 +334,13 @@ export default {
     cleanItem(id) {
       let item = this.items.find((obj) => obj["id"] == id);
       let indx = this.items.indexOf(item);
-      this.items = [
-        ...this.items.slice(0, indx),
-        ...this.items.slice(indx + 1),
-      ];
+      this.items = [...this.items.slice(0, indx), ...this.items.slice(indx + 1)];
     },
 
     onRequest(props) {
       if (this.isLoading) return;
 
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } =
-        props.pagination;
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
 
       this.isLoading = true;

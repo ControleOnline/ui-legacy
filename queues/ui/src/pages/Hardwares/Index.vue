@@ -24,7 +24,7 @@
   </template>
   
   <script>
-  import Api from '@controleonline/quasar-common-ui/src/utils/api';
+  
   import Hardware from '@controleonline/quasar-queues-ui/src/components/hardware/HardwareList.vue';
   import HardwareCreate from '@controleonline/quasar-queues-ui/src/components/hardware/HardwareCreate.vue';
   

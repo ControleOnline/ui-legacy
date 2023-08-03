@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
+
 import { formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 const SETTINGS = {

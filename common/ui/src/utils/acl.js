@@ -10,10 +10,10 @@ export default class acl {
 
   };
   setPermission() {         
-   api.fetchPermission();           
+   fetchPermission();           
   }
 
-  api.fetchPermission(){
+  fetchPermission(){
       let storedUser = LocalStorage.getItem("session");
       let API = new Api(storedUser.token);
       let route = storedUser.route;

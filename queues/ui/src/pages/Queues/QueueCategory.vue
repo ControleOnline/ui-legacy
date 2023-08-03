@@ -24,7 +24,7 @@
 </template>
   
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
+
 import QueueCategoryCreate from '@controleonline/quasar-queues-ui/src/components/queue/QueueCategoryCreate.vue';
 import QueueCategory from '@controleonline/quasar-queues-ui/src/components/queue/QueueCategoryList.vue';
 

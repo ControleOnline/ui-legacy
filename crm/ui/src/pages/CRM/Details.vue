@@ -2,24 +2,30 @@
   <q-page padding>
     <div class="row">
       <div class="col-12 text-h5 q-mt-none text-weight-medium">
-        {{ $t(context + '.information') }}
+        {{ $t(context + ".information") }}
       </div>
 
       <div class="col-12">
         <div class="q-py-md text-subtitle1">
-          {{ task.name || `${$t('loading')}...` }}
+          {{ task.name || `${$t("loading")}...` }}
         </div>
       </div>
 
       <div v-if="provider" class="row q-pa-sm q-col-gutter-sm">
-        <TasksSummary  :id="taskId" :task="task" :context="context" :provider="provider" :key="key"/>
+        <TasksSummary
+          :id="taskId"
+          :task="task"
+          :context="context"
+          :provider="provider"
+          :key="key"
+        />
         <div v-if="task.name" class="col-12">
           <br />
           <q-separator />
 
-          <h5 class="q-my-md">{{ $t(context + '.interactions') }}</h5>
+          <h5 class="q-my-md">{{ $t(context + ".interactions") }}</h5>
 
-          <TaskInteractions  :id="taskId" :taskData="task" />
+          <TaskInteractions :id="taskId" :taskData="task" />
         </div>
       </div>
     </div>
@@ -27,29 +33,27 @@
 </template>
 
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
-import TasksSummary from '@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSummary.vue';
-import TaskInteractions from '@controleonline/quasar-tasks-ui/src/components/Tasks/TaskInteractions.vue';
+import TasksSummary from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSummary.vue";
+import TaskInteractions from "@controleonline/quasar-tasks-ui/src/components/Tasks/TaskInteractions.vue";
 
 import { mapGetters } from "vuex";
 
 export default {
-
   components: {
     TasksSummary,
-    TaskInteractions,    
+    TaskInteractions,
   },
 
   data() {
     return {
-      context: 'relationship',
-      
-      currentTab: 'summary',
+      context: "relationship",
+
+      currentTab: "summary",
       taskId: Number(this.$route.params.id),
       task: {},
-      key:0,
+      key: 0,
       provider: null,
-    }
+    };
   },
   computed: {
     ...mapGetters({
@@ -59,7 +63,7 @@ export default {
   },
 
   watch: {
-    myCompany(company) {      
+    myCompany(company) {
       if (company !== null) {
         this.provider = company.id;
         this.key++;
@@ -68,7 +72,7 @@ export default {
     },
   },
 
-  created() {    
+  created() {
     if (this.myCompany) {
       this.provider = this.myCompany.id;
       this.getTask();
@@ -77,15 +81,15 @@ export default {
 
   methods: {
     getTask() {
-      return api.fetch(`tasks/${this.taskId}`)
-        
-        .then(data => {
-          if (data['@id']) {
+      return api
+        .fetch(`tasks/${this.taskId}`)
+
+        .then((data) => {
+          if (data["@id"]) {
             this.task = data;
           }
         });
-    }
+    },
   },
-
-}
+};
 </script>

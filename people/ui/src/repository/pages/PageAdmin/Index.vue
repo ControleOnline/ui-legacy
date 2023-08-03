@@ -32,7 +32,6 @@
           <div class="text-h6">
             {{ $t("New") }}
             {{ $t(people_type.substring(0, people_type.length - 1)) | capitalizeFirst }}
-
           </div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
@@ -41,7 +40,6 @@
           <FormCreatePeople
             ref="myForm"
             :people_type="people_type"
-            
             @before="
               (params) => {
                 if (api.fetchs.createPeople) {
@@ -79,7 +77,6 @@
 </template>
 
 <script>
-
 import FormCreatePeople from "../../components/FormCreate.vue";
 import PageSearchPeople from "../PageSearch/Index.vue";
 
@@ -89,10 +86,7 @@ export default {
       type: Object,
       required: true,
     },
-    api.fetchs: {
-      type: Object,
-      required: false,
-    },
+
     provider: {
       required: false,
     },
@@ -117,7 +111,6 @@ export default {
   data() {
     return {
       dialog: false,
-      api: new Api(this.config.token),
     };
   },
 

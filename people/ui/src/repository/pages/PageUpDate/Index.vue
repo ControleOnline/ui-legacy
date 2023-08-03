@@ -13,11 +13,7 @@
       <div class="text-subtitle1 text-left q-pt-md">
         {{ people.name }}
       </div>
-      <q-card-section
-        v-if="people.type === 'J'"
-        align="right"
-        class="q-pt-none"
-      >
+      <q-card-section v-if="people.type === 'J'" align="right" class="q-pt-none">
         <q-rating
           v-model="people.averageRating"
           size="2.9em"
@@ -50,11 +46,7 @@
       >
         <q-tab name="summary" :label="$t('Details')" />
         <q-tab name="tasks" :label="$t('Tasks')" />
-        <q-tab
-          name="employees"
-          :label="$t('Employees')"
-          v-if="people.type === 'J'"
-        />
+        <q-tab name="employees" :label="$t('Employees')" v-if="people.type === 'J'" />
         <q-tab name="billing" :label="$t('Billing')" />
         <q-tab name="calls" :label="$t('Calls')" />
       </q-tabs>
@@ -65,7 +57,6 @@
             <PeopleSummary
               :people_type="people_type"
               :particulars_context="context_type"
-              
               :id="peopleId"
               @error="
                 (error) => {
@@ -90,7 +81,6 @@
           <div class="col-12">
             <PeopleAdminAddresses
               :people_type="people_type"
-              
               :id="peopleId"
               @error="
                 (error) => {
@@ -117,7 +107,6 @@
               <PeopleAdminEmails
                 :people_type="people_type"
                 class="full-height"
-                
                 :id="peopleId"
                 @error="
                   (error) => {
@@ -143,7 +132,6 @@
               <PeopleAdminPhones
                 :people_type="people_type"
                 class="full-height"
-                
                 :id="peopleId"
                 @error="
                   (error) => {
@@ -170,7 +158,6 @@
           <div class="col-12">
             <PeopleAdminDocuments
               :people_type="people_type"
-              
               :id="peopleId"
               @error="
                 (error) => {
@@ -196,7 +183,6 @@
           <div class="col-12" v-if="people.type === 'F'">
             <PeopleAdminUsers
               :people_type="people_type"
-              
               :id="peopleId"
               @error="
                 (error) => {
@@ -222,7 +208,6 @@
           <div class="col-12" v-if="people.type === 'F'">
             <PeopleCompany
               :people_type="people_type"
-              
               :id="peopleId"
               @error="handleError"
               @saved="handleSaved"
@@ -246,7 +231,6 @@
           <div class="col-12" v-if="people.type === 'J'">
             <PeopleAdminEmployees
               :people_type="people_type"
-              
               :id="peopleId"
               @error="handleError"
               @saved="handleSaved"
@@ -256,7 +240,6 @@
           <div class="col-12">
             <PeopleSalesman
               :people_type="people_type"
-              
               :id="peopleId"
               @error="
                 (error) => {
@@ -284,7 +267,6 @@
           <div class="col-12">
             <PeopleAdminBilling
               :people_type="people_type"
-              
               :id="peopleId"
               @error="
                 (error) => {
@@ -310,7 +292,6 @@
           <div class="col-12">
             <PeopleOrders
               :people_type="people_type"
-              
               :client_id="peopleId"
               @error="
                 (error) => {
@@ -336,7 +317,6 @@
           <div class="col-12">
             <PeopleContracts
               :people_type="people_type"
-              
               :client_id="peopleId"
               @error="
                 (error) => {
@@ -375,10 +355,8 @@
   </div>
 </template>
 
-
 <script>
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
-
 
 import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import PeopleAdminEmails from "../../components/AdminEmails.vue";
@@ -412,8 +390,8 @@ export default {
     },
     context_type: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
 
   components: {
@@ -444,7 +422,6 @@ export default {
       baseUrl: ENTRYPOINT,
       people: {},
       currentTab: "summary",
-      api: new Api(this.config.token),
       goBackRoute: null,
       peopleId: this.id,
       provider: null,
@@ -475,8 +452,7 @@ export default {
 
   methods: {
     getRoute(inc) {
-      let route =
-        this.people_type.charAt(0).toUpperCase() + this.people_type.slice(1);
+      let route = this.people_type.charAt(0).toUpperCase() + this.people_type.slice(1);
       //route = route.substring(0, route.length - 1) + inc;
       route = route + inc;
       return route;
@@ -516,7 +492,7 @@ export default {
     getPeople() {
       return api.fetch
         .private(`people/${this.peopleId}`)
-        
+
         .then((data) => {
           if (data["@id"]) {
             this.people = data;
@@ -527,9 +503,7 @@ export default {
               data.file !== null ? `${ENTRYPOINT}${data.file.url}` : null;
 
             this.people.name =
-              data.peopleType === "J"
-                ? data.alias
-                : `${data.name} ${data.alias}`;
+              data.peopleType === "J" ? data.alias : `${data.name} ${data.alias}`;
             this.people.type = data.peopleType;
           }
         });

@@ -24,7 +24,7 @@
 </template>
   
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
+
 import QueuePeopleQueueCreate from '@controleonline/quasar-queues-ui/src/components/queue/QueuePeopleQueueCreate.vue';
 import QueuePeopleQueue from '@controleonline/quasar-queues-ui/src/components/queue/QueuePeopleQueueList.vue';
 

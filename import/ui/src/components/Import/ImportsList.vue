@@ -147,7 +147,7 @@
 <script>
 import { formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
+
 
 const SETTINGS = {
   columns: [

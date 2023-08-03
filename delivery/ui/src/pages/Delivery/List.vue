@@ -1,9 +1,9 @@
 <template>
   <q-page padding>
-    <q-card style="min-height: 90vh;" :bordered="false" :flat="true">       
+    <q-card style="min-height: 90vh" :bordered="false" :flat="true">
       <div class="row">
         <div class="col-12">
-              <OrderList />          
+          <OrderList />
         </div>
       </div>
     </q-card>
@@ -11,9 +11,7 @@
 </template>
 
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
-import OrderList from '../../components/products/OrderList.vue';
-
+import OrderList from "../../components/products/OrderList.vue";
 
 export default {
   components: {
@@ -23,14 +21,10 @@ export default {
 
   data() {
     return {
-      currentTab: 'products',
-      api: new Api(this.$store.getters['auth/user'].token)
-    }
+      currentTab: "products",
+    };
   },
 
-  created() {
-    
-  },
-}
+  created() {},
+};
 </script>
-

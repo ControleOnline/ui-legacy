@@ -134,7 +134,6 @@
             ref="leads"
             :people_type="people_type"
             :pageType="'leads'"
-            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
@@ -155,7 +154,6 @@
             ref="allPeoples"
             :people_type="people_type"
             :pageType="'all'"
-            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
@@ -176,7 +174,6 @@
             ref="inactivePeople"
             :people_type="people_type"
             :pageType="'inactive'"
-            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
@@ -197,7 +194,6 @@
             ref="prospectsPeople"
             :people_type="people_type"
             :pageType="'prospect'"
-            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
@@ -218,7 +214,6 @@
             ref="activePeople"
             :people_type="people_type"
             :pageType="'active'"
-            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
@@ -239,7 +234,6 @@
             ref="newPeople"
             :people_type="people_type"
             :pageType="'new'"
-            
             :fromDate="dateFrom"
             :toDate="dateTo"
             :searchBy="searchBy"
@@ -278,10 +272,6 @@ export default {
       type: String,
       required: true,
     },
-    api.fetchs: {
-      type: Object,
-      required: false,
-    },
   },
   computed: {
     ...mapGetters({
@@ -300,7 +290,6 @@ export default {
     return {
       key: null,
       context: "relationship",
-      API: new Api(this.config.token),
       currentTab: this.people_type == "customers" ? "oportunities" : "allPeoples",
       dateFrom: date.formatDate(
         date.subtractFromDate(Date.now(), { month: 1 }),

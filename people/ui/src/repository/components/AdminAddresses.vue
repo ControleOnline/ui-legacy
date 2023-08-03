@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
+
 import { formatCEP } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import SearchCEPAddress from './SearchCEPAddress';
 

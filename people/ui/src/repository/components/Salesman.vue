@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import Api from '@controleonline/quasar-common-ui/src/utils/api';
+
 import { formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import md5 from 'md5';
 import { mapGetters } from 'vuex';
