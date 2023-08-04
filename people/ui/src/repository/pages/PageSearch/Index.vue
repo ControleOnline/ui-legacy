@@ -140,8 +140,8 @@
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (api.fetchs.loadPeoples) {
-                  api.fetchs.loadPeoples.before(params);
+                if (this.fetchs.loadPeoples) {
+                  this.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -160,8 +160,8 @@
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (api.fetchs.loadPeoples) {
-                  api.fetchs.loadPeoples.before(params);
+                if (this.fetchs.loadPeoples) {
+                  this.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -180,8 +180,8 @@
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (api.fetchs.loadPeoples) {
-                  api.fetchs.loadPeoples.before(params);
+                if (this.fetchs.loadPeoples) {
+                  this.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -200,8 +200,8 @@
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (api.fetchs.loadPeoples) {
-                  api.fetchs.loadPeoples.before(params);
+                if (this.fetchs.loadPeoples) {
+                  this.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -220,8 +220,8 @@
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (api.fetchs.loadPeoples) {
-                  api.fetchs.loadPeoples.before(params);
+                if (this.fetchs.loadPeoples) {
+                  this.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -240,8 +240,8 @@
             @selected="onPeopleSelected"
             @before="
               (params) => {
-                if (api.fetchs.loadPeoples) {
-                  api.fetchs.loadPeoples.before(params);
+                if (this.fetchs.loadPeoples) {
+                  this.fetchs.loadPeoples.before(params);
                 }
               }
             "
@@ -253,7 +253,6 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
 import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import { date } from "quasar";
 import { mapGetters } from "vuex";

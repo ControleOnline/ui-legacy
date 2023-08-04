@@ -22,7 +22,7 @@
           token: config.token,
         }"
         :provider="provider"
-        :api.fetchs="api.fetchs"
+        :fetchs="fetchs"
       />
     </div>
 
@@ -42,8 +42,8 @@
             :people_type="people_type"
             @before="
               (params) => {
-                if (api.fetchs.createPeople) {
-                  api.fetchs.createPeople.before(params);
+                if (this.fetchs.createPeople) {
+                  this.fetchs.createPeople.before(params);
                 }
               }
             "
@@ -77,7 +77,6 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
 import FormCreatePeople from "../../components/FormCreate.vue";
 import PageSearchPeople from "../PageSearch/Index.vue";
 

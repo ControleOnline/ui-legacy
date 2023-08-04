@@ -4,7 +4,7 @@
       :people_type="'customers'" :config="{
         endpoint: endpoint,
         token: $store.getters['auth/user'].token,
-      }" :api.fetchs="{
+      }" :fetchs="{
   loadPeople: {
     before: this.onBeforeLoadPeople
   },
