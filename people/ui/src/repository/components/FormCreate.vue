@@ -14,35 +14,7 @@
       />
     </div>
 
-    <!-- <div class="row q-col-gutter-sm">
-      <div v-if="personType == 'PF'" class="col-xs-12 row">
-        <q-input
-          dense
-          outlined
-          stack-label
-          lazy-rules
-          v-model="item.email"
-          type="text"
-          class="q-pr-sm"
-          :class="personType !== 'PF' ? 'col-xs-12' : 'col-8'"
-          :label="$t('Email')"
-          placeholder="Digite o email"
-          :rules="[isInvalid('email')]"
-          :loading="isSearching"
-          debounce="800"
-        />
-        <q-input
-          dense
-          outlined
-          class="col-4"
-          label="Telefone"
-          stack-label
-          v-model="item.phone"
-          type="text"
-          placeholder="Digite um telefone"
-          mask="(##) #####-####"
-        />
-      </div> -->
+    
 
       <div v-if="personType == 'PJ'" class="col-xs-12">
         <q-input
@@ -60,8 +32,7 @@
           :loading="isSearching"
         />
       </div>
-    </div>
-    <!--@input="searchCustomerById"-->
+   
     <div class="row q-col-gutter-x-sm">
       <div class="col-xs-12 col-sm-6">
         <q-input
@@ -80,28 +51,7 @@
           :rules="[isInvalid('name')]"
         />
       </div>
-      <!-- <div v-if="personType !== 'PJ'" class="col-4">
-        <q-input
-          dense
-          outlined
-          stack-label
-          lazy-rules
-          v-model="item.alias"
-          type="text"
-          label="Nome social"
-          placeholder="Nome social ou apelido"
-          :rules="[isInvalid('alias')]"
-        />
-      </div> -->
-      <!-- <div v-if="personType !== 'PJ'" class="col-xs-12">
-        <q-select
-          dense
-          outlined
-          v-model="item.contact_origin"
-          :options="contact_origin_options"
-          label="Origem do contato"
-        />
-      </div> -->
+     
       <div class="col-xs-12 col-sm-6">
         <q-input
           dense
