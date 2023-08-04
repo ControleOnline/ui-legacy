@@ -96,7 +96,7 @@ import FormCreatePeople from "./FormCreate.vue";
 export default {
   components: {
     FormCreatePeople,
-    Api,
+   
   },
   props: {
 

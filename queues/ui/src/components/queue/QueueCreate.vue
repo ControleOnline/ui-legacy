@@ -74,7 +74,7 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
-    Api,
+   
     PeopleAutocomplete,
   },
 

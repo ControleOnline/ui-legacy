@@ -47,7 +47,7 @@
 
 export default {
   components: {
-    Api,
+   
   },
 
   props: {

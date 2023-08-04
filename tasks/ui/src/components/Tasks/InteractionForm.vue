@@ -81,10 +81,7 @@ export default {
     },
 
     props: {
-        api: {
-            type: Api,
-            required: true
-        },
+
         taskData: {
             type: Object,
             required: true

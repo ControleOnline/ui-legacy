@@ -71,7 +71,7 @@ import QueuePeopleCreate from "@controleonline/quasar-queues-ui/src/components/q
 
 export default {
   components: {
-    Api,
+   
     QueuePeopleCreate,
   },
 

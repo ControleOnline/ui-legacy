@@ -328,7 +328,7 @@ import FormTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/Form
 
 export default {
   components: {
-    Api,
+   
     FormTasks,
   },
 

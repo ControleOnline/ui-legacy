@@ -177,10 +177,7 @@ export default {
   },
 
   props: {
-    api: {
-      type: Api,
-      required: true
-    },
+
     fromDate: {
       type: String,
       required: false,

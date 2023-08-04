@@ -249,7 +249,6 @@ function findIn(obj, search) {
 
 export default {
   components: {
-    Api,
   },
   props: {
     docs_type: {

@@ -64,7 +64,7 @@ import QueueCategoryCreate from "./QueueCategoryCreate.vue";
 
 export default {
   components: {
-    Api,
+   
     QueueCategoryCreate,
   },
 

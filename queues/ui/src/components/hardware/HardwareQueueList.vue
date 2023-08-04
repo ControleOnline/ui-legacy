@@ -64,7 +64,7 @@ import HardwareQueueCreate from "@controleonline/quasar-queues-ui/src/components
 
 export default {
   components: {
-    Api,
+   
     HardwareQueueCreate,
   },
 

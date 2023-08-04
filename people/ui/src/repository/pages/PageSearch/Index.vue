@@ -281,7 +281,7 @@ export default {
   components: {
     TableAllPeoples,
     TasksSearching,
-    Api,
+   
   },
 
   created() {},

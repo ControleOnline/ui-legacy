@@ -47,7 +47,7 @@ import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/
 
 export default {
   components: {
-    Api,
+   
     PeopleAutocomplete,
   },
 

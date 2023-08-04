@@ -112,10 +112,7 @@ export default {
     id: {
       required: true,
     },
-    api: {
-      type: Api,
-      required: true
-    },
+
     people_type: {
       type: String,
       required: true

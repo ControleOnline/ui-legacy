@@ -65,7 +65,7 @@ import HardwareCreate from "./HardwareCreate.vue";
 
 export default {
   components: {
-    Api,
+   
     HardwareCreate,
   },
 

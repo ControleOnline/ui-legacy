@@ -301,10 +301,7 @@ export default {
       type: String,
       required: false,
     },
-    api: {
-      type: Api,
-      required: true,
-    },
+
   },
 
   data() {

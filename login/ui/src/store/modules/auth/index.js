@@ -12,7 +12,7 @@ export default {
     violations: null,
     created: null,
     isLoggedIn: false,
-    indexRoute: 'OrderIndex',
+    indexRoute: 'HomeIndex',
     signUpFields: {
       user: [
         'name',
