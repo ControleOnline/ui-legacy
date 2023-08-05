@@ -3,7 +3,7 @@
 </template>
 
 <script>
- import Carrierimports from "../../components/import /importsList";
+ import Carrierimports from "../../components/import/importsList";
 export default {
   components: {
     Carrierimports,
