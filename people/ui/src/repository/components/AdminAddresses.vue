@@ -2,7 +2,7 @@
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
       <div class="text-subtitle1 text-left">
-        {{ $t('Address') }}
+        {{ translate('Address') }}
       </div>
     </div>
     <div class="col-9">
@@ -46,7 +46,7 @@
               <div class="col-xs-12">
                 <q-input
       dense
-      outlined stack-label lazy-rules v-model="item.nickname" type="text" :label="$t('Apelido')"
+      outlined stack-label lazy-rules v-model="item.nickname" type="text" :label="translate('Apelido')"
                   :rules="[isInvalid('nickname')]" class="q-mb-sm"  />
               </div>
               <div class="col-xs-12 col-sm-grow">
@@ -63,43 +63,43 @@
               <div class="col-xs-12 col-sm-grow">
                 <q-input
       dense
-      outlined stack-label lazy-rules v-model="item.street" type="text" :label="$t('Rua')"
+      outlined stack-label lazy-rules v-model="item.street" type="text" :label="translate('Rua')"
                   :rules="[isInvalid('street')]" class="q-mb-sm"  />
               </div>
               <div class="col-xs-12 col-sm-grow">
                 <q-input
       dense
       outlined stack-label lazy-rules reverse-fill-mask v-model="item.number" type="text"
-                  :label="$t('Número')" :rules="[isInvalid('number')]" class="q-mb-sm"  mask="#" />
+                  :label="translate('Número')" :rules="[isInvalid('number')]" class="q-mb-sm"  mask="#" />
               </div>
               <div class="col-xs-12 col-sm-grow">
                 <q-input
       dense
-      outlined stack-label v-model="item.complement" type="text" :label="$t('Complemento')" class="q-mb-sm"
+      outlined stack-label v-model="item.complement" type="text" :label="translate('Complemento')" class="q-mb-sm"
                    />
               </div>
               <div class="col-xs-12 col-sm-grow">
                 <q-input
       dense
-      outlined stack-label lazy-rules v-model="item.district" type="text" :label="$t('Bairro')"
+      outlined stack-label lazy-rules v-model="item.district" type="text" :label="translate('Bairro')"
                   :rules="[isInvalid('district')]" class="q-mb-sm"  />
               </div>
               <div class="col-xs-12 col-sm-grow">
                 <q-input
       dense
-      outlined stack-label lazy-rules v-model="item.city" type="text" :label="$t('Cidade')"
+      outlined stack-label lazy-rules v-model="item.city" type="text" :label="translate('Cidade')"
                   :rules="[isInvalid('city')]" class="q-mb-sm"  />
               </div>
               <div class="col-xs-12 col-sm-4">
                 <q-input
       dense
-      outlined stack-label lazy-rules v-model="item.state" type="text" :label="$t('UF')" mask="AA"
+      outlined stack-label lazy-rules v-model="item.state" type="text" :label="translate('UF')" mask="AA"
                   :rules="[isInvalid('state')]" class="q-mb-sm"  />
               </div>
               <div class="col-xs-12 col-sm-4">
                 <q-input
       dense
-      outlined stack-label lazy-rules v-model="item.country" type="text" :label="$t('País')"
+      outlined stack-label lazy-rules v-model="item.country" type="text" :label="translate('País')"
                   :rules="[isInvalid('country')]" class="q-mb-sm"  />
               </div>
             </div>
@@ -118,6 +118,7 @@
 <script>
 
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import { formatCEP } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import SearchCEPAddress from './SearchCEPAddress';
 
@@ -249,7 +250,7 @@ export default {
     save(values) {
       let options = {
         method: 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body: JSON.stringify(values),
       };
 
@@ -272,7 +273,7 @@ export default {
     delete(id) {
       let options = {
         method: 'DELETE',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body: JSON.stringify({ id }),
       };
 

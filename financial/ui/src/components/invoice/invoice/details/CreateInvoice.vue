@@ -27,7 +27,7 @@
             map-options
             lazy-rules
             v-model="item.category"
-            :label="$t('Categoria da despesa')"
+            :label="translate('Categoria da despesa')"
             :options="categories"
             :rules="[(val) => val !== null || 'Selecione uma categoria']"
           />
@@ -40,7 +40,7 @@
             stack-label
             v-model="item.description"
             type="text"
-            :label="$t('Descrição da despesa')"
+            :label="translate('Descrição da despesa')"
             class="q-mt-md"
             :rules="[isInvalid()]"
           />
@@ -64,7 +64,7 @@
             v-model="item.amount"
             prefix="R$"
             type="text"
-            :label="$t('Valor')"
+            :label="translate('Valor')"
             class="q-mt-md"
             :rules="[isInvalid()]"
             mask="#,##"
@@ -75,12 +75,12 @@
           <q-radio
             v-model="item.recurrence"
             val="single"
-            :label="$t('Pagamento único')"
+            :label="translate('Pagamento único')"
           />
           <q-radio
             v-model="item.recurrence"
             val="monthly"
-            :label="$t('Pagamento recorrente')"
+            :label="translate('Pagamento recorrente')"
           />
         </div>
         <div v-if="item.recurrence == 'single'" class="col-xs-12 q-mb-md">
@@ -92,7 +92,7 @@
             map-options
             lazy-rules
             v-model="item.parcels"
-            :label="$t('Número de parcelas')"
+            :label="translate('Número de parcelas')"
             :options="parcels"
             class="q-mb-sm"
             :rules="[(val) => val !== null || 'Selecione um número']"
@@ -104,7 +104,7 @@
             outlined
             stack-label
             v-model="item.dueDate"
-            :label="$t('Data primeiro vencimento')"
+            :label="translate('Data primeiro vencimento')"
             mask="##/##/####"
             class="q-mb-sm"
             :rules="[isInvalid('date')]"
@@ -132,7 +132,7 @@
           :loading="saving"
           icon="save"
           type="submit"
-          :label="$t('Salvar')"
+          :label="translate('Salvar')"
           size="md"
           color="primary"
           class="q-mt-md"
@@ -158,7 +158,7 @@
                   emit-value
                   map-options
                   v-model="dialogs.category.expense.parent"
-                  :label="$t('Categoria pai')"
+                  :label="translate('Categoria pai')"
                   :options="categories"
                 />
               </div>
@@ -170,7 +170,7 @@
                   stack-label
                   v-model="dialogs.category.expense.name"
                   type="text"
-                  :label="$t('Nome sub-categoria')"
+                  :label="translate('Nome sub-categoria')"
                   class="q-mt-md"
                   :rules="[isInvalid()]"
                 />
@@ -181,7 +181,7 @@
                 :loading="dialogs.category.saving"
                 icon="save"
                 type="submit"
-                :label="$t('Salvar')"
+                :label="translate('Salvar')"
                 size="md"
                 color="primary"
                 class="q-mt-md"
@@ -224,7 +224,7 @@
                   unmasked-value
                   v-model="dialogs.provider.item.document"
                   type="text"
-                  :label="dialogs.provider.item.type == 'J' ? $t('CNPJ') : $t('CPF')"
+                  :label="dialogs.provider.item.type == 'J' ? translate('CNPJ') : translate('CPF')"
                   :mask="
                     dialogs.provider.item.type == 'J'
                       ? '##.###.###/####-##'
@@ -242,7 +242,7 @@
                   type="text"
                   class="q-mb-sm"
                   :label="
-                    dialogs.provider.item.type == 'J' ? $t('Razão social') : $t('Nome')
+                    dialogs.provider.item.type == 'J' ? translate('Razão social') : translate('Nome')
                   "
                   :rules="[isInvalid('name')]"
                 />
@@ -258,8 +258,8 @@
                   class="q-mb-sm"
                   :label="
                     dialogs.provider.item.type == 'J'
-                      ? $t('Nome Fantasia')
-                      : $t('Sobrenome')
+                      ? translate('Nome Fantasia')
+                      : translate('Sobrenome')
                   "
                   :rules="[isInvalid('alias')]"
                 />
@@ -270,7 +270,7 @@
                 :loading="dialogs.provider.saving"
                 icon="save"
                 type="submit"
-                :label="$t('Salvar')"
+                :label="translate('Salvar')"
                 size="md"
                 color="primary"
                 class="q-mt-md"
@@ -284,6 +284,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 import { mapActions, mapGetters } from "vuex";
 
@@ -414,7 +415,7 @@ export default {
       })
         .then((response) => {
           this.$q.notify({
-            message: this.$t("Dados salvos com sucesso!"),
+            message: this.translate("Dados salvos com sucesso!"),
             position: "bottom",
             type: "positive",
           });
@@ -442,7 +443,7 @@ export default {
       })
         .then((response) => {
           this.$q.notify({
-            message: this.$t("Dados salvos com sucesso!"),
+            message: this.translate("Dados salvos com sucesso!"),
             position: "bottom",
             type: "positive",
           });
@@ -499,7 +500,7 @@ export default {
       })
         .then((data) => {
           this.$q.notify({
-            message: this.$t("Dados salvos com sucesso!"),
+            message: this.translate("Dados salvos com sucesso!"),
             position: "bottom",
             type: "positive",
           });
@@ -515,10 +516,10 @@ export default {
     isInvalid(field) {
       return (val) => {
         if (field == "date") {
-          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val)) return this.$t("A data não é válida");
+          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val)) return this.translate("A data não é válida");
         }
 
-        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.translate("Este campo é obrigatório");
 
         return true;
       };

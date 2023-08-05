@@ -6,7 +6,7 @@
       ref    ="password"
       v-model="user.password"
       type   ="password"
-      :label ="$t('Nova senha')"
+      :label ="translate('Nova senha')"
       class  ="q-mt-md"
       :rules ="[isInvalid('password')]"
       hint   ="Use seis ou mais caracteres com uma combinação de letras, números e símbolos"
@@ -18,14 +18,14 @@
       ref    ="confirm"
       v-model="user.confirm"
       type   ="password"
-      :label ="$t('Confirme sua senha')"
+      :label ="translate('Confirme sua senha')"
       class  ="q-mt-md"
       :rules ="[isInvalid('confirm')]"
     />
 
     <q-btn
       type    ="submit"
-      :label ="$t('Salvar')"
+      :label ="translate('Salvar')"
       size    ="lg"
       color   ="primary"
       class   ="full-width q-mt-md"
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -109,15 +110,15 @@ export default {
         switch (key) {
           case 'password':
             if (!val || val.length < 6)
-              return this.$t('A senha deve ter pelo menos 6 caracteres');
+              return this.translate('A senha deve ter pelo menos 6 caracteres');
           break;
           case 'confirm' :
             if (this.user.password != this.user.confirm)
-              return this.$t('As senhas não coincidem');
+              return this.translate('As senhas não coincidem');
           break;
           default:
             if (!(val && val.length > 0))
-              return this.$t('Este campo é obrigatório');
+              return this.translate('Este campo é obrigatório');
         }
 
         return true;

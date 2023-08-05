@@ -275,7 +275,7 @@ export default {
     changeEnable(people) {
       const options = {
         method: 'PUT',
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        
         body: JSON.stringify(people.enable),
         params: {
           company: this.theCompany.id,

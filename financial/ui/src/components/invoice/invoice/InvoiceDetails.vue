@@ -45,7 +45,7 @@
             :style="`background-color: ${this.invoice.status.color}`"
           >
             <div class="text-white text-h6">
-              {{ $t(`invoice.statuses.${invoice.status.status}`) }}
+              {{ translate(`invoice.statuses.${invoice.status.status}`) }}
             </div>
           </div>
         </div>
@@ -93,10 +93,11 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from "vuex";
 import InvoiceOrders from "./details/InvoiceOrders";
 
-import InvoiceDetail from "./details/InvoiceDetail";
+ import InvoiceDetail from "./details/InvoiceDetail";
 
 import {
 formatDateYmdTodmY,

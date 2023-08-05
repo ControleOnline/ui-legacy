@@ -4,9 +4,9 @@
     <CardListHome
       v-for="category in list"
       :key="category.name_category"
-      :title_category="$t(category.name_category)"
+      :title_category="translate(category.name_category)"
       :id_category="category.id"
-      :list_items="filteredList(category.items, $t(category.name_category))"
+      :list_items="filteredList(category.items, translate(category.name_category))"
     >
     </CardListHome>
     <ToolsFooter></ToolsFooter>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import CardListHome from '@controleonline/quasar-common-ui/src/components/Card/CardListHome';
 import ToolsFooter from '@controleonline/quasar-common-ui/src/components/Footer/ToolsFooter';
 import Search from '@controleonline/quasar-common-ui/src/components/Header/Search';
@@ -49,7 +50,7 @@ export default {
 
       if (!this.value) return listItems;
 
-      return listItems.filter((item) => [this.$t(item.name_item), category].join(' ')
+      return listItems.filter((item) => [this.translate(item.name_item), category].join(' ')
         .normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
         .includes(this.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()));
     },

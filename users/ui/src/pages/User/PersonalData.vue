@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <MenuDefaultHeader
-      :title="$t('edit_personal_data_header')"
+      :title="translate('edit_personal_data_header')"
       icon="o_person"
       @save="save"
     >
@@ -18,7 +18,7 @@
               class="text-description"
               color="secondary"
               val="pf"
-              :label="$t('pf')"
+              :label="translate('pf')"
             />
             <q-space></q-space>
             <q-radio
@@ -28,7 +28,7 @@
               class="text-description"
               color="secondary"
               val="pj"
-              :label="$t('pj')"
+              :label="translate('pj')"
             />
           </div>
         </q-item-section>
@@ -37,7 +37,7 @@
       <q-item class="q-px-none q-py-sm column">
         <q-item-section class="q-py-md">
           <q-item-label class="text-bold text-secondary text-description">
-            {{ $t("full_name_company_name") }}
+            {{ translate("full_name_company_name") }}
           </q-item-label>
           <q-input
             dense
@@ -67,7 +67,7 @@
 
         <q-item-section class="q-py-md section-no-margin">
           <q-item-label class="text-bold text-secondary text-description">
-            {{ $t("name_of_responsible_person") }}
+            {{ translate("name_of_responsible_person") }}
           </q-item-label>
           <q-input
             dense
@@ -82,7 +82,7 @@
 
         <q-item-section class="q-py-md section-no-margin">
           <q-item-label class="text-bold text-secondary text-description">
-            {{ $t("social_name") }}
+            {{ translate("social_name") }}
           </q-item-label>
           <q-input
             dense
@@ -98,7 +98,7 @@
         <div class="row q-py-md">
           <q-item-section class="col-5 q-pt-sm section-no-margin">
             <q-item-label class="text-bold text-secondary text-description">
-              {{ $t("genre") }}
+              {{ translate("genre") }}
             </q-item-label>
             <q-input
               dense
@@ -115,7 +115,7 @@
 
           <q-item-section class="col-6 q-pt-sm section-no-margin">
             <q-item-label class="text-bold text-secondary text-description">
-              {{ $t("birth_date") }}
+              {{ translate("birth_date") }}
             </q-item-label>
             <q-input
               dense
@@ -168,7 +168,7 @@
 
         <q-item-section class="q-py-md section-no-margin">
           <q-item-label class="text-bold text-secondary text-description">
-            {{ $t("address") }}
+            {{ translate("address") }}
           </q-item-label>
           <q-input
             dense
@@ -183,7 +183,7 @@
 
         <q-item-section class="q-py-md section-no-margin">
           <q-item-label class="text-bold text-secondary text-description">
-            {{ $t("Cidade") }}
+            {{ translate("Cidade") }}
           </q-item-label>
           <q-input
             dense
@@ -198,7 +198,7 @@
 
         <q-item-section class="q-py-md section-no-margin">
           <q-item-label class="text-bold text-secondary text-description">
-            {{ $t("district") }}
+            {{ translate("district") }}
           </q-item-label>
           <q-input
             dense
@@ -250,7 +250,7 @@
         <div class="row q-py-md">
           <q-item-section class="col-5 q-pt-sm section-no-margin">
             <q-item-label class="text-bold text-secondary text-description">
-              {{ $t("telephone") }}
+              {{ translate("telephone") }}
             </q-item-label>
             <q-input
               dense
@@ -268,7 +268,7 @@
 
           <q-item-section class="col-6 q-pt-sm section-no-margin">
             <q-item-label class="text-bold text-secondary text-description">
-              {{ $t("cell_phone") }}
+              {{ translate("cell_phone") }}
             </q-item-label>
             <q-input
               dense
@@ -304,13 +304,13 @@
       <q-item-section class="q-pa-md bg-grey-4 shadow-6">
         <div class="q-pb-sm flex items-center">
           <q-item-label class="q-ma-none text-bold text-secondary title-list">
-            {{ $t("emergency_data") }}
+            {{ translate("emergency_data") }}
           </q-item-label>
           <q-space></q-space>
           <q-icon name="o_report" color="secondary"></q-icon>
         </div>
         <q-item-label class="q-ma-none text-grey-9 text-description">
-          {{ $t("emergency_data_desc") }}
+          {{ translate("emergency_data_desc") }}
         </q-item-label>
       </q-item-section>
     </q-item>
@@ -318,7 +318,7 @@
     <q-item v-if="userRole === 'cliente'" class="column">
       <q-item-section class="q-py-md section-no-margin">
         <q-item-label class="text-bold text-secondary text-description">
-          {{ $t("name_of_contact") }}
+          {{ translate("name_of_contact") }}
         </q-item-label>
         <q-input
           dense
@@ -334,7 +334,7 @@
 
       <q-item-section class="q-py-md section-no-margin">
         <q-item-label class="text-bold text-secondary text-description">
-          {{ $t("contact_phone") }}
+          {{ translate("contact_phone") }}
         </q-item-label>
         <q-input
           dense
@@ -350,7 +350,7 @@
 
       <q-item-section class="q-py-md section-no-margin">
         <q-item-label class="text-bold text-secondary text-description">
-          {{ $t("contact_phone_secondary") }}
+          {{ translate("contact_phone_secondary") }}
         </q-item-label>
         <q-input
           dense
@@ -366,7 +366,7 @@
 
       <q-item-section class="col-6 q-py-md section-no-margin">
         <q-item-label class="text-bold text-secondary text-description">
-          {{ $t("blood_type") }}
+          {{ translate("blood_type") }}
         </q-item-label>
         <q-select
           dense
@@ -382,7 +382,7 @@
 
       <q-item-section class="q-py-md section-no-margin">
         <q-item-label class="text-bold text-secondary text-description">
-          {{ $t("have_medical_insurance") }}
+          {{ translate("have_medical_insurance") }}
         </q-item-label>
         <q-input
           dense
@@ -397,7 +397,7 @@
 
       <q-item-section class="q-py-md section-no-margin">
         <q-item-label class="text-bold text-secondary text-description">
-          {{ $t("use_any_medication") }}
+          {{ translate("use_any_medication") }}
         </q-item-label>
         <q-input
           dense
@@ -412,7 +412,7 @@
 
       <q-item-section class="q-py-md section-no-margin">
         <q-item-label class="text-bold text-secondary text-description">
-          {{ $t("have_any_particularities") }}
+          {{ translate("have_any_particularities") }}
         </q-item-label>
         <q-checkbox
           v-model="check_model"
@@ -427,7 +427,7 @@
       <div class="border-division q-py-md">
         <q-item-section class="q-py-sm">
           <q-item-label class="text-secondary text-bold text-description">
-            {{ $t("have_heart_problem") }}
+            {{ translate("have_heart_problem") }}
           </q-item-label>
 
           <div
@@ -451,8 +451,8 @@
             >
             </q-btn>
             <DefaultAddDialog
-              :title="$t('problems')"
-              :subtitle="$t('what_prolem')"
+              :title="translate('problems')"
+              :subtitle="translate('what_prolem')"
               v-model="openProblemDialog"
               @add-included="addIncluded($event, 'problems')"
             >
@@ -464,7 +464,7 @@
       <div class="border-division q-py-md">
         <q-item-section class="q-py-sm">
           <q-item-label class="text-secondary text-bold text-description">
-            {{ $t("have_allergy_medication") }}
+            {{ translate("have_allergy_medication") }}
           </q-item-label>
 
           <div
@@ -488,8 +488,8 @@
             >
             </q-btn>
             <DefaultAddDialog
-              :title="$t('allergies')"
-              :subtitle="$t('what_allergy')"
+              :title="translate('allergies')"
+              :subtitle="translate('what_allergy')"
               v-model="openUserAllergyDialog"
               @add-included="addIncluded($event, 'allergies')"
             >
@@ -502,6 +502,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import DefaultAddDialog from "@controleonline/quasar-common-ui/src/components/Dialog/DefaultAddDialog";
 import MenuDefaultHeader from "@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader";
 

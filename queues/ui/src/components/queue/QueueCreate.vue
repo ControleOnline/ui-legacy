@@ -8,7 +8,7 @@
               dense
               outlined
               stack-label
-              :label="$t(`queue.queue`)"
+              :label="translate(`queue.queue`)"
               v-model="queue"
               :rules="[(val) => val != null]"
               hide-bottom-space
@@ -20,7 +20,7 @@
               dense
               outlined
               stack-label
-              :label="$t(`Company`)"
+              :label="translate(`Company`)"
               v-model="company.label"
             >
             </q-input>
@@ -29,9 +29,9 @@
               class="col-11"
               :source="searchPeople"
               :isLoading="isSearching"
-              :label="$t(`Company`)"
+              :label="translate(`Company`)"
               @selected="onSelectCompany"
-              :placeholder="$t(`Search`)"
+              :placeholder="translate(`Search`)"
             />
             <div v-if="this.queueId">
               <q-btn
@@ -58,7 +58,7 @@
               dense
               color="primary"
               icon="save"
-              :label="$t(`Save`)"
+              :label="translate(`Save`)"
               @click="onSubmit()"
             ></q-btn>
           </div>
@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 import { mapActions, mapGetters } from "vuex";
 
@@ -212,7 +213,7 @@ export default {
 
       let options = {
         method: this.queueId ? "PUT" : "POST",
-        headers: new Headers(),
+        
         body: JSON.stringify(values),
       };
 
@@ -222,7 +223,7 @@ export default {
         .then((result) => {
           if (result["@id"]) {
             this.$q.notify({
-              message: this.$t(`success`),
+              message: this.translate(`success`),
               position: "bottom",
               type: "positive",
             });

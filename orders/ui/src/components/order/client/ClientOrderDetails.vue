@@ -50,7 +50,7 @@
               <tr>
                 <td class="text-center">
                   <div class="text-h6">
-                    {{ $t(`order.statuses.${status.status.status}`) }}
+                    {{ translate(`order.statuses.${status.status.status}`) }}
                   </div>
                 </td>
               </tr>
@@ -82,7 +82,7 @@
           class="row warning q-pa-sm q-col-gutter-sm"
         >
           <h6>
-            <q-icon name="agriculture" size="30px" /> {{ $t(`order.warning.rural`) }}
+            <q-icon name="agriculture" size="30px" /> {{ translate(`order.warning.rural`) }}
           </h6>
         </div>
         <div
@@ -90,7 +90,7 @@
           class="row warning q-pa-sm q-col-gutter-sm"
         >
           <h6>
-            <q-icon name="fmd_bad" size="30px" /> {{ $t(`order.warning.dificult`) }}
+            <q-icon name="fmd_bad" size="30px" /> {{ translate(`order.warning.dificult`) }}
           </h6>
         </div>
       </div>
@@ -174,6 +174,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import { mapActions, mapGetters } from "vuex";

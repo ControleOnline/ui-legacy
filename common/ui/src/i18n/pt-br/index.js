@@ -102,7 +102,7 @@ export const translate = {
     simulator: "Simulador",
     tables: "Tabelas",
     news: "Artigos",
-    import: "Importador",
+    import : "import ador",
     crm: "CRM",
     coupon: "Cupons de Desconto",
     docs: "Documentos",

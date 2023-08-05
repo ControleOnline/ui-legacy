@@ -32,7 +32,7 @@
             lazy-rules
             v-model="values.product"
             type="text"
-            :label="$t('form.labels.type')"
+            :label="translate('form.labels.type')"
             placeholder="Digite o tipo do produto"
           />
         </div>
@@ -64,7 +64,7 @@
             lazy-rules
             v-model="values.type"
             type="text"
-            :label="$t('form.labels.type')"
+            :label="translate('form.labels.type')"
             placeholder="Digite o tipo do produto"
           />
         </div>
@@ -79,7 +79,7 @@
             v-model="values.totalPrice"
             type="text"
             :label="
-              $t(
+              translate(
                 domainType() === 'simple'
                   ? 'form.labels.product_price'
                   : 'form.labels.price'
@@ -97,7 +97,7 @@
         style="border: 1px solid #cccccc"
       >
         <div class="col-12 text-subtitle2 text-center q-pb-md">
-          {{ $t("form.section01") }}
+          {{ translate("form.section01") }}
         </div>
 
         <div v-if="cubage == 0" class="col-12">
@@ -113,7 +113,7 @@
                     reverse-fill-mask
                     v-model="myPackage.qtd"
                     type="text"
-                    :label="$t('form.labels.qtty')"
+                    :label="translate('form.labels.qtty')"
                     mask="#"
                     fill-mask="0"
                     @change="getTotalCubageAndWeight"
@@ -129,7 +129,7 @@
                     suffix="kg"
                     v-model="myPackage.weight"
                     type="text"
-                    :label="$t('form.labels.weight')"
+                    :label="translate('form.labels.weight')"
                     @change="getTotalCubageAndWeight"
                     mask="#,###"
                     fill-mask="0"
@@ -145,7 +145,7 @@
                     suffix="m"
                     v-model="myPackage.height"
                     type="text"
-                    :label="$t('form.labels.height')"
+                    :label="translate('form.labels.height')"
                     @change="getTotalCubageAndWeight"
                     mask="#,##"
                     fill-mask="0"
@@ -161,7 +161,7 @@
                     suffix="m"
                     v-model="myPackage.width"
                     type="text"
-                    :label="$t('form.labels.width')"
+                    :label="translate('form.labels.width')"
                     @change="getTotalCubageAndWeight"
                     mask="#,##"
                     fill-mask="0"
@@ -177,7 +177,7 @@
                     suffix="m"
                     v-model="myPackage.depth"
                     type="text"
-                    :label="$t('form.labels.depth')"
+                    :label="translate('form.labels.depth')"
                     @change="getTotalCubageAndWeight"
                     mask="#,##"
                     fill-mask="0"
@@ -225,7 +225,7 @@
           v-show="!isCeg() && totalCubage == 0 && cubage == 0"
           class="col-xs-12 q-pt-sm"
         >
-          <div class="text-subtitle2 text-center">{{ $t("Ou") }}</div>
+          <div class="text-subtitle2 text-center">{{ translate("Ou") }}</div>
         </div>
 
         <div v-show="!isCeg() && totalCubage == 0" class="col-xs-6 col-md-3 q-pa-sm">
@@ -238,7 +238,7 @@
             suffix="kg"
             v-model="values.cubage"
             type="text"
-            :label="$t('Total cubagem')"
+            :label="translate('Total cubagem')"
             mask="#,##"
             fill-mask="0"
           />
@@ -251,7 +251,7 @@
             <q-card class="my-card" flat bordered>
               <div class="row justify-center items-center q-pa-md">
                 <div class="col-12">
-                  <div class="text-caption">{{ $t("form.cubTotal") }}</div>
+                  <div class="text-caption">{{ translate("form.cubTotal") }}</div>
                   <div class="text-subtitle1">{{ totalCubage }} kg</div>
                 </div>
               </div>
@@ -260,7 +260,7 @@
             <q-card class="my-card" flat bordered>
               <div class="row justify-center items-center q-pa-md">
                 <div class="col-12">
-                  <div class="text-caption">{{ $t("form.weigTotal") }}</div>
+                  <div class="text-caption">{{ translate("form.weigTotal") }}</div>
                   <div class="text-subtitle1">{{ totalWeight }} kg</div>
                 </div>
               </div>
@@ -344,6 +344,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
 import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
 import { mapGetters } from "vuex";
@@ -713,26 +714,26 @@ export default {
     isInvalid(key) {
       return (val) => {
         if (key == "cubage" && this.sumCubage == 0) {
-          if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
+          if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
 
           return true;
         }
 
         if (key == "package" && this.cubage == 0) {
           if (!val || !(parseFloat(val.replace(",", ".")) > 0))
-            return this.$t("messages.fieldRequired");
+            return this.translate("messages.fieldRequired");
 
           return true;
         }
 
         if (key == "price") {
           if (!val || !(parseFloat(val.replace(",", ".")) > 0))
-            return this.$t("messages.fieldRequired");
+            return this.translate("messages.fieldRequired");
 
           return true;
         }
 
-        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
 
         return true;
       };

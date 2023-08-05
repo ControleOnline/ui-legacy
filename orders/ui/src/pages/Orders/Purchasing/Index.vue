@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import OrderSearching from './../../../components/order/purchasing/OrderSearching.vue';
+ import OrderSearching from './../../../components/order/purchasing/OrderSearching.vue';
 
 export default {
   name      : 'OrderIndexPage',

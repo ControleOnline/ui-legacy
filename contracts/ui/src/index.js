@@ -1,6 +1,6 @@
 import { version } from '../package.json';
 
-import ActionAmend from './components/ActionAmend';
+ import ActionAmend from './components/ActionAmend';
 import ActionCancel from './components/ActionCancel';
 import ActionParticipant from './components/ActionParticipant';
 import ActionProduct from './components/ActionProduct';

@@ -43,7 +43,7 @@
         <q-td key="dataPedido" :props="props">{{ props.cols[4].value }}</q-td>
         <q-td key="ultimaModificacao" :props="props">{{ props.cols[5].value }}</q-td>
         <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
-          {{ $t(`order.statuses.${props.row.status}`) }}
+          {{ translate(`order.statuses.${props.row.status}`) }}
         </q-td>
         <q-td key="preco" :props="props">{{ props.cols[7].value }}</q-td>
       </q-tr>
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
@@ -225,7 +226,7 @@ export default {
             clientName.toLowerCase().indexOf(" industria") == -1 &&
             clientName.toLowerCase().indexOf(" indústria") == -1 &&
             clientName.toLowerCase().indexOf(" soluções") == -1 &&
-            clientName.toLowerCase().indexOf(" importação") == -1 &&
+            clientName.toLowerCase().indexOf(" import ação") == -1 &&
             clientName.toLowerCase().indexOf(" solutions") == -1 &&
             clientName.toLowerCase().indexOf(" me") == -1 &&
             clientName.toLowerCase().trim() !=
@@ -289,7 +290,7 @@ export default {
           for (let index in statuses) {
             let item = statuses[index];
             this.statuses.push({
-              label: this.$t(`order.statuses.${item.status}`),
+              label: this.translate(`order.statuses.${item.status}`),
               value: item["@id"].match(/^\/statuses\/([a-z0-9-]*)$/)[1],
             });
           }

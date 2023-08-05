@@ -27,7 +27,7 @@
             <q-td key="dataInicio"   :props="props">{{ props.cols[2].value    }}</q-td>
             <q-td key="dataFim"      :props="props">{{ props.cols[3].value    }}</q-td>
             <q-td key="status"       :props="props">
-              {{ $t(`contracts.statuses.${props.row.status}`) }}
+              {{ translate(`contracts.statuses.${props.row.status}`) }}
             </q-td>
           </q-tr>
         </template>

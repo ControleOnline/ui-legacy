@@ -6,10 +6,10 @@
       outlined  stack-label
         v-model     ="search"
         type        ="text"
-        :label      ="$t('contracts.search_customer')"
+        :label      ="translate('contracts.search_customer')"
         :loading    ="isSearching"
         debounce    ="700"
-        :placeholder="$t('contracts.how_search')"
+        :placeholder="translate('contracts.how_search')"
         class       ="q-mb-sm"
       />
     </div>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import Customer from './../entity/Customer';
 import configurable from './../mixins/configurable';
 

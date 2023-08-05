@@ -6,7 +6,7 @@
       dense
       outlined stack-label borderless readonly
           v-model ="status"
-          :label  ="$t('contracts.status')"
+          :label  ="translate('contracts.status')"
         >
         </q-input>
       </div>
@@ -14,13 +14,13 @@
       <div class="col-xs-12 col-sm-6">
         <q-select dense outlined  stack-label emit-value map-options :hide-dropdown-icon="readOnly"
           v-model    ="template"
-          :label     ="$t('contracts.model')"
+          :label     ="translate('contracts.model')"
           :options   ="contractModels"
           :loading   ="loadingModels"
           :outlined  ="!readOnly"
           :borderless="readOnly"
           :readonly  ="readOnly"
-          :rules     ="[val => val !== null || $t('messages.select_an_option')]"
+          :rules     ="[val => val !== null || translate('messages.select_an_option')]"
         >
         </q-select>
       </div>
@@ -31,7 +31,7 @@
       outlined stack-label
           v-model    ="startDate"
           mask       ="##/##/####"
-          :label     ="$t('contracts.start_date')"
+          :label     ="translate('contracts.start_date')"
           :rules     ="[isInvalid('date')]"
           :outlined  ="!readOnly"
           :borderless="readOnly"
@@ -58,7 +58,7 @@
       <q-btn
          type     ="submit"
          color    ="primary"
-         :label   ="$t('contracts.save')"
+         :label   ="translate('contracts.save')"
          :loading ="isSaving"
          :disable ="readOnly"
       />
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import Contract from './../entity/Contract';
 import { formatDateYmdTodmY } from './../library/formatter';
 import configurable from './../mixins/configurable';
@@ -94,7 +95,7 @@ export default {
 
   data() {
     return {
-      status        : this.$t(`contracts.statuses.${this.contract.status}`),
+      status        : this.translate(`contracts.statuses.${this.contract.status}`),
       template      : null,
       startDate     : formatDateYmdTodmY(this.contract.startDate),
       contractModels: [],
@@ -123,14 +124,14 @@ export default {
         })
           .then(contract => {
             this.$q.notify({
-              message : this.$t('messages.saved_successfully'),
+              message : this.translate('messages.saved_successfully'),
               position: 'bottom',
               type    : 'positive',
             });
           })
           .catch(e => {
             this.$q.notify({
-              message : this.$t(error.message),
+              message : this.translate(error.message),
               position: 'bottom',
               type    : 'negative',
             });

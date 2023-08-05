@@ -1,4 +1,4 @@
-import AddParticipant from './AddParticipant';
+ import AddParticipant from './AddParticipant';
 import AddProduct from './AddProduct';
 import Cancel from './Cancel';
 import Create from './Create';

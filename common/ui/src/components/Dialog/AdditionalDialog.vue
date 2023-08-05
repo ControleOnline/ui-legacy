@@ -3,7 +3,7 @@
     <div class="bg-white full-width" style="max-height: 70%">
       <q-item class="bg-secondary items-center">
         <q-item-label class="text-bold text-white">
-          {{ $t("additional_services_dialog") }}
+          {{ translate("additional_services_dialog") }}
         </q-item-label>
         <q-space></q-space>
         <q-btn icon="close" size="1rem" round color="white" flat v-close-popup>
@@ -51,7 +51,7 @@
               class="q-pa-xs text-capitalize bg-secondary"
               outline
               color="white"
-              :label="$t('send')"
+              :label="translate('send')"
               @click="addItem(name, quantity, price)"
               v-close-popup
               style="width: 4rem"

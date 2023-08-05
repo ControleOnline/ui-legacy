@@ -48,7 +48,7 @@
             props.cols[4].value
         }}</q-td>
         <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
-          {{ $t(`order.statuses.${props.row.status}`) }}
+          {{ translate(`order.statuses.${props.row.status}`) }}
         </q-td>
         <q-td key="coleta" :props="props">
           {{ props.row.localColeta }}<br />{{ props.row.coleta }}
@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/DataFilter.vue";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { date } from "quasar";
@@ -391,7 +392,7 @@ export default {
           for (let index in statuses) {
             let item = statuses[index];
             this.statuses.push({
-              label: this.$t(`order.statuses.${item.status}`),
+              label: this.translate(`order.statuses.${item.status}`),
               value: item["@id"].match(/^\/statuses\/([a-z0-9-]*)$/)[1],
             });
           }

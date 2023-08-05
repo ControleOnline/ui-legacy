@@ -133,7 +133,7 @@ import { LocalStorage } from "quasar";
 import PageContainer from "../components/ClientPageContainer";
 import QuoteTable from "../components/ClientQuoteTable";
 
-import CheckoutPage from "../components/checkout/Index";
+ import CheckoutPage from "../components/checkout/Index";
 
 export default {
   name: "PageIndex",
@@ -309,7 +309,7 @@ export default {
           });
       } else if (response.error) {
         this.$q.notify({
-          message: this.$t(response.error),
+          message: this.translate(response.error),
           position: "center",
           type: "warning",
         });

@@ -4,7 +4,7 @@
       <div class="col-xs-12 col-sm-auto">
         <q-btn
           v-if="orderId || client || context != 'relationship'"
-          :label="$t('Add')"
+          :label="translate('Add')"
           icon="add"
           size="md"
           color="primary"
@@ -15,7 +15,7 @@
         <q-dialog v-model="dialog">
           <q-card style="width: 700px; max-width: 80vw">
             <q-card-section class="row items-center">
-              <div class="text-h6">{{ $t("Add") }}</div>
+              <div class="text-h6">{{ translate("Add") }}</div>
               <q-space />
               <q-btn icon="close" flat round dense v-close-popup />
             </q-card-section>
@@ -50,7 +50,7 @@
         outlined
         class="col-xs-12 col-sm q-pl-none"
         stack-label
-        :label="$t(task_type + '.task_for')"
+        :label="translate(task_type + '.task_for')"
         v-model="filters.task_for"
         :options="task_for"
       >
@@ -67,7 +67,7 @@
         outlined
         class="col-xs-12 col-sm q-pl-none"
         stack-label
-        :label="$t(task_type + '.status_label')"
+        :label="translate(task_type + '.status_label')"
         v-model="filters.status"
         :options="statuses"
       >
@@ -84,7 +84,7 @@
         class="col-xs-12 col-sm q-pl-none"
         v-if="categories.length > 0"
         stack-label
-        :label="$t(task_type + '.category')"
+        :label="translate(task_type + '.category')"
         v-model="filters.category"
         :options="categories"
       >
@@ -101,7 +101,7 @@
         class="col-xs-12 col-sm q-pl-none"
         v-if="categories_criticality.length > 0"
         stack-label
-        :label="$t(task_type + '.criticality')"
+        :label="translate(task_type + '.criticality')"
         v-model="filters.criticality"
         :options="categories_criticality"
       >
@@ -118,7 +118,7 @@
         class="col-xs-12 col-sm q-pl-none"
         v-if="categories_reason.length > 0"
         stack-label
-        :label="$t(task_type + '.reason')"
+        :label="translate(task_type + '.reason')"
         v-model="filters.reason"
         :options="categories_reason"
       >
@@ -320,6 +320,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import categories from "@controleonline/quasar-common-ui/src/store/categories";
 import { date } from "quasar";
 
@@ -425,22 +426,22 @@ export default {
       //people_filter: 'all',
       people_filter_options: [
         {
-          label: this.$t(this.task_type + ".myTasks"),
+          label: this.translate(this.task_type + ".myTasks"),
           value: "my",
         },
         {
-          label: this.$t(this.task_type + ".allTasks"),
+          label: this.translate(this.task_type + ".allTasks"),
           value: "all",
         },
 
         {
-          label: this.$t(this.task_type + ".create"),
+          label: this.translate(this.task_type + ".create"),
           value: "created",
         },
       ],
       task_for: [
         {
-          label: this.$t(this.task_type + ".allTasks"),
+          label: this.translate(this.task_type + ".allTasks"),
           value: null,
         },
       ],
@@ -598,7 +599,7 @@ export default {
       this.getCategories().then((categories) => {
         if (categories.totalItems) {
           this.categories.push({
-            label: this.$t(this.task_type + ".status.all"),
+            label: this.translate(this.task_type + ".status.all"),
             value: -1,
           });
 
@@ -616,7 +617,7 @@ export default {
       this.getCategories("-criticality").then((categories) => {
         if (categories.totalItems) {
           this.categories_criticality.push({
-            label: this.$t(this.task_type + ".status.all"),
+            label: this.translate(this.task_type + ".status.all"),
             value: -1,
           });
           for (let index in categories.members) {
@@ -632,7 +633,7 @@ export default {
       this.getCategories("-reason").then((categories) => {
         if (categories.totalItems) {
           this.categories_reason.push({
-            label: this.$t(this.task_type + ".status.all"),
+            label: this.translate(this.task_type + ".status.all"),
             value: -1,
           });
           for (let index in categories.members) {
@@ -685,7 +686,7 @@ export default {
     requestStatuses() {
       this.loadingStatuses = true;
       this.statuses.push({
-        label: this.$t(this.task_type + ".status.all"),
+        label: this.translate(this.task_type + ".status.all"),
         value: -1,
         color: "#000000",
       });
@@ -695,7 +696,7 @@ export default {
             let item = statuses.members[index];
             this.statuses.push({
               original: item.status,
-              label: this.$t(this.task_type + ".status." + item.status),
+              label: this.translate(this.task_type + ".status." + item.status),
               value: parseInt(item["@id"].match(/^\/statuses\/([a-z0-9-]*)$/)[1]),
               color: item.color,
             });
@@ -706,7 +707,7 @@ export default {
           this.filters.status = this.statuses.find((status) => "open" == status.original);
         else
           this.filters.status = {
-            label: this.$t(this.task_type + ".status.all"),
+            label: this.translate(this.task_type + ".status.all"),
             value: -1,
           };
       });

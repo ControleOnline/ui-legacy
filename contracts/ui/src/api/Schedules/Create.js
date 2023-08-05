@@ -1,4 +1,4 @@
-import Errors from './../../library/errors';
+ import Errors from './../../library/errors';
 import Resource from './../../library/resource';
 
 export default class Create extends Resource {

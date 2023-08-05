@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import CardListGuides from '@controleonline/quasar-common-ui/src/components/Card/CardListGuides';
+ import CardListGuides from '@controleonline/quasar-common-ui/src/components/Card/CardListGuides';
 import ToolsFooter from '@controleonline/quasar-common-ui/src/components/Footer/ToolsFooter';
 import Search from '@controleonline/quasar-common-ui/src/components/Header/Search';
 

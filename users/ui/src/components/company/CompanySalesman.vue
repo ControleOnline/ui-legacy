@@ -16,7 +16,7 @@
           <div class="col-12 q-mb-md">
             <div class="row justify-end">
               <q-btn
-                :label="$t('Adicionar')"
+                :label="translate('Adicionar')"
                 icon="add"
                 size="md"
                 color="primary"
@@ -117,7 +117,7 @@
                   v-model="item.document"
                   type="text"
                   class="q-mb-sm"
-                  :label="$t('CNPJ')"
+                  :label="translate('CNPJ')"
                   :mask="'##.###.###/####-##'"
                   :placeholder="'Digite o CNPJ'"
                   :rules="[isInvalid('document')]"
@@ -132,7 +132,7 @@
                   v-model="item.name"
                   type="text"
                   class="q-mb-sm"
-                  :label="$t('Razão social')"
+                  :label="translate('Razão social')"
                   :placeholder="'Razão social'"
                   :rules="[isInvalid('name')]"
                 />
@@ -146,7 +146,7 @@
                   v-model="item.alias"
                   type="text"
                   class="q-mb-sm"
-                  :label="$t('Nome Fantasia')"
+                  :label="translate('Nome Fantasia')"
                   :placeholder="'Nome fantasia'"
                   :rules="[isInvalid('alias')]"
                 />
@@ -157,7 +157,7 @@
                 :loading="saving"
                 icon="save"
                 type="submit"
-                :label="$t('Salvar')"
+                :label="translate('Salvar')"
                 size="md"
                 color="primary"
                 class="q-mt-md"
@@ -172,6 +172,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import { formatDocument } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import md5 from "md5";
 import { mapGetters } from "vuex";
@@ -238,7 +239,7 @@ export default {
     save(values) {
       let options = {
         method: "PUT",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        
         body: JSON.stringify(values),
       };
 
@@ -260,7 +261,7 @@ export default {
     delete(id) {
       let options = {
         method: "DELETE",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        
         body: JSON.stringify({ id }),
       };
 
@@ -314,7 +315,7 @@ export default {
     },
 
     removeItem(item) {
-      if (window.confirm(this.$t("Are you sure about to remove this element?"))) {
+      if (window.confirm(this.translate("Are you sure about to remove this element?"))) {
         item._bussy = true;
 
         this.delete(item.id)
@@ -391,10 +392,10 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
 
         if (key == "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.$t("messages.emailInvalid");
+          return this.translate("messages.emailInvalid");
 
         return true;
       };

@@ -148,11 +148,11 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import Analytics from "@controleonline/quasar-common-ui/src/utils/analytics";
+ import Analytics from "@controleonline/quasar-common-ui/src/utils/analytics";
 import LoginPage from "@controleonline/quasar-login-ui/src/components/user/login/Index.vue";
 import SignUpPage from "@controleonline/quasar-login-ui/src/components/user/signup/Index";
 
-import CegPageContainer from "../components/CegPageContainer";
+ import CegPageContainer from "../components/CegPageContainer";
 import CegQuoteTable from "../components/CegQuoteTable";
 import PageContainer from "../components/PageContainer";
 import QuoteTable from "../components/QuoteTable";
@@ -338,7 +338,7 @@ export default {
           });
       } else if (response.error) {
         this.$q.notify({
-          message: this.$t(response.error),
+          message: this.translate(response.error),
           position: "center",
           type: "warning",
         });
@@ -373,7 +373,7 @@ export default {
     checkLabels() {
       if (this.isCeg()) {
         this.productTypeLabel = "Automóvel";
-        //this.invoiceTaxLabel = $t("form.labels.product_price");
+        //this.invoiceTaxLabel = translate("form.labels.product_price");
         if (this.domainType() === "simple") {
           this.productTypeLabel = "Carga";
           this.product.type = "Cotação";

@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import UploadForm from './UploadFileForm';
+ import UploadForm from './UploadFileForm';
 
 export default {
   props: {

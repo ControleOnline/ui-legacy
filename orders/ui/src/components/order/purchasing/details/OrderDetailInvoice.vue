@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import OrderInvoiceButton from '@controleonline/quasar-common-ui/src/components/Common/NewOrderInvoiceButton';
+ import OrderInvoiceButton from '@controleonline/quasar-common-ui/src/components/Common/NewOrderInvoiceButton';
 import InvoiceSearching from './InvoiceSearching';
 
 export default {

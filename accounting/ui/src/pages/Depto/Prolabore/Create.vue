@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{$t('Novo Pro-Labore')}}
+            {{translate('Novo Pro-Labore')}}
           </div>
           <div class="col-12 q-mb-md">
             <FormProLabore />
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import FormProLabore from './../../../components/depto/FormProLabore';
 
 export default {

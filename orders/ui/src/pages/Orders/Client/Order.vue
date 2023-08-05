@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ClientOrderDetails from '../../../components/order/client/ClientOrderDetails';
+ import ClientOrderDetails from '../../../components/order/client/ClientOrderDetails';
 
 export default {
   name      : 'ClientOrderDetailsPage',

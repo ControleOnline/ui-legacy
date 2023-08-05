@@ -426,7 +426,7 @@
                         v-if="editTotalPrice"
                         dense
                         stack-label
-                        :label="$t('Valor')"
+                        :label="translate('Valor')"
                         type="text"
                         prefix="R$"
                         reverse-fill-mask
@@ -569,7 +569,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.postal_code"
                   type="text"
-                  :label="$t('CEP')"
+                  :label="translate('CEP')"
                   mask="#####-###"
                   :rules="[isInvalid('postal_code')]"
                 />
@@ -584,7 +584,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.street"
                   type="text"
-                  :label="$t('Rua')"
+                  :label="translate('Rua')"
                   :rules="[isInvalid('street')]"
                 />
               </div>
@@ -598,7 +598,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.number"
                   type="text"
-                  :label="$t('Número')"
+                  :label="translate('Número')"
                   :rules="[isInvalid('number')]"
                 />
               </div>
@@ -611,7 +611,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.complement"
                   type="text"
-                  :label="$t('Complemento')"
+                  :label="translate('Complemento')"
                 />
               </div>
               <div
@@ -624,7 +624,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.district"
                   type="text"
-                  :label="$t('Bairro')"
+                  :label="translate('Bairro')"
                   :rules="[isInvalid('district')]"
                 />
               </div>
@@ -635,7 +635,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.city"
                   type="text"
-                  :label="$t('Cidade')"
+                  :label="translate('Cidade')"
                   :rules="[isInvalid('city')]"
                 />
               </div>
@@ -646,7 +646,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.state"
                   type="text"
-                  :label="$t('UF')"
+                  :label="translate('UF')"
                   mask="AA"
                   :rules="[isInvalid('state')]"
                 />
@@ -661,7 +661,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.country"
                   type="text"
-                  :label="$t('País')"
+                  :label="translate('País')"
                   :rules="[isInvalid('country')]"
                 />
               </div>
@@ -678,6 +678,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import {
 formatCEP,
 formatDocument,
@@ -686,7 +687,7 @@ formatPhone,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
 
-import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm.vue";
+ import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm.vue";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete.vue";
 
 export default {
@@ -1012,13 +1013,13 @@ export default {
     }),
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
 
         if (key == "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.$t("messages.emailInvalid");
+          return this.translate("messages.emailInvalid");
 
         if (key == "phone" && !/^\d{10,11}$/.test(val))
-          return this.$t("messages.phoneInvalid");
+          return this.translate("messages.phoneInvalid");
 
         return true;
       };
@@ -1327,7 +1328,7 @@ export default {
           body: JSON.stringify({
             payerId: this.summary.payer.id,
           }),
-          headers: new Headers(),
+          
         };
 
         params.headers.set("API-TOKEN", this.logged.token);

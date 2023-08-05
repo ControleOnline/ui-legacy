@@ -4,7 +4,7 @@ import * as types from './mutation_types';
 export const updateProfile = ({ commit }, { id, component, payload }) => {
   const params = {
     method: 'PUT',
-    headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+   
     body: JSON.stringify(payload)
   }
 

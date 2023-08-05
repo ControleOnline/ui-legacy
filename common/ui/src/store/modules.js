@@ -1,4 +1,4 @@
-import categories from "@controleonline/quasar-common-ui/src/store/categories";
+ import categories from "@controleonline/quasar-common-ui/src/store/categories";
 import config from "@controleonline/quasar-common-ui/src/store/config";
 import gmaps from "@controleonline/quasar-common-ui/src/store/gmaps";
 import menu from "@controleonline/quasar-common-ui/src/store/menu";

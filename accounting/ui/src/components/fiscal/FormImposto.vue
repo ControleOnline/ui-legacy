@@ -10,13 +10,13 @@
       outlined stack-label lazy-rules
           v-model="item.empresa"
           type   ="text"
-          :label ="$t('Empresa')"
+          :label ="translate('Empresa')"
           :rules ="[isInvalid()]"
         />
       </div>
       <div class="col-xs-12 col-sm-6">
         <q-select dense outlined  stack-label
-          :label  ="$t('Imposto')"
+          :label  ="translate('Imposto')"
           v-model ="item.imposto"
           :options="impostos"
           class   ="full-width"
@@ -28,7 +28,7 @@
       outlined stack-label
           v-model="item.periodo"
           mask   ="##/####"
-          :label ="$t('Período')"
+          :label ="translate('Período')"
         >
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
@@ -46,7 +46,7 @@
       <div class="col-xs-12">
         <q-file stack-label bottom-slots
           v-model   ="item.arquivo"
-          :label    ="$t('Arquivo')"
+          :label    ="translate('Arquivo')"
           @input    ="(file) => {
             uploadFile(null, file);
           }"
@@ -83,7 +83,7 @@
         :loading="saving"
         icon    ="save"
         type    ="submit"
-        :label  ="$t('Salvar')"
+        :label  ="translate('Salvar')"
         size    ="md"
         color   ="primary"
         class   ="q-mt-md"
@@ -148,7 +148,7 @@ export default {
     },
 
     removeFile(data) {
-      if (window.confirm(this.$t('Tem certeza que deseja eliminar este arquivo?'))) {
+      if (window.confirm(this.translate('Tem certeza que deseja eliminar este arquivo?'))) {
 
       }
     },
@@ -159,7 +159,7 @@ export default {
         .then(response => response.blob())
         .then((blob) => {
           if (!exportFile(file.name, blob, blob.type)) {
-            throw new Error(this.$t('Download error'));
+            throw new Error(this.translate('Download error'));
           }
         });
       */

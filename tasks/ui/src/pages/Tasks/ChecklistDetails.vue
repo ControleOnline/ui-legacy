@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import ChecklistDetails from "../../components/Tasks/ChecklistDetails.vue";
+ import ChecklistDetails from "../../components/Tasks/ChecklistDetails.vue";
 
 export default {
   components: {

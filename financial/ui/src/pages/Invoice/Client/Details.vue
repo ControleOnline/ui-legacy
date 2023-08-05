@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import InvoiceDetails from "../../../components/invoice/invoice/InvoiceDetails.vue";
+ import InvoiceDetails from "../../../components/invoice/invoice/InvoiceDetails.vue";
 
 export default {
   name: "InvoiceDetailsPage",

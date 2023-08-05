@@ -5,18 +5,19 @@
     <q-btn flat no-caps
       v-if  ="contract.hasOriginal()"
       :to   ="Routes.Details.get(contract.original.id)"
-      :label="$t('contracts.go_original')"
+      :label="translate('contracts.go_original')"
     />
 
     <q-btn flat no-caps
       v-if  ="contract.hasAmended()"
       :to   ="Routes.Details.get(contract.amended.id)"
-      :label="$t('contracts.go_amended')"
+      :label="translate('contracts.go_amended')"
     />
   </div>
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import Contract from './../entity/Contract';
 import configurable from './../mixins/configurable';
 

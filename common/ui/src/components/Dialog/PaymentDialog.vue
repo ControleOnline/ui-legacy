@@ -63,7 +63,7 @@
                   outlined
                   v-model="payment.parcel"
                   dense
-                  :label="$t('parcel')"
+                  :label="translate('parcel')"
                   color="secondary"
                   :options="options"
                   class="col-4 q-pa-sm"
@@ -82,7 +82,7 @@
               <q-btn
                 class="text-capitalize"
                 color="secondary"
-                :label="$t('confirm_payment')"
+                :label="translate('confirm_payment')"
                 @click="openSaveDataCard = true"
               >
               </q-btn>
@@ -106,12 +106,12 @@
 
         <q-item class="column q-pa-lg">
           <q-item-section>
-            <q-item-label class="text-bold title-list">{{ $t('ready') }}</q-item-label>
+            <q-item-label class="text-bold title-list">{{ translate('ready') }}</q-item-label>
             <q-item-label class="text-bold title-list">
-              {{ $t('your_reservation') }}
+              {{ translate('your_reservation') }}
             </q-item-label>
             <q-item-label class="q-py-sm message-text">
-              {{ $t('save_card') }}
+              {{ translate('save_card') }}
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -121,7 +121,7 @@
             class="q-py-sm q-px-md text-capitalize"
             outline
             color="secondary"
-            :label="$t('no_save_card')"
+            :label="translate('no_save_card')"
             v-close-popup
           >
           </q-btn>
@@ -129,7 +129,7 @@
           <q-btn
             class="q-py-sm q-px-md text-capitalize"
             color="secondary"
-            :label="$t('yes_save_card')"
+            :label="translate('yes_save_card')"
             v-close-popup
           >
           </q-btn>

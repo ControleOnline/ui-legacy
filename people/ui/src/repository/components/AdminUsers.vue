@@ -1,7 +1,7 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">{{ $t('Users') }}</div>
+      <div class="text-subtitle1 text-left">{{ translate('Users') }}</div>
     </div>
     <div class="col-9">
       <div class="row justify-end">
@@ -133,7 +133,7 @@ export default {
     save(values) {
       let options = {
         method: 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body: JSON.stringify(values),
       };
 
@@ -156,7 +156,7 @@ export default {
     delete(id) {
       let options = {
         method: 'DELETE',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body: JSON.stringify({ id }),
       };
 

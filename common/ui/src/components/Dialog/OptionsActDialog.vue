@@ -3,7 +3,7 @@
     <div class="bg-white full-width" style="max-height: 70%;">
       <q-item class="bg-secondary items-center">
         <q-item-label class="text-bold text-white">
-          {{ $t('choose_your_area_of_expertise') }}
+          {{ translate('choose_your_area_of_expertise') }}
         </q-item-label>
         <q-space></q-space>
         <q-btn
@@ -23,7 +23,7 @@
         class="full-width border-division-dialog q-py-sm q-px-md"
         flat
         style="text-transform: none;"
-        :label="$t(option.label)"
+        :label="translate(option.label)"
         align="left"
         @click="selectAct(option.label)"
         v-close-popup

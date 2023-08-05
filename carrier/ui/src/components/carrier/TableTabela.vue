@@ -455,7 +455,7 @@ export default {
     save(values) {
       const options = {
         method : this.item.id === null ? 'POST' : 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body   : JSON.stringify(values),
       };
 
@@ -475,7 +475,7 @@ export default {
     copyTable(values) {
       const options = {
         method : 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body   : JSON.stringify(values),
       };
 

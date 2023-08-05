@@ -50,7 +50,7 @@
               v-model="item.name"
               type="text"
               class="q-mb-sm"
-              :label="item.type == 'J' ? $t('Razão social') : $t('Nome completo')"
+              :label="item.type == 'J' ? translate('Razão social') : translate('Nome completo')"
               :placeholder="
                 item.type == 'J' ? 'Digite a Razão social' : 'Digite o nome completo'
               "
@@ -67,7 +67,7 @@
               v-model="item.alias"
               type="text"
               class="q-mb-sm"
-              :label="$t('Nome Fantasia')"
+              :label="translate('Nome Fantasia')"
               :placeholder="
                 item.type == 'J' ? 'Digite o Nome fantasia' : 'Digite o sobrenome'
               "
@@ -115,7 +115,7 @@
               lazy-rules
               v-model="field.value"
               type="text"
-              :label="$t(field.label)"
+              :label="translate(field.label)"
               :rules="field.required ? [isInvalid('field_text')] : [true]"
               class="q-mb-sm"
               @input="field._updated = true"
@@ -143,6 +143,7 @@
 <script>
 
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from "vuex";
 
 export default {
@@ -190,7 +191,7 @@ export default {
     changeEnable(people) {
       const options = {
         method: "PUT",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        
         body: JSON.stringify(people.enabled),
         params: { company: this.theCompany.id },
       };
@@ -252,7 +253,7 @@ export default {
     save(values) {
       let options = {
         method: "PUT",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        
         body: JSON.stringify(values),
       };
 
@@ -392,19 +393,19 @@ export default {
       return (val) => {
         if (key == "money") {
           if (!val || !(parseFloat(val.replace(",", ".")) > 0))
-            return this.$t("messages.fieldRequired");
+            return this.translate("messages.fieldRequired");
 
           return true;
         }
 
         if (key == "monthday") {
           if (!val || !(parseInt(val) > 0 && parseInt(val) < 32))
-            return this.$t("messages.fieldRequired");
+            return this.translate("messages.fieldRequired");
 
           return true;
         }
 
-        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
 
         return true;
       };

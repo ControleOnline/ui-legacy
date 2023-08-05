@@ -44,7 +44,7 @@
           <q-td key="categoria" :props="props">{{ props.cols[4].value }}</q-td>
           <q-td key="fornecedor" :props="props">{{ props.cols[5].value }}</q-td>
           <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
-            {{ $t(`invoice.statuses.${props.row.status}`) }}
+            {{ translate(`invoice.statuses.${props.row.status}`) }}
           </q-td>
           <q-td key="preco" :props="props">{{ props.cols[7].value }}</q-td>
         </q-tr>
@@ -60,7 +60,7 @@
         <q-card-section>
           <div class="row items-center">
             <div class="text-h6">
-              {{ $t("finance.orders") }} da Fatura #{{ dialogs.orders.invoice }}
+              {{ translate("finance.orders") }} da Fatura #{{ dialogs.orders.invoice }}
             </div>
             <q-space />
             <q-btn icon="close" color="white" flat round dense v-close-popup />
@@ -75,7 +75,7 @@
                   <q-btn
                     flat
                     color="primary"
-                    :label="`Ver ${$t('finance.order')} #${orderId}`"
+                    :label="`Ver ${translate('finance.order')} #${orderId}`"
                     :to="{
                       name: 'PurchasingOrderDetails',
                       params: {
@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import {
 formatDateYmdTodmY,
 formatMoney,
@@ -169,7 +170,7 @@ export default {
             name: "description",
             align: "left",
             field: "description",
-            label: this.$t("finance.description"),
+            label: this.translate("finance.description"),
           },
           {
             name: "dataVencimento",
@@ -288,7 +289,7 @@ export default {
         data.push({
           "@id": item["@id"],
           id: item["@id"].match(/^\/finance\/pay\/([a-z0-9-]*)$/)[1],
-          tipo: this.$t(item.invoice_type),
+          tipo: this.translate(item.invoice_type),
           pedidos: orders,
           description: item.description,
           color_status: item.status.color,

@@ -7,7 +7,7 @@
   </q-page>
 </template>
 <script>
-import Module from "./../../components/config/Module/Table";
+ import Module from "./../../components/config/Module/Table";
 
 export default {
   components: {

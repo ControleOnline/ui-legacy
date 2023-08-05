@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import InvoiceSearching from "@controleonline/quasar-financial-ui/src/components/invoice/invoice/InvoiceSearching";
+ import InvoiceSearching from "@controleonline/quasar-financial-ui/src/components/invoice/invoice/InvoiceSearching";
 
 export default {
   props: {

@@ -12,8 +12,8 @@
           />
         </div>
         <div class="col-xs-12 q-mb-md text-center">
-          <q-radio v-model="item.type" val="percentage" :label="$t('Porcentagem')" />
-          <q-radio v-model="item.type" val="amount" :label="$t('Valor')" />
+          <q-radio v-model="item.type" val="percentage" :label="translate('Porcentagem')" />
+          <q-radio v-model="item.type" val="amount" :label="translate('Valor')" />
         </div>
         <div class="col-xs-12 q-mb-md">
           <q-input
@@ -26,7 +26,7 @@
             :prefix="item.type == 'amount' ? 'R$' : ''"
             :suffix="item.type == 'amount' ? '' : '%'"
             type="text"
-            :label="$t('Valor')"
+            :label="translate('Valor')"
             class="q-mt-md"
             :rules="[isInvalid()]"
             mask="#,##"
@@ -40,7 +40,7 @@
             outlined
             stack-label
             v-model="item.discountStartDate"
-            :label="$t('Inicio da Promoção')"
+            :label="translate('Inicio da Promoção')"
             mask="##/##/####"
             class="q-mb-sm"
             :rules="[isInvalid('date')]"
@@ -68,7 +68,7 @@
             outlined
             stack-label
             v-model="item.discountEndDate"
-            :label="$t('Fim da Promoção')"
+            :label="translate('Fim da Promoção')"
             mask="##/##/####"
             class="q-mb-sm"
             :rules="[isInvalid('date')]"
@@ -96,7 +96,7 @@
           :loading="saving"
           icon="save"
           type="submit"
-          :label="$t('Salvar')"
+          :label="translate('Salvar')"
           size="md"
           color="primary"
           class="q-mt-md"
@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 import { mapActions, mapGetters } from "vuex";
 
@@ -229,7 +230,7 @@ export default {
       })
         .then((data) => {
           this.$q.notify({
-            message: this.$t("Dados salvos com sucesso!"),
+            message: this.translate("Dados salvos com sucesso!"),
             position: "bottom",
             type: "positive",
           });
@@ -246,10 +247,10 @@ export default {
       return (val) => {
         if (field == "date") {
           if (!val) return true;
-          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val)) return this.$t("A data não é válida");
+          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val)) return this.translate("A data não é válida");
         }
 
-        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.translate("Este campo é obrigatório");
 
         return true;
       };

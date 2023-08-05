@@ -2,8 +2,8 @@
   <q-page padding class="row justify-center items-center">
     <q-card class="login my-card">
       <q-card-section class="bg-primary text-white text-center">
-        <div class="text-h6 text-uppercase"       >{{ $t('Recupere sua senha') }}</div>
-        <div class="text-subtitle2 text-uppercase">{{ $t('Sistema Cotafácil') }}</div>
+        <div class="text-h6 text-uppercase"       >{{ translate('Recupere sua senha') }}</div>
+        <div class="text-subtitle2 text-uppercase">{{ translate('Sistema Cotafácil') }}</div>
       </q-card-section>
 
       <q-card-section>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import PasswordForm from './PasswordForm';
 
 export default {

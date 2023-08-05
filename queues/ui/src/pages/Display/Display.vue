@@ -21,7 +21,7 @@
                 <q-item-label>#{{ order.id }} </q-item-label>
                 <q-item-label caption>{{ order.client.alias }}</q-item-label>
                 <q-item-label :color="order.orderQueue[0].status.color" caption>{{
-                  $t("status." + order.orderQueue[0].status.status)
+                  translate("status." + order.orderQueue[0].status.status)
                 }}</q-item-label>
               </q-item-section>
             </q-item>
@@ -54,7 +54,7 @@
                   <q-item-section>
                     <q-item-label caption>{{ order.client.alias }}</q-item-label>
                     <q-item-label :color="order.orderQueue[0].status.color" caption>{{
-                      $t("status." + order.orderQueue[0].status.status)
+                      translate("status." + order.orderQueue[0].status.status)
                     }}</q-item-label>
                   </q-item-section>
                 </q-item>
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { mapActions } from "vuex";
 
 export default {

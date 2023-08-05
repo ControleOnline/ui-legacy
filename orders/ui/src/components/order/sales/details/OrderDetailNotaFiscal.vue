@@ -2,12 +2,7 @@
   <q-card class="my-card" flat>
     <div class="row justify-center items-center q-pa-md">
       <div class="flex flex-center" v-if="isLoading">
-        <q-circular-progress
-          :indeterminate="isLoading"
-          size="sm"
-          color="primary"
-          class="q-ma-md"
-        />
+        <q-circular-progress :indeterminate="isLoading" size="sm" color="primary" class="q-ma-md" />
         Carregando...
       </div>
 
@@ -31,15 +26,8 @@
               Nota Fiscal: #{{ invoiceTax.invoice_number }}
             </h6>
             <div class="row justify-center">
-              <iframe
-                ref="docviewer"
-                :src="urlInvoiceTax"
-                name="invoice-tax"
-                class="invoice-tax"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-              ></iframe>
+              <iframe ref="docviewer" :src="urlInvoiceTax" name="invoice-tax" class="invoice-tax" width="100%"
+                height="100%" frameBorder="0"></iframe>
             </div>
           </div>
         </div>
@@ -67,7 +55,8 @@
                   </li>
                   <li>
                     {{
-                      `${carrier.address.postalCode} - ${carrier.address.district} - ${carrier.address.city} / ${carrier.address.state}`
+                      `${carrier.address.postalCode} - ${carrier.address.district} - ${carrier.address.city} /
+                                        ${carrier.address.state}`
                     }}
                   </li>
                 </ul>
@@ -89,7 +78,8 @@
                 Abaixo está nossa carta de consignatário do frete, que deve ser
                 impressa e anexada na frente da sua Nota Fiscal.
               </li>
-              <li><b>Atenção: </b>Caso o <b>LOCAL DE COLETA</b> seja <u>diferente</u> do endereço do emissor da NF, os dados de coleta deverão constar nos <b>"DADOS ADICIONAIS"</b> da NF</li>
+              <li><b>Atenção: </b>Caso o <b>LOCAL DE COLETA</b> seja <u>diferente</u> do endereço do emissor da NF, os
+                dados de coleta deverão constar nos <b>"DADOS ADICIONAIS"</b> da NF</li>
             </ul>
 
             <q-separator />
@@ -100,29 +90,17 @@
                   Upload da nota fiscal
                 </div>
 
-                <UploadFileForm
-                  class="q-mb-md"
-                  :endpoint="updEndpoint"
-                  @fileUploaded="onUploadedFile"
-                  @uploadFailed="onUploadFailed"
-                  @filesRemoved="onFilesRemoved"
-                  :multiple="false"
-                  accepted=".xml"
-                  :showError="false"
-                  :extraData="[
+                <UploadFileForm class="q-mb-md" :endpoint="updEndpoint" @fileUploaded="onUploadedFile"
+                  @uploadFailed="onUploadFailed" @filesRemoved="onFilesRemoved" :multiple="false" accepted=".xml"
+                  :showError="false" :extraData="[
                     {
                       name: 'orderId',
                       value: orderId,
                     },
-                  ]"
-                />
+                  ]" />
               </div>
               <div class="col-12" v-if="uploadErrors.length > 0">
-                <q-banner
-                  v-for="(error, index) in uploadErrors"
-                  :key="index"
-                  class="text-white bg-red q-mb-xs"
-                >
+                <q-banner v-for="(error, index) in uploadErrors" :key="index" class="text-white bg-red q-mb-xs">
                   <q-icon left size="md" name="error" color="white" />
                   {{ error }}
                 </q-banner>
@@ -193,19 +171,16 @@ export default {
     }),
 
     updEndpoint() {
-      return `${ENTRYPOINT}${
-        ENTRYPOINT.endsWith("/") ? "" : "/"
-      }invoice_taxes/upload-nf?myCompany=${this.myCompany.id}`;
+      return `${ENTRYPOINT}${ENTRYPOINT.endsWith("/") ? "" : "/"
+        }invoice_taxes/upload-nf?myCompany=${this.myCompany.id}`;
     },
 
     urlInvoiceTax() {
       if (this.invoiceTax === null) return "";
 
-      return `${ENTRYPOINT}${
-        ENTRYPOINT.endsWith("/") ? "" : "/"
-      }vendor/pdf.js/web/viewer.html?file=/invoice_taxes/${
-        this.invoiceTax.id
-      }/download-nf`;
+      return `${ENTRYPOINT}${ENTRYPOINT.endsWith("/") ? "" : "/"
+        }vendor/pdf.js/web/viewer.html?file=/invoice_taxes/${this.invoiceTax.id
+        }/download-nf`;
     },
   },
 

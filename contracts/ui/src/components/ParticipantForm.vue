@@ -16,7 +16,7 @@
           stack-label
           v-model="document"
           type="text"
-          :label="$t('contracts.document')"
+          :label="translate('contracts.document')"
           :readonly="true"
         />
       </div>
@@ -27,7 +27,7 @@
           stack-label
           v-model="email"
           type="text"
-          :label="$t('contracts.email')"
+          :label="translate('contracts.email')"
           :readonly="true"
         />
       </div>
@@ -38,7 +38,7 @@
           stack-label
           v-model="name"
           type="text"
-          :label="$t('contracts.name')"
+          :label="translate('contracts.name')"
           :readonly="true"
         />
       </div>
@@ -49,7 +49,7 @@
           stack-label
           v-model="alias"
           type="text"
-          :label="$t('contracts.alias')"
+          :label="translate('contracts.alias')"
           :readonly="true"
         />
       </div>
@@ -63,9 +63,9 @@
           emit-value
           map-options
           v-model="peopleRoles"
-          :label="$t('contracts.participation')"
+          :label="translate('contracts.participation')"
           :options="roles"
-          :rules="[(val) => val !== null || $t('messages.select_an_option')]"
+          :rules="[(val) => val !== null || translate('messages.select_an_option')]"
         />
       </div>
       <div class="col-xs-12 col-sm-6">
@@ -77,7 +77,7 @@
           suffix="%"
           v-model="percentage"
           type="text"
-          :label="$t('contracts.percent')"
+          :label="translate('contracts.percent')"
           mask="#,##"
           fill-mask="0"
           :rules="[isInvalid()]"
@@ -91,9 +91,9 @@
           emit-value
           map-options
           v-model="paymentDay"
-          :label="$t('contracts.payment_day')"
+          :label="translate('contracts.payment_day')"
           :options="monthDays"
-          :rules="[(val) => val !== null || $t('messages.select_an_option')]"
+          :rules="[(val) => val !== null || translate('messages.select_an_option')]"
         />
       </div>
     </div>
@@ -101,7 +101,7 @@
       <q-btn
         type="submit"
         color="primary"
-        :label="$t('contracts.save')"
+        :label="translate('contracts.save')"
         :loading="isSaving"
       />
     </div>
@@ -110,6 +110,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import Contract from "./../entity/Contract";
 import { formatBRDocument } from "./../library/formatter";
 import configurable from "./../mixins/configurable";
@@ -184,12 +185,12 @@ export default {
 
     loadParticipantRoles() {
       this.roles.push({
-        label: this.$t(`contracts.roles.Beneficiary`),
+        label: this.translate(`contracts.roles.Beneficiary`),
         value: "Beneficiary",
       });
 
       this.roles.push({
-        label: this.$t(`contracts.roles.Payer`),
+        label: this.translate(`contracts.roles.Payer`),
         value: "Payer",
       });
     },
@@ -221,7 +222,7 @@ export default {
       asyncForEach(this.peopleRoles)
         .then(() => {
           this.$q.notify({
-            message: this.$t("messages.saved_successfully"),
+            message: this.translate("messages.saved_successfully"),
             position: "bottom",
             type: "positive",
           });

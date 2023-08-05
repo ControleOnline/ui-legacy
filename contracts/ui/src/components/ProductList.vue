@@ -48,31 +48,31 @@ export default {
         name : 'name',
         align: 'left',
         field: 'name',
-        label: this.$t('contracts.columns.product_name')
+        label: this.translate('contracts.columns.product_name')
       },
       {
         name : 'quantity',
         field: 'quantity',
         align: 'left',
-        label: this.$t('contracts.columns.quantity')
+        label: this.translate('contracts.columns.quantity')
       },
       {
         name : 'price',
         field: 'price',
         align: 'left',
-        label: this.$t('contracts.columns.price')
+        label: this.translate('contracts.columns.price')
       },
       {
         name : 'payer',
         field: 'payer',
         align: 'left',
-        label: this.$t('contracts.columns.payer')
+        label: this.translate('contracts.columns.payer')
       },
       {
         name : 'parcels',
         field: 'parcels',
         align: 'left',
-        label: this.$t('contracts.columns.parceled')
+        label: this.translate('contracts.columns.parceled')
       },
       {
         name : 'remove'
@@ -182,7 +182,7 @@ export default {
     },
 
     removeItem(item) {
-      if (window.confirm(this.$t('messages.sure_remove'))) {
+      if (window.confirm(this.translate('messages.sure_remove'))) {
         item._bussy = true;
         this.Api.Contracts
           .DeleteProduct({ params: { id: item.id }})
@@ -194,7 +194,7 @@ export default {
             })
             .catch(error => {
               this.$q.notify({
-                message : this.$t(error.message),
+                message : this.translate(error.message),
                 position: 'bottom',
                 type    : 'negative',
               });

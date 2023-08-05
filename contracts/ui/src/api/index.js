@@ -1,4 +1,4 @@
-import Client from './../library/client';
+ import Client from './../library/client';
 import Contracts from './Contracts';
 import Customers from './Customers';
 import Products from './Products';

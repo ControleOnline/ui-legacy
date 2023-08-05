@@ -8,7 +8,7 @@
               dense
               outlined
               stack-label
-              :label="$t(`hardware.hardware`)"
+              :label="translate(`hardware.hardware`)"
               :options="hardwareOptions"
               v-model="hardware"
               :rules="[(val) => val != null]"
@@ -20,7 +20,7 @@
               dense
               outlined
               stack-label
-              :label="$t(`queue.queue`)"
+              :label="translate(`queue.queue`)"
               :options="queueOptions"
               v-model="queue"
               :rules="[(val) => val != null]"
@@ -33,7 +33,7 @@
               dense
               color="primary"
               icon="save"
-              :label="$t(`Save`)"
+              :label="translate(`Save`)"
               @click="onSubmit()"
             ></q-btn>
           </div>
@@ -142,7 +142,7 @@ export default {
 
       let options = {
         method: this.hardwareQueueId ? "PUT" : "POST",
-        headers: new Headers(),
+        
         body: JSON.stringify(values),
       };
 
@@ -152,7 +152,7 @@ export default {
         .then((result) => {
           if (result["@id"]) {
             this.$q.notify({
-              message: this.$t(`success`),
+              message: this.translate(`success`),
               position: "bottom",
               type: "positive",
             });

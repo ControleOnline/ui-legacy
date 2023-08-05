@@ -25,7 +25,7 @@
           unmasked-value
           v-model="item.document"
           type="text"
-          :label="$t('CNPJ')"
+          :label="translate('CNPJ')"
           :mask="'##.###.###/####-##'"
           :placeholder="'Digite o CNPJ'"
           :rules="[isInvalid('document')]"
@@ -42,7 +42,7 @@
           lazy-rules
           v-model="item.name"
           type="text"
-          :label="personType == 'PJ' ? $t('Razão social') : $t('Nome')"
+          :label="personType == 'PJ' ? translate('Razão social') : translate('Nome')"
           :placeholder="
             personType == 'PJ'
               ? 'Digite a Razão social'
@@ -60,7 +60,7 @@
           lazy-rules
           v-model="item.alias"
           type="text"
-          :label="personType == 'PJ' ? $t('Nome Fantasia') : $t('Sobrenome')"
+          :label="personType == 'PJ' ? translate('Nome Fantasia') : translate('Sobrenome')"
           :placeholder="
             personType == 'PJ'
               ? 'Digite o Nome fantasia'
@@ -87,6 +87,7 @@
 <script>
 
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from "vuex";
 
 export default {
@@ -227,10 +228,10 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
 
         if (key == "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.$t("messages.emailInvalid");
+          return this.translate("messages.emailInvalid");
 
         return true;
       };

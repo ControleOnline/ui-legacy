@@ -1,7 +1,7 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">{{ $t('Documents') }}</div>
+      <div class="text-subtitle1 text-left">{{ translate('Documents') }}</div>
     </div>
     <div class="col-9">
       <div class="row justify-end">
@@ -61,6 +61,7 @@
 <script>
 
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import { formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 const SETTINGS = {
@@ -169,7 +170,7 @@ export default {
     save(values) {
       let options = {
         method: 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body: JSON.stringify(values),
       };
 
@@ -192,7 +193,7 @@ export default {
     delete(id) {
       let options = {
         method: 'DELETE',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body: JSON.stringify({ id }),
       };
 

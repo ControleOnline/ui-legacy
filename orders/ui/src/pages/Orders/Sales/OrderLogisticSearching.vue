@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import StretchSearching from '@controleonline/quasar-orders-ui/src/components/order/sales/stretchTable.vue';
+ import StretchSearching from '@controleonline/quasar-orders-ui/src/components/order/sales/stretchTable.vue';
 
 export default {
   name      : 'OrderIndexPage',

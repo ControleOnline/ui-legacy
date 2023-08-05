@@ -179,7 +179,7 @@ export default {
     save(values) {
       let options = {
         method : 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body   : JSON.stringify(values),
       };
 

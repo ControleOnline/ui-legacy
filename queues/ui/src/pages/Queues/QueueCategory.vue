@@ -5,7 +5,7 @@
           <q-btn
             dense
             color="primary"
-            :label="$t(`Add`)"
+            :label="translate(`Add`)"
             @click="newQueue = true"
           ></q-btn>
         </div>
@@ -15,7 +15,7 @@
       <q-dialog v-model="newQueue">
         <q-card>
           <q-card-section>
-            <span class="text-h6"> {{ $t(`Add`) }}</span>
+            <span class="text-h6"> {{ translate(`Add`) }}</span>
           </q-card-section>
           <QueueCategoryCreate></QueueCategoryCreate>
         </q-card>
@@ -25,6 +25,7 @@
   
 <script>
 
+import translate from "@controleonline/../../src/boot/translate";
 import QueueCategoryCreate from '@controleonline/quasar-queues-ui/src/components/queue/QueueCategoryCreate.vue';
 import QueueCategory from '@controleonline/quasar-queues-ui/src/components/queue/QueueCategoryList.vue';
 

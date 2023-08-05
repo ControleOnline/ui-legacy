@@ -2,13 +2,8 @@
   <q-page padding>
     <q-card style="min-height: 90vh">
       <q-card-section>
-        <q-btn
-          flat
-          no-caps
-          icon="arrow_back"
-          :to="{ name: 'CarrierDetails', params: { id: this.carrierId } }"
-          label="Voltar à transportadora"
-        />
+        <q-btn flat no-caps icon="arrow_back" :to="{ name: 'CarrierDetails', params: { id: this.carrierId } }"
+          label="Voltar à transportadora" />
       </q-card-section>
       <q-card-section>
         <div class="row">
@@ -19,22 +14,10 @@
               </div>
               <div class="col-xs-12 col-sm-6 text-right q-mt-sm">
                 <div class="row justify-end q-gutter-xs">
-                  <q-btn
-                    label="Incrementar taxas"
-                    icon="add"
-                    size="md"
-                    color="primary"
-                    @click="dialog = !dialog"
-                    :class="$q.screen.lt.sm ? 'full-width' : ''"
-                  />
-                  <q-btn
-                    label="Adicionar conjunto taxas"
-                    icon="add"
-                    size="md"
-                    color="primary"
-                    @click="dialog2 = !dialog2"
-                    :class="$q.screen.lt.sm ? 'full-width' : ''"
-                  />
+                  <q-btn label="Incrementar taxas" icon="add" size="md" color="primary" @click="dialog = !dialog"
+                    :class="$q.screen.lt.sm ? 'full-width' : ''" />
+                  <q-btn label="Adicionar conjunto taxas" icon="add" size="md" color="primary" @click="dialog2 = !dialog2"
+                    :class="$q.screen.lt.sm ? 'full-width' : ''" />
                 </div>
               </div>
             </div>
@@ -43,7 +26,7 @@
           <div class="col-12">
             <q-tabs align="justify" v-model="currentTab" class="bg-white text-primary">
               <q-tab name="summary" label="Sumário" />
-              <q-tab name="import " label="import ar" />
+              <q-tab name="import " label="importar" />
               <q-tab name="fixedTax" label="Taxa fixa" />
               <q-tab name="fixedPercentage" label="Taxa por porcentagem" />
               <q-tab name="fixedKg" label="Taxa fixa por KG" />
@@ -52,196 +35,146 @@
               <q-tab name="taxRegion" label="Taxa KG por Praça" />
               <q-tab name="fixedKm" label="Taxa fixa por distância" />
             </q-tabs>
-
             <q-separator />
-
             <q-tab-panels v-model="currentTab">
               <q-tab-panel name="summary">
-                <CarrierTableSummary
-                  :table="table"
-                  @error="
-                    (error) => {
-                      this.$q.notify({
-                        message: error.message,
-                        position: 'bottom',
-                        type: 'negative',
-                      });
-                    }
-                  "
-                  @saved="
-                    (data) => {
-                      this.$q.notify({
-                        message: 'Os dados foram salvos com sucesso',
-                        position: 'bottom',
-                        type: 'positive',
-                      });
-                    }
-                  "
-                />
+                <CarrierTableSummary :table="table" @error="(error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+                  " @saved="(data) => {
+    this.$q.notify({
+      message: 'Os dados foram salvos com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    });
+  }
+    " />
               </q-tab-panel>
-              <q-tab-panel name="import ">
-                <Carrierimport s :tableId="tableId" />
+              <q-tab-panel name="import">
+                <Carrierimports :tableId="tableId" />
               </q-tab-panel>
               <q-tab-panel name="fixedTax">
-                <CarrierTableFixedtax
-                  :table="table"
-                  @error="
-                    (error) => {
-                      this.$q.notify({
-                        message: error.message,
-                        position: 'bottom',
-                        type: 'negative',
-                      });
-                    }
-                  "
-                  @saved="
-                    (data) => {
-                      this.$q.notify({
-                        message: 'Os dados foram salvos com sucesso',
-                        position: 'bottom',
-                        type: 'positive',
-                      });
-                    }
-                  "
-                />
+                <CarrierTableFixedtax :table="table" @error="(error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+                  " @saved="(data) => {
+    this.$q.notify({
+      message: 'Os dados foram salvos com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    });
+  }
+    " />
               </q-tab-panel>
               <q-tab-panel name="fixedPercentage">
-                <CarrierTableFixedpercentage
-                  :table="table"
-                  @error="
-                    (error) => {
-                      this.$q.notify({
-                        message: error.message,
-                        position: 'bottom',
-                        type: 'negative',
-                      });
-                    }
-                  "
-                  @saved="
-                    (data) => {
-                      this.$q.notify({
-                        message: 'Os dados foram salvos com sucesso',
-                        position: 'bottom',
-                        type: 'positive',
-                      });
-                    }
-                  "
-                />
+                <CarrierTableFixedpercentage :table="table" @error="(error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+                  " @saved="(data) => {
+    this.$q.notify({
+      message: 'Os dados foram salvos com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    });
+  }
+    " />
               </q-tab-panel>
               <q-tab-panel name="fixedKg">
-                <CarrierTableFixedkg
-                  :table="table"
-                  @error="
-                    (error) => {
-                      this.$q.notify({
-                        message: error.message,
-                        position: 'bottom',
-                        type: 'negative',
-                      });
-                    }
-                  "
-                  @saved="
-                    (data) => {
-                      this.$q.notify({
-                        message: 'Os dados foram salvos com sucesso',
-                        position: 'bottom',
-                        type: 'positive',
-                      });
-                    }
-                  "
-                />
+                <CarrierTableFixedkg :table="table" @error="(error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+                  " @saved="(data) => {
+    this.$q.notify({
+      message: 'Os dados foram salvos com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    });
+  }
+    " />
               </q-tab-panel>
               <q-tab-panel name="table">
-                <CarrierTableTabela
-                  :table="table"
-                  @error="
-                    (error) => {
-                      this.$q.notify({
-                        message: error.message,
-                        position: 'bottom',
-                        type: 'negative',
-                      });
-                    }
-                  "
-                  @saved="
-                    (data) => {
-                      this.$q.notify({
-                        message: 'Os dados foram salvos com sucesso',
-                        position: 'bottom',
-                        type: 'positive',
-                      });
-                    }
-                  "
-                />
+                <CarrierTableTabela :table="table" @error="(error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+                  " @saved="(data) => {
+    this.$q.notify({
+      message: 'Os dados foram salvos com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    });
+  }
+    " />
               </q-tab-panel>
               <q-tab-panel name="taxPercentInvoice">
-                <CarrierTableTaxpercentinvoice
-                  :table="table"
-                  @error="
-                    (error) => {
-                      this.$q.notify({
-                        message: error.message,
-                        position: 'bottom',
-                        type: 'negative',
-                      });
-                    }
-                  "
-                  @saved="
-                    (data) => {
-                      this.$q.notify({
-                        message: 'Os dados foram salvos com sucesso',
-                        position: 'bottom',
-                        type: 'positive',
-                      });
-                    }
-                  "
-                />
+                <CarrierTableTaxpercentinvoice :table="table" @error="(error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+                  " @saved="(data) => {
+    this.$q.notify({
+      message: 'Os dados foram salvos com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    });
+  }
+    " />
               </q-tab-panel>
               <q-tab-panel name="taxRegion">
-                <CarrierTableTaxregion
-                  :table="table"
-                  @error="
-                    (error) => {
-                      this.$q.notify({
-                        message: error.message,
-                        position: 'bottom',
-                        type: 'negative',
-                      });
-                    }
-                  "
-                  @saved="
-                    (data) => {
-                      this.$q.notify({
-                        message: 'Os dados foram salvos com sucesso',
-                        position: 'bottom',
-                        type: 'positive',
-                      });
-                    }
-                  "
-                />
+                <CarrierTableTaxregion :table="table" @error="(error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+                  " @saved="(data) => {
+    this.$q.notify({
+      message: 'Os dados foram salvos com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    });
+  }
+    " />
               </q-tab-panel>
               <q-tab-panel name="fixedKm">
-                <CarrierTableFixedkm
-                  :table="table"
-                  @error="
-                    (error) => {
-                      this.$q.notify({
-                        message: error.message,
-                        position: 'bottom',
-                        type: 'negative',
-                      });
-                    }
-                  "
-                  @saved="
-                    (data) => {
-                      this.$q.notify({
-                        message: 'Os dados foram salvos com sucesso',
-                        position: 'bottom',
-                        type: 'positive',
-                      });
-                    }
-                  "
-                />
+                <CarrierTableFixedkm :table="table" @error="(error) => {
+                  this.$q.notify({
+                    message: error.message,
+                    position: 'bottom',
+                    type: 'negative',
+                  });
+                }
+                  " @saved="(data) => {
+    this.$q.notify({
+      message: 'Os dados foram salvos com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    });
+  }
+    " />
               </q-tab-panel>
             </q-tab-panels>
           </div>
@@ -252,32 +185,26 @@
     <q-dialog v-model="dialog">
       <q-card style="width: 700px; max-width: 95vw">
         <q-card-section class="row items-center">
-          <div class="text-h6">{{ $t("Incrementar valor taxas") }}</div>
+          <div class="text-h6">{{ translate("Incrementar valor taxas") }}</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <TableIncreaseTaxes
-            :table="table"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Os dados foram salvos com sucesso',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
+          <TableIncreaseTaxes :table="table" @error="(error) => {
+            this.$q.notify({
+              message: error.message,
+              position: 'bottom',
+              type: 'negative',
+            });
+          }
+            " @saved="(data) => {
+    this.$q.notify({
+      message: 'Os dados foram salvos com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    });
+  }
+    " />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -285,32 +212,26 @@
     <q-dialog v-model="dialog2">
       <q-card style="width: 1200px; max-width: 95vw">
         <q-card-section class="row items-center">
-          <div class="text-h6">{{ $t("Adicionar conjunto taxas") }}</div>
+          <div class="text-h6">{{ translate("Adicionar conjunto taxas") }}</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <TableMultipleTaxes
-            :table="table"
-            @error="
-              (error) => {
-                this.$q.notify({
-                  message: error.message,
-                  position: 'bottom',
-                  type: 'negative',
-                });
-              }
-            "
-            @saved="
-              (data) => {
-                this.$q.notify({
-                  message: 'Os dados foram salvos com sucesso',
-                  position: 'bottom',
-                  type: 'positive',
-                });
-              }
-            "
-          />
+          <TableMultipleTaxes :table="table" @error="(error) => {
+            this.$q.notify({
+              message: error.message,
+              position: 'bottom',
+              type: 'negative',
+            });
+          }
+            " @saved="(data) => {
+    this.$q.notify({
+      message: 'Os dados foram salvos com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    });
+  }
+    " />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -319,7 +240,8 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import CarrierImports from "@controleonline/quasar-import-ui/src/components/Import/ImportsList";
+import translate from "@controleonline/../../src/boot/translate";
+import Carrierimports from "@controleonline/quasar-import -ui/src/components/import /importsList";
 import CarrierTableFixedkg from "../../components/carrier/TableFixedkg";
 import CarrierTableFixedkm from "../../components/carrier/TableFixedkm";
 import CarrierTableFixedpercentage from "../../components/carrier/TableFixedpercentage";
@@ -343,7 +265,7 @@ export default {
     CarrierTableFixedkm,
     TableIncreaseTaxes,
     TableMultipleTaxes,
-    CarrierImports,
+    Carrierimports,
   },
 
   created() {

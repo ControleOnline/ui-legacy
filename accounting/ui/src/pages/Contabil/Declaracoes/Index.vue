@@ -4,12 +4,12 @@
       <q-card-section>
         <div class="row">
           <div class="col-4 q-mb-md text-h6 text-left">
-            {{ $t('Contábil Declarações') }}
+            {{ translate('Contábil Declarações') }}
           </div>
           <div class="col-8 q-mb-md">
             <div class="row justify-end">
               <q-btn
-                :label ="$t('Nova declaração')"
+                :label ="translate('Nova declaração')"
                 icon   ="add"
                 size   ="md"
                 color  ="primary"
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import ContabilDeclaracaoTabela from './../../../components/contabil/ContabilDeclaracaoTabela';
 
 export default {

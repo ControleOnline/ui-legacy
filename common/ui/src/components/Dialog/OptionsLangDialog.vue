@@ -3,7 +3,7 @@
     <div class="bg-white full-width" style="max-height: 70%">
       <q-item class="bg-secondary items-center">
         <q-item-label class="text-bold text-white">
-          {{ $t("choose_language") }}
+          {{ translate("choose_language") }}
         </q-item-label>
         <q-space></q-space>
         <q-btn icon="close" size="1rem" round color="white" flat v-close-popup> </q-btn>
@@ -29,7 +29,7 @@
             <img :src="`/flags/${option.image}.png`" />
           </q-avatar>
           <div class="q-ml-md text-capitalize text-grey-10">
-            {{ $t(option.label) }}
+            {{ translate(option.label) }}
           </div>
         </q-btn>
       </div>

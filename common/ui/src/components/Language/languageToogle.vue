@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Config from "@controleonline/quasar-common-ui/src/utils/config";
+ import Config from "@controleonline/quasar-common-ui/src/utils/config";
 import Language from "@controleonline/quasar-common-ui/src/utils/language";
 
 export default {

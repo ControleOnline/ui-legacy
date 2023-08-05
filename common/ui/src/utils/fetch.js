@@ -1,25 +1,15 @@
 import { Loading, LocalStorage, Notify } from "quasar";
-import messages from "src/i18n";
 import { DOMAIN } from "../../../../../src/config/domain";
 import { ENTRYPOINT } from "../../../../../src/config/entrypoint";
 import SubmissionError from "../error/SubmissionError";
 
-const MIME_TYPE = "application/ld+json";
-
 export default function (id, options = {}) {
   const lang = LocalStorage.has("config")
     ? LocalStorage.getItem("config").language
-    : "pt-br";
-  if (typeof options.headers === "undefined")
-    Object.assign(options, { headers: new Headers() });
-  if (options.headers.get("Accept") === null)
-    options.headers.set("Accept", MIME_TYPE);
-  if (
-    options.body !== undefined &&
-    !(options.body instanceof FormData) &&
-    options.headers.get("Content-Type") === null
-  ) {
-    options.headers.set("Content-Type", MIME_TYPE);
+    : "pt-BR";
+
+  if (options.body) {
+    options.body = JSON.stringify(options.body);
   }
 
   if (options.params) {
@@ -47,19 +37,6 @@ export default function (id, options = {}) {
   return fetch(new URL(id, entryPoint), options)
     .then((response) => {
       if (response.ok) {
-        let method = options ? options.method : null;
-        if (method == "PUT" || method == "POST" || method == "DELETE") {
-          Notify.create({
-            message:
-              messages && messages[lang].actions
-                ? messages[lang].actions[method]
-                  ? messages[lang].actions[method].success
-                  : messages[lang].success
-                : messages[lang].success,
-            position: "bottom",
-            type: "positive",
-          });
-        }
         return response;
       }
       return response
@@ -97,12 +74,29 @@ export default function (id, options = {}) {
     })
     .then((response) => response.json())
     .then((data) => {
-      if (data.error)
+      let error =
+        data.response && data.response.error ? data.response.error : data.error;
+      if (error) {
         Notify.create({
-          message: data.error,
+          message: typeof error == "object" ? error.message : error,
           position: "bottom",
           type: "negative",
         });
+      } else {
+        let method = options ? options.method : null;
+        if (method == "PUT" || method == "POST" || method == "DELETE") {
+          Notify.create({
+            message:
+              messages && messages[lang].actions
+                ? messages[lang].actions[method]
+                  ? messages[lang].actions[method].success
+                  : messages[lang].success
+                : messages[lang].success,
+            position: "bottom",
+            type: "positive",
+          });
+        }
+      }
       return data;
     })
     .finally(() => {

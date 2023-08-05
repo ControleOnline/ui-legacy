@@ -147,7 +147,7 @@ export default {
     save(values) {
       let options = {
         method: "PUT",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        
         body: JSON.stringify(values),
       };
 
@@ -207,7 +207,7 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
 
         return true;
       };

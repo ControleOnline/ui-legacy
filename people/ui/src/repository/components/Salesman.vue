@@ -79,21 +79,21 @@
                 <q-input
       dense
       outlined  stack-label lazy-rules unmasked-value v-model="item.document" type="text"
-                  class="q-mb-sm" :label="$t('CNPJ')" :mask="'##.###.###/####-##'" :placeholder="'Digite o CNPJ'"
+                  class="q-mb-sm" :label="translate('CNPJ')" :mask="'##.###.###/####-##'" :placeholder="'Digite o CNPJ'"
                   :rules="[isInvalid('document')]" :loading="searching" @input="searchSalesman" />
               </div>
               <div class="col-xs-12 col-sm-6">
                 <q-input
       dense
       outlined stack-label lazy-rules v-model="item.name" type="text" class="q-mb-sm"
-                  :label="$t('Razão social')" :placeholder="'Razão social'" :rules="[isInvalid('name')]"
+                  :label="translate('Razão social')" :placeholder="'Razão social'" :rules="[isInvalid('name')]"
                    />
               </div>
               <div class="col-xs-12 col-sm-6">
                 <q-input
       dense
       outlined stack-label lazy-rules v-model="item.alias" type="text" class="q-mb-sm"
-                  :label="$t('Nome Fantasia')" :placeholder="'Nome fantasia'" :rules="[isInvalid('alias')]"
+                  :label="translate('Nome Fantasia')" :placeholder="'Nome fantasia'" :rules="[isInvalid('alias')]"
                    />
               </div>
             </div>
@@ -111,6 +111,7 @@
 <script>
 
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import { formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import md5 from 'md5';
 import { mapGetters } from 'vuex';
@@ -166,7 +167,7 @@ export default {
     save(values) {
       let options = {
         method: 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body: JSON.stringify(values),
         params: {
           myProvider: this.myProvider.id
@@ -191,7 +192,7 @@ export default {
     delete(id) {
       let options = {
         method: 'DELETE',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body: JSON.stringify({ id }),
       };
 
@@ -351,10 +352,10 @@ export default {
     isInvalid(key) {
       return val => {
         if (!(val && val.length > 0))
-          return this.$t('messages.fieldRequired');
+          return this.translate('messages.fieldRequired');
 
         if (key == 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.$t('messages.emailInvalid');
+          return this.translate('messages.emailInvalid');
 
         return true;
       };

@@ -13,7 +13,7 @@
           </div>
 
           <q-btn
-            :icon="!notify ? 'o_notifications' : 'notification_important'"
+            :icon="!notify ? 'o_notifications' : 'notification_import ant'"
             no-caps
             size="1.313rem"
             :color="!notify ? 'white' : 'orange-5'"
@@ -34,7 +34,7 @@
           outlined="outlined"
           v-model="search"
           v-on:keyup="emitSearch"
-          :placeholder="$t('search_text')"
+          :placeholder="translate('search_text')"
           bg-color="white"
           color="secondary"
           :loading="loading"
@@ -50,8 +50,8 @@
     </q-toolbar>
 
     <div class=" q-px-sm">
-      <h6 class="q-ma-none title-category">{{ $t(title) }}</h6>
-      <p class="q-ma-none subtitle-category">{{ $t(subtitle) }}</p>
+      <h6 class="q-ma-none title-category">{{ translate(title) }}</h6>
+      <p class="q-ma-none subtitle-category">{{ translate(subtitle) }}</p>
     </div>
   </q-header>
 </template>

@@ -3,7 +3,7 @@
       <ListAutocomplete
         :source   ="getGeoPlaces"
         :isLoading="isLoading"
-        :label    ="$t('form.section03')"
+        :label    ="translate('form.section03')"
         @selected ="onSelect"
         placeholder="Digite o destino"
       />
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import ListAutocomplete from '@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete';
 import { mapActions } from 'vuex';
 
@@ -56,7 +57,7 @@ export default {
           }
           else {
             this.$q.notify({
-              message : this.$t('messages.gmapsReqNoData'),
+              message : this.translate('messages.gmapsReqNoData'),
               position: 'bottom',
               type    : 'negative',
             });
@@ -82,7 +83,7 @@ export default {
     isInvalid(key) {
       return val => {
         if (!val)
-          return this.$t('messages.fieldRequired');
+          return this.translate('messages.fieldRequired');
 
         return true;
       };

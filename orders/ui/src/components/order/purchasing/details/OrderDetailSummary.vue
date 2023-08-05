@@ -676,7 +676,7 @@ export default {
           body: JSON.stringify({
             payerId: this.summary.payer.id,
           }),
-          headers: new Headers(),
+          
         };
 
         params.headers.set("API-TOKEN", this.logged.token);

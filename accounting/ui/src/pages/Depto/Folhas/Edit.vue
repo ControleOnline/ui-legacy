@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{$t('Editar Folha de Pagamento')}}
+            {{translate('Editar Folha de Pagamento')}}
           </div>
           <div class="col-12 q-mb-md">
             <FormFolhaPagamento
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import FormFolhaPagamento from './../../../components/depto/FormFolhaPagamento';
 
 export default {

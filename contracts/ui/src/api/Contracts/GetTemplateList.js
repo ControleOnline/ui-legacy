@@ -1,4 +1,4 @@
-import Resource from './../../library/resource';
+ import Resource from './../../library/resource';
 
 export default class GetTemplateList extends Resource {
   constructor(client) {

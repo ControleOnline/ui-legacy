@@ -1,12 +1,12 @@
 <template>
-  <CarrierImports />
+  <Carrierimports />
 </template>
 
 <script>
-import CarrierImports from "../../components/Import/ImportsList";
+ import Carrierimports from "../../components/import /importsList";
 export default {
   components: {
-    CarrierImports,
+    Carrierimports,
   },
   data() {
     return {};

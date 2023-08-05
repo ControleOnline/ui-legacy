@@ -47,7 +47,7 @@
           dense
           outlined
           stack-label
-          :label="$t(context + '.criticality')"
+          :label="translate(context + '.criticality')"
           v-model="item.criticality"
           :options="categories_criticality"
           class="full-width"
@@ -68,7 +68,7 @@
           dense
           outlined
           stack-label
-          :label="$t(context + '.reason')"
+          :label="translate(context + '.reason')"
           v-model="item.reason"
           :options="categories_reason"
           class="full-width"
@@ -253,6 +253,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
@@ -330,7 +331,7 @@ export default {
         client: null,
         taskStatus: this.taskData
           ? this.findStatus(this.taskData.taskStatus)
-          : { label: this.$t(this.context + ".status.open"), value: -1 },
+          : { label: this.translate(this.context + ".status.open"), value: -1 },
         category: null,
         order: null,
         criticality: null,
@@ -767,7 +768,7 @@ export default {
             (val.length > 0 || (typeof val === "object" && Object.keys(val).length))
           )
         )
-          return this.$t("messages.fieldRequired");
+          return this.translate("messages.fieldRequired");
 
         return true;
       };

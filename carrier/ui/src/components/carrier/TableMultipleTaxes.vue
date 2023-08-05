@@ -206,7 +206,7 @@ export default {
     save(values) {
       const options = {
         method: "POST",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        
         body: JSON.stringify(values),
       };
 

@@ -117,7 +117,7 @@ export const updateStatus = ({ commit }, { id, values, params = {} }) => {
     params: params
   };
 
-  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+  
 
   return api.fetch(`${RESOURCE_ENDPOINT}/${id}/update-status`, options)
     

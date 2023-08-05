@@ -13,15 +13,15 @@
 
       <q-item class="column text-center q-pa-lg">
         <q-item-section>
-          <q-item-label>{{ $t('attention') }}</q-item-label>
+          <q-item-label>{{ translate('attention') }}</q-item-label>
           <q-item-label class="q-py-sm">
-            {{ $t('first_desc_reschedule') }}
+            {{ translate('first_desc_reschedule') }}
           </q-item-label>
           <q-item-label class="q-py-sm">
-            {{ $t('second_desc_reschedule') }}
+            {{ translate('second_desc_reschedule') }}
           </q-item-label>
           <q-item-label class="q-py-sm">
-            {{ $t('third_desc_reschedule') }}
+            {{ translate('third_desc_reschedule') }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -31,7 +31,7 @@
           class="q-py-sm q-px-md text-capitalize"
           outline
           color="secondary"
-          :label="$t('cancel_reschedule')"
+          :label="translate('cancel_reschedule')"
           v-close-popup
         >
         </q-btn>
@@ -39,7 +39,7 @@
         <q-btn
           class="q-py-sm q-px-md text-capitalize"
           color="secondary"
-          :label="$t('confirm_reschedule')"
+          :label="translate('confirm_reschedule')"
           v-close-popup
         >
         </q-btn>

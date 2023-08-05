@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{$t('Nova declaração')}}
+            {{translate('Nova declaração')}}
           </div>
           <div class="col-12 q-mb-md">
             <FormDeclaracao />
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import FormDeclaracao from './../../../components/contabil/FormDeclaracao';
 
 export default {

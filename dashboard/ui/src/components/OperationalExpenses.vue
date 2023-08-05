@@ -8,7 +8,7 @@
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ $t("dashboard.operational_expenses") }} ({{
+          {{ translate("dashboard.operational_expenses") }} ({{
             purchasing_percent || 0
           }}
           %)
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import configurable from "./../mixins/configurable";
 import dashboard from "./../mixins/dashboard";
 

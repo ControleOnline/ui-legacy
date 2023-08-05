@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import InvoiceSearching from "../../../components/invoice/invoice/InvoiceSearching.vue";
+ import InvoiceSearching from "../../../components/invoice/invoice/InvoiceSearching.vue";
 
 export default {
   name: "InvoiceIndexPage",

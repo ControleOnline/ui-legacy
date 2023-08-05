@@ -160,7 +160,7 @@ export default {
     save(values) {
       let options = {
         method: "PUT",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        
         body: JSON.stringify(values),
       };
 
@@ -220,19 +220,19 @@ export default {
       return (val) => {
         if (key == "money") {
           if (!val || !(parseFloat(val.replace(",", ".")) > 0))
-            return this.$t("messages.fieldRequired");
+            return this.translate("messages.fieldRequired");
 
           return true;
         }
 
         if (key == "monthday") {
           if (!val || !(parseInt(val) > 0 && parseInt(val) < 32))
-            return this.$t("messages.fieldRequired");
+            return this.translate("messages.fieldRequired");
 
           return true;
         }
 
-        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
 
         return true;
       };

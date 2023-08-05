@@ -24,7 +24,7 @@
             <q-td auto-width>
               <q-btn outline
                 color ="primary"
-                :label="$t('Mensagens')"
+                :label="translate('Mensagens')"
                 size  ="sm"
                 :to   ="{
                   name  : 'SocietarioMessages',
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import { mapGetters } from 'vuex';
 

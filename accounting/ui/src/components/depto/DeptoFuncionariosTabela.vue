@@ -29,7 +29,7 @@
                 <q-btn
                   outline
                   color="primary"
-                  :label="$t('Dependentes')"
+                  :label="translate('Dependentes')"
                   size="sm"
                   :to="{
                     name: 'DeptoFuncionariosDependentes',
@@ -41,7 +41,7 @@
                 <q-btn
                   outline
                   color="primary"
-                  :label="$t('Folhas de Ponto')"
+                  :label="translate('Folhas de Ponto')"
                   size="sm"
                   :to="{
                     name: 'DeptoFuncionariosFolhas',
@@ -52,7 +52,7 @@
                 />
                 <q-btn
                   color="red"
-                  :label="$t('Apagar')"
+                  :label="translate('Apagar')"
                   size="sm"
                   @click=""
                   :loading="false"
@@ -67,8 +67,8 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
-import { mapActions, mapGetters } from "vuex";
+import translate from "@controleonline/../../src/boot/translate";
+import { mapGetters } from "vuex";
 
 const SETTINGS = {
   columns: [

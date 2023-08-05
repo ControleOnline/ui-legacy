@@ -19,7 +19,7 @@
       outlined  stack-label lazy-rules unmasked-value
       v-model     ="item.document"
       type        ="text"
-      :label      ="personType == 'PJ' ? $t('CNPJ') : $t('CPF')"
+      :label      ="personType == 'PJ' ? translate('CNPJ') : translate('CPF')"
       :mask       ="personType == 'PJ' ? '##.###.###/####-##' : '###.###.###-##'"
       :placeholder="personType == 'PJ' ? 'Digite o CNPJ' : 'Digite o CPF'"
       :rules      ="[isInvalid('document')]"
@@ -34,7 +34,7 @@
       outlined  stack-label lazy-rules
           v-model     ="item.name"
           type        ="text"
-          :label      ="personType == 'PJ' ? $t('Razão social') : $t('Nome')"
+          :label      ="personType == 'PJ' ? translate('Razão social') : translate('Nome')"
           :placeholder="personType == 'PJ' ? 'Digite a Razão social' : 'Digite seu nome'"
           :rules      ="[isInvalid('name')]"
           :disable    ="!canEdit"
@@ -46,7 +46,7 @@
       outlined  stack-label lazy-rules
           v-model     ="item.alias"
           type        ="text"
-          :label      ="personType == 'PJ' ? $t('Nome Fantasia') : $t('Sobrenome')"
+          :label      ="personType == 'PJ' ? translate('Nome Fantasia') : translate('Sobrenome')"
           :placeholder="personType == 'PJ' ? 'Digite o Nome fantasia' : 'Digite seu sobrenome'"
           :rules      ="[isInvalid('alias')]"
           :disable    ="!canEdit"
@@ -61,7 +61,7 @@
       outlined  stack-label lazy-rules
           v-model     ="item.email"
           type        ="text"
-          :label      ="$t('Email')"
+          :label      ="translate('Email')"
           placeholder ="Digite o email"
           :rules      ="[isInvalid('email')]"
           :disable    ="!canEdit"
@@ -73,7 +73,7 @@
       outlined  stack-label lazy-rules unmasked-value
           v-model    ="item.phone"
           type       ="text"
-          :label     ="$t('Telefone')"
+          :label     ="translate('Telefone')"
           mask       ="(##) #####-####"
           placeholder="Digite seu telefone"
           :rules     ="[isInvalid('phone')]"
@@ -105,7 +105,7 @@
       outlined stack-label lazy-rules unmasked-value hide-bottom-space
           v-model    ="item.address.postal_code"
           type       ="text"
-          :label     ="$t('CEP')"
+          :label     ="translate('CEP')"
           mask       ="#####-###"
           :rules     ="[isInvalid('postal_code')]"
           :disable   ="!canEdit"
@@ -117,7 +117,7 @@
       outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.street"
           type       ="text"
-          :label     ="$t('Rua')"
+          :label     ="translate('Rua')"
           :rules     ="[isInvalid('street')]"
           :disable   ="!canEdit"
         />
@@ -128,7 +128,7 @@
       outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.number"
           type       ="text"
-          :label     ="$t('Número')"
+          :label     ="translate('Número')"
           :rules     ="[isInvalid('number')]"
           :disable   ="!canEdit"
         />
@@ -139,7 +139,7 @@
       outlined stack-label hide-bottom-space
           v-model    ="item.address.complement"
           type       ="text"
-          :label     ="$t('Complemento')"
+          :label     ="translate('Complemento')"
           :disable   ="!canEdit"
         />
       </div>
@@ -149,7 +149,7 @@
       outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.district"
           type       ="text"
-          :label     ="$t('Bairro')"
+          :label     ="translate('Bairro')"
           :rules     ="[isInvalid('district')]"
           :disable   ="!canEdit"
         />
@@ -160,7 +160,7 @@
       outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.city"
           type       ="text"
-          :label     ="$t('Cidade')"
+          :label     ="translate('Cidade')"
           :rules     ="[isInvalid('city')]"
           :readonly  ="item.address.city.length > 0"
           :borderless="item.address.city.length > 0"
@@ -173,7 +173,7 @@
       outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.state"
           type       ="text"
-          :label     ="$t('UF')"
+          :label     ="translate('UF')"
           mask       ="AA"
           :rules     ="[isInvalid('state')]"
           :readonly  ="item.address.state.length > 0"
@@ -187,7 +187,7 @@
       outlined stack-label lazy-rules hide-bottom-space
           v-model    ="item.address.country"
           type       ="text"
-          :label     ="$t('País')"
+          :label     ="translate('País')"
           :rules     ="[isInvalid('country')]"
           :readonly  ="item.address.country.length > 0"
           :borderless="item.address.country.length > 0"
@@ -209,6 +209,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { mapActions } from 'vuex';
 import ListAutocomplete from './ListAutocomplete';
 
@@ -414,7 +415,7 @@ export default {
           }
           else {
             this.$q.notify({
-              message : this.$t('messages.gmapsReqNoData'),
+              message : this.translate('messages.gmapsReqNoData'),
               position: 'bottom',
               type    : 'negative',
             });
@@ -463,13 +464,13 @@ export default {
     isInvalid(key) {
       return val => {
         if (!(val && val.length > 0))
-          return this.$t('messages.fieldRequired');
+          return this.translate('messages.fieldRequired');
 
         if (key == 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.$t('messages.emailInvalid');
+          return this.translate('messages.emailInvalid');
 
         if (key == 'phone' && !/^\d{10,11}$/.test(val))
-          return this.$t('messages.phoneInvalid');
+          return this.translate('messages.phoneInvalid');
 
         return true;
       };

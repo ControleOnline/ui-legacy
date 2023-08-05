@@ -2,7 +2,7 @@
   <div>
     <q-btn flat
       color   ="secondary"
-      :label  ="$t('contracts.cancel_contract')"
+      :label  ="translate('contracts.cancel_contract')"
       @click  ="dialog = true"
       :disable="!canCancel"
       icon    ="cancel"
@@ -12,7 +12,7 @@
       <q-card style="width: 400px; max-width: 90vw;">
         <q-card-section class="row items-center">
           <div class="text-h6">
-            {{ $t('contracts.select_data') }}
+            {{ translate('contracts.select_data') }}
           </div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
@@ -30,7 +30,7 @@
               <q-btn
                 type    ="submit"
                 color   ="primary"
-                :label  ="$t('contracts.save')"
+                :label  ="translate('contracts.save')"
                 :loading="isCanceling"
               />
             </div>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { date } from 'quasar';
 import Contract from './../entity/Contract';
 import configurable from './../mixins/configurable';
@@ -80,7 +81,7 @@ export default {
     onSubmit() {
       if (this.cancelDate == null) {
         this.$q.notify({
-          message : this.$t('messages.select_a_date'),
+          message : this.translate('messages.select_a_date'),
           position: 'bottom',
           type    : 'negative',
         });
@@ -103,14 +104,14 @@ export default {
         })
           .then(contract => {
             this.$q.notify({
-              message : this.$t('messages.saved_successfully'),
+              message : this.translate('messages.saved_successfully'),
               position: 'bottom',
               type    : 'positive',
             });
           })
           .catch(e => {
             this.$q.notify({
-              message : this.$t(e.message),
+              message : this.translate(e.message),
               position: 'bottom',
               type    : 'negative',
             });

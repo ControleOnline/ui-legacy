@@ -2,7 +2,7 @@
   <q-form @submit="onSubmit">
     <div class="row items-center">
       <div class="text-h6">
-        {{ item.id === null ? $t("Novo Modulo") : $t("Edição de modulos") }}
+        {{ item.id === null ? translate("Novo Modulo") : translate("Edição de modulos") }}
       </div>
     </div>
     <div class="row q-col-gutter-y-sm q-pt-md">
@@ -14,7 +14,7 @@
           stack-label
           v-model="item.name"
           type="text"
-          :label="$t('name')"
+          :label="translate('name')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
@@ -27,7 +27,7 @@
           stack-label
           v-model="item.description"
           type="text"
-          :label="$t('description')"
+          :label="translate('description')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
@@ -41,7 +41,7 @@
           stack-label
           v-model="item.color"
           type="text"
-          :label="$t('Cor')"
+          :label="translate('Cor')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
@@ -55,7 +55,7 @@
           stack-label
           v-model="item.icon"
           type="text"
-          :label="$t('Ícone')"
+          :label="translate('Ícone')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
@@ -66,7 +66,7 @@
         :loading="saving"
         icon="save"
         type="submit"
-        :label="$t('Salvar')"
+        :label="translate('Salvar')"
         size="md"
         color="primary"
         class="q-mt-md"
@@ -79,6 +79,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from "vuex";
 
 
@@ -147,7 +148,7 @@ export default {
     save(values, params = {}) {
       let options = {
         method: this.id === null ? "POST" : "PUT",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        
         body: JSON.stringify(values),
         params: params,
       };
@@ -160,7 +161,7 @@ export default {
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
-              message: this.$t("Dados salvos com sucesso!"),
+              message: this.translate("Dados salvos com sucesso!"),
               position: "bottom",
               type: "positive",
             });
@@ -191,7 +192,7 @@ export default {
 
     isInvalid(field) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.translate("Este campo é obrigatório");
 
         return true;
       };

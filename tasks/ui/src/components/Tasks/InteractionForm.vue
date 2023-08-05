@@ -1,8 +1,8 @@
 <template>
     <div class="row">
         <q-tabs v-model="currentTab" align="justify" class="text-primary col-xs-12 col-md-3" dense no-caps>
-            <q-tab name="public" :label="$t(taskData.type + '.public')" />
-            <q-tab name="private" :label="$t(taskData.type + '.private')" />
+            <q-tab name="public" :label="translate(taskData.type + '.public')" />
+            <q-tab name="private" :label="translate(taskData.type + '.private')" />
         </q-tabs>
         <q-tab-panels v-model="currentTab" class="col-12 bg-transparent">
             <q-tab-panel class="row q-px-none" name="public">
@@ -69,6 +69,7 @@
 <script>
 
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import { formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import { mapGetters } from 'vuex';
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';

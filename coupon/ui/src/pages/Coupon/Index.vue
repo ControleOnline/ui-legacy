@@ -437,19 +437,19 @@ export default {
       let data = [];
       this.statuses.push(
         {
-          label: this.$t(`Open`),
+          label: this.translate(`Open`),
           value: "open",
         },
         {
-          label: this.$t(`Closed`),
+          label: this.translate(`Closed`),
           value: "closed",
         },
         {
-          label: this.$t(`Expired`),
+          label: this.translate(`Expired`),
           value: "expired",
         },
         {
-          label: this.$t(`Not Expired`),
+          label: this.translate(`Not Expired`),
           value: "not_expired",
         }
       );

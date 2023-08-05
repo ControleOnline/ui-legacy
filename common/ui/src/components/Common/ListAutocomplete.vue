@@ -1,7 +1,7 @@
 <template>
   <q-select dense outlined   use-input stack-label emit-value map-options hide-selected fill-input options-cover
     v-model       ="model"
-    :label        ="$t(label)"
+    :label        ="translate(label)"
     input-debounce="700"
     :options      ="items"
     @filter       ="filterFn"

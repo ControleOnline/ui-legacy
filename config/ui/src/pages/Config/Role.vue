@@ -7,7 +7,7 @@
   </q-page>
 </template>
 <script>
-import Roles from "./../../components/config/Role/Table";
+ import Roles from "./../../components/config/Role/Table";
 
 export default {
   components: {

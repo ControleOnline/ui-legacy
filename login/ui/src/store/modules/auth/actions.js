@@ -1,7 +1,7 @@
 import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
 
-import axios from 'axios';
+ import axios from 'axios';
 
 import { ENTRYPOINT } from '../../../../../../../src/config/entrypoint';
 import * as types from './mutation_types';

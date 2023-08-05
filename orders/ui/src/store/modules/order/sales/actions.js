@@ -44,7 +44,7 @@ export const alterQuotation = ({ commit }, { id, values, params = {} }) => {
     params: params
   };
 
-  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+  
 
   return api.fetch(`${RESOURCE_ENDPOINT}/${id}/alter/quote`, options)
     
@@ -138,7 +138,7 @@ export const removeInvoiceTax = ({ commit }, { id, values, params = {} }) => {
     params: params
   };
 
-  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+  
 
   return api.fetch(`${RESOURCE_ENDPOINT}/${id}/remove-invoice-tax`, options)
     
@@ -156,7 +156,7 @@ export const changeAddress = ({ commit }, { id, values }) => {
     body: JSON.stringify(values),
   };
 
-  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+  
 
   return api.fetch(`${RESOURCE_ENDPOINT}/${id}/add-address`, options)
     
@@ -175,7 +175,7 @@ export const updateStatus = ({ commit }, { id, values, params = {} }) => {
     params: params
   };
 
-  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+  
 
   return api.fetch(`${RESOURCE_ENDPOINT}/${id}/update-status`, options)
     
@@ -209,7 +209,7 @@ export const updateDeadline = ({ commit }, { id, newDeadline, params = {} }) => 
     params: params
   };
 
-  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+  
 
   return api.fetch(`${RESOURCE_ENDPOINT}/${id}/detail/update-deadline`, options)
     
@@ -227,7 +227,7 @@ export const updateEstimatedParkingDate = ({ commit }, { id, newEstimatedParking
     params: params
   };
 
-  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+  
 
   return api.fetch(`${RESOURCE_ENDPOINT}/fields/${id}`, options)
     
@@ -245,7 +245,7 @@ export const updateParkingDate = ({ commit }, { id, newParkingDate, params = {} 
     params: params
   };
 
-  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+  
 
   return api.fetch(`${RESOURCE_ENDPOINT}/fields/${id}`, options)
     
@@ -263,7 +263,7 @@ export const createNewLabelTag = ({ commit }, { id }) => {
     body: JSON.stringify({})
   };
 
-  options.headers = new Headers({ 'Content-Type': 'application/ld+json' });
+  
 
   return api.fetch(`/label/` + id, options)
     

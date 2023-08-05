@@ -1,4 +1,4 @@
-import AdditionalDialog from './AdditionalDialog';
+ import AdditionalDialog from './AdditionalDialog';
 import CancelEventDialog from './CancelEventDialog';
 import ChangePasswordDialog from './ChangePasswordDialog';
 import DefaultAddDialog from './DefaultAddDialog';

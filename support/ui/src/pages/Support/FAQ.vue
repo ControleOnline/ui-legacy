@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import FAQ from '../../components/support/FAQ';
+ import FAQ from '../../components/support/FAQ';
 
 export default {
   name      : 'FAQ',

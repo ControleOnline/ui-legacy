@@ -72,7 +72,7 @@
           <div class="row text-white full-height items-center justify-center"
             :style="`background-color: ${this.invoice.status.color}`">
             <div class="col-xs-12 text-h6 text-center">
-              {{ $t(`invoice.statuses.${invoice.status.status}`) }}
+              {{ translate(`invoice.statuses.${invoice.status.status}`) }}
             </div>
             <InvoiceActions :invoice="invoice" @changed="
               (newInvoice) => {
@@ -126,6 +126,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import EditInvoiceDuedate from "@controleonline/quasar-common-ui/src/components/Common/EditInvoiceDuedate.vue";
 import InvoiceActions from "@controleonline/quasar-common-ui/src/components/Common/InvoiceActions.vue";
 import InvoiceEditActions from "@controleonline/quasar-common-ui/src/components/Common/InvoiceEditActions.vue";

@@ -12,7 +12,7 @@
           @request="onRequest"
         >
           <template v-slot:top>
-            <div class="col-3 q-mb-md text-h6">importador</div>
+            <div class="col-3 q-mb-md text-h6">import ador</div>
 
             <div class="col-9 q-mb-md">
               <div class="row justify-end">
@@ -57,7 +57,7 @@
                   dense
                   outlined
                   stack-label
-                  label="Tipo de importação"
+                  label="Tipo de import ação"
                   v-model="importType.import_type"
                   :options="importStatuses"
                   class="full-width"
@@ -77,10 +77,10 @@
               <q-td key="id" :props="props">{{ props.row.id }}</q-td>
               <q-td key="fileName" :props="props"> {{ props.row.fileName }} </q-td>
               <q-td key="import_type" :props="props">{{
-                $t(`import.importStatuses.${props.row.typeLabel}`)
+                translate(`import.importStatuses.${props.row.typeLabel}`)
               }}</q-td>
               <q-td key="status" :props="props">{{
-                $t(`import.statuses.${props.row.statusLabel}`)
+                translate(`import.statuses.${props.row.statusLabel}`)
               }}</q-td>
               <q-td key="feedback" :props="props">{{ props.row.feedback }}</q-td>
               <q-td key="uploadDate" :props="props">{{ props.row.uploadDate }}</q-td>
@@ -103,7 +103,7 @@
       <q-dialog v-model="dialog">
         <q-card style="width: 700px; max-width: 80vw">
           <q-card-section class="row items-center">
-            <div class="text-h6">importar</div>
+            <div class="text-h6">import ar</div>
             <q-space />
             <q-btn icon="close" flat round dense v-close-popup />
           </q-card-section>
@@ -113,7 +113,7 @@
               outlined
               v-if="!import_type"
               stack-label
-              label="Tipo de importação"
+              label="Tipo de import ação"
               v-model="importType.import_type"
               :options="importStatuses"
               class="full-width"
@@ -231,6 +231,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 
@@ -312,20 +313,20 @@ export default {
       statuses: [
         { label: "Abertos", value: -1 },
         { label: "Todos", value: 0 },
-        { label: this.$t("import.statuses." + "waiting"), value: "waiting" },
-        { label: this.$t("import.statuses." + "importing"), value: "importing" },
-        { label: this.$t("import.statuses." + "imported"), value: "imported" },
-        { label: this.$t("import.statuses." + "failed"), value: "failed" },
+        { label: this.translate("import.statuses." + "waiting"), value: "waiting" },
+        { label: this.translate("import.statuses." + "importing"), value: "importing" },
+        { label: this.translate("import.statuses." + "imported"), value: "imported" },
+        { label: this.translate("import.statuses." + "failed"), value: "failed" },
       ],
       importType: {
         import_type: this.import_type
           ? { value: this.import_type }
-          : { label: this.$t("import.importStatuses." + "DACTE"), value: "DACTE" },
+          : { label: this.translate("import.importStatuses." + "DACTE"), value: "DACTE" },
       },
       importStatuses: [
-        { label: this.$t("import.importStatuses." + "table"), value: "table" },
-        { label: this.$t("import.importStatuses." + "DACTE"), value: "DACTE" },
-        { label: this.$t("import.importStatuses." + "leads"), value: "Leads" },
+        { label: this.translate("import.importStatuses." + "table"), value: "table" },
+        { label: this.translate("import.importStatuses." + "DACTE"), value: "DACTE" },
+        { label: this.translate("import.importStatuses." + "leads"), value: "Leads" },
       ],
       items: [],
       dialog: false,
@@ -338,7 +339,7 @@ export default {
         rowsPerPage: 10,
         rowsNumber: 10,
       },
-      uploadEndpoint: `${ENTRYPOINT}/import`,
+      uploadEndpoint: `${ENTRYPOINT}/import `,
       uploadHeaders: [
         {
           name: "API-TOKEN",
@@ -364,7 +365,7 @@ export default {
   methods: {
     // store method
     getItems(params) {
-      const endpoint = `imports`;
+      const endpoint = `importS`;
 
       if (!params) {
         params = {};
@@ -379,7 +380,7 @@ export default {
 
         .then((result) => {
           return {
-            imports: result.response.data.imports,
+            importS: result.response.data.importS,
             total: result.response.data.total,
           };
         });
@@ -391,7 +392,7 @@ export default {
         method: "DELETE",
       };
 
-      let endpoint = `import/${id}`;
+      let endpoint = `import /${id}`;
       return api.fetch(endpoint, options).catch((e) => {
         if (e instanceof SubmissionError) throw new Error(e.errors._error);
 
@@ -442,9 +443,9 @@ export default {
         .then((data) => {
           let _items = [];
 
-          if (data.imports.length) {
-            for (let index in data.imports) {
-              const row = data.imports[index];
+          if (data.importS.length) {
+            for (let index in data.importS) {
+              const row = data.importS[index];
               _items.push({
                 id: row.id,
                 fileName: row.Name,
@@ -454,7 +455,7 @@ export default {
                 tableName: row.tableName,
                 feedback: /[0-9]/g.test(row.feedback)
                   ? row.feedback
-                  : this.$t("import.feedback." + row.feedback),
+                  : this.translate("import.feedback." + row.feedback),
                 uploadDate: formatDateYmdTodmY(row.uploadDate),
                 _bussy: false,
               });
@@ -484,7 +485,7 @@ export default {
     uploadFailed(info) {
       if (this.showError) {
         this.$q.notify({
-          message: this.$t("errors.upload_failed"),
+          message: this.translate("errors.upload_failed"),
           position: "bottom",
           type: "negative",
         });

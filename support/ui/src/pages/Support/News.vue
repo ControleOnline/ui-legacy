@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import News from '../../components/support/News';
+ import News from '../../components/support/News';
 
 export default {
   name      : 'SupportNews',

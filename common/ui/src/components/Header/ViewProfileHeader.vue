@@ -18,7 +18,7 @@
           class="q-ma-none q-pa-none text-bold text-white"
           style="font-size: 1.5rem;"
         >
-          {{ $t('my_name') }} {{ user_name }}
+          {{ translate('my_name') }} {{ user_name }}
         </q-item-section>
       </div>
       <q-space></q-space>

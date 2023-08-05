@@ -1,7 +1,7 @@
 <template>
   <q-page style="overflow-x: hidden;">
     <MenuDefaultHeader
-      :title="$t('add_guide_header')"
+      :title="translate('add_guide_header')"
       icon="o_note_add"
       @save="saveGuide"
     >
@@ -10,7 +10,7 @@
       <q-item class="q-px-none q-py-sm column">
         <q-item-section class="q-pb-lg">
           <q-item-label class="text-bold text-secondary title-form">
-            {{ $t('title') }}
+            {{ translate('title') }}
           </q-item-label>
           <q-input
       dense
@@ -27,7 +27,7 @@
 
         <q-item-section class="q-pb-lg section-no-margin">
           <q-item-label class="text-bold text-secondary title-form">
-            {{ $t('category') }}
+            {{ translate('category') }}
           </q-item-label>
           <q-select dense outlined 
             v-model="guideEdit.main_information.category"
@@ -45,7 +45,7 @@
 
         <q-item-section class="q-pb-lg section-no-margin">
           <q-item-label class="text-bold text-secondary title-form">
-            {{ $t('type_of_activity') }}
+            {{ translate('type_of_activity') }}
           </q-item-label>
           <q-select dense outlined 
             outlined
@@ -64,7 +64,7 @@
         <q-item-section class="q-pb-lg text-bold text-secondary">
           <div class="flex items-center">
             <q-item-label class="title-section">
-              {{ $t('activity_data') }}
+              {{ translate('activity_data') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="o_vertical_split"></q-icon>
@@ -73,7 +73,7 @@
 
         <q-item-section class="q-pt-md section-no-margin">
           <q-item-label class="text-secondary text-bold title-form">
-            {{ $t('difficulty_level') }}
+            {{ translate('difficulty_level') }}
           </q-item-label>
         </q-item-section>
 
@@ -84,7 +84,7 @@
             :max="4"
             class="q-mt-md text-bold"
             :color="difficulty[this.guide_difficulty].color"
-            :label-value="$t(difficulty[this.guide_difficulty].label)"
+            :label-value="translate(difficulty[this.guide_difficulty].label)"
             label-always
           />
         </q-item-section>
@@ -92,7 +92,7 @@
         <div class="row q-py-lg" style="max-width: max-content;">
           <q-item-section class="col-5 flex items-center">
             <q-item-label class="text-grey-8 text-caption q-mb-sm">
-              {{ $t('duration') }}
+              {{ translate('duration') }}
             </q-item-label>
             <div class="flex" style="flex-wrap: nowrap;">
               <q-input
@@ -120,7 +120,7 @@
           </q-item-section>
           <q-item-section class="col-5 flex items-center">
             <q-item-label class="text-grey-8 text-caption q-mb-sm">
-              {{ $t('distance') }}
+              {{ translate('distance') }}
             </q-item-label>
             <div class="flex" style="flex-wrap: nowrap;">
               <q-input
@@ -147,7 +147,7 @@
           </q-item-section>
           <q-item-section class="col flex items-center">
             <q-item-label class="text-grey-8 text-caption q-mb-sm">
-              {{ $t('vacancies') }}
+              {{ translate('vacancies') }}
             </q-item-label>
             <q-input
       dense
@@ -164,7 +164,7 @@
         <q-item-section class="q-pt-md text-bold text-secondary section-no-margin">
           <div class="flex items-center q-pb-lg">
             <q-item-label class="title-section">
-              {{ $t('schedule_date') }}
+              {{ translate('schedule_date') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="o_today"></q-icon>
@@ -183,7 +183,7 @@
         <q-item-section class="text-bold text-secondary">
           <div class="flex items-center">
             <q-item-label class="title-section">
-              {{ $t('add_images') }}
+              {{ translate('add_images') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="o_image_search"></q-icon>
@@ -209,7 +209,7 @@
         <q-item-section class="text-bold text-secondary">
           <div class="flex items-center">
             <q-item-label class="title-section">
-              {{ $t('localization') }}
+              {{ translate('localization') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="o_add_location_alt"></q-icon>
@@ -223,7 +223,7 @@
             v-model="guideEdit.main_information.locality"
             outlined
             dense
-            :label="$t('paste_map_link')"
+            :label="translate('paste_map_link')"
           />
         </q-item-section>
       </q-item>
@@ -232,7 +232,7 @@
         <q-item-section class="text-bold text-secondary">
           <div class="flex items-center">
             <q-item-label class="title-section">
-              {{ $t('what_is_included_add') }}
+              {{ translate('what_is_included_add') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="o_list_bulleted" style="justify-content: left;"></q-icon>
@@ -264,8 +264,8 @@
           >
           </q-btn>
           <DefaultAddDialog
-            :title="$t('additional')"
-            :subtitle="$t('additional')"
+            :title="translate('additional')"
+            :subtitle="translate('additional')"
             v-model="openIcludediesDialog"
             @add-included="addIncluded($event, 'included')"
           >
@@ -277,7 +277,7 @@
         <q-item-section class="text-bold text-secondary">
           <div class="flex items-center">
             <q-item-label class="title-section">
-              {{ $t('does_offer_insurance') }}
+              {{ translate('does_offer_insurance') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="verified_user"></q-icon>
@@ -302,7 +302,7 @@
         <q-item-section class="text-bold text-secondary">
           <div class="flex items-center">
             <q-item-label class="title-section">
-              {{ $t('additional_services') }}
+              {{ translate('additional_services') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="o_add_shopping_cart"></q-icon>
@@ -312,15 +312,15 @@
         <q-item-section class="section-no-margin">
           <div class="row q-pt-md">
             <div class="col-6 text-center">
-              <q-item-label class="text-grey-8">{{ $t('item_name') }}</q-item-label>
+              <q-item-label class="text-grey-8">{{ translate('item_name') }}</q-item-label>
             </div>
 
             <div class="col-3 text-center">
-              <q-item-label class="text-grey-8">{{ $t('units') }}</q-item-label>
+              <q-item-label class="text-grey-8">{{ translate('units') }}</q-item-label>
             </div>
 
             <div class="col-3 text-center">
-              <q-item-label class="text-grey-8">{{ $t('price') }}</q-item-label>
+              <q-item-label class="text-grey-8">{{ translate('price') }}</q-item-label>
             </div>
           </div>
 
@@ -382,7 +382,7 @@
         <q-item-section class="text-bold text-secondary">
           <div class="flex items-center">
             <q-item-label class="title-section">
-              {{ $t('description') }}
+              {{ translate('description') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="o_format_align_left"></q-icon>
@@ -391,7 +391,7 @@
 
         <q-item-section class="q-pt-md section-no-margin">
           <div class="flex items-center">
-            <p class="q-ma-none title-form">{{ $t('do_you_want_to_include_any_remarks') }}</p>
+            <p class="q-ma-none title-form">{{ translate('do_you_want_to_include_any_remarks') }}</p>
             <q-space></q-space>
             <q-icon size="1.25rem" name="o_report"></q-icon>
           </div>
@@ -419,7 +419,7 @@
         <q-item-section class="text-bold text-secondary">
           <div class="flex items-center">
             <q-item-label class="title-section">
-              {{ $t('meeting_point_add_guide') }}
+              {{ translate('meeting_point_add_guide') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="place"></q-icon>
@@ -448,7 +448,7 @@
         <q-item-section class="text-bold text-secondary">
           <div class="row flex items-center">
             <q-item-label class="col-10 title-section">
-              {{ $t('include_checklist_for_your_customers') }}
+              {{ translate('include_checklist_for_your_customers') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon
@@ -480,8 +480,8 @@
           >
           </q-btn>
           <DefaultAddDialog
-            :title="$t('recomendations')"
-            :subtitle="$t('item_recomendation')"
+            :title="translate('recomendations')"
+            :subtitle="translate('item_recomendation')"
             v-model="openRecomendationsDialog"
             @add-included="addIncluded($event, 'list_recomendations')"
           >
@@ -493,7 +493,7 @@
         <q-item-section class="text-bold text-secondary">
           <div class="flex items-center">
             <q-item-label class="title-section">
-              {{ $t('tell_summary_of_activity') }}
+              {{ translate('tell_summary_of_activity') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="drag_handle"></q-icon>
@@ -522,7 +522,7 @@
         <q-item-section class="text-bold text-secondary">
           <div class="flex items-center">
             <q-item-label class="title-section">
-              {{ $t('activity_detail') }}
+              {{ translate('activity_detail') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="notes"></q-icon>
@@ -553,13 +553,13 @@
             class="q-py-sm q-px-md text-capitalize"
             outline
             color="secondary"
-            :label="$t('save_button_add_guide')"
+            :label="translate('save_button_add_guide')"
           >
           </q-btn>
           <q-btn
             class="q-py-sm q-px-md text-capitalize"
             color="secondary"
-            :label="$t('publish_button_add_guide')"
+            :label="translate('publish_button_add_guide')"
             v-close-popup
           >
           </q-btn>
@@ -571,6 +571,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import AdditionalDialog from '@controleonline/quasar-common-ui/src/components/Dialog/AdditionalDialog';
 import DefaultAddDialog from '@controleonline/quasar-common-ui/src/components/Dialog/DefaultAddDialog';
 import UploadMultipleArchivesDialog from '@controleonline/quasar-common-ui/src/components/Dialog/UploadMultipleArchivesDialog';
@@ -595,112 +596,112 @@ export default {
       text: '',
       options_duration: [
         {
-          label: this.$t('days'),
-          value: this.$t('days'),
+          label: this.translate('days'),
+          value: this.translate('days'),
         },
         {
-          label: this.$t('hours'),
-          value: this.$t('hours'),
+          label: this.translate('hours'),
+          value: this.translate('hours'),
         },
       ],
       options_distance: [
         {
-          label: this.$t('km'),
-          value: this.$t('km'),
+          label: this.translate('km'),
+          value: this.translate('km'),
         },
         {
-          label: this.$t('meters'),
-          value: this.$t('meters'),
+          label: this.translate('meters'),
+          value: this.translate('meters'),
         },
       ],
       options_secure: [
         {
-          label: this.$t('adventure'),
-          value: this.$t('adventure'),
+          label: this.translate('adventure'),
+          value: this.translate('adventure'),
         },
         {
-          label: this.$t('trip'),
-          value: this.$t('trip'),
+          label: this.translate('trip'),
+          value: this.translate('trip'),
         },
         {
-          label: this.$t('adventure_and_travel'),
-          value: this.$t('adventure_and_travel'),
+          label: this.translate('adventure_and_travel'),
+          value: this.translate('adventure_and_travel'),
         },
       ],
       categories_options: [
         {
-          label: this.$t('adventure_sports_optins'),
-          value: this.$t('adventure_sports_optins'),
+          label: this.translate('adventure_sports_optins'),
+          value: this.translate('adventure_sports_optins'),
         },
         {
-          label: this.$t('ecotourism_optins'),
-          value: this.$t('ecotourism_optins'),
+          label: this.translate('ecotourism_optins'),
+          value: this.translate('ecotourism_optins'),
         },
         {
-          label: this.$t('whole_family_optins'),
-          value: this.$t('whole_family_optins'),
+          label: this.translate('whole_family_optins'),
+          value: this.translate('whole_family_optins'),
         },
       ],
       activities_options: [
         {
-          label: this.$t('mountaineering_options'),
-          value: this.$t('mountaineering_options'),
-          category: this.$t('adventure_sports_optins'),
+          label: this.translate('mountaineering_options'),
+          value: this.translate('mountaineering_options'),
+          category: this.translate('adventure_sports_optins'),
         },
         {
-          label: this.$t('climbing_options'),
-          value: this.$t('climbing_options'),
-          category: this.$t('adventure_sports_optins'),
+          label: this.translate('climbing_options'),
+          value: this.translate('climbing_options'),
+          category: this.translate('adventure_sports_optins'),
         },
         {
-          label: this.$t('rafting_options'),
-          value: this.$t('rafting_options'),
-          category: this.$t('adventure_sports_optins'),
+          label: this.translate('rafting_options'),
+          value: this.translate('rafting_options'),
+          category: this.translate('adventure_sports_optins'),
         },
         {
-          label: this.$t('mountain_bike_options'),
-          value: this.$t('mountain_bike_options'),
-          category: this.$t('adventure_sports_optins'),
+          label: this.translate('mountain_bike_options'),
+          value: this.translate('mountain_bike_options'),
+          category: this.translate('adventure_sports_optins'),
         },
         {
-          label: this.$t('national_parks_options'),
-          value: this.$t('national_parks_options'),
-          category: this.$t('ecotourism_optins'),
+          label: this.translate('national_parks_options'),
+          value: this.translate('national_parks_options'),
+          category: this.translate('ecotourism_optins'),
         },
         {
-          label: this.$t('state_parks_options'),
-          value: this.$t('state_parks_options'),
-          category: this.$t('ecotourism_optins'),
+          label: this.translate('state_parks_options'),
+          value: this.translate('state_parks_options'),
+          category: this.translate('ecotourism_optins'),
         },
         {
-          label: this.$t('bird_watching_options'),
-          value: this.$t('bird_watching_options'),
-          category: this.$t('ecotourism_optins'),
+          label: this.translate('bird_watching_options'),
+          value: this.translate('bird_watching_options'),
+          category: this.translate('ecotourism_optins'),
         },
         {
-          label: this.$t('trails_hikes_options'),
-          value: this.$t('trails_hikes_options'),
-          category: this.$t('ecotourism_optins'),
+          label: this.translate('trails_hikes_options'),
+          value: this.translate('trails_hikes_options'),
+          category: this.translate('ecotourism_optins'),
         },
         {
-          label: this.$t('ecological_tours_options'),
-          value: this.$t('ecological_tours_options'),
-          category: this.$t('whole_family_optins'),
+          label: this.translate('ecological_tours_options'),
+          value: this.translate('ecological_tours_options'),
+          category: this.translate('whole_family_optins'),
         },
         {
-          label: this.$t('museums_options'),
-          value: this.$t('museums_options'),
-          category: this.$t('whole_family_optins'),
+          label: this.translate('museums_options'),
+          value: this.translate('museums_options'),
+          category: this.translate('whole_family_optins'),
         },
         {
-          label: this.$t('excursions_options'),
-          value: this.$t('excursions_options'),
-          category: this.$t('whole_family_optins'),
+          label: this.translate('excursions_options'),
+          value: this.translate('excursions_options'),
+          category: this.translate('whole_family_optins'),
         },
         {
-          label: this.$t('cultural_tours_options'),
-          value: this.$t('cultural_tours_options'),
-          category: this.$t('whole_family_optins'),
+          label: this.translate('cultural_tours_options'),
+          value: this.translate('cultural_tours_options'),
+          category: this.translate('whole_family_optins'),
         },
       ],
       guide_difficulty: 0,

@@ -119,7 +119,7 @@ export default {
 
           for (let index in statuses) {
             data.push({
-              label: this.$t(`invoice.statuses.${statuses[index].status}`),
+              label: this.translate(`invoice.statuses.${statuses[index].status}`),
               value: statuses[index]["@id"].replace(/[^0-9]/g, ""),
             });
           }

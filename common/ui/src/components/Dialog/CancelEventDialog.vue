@@ -14,9 +14,9 @@
           >
           </q-btn>
           <q-item-section class="q-pb-sm">
-            <q-item-label>{{ $t("damn") }}</q-item-label>
+            <q-item-label>{{ translate("damn") }}</q-item-label>
             <q-item-label>
-              {{ $t("why_do_you_cancel") }}
+              {{ translate("why_do_you_cancel") }}
               <q-icon name="mood_bad" size="1.5rem"></q-icon>
             </q-item-label>
             <q-input
@@ -32,19 +32,19 @@
           <q-item-section class="section-no-margin q-py-sm">
             <div class="flex items-center q-pb-md">
               <q-item-label class="q-ma-none title-list text-secondary text-bold">
-                {{ $t("important") }}
+                {{ translate("import ant") }}
               </q-item-label>
               <q-space></q-space>
               <q-icon name="o_report"></q-icon>
             </div>
             <q-item-label>
-              {{ $t("first_desc") }}
+              {{ translate("first_desc") }}
             </q-item-label>
             <q-item-label>
-              {{ $t("second_desc") }}
+              {{ translate("second_desc") }}
             </q-item-label>
             <q-item-label class="q-pt-md">
-              {{ $t("confirm_cancellation") }}
+              {{ translate("confirm_cancellation") }}
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -54,7 +54,7 @@
             class="q-py-sm q-px-md text-capitalize"
             outline
             color="secondary"
-            :label="$t('yes_cancel_dialog')"
+            :label="translate('yes_cancel_dialog')"
             @click="openConfirmCancellationDialog = true"
           >
           </q-btn>
@@ -62,7 +62,7 @@
           <q-btn
             class="q-py-sm q-px-md text-capitalize"
             color="secondary"
-            :label="$t('reschedule_cancel_dialog')"
+            :label="translate('reschedule_cancel_dialog')"
             v-close-popup
           >
           </q-btn>
@@ -73,7 +73,7 @@
             class="q-py-sm q-px-md text-capitalize"
             outline
             color="secondary"
-            :label="$t('no_cancel_dialog')"
+            :label="translate('no_cancel_dialog')"
             v-close-popup
           >
           </q-btn>
@@ -81,7 +81,7 @@
           <q-btn
             class="q-py-sm q-px-md text-capitalize"
             color="secondary"
-            :label="$t('yes_confirm_dialog')"
+            :label="translate('yes_confirm_dialog')"
             @click="openConfirmCancellationDialog = true"
           >
           </q-btn>
@@ -103,46 +103,46 @@
         <q-item v-if="userRole === 'provider'" class="column q-pa-lg">
           <q-item-section class="q-pb-sm">
             <q-item-label>
-              {{ $t("what_sad_day") }}
+              {{ translate("what_sad_day") }}
               <q-icon name="mood_bad" size="1.5rem"></q-icon>
             </q-item-label>
             <q-item-label class="q-pb-md">
-              {{ $t("you_canceled_this_tour") }}
+              {{ translate("you_canceled_this_tour") }}
             </q-item-label>
             <q-item-label class="q-pb-md">
-              {{ $t("make_payment") }}
+              {{ translate("make_payment") }}
             </q-item-label>
             <q-item-label>
-              {{ $t("bank") }}
+              {{ translate("bank") }}
             </q-item-label>
             <q-item-label>
-              {{ $t("ag") }}
+              {{ translate("ag") }}
             </q-item-label>
             <q-item-label>
-              {{ $t("account") }}
+              {{ translate("account") }}
             </q-item-label>
             <q-item-label>
-              {{ $t("cnpj") }}
+              {{ translate("cnpj") }}
             </q-item-label>
           </q-item-section>
         </q-item>
 
         <q-item v-else class="column q-pa-lg">
           <q-item-label>
-            {{ $t("what_sad_day") }}
+            {{ translate("what_sad_day") }}
             <q-icon name="mood_bad" size="1.5rem"></q-icon>
           </q-item-label>
 
           <q-item-label class="q-pb-md">
-            {{ $t("you_canceled_your_trip") }}
+            {{ translate("you_canceled_your_trip") }}
           </q-item-label>
 
           <q-item-label class="q-pb-md">
-            {{ $t("we_hope_to_see_you_soon") }}
+            {{ translate("we_hope_to_see_you_soon") }}
           </q-item-label>
 
           <q-item-label class="q-pb-md">
-            {{ $t("to_the_next") }}
+            {{ translate("to_the_next") }}
           </q-item-label>
         </q-item>
 

@@ -8,7 +8,7 @@
               dense
               outlined
               stack-label
-              :label="$t(`queue.priority.Priority`)"
+              :label="translate(`queue.priority.Priority`)"
               v-model="priority"
               :rules="[(val) => val != null]"
               hide-bottom-space
@@ -22,7 +22,7 @@
               outlined
               readonly
               stack-label
-              :label="$t(`people`)"
+              :label="translate(`people`)"
               v-model="people.label"
             >
             </q-input>
@@ -31,9 +31,9 @@
               class="col-11"
               :source="searchPeople"
               :isLoading="isSearching"
-              :label="$t(`people`)"
+              :label="translate(`people`)"
               @selected="onSelectPeople"
-              :placeholder="$t(`search`)"
+              :placeholder="translate(`search`)"
             />
             <div v-if="this.queuePeopleId">
               <q-btn
@@ -72,7 +72,7 @@
               dense
               color="primary"
               icon="save"
-              :label="$t(`Save`)"
+              :label="translate(`Save`)"
               @click="onSubmit()"
             ></q-btn>
           </div>
@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 import { date } from "quasar";
 import { mapActions } from "vuex";
@@ -222,7 +223,7 @@ export default {
 
       let options = {
         method: this.queuePeopleId ? "PUT" : "POST",
-        headers: new Headers(),
+        
         body: JSON.stringify(values),
       };
 
@@ -232,7 +233,7 @@ export default {
         .then((result) => {
           if (result["@id"]) {
             this.$q.notify({
-              message: this.$t(`success`),
+              message: this.translate(`success`),
               position: "bottom",
               type: "positive",
             });
@@ -278,7 +279,7 @@ export default {
             this.statusOptions = [];
             for (let index in members) {
               this.statusOptions.push({
-                label: this.$t(`queue.status.${members[index]["status"]}`),
+                label: this.translate(`queue.status.${members[index]["status"]}`),
                 value: members[index]["@id"].replaceAll("/statuses/", ""),
               });
             }

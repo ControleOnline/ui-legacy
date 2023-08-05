@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import OrderDetails from './../../../components/order/purchasing/OrderDetails.vue';
+ import OrderDetails from './../../../components/order/purchasing/OrderDetails.vue';
 
 export default {
   name      : 'OrderDetailsPage',

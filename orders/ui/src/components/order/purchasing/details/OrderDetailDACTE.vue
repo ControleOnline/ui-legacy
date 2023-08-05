@@ -276,7 +276,7 @@ export default {
     isInvalid(key) {
       return (val) => {
         if (!(val && val.length > 0))
-          return this.$t("Este campo é obrigatório");
+          return this.translate("Este campo é obrigatório");
         return true;
       };
     },

@@ -5,13 +5,13 @@
   >
     <div class="signup-container">
       <div class="text-right full-width">
-        <h5 class="signup-app-name">{{ $t("app.name") }}</h5>
+        <h5 class="signup-app-name">{{ translate("app.name") }}</h5>
       </div>
 
       <q-card class="signup-page-card">
         <q-card-section>
           <div class="text-h6">
-            <h4 class="signup-label">{{ $t("Crie sua conta") }}</h4>
+            <h4 class="signup-label">{{ translate("Crie sua conta") }}</h4>
           </div>
         </q-card-section>
 
@@ -79,13 +79,13 @@
 
         <label
           class="signin-link-label"
-          v-if="$t('login.signinLabel') !== 'login.signinLabel'"
+          v-if="translate('login.signinLabel') !== 'login.signinLabel'"
         >
-          {{ $t("login.signinLabel") }}
+          {{ translate("login.signinLabel") }}
         </label>
         <q-card-actions align="left" class="q-pa-md">
           <a href="#" class="signin-link" @click="onSignIn">
-            {{ $t("login.signin") }}
+            {{ translate("login.signin") }}
           </a>
         </q-card-actions>
       </q-card>
@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from "vuex";
 import CompanyForm from "./Company";
 import UserForm from "./User";

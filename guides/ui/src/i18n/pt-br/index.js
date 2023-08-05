@@ -252,9 +252,9 @@ export const translate = {
   // CancelEventDialog
   damn: 'Poxa...',
   why_do_you_cancel: 'Por que você quer me cancelar?',
-  important: 'importante:',
+  import ant: 'import ante:',
   first_desc: 'Você pode oferecer de crédito aos clientes, em valor correspondente ao reembolso dos serviços não prestados e não compensados em substituição, sob a forma de participação em outro programa turístico, ou por meio de reagendamento.',
-  second_desc: 'Se ainda assim precisar cancelar, precisaremos que realize a devolução da importimportância, devidamente corrigida, correspondente aos serviços não prestados, para que possamos realizar o estorno aos clientes.',
+  second_desc: 'Se ainda assim precisar cancelar, precisaremos que realize a devolução da import import ância, devidamente corrigida, correspondente aos serviços não prestados, para que possamos realizar o estorno aos clientes.',
   confirm_cancellation: 'Deseja prosseguir com o cancelamento?',
   yes_cancel_dialog: 'Sim :(',
   reschedule_cancel_dialog: 'Reagendar',

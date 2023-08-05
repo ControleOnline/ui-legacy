@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import MensagensTabela from './../../components/societario/MensagensTabela';
+ import MensagensTabela from './../../components/societario/MensagensTabela';
 
 export default {
   components: {

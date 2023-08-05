@@ -8,7 +8,7 @@
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ $t("dashboard.net_profit") }} ({{ net_profit_percent || 0 }} %)
+          {{ translate("dashboard.net_profit") }} ({{ net_profit_percent || 0 }} %)
         </div>
         <div class="col-6 text-right text-green-14 text-h6">
           {{ (net_profit || 0) | formatMoney }}
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import configurable from "@controleonline/quasar-dashboard-ui/src/mixins/configurable";
 import dashboard from "@controleonline/quasar-dashboard-ui/src/mixins/dashboard";
 

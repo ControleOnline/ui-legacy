@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{ idRoute === null ? $t(docs_type + '.new') : $t(docs_type + '.edit') }}
+            {{ idRoute === null ? translate(docs_type + '.new') : translate(docs_type + '.edit') }}
           </div>
           <div class="col-12 q-mb-md">
             <FormImposto :idRoute="idRoute" @setIdRoute="setIdRoute" :docs_type="docs_type" />
@@ -15,6 +15,7 @@
   </q-page>
 </template>
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import FormImposto from '@controleonline/quasar-docs-ui/src/components/docs/Form';
 
 export default { //

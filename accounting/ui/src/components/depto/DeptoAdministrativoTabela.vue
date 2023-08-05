@@ -26,14 +26,14 @@
               <div class="col q-gutter-xs items-center">
                 <q-btn
                   color   ="secondary"
-                  :label  ="$t('Baixar')"
+                  :label  ="translate('Baixar')"
                   size    ="sm"
                   @click  =""
                   :loading="false"
                 />
                 <q-btn
                   color   ="red"
-                  :label  ="$t('Apagar')"
+                  :label  ="translate('Apagar')"
                   size    ="sm"
                   @click  =""
                   :loading="false"
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from 'vuex';
 
 const SETTINGS = {

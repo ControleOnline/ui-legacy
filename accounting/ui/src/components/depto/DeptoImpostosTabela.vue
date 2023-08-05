@@ -34,7 +34,7 @@
             <q-td key="arquivo" :props="props" auto-width>
               <q-btn
                 color   ="secondary"
-                :label  ="$t('Baixar')"
+                :label  ="translate('Baixar')"
                 size    ="sm"
                 @click  =""
                 :loading="false"
@@ -44,7 +44,7 @@
               <div class="col q-gutter-xs items-center justify-center">
                 <q-btn outline
                   color ="primary"
-                  :label="$t('Editar')"
+                  :label="translate('Editar')"
                   size  ="sm"
                   :to   ="{
                     name  : 'DeptoImpostoEdit',
@@ -55,7 +55,7 @@
                 />
                 <q-btn
                   color   ="red"
-                  :label  ="$t('Apagar')"
+                  :label  ="translate('Apagar')"
                   size    ="sm"
                   @click  =""
                   :loading="false"
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from 'vuex';
 
 const SETTINGS = {

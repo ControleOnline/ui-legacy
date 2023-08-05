@@ -8,7 +8,7 @@
               dense
               outlined
               stack-label
-              :label="$t(`queue.queuePeople`)"
+              :label="translate(`queue.queuePeople`)"
               :options="queuePeopleOptions"
               v-model="queuePeople.label"
               :rules="[(val) => val != null]"
@@ -20,7 +20,7 @@
               dense
               outlined
               stack-label
-              :label="$t(`queue.queue`)"
+              :label="translate(`queue.queue`)"
               :options="queueOptions"
               v-model="queue.label"
               :rules="[(val) => val != null]"
@@ -32,7 +32,7 @@
               dense
               color="primary"
               icon="save"
-              :label="$t(`Save`)"
+              :label="translate(`Save`)"
               @click="onSubmit()"
             ></q-btn>
           </div>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 
 export default {
@@ -101,10 +102,10 @@ export default {
           if (members.length) {
             this.queuePeopleOptions = [];
             for (let index in members) {
-              let translatedStatus = this.$t(
+              let translatedStatus = this.translate(
                 `queue.status.${members[index]["status"]["status"]}`
               );
-              let translatedPriority = this.$t(
+              let translatedPriority = this.translate(
                 `queue.priority.${members[index]["priority"]}`
               );
 
@@ -155,7 +156,7 @@ export default {
 
       let options = {
         method: this.queuePeopleQueueId ? "PUT" : "POST",
-        headers: new Headers(),
+        
         body: JSON.stringify(values),
       };
 
@@ -165,7 +166,7 @@ export default {
         .then((result) => {
           if (result["@id"]) {
             this.$q.notify({
-              message: this.$t(`success`),
+              message: this.translate(`success`),
               position: "bottom",
               type: "positive",
             });

@@ -48,7 +48,7 @@
             :class="`col-auto bg-${guideDetailsEdit.main_information.difficulty.color}
               text-center text-white q-ma-none text-caption q-pa-sm`"
             style="min-width: 85px;">
-              {{ $t(guideDetailsEdit.main_information.difficulty.label) }}
+              {{ translate(guideDetailsEdit.main_information.difficulty.label) }}
           </p>
           <p class="col text-right text-grey-10 q-ma-none text-caption q-px-sm">
             {{ guideDetailsEdit.main_information.distance }}
@@ -77,7 +77,7 @@
         <div class="q-px-lg q-py-sm">
           <div class="border-division">
             <div class="flex items-center">
-              <p class="q-ma-none title-list">{{ $t('observation') }}</p>
+              <p class="q-ma-none title-list">{{ translate('observation') }}</p>
               <q-space></q-space>
               <q-icon size="1.25rem" name="o_report"></q-icon>
             </div>
@@ -105,7 +105,7 @@
           </div>
 
           <div class="border-division">
-            <p class="q-ma-none title-list">{{ $t('what_is_included') }}</p>
+            <p class="q-ma-none title-list">{{ translate('what_is_included') }}</p>
             <div class="q-px-sm text-grey-9 q-py-sm text-italic">
               <p
                 v-for="item in guideDetailsEdit.details.included"
@@ -120,7 +120,7 @@
             <p
               class="q-ma-none title-list"
             >
-              {{ $t('we_offer_insurance') }} {{ guideDetailsEdit.details.insurance }}
+              {{ translate('we_offer_insurance') }} {{ guideDetailsEdit.details.insurance }}
             </p>
             <q-space></q-space>
             <q-icon name="verified_user" color="green" size="1.5rem"></q-icon>
@@ -128,7 +128,7 @@
 
           <div class="full-width flex items-center border-division">
             <div class="flex items-center full-width">
-              <p class="q-ma-none title-list">{{ $t('you_can_contract_separately') }}</p>
+              <p class="q-ma-none title-list">{{ translate('you_can_contract_separately') }}</p>
               <q-space></q-space>
               <q-icon size="1.25rem" name="o_add_shopping_cart"></q-icon>
             </div>
@@ -176,7 +176,7 @@
             <div class="q-pa-sm q-ma-sm bg-grey-4 shadow-6">
               <div class="q-pb-sm flex items-center">
                 <p class="q-ma-none title-list text-secondary">
-                  {{ $t('meeting_point_guide_details') }}
+                  {{ translate('meeting_point_guide_details') }}
                 </p>
                 <q-space></q-space>
                 <q-icon name="place" color="secondary"></q-icon>
@@ -188,7 +188,7 @@
           </div>
 
           <div class="border-division">
-            <p class="q-ma-none title-list">{{ $t('what_should_you_be_worried_about') }}</p>
+            <p class="q-ma-none title-list">{{ translate('what_should_you_be_worried_about') }}</p>
             <div class="q-px-sm text-grey-9 q-py-sm text-italic">
               <p
                 v-for="item in guideDetailsEdit.details.list_recomendations"
@@ -206,7 +206,7 @@
               <q-item-section
                 class="text-grey-9"
               >
-                4,5 | {{ guideDetailsEdit.assessments.length }} {{ $t('comments') }}
+                4,5 | {{ guideDetailsEdit.assessments.length }} {{ translate('comments') }}
               </q-item-section>
             </div>
 
@@ -261,8 +261,8 @@
               color="secondary"
               @click="viewMore = !viewMore"
               :label="(!viewMore)
-                ? `${$t('show_all')} ${guideDetailsEdit.assessments.length} ${$t('button_commets')}`
-                : $t('see_less')"
+                ? `${translate('show_all')} ${guideDetailsEdit.assessments.length} ${translate('button_commets')}`
+                : translate('see_less')"
             >
             </q-btn>
           </div>
@@ -273,7 +273,7 @@
                 <img src="https://github.com/CarlosMendesDev.png">
               </q-avatar>
               <p class="q-ma-none q-px-sm title-list">
-                {{ $t('who_is') }} {{ guideDetailsEdit.profile_provider.user_name }} ?
+                {{ translate('who_is') }} {{ guideDetailsEdit.profile_provider.user_name }} ?
               </p>
             </div>
 
@@ -294,7 +294,7 @@
             </div>
 
             <div class="q-pa-sm">
-              <p class="q-ma-none title-list">{{ $t('languages') }}</p>
+              <p class="q-ma-none title-list">{{ translate('languages') }}</p>
               <div class="q-pa-xs q-gutter-x-sm">
                 <q-avatar
                   v-for="lang in guideDetailsEdit.profile_provider.langs"
@@ -310,7 +310,7 @@
               v-if="guideDetailsEdit.profile_provider.sign_language"
               class="q-pa-sm"
             >
-              <p class="q-ma-none title-list">{{ $t('sign_language_guide_details') }}</p>
+              <p class="q-ma-none title-list">{{ translate('sign_language_guide_details') }}</p>
               <div class="q-pa-xs q-gutter-x-sm">
                 <q-icon name="front_hand" color="secondary" size="1.5rem">
                 </q-icon>
@@ -322,7 +322,7 @@
               class="q-pa-sm"
             >
               <div>
-                <p class="q-ma-none title-list">{{ $t('certifications_and_courses') }}</p>
+                <p class="q-ma-none title-list">{{ translate('certifications_and_courses') }}</p>
                 <div class="q-pa-xs q-gutter-x-sm">
                   <p
                     v-for="item in guideDetailsEdit.profile_provider.certifications"
@@ -342,7 +342,7 @@
                 style="text-transform: none;"
                 outline
                 color="secondary"
-                :label="$t('see_more_guides_by') + guideDetailsEdit.profile_provider.user_name"
+                :label="translate('see_more_guides_by') + guideDetailsEdit.profile_provider.user_name"
               >
               </q-btn>
 
@@ -353,7 +353,7 @@
                 flat
                 left
                 color="grey-9"
-                :label="$t('report')"
+                :label="translate('report')"
               >
               </q-btn>
             </div>
@@ -365,6 +365,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import GuideDetailsHeader from '@controleonline/quasar-common-ui/src/components/Header/GuideDetailsHeader';
 
 export default {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <MenuDefaultHeader
-      :title="$t('your_favorites_header')"
+      :title="translate('your_favorites_header')"
       icon="o_favorite"
     >
     </MenuDefaultHeader>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import CardListGuides from '@controleonline/quasar-common-ui/src/components/Card/CardListGuides';
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 

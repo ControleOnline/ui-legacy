@@ -71,42 +71,42 @@
           <q-tab
             v-if="people_type == 'customers'"
             name="oportunities"
-            :label="$t(people_type + '.Oportunities')"
+            :label="translate(people_type + '.Oportunities')"
             class="text-capitalize"
           />
           <q-tab
             v-if="people_type == 'customers'"
             name="leads"
-            :label="$t(people_type + '.Leads')"
+            :label="translate(people_type + '.Leads')"
             class="text-capitalize"
           />
           <q-tab
             name="allPeoples"
-            :label="$t(people_type + '.Customers')"
+            :label="translate(people_type + '.Customers')"
             class="text-capitalize"
           />
           <q-tab
             v-if="people_type == 'customers'"
             name="inactivePeople"
-            :label="$t(people_type + '.Inactive')"
+            :label="translate(people_type + '.Inactive')"
             class="text-capitalize"
           />
           <q-tab
             v-if="people_type == 'customers'"
             name="prospectsPeople"
-            :label="$t(people_type + '.Prospects')"
+            :label="translate(people_type + '.Prospects')"
             class="text-capitalize"
           />
           <q-tab
             v-if="people_type == 'customers'"
             name="activePeople"
-            :label="$t(people_type + '.Active')"
+            :label="translate(people_type + '.Active')"
             class="text-capitalize"
           />
           <q-tab
             v-if="people_type == 'customers'"
             name="newPeople"
-            :label="$t(people_type + '.New')"
+            :label="translate(people_type + '.New')"
             class="text-capitalize"
           />
         </q-tabs>
@@ -253,6 +253,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import { date } from "quasar";
 import { mapGetters } from "vuex";

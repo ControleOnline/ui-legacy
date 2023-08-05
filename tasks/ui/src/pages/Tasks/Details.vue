@@ -2,12 +2,12 @@
   <q-page padding>
     <div class="row">
       <div class="col-12 text-h5 q-mt-none text-weight-medium">
-        {{ $t(context + '.information') }}
+        {{ translate(context + '.information') }}
       </div>
 
       <div class="col-12">
         <div class="q-py-md text-subtitle1">
-          {{ task.name || `${$t('loading')}...` }}
+          {{ task.name || `${translate('loading')}...` }}
         </div>
       </div>
 
@@ -27,7 +27,7 @@
               <br />
               <q-separator />
 
-              <h5 class="q-my-md">{{ $t(context + '.interactions') }}</h5>
+              <h5 class="q-my-md">{{ translate(context + '.interactions') }}</h5>
 
               <TaskInteractions  :id="taskId" :taskData="task" />
             </div>
@@ -41,6 +41,7 @@
 <script>
 
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import TaskInteractions from '../../components/Tasks/TaskInteractions.vue';
 import TasksSummary from '../../components/Tasks/TasksSummary.vue';
 
@@ -117,7 +118,7 @@ export default {
 
             let options = {
               method: "PUT",
-              headers: new Headers({ "Content-Type": "application/ld+json" }),
+              
               body: JSON.stringify({ read: 1 }),
             };
             return api.fetch('task_interations/' + element.id, options)

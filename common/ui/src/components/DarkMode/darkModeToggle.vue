@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Config from "@controleonline/quasar-common-ui/src/utils/config";
+ import Config from "@controleonline/quasar-common-ui/src/utils/config";
 
 export default {
   components: {

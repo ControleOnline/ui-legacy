@@ -14,13 +14,13 @@
 
         <q-item-section class="q-pb-sm">
           <q-item-label class="text-bold q-py-xs">
-            {{ $t('hi') }}, {{ user.user_name }}!
+            {{ translate('hi') }}, {{ user.user_name }}!
           </q-item-label>
           <q-item-label class="q-py-xs">
             {{ message }}
           </q-item-label>
           <q-item-label class="text-bold q-py-xs">
-            {{ $t('what_you_want') }}
+            {{ translate('what_you_want') }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -30,7 +30,7 @@
           dense
           class="col-3 text-capitalize size-button"
           color="secondary"
-          :label="$t('accept')"
+          :label="translate('accept')"
           v-close-popup
         >
         </q-btn>
@@ -40,7 +40,7 @@
           class="col-3 text-capitalize size-button"
           color="secondary"
           outline
-          :label="$t('refuse')"
+          :label="translate('refuse')"
           v-close-popup
         >
         </q-btn>
@@ -50,7 +50,7 @@
           class="col-3 text-capitalize"
           color="secondary"
           style="margin-top: -0.4rem;"
-          :label="$t('negotiate')"
+          :label="translate('negotiate')"
           flat
           stack
           icon="o_forum"

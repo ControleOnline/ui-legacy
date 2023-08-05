@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import md5 from 'md5';
+ import md5 from 'md5';
 import UserAddress from './../../../components/user/profile/UserAddress';
 import UserDocuments from './../../../components/user/profile/UserDocuments';
 import UserEmails from './../../../components/user/profile/UserEmails';

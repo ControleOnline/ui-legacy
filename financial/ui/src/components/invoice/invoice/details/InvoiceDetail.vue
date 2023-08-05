@@ -2,7 +2,7 @@
   <div>
     <div class="row q-mb-md q-gutter-sm justify-end">
       <q-btn
-        :label="$t('Cancelar despesa')"
+        :label="translate('Cancelar despesa')"
         icon="cancel"
         color="negative"
         @click="removeExpense"
@@ -20,7 +20,7 @@
             map-options
             lazy-rules
             v-model="item.category"
-            :label="$t('Categoria da despesa')"
+            :label="translate('Categoria da despesa')"
             :options="categories"
             :rules="[(val) => val !== null || 'Selecione uma categoria']"
           />
@@ -33,7 +33,7 @@
             stack-label
             v-model="item.description"
             type="text"
-            :label="$t('Descrição da despesa')"
+            :label="translate('Descrição da despesa')"
             class="q-mt-md"
             :rules="[isInvalid()]"
           />
@@ -48,7 +48,7 @@
             map-options
             lazy-rules
             v-model="item.provider"
-            :label="$t('Fornecedor')"
+            :label="translate('Fornecedor')"
             :options="providers"
             :rules="[(val) => val !== null || 'Selecione um fornecedor']"
           />
@@ -76,7 +76,7 @@
             v-model="item.amount"
             prefix="R$"
             type="text"
-            :label="$t('Valor')"
+            :label="translate('Valor')"
             class="q-mt-md"
             :rules="[isInvalid()]"
             mask="#,##"
@@ -89,7 +89,7 @@
             outlined
             stack-label
             v-model="item.dueDate"
-            :label="$t('Data primeiro vencimento')"
+            :label="translate('Data primeiro vencimento')"
             mask="##/##/####"
             class="q-mb-sm"
             :rules="[isInvalid('date')]"
@@ -120,7 +120,7 @@
             map-options
             lazy-rules
             v-model="item.status"
-            :label="$t('Status')"
+            :label="translate('Status')"
             :options="statuses"
             :rules="[(val) => val !== null || 'Selecione um status']"
           />
@@ -131,7 +131,7 @@
           :loading="saving"
           icon="save"
           type="submit"
-          :label="$t('Salvar')"
+          :label="translate('Salvar')"
           size="md"
           color="primary"
           class="q-mt-md"
@@ -142,10 +142,11 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
 
-import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
+ import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 
 export default {
   components: {
@@ -275,7 +276,7 @@ export default {
           for (let index in statuses) {
             let item = statuses[index];
             data.push({
-              label: this.$t(`invoice.statuses.${item.status}`),
+              label: this.translate(`invoice.statuses.${item.status}`),
               value: item.status,
             });
           }
@@ -297,7 +298,7 @@ export default {
       })
         .then((response) => {
           this.$q.notify({
-            message: this.$t("Dados salvos com sucesso!"),
+            message: this.translate("Dados salvos com sucesso!"),
             position: "bottom",
             type: "positive",
           });
@@ -325,7 +326,7 @@ export default {
       })
         .then((response) => {
           this.$q.notify({
-            message: this.$t("Dados salvos com sucesso!"),
+            message: this.translate("Dados salvos com sucesso!"),
             position: "bottom",
             type: "positive",
           });
@@ -358,7 +359,7 @@ export default {
       })
         .then((data) => {
           this.$q.notify({
-            message: this.$t("Dados salvos com sucesso!"),
+            message: this.translate("Dados salvos com sucesso!"),
             position: "bottom",
             type: "positive",
           });
@@ -372,7 +373,7 @@ export default {
     },
 
     removeExpense() {
-      if (window.confirm(this.$t("Realmente deseja cancelar esta despesa?"))) {
+      if (window.confirm(this.translate("Realmente deseja cancelar esta despesa?"))) {
         this.deleting = true;
 
         this.deleteExpense({
@@ -383,7 +384,7 @@ export default {
         })
           .then((data) => {
             this.$q.notify({
-              message: this.$t("Despesa cancelada com sucesso!"),
+              message: this.translate("Despesa cancelada com sucesso!"),
               position: "bottom",
               type: "positive",
             });
@@ -439,10 +440,10 @@ export default {
     isInvalid(field) {
       return (val) => {
         if (field == "date") {
-          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val)) return this.$t("A data não é válida");
+          if (!/^\d{2}\/\d{2}\/\d{4}$/g.test(val)) return this.translate("A data não é válida");
         }
 
-        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.translate("Este campo é obrigatório");
 
         return true;
       };

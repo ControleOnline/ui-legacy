@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{ $t('Auditoria Contábil') }}
+            {{ translate('Auditoria Contábil') }}
           </div>
         </div>
       </q-card-section>
@@ -16,19 +16,19 @@
       >
         <q-tab
           name  ="impostos"
-          :label="$t('Impostos')"
+          :label="translate('Impostos')"
         />
         <q-tab
           name  ="declaracoes"
-          :label="$t('Declarações')"
+          :label="translate('Declarações')"
         />
         <q-tab
           name  ="administrativo"
-          :label="$t('Administrativo')"
+          :label="translate('Administrativo')"
         />
         <q-tab
           name  ="extratos_movimentacoes"
-          :label="$t('Extratos e Movimentações')"
+          :label="translate('Extratos e Movimentações')"
         />
       </q-tabs>
 
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import AuditAdministrativo from './../../../components/contabil/AuditAdministrativo';
 import AuditDeclaracoes from './../../../components/contabil/AuditDeclaracoes';
 import AuditExtratos from './../../../components/contabil/AuditExtratos';

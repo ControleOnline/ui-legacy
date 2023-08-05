@@ -7,7 +7,7 @@
         color="primary"
         class="q-ma-md"
       />
-      {{ $t(`loading`) }}
+      {{ translate(`loading`) }}
     </div>
 
     <q-table
@@ -31,7 +31,7 @@
                     <q-item-section side>
                       <q-icon name="edit"></q-icon>
                     </q-item-section>
-                    <q-item-section> {{ $t(`Edit`) }} </q-item-section>
+                    <q-item-section> {{ translate(`Edit`) }} </q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -48,7 +48,7 @@
     <q-dialog v-model="editHardware">
       <q-card>
         <q-card-section>
-          <span class="text-h6"> {{ $t(`Edit`) }}</span>
+          <span class="text-h6"> {{ translate(`Edit`) }}</span>
         </q-card-section>
         <HardwareCreate
           :hardwareObj="this.selectedHardware"
@@ -61,6 +61,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
+import translate from "@controleonline/../../src/boot/translate";
 import HardwareCreate from "./HardwareCreate.vue";
 
 export default {

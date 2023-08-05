@@ -1,6 +1,6 @@
 import { name, version } from '../package.json';
 
-import ActiveContracts from './components/ActiveContracts';
+ import ActiveContracts from './components/ActiveContracts';
 import ActiveCustomers from './components/ActiveCustomers';
 import AdministrativeExpenses from './components/AdministrativeExpenses';
 import AverageTicket from './components/AverageTicket';

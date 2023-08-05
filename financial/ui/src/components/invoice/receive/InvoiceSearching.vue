@@ -23,7 +23,7 @@
           <q-td key="payer" :props="props">{{ props.cols[4].value }}</q-td>
           <q-td key="client" :props="props">{{ props.cols[5].value }}</q-td>
           <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
-            {{ $t(`invoice.statuses.${props.row.status}`) }}
+            {{ translate(`invoice.statuses.${props.row.status}`) }}
           </q-td>
           <q-td key="preco" :props="props">{{ props.cols[7].value }}</q-td>
         </q-tr>
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import {
 formatDateYmdTodmY,
 formatMoney,
@@ -272,7 +273,7 @@ export default {
         data.push({
           "@id": item["@id"],
           id: item["@id"].replace(/[^0-9]/g, ""),
-          tipo: this.$t(item.invoice_type),
+          tipo: this.translate(item.invoice_type),
           pedidos: orders,
           color_status: item.status.color,
           dataVencimento: item.dueDate,

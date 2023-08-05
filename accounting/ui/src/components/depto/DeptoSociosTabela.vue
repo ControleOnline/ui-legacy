@@ -26,7 +26,7 @@
               <div class="col q-gutter-xs items-center">
                 <q-btn outline
                   color ="primary"
-                  :label="$t('Dependentes')"
+                  :label="translate('Dependentes')"
                   size  ="sm"
                   :to   ="{
                     name  : 'DeptoSociosDependentes',
@@ -37,7 +37,7 @@
                 />
                 <q-btn outline
                   color ="primary"
-                  :label="$t('Folhas de Ponto')"
+                  :label="translate('Folhas de Ponto')"
                   size  ="sm"
                   :to   ="{
                     name  : 'DeptoSociosFolhas',
@@ -48,7 +48,7 @@
                 />
                 <q-btn
                   color   ="red"
-                  :label  ="$t('Apagar')"
+                  :label  ="translate('Apagar')"
                   size    ="sm"
                   @click  =""
                   :loading="false"
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from 'vuex';
 
 const SETTINGS = {

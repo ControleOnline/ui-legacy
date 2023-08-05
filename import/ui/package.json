@@ -1,8 +1,8 @@
 {
     "name": "@controleonline/quasar-import-ui",
-    "version": "1.0.17",
+    "version": "1.0.18",
     "author": "ControleOnline",
-    "description": "ControleOnline import Quasar UI Component",
+    "description": "ControleOnline Quasar UI Component",
     "license": "MIT",
     "main": "src/index.js",
     "scripts": {},

@@ -12,12 +12,12 @@
     >
       <q-tab
         name="menu"
-        :label="$t('config.menu.tittle')"
+        :label="translate('config.menu.tittle')"
         class="text-capitalize"
       />
       <q-tab
         name="menu-categories"
-        :label="$t('config.categories.tittle')"
+        :label="translate('config.categories.tittle')"
         class="text-capitalize"
       />
     </q-tabs>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import TableCategories from "@controleonline/quasar-common-ui/src/components/Categories/Table.vue";
 import Menu from "./../../components/config/Menu/Table";
 

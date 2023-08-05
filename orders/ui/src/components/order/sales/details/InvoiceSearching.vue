@@ -49,7 +49,7 @@
             :props="props"
             :style="{ color: props.row.color_status }"
           >
-            {{ $t(`invoice.statuses.${props.row.status}`) }}
+            {{ translate(`invoice.statuses.${props.row.status}`) }}
           </q-td>
           <q-td key="preco" :props="props">{{ props.cols[5].value }}</q-td>
         </q-tr>
@@ -97,6 +97,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import {
 formatDateYmdTodmY,
 formatMoney,

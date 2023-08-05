@@ -4,11 +4,11 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 col-md-4 q-mb-md text-h6 text-left">
-            {{ $t(docs_type + '.tittle') }}
+            {{ translate(docs_type + '.tittle') }}
           </div>
           <div class="col-12 col-md-8 q-mb-md">
             <div class="row justify-end">
-              <q-btn :label="$t(docs_type + '.new')" icon="add" size="md" color="primary" :to="{
+              <q-btn :label="translate(docs_type + '.new')" icon="add" size="md" color="primary" :to="{
                 name: 'DocsCreate'
               }" />
             </div>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import DocsTable from '@controleonline/quasar-docs-ui/src/components/docs/DocsTable';
 
 export default { //

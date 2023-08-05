@@ -324,7 +324,7 @@ export default {
     create(values) {
       let options = {
         method: "POST",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        
         body: JSON.stringify(values),
       };
 
@@ -342,7 +342,7 @@ export default {
     update(id, values) {
       let options = {
         method: "PUT",
-        headers: new Headers({ "Content-Type": "application/ld+json" }),
+        
         body: JSON.stringify(values),
       };
 

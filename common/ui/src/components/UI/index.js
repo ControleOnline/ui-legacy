@@ -1,4 +1,4 @@
-import LangSwitch from './LangSwitch';
+ import LangSwitch from './LangSwitch';
 
 export default {
   LangSwitch,

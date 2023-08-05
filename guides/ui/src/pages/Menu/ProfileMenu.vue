@@ -5,7 +5,7 @@
       <q-btn
         v-for="(button, index) in buttons"
         :key="index"
-        :label="$t(button.label)"
+        :label="translate(button.label)"
         class="full-width button-menu q-py-md"
         align="between"
         style="text-transform: none;"
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import ChangePasswordDialog from '@controleonline/quasar-common-ui/src/components/Dialog/ChangePasswordDialog';
 import ToolsFooter from '@controleonline/quasar-common-ui/src/components/Footer/ToolsFooter';
 import ProfileHeader from '@controleonline/quasar-common-ui/src/components/Header/ProfileHeader';

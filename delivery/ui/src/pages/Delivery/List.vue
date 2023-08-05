@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import OrderList from "../../components/products/OrderList.vue";
+ import OrderList from "../../components/products/OrderList.vue";
 
 export default {
   components: {

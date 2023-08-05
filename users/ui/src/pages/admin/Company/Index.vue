@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import CompanySearching from './../../../components/company/CompanySearching';
+ import CompanySearching from './../../../components/company/CompanySearching';
 
 export default {
   name      : 'CompanyIndexPage',

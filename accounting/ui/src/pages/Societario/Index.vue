@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{ $t('Societário') }}
+            {{ translate('Societário') }}
           </div>
         </div>
       </q-card-section>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import SocietarioTabela from './../../components/societario/SocietarioTabela';
 
 export default {

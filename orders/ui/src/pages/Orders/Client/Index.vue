@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import OrderSearching from '../../../components/order/client/OrderSearching';
+ import OrderSearching from '../../../components/order/client/OrderSearching';
 
 export default {
   name      : 'ClientOrderIndexPage',

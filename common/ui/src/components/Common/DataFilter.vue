@@ -10,7 +10,7 @@
       stack-label
       class="bg-transparent margin-filter element-filter"
       v-model="date.from"
-      :label="labelFrom || $t('dashboard.from_date')"
+      :label="labelFrom || translate('dashboard.from_date')"
       mask="##/##/####"
     >
       <template v-slot:append>
@@ -35,7 +35,7 @@
       stack-label
       class="bg-transparent margin-filter element-filter"
       v-model="date.to"
-      :label="labelTo || $t('dashboard.to_date')"
+      :label="labelTo || translate('dashboard.to_date')"
       mask="##/##/####"
     >
       <template v-slot:append>
@@ -57,7 +57,7 @@
     <q-btn
       v-if="showButton"
       :loading="isLoading"
-      :label="$t('dashboard.request')"
+      :label="translate('dashboard.request')"
       class="element-filter margin-filter"
       color="primary"
       @click="$emit('dateChanged', date)"

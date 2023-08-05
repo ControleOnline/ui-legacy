@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{ $t('Auditoria Societário') }}
+            {{ translate('Auditoria Societário') }}
           </div>
         </div>
       </q-card-section>
@@ -16,7 +16,7 @@
       >
         <q-tab
           name  ="societario"
-          :label="$t('Societário')"
+          :label="translate('Societário')"
         />
       </q-tabs>
 
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import AuditSocietario from './../../../components/societario/AuditSocietario';
 
 export default {

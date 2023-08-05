@@ -233,7 +233,7 @@ export default {
     create(values) {
       let options = {
         method : 'PUT',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body   : JSON.stringify(values),
       };
 
@@ -256,7 +256,7 @@ export default {
     delete(id) {
       let options = {
         method : 'DELETE',
-        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
+       
         body   : JSON.stringify({ id }),
       };
 

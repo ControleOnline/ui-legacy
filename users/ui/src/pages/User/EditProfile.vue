@@ -12,7 +12,7 @@
             class="q-ma-none q-pa-none text-bold text-secondary"
             style="font-size: 1.5rem;"
           >
-            {{ $t('my_name') }} {{ userEdit.user_name }}
+            {{ translate('my_name') }} {{ userEdit.user_name }}
           </q-item-label>
         </q-item-section>
         <q-space></q-space>
@@ -24,7 +24,7 @@
       <q-item class="q-px-sm q-py-sm column">
         <q-item-section class="border-division">
           <q-item-label class="text-bold text-secondary title-list">
-            {{ $t('about_yourself') }}
+            {{ translate('about_yourself') }}
           </q-item-label>
           <q-input
       dense
@@ -55,7 +55,7 @@
               <q-item-label
                 class="text-center text-secondary text-bold"
               >
-                {{ $t(lang) }}
+                {{ translate(lang) }}
               </q-item-label>
               <q-icon color="secondary" size="1.3rem" name="expand_more"></q-icon>
             </div>
@@ -92,7 +92,7 @@
         <div class="border-division">
           <q-item-section class="q-py-sm">
             <q-item-label class="text-secondary text-bold title-list">
-              {{ $t('communicate_sign_language') }}
+              {{ translate('communicate_sign_language') }}
               <q-icon name="front_hand" color="secondary" size="1rem"></q-icon>
             </q-item-label>
           </q-item-section>
@@ -106,7 +106,7 @@
                 dense
                 :val="false"
               />
-              <q-item-label class="text-description">{{ $t('yes') }}</q-item-label>
+              <q-item-label class="text-description">{{ translate('yes') }}</q-item-label>
             </div>
 
             <div class="column q-pl-xs">
@@ -117,7 +117,7 @@
                 dense
                 :val="true"
               />
-              <q-item-label class="text-description">{{ $t('no') }}</q-item-label>
+              <q-item-label class="text-description">{{ translate('no') }}</q-item-label>
             </div>
           </div>
         </div>
@@ -125,10 +125,10 @@
         <div v-if="userRole === 'provider'" class="border-division">
           <q-item-section class="q-py-sm">
             <q-item-label class="text-secondary text-bold title-list">
-              {{ $t('you_act_like') }}
+              {{ translate('you_act_like') }}
             </q-item-label>
             <q-item-label class="text-caption text-italic text-grey-7">
-              {{ $t('you_act_like_desc') }}
+              {{ translate('you_act_like_desc') }}
             </q-item-label>
 
             <div
@@ -142,7 +142,7 @@
                 @click="openDialog('act', act)"
               >
                 <q-item-label class="text-center text-secondary text-bold">
-                  {{ $t(act) }}
+                  {{ translate(act) }}
                 </q-item-label>
                 <q-icon color="secondary" size="1.3rem" name="expand_more"></q-icon>
               </div>
@@ -179,10 +179,10 @@
         <div v-if="userRole === 'provider'" class="border-division">
           <q-item-section class="q-mx-none q-py-sm">
             <q-item-label class="text-secondary text-bold title-list">
-              {{ $t('have_cadastur') }}
+              {{ translate('have_cadastur') }}
             </q-item-label>
             <q-item-label class="text-caption text-italic text-grey-7">
-              {{ $t('have_cnpj') }}
+              {{ translate('have_cnpj') }}
             </q-item-label>
             <q-input
       dense
@@ -206,12 +206,12 @@
         <div v-if="userRole === 'provider'" class="border-division">
           <q-item-section class="q-mx-none q-py-sm">
             <q-item-label class="text-secondary text-bold title-list">
-              {{ $t('other_authorizations_credentials') }}
+              {{ translate('other_authorizations_credentials') }}
             </q-item-label>
 
             <q-item-label class="text-caption text-italic text-grey-7">
-              Ex: {{ $t('other_authorizations_credentials_ex') }}
-              Obs: {{ $t('other_authorizations_credentials_obs') }}
+              Ex: {{ translate('other_authorizations_credentials_ex') }}
+              Obs: {{ translate('other_authorizations_credentials_obs') }}
             </q-item-label>
           </q-item-section>
 
@@ -236,7 +236,7 @@
 
               <q-item-label class="q-ma-none text-caption title-list text-grey text-italic">
                 <q-icon name="verified_user" color="green" size="1.5rem"></q-icon>
-                {{ $t('verified') }}
+                {{ translate('verified') }}
               </q-item-label>
             </div>
           </q-item-section>
@@ -257,11 +257,11 @@
         <div v-if="userRole === 'provider'" class="border-division">
           <q-item-section class="q-mx-none q-py-sm">
             <q-item-label class="text-secondary text-bold title-list">
-              {{ $t('certifications_courses') }}
+              {{ translate('certifications_courses') }}
             </q-item-label>
 
             <q-item-label class="text-caption text-italic text-grey-7">
-              Obs: {{ $t('certifications_courses_obs') }}
+              Obs: {{ translate('certifications_courses_obs') }}
             </q-item-label>
           </q-item-section>
 
@@ -285,7 +285,7 @@
 
               <q-item-label class="q-ma-none text-caption title-list text-grey text-italic">
                 <q-icon name="verified_user" color="green" size="1.5 rem"></q-icon>
-                {{ $t('verified') }}
+                {{ translate('verified') }}
               </q-item-label>
             </div>
           </q-item-section>
@@ -309,6 +309,7 @@
 </template>
 
 <script>
+import translate from "@controleonline/../../src/boot/translate";
 import OptionsActDialog from '@controleonline/quasar-common-ui/src/components/Dialog/OptionsActDialog';
 import OptionsLangDialog from '@controleonline/quasar-common-ui/src/components/Dialog/OptionsLangDialog';
 import UploadArchiveDialog from '@controleonline/quasar-common-ui/src/components/Dialog/UploadArchiveDialog';
