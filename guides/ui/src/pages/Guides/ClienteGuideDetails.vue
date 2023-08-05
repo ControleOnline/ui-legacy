@@ -51,7 +51,7 @@
     <q-item class="column">
       <q-item-section>
         <q-item-label class="text-bold">
-          {{ translate('responsible') }}:
+          {{ $t('responsible') }}:
         </q-item-label>
       </q-item-section>
 
@@ -70,7 +70,7 @@
         <div class="col-auto">
           <q-btn
             icon="o_question_answer"
-            :label="translate('message_button')"
+            :label="$t('message_button')"
             flat
             style="text-transform: none;"
             class="text-secondary"
@@ -81,7 +81,7 @@
         <div class="col-auto">
           <q-btn
             icon="o_smartphone"
-            :label="translate('call_button')"
+            :label="$t('call_button')"
             flat
             style="text-transform: none;"
             class="text-secondary"
@@ -95,7 +95,7 @@
       <q-item-section class="q-pa-md bg-grey-4 shadow-6">
         <div class="q-pb-sm flex items-center">
           <q-item-label class="q-ma-none text-bold text-secondary title-list">
-            {{ translate('meeting_point') }}
+            {{ $t('meeting_point') }}
           </q-item-label>
           <q-space></q-space>
           <q-icon name="place" color="secondary"></q-icon>
@@ -109,7 +109,7 @@
     <q-item class="column border-division">
       <div class="flex items-center">
         <p class="q-ma-none text-secondary text-bold title-list">
-          {{ translate('checklist_for_customers') }}
+          {{ $t('checklist_for_customers') }}
         </p>
         <q-space></q-space>
         <q-icon size="1.5rem" color="secondary" name="o_fact_check"></q-icon>
@@ -132,7 +132,7 @@
         <q-btn
           class="q-py-sm q-px-md text-capitalize col-12"
           color="secondary"
-          :label="translate('cancel')"
+          :label="$t('cancel')"
           @click="openCancelEventDialog = true"
         >
         </q-btn>
@@ -146,7 +146,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import CancelEventDialog from '@controleonline/quasar-common-ui/src/components/Dialog/CancelEventDialog';
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 import { date } from 'quasar';
@@ -167,20 +166,20 @@ export default {
 
   methods: {
     formatDate(value) {
-      const dateEnd = date.formatDate(value, this.translate('mask_date'), {
+      const dateEnd = date.formatDate(value, this.$t('mask_date'), {
         monthsShort: [
-          this.translate('jan'),
-          this.translate('feb'),
-          this.translate('mar'),
-          this.translate('apr'),
-          this.translate('may'),
-          this.translate('june'),
-          this.translate('july'),
-          this.translate('aug'),
-          this.translate('sept'),
-          this.translate('oct'),
-          this.translate('nov'),
-          this.translate('dec'),
+          this.$t('jan'),
+          this.$t('feb'),
+          this.$t('mar'),
+          this.$t('apr'),
+          this.$t('may'),
+          this.$t('june'),
+          this.$t('july'),
+          this.$t('aug'),
+          this.$t('sept'),
+          this.$t('oct'),
+          this.$t('nov'),
+          this.$t('dec'),
         ],
       });
 

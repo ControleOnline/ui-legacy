@@ -35,7 +35,7 @@
             <q-td key="status" :props="props">
               <q-badge
                 :text-color="props.row.status.color"
-                :label="translate(docs_type + '.status.' + props.row.status.status)"
+                :label="$t(docs_type + '.status.' + props.row.status.status)"
               />
             </q-td>
             <q-td key="arquivoGuia" :props="props" auto-width>
@@ -134,7 +134,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import axios from "axios";
 import { mapGetters } from "vuex";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
@@ -277,7 +276,7 @@ export default {
     requestStatuses() {
       this.loadingStatuses = true;
       this.statuses.push({
-        label: this.translate(this.docs_type + ".status.all"),
+        label: this.$t(this.docs_type + ".status.all"),
         value: -1,
         color: "#000000",
       });
@@ -287,7 +286,7 @@ export default {
             let item = statuses.members[index];
             this.statuses.push({
               original: item.status,
-              label: this.translate(this.docs_type + ".status." + item.status),
+              label: this.$t(this.docs_type + ".status." + item.status),
               value: parseInt(item["@id"].match(/^\/statuses\/([a-z0-9-]*)$/)[1]),
               color: item.color,
             });
@@ -298,7 +297,7 @@ export default {
           this.filters.status = this.statuses.find((status) => "open" == status.original);
         else
           this.filters.status = {
-            label: this.translate(this.docs_type + ".status.all"),
+            label: this.$t(this.docs_type + ".status.all"),
             value: -1,
           };
       });

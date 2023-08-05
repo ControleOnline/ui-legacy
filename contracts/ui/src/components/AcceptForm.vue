@@ -14,7 +14,7 @@
           lazy-rules
           v-model="form.carModel"
           type="text"
-          :label="translate('Modelo do carro')"
+          :label="$t('Modelo do carro')"
           placeholder="Modelo do carro"
           :rules="[isInvalid('car_model')]"
           :disable="payer.carModel ? true : false"
@@ -28,7 +28,7 @@
           lazy-rules
           v-model="form.other_informations.carColor"
           type="text"
-          :label="translate('Cor do carro')"
+          :label="$t('Cor do carro')"
           placeholder="Cor do carro"
           :rules="[isInvalid('car_color')]"
         />
@@ -42,7 +42,7 @@
           unmasked-value
           v-model="form.other_informations.carNumber"
           type="text"
-          :label="translate('Placa do Carro')"
+          :label="$t('Placa do Carro')"
           placeholder="Placa do Carro"
           :rules="[isInvalid('car_number')]"
         />
@@ -56,7 +56,7 @@
           unmasked-value
           v-model="form.other_informations.renavan"
           type="text"
-          :label="translate('Renavan')"
+          :label="$t('Renavan')"
           placeholder="Renavan"
           :rules="[isInvalid('renavan')]"
         />
@@ -88,7 +88,7 @@
           unmasked-value
           v-model="form.document"
           type="text"
-          :label="form.personType == 'PJ' ? translate('CNPJ') : translate('CPF')"
+          :label="form.personType == 'PJ' ? $t('CNPJ') : $t('CPF')"
           :mask="form.personType == 'PJ' ? '##.###.###/####-##' : '###.###.###-##'"
           :placeholder="form.personType == 'PJ' ? 'Digite o CNPJ' : 'Digite o CPF'"
           :rules="[isInvalid('document')]"
@@ -143,7 +143,7 @@
           lazy-rules
           v-model="form.email"
           type="text"
-          :label="translate('Email')"
+          :label="$t('Email')"
           placeholder="E-mail"
           :rules="[isInvalid('email')]"
         />
@@ -157,7 +157,7 @@
           unmasked-value
           v-model="form.phone"
           type="text"
-          :label="translate('Telefone')"
+          :label="$t('Telefone')"
           mask="(##) #####-####"
           placeholder="Telefone"
           :rules="[isInvalid('phone')]"
@@ -191,7 +191,7 @@
           hide-bottom-space
           v-model="form.address.postal_code"
           type="text"
-          :label="translate('CEP')"
+          :label="$t('CEP')"
           mask="#####-###"
           :rules="[isInvalid('address.postal_code')]"
         />
@@ -205,7 +205,7 @@
           hide-bottom-space
           v-model="form.address.street"
           type="text"
-          :label="translate('Rua')"
+          :label="$t('Rua')"
           :rules="[isInvalid('address.street')]"
         />
       </div>
@@ -218,7 +218,7 @@
           hide-bottom-space
           v-model="form.address.number"
           type="text"
-          :label="translate('Número')"
+          :label="$t('Número')"
           :rules="[isInvalid('address.number')]"
         />
       </div>
@@ -230,7 +230,7 @@
           hide-bottom-space
           v-model="form.address.complement"
           type="text"
-          :label="translate('Complemento')"
+          :label="$t('Complemento')"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
@@ -242,7 +242,7 @@
           hide-bottom-space
           v-model="form.address.district"
           type="text"
-          :label="translate('Bairro')"
+          :label="$t('Bairro')"
           :rules="[isInvalid('address.district')]"
         />
       </div>
@@ -255,7 +255,7 @@
           hide-bottom-space
           v-model="form.address.city"
           type="text"
-          :label="translate('Cidade')"
+          :label="$t('Cidade')"
           :rules="[isInvalid('address.city')]"
         />
       </div>
@@ -268,7 +268,7 @@
           hide-bottom-space
           v-model="form.address.state"
           type="text"
-          :label="translate('UF')"
+          :label="$t('UF')"
           mask="AA"
           :rules="[isInvalid('address.state')]"
         />
@@ -282,7 +282,7 @@
           hide-bottom-space
           v-model="form.address.country"
           type="text"
-          :label="translate('País')"
+          :label="$t('País')"
           :rules="[isInvalid('address.country')]"
         />
       </div>
@@ -294,7 +294,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
 import { mapActions } from "vuex";
 
@@ -450,7 +449,7 @@ export default {
       }
 
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
         return true;
       };
     },

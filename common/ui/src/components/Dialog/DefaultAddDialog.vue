@@ -33,7 +33,7 @@
               class="q-pa-xs text-capitalize bg-secondary"
               outline
               color="white"
-              :label="translate('send_included')"
+              :label="$t('send_included')"
               @click="addIncluded(text)"
               v-close-popup
               style="width: 4rem"

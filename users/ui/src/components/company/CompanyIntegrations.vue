@@ -33,7 +33,7 @@
               lazy-rules
               v-model="items.email.value"
               type="text"
-              :label="translate('Email para integrações')"
+              :label="$t('Email para integrações')"
               :stack-label="true"
               :rules="[isInvalid('email')]"
               @input="
@@ -59,7 +59,7 @@
               v-if="field.type == 'string'"
               v-model="field.value"
               type="text"
-              :label="translate(fieldId)"
+              :label="$t(fieldId)"
               :stack-label="true"
               :readonly="field.readonly === true"
               @input="
@@ -71,7 +71,7 @@
             <q-checkbox
               v-else-if="field.type === 'bool'"
               v-model="field.value"
-              :label="translate(fieldId)"
+              :label="$t(fieldId)"
               true-value="1"
               false-value="0"
               @input="
@@ -97,7 +97,7 @@
               v-if="field.type == 'string'"
               v-model="field.value"
               type="text"
-              :label="translate(fieldId)"
+              :label="$t(fieldId)"
               :stack-label="true"
               :readonly="field.readonly === true"
               @input="
@@ -109,7 +109,7 @@
             <q-checkbox
               v-else-if="field.type === 'bool'"
               v-model="field.value"
-              :label="translate(fieldId)"
+              :label="$t(fieldId)"
               true-value="1"
               false-value="0"
               @input="
@@ -141,7 +141,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from "vuex";
 
 export default {

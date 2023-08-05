@@ -338,7 +338,7 @@ export default {
           });
       } else if (response.error) {
         this.$q.notify({
-          message: this.translate(response.error),
+          message: this.$t(response.error),
           position: "center",
           type: "warning",
         });
@@ -373,7 +373,7 @@ export default {
     checkLabels() {
       if (this.isCeg()) {
         this.productTypeLabel = "Automóvel";
-        //this.invoiceTaxLabel = translate("form.labels.product_price");
+        //this.invoiceTaxLabel = $t("form.labels.product_price");
         if (this.domainType() === "simple") {
           this.productTypeLabel = "Carga";
           this.product.type = "Cotação";

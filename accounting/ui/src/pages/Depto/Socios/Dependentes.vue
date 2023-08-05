@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{translate('Sócios Dependentes')}}
+            {{$t('Sócios Dependentes')}}
           </div>
         </div>
       </q-card-section>
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import DeptoDependentesTabela from './../../../components/depto/DeptoDependentesTabela';
 
 export default {

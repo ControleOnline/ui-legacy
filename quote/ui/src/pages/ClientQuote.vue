@@ -309,7 +309,7 @@ export default {
           });
       } else if (response.error) {
         this.$q.notify({
-          message: this.translate(response.error),
+          message: this.$t(response.error),
           position: "center",
           type: "warning",
         });

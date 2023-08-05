@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <MenuDefaultHeader
-      :title="translate('concluded_guides_header')"
+      :title="$t('concluded_guides_header')"
       icon="o_history"
     >
     </MenuDefaultHeader>
@@ -9,7 +9,7 @@
     <q-item>
       <q-item-section>
         <q-item-label class="text-bold">
-          {{ translate('see_where_you_been') }}
+          {{ $t('see_where_you_been') }}
         </q-item-label>
       </q-item-section>
     </q-item>
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import CardGuidesCustomers from '@controleonline/quasar-common-ui/src/components/Card/CardGuidesCustomers';
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 

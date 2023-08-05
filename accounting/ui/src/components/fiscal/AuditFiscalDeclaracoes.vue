@@ -1,13 +1,12 @@
 <template>
   <div class="row">
     <div class="col-12 q-mt-md">
-      {{ translate('Nenhum item por enquanto.') }}
+      {{ $t('Nenhum item por enquanto.') }}
     </div>
   </div>
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from 'vuex';
 
 export default {

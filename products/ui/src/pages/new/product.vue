@@ -17,13 +17,13 @@
               class="bg-primary text-white shadow-2"
               v-model="tab"
             >
-              <q-tab name="group" icon="tab" :label="translate('Group')" />
-              <q-tab name="categories" icon="tab" :label="translate('Categories')" />
-              <q-tab name="price" icon="tab" :label="translate('Price')" />
-              <q-tab name="provider" icon="tab" :label="translate('Provider')" />
-              <q-tab name="stock" icon="tab" :label="translate('Stock')" />
-              <q-tab name="advertisement" icon="tab" :label="translate('Advertisement')" />
-              <q-tab name="taxing" icon="tab" :label="translate('Taxing')" />
+              <q-tab name="group" icon="tab" :label="$t('Group')" />
+              <q-tab name="categories" icon="tab" :label="$t('Categories')" />
+              <q-tab name="price" icon="tab" :label="$t('Price')" />
+              <q-tab name="provider" icon="tab" :label="$t('Provider')" />
+              <q-tab name="stock" icon="tab" :label="$t('Stock')" />
+              <q-tab name="advertisement" icon="tab" :label="$t('Advertisement')" />
+              <q-tab name="taxing" icon="tab" :label="$t('Taxing')" />
             </q-tabs>
 
             <q-tab-panels
@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from "vuex";
 import Product from "./components/product.vue";
 import Advertisement from "./components/tabs/advertisement.vue";

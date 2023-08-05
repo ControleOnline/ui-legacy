@@ -75,7 +75,7 @@
           dense
           outlined
           stack-label
-          :label="translate(this.docs_type + '.status_name')"
+          :label="$t(this.docs_type + '.status_name')"
           v-model="item.status"
           :options="statuses"
           class="full-width"
@@ -196,7 +196,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import axios from "axios";
 import { mapGetters } from "vuex";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
@@ -368,7 +367,7 @@ export default {
             let item = statuses.members[index];
             this.statuses.push({
               original: item.status,
-              label: this.translate(this.docs_type + ".status." + item.status),
+              label: this.$t(this.docs_type + ".status." + item.status),
               value: parseInt(item["@id"].match(/^\/statuses\/([a-z0-9-]*)$/)[1]),
               color: item.color,
             });
@@ -378,7 +377,7 @@ export default {
         //if (!this.orderId && !this.client)
         //this.filters.status = this.statuses.find((status) => 'open' == status.original);
         //else
-        //          this.filters.status = { label: this.translate(this.docs_type + ".status.all"), value: -1 };
+        //          this.filters.status = { label: this.$t(this.docs_type + ".status.all"), value: -1 };
       });
     },
 
@@ -805,7 +804,7 @@ export default {
         .then(response => response.blob())
         .then((blob) => {
           if (!exportFile(file.name, blob, blob.type)) {
-            throw new Error(this.translate('Download error'));
+            throw new Error(this.$t('Download error'));
           }
         });
       */

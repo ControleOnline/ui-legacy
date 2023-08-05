@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <MenuDefaultHeader
-      :title="translate('reviews')"
+      :title="$t('reviews')"
       icon="star"
       :save_button="false"
     >
@@ -10,7 +10,7 @@
       <q-btn
         v-for="(button, index) in buttons"
         :key="index"
-        :label="translate(button.label)"
+        :label="$t(button.label)"
         class="full-width button-menu q-py-md"
         align="between"
         style="text-transform: none;"
@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import ToolsFooter from '@controleonline/quasar-common-ui/src/components/Footer/ToolsFooter';
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 

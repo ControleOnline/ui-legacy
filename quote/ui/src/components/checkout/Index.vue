@@ -279,7 +279,7 @@ export default {
             }
 
             if (response && response.response && response.response.error) {
-              this.notifyError(this.translate(response.response.error));
+              this.notifyError(this.$t(response.response.error));
             } else {
               this.notifyError(
                 "Não foi possivel finalizar o checkout, verifique se você tem permissão ou tente novamente mais tarde."
@@ -296,7 +296,7 @@ export default {
           }
 
           if (response && response.response && response.response.error) {
-            this.notifyError(this.translate(response.response.error));
+            this.notifyError(this.$t(response.response.error));
           } else {
             this.notifyError(
               "Não foi possivel finalizar o checkout, verifique se você tem permissão ou tente novamente mais tarde."
@@ -337,7 +337,7 @@ export default {
               form.hasCallback();
             }
             if (response && response.response && response.response.error) {
-              this.notifyError(this.translate(response.response.error));
+              this.notifyError(this.$t(response.response.error));
             } else {
               this.notifyError(
                 "Não foi possivel finalizar o checkout, verifique se você tem permissão ou tente novamente mais tarde."
@@ -354,7 +354,7 @@ export default {
           }
 
           if (response && response.response && response.response.error) {
-            this.notifyError(this.translate(response.response.error));
+            this.notifyError(this.$t(response.response.error));
           } else {
             this.notifyError(
               "Não foi possivel finalizar o checkout, verifique se você tem permissão ou tente novamente mais tarde."
@@ -384,7 +384,7 @@ export default {
               form.hasCallback();
             }
             if (response && response.response && response.response.error) {
-              this.notifyError(this.translate(response.response.error));
+              this.notifyError(this.$t(response.response.error));
             } else {
               this.notifyError(
                 "Não foi possivel finalizar o checkout, verifique se a forma de pagamento foi escolhida."
@@ -397,7 +397,7 @@ export default {
             form.hasCallback();
           }
           if (response && response.response && response.response.error) {
-            this.notifyError(this.translate(response.response.error));
+            this.notifyError(this.$t(response.response.error));
           } else {
             this.notifyError(
               "Não foi possivel finalizar o checkout, verifique se você tem permissão ou tente novamente mais tarde."
@@ -431,7 +431,7 @@ export default {
             }
 
             if (response && response.response && response.response.error) {
-              this.notifyError(this.translate(response.response.error));
+              this.notifyError(this.$t(response.response.error));
             } else {
               this.notifyError(
                 "Não foi possivel finalizar o checkout, verifique se você tem permissão ou tente novamente mais tarde."
@@ -445,7 +445,7 @@ export default {
           }
 
           if (response && response.response && response.response.error) {
-            this.notifyError(this.translate(response.response.error));
+            this.notifyError(this.$t(response.response.error));
           } else {
             this.notifyError(
               "Não foi possivel finalizar o checkout, verifique se você tem permissão ou tente novamente mais tarde."

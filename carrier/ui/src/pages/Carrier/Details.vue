@@ -40,15 +40,15 @@
               :horizontal="$q.screen.gt.xs"
               dense
             >
-              <q-tab name="summary" :label="translate('Details')" />
+              <q-tab name="summary" :label="$t('Details')" />
               <q-tab
                 name="employees"
-                :label="translate('Employees')"
+                :label="$t('Employees')"
                 v-if="carrier.peopleType === 'J'"
               />
-              <q-tab name="tasks" :label="translate('Tasks')" />
-              <q-tab name="billing" :label="translate('Billing')" />
-              <q-tab name="calls" :label="translate('Calls')" />
+              <q-tab name="tasks" :label="$t('Tasks')" />
+              <q-tab name="billing" :label="$t('Billing')" />
+              <q-tab name="calls" :label="$t('Calls')" />
               <q-tab name="regions" label="Praças" />
               <q-tab name="tables" label="Tabelas de frete" />
               <q-tab name="integration" label="Integração" />
@@ -495,7 +495,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import PersonAvatar from "@controleonline/quasar-common-ui/src/components/Common/PersonAvatar";
 import CustomerOrders from "@controleonline/quasar-orders-ui/src/components/order/purchasing/OrderSearching.vue";
 import PeopleAdminAddresses from "@controleonline/quasar-people-ui/src/repository/components/AdminAddresses.vue";

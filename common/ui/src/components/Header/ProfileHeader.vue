@@ -13,7 +13,7 @@
           <q-item-section
             @click="viewProfile"
             class="link-format q-ma-none text-caption cursor-pointer text-white">
-            {{ translate('view_profile') }}
+            {{ $t('view_profile') }}
           </q-item-section>
         </div>
       </div>
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import LangSwitch from '../UI/LangSwitch';
 
 export default {

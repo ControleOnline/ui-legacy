@@ -9,7 +9,7 @@
           lazy-rules
           v-model="item.empresa"
           type="text"
-          :label="translate('Empresa')"
+          :label="$t('Empresa')"
           :rules="[isInvalid()]"
         />
       </div>
@@ -18,7 +18,7 @@
           dense
           outlined
           stack-label
-          :label="translate('Declaração')"
+          :label="$t('Declaração')"
           v-model="item.declaracao"
           :options="declaracoes"
           class="full-width"
@@ -31,7 +31,7 @@
           stack-label
           v-model="item.periodo"
           mask="##/####"
-          :label="translate('Período')"
+          :label="$t('Período')"
         >
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
@@ -55,7 +55,7 @@
           stack-label
           bottom-slots
           v-model="item.arquivo"
-          :label="translate('Arquivo')"
+          :label="$t('Arquivo')"
           @input="
             (file) => {
               uploadFile(null, file);
@@ -96,7 +96,7 @@
         :loading="saving"
         icon="save"
         type="submit"
-        :label="translate('Salvar')"
+        :label="$t('Salvar')"
         size="md"
         color="primary"
         class="q-mt-md"
@@ -160,7 +160,7 @@ export default {
     },
 
     removeFile(data) {
-      if (window.confirm(this.translate("Tem certeza que deseja eliminar este arquivo?"))) {
+      if (window.confirm(this.$t("Tem certeza que deseja eliminar este arquivo?"))) {
       }
     },
 
@@ -170,7 +170,7 @@ export default {
         .then(response => response.blob())
         .then((blob) => {
           if (!exportFile(file.name, blob, blob.type)) {
-            throw new Error(this.translate('Download error'));
+            throw new Error(this.$t('Download error'));
           }
         });
       */

@@ -1561,7 +1561,7 @@ export default {
             return items;
           } else {
             this.$q.notify({
-              message: this.translate("Forncedor não encontrado"),
+              message: this.$t("Forncedor não encontrado"),
               position: "bottom",
               type: "negative",
             });
@@ -1587,7 +1587,7 @@ export default {
             return items;
           } else {
             this.$q.notify({
-              message: this.translate("messages.gmapsReqNoData"),
+              message: this.$t("messages.gmapsReqNoData"),
               type: "negative",
               position: "bottom",
             });
@@ -2029,11 +2029,11 @@ export default {
           for (let index in members) {
             this.statusOptions.push({
               value: members[index]["@id"].replaceAll("/statuses/", ""),
-              label: this.translate(`logistic.statuses.${members[index].status}`),
+              label: this.$t(`logistic.statuses.${members[index].status}`),
             });
             this.filterStatusOptions.push({
               value: members[index]["@id"].replaceAll("/statuses/", ""),
-              label: this.translate(`logistic.statuses.${members[index].status}`),
+              label: this.$t(`logistic.statuses.${members[index].status}`),
             });
           }
           this.filterStatusOptions.unshift({
@@ -2274,7 +2274,7 @@ export default {
         .then((result) => {
           if (result.response.success) {
             this.$q.notify({
-              message: this.translate("Dados salvos com sucesso!"),
+              message: this.$t("Dados salvos com sucesso!"),
               position: "bottom",
               type: "positive",
             });
@@ -2402,7 +2402,7 @@ export default {
                   ? data.members[index].orderLogisticSurvey.token_url
                   : "",
                 status: {
-                  label: this.translate(
+                  label: this.$t(
                     `logistic.statuses.${data.members[index].status.status}`
                   ),
                   value: data.members[index].status.id,

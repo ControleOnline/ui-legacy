@@ -9,8 +9,8 @@
             v-model="currentTab"
             class="bg-white text-primary"
           >
-            <q-tab name="products" :label="translate('Products')" />
-            <q-tab name="categories" :label="translate('Categorias')" />
+            <q-tab name="products" :label="$t('Products')" />
+            <q-tab name="categories" :label="$t('Categorias')" />
           </q-tabs>
 
           <q-separator />
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import ProductList from "../../components/products/ProductList.vue";
 
 export default {

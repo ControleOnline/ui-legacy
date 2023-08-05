@@ -15,7 +15,7 @@
         <div class="col-xs-12">
           <div class="row justify-end">
             <q-btn
-              :label="translate('Adicionar setor')"
+              :label="$t('Adicionar setor')"
               icon="add"
               size="md"
               color="primary"
@@ -66,7 +66,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from "vuex";
 
  import FormMenu from "./Form";
@@ -181,7 +180,7 @@ export default {
 
     removeItem(item) {
       /*
-      if (window.confirm(this.translate('Are you sure about to remove this element?'))) {
+      if (window.confirm(this.$t('Are you sure about to remove this element?'))) {
         item._bussy = true;
 
         this.delete(item.id)

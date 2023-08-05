@@ -12,7 +12,7 @@
     </div>
 
     <label v-if="hasCompanyField('document')" class="q-input-label">
-      {{ personType == "PJ" ? translate("CNPJ") : translate("CPF") }}
+      {{ personType == "PJ" ? $t("CNPJ") : $t("CPF") }}
     </label>
     <q-input
       dense
@@ -32,7 +32,7 @@
     <div class="row q-col-gutter-xs q-pb-xs">
       <div v-if="hasCompanyField('name')" class="col-xs-12 col-sm-6 q-mb-sm">
         <label class="q-input-label">
-          {{ personType == "PJ" ? translate("Razão social") : translate("Nome") }}
+          {{ personType == "PJ" ? $t("Razão social") : $t("Nome") }}
         </label>
         <q-input
           dense
@@ -47,7 +47,7 @@
       </div>
       <div v-if="hasCompanyField('alias')" class="col-xs-12 col-sm-6 q-mb-sm">
         <label class="q-input-label">
-          {{ personType == "PJ" ? translate("Nome Fantasia") : translate("Sobrenome") }}
+          {{ personType == "PJ" ? $t("Nome Fantasia") : $t("Sobrenome") }}
         </label>
         <q-input
           dense
@@ -85,7 +85,7 @@
 
     <div v-if="hasCompanyField('address')" class="row q-col-gutter-sm q-pb-xs">
       <div class="col-xs-12 col-sm-grow q-mb-sm" v-if="address == 'bycep'">
-        <label class="q-input-label">{{ translate("CEP") }}</label>
+        <label class="q-input-label">{{ $t("CEP") }}</label>
         <q-input
           dense
           outlined
@@ -102,7 +102,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm" v-else>
-        <label class="q-input-label">{{ translate("CEP") }}</label>
+        <label class="q-input-label">{{ $t("CEP") }}</label>
         <q-input
           dense
           outlined
@@ -118,7 +118,7 @@
       </div>
 
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <label class="q-input-label">{{ translate("Rua") }}</label>
+        <label class="q-input-label">{{ $t("Rua") }}</label>
         <q-input
           dense
           outlined
@@ -131,7 +131,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <label class="q-input-label">{{ translate("Número") }}</label>
+        <label class="q-input-label">{{ $t("Número") }}</label>
         <q-input
           dense
           outlined
@@ -144,7 +144,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <label class="q-input-label">{{ translate("Complemento") }}</label>
+        <label class="q-input-label">{{ $t("Complemento") }}</label>
         <q-input
           dense
           outlined
@@ -155,7 +155,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <label class="q-input-label">{{ translate("Bairro") }}</label>
+        <label class="q-input-label">{{ $t("Bairro") }}</label>
         <q-input
           dense
           outlined
@@ -168,7 +168,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <label class="q-input-label">{{ translate("Cidade") }}</label>
+        <label class="q-input-label">{{ $t("Cidade") }}</label>
         <q-input
           dense
           outlined
@@ -181,7 +181,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <label class="q-input-label">{{ translate("UF") }}</label>
+        <label class="q-input-label">{{ $t("UF") }}</label>
         <q-input
           dense
           outlined
@@ -195,7 +195,7 @@
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm">
-        <label class="q-input-label">{{ translate("País") }}</label>
+        <label class="q-input-label">{{ $t("País") }}</label>
         <q-input
           dense
           outlined
@@ -223,7 +223,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete.vue";
 import { mapActions, mapGetters } from "vuex";
 
@@ -352,7 +351,7 @@ export default {
 
     notifyError(message) {
       if (/This company already exists/gi.test(message))
-        message = this.translate("Esta empresa já esta cadastrada");
+        message = this.$t("Esta empresa já esta cadastrada");
 
       this.$q.notify({
         message: message,
@@ -394,19 +393,19 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         if (key == "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.translate("messages.emailInvalid");
+          return this.$t("messages.emailInvalid");
 
         if (key == "phone" && !/^\d{10,11}$/.test(val))
-          return this.translate("messages.phoneInvalid");
+          return this.$t("messages.phoneInvalid");
 
         if (key == "password" && val.length < 6)
-          return this.translate("A senha deve ter no mínimo 6 caracteres");
+          return this.$t("A senha deve ter no mínimo 6 caracteres");
 
         if (key == "confirm" && this.item.password != this.item.confirmPassword)
-          return this.translate("As senhas não coincidem");
+          return this.$t("As senhas não coincidem");
 
         return true;
       };

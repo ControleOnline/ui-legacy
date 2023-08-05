@@ -15,7 +15,7 @@
             <q-td auto-width>
               <q-btn outline
                 color ="primary"
-                :label="translate('Revisar')"
+                :label="$t('Revisar')"
                 size  ="sm"
                 :to   ="{
                   name  : 'AuditFiscalDetails',
@@ -28,7 +28,7 @@
             <q-td auto-width>
               <q-btn outline
                 color ="primary"
-                :label="translate('Histórico')"
+                :label="$t('Histórico')"
                 size  ="sm"
                 :to   ="{
                   name  : 'AuditFiscalHistorico',
@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from 'vuex';
 
 const SETTINGS = {

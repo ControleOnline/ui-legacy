@@ -22,7 +22,7 @@
         <q-dialog v-model="dialog">
             <q-card style="width: 700px; max-width: 80vw;">
                 <q-card-section class="row items-center">
-                    <div class="text-h6">{{ translate('tasks.newInteraction') }}</div>
+                    <div class="text-h6">{{ $t('tasks.newInteraction') }}</div>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import InteractionForm from "./InteractionForm.vue";
 
 export default {

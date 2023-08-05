@@ -18,7 +18,7 @@
           label-color="black"
           stack-label
           dense
-          :label="translate('product')"
+          :label="$t('product')"
           hide-bottom-space
           v-model="product.product"
         />
@@ -33,7 +33,7 @@
           label-color="black"
           stack-label
           dense
-          :label="translate('sku')"
+          :label="$t('sku')"
           hide-bottom-space
           v-model="product.sku"
         />
@@ -47,7 +47,7 @@
           label-color="black"
           stack-label
           dense
-          :label="translate('type')"
+          :label="$t('type')"
           hide-bottom-space
           v-model="product.type"
         />
@@ -61,7 +61,7 @@
           label-color="black"
           stack-label
           dense
-          :label="translate('price')"
+          :label="$t('price')"
           hide-bottom-space
           v-model="product.price"
         />
@@ -75,7 +75,7 @@
           label-color="black"
           stack-label
           dense
-          :label="translate('unity')"
+          :label="$t('unity')"
           hide-bottom-space
           v-model="product.unity"
         />
@@ -89,7 +89,7 @@
           label-color="black"
           stack-label
           dense
-          :label="translate('condition')"
+          :label="$t('condition')"
           hide-bottom-space
           v-model="product.condition"
         />
@@ -103,7 +103,7 @@
           label-color="black"
           stack-label
           dense
-          :label="translate('active')"
+          :label="$t('active')"
           hide-bottom-space
           v-model="product.active"
         />
@@ -114,15 +114,15 @@
       >
         <label class="full-width">
           <div class="text-h6">
-            {{ translate("description") }}
+            {{ $t("description") }}
             <q-icon name="help" color="secondary">
               <q-tooltip class="bg-indigo">
-                {{ translate("product.tooltip.description") }}
+                {{ $t("product.tooltip.description") }}
               </q-tooltip>
             </q-icon>
           </div>
           <q-editor
-            :label="translate('description')"
+            :label="$t('description')"
             class="full-width scroll overflow-hidden"
             style="max-height: 190px"
             v-model="product.description"
@@ -134,7 +134,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from "vuex";
 
  import Imagens from "./imagens";

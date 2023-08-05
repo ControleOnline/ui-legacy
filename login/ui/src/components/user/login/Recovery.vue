@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <div class="text-body2">{{ translate('login.rememberDesc' ) }}</div>
+    <div class="text-body2">{{ $t('login.rememberDesc' ) }}</div>
 
     <q-form @submit="onSubmit" class="q-mt-md">
 
@@ -10,7 +10,7 @@
         ref    ="email"
         v-model="item.username"
         type   ="text"
-        :label ="translate('login.yourUsername')"
+        :label ="$t('login.yourUsername')"
         class  ="q-mt-md"
         :rules ="[isInvalid('username')]"
       />
@@ -21,14 +21,14 @@
         ref    ="email"
         v-model="item.email"
         type   ="email"
-        :label ="translate('login.yourEmail')"
+        :label ="$t('login.yourEmail')"
         class  ="q-mt-md"
         :rules ="[isInvalid('email')]"
       />
 
       <q-btn
         type    ="submit"
-        :label  ="translate('login.send')"
+        :label  ="$t('login.send')"
         size    ="lg"
         color   ="primary"
         class   ="full-width q-mt-md"
@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -101,9 +100,9 @@ export default {
       return val => {
 
         if (!(val && val.length > 0))
-          return this.translate('messages.fieldRequired');
+          return this.$t('messages.fieldRequired');
         if (key == 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.translate('messages.emailInvalid');
+          return this.$t('messages.emailInvalid');
 
         return true;
       };

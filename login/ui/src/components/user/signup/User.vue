@@ -2,7 +2,7 @@
   <q-form @submit="save" ref="myForm">
     <div class="row q-col-gutter-xs q-pb-xs">
       <div v-if="hasUserField('name')" class="col-xs-12 col-sm-6 q-mb-md">
-        <label class="q-input-label">{{ translate("login.name") }}</label>
+        <label class="q-input-label">{{ $t("login.name") }}</label>
         <q-input
           dense
           outlined
@@ -10,12 +10,12 @@
           lazy-rules
           v-model="item.name"
           type="text"
-          :placeholder="translate('login.enterYourName')"
+          :placeholder="$t('login.enterYourName')"
           :rules="[isInvalid('name')]"
         />
       </div>
       <div v-if="hasUserField('phone')" class="col-xs-12 col-sm-6 q-mb-md">
-        <label class="q-input-label">{{ translate("login.phone") }}</label>
+        <label class="q-input-label">{{ $t("login.phone") }}</label>
         <q-input
           dense
           outlined
@@ -25,7 +25,7 @@
           v-model="item.phone"
           type="text"
           mask="(##) #####-####"
-          :placeholder="translate('login.enterYourPhone')"
+          :placeholder="$t('login.enterYourPhone')"
           :rules="[isInvalid('phone')]"
         />
       </div>
@@ -33,7 +33,7 @@
 
     <div class="row q-col-gutter-xs q-pb-xs">
       <div v-if="hasUserField('email')" class="col-xs-12">
-        <label class="q-input-label">{{ translate("login.email") }}</label>
+        <label class="q-input-label">{{ $t("login.email") }}</label>
         <q-input
           dense
           outlined
@@ -41,13 +41,13 @@
           lazy-rules
           v-model="item.email"
           type="text"
-          :placeholder="translate('login.enterYourEmail')"
+          :placeholder="$t('login.enterYourEmail')"
           class="q-mb-md"
           :rules="[isInvalid('email')]"
         />
       </div>
       <div v-if="hasUserField('confirmEmail')" class="col-xs-12">
-        <label class="q-input-label">{{ translate("login.confirmEmail") }}</label>
+        <label class="q-input-label">{{ $t("login.confirmEmail") }}</label>
         <q-input
           dense
           outlined
@@ -55,7 +55,7 @@
           lazy-rules
           v-model="item.confirmEmail"
           type="text"
-          :placeholder="translate('login.enterYourEmail')"
+          :placeholder="$t('login.enterYourEmail')"
           class="q-mb-md"
           :rules="[isInvalid('confirmEmail')]"
         />
@@ -63,7 +63,7 @@
     </div>
 
     <label v-if="hasUserField('username')" class="q-input-label">
-      {{ translate("login.username") }}
+      {{ $t("login.username") }}
     </label>
     <q-input
       dense
@@ -74,16 +74,16 @@
       reverse-fill-mask
       v-model="item.username"
       type="text"
-      :placeholder="translate('login.enterYourUsername')"
+      :placeholder="$t('login.enterYourUsername')"
       class="q-mb-md"
       mask="x"
       :rules="[isInvalid('username')]"
-      :hint="translate('login.usernameMessage')"
+      :hint="$t('login.usernameMessage')"
     />
 
     <div class="row q-col-gutter-xs q-pb-xs">
       <div v-if="hasUserField('password')" class="col-xs-12">
-        <label class="q-input-label">{{ translate("login.password") }}</label>
+        <label class="q-input-label">{{ $t("login.password") }}</label>
         <q-input
           dense
           outlined
@@ -91,13 +91,13 @@
           lazy-rules
           v-model="item.password"
           type="password"
-          :placeholder="translate('login.enterYourPass')"
+          :placeholder="$t('login.enterYourPass')"
           :rules="[isInvalid('password')]"
-          :hint="translate('login.passMessage')"
+          :hint="$t('login.passMessage')"
         />
       </div>
       <div v-if="hasUserField('confirmPassword')" class="col-xs-12">
-        <label class="q-input-label">{{ translate("login.confirm") }}</label>
+        <label class="q-input-label">{{ $t("login.confirm") }}</label>
         <q-input
           dense
           outlined
@@ -105,7 +105,7 @@
           lazy-rules
           v-model="item.confirmPassword"
           type="password"
-          :placeholder="translate('login.confirmYourPass')"
+          :placeholder="$t('login.confirmYourPass')"
           :rules="[isInvalid('confirm')]"
         />
       </div>
@@ -115,7 +115,7 @@
       <q-btn
         type="submit"
         color="primary"
-        :label="translate('login.continue')"
+        :label="$t('login.continue')"
         :loading="isLoading"
         class="q-mt-md signup-submit-button"
       />
@@ -124,7 +124,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -208,11 +207,11 @@ export default {
 
     notifyError(message) {
       if (/password: This password has been leaked in a data breach/gi.test(message))
-        message = this.translate("login.weakPass");
+        message = this.$t("login.weakPass");
       else if (/This account already exists/gi.test(message))
-        message = this.translate("login.duplicateEmail");
+        message = this.$t("login.duplicateEmail");
       else if (/This user already exists/gi.test(message))
-        message = this.translate("login.duplicateUser");
+        message = this.$t("login.duplicateUser");
 
       this.$q.notify({
         message: message,
@@ -223,29 +222,29 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         if (key == "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.translate("messages.emailInvalid");
+          return this.$t("messages.emailInvalid");
 
         if (key == "phone" && !/^\d{10,11}$/.test(val))
-          return this.translate("messages.phoneInvalid");
+          return this.$t("messages.phoneInvalid");
 
-        if (key == "password" && val.length < 6) return this.translate("login.passMessage");
+        if (key == "password" && val.length < 6) return this.$t("login.passMessage");
 
         if (
           key == "confirmEmail" &&
           this.hasUserField("email") &&
           this.item.email != this.item.confirmEmail
         )
-          return this.translate("login.passNoMatch");
+          return this.$t("login.passNoMatch");
 
         if (
           key == "confirm" &&
           this.hasUserField("password") &&
           this.item.password != this.item.confirmPassword
         )
-          return this.translate("login.passNoMatch");
+          return this.$t("login.passNoMatch");
 
         return true;
       };

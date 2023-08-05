@@ -22,7 +22,7 @@
           <q-icon class="item-icon" :name="item.icon" :color="item.color" />
         </q-item-section>
         <q-item-section no-wrap>
-          <q-item-label class="menu-list-text">{{ translate(item.label) }}</q-item-label>
+          <q-item-label class="menu-list-text">{{ $t(item.label) }}</q-item-label>
         </q-item-section>
       </q-item>
     </q-expansion-item>
@@ -31,7 +31,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from "vuex";
 
 export default {

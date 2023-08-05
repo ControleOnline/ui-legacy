@@ -35,7 +35,7 @@
         type="password"
         color="secondary"
         outlined
-        :placeholder="translate('password')"
+        :placeholder="$t('password')"
         dense
         @keydown.enter.prevent="login"
       />
@@ -61,7 +61,7 @@
 
       <q-item-section class="section-no-margin">
         <q-item-label class="text-bold text-white" style="font-size: 1rem;">
-          {{ translate('never_been_here') }}
+          {{ $t('never_been_here') }}
         </q-item-label>
       </q-item-section>
 
@@ -70,13 +70,13 @@
           @click="registerUser"
           class="col-auto q-pa-none recovery-link text-bold"
           flat
-          :label="translate('register')"
+          :label="$t('register')"
         />
         <q-space></q-space>
         <q-btn
           class="col-auto q-pa-none recovery-link text-bold"
           flat
-          :label="translate('forgot_password')"
+          :label="$t('forgot_password')"
         />
       </div>
     </q-item>
@@ -84,7 +84,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import LangSwitch from '@controleonline/quasar-common-ui/src/components/UI/LangSwitch';
 
 export default {
@@ -118,8 +117,8 @@ export default {
     login() {
       if (!this.email || !this.password) {
         this.$q.dialog({
-          title: this.translate('error'),
-          message: this.translate('blank_fields'),
+          title: this.$t('error'),
+          message: this.$t('blank_fields'),
           color: 'secondary',
         });
       } else {
@@ -127,14 +126,14 @@ export default {
           this.user = this.users
             .find((user) => user.email === this.email && user.password === this.password);
 
-          if (!this.user) throw Error(this.translate('unauthorized'));
+          if (!this.user) throw Error(this.$t('unauthorized'));
 
           this.$i18n.locale = this.user.language;
 
           this.$router.push({ name: 'categories' });
         } catch (error) {
           this.$q.dialog({
-            title: this.translate('error'),
+            title: this.$t('error'),
             message: error.message,
             color: 'secondary',
           });

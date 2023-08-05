@@ -4,12 +4,12 @@
       <q-card-section>
         <div class="row">
           <div class="col-4 q-mb-md text-h6 text-left">
-            {{ translate('Fiscal Impostos') }}
+            {{ $t('Fiscal Impostos') }}
           </div>
           <div class="col-8 q-mb-md">
             <div class="row justify-end">
               <q-btn
-                :label ="translate('Novo imposto')"
+                :label ="$t('Novo imposto')"
                 icon   ="add"
                 size   ="md"
                 color  ="primary"
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import FiscalImpostosTabela from './../../../components/fiscal/FiscalImpostosTabela';
 
 export default {

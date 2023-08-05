@@ -5,7 +5,7 @@
           <q-btn
             dense
             color="primary"
-            :label="translate(`Add`)"
+            :label="$t(`Add`)"
             @click="newHardware = true"
           ></q-btn>
         </div>
@@ -15,7 +15,7 @@
       <q-dialog v-model="newHardware">
         <q-card>
           <q-card-section>
-            <span class="text-h6"> {{ translate(`Add`) }}</span>
+            <span class="text-h6"> {{ $t(`Add`) }}</span>
           </q-card-section>
           <HardwareCreate></HardwareCreate>
         </q-card>
@@ -25,8 +25,7 @@
   
   <script>
   
-  import translate from "@controleonline/../../src/boot/translate";
-import HardwareCreate from '@controleonline/quasar-queues-ui/src/components/hardware/HardwareCreate.vue';
+  import HardwareCreate from '@controleonline/quasar-queues-ui/src/components/hardware/HardwareCreate.vue';
 import Hardware from '@controleonline/quasar-queues-ui/src/components/hardware/HardwareList.vue';
   
   import { mapGetters } from "vuex";

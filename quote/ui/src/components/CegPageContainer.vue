@@ -4,10 +4,10 @@
     <!-- TITLE HEADER -->
     <q-card-section v-if="isPublic" class="q-pt-xl">
       <div class="text-h5 text-center text-uppercase text-primary">
-        {{ translate("form.title") }}
+        {{ $t("form.title") }}
       </div>
       <div class="text-caption text-center">
-        {{ translate("form.subtitle") }}
+        {{ $t("form.subtitle") }}
       </div>
     </q-card-section>
     <q-card-section v-else class="q-pb-sm text-h6">
@@ -40,8 +40,8 @@
               v-model="origin.street"
               type="text"
               :disable="true"
-              :label="translate('form.section02')"
-              :placeholder="translate('form.section02')"
+              :label="$t('form.section02')"
+              :placeholder="$t('form.section02')"
             />
             <q-btn
               icon="close"
@@ -67,8 +67,8 @@
               v-model="destination.street"
               type="text"
               :disable="true"
-              :label="translate('form.section03')"
-              :placeholder="translate('form.section03')"
+              :label="$t('form.section03')"
+              :placeholder="$t('form.section03')"
             />
             <q-btn
               icon="close"
@@ -88,7 +88,7 @@
           <q-btn
             :loading="isLoading"
             :label="
-              translate(
+              $t(
                 defaultCompany.domainType === 'simple'
                   ? 'form.labels.minimumQuotation'
                   : 'form.labels.submit'
@@ -104,7 +104,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from "vuex";
 
  import ContactInputs from "./ContactInputs";

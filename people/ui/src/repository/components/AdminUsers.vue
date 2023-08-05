@@ -1,7 +1,7 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">{{ translate('Users') }}</div>
+      <div class="text-subtitle1 text-left">{{ $t('Users') }}</div>
     </div>
     <div class="col-9">
       <div class="row justify-end">

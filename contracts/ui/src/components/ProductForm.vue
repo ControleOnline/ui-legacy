@@ -7,11 +7,11 @@
           outlined
           stack-label
           v-model="product"
-          :label="translate('contracts.product')"
+          :label="$t('contracts.product')"
           :options="products"
           :loading="isloadingProds"
           @input="price = (parseFloat(product.price) + 0.001).toFixed(2)"
-          :rules="[(val) => val !== null || translate('messages.select_an_option')]"
+          :rules="[(val) => val !== null || $t('messages.select_an_option')]"
         >
         </q-select>
       </div>
@@ -25,7 +25,7 @@
           prefix="R$"
           v-model="price"
           type="text"
-          :label="translate('contracts.price')"
+          :label="$t('contracts.price')"
           mask="#,##"
           fill-mask="0"
           :rules="[isInvalid()]"
@@ -42,8 +42,8 @@
           type="text"
           :label="
             product !== null && product.type == 'Registration'
-              ? translate('contracts.parcels')
-              : translate('contracts.quantity')
+              ? $t('contracts.parcels')
+              : $t('contracts.quantity')
           "
           mask="#"
           fill-mask="0"
@@ -59,7 +59,7 @@
           emit-value
           map-options
           v-model="payer"
-          :label="translate('contracts.payer')"
+          :label="$t('contracts.payer')"
           :options="payers"
           :rules="[
             (val) =>
@@ -74,7 +74,7 @@
       <q-btn
         type="submit"
         color="primary"
-        :label="translate('contracts.save')"
+        :label="$t('contracts.save')"
         :loading="isSaving"
       />
     </div>
@@ -82,7 +82,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import Contract from "./../entity/Contract";
 import configurable from "./../mixins/configurable";
 import validation from "./../mixins/validation";
@@ -139,7 +138,7 @@ export default {
       })
         .then((data) => {
           this.$q.notify({
-            message: this.translate("messages.saved_successfully"),
+            message: this.$t("messages.saved_successfully"),
             position: "bottom",
             type: "positive",
           });

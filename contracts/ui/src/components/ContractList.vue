@@ -22,12 +22,12 @@
     >
       <template v-slot:top>
         <div class="col-3 q-mb-md text-h6">
-          {{ translate('contracts.title') }}
+          {{ $t('contracts.title') }}
         </div>
         <div class="col-9 q-mb-md">
           <div class="row justify-end">
             <q-btn flat
-              :label  ="translate('contracts.new_contract')"
+              :label  ="$t('contracts.new_contract')"
               icon    ="add"
               color   ="primary"
               class   ="q-ml-sm"
@@ -41,16 +41,16 @@
           <q-input
       dense
       outlined stack-label
-            :label      ="translate('contracts.search_by')"
+            :label      ="$t('contracts.search_by')"
             debounce    ="1000"
             v-model     ="filters.text"
             class       ="full-width"
-            :placeholder="translate('contracts.search_phold')"
+            :placeholder="$t('contracts.search_phold')"
           />
         </div>
         <div class="col-sm-6 col-xs-12 q-pa-md">
           <q-select dense outlined  stack-label
-            :label  ="translate('contracts.status')"
+            :label  ="$t('contracts.status')"
             v-model ="filters.status"
             :options="statuses"
             class   ="full-width"
@@ -73,7 +73,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from 'vuex';
 import { formatDateYmdTodmY } from './../library/formatter';
 import configurable from './../mixins/configurable';
@@ -103,19 +102,19 @@ export default {
         format: (val) => {
           return `#${val}`;
         },
-        label : this.translate('contracts.columns.id')
+        label : this.$t('contracts.columns.id')
       },
       {
         name : 'beneficiario',
         align: 'left',
         field: 'beneficiario',
-        label: this.translate('contracts.columns.contratante')
+        label: this.$t('contracts.columns.contratante')
       },
       {
         name  : 'dataInicio',
         field : 'dataInicio',
         align : 'left',
-        label : this.translate('contracts.columns.data_inicio'),
+        label : this.$t('contracts.columns.data_inicio'),
         format: (val) => {
           return formatDateYmdTodmY(val);
         }
@@ -124,7 +123,7 @@ export default {
         name  : 'dataFim',
         field : 'dataFim',
         align : 'left',
-        label: this.translate('contracts.columns.data_fim'),
+        label: this.$t('contracts.columns.data_fim'),
         format: (val) => {
           return formatDateYmdTodmY(val);
         }
@@ -133,40 +132,40 @@ export default {
         name : 'status',
         field: 'status',
         align: 'left',
-        label: this.translate('contracts.columns.status'),
+        label: this.$t('contracts.columns.status'),
         format: (val) => {
-          return this.translate(`contracts.statuses.${val}`)
+          return this.$t(`contracts.statuses.${val}`)
         }
       },
     ];
 
     this.statuses = [
         {
-          'label': this.translate('contracts.all'),
+          'label': this.$t('contracts.all'),
           'value': -1
         },
         {
-          'label': this.translate(`contracts.statuses.${'Draft'}`),
+          'label': this.$t(`contracts.statuses.${'Draft'}`),
           'value': 'Draft'
         },
         {
-          'label': this.translate(`contracts.statuses.${'Waiting approval'}`),
+          'label': this.$t(`contracts.statuses.${'Waiting approval'}`),
           'value': 'Waiting approval'
         },
         {
-          'label': this.translate(`contracts.statuses.${'Waiting signatures'}`),
+          'label': this.$t(`contracts.statuses.${'Waiting signatures'}`),
           'value': 'Waiting signatures'
         },
         {
-          'label': this.translate(`contracts.statuses.${'Active'}`),
+          'label': this.$t(`contracts.statuses.${'Active'}`),
           'value': 'Active'
         },
         {
-          'label': this.translate(`contracts.statuses.${'Canceled'}`),
+          'label': this.$t(`contracts.statuses.${'Canceled'}`),
           'value': 'Canceled'
         },
         {
-          'label': this.translate(`contracts.statuses.${'Amended'}`),
+          'label': this.$t(`contracts.statuses.${'Amended'}`),
           'value': 'Amended'
         },
     ];
@@ -226,7 +225,7 @@ export default {
     onCreate() {      
         if (!this.Params.Company.get()) {
           this.$q.notify({
-            message : this.translate('contracts.errors.no_company'),
+            message : this.$t('contracts.errors.no_company'),
             position: 'bottom',
             type    : 'negative',
           });
@@ -250,7 +249,7 @@ export default {
             })
             .catch((error) => {
               this.$q.notify({
-                message : this.translate(error.message),
+                message : this.$t(error.message),
                 position: 'bottom',
                 type    : 'negative',
               });

@@ -21,7 +21,7 @@
       <q-item-section class="text-bold q-my-md">
         <div class="flex items-center">
           <q-item-label class="title-list">
-            {{ translate('booking_details') }}
+            {{ $t('booking_details') }}
           </q-item-label>
           <q-space></q-space>
           <q-icon size="1.5rem" name="o_date_range"></q-icon>
@@ -30,7 +30,7 @@
 
       <div class="row full-width items-center justify-between">
         <p class="col-4 q-ma-none text-grey-9 text-description">
-          {{ translate('many_people') }}
+          {{ $t('many_people') }}
         </p>
         <div
           class="col-4 flex items-center"
@@ -59,7 +59,7 @@
       <q-item-section class="text-bold q-my-md q-pt-xl">
         <div class="flex items-center">
           <q-item-label class="title-list">
-            {{ translate('hiring_separately') }}
+            {{ $t('hiring_separately') }}
           </q-item-label>
           <q-space></q-space>
           <q-icon size="1.5rem" name="o_add_shopping_cart"></q-icon>
@@ -124,7 +124,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import PaymentDialog from '@controleonline/quasar-common-ui/src/components/Dialog/PaymentDialog';
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 

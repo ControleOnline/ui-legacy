@@ -4,10 +4,10 @@
     <!-- TITLE HEADER -->
     <q-card-section v-if="isPublic" class="q-pt-xl">
       <div class="text-h5 text-center text-uppercase text-primary">
-        {{ translate("form.title") }}
+        {{ $t("form.title") }}
       </div>
       <div v-if="isCompany || logged" class="text-caption text-center">
-        {{ translate("form.subtitle") }}
+        {{ $t("form.subtitle") }}
       </div>
     </q-card-section>
     <q-card-section>
@@ -59,7 +59,7 @@
         <div class="row q-pa-md justify-center items-center">
           <q-btn
             :loading="isLoading"
-            :label="translate('form.labels.submit')"
+            :label="$t('form.labels.submit')"
             type="submit"
             color="primary"
           />
@@ -82,7 +82,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from "vuex";
 
  import ContactInputs from "./ContactInputs";

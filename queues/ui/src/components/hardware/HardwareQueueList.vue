@@ -7,7 +7,7 @@
         color="primary"
         class="q-ma-md"
       />
-      {{ translate(`loading`) }}
+      {{ $t(`loading`) }}
     </div>
 
     <q-table
@@ -31,7 +31,7 @@
                     <q-item-section side>
                       <q-icon name="edit"></q-icon>
                     </q-item-section>
-                    <q-item-section> {{ translate(`Edit`) }} </q-item-section>
+                    <q-item-section> {{ $t(`Edit`) }} </q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -47,7 +47,7 @@
     <q-dialog v-model="editHardwareQueue">
       <q-card style="width: 50%">
         <q-card-section>
-          <span class="text-h6"> {{ translate(`Edit`) }}</span>
+          <span class="text-h6"> {{ $t(`Edit`) }}</span>
         </q-card-section>
         <HardwareQueueCreate
           :hardwareQueue="this.selectedHardwareQueue"
@@ -60,7 +60,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import HardwareQueueCreate from "@controleonline/quasar-queues-ui/src/components/hardware/HardwareQueueCreate.vue";
 
 export default {

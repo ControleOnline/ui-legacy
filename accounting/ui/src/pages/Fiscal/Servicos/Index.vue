@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{ translate('Fiscal Solicitações de Serviços Adicionais') }}
+            {{ $t('Fiscal Solicitações de Serviços Adicionais') }}
           </div>
         </div>
       </q-card-section>
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import ServicosAdicionaisTabela from './../../../components/fiscal/ServicosAdicionaisTabela';
 
 export default {

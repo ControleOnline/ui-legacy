@@ -8,7 +8,7 @@
               dense
               outlined
               stack-label
-              :label="translate(`queue.priority.Priority`)"
+              :label="$t(`queue.priority.Priority`)"
               v-model="priority"
               :rules="[(val) => val != null]"
               hide-bottom-space
@@ -22,7 +22,7 @@
               outlined
               readonly
               stack-label
-              :label="translate(`people`)"
+              :label="$t(`people`)"
               v-model="people.label"
             >
             </q-input>
@@ -31,9 +31,9 @@
               class="col-11"
               :source="searchPeople"
               :isLoading="isSearching"
-              :label="translate(`people`)"
+              :label="$t(`people`)"
               @selected="onSelectPeople"
-              :placeholder="translate(`search`)"
+              :placeholder="$t(`search`)"
             />
             <div v-if="this.queuePeopleId">
               <q-btn
@@ -72,7 +72,7 @@
               dense
               color="primary"
               icon="save"
-              :label="translate(`Save`)"
+              :label="$t(`Save`)"
               @click="onSubmit()"
             ></q-btn>
           </div>
@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 import { date } from "quasar";
 import { mapActions } from "vuex";
@@ -233,7 +232,7 @@ export default {
         .then((result) => {
           if (result["@id"]) {
             this.$q.notify({
-              message: this.translate(`success`),
+              message: this.$t(`success`),
               position: "bottom",
               type: "positive",
             });
@@ -279,7 +278,7 @@ export default {
             this.statusOptions = [];
             for (let index in members) {
               this.statusOptions.push({
-                label: this.translate(`queue.status.${members[index]["status"]}`),
+                label: this.$t(`queue.status.${members[index]["status"]}`),
                 value: members[index]["@id"].replaceAll("/statuses/", ""),
               });
             }

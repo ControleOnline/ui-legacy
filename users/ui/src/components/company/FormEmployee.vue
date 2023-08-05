@@ -84,7 +84,7 @@
       outlined stack-label lazy-rules reverse-fill-mask
           v-model    ="item.username"
           type       ="text"
-          :label     ="translate('Usuário')"
+          :label     ="$t('Usuário')"
           placeholder="Digite seu usuário (nickname)"
           class      ="q-mb-md"
           mask       ="x"
@@ -98,7 +98,7 @@
       outlined stack-label lazy-rules
           v-model    ="item.password"
           type       ="password"
-          :label     ="translate('Senha')"
+          :label     ="$t('Senha')"
           placeholder="Digite sua senha"
           :rules     ="[isInvalid('password')]"
           hint       ="Use seis ou mais caracteres com uma combinação de letras, números e símbolos"
@@ -185,16 +185,16 @@ export default {
     isInvalid(key) {
       return val => {
         if (!(val && val.length > 0))
-          return this.translate('messages.fieldRequired');
+          return this.$t('messages.fieldRequired');
 
         if (key == 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.translate('messages.emailInvalid');
+          return this.$t('messages.emailInvalid');
 
         if (key == 'password' && val.length < 6)
-          return this.translate('A senha deve ter no mínimo 6 caracteres');
+          return this.$t('A senha deve ter no mínimo 6 caracteres');
 
         if (key == 'confirm' && (this.item.password != this.item.confirmPassword))
-          return this.translate('As senhas não coincidem');
+          return this.$t('As senhas não coincidem');
 
         return true;
       };

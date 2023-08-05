@@ -14,7 +14,7 @@
         </q-item-section>
 
         <q-item-section class="section-no-margin">
-          <h4 class="login-label">{{ translate('new_register') }}</h4>
+          <h4 class="login-label">{{ $t('new_register') }}</h4>
         </q-item-section>
       </q-item>
 
@@ -22,7 +22,7 @@
         <q-select dense outlined 
           v-model="model"
           :options="options"
-          :label="translate('registration_type')"
+          :label="$t('registration_type')"
           class="q-px-lg"
           color="secondary"
           :popup-content-style="{ fontSize: '1rem' }"
@@ -49,7 +49,7 @@
             color="secondary"
             class="col-6 q-pr-xs"
             outlined
-            :placeholder="translate('password_register')"
+            :placeholder="$t('password_register')"
             dense
             type="password"
           />
@@ -60,7 +60,7 @@
             color="secondary"
             class="col-6 q-pl-xs"
             outlined
-            :placeholder="translate('repeat_password')"
+            :placeholder="$t('repeat_password')"
             @keydown.enter.prevent="register"
             dense
             type="password"
@@ -91,25 +91,24 @@
           dense
           size="1.3rem"
         >
-          {{ translate('register_button') }}
+          {{ $t('register_button') }}
         </q-btn>
       </q-item-section>
 
       <q-item-section class="section-no-margin">
         <q-item-label class="text-bold text-white" style="font-size: 1rem;">
-          {{ translate('already_have_registration') }}
+          {{ $t('already_have_registration') }}
         </q-item-label>
       </q-item-section>
 
       <div class="section-no-margin row">
-        <q-btn @click="login" class="q-pa-none recovery-link" flat :label="translate('login')" />
+        <q-btn @click="login" class="q-pa-none recovery-link" flat :label="$t('login')" />
       </div>
     </q-item>
   </q-page>
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import LangSwitch from '@controleonline/quasar-common-ui/src/components/UI/LangSwitch';
 
 export default {
@@ -135,12 +134,12 @@ export default {
     options() {
       return [
         {
-          label: this.translate('provide_services'),
-          value: this.translate('provide_services'),
+          label: this.$t('provide_services'),
+          value: this.$t('provide_services'),
         },
         {
-          label: this.translate('look_for_guide'),
-          value: this.translate('look_for_guide'),
+          label: this.$t('look_for_guide'),
+          value: this.$t('look_for_guide'),
         },
       ];
     },
@@ -155,14 +154,14 @@ export default {
 
       if (!email || !password || !confirmPassword) {
         this.$q.dialog({
-          title: this.translate('error'),
-          message: this.translate('all_fields'),
+          title: this.$t('error'),
+          message: this.$t('all_fields'),
           color: 'secondary',
         });
       } else if (password !== confirmPassword) {
         this.$q.dialog({
-          title: this.translate('error'),
-          message: this.translate('different_passwords'),
+          title: this.$t('error'),
+          message: this.$t('different_passwords'),
           color: 'secondary',
         });
       } else {

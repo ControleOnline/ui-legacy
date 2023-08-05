@@ -61,7 +61,7 @@
         <q-td key="dataEntrega" :props="props">{{ props.cols[3].value }}</q-td>
         <q-td key="ultimaModificacao" :props="props">{{ props.cols[4].value }}</q-td>
         <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
-          {{ translate(`order.statuses.${props.row.status}`) }}
+          {{ $t(`order.statuses.${props.row.status}`) }}
         </q-td>
         <q-td key="coleta" :props="props">
           {{ props.row.localColeta }}<br />{{ props.row.coleta }}
@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import DataFilter from "@controleonline/quasar-common-ui/src/components/Common/DataFilter.vue";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { date } from "quasar";

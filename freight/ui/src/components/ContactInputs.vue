@@ -6,7 +6,7 @@
       outlined  stack-label lazy-rules
         v-model="values.name"
         type   ="text"
-        :label ="translate('form.labels.name')"
+        :label ="$t('form.labels.name')"
         placeholder="Digite um nome"
       />
     </div>
@@ -16,7 +16,7 @@
       outlined  stack-label lazy-rules
         v-model="values.email"
         type   ="text"
-        :label ="translate('form.labels.email')"
+        :label ="$t('form.labels.email')"
         placeholder="Digite um e-mail"
       />
     </div>
@@ -26,7 +26,7 @@
       outlined  stack-label lazy-rules unmasked-value
         v-model="values.phone"
         type   ="text"
-        :label ="translate('form.labels.phone')"
+        :label ="$t('form.labels.phone')"
         mask   ="(##) #####-####"
         placeholder="Digite um telefone"
       />
@@ -47,13 +47,13 @@ export default {
     isInvalid(key) {
       return val => {
         if (!(val && val.length > 0))
-          return this.translate('messages.fieldRequired');
+          return this.$t('messages.fieldRequired');
 
         if (key == 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.translate('messages.emailInvalid');
+          return this.$t('messages.emailInvalid');
 
         if (key == 'phone' && !/^\d{10,11}$/.test(val))
-          return this.translate('messages.phoneInvalid');
+          return this.$t('messages.phoneInvalid');
 
         return true;
       };

@@ -8,7 +8,7 @@
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ translate('dashboard.active_customers') }}
+          {{ $t('dashboard.active_customers') }}
         </div>
         <div class="col-6 text-right text-green-4 text-h6">
           {{ data.active_customers_count || 0 }}
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import configurable from './../mixins/configurable';
 import dashboard from './../mixins/dashboard';
 

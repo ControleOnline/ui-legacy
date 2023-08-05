@@ -11,7 +11,7 @@
           emit-value
           map-options
           v-model="students"
-          :label="translate('contracts.students')"
+          :label="$t('contracts.students')"
           :options="studentsList"
           :rules="[isInvalid()]"
         />
@@ -24,7 +24,7 @@
           emit-value
           map-options
           v-model="weekDay"
-          :label="translate('contracts.week_day')"
+          :label="$t('contracts.week_day')"
           :options="weekDays"
           :rules="[isInvalid()]"
         />
@@ -37,7 +37,7 @@
           emit-value
           map-options
           v-model="startTime"
-          :label="translate('contracts.start_time')"
+          :label="$t('contracts.start_time')"
           :options="dayPeriods"
           :rules="[isInvalid()]"
         />
@@ -50,7 +50,7 @@
           emit-value
           map-options
           v-model="endTime"
-          :label="translate('contracts.last_time')"
+          :label="$t('contracts.last_time')"
           :options="dayPeriods"
           :rules="[isInvalid()]"
         />
@@ -63,7 +63,7 @@
           emit-value
           map-options
           v-model="trainer"
-          :label="translate('contracts.teacher')"
+          :label="$t('contracts.teacher')"
           :options="trainerList"
           :rules="[isInvalid()]"
         />
@@ -76,7 +76,7 @@
           emit-value
           map-options
           v-model="teamType"
-          :label="translate('contracts.local')"
+          :label="$t('contracts.local')"
           :options="teamTypeList"
           :rules="[isInvalid()]"
         />
@@ -86,7 +86,7 @@
       <q-btn
         type="submit"
         color="primary"
-        :label="translate('contracts.save')"
+        :label="$t('contracts.save')"
         :loading="isSaving"
       />
     </div>
@@ -94,7 +94,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import Contract from "./../entity/Contract";
 import configurable from "./../mixins/configurable";
 import validation from "./../mixins/validation";
@@ -130,46 +129,46 @@ export default {
   created() {
     this.teamTypeList = [
       {
-        label: this.translate("contracts.school"),
+        label: this.$t("contracts.school"),
         value: "school",
       },
       {
-        label: this.translate("contracts.company"),
+        label: this.$t("contracts.company"),
         value: "company",
       },
       {
-        label: this.translate("contracts.ead"),
+        label: this.$t("contracts.ead"),
         value: "ead",
       },
     ];
 
     this.weekDays = [
       {
-        label: this.translate("contracts.monday"),
+        label: this.$t("contracts.monday"),
         value: "monday",
       },
       {
-        label: this.translate("contracts.tuesday"),
+        label: this.$t("contracts.tuesday"),
         value: "tuesday",
       },
       {
-        label: this.translate("contracts.wednesday"),
+        label: this.$t("contracts.wednesday"),
         value: "wednesday",
       },
       {
-        label: this.translate("contracts.thursday"),
+        label: this.$t("contracts.thursday"),
         value: "thursday",
       },
       {
-        label: this.translate("contracts.friday"),
+        label: this.$t("contracts.friday"),
         value: "friday",
       },
       {
-        label: this.translate("contracts.saturday"),
+        label: this.$t("contracts.saturday"),
         value: "saturday",
       },
       {
-        label: this.translate("contracts.sunday"),
+        label: this.$t("contracts.sunday"),
         value: "sunday",
       },
     ];
@@ -340,7 +339,7 @@ export default {
       })
         .then((data) => {
           this.$q.notify({
-            message: this.translate("messages.saved_successfully"),
+            message: this.$t("messages.saved_successfully"),
             position: "bottom",
             type: "positive",
           });

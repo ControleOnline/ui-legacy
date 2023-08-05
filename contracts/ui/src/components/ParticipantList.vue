@@ -56,19 +56,19 @@ export default {
         name : 'name',
         align: 'left',
         field: 'name',
-        label: this.translate('contracts.columns.participant')
+        label: this.$t('contracts.columns.participant')
       },
       {
         name : 'roles',
         field: 'roles',
         align: 'left',
-        label: this.translate('contracts.columns.participation')
+        label: this.$t('contracts.columns.participation')
       },
       {
         name : 'percentage',
         field: 'percentage',
         align: 'left',
-        label: this.translate('contracts.columns.percent'),
+        label: this.$t('contracts.columns.percent'),
         format: (val, row) => {
           return row.peopleType == 'Payer' ? `${val}%` : '-';
         },
@@ -77,7 +77,7 @@ export default {
         name : 'paymentDay',
         field: 'paymentDay',
         align: 'left',
-        label: this.translate('contracts.columns.payment_day')
+        label: this.$t('contracts.columns.payment_day')
       },
       {
         name: 'remove'
@@ -151,7 +151,7 @@ export default {
                   'id'        : participants.members[i]['@id'].replace(/\D/g, ''),
                   'name'      : participants.members[i].people.peopleType == 'J' ? `${participants.members[i].people.name} / ${participants.members[i].people.alias}` : `${participants.members[i].people.name} ${participants.members[i].people.alias}`,
                   'peopleId'  : participants.members[i].people['@id'].replace(/\D/g, ''),
-                  'roles'     : this.translate(`contracts.roles.${participants.members[i].peopleType}`),
+                  'roles'     : this.$t(`contracts.roles.${participants.members[i].peopleType}`),
                   'percentage': participants.members[i].contractPercentage,
                   'paymentDay': participants.members[i].peopleType == 'Payer' ? `Dia ${participants.members[i].people.paymentTerm}` : '-',
                   'isProvider': participants.members[i].peopleType == 'Provider',
@@ -188,7 +188,7 @@ export default {
     },
 
     removeItem(item) {
-      if (window.confirm(this.translate('messages.sure_remove'))) {
+      if (window.confirm(this.$t('messages.sure_remove'))) {
         item._bussy = true;
         this.Api.Contracts
           .DeleteParticipant({ params: { id: item.id }})
@@ -200,7 +200,7 @@ export default {
             })
             .catch(error => {
               this.$q.notify({
-                message : this.translate(error.message),
+                message : this.$t(error.message),
                 position: 'bottom',
                 type    : 'negative',
               });

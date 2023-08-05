@@ -138,7 +138,7 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
         return true;
       };
     },

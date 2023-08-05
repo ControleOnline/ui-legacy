@@ -2,7 +2,7 @@
   <div>
     <q-btn flat
       color   ="secondary"
-      :label  ="translate('contracts.add_product')"
+      :label  ="$t('contracts.add_product')"
       @click  ="dialog = true"
       icon    ="add"
       :disable="!contract.canEdit()"
@@ -12,7 +12,7 @@
       <q-card style="width: 700px; max-width: 80vw;">
         <q-card-section class="row items-center">
           <div class="text-h6">
-            {{ translate('contracts.add_product') }}
+            {{ $t('contracts.add_product') }}
           </div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import Contract from './../entity/Contract';
 import configurable from './../mixins/configurable';
 import ProductForm from './ProductForm';

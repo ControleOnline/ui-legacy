@@ -44,11 +44,11 @@
         class="bg-transparent text-primary"
         dense
       >
-        <q-tab name="summary" :label="translate('Details')" />
-        <q-tab name="tasks" :label="translate('Tasks')" />
-        <q-tab name="employees" :label="translate('Employees')" v-if="people.type === 'J'" />
-        <q-tab name="billing" :label="translate('Billing')" />
-        <q-tab name="calls" :label="translate('Calls')" />
+        <q-tab name="summary" :label="$t('Details')" />
+        <q-tab name="tasks" :label="$t('Tasks')" />
+        <q-tab name="employees" :label="$t('Employees')" v-if="people.type === 'J'" />
+        <q-tab name="billing" :label="$t('Billing')" />
+        <q-tab name="calls" :label="$t('Calls')" />
       </q-tabs>
       <q-separator />
       <q-tab-panels v-model="currentTab" class="bg-transparent">
@@ -357,7 +357,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 
 import PersonAvatar from "@controleonline/quasar-common-ui/src/components/Common/PersonAvatar";

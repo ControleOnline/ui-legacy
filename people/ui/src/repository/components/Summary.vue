@@ -50,7 +50,7 @@
               v-model="item.name"
               type="text"
               class="q-mb-sm"
-              :label="item.type == 'J' ? translate('Razão social') : translate('Nome completo')"
+              :label="item.type == 'J' ? $t('Razão social') : $t('Nome completo')"
               :placeholder="
                 item.type == 'J' ? 'Digite a Razão social' : 'Digite o nome completo'
               "
@@ -67,7 +67,7 @@
               v-model="item.alias"
               type="text"
               class="q-mb-sm"
-              :label="translate('Nome Fantasia')"
+              :label="$t('Nome Fantasia')"
               :placeholder="
                 item.type == 'J' ? 'Digite o Nome fantasia' : 'Digite o sobrenome'
               "
@@ -115,7 +115,7 @@
               lazy-rules
               v-model="field.value"
               type="text"
-              :label="translate(field.label)"
+              :label="$t(field.label)"
               :rules="field.required ? [isInvalid('field_text')] : [true]"
               class="q-mb-sm"
               @input="field._updated = true"
@@ -143,7 +143,6 @@
 <script>
 
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from "vuex";
 
 export default {
@@ -393,19 +392,19 @@ export default {
       return (val) => {
         if (key == "money") {
           if (!val || !(parseFloat(val.replace(",", ".")) > 0))
-            return this.translate("messages.fieldRequired");
+            return this.$t("messages.fieldRequired");
 
           return true;
         }
 
         if (key == "monthday") {
           if (!val || !(parseInt(val) > 0 && parseInt(val) < 32))
-            return this.translate("messages.fieldRequired");
+            return this.$t("messages.fieldRequired");
 
           return true;
         }
 
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         return true;
       };

@@ -2,7 +2,7 @@
   <div>
     <q-btn flat
       color   ="secondary"
-      :label  ="translate('contracts.create_amended')"
+      :label  ="$t('contracts.create_amended')"
       @click  ="onClick"
       :disable="contract.status != 'Active'"
       :loading="isCreating"
@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import Contract from './../entity/Contract';
 import configurable from './../mixins/configurable';
 
@@ -54,7 +53,7 @@ export default {
           })
           .catch(e => {
             this.$q.notify({
-              message : this.translate(e.message),
+              message : this.$t(e.message),
               position: 'bottom',
               type    : 'negative',
             });

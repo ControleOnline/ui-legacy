@@ -24,7 +24,7 @@
 
         <q-btn
           color="primary"
-          :label="translate('contracts.request_signatures')"
+          :label="$t('contracts.request_signatures')"
           @click="requestSignatures"
           :loading="isRequesting"
           :disable="!contract.canSign()"
@@ -34,7 +34,7 @@
 
     <div v-if="participants.length > 0" class="col-12">
       <div class="text-h6 q-mb-md">
-        {{ translate("contracts.signers") }}
+        {{ $t("contracts.signers") }}
       </div>
       <div
         v-for="(participant, index) in participants"
@@ -53,7 +53,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from "vuex";
 import Contract from "./../entity/Contract";
 import { formatBRDocument, formatBRPostalCode } from "./../library/formatter";
@@ -81,11 +80,11 @@ export default {
   data() {
     return {
       paymentOptions: [
-        { label: this.translate("Payment.Options.Today"), value: 1 },
-        { label: this.translate("Payment.Options.Before"), value: 5 },
-        { label: this.translate("Payment.Options.Slice"), value: 2 },
-        { label: this.translate("Payment.Options.Half"), value: 4 },
-        { label: this.translate("Payment.Options.Card"), value: 3 },
+        { label: this.$t("Payment.Options.Today"), value: 1 },
+        { label: this.$t("Payment.Options.Before"), value: 5 },
+        { label: this.$t("Payment.Options.Slice"), value: 2 },
+        { label: this.$t("Payment.Options.Half"), value: 4 },
+        { label: this.$t("Payment.Options.Card"), value: 3 },
       ],
       paymentType: null,
       participants: [],
@@ -160,7 +159,7 @@ export default {
         participants.forEach((participant) => {
           let info = "";
 
-          info += this.translate(`contracts.roles.${participant.role}`) + ":";
+          info += this.$t(`contracts.roles.${participant.role}`) + ":";
           info += ` ${participant.people.name}.`;
 
           if (participant.people.address !== null) {

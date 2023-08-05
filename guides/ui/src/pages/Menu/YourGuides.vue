@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <MenuDefaultHeader
-      :title="translate('your_guides_header')"
+      :title="$t('your_guides_header')"
       :save_button="false"
       icon="o_local_activity"
     >
@@ -11,7 +11,7 @@
       <q-btn
         v-for="(button, index) in (userRole === 'provider') ? buttons : buttons_customers"
         :key="index"
-        :label="translate(button.label)"
+        :label="$t(button.label)"
         class="full-width button-menu text-capitalize q-py-md"
         style="text-transform: none;"
         align="between"
@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 
 export default {

@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <MenuDefaultHeader
-      :title="translate('event_details_header')"
+      :title="$t('event_details_header')"
       icon="o_calendar_month"
     >
     </MenuDefaultHeader>
@@ -38,7 +38,7 @@
         class="q-py-sm q-px-md text-capitalize"
         color="secondary"
         style="width: 40%; align-self: end;"
-        :label="translate('save_reserve')"
+        :label="$t('save_reserve')"
         @click="openRescheduleDialog = true"
       >
       </q-btn>
@@ -49,7 +49,7 @@
         <div>
           <q-item-section>
             <q-item-label class="text-bold text-secondary title-list">
-              {{ event_detail.participants.length }} {{ translate('confirmed_participants') }}
+              {{ event_detail.participants.length }} {{ $t('confirmed_participants') }}
             </q-item-label>
           </q-item-section>
         </div>
@@ -71,7 +71,7 @@
       <q-item class="column q-gutter-y-sm border-division">
         <q-item-section>
           <q-item-label class="text-bold text-secondary title-list">
-            {{ translate('additional_contracts') }}
+            {{ $t('additional_contracts') }}
           </q-item-label>
         </q-item-section>
 
@@ -108,7 +108,7 @@
         <q-item-section class="q-pa-sm q-ma-sm bg-grey-4 shadow-6">
           <div class="q-pb-sm flex items-center">
             <q-item-label class="q-ma-none text-bold text-secondary title-list">
-              {{ translate('meeting_point') }}
+              {{ $t('meeting_point') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon name="place" color="secondary"></q-icon>
@@ -122,7 +122,7 @@
       <q-item class="column border-division">
         <div class="flex items-center">
           <p class="q-ma-none text-secondary text-bold title-list">
-            {{ translate('checklist_for_customers') }}
+            {{ $t('checklist_for_customers') }}
           </p>
           <q-space></q-space>
           <q-icon size="1.5rem" color="secondary" name="o_fact_check"></q-icon>
@@ -143,7 +143,7 @@
           class="q-py-sm q-px-md text-capitalize"
           outline
           color="secondary"
-          :label="translate('cancel')"
+          :label="$t('cancel')"
           @click="openCancelEventDialog = true"
         >
         </q-btn>
@@ -152,7 +152,7 @@
         <q-btn
           class="q-py-sm q-px-md text-capitalize"
           color="secondary"
-          :label="translate('reschedule_reserve')"
+          :label="$t('reschedule_reserve')"
           @click="openRescheduleDialog = true"
         >
         </q-btn>
@@ -166,7 +166,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import CancelEventDialog from '@controleonline/quasar-common-ui/src/components/Dialog/CancelEventDialog';
 import RescheduleDialog from '@controleonline/quasar-common-ui/src/components/Dialog/RescheduleDialog';
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';

@@ -3,7 +3,7 @@
     <div class="bg-white full-width" style="max-height: 70%;">
       <q-item class="bg-secondary items-center">
         <q-item-label class="text-bold text-white">
-          {{ translate('add_images_dialog') }}
+          {{ $t('add_images_dialog') }}
         </q-item-label>
         <q-space></q-space>
         <q-btn
@@ -20,7 +20,7 @@
         <q-item class="q-px-md q-py-sm column full-width">
           <q-item-section class="section-no-margin q-py-xs">
             <q-item-label class="text-bold text-secondary">
-              {{ translate('images') }}
+              {{ $t('images') }}
             </q-item-label>
             <q-file
               class="q-pa-none full-width"
@@ -28,7 +28,7 @@
               v-model="archive"
               multiple
               append
-              :label="translate('upload_multiple_files')"
+              :label="$t('upload_multiple_files')"
             >
               <template v-slot:prepend>
                 <q-icon name="attach_file" />
@@ -42,7 +42,7 @@
               class="q-pa-xs text-capitalize bg-secondary"
               outline
               color="white"
-              :label="translate('send_multiple_upload')"
+              :label="$t('send_multiple_upload')"
               @click="sendArchive"
               v-close-popup
               style="width: 4rem;"

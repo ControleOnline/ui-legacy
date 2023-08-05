@@ -79,7 +79,7 @@
             :class="`bg-${difficulty.color} text-white text-center q-ma-none text-caption q-pa-sm`"
             style="min-width: 85px; text-transform: none"
           >
-            {{ translate(difficulty.label) }}
+            {{ $t(difficulty.label) }}
           </p>
           <p class="q-ma-none text-caption q-px-sm">
             {{ distance }} {{ distance_option }} | {{ duration }} {{ duration_option }} |

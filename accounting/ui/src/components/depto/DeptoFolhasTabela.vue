@@ -1,13 +1,12 @@
 <template>
   <div class="row">
     <div class="col-12 q-pa-md">
-      {{ translate('Nenhum registro existente!') }}
+      {{ $t('Nenhum registro existente!') }}
     </div>
   </div>
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from 'vuex';
 
 export default {

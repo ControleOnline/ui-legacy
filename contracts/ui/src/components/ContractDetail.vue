@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-xs-12 col-sm-3">
           <div :class="statusStyle">
-            {{ this.translate(`contracts.statuses.${contract.status}`) }}
+            {{ this.$t(`contracts.statuses.${contract.status}`) }}
           </div>
         </div>
         <div class="col-xs-12 col-sm-9">
@@ -38,7 +38,7 @@
           v-for="panel in panels"
           :key="panel.name"
           :name="panel.name"
-          :title="translate(`contracts.panels.${panel.name}`)"
+          :title="$t(`contracts.panels.${panel.name}`)"
           :icon="panel.icon"
         >
           <slot
@@ -61,14 +61,13 @@
         <template v-slot:avatar>
           <q-icon name="error" color="white" />
         </template>
-        {{ translate("Contrato não encontrado") }}
+        {{ $t("Contrato não encontrado") }}
       </q-banner>
     </q-card> -->
   </div>
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from 'vuex';
 import Contract from "./../entity/Contract";
 import configurable from "./../mixins/configurable";

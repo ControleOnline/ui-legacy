@@ -203,7 +203,7 @@
               icon="send"
               style="background-color: #56da63"
               :class="mayContract() + 'ceg-contratar ceg-button'"
-              :label="translate('Hire')"
+              :label="$t('Hire')"
               @click="chooseQuote(quote)"
             />
 
@@ -246,7 +246,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import QuotationTaxes from "@controleonline/quasar-common-ui/src/components/Common/QuotationTaxes";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 import { mapActions, mapGetters } from "vuex";

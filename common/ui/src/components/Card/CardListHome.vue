@@ -15,7 +15,7 @@
         >
           <q-img :src="item.image" class="full-height">
             <div class="absolute-bottom color-label text-bold text-center title-card">
-              {{ translate(item.name_item) }}
+              {{ $t(item.name_item) }}
             </div>
             <div
               class="full-width absolute-top bg-transparent flex justify-end favorite-container"

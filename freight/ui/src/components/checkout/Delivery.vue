@@ -9,8 +9,8 @@
           v-model="item.whereDelivery"
           toggle-color="primary"
           :options="[
-            { label: translate('order.inMyCompany'), value: 'MC' },
-            { label: translate('order.inOtherPlace'), value: 'OP' },
+            { label: $t('order.inMyCompany'), value: 'MC' },
+            { label: $t('order.inOtherPlace'), value: 'OP' },
           ]"
         />
       </div>
@@ -40,7 +40,7 @@
           lazy-rules
           v-model="item.contact.email"
           type="text"
-          :label="translate('Email')"
+          :label="$t('Email')"
           @input="searchEmail"
           placeholder="Digite um e-mail"
           :loading="loadingContact"
@@ -54,7 +54,7 @@
           lazy-rules
           v-model="item.contact.name"
           type="text"
-          :label="translate('Nome do responsável')"
+          :label="$t('Nome do responsável')"
           placeholder="Nome do responsável"
           class="q-mb-sm"
         />
@@ -68,7 +68,7 @@
           unmasked-value
           v-model="item.contact.phone"
           type="text"
-          :label="translate('Telefone')"
+          :label="$t('Telefone')"
           mask="(##) #####-####"
           placeholder="Telefone"
         />
@@ -81,7 +81,7 @@
           lazy-rules
           v-model="item.contact.email"
           type="text"
-          :label="translate('E-mail')"
+          :label="$t('E-mail')"
           placeholder="E-mail"
           :disable="!isNewPeople"
         />
@@ -143,7 +143,7 @@
           hide-bottom-space
           v-model="item.address.postal_code"
           type="text"
-          :label="translate('CEP')"
+          :label="$t('CEP')"
           mask="#####-###"
           :rules="[isInvalid('postal_code')]"
           :borderless="
@@ -162,7 +162,7 @@
           hide-bottom-space
           v-model="item.address.street"
           type="text"
-          :label="translate('Rua')"
+          :label="$t('Rua')"
           :rules="[isInvalid('street')]"
           :borderless="
             order.address.destination === null
@@ -180,7 +180,7 @@
           hide-bottom-space
           v-model="item.address.number"
           type="text"
-          :label="translate('Número')"
+          :label="$t('Número')"
           :rules="[isInvalid('number')]"
           :borderless="
             order.address.destination === null
@@ -197,7 +197,7 @@
           hide-bottom-space
           v-model="item.address.complement"
           type="text"
-          :label="translate('Complemento')"
+          :label="$t('Complemento')"
           :borderless="
             order.address.destination === null
               ? false
@@ -214,7 +214,7 @@
           hide-bottom-space
           v-model="item.address.district"
           type="text"
-          :label="translate('Bairro')"
+          :label="$t('Bairro')"
           :rules="[isInvalid('district')]"
           :borderless="
             order.address.destination === null
@@ -232,7 +232,7 @@
           hide-bottom-space
           v-model="item.address.city"
           type="text"
-          :label="translate('Cidade')"
+          :label="$t('Cidade')"
           :rules="[isInvalid('city')]"
           :readonly="
             order.address.destination === null
@@ -255,7 +255,7 @@
           hide-bottom-space
           v-model="item.address.state"
           type="text"
-          :label="translate('UF')"
+          :label="$t('UF')"
           mask="AA"
           :rules="[isInvalid('state')]"
           :readonly="
@@ -279,7 +279,7 @@
           hide-bottom-space
           v-model="item.address.country"
           type="text"
-          :label="translate('País')"
+          :label="$t('País')"
           :rules="[isInvalid('country')]"
           :readonly="
             order.address.destination === null
@@ -302,7 +302,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
 import { mapActions, mapGetters } from "vuex";
 
@@ -763,13 +762,13 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         if (key == "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.translate("messages.emailInvalid");
+          return this.$t("messages.emailInvalid");
 
         if (key == "phone" && !/^\d{10,11}$/.test(val))
-          return this.translate("messages.phoneInvalid");
+          return this.$t("messages.phoneInvalid");
 
         return true;
       };

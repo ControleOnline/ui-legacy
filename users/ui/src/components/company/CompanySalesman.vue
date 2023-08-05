@@ -16,7 +16,7 @@
           <div class="col-12 q-mb-md">
             <div class="row justify-end">
               <q-btn
-                :label="translate('Adicionar')"
+                :label="$t('Adicionar')"
                 icon="add"
                 size="md"
                 color="primary"
@@ -117,7 +117,7 @@
                   v-model="item.document"
                   type="text"
                   class="q-mb-sm"
-                  :label="translate('CNPJ')"
+                  :label="$t('CNPJ')"
                   :mask="'##.###.###/####-##'"
                   :placeholder="'Digite o CNPJ'"
                   :rules="[isInvalid('document')]"
@@ -132,7 +132,7 @@
                   v-model="item.name"
                   type="text"
                   class="q-mb-sm"
-                  :label="translate('Razão social')"
+                  :label="$t('Razão social')"
                   :placeholder="'Razão social'"
                   :rules="[isInvalid('name')]"
                 />
@@ -146,7 +146,7 @@
                   v-model="item.alias"
                   type="text"
                   class="q-mb-sm"
-                  :label="translate('Nome Fantasia')"
+                  :label="$t('Nome Fantasia')"
                   :placeholder="'Nome fantasia'"
                   :rules="[isInvalid('alias')]"
                 />
@@ -157,7 +157,7 @@
                 :loading="saving"
                 icon="save"
                 type="submit"
-                :label="translate('Salvar')"
+                :label="$t('Salvar')"
                 size="md"
                 color="primary"
                 class="q-mt-md"
@@ -172,7 +172,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import { formatDocument } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import md5 from "md5";
 import { mapGetters } from "vuex";
@@ -315,7 +314,7 @@ export default {
     },
 
     removeItem(item) {
-      if (window.confirm(this.translate("Are you sure about to remove this element?"))) {
+      if (window.confirm(this.$t("Are you sure about to remove this element?"))) {
         item._bussy = true;
 
         this.delete(item.id)
@@ -392,10 +391,10 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         if (key == "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.translate("messages.emailInvalid");
+          return this.$t("messages.emailInvalid");
 
         return true;
       };

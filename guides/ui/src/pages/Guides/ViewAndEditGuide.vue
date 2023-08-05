@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <MenuDefaultHeader
-      :title="translate('view_edit_guide_header')"
+      :title="$t('view_edit_guide_header')"
       :save_button="false"
       icon="collections_bookmark"
     >
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import CardListGuides from '@controleonline/quasar-common-ui/src/components/Card/CardListGuides';
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 

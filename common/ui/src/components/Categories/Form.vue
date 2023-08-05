@@ -2,7 +2,7 @@
   <q-form @submit="onSubmit">
     <div class="row items-center">
       <div class="text-h6">
-        {{ item.id === null ? translate("Nova categoria") : translate("Edição categoria") }}
+        {{ item.id === null ? $t("Nova categoria") : $t("Edição categoria") }}
       </div>
     </div>
     <div class="row q-col-gutter-y-sm q-pt-md">
@@ -14,7 +14,7 @@
           emit-value
           map-options
           v-model="item.parent"
-          :label="translate('Categoria pai')"
+          :label="$t('Categoria pai')"
           :options="categories"
         />
       </div>
@@ -26,7 +26,7 @@
           stack-label
           v-model="item.name"
           type="text"
-          :label="translate('Nome categoria')"
+          :label="$t('Nome categoria')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
@@ -40,7 +40,7 @@
           stack-label
           v-model="item.color"
           type="text"
-          :label="translate('Cor')"
+          :label="$t('Cor')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
@@ -54,7 +54,7 @@
           stack-label
           v-model="item.icon"
           type="text"
-          :label="translate('Ícone')"
+          :label="$t('Ícone')"
           class="q-mt-md"
           :rules="[isInvalid()]"
         />
@@ -65,7 +65,7 @@
         :loading="saving"
         icon="save"
         type="submit"
-        :label="translate('Salvar')"
+        :label="$t('Salvar')"
         size="md"
         color="primary"
         class="q-mt-md"
@@ -78,7 +78,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from "vuex";
 
 
@@ -163,7 +162,7 @@ export default {
         .then((data) => {
           if (data["@id"]) {
             this.$q.notify({
-              message: this.translate("Dados salvos com sucesso!"),
+              message: this.$t("Dados salvos com sucesso!"),
               position: "bottom",
               type: "positive",
             });
@@ -226,7 +225,7 @@ export default {
 
     isInvalid(field) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("Este campo é obrigatório");
+        if (!(val && val.length > 0)) return this.$t("Este campo é obrigatório");
 
         return true;
       };

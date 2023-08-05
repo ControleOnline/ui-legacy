@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{ translate("Revisão Guia de Imposto") }}
+            {{ $t("Revisão Guia de Imposto") }}
           </div>
           <div class="col-12 q-mb-md bg-grey" style="height: 500px"></div>
           <div class="col-12">
@@ -12,7 +12,7 @@
               <q-btn
                 icon="cancel"
                 type="submit"
-                :label="translate('Recusar')"
+                :label="$t('Recusar')"
                 size="md"
                 color="negative"
                 class="q-mt-md"
@@ -20,7 +20,7 @@
               <q-btn
                 icon="check"
                 type="submit"
-                :label="translate('Aprovar')"
+                :label="$t('Aprovar')"
                 size="md"
                 color="positive"
                 class="q-mt-md"

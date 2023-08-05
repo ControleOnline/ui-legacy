@@ -8,7 +8,7 @@
               dense
               outlined
               stack-label
-              :label="translate(`queue.queuePeople`)"
+              :label="$t(`queue.queuePeople`)"
               :options="queuePeopleOptions"
               v-model="queuePeople.label"
               :rules="[(val) => val != null]"
@@ -20,7 +20,7 @@
               dense
               outlined
               stack-label
-              :label="translate(`queue.queue`)"
+              :label="$t(`queue.queue`)"
               :options="queueOptions"
               v-model="queue.label"
               :rules="[(val) => val != null]"
@@ -32,7 +32,7 @@
               dense
               color="primary"
               icon="save"
-              :label="translate(`Save`)"
+              :label="$t(`Save`)"
               @click="onSubmit()"
             ></q-btn>
           </div>
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 
 export default {
@@ -102,10 +101,10 @@ export default {
           if (members.length) {
             this.queuePeopleOptions = [];
             for (let index in members) {
-              let translatedStatus = this.translate(
+              let translatedStatus = this.$t(
                 `queue.status.${members[index]["status"]["status"]}`
               );
-              let translatedPriority = this.translate(
+              let translatedPriority = this.$t(
                 `queue.priority.${members[index]["priority"]}`
               );
 
@@ -166,7 +165,7 @@ export default {
         .then((result) => {
           if (result["@id"]) {
             this.$q.notify({
-              message: this.translate(`success`),
+              message: this.$t(`success`),
               position: "bottom",
               type: "positive",
             });

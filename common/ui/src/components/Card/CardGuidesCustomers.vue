@@ -17,7 +17,7 @@
           {{ title_guide }}
         </q-card-section>
         <q-card-section class="q-pa-none">
-          {{ translate('conductor') }}: {{ provider }}
+          {{ $t('conductor') }}: {{ provider }}
         </q-card-section>
         <q-card-section class="q-pa-none q-pt-md justify-end text-caption text-secondary text-bold">
           {{ date.from }} - {{ date.to }}

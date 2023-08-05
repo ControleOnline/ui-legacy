@@ -58,7 +58,7 @@ export default {
   data() {
     let statuses = this.task
       ? []
-      : [{ label: this.translate(this.context + ".status.all"), value: -1 }];
+      : [{ label: this.$t(this.context + ".status.all"), value: -1 }];
 
     return {
       saving: false,
@@ -184,7 +184,7 @@ export default {
           for (let index in statuses.members) {
             let item = statuses.members[index];
             this.statuses.push({
-              label: this.translate(this.context + ".status." + item.status),
+              label: this.$t(this.context + ".status." + item.status),
               value: parseInt(item["@id"].match(/^\/statuses\/([a-z0-9-]*)$/)[1]),
               color: item.color,
             });
@@ -196,7 +196,7 @@ export default {
 
     onTaskSave() {
       this.$q.notify({
-        message: this.translate("Data saved successfully"),
+        message: this.$t("Data saved successfully"),
         position: "bottom",
         type: "positive",
       });

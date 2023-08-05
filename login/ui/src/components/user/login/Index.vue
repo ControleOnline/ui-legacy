@@ -5,7 +5,7 @@
     <q-card class="q-px-lg">
       <q-card-section class="q-pt-xl">
         <div class="text-h6">
-          <h4 class="q-ma-none login-label">{{ translate("login.title") }}</h4>
+          <h4 class="q-ma-none login-label">{{ $t("login.title") }}</h4>
         </div>
       </q-card-section>
 
@@ -14,7 +14,7 @@
       </q-card-section>
 
       <div class="column q-px-md q-gutter-y-sm q-pb-xl">
-        <q-btn unelevated color="grey-7" outline :label="translate('login.register')" v-if="signinDialogStatus === false"
+        <q-btn unelevated color="grey-7" outline :label="$t('login.register')" v-if="signinDialogStatus === false"
           @click="onSignUp" />
 
         <q-btn style="color: #19AFBD; text-transform: none; text-decoration: underline;" label="Esqueci a senha" flat
@@ -25,7 +25,7 @@
     <q-dialog no-backdrop-dismiss v-model="recovery" transition-show="scale" transition-hide="scale">
       <q-card>
         <q-card-section class="row items-center">
-          <div class="text-h6">{{ translate("login.dontRemember") }}</div>
+          <div class="text-h6">{{ $t("login.dontRemember") }}</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from "vuex";
 import RecoveryForm from "./Recovery";
 import LoginForm from "./Signin";

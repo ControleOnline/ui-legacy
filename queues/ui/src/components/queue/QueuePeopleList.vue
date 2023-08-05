@@ -7,7 +7,7 @@
         color="primary"
         class="q-ma-md"
       />
-      {{ translate(`loading`) }}
+      {{ $t(`loading`) }}
     </div>
 
     <q-table
@@ -31,7 +31,7 @@
                     <q-item-section side>
                       <q-icon name="edit"></q-icon>
                     </q-item-section>
-                    <q-item-section> {{ translate(`Edit`) }} </q-item-section>
+                    <q-item-section> {{ $t(`Edit`) }} </q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -54,7 +54,7 @@
     <q-dialog v-model="editQueuePeople">
       <q-card style="width: 50%">
         <q-card-section>
-          <span class="text-h6"> {{ translate(`Edit`) }}</span>
+          <span class="text-h6"> {{ $t(`Edit`) }}</span>
         </q-card-section>
         <QueuePeopleCreate
           :queuePeopleObj="this.selectedQueuePeople"
@@ -67,7 +67,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import QueuePeopleCreate from "@controleonline/quasar-queues-ui/src/components/queue/QueuePeopleCreate.vue";
 
 export default {
@@ -179,7 +178,7 @@ export default {
             for (let index in data.members) {
               this.data.push({
                 id: data.members[index]["id"],
-                priority: this.translate(`queue.priority.${data.members[index]["priority"]}`),
+                priority: this.$t(`queue.priority.${data.members[index]["priority"]}`),
                 registerTime: data.members[index]["registerTime"],
                 updateTime: data.members[index]["updateTime"],
                 people: {
@@ -187,7 +186,7 @@ export default {
                   value: data.members[index]["people"]["@id"].replaceAll("/people/", ""),
                 },
                 status: {
-                  label: this.translate(
+                  label: this.$t(
                     `queue.status.${data.members[index]["status"]["status"]}`
                   ),
                   value: data.members[index]["status"]["@id"].replaceAll(

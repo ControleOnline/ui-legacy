@@ -12,9 +12,9 @@
         no-caps
         class="text-grey-9 shadow-2 q-px-lg"
       >
-        <q-tab name="aboutme" :label="translate('aboutme')" />
-        <q-tab name="roudmap" :label="translate('guides')" />
-        <q-tab name="assessments" :label="translate('assessments')" />
+        <q-tab name="aboutme" :label="$t('aboutme')" />
+        <q-tab name="roudmap" :label="$t('guides')" />
+        <q-tab name="assessments" :label="$t('assessments')" />
       </q-tabs>
 
       <q-tab-panels v-model="tab">
@@ -36,7 +36,7 @@
           </div>
 
           <div v-if="profile_provider.langs.length" class="q-pa-sm">
-            <p class="q-ma-none q-mb-sm text-bold title-list">{{ translate('languages_you_speak') }}</p>
+            <p class="q-ma-none q-mb-sm text-bold title-list">{{ $t('languages_you_speak') }}</p>
             <div class="q-pa-xs q-gutter-x-sm">
               <q-avatar
                 v-for="lang in profile_provider.langs"
@@ -52,7 +52,7 @@
             v-if="profile_provider.sign_language"
             class="q-pa-sm"
           >
-            <p class="q-ma-none q-mb-sm text-bold title-list">{{ translate('sign_language') }}</p>
+            <p class="q-ma-none q-mb-sm text-bold title-list">{{ $t('sign_language') }}</p>
             <div class="q-pa-xs q-gutter-x-sm">
               <q-icon name="front_hand" color="secondary" size="1.5rem"></q-icon>
             </div>
@@ -152,7 +152,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import CardGuidesCustomers from '@controleonline/quasar-common-ui/src/components/Card/CardGuidesCustomers';
 import CardListGuides from '@controleonline/quasar-common-ui/src/components/Card/CardListGuides';
 import ViewProfileHeader from '@controleonline/quasar-common-ui/src/components/Header/ViewProfileHeader';

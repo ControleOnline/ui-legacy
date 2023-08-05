@@ -1,7 +1,7 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">{{ translate("Employees") }}</div>
+      <div class="text-subtitle1 text-left">{{ $t("Employees") }}</div>
     </div>
     <div class="col-12 q-mt-md">
       <q-table dense grid hide-header :loading="isLoading" :data="items" row-key="id">
@@ -140,7 +140,7 @@
                 :loading="saving"
                 icon="save"
                 type="submit"
-                :label="translate('Save')"
+                :label="$t('Save')"
                 size="md"
                 color="primary"
                 class="q-mt-md"
@@ -155,7 +155,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import md5 from "md5";
 import { mapGetters } from "vuex";
 
@@ -323,7 +322,7 @@ export default {
     },
 
     removeItem(item) {
-      if (window.confirm(this.translate("Are you sure about to remove this element?"))) {
+      if (window.confirm(this.$t("Are you sure about to remove this element?"))) {
         item._bussy = true;
 
         this.delete(item.people_company_id)
@@ -381,16 +380,16 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         if (key == "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.translate("messages.emailInvalid");
+          return this.$t("messages.emailInvalid");
 
         if (key == "password" && val.length < 6)
-          return this.translate("A senha deve ter no mínimo 6 caracteres");
+          return this.$t("A senha deve ter no mínimo 6 caracteres");
 
         if (key == "confirm" && this.item.password != this.item.confirmPassword)
-          return this.translate("As senhas não coincidem");
+          return this.$t("As senhas não coincidem");
 
         return true;
       };

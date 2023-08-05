@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <MenuDefaultHeader
-      :title="translate('reserve_management_header')"
+      :title="$t('reserve_management_header')"
       icon="o_calendar_month"
     >
     </MenuDefaultHeader>
@@ -10,7 +10,7 @@
       <q-item-section class="text-bold">
         <div class="flex items-center">
           <q-item-label class="title-list">
-            {{ translate('wallet') }}: {{ formatMoney(reserve_edit.wallet_value) }}
+            {{ $t('wallet') }}: {{ formatMoney(reserve_edit.wallet_value) }}
           </q-item-label>
           <q-space></q-space>
           <q-icon size="1.5rem" name="o_account_balance_wallet"></q-icon>
@@ -23,7 +23,7 @@
         <q-item-section class="text-bold text-secondary q-pb-md">
           <div class="flex items-center">
             <q-item-label class="title-list">
-              {{ translate('my_schedule') }}
+              {{ $t('my_schedule') }}
             </q-item-label>
             <q-space></q-space>
             <q-icon size="1.5rem" name="o_event"></q-icon>
@@ -42,7 +42,7 @@
           class="text-bold text-secondary justify-between title-list q-pt-md"
           color="secondary"
           v-model="reserve_edit.block"
-          :label="translate('block_schedule')"
+          :label="$t('block_schedule')"
           left-label
         />
 
@@ -58,7 +58,7 @@
       <q-item class="q-pb-md">
         <q-item-section class="q-gutter-y-xs">
           <q-item-label class="text-bold text-secondary title-list">
-            {{ translate('next_event') }}
+            {{ $t('next_event') }}
           </q-item-label>
           <div
             v-for="(event, index) in reserve_edit.next_events"
@@ -94,12 +94,12 @@
       <q-item>
         <q-item-section class="q-gutter-y-xs">
           <q-item-label class="text-bold text-secondary title-list">
-            {{ translate('confirmed_canceled') }}
+            {{ $t('confirmed_canceled') }}
           </q-item-label>
           <div v-for="n in 3" :key="n" class="flex items-center q-gutter-xs">
             <q-item-label class="text-description q-py-sm">
               <q-icon name="o_arrow_drop_down_circle" size="1.2rem"></q-icon>
-              {{ translate('new_sales_after_cancellations') }} 2
+              {{ $t('new_sales_after_cancellations') }} 2
             </q-item-label>
           </div>
         </q-item-section>
@@ -109,7 +109,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';
 
 export default {

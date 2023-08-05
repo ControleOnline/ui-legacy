@@ -220,19 +220,19 @@ export default {
       return (val) => {
         if (key == "money") {
           if (!val || !(parseFloat(val.replace(",", ".")) > 0))
-            return this.translate("messages.fieldRequired");
+            return this.$t("messages.fieldRequired");
 
           return true;
         }
 
         if (key == "monthday") {
           if (!val || !(parseInt(val) > 0 && parseInt(val) < 32))
-            return this.translate("messages.fieldRequired");
+            return this.$t("messages.fieldRequired");
 
           return true;
         }
 
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         return true;
       };

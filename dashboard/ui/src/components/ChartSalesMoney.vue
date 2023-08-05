@@ -46,9 +46,9 @@ export default {
   created() {
     this.loadData()
 
-    this.options.title.text     = this.translate('dashboard.charts.sales_in_reals');
-    this.options.series[0].name = this.translate('dashboard.charts.quotations');
-    this.options.series[1].name = this.translate('dashboard.charts.sales_orders');
+    this.options.title.text     = this.$t('dashboard.charts.sales_in_reals');
+    this.options.series[0].name = this.$t('dashboard.charts.quotations');
+    this.options.series[1].name = this.$t('dashboard.charts.sales_orders');
   },
 
   data() {

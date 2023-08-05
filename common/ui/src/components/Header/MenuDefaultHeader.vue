@@ -21,7 +21,7 @@
         outline
         flat
         color="white"
-        :label="translate('save_header')"
+        :label="$t('save_header')"
         @click="save"
       >
       </q-btn>

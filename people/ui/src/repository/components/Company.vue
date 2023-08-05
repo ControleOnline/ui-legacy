@@ -1,7 +1,7 @@
 <template>
   <div class="row form q-pa-md">
     <div class="col-3 text-h6">
-      <div class="text-subtitle1 text-left">{{ translate('Companies') }}</div>
+      <div class="text-subtitle1 text-left">{{ $t('Companies') }}</div>
     </div>
     <div class="col-9">
       <div class="row justify-end">
@@ -88,7 +88,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import { formatDocument } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
 import FormCreatePeople from "./FormCreate.vue";
@@ -171,7 +170,7 @@ export default {
     },
     removeItem(item) {
       if (
-        window.confirm(this.translate("Are you sure about to remove this element?"))
+        window.confirm(this.$t("Are you sure about to remove this element?"))
       ) {
         item._bussy = true;        
         this.delete(item.people_company_id)

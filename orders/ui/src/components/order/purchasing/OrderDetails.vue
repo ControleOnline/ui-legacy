@@ -142,7 +142,7 @@
               <tr>
                 <td class="text-center">
                   <div class="text-h6">
-                    {{ translate(`order.statuses.${status.status}`) }}
+                    {{ $t(`order.statuses.${status.status}`) }}
                   </div>
                 </td>
               </tr>
@@ -263,7 +263,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import { date } from "quasar";

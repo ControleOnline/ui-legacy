@@ -4,12 +4,12 @@
       <q-card-section>
         <div class="row">
           <div class="col-4 q-mb-md text-h6 text-left">
-            {{ translate('Depto Pessoal Declarações') }}
+            {{ $t('Depto Pessoal Declarações') }}
           </div>
           <div class="col-8 q-mb-md">
             <div class="row justify-end">
               <q-btn
-                :label ="translate('Nova Folha de Pagamento')"
+                :label ="$t('Nova Folha de Pagamento')"
                 icon   ="add"
                 size   ="md"
                 color  ="primary"
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import DeptoFolhaPagamentoTabela from './../../../components/depto/DeptoFolhaPagamentoTabela';
 
 export default {

@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="q-pa-md text-subtitle1">
-      {{ translate('Histórico') }}
+      {{ $t('Histórico') }}
     </div>
     <div class="col-12 q-mt-md">
       <q-table dense 
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapGetters } from 'vuex';
 
 const SETTINGS = {

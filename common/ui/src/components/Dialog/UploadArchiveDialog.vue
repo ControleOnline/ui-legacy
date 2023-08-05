@@ -3,7 +3,7 @@
     <div class="bg-white full-width" style="max-height: 70%">
       <q-item class="bg-secondary items-center">
         <q-item-label class="text-bold text-white">
-          {{ translate("register_certification") }}
+          {{ $t("register_certification") }}
         </q-item-label>
         <q-space></q-space>
         <q-btn icon="close" size="1rem" round color="white" flat v-close-popup> </q-btn>
@@ -13,7 +13,7 @@
         <q-item class="q-px-md q-py-sm column full-width">
           <q-item-section class="q-py-xs">
             <q-item-label class="text-bold text-secondary">
-              {{ translate("about_yourself_upload") }}
+              {{ $t("about_yourself_upload") }}
             </q-item-label>
             <q-input
               dense
@@ -28,13 +28,13 @@
 
           <q-item-section class="section-no-margin q-py-xs">
             <q-item-label class="text-bold text-secondary">
-              {{ translate("proof_document") }}
+              {{ $t("proof_document") }}
             </q-item-label>
             <q-file
               class="q-pa-none full-width"
               color="secondary"
               v-model="archive"
-              :label="translate('upload_file')"
+              :label="$t('upload_file')"
             >
               <template v-slot:prepend>
                 <q-icon name="attach_file" />
@@ -48,7 +48,7 @@
               class="q-pa-xs text-capitalize bg-secondary"
               outline
               color="white"
-              :label="translate('send_upload')"
+              :label="$t('send_upload')"
               @click="sendArchive"
               v-close-popup
               style="width: 4rem"

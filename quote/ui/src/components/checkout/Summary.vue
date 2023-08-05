@@ -35,7 +35,7 @@
               unmasked-value
               v-model="peopleDocument"
               type="text"
-              :label="personType == 'PJ' ? translate('CNPJ') : translate('CPF')"
+              :label="personType == 'PJ' ? $t('CNPJ') : $t('CPF')"
               :mask="
                 personType == 'PJ' ? '##.###.###/####-##' : '###.###.###-##'
               "
@@ -395,7 +395,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import ContactForm from "@controleonline/quasar-common-ui/src/components/Common/ContactForm";
 import {
 formatDocument,
@@ -598,19 +597,19 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         if (key == "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.translate("messages.emailInvalid");
+          return this.$t("messages.emailInvalid");
 
         if (key == "phone" && !/^\d{10,11}$/.test(val))
-          return this.translate("messages.phoneInvalid");
+          return this.$t("messages.phoneInvalid");
 
         if (key == "password" && val.length < 6)
-          return this.translate("A senha deve ter no mínimo 6 caracteres");
+          return this.$t("A senha deve ter no mínimo 6 caracteres");
 
         if (key == "confirm" && this.item.password != this.item.confirmPassword)
-          return this.translate("As senhas não coincidem");
+          return this.$t("As senhas não coincidem");
 
         return true;
       };
@@ -640,7 +639,7 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         return true;
       };

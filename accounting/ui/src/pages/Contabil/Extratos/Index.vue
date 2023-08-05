@@ -4,7 +4,7 @@
       <q-card-section>
         <div class="row">
           <div class="col-12 q-mb-md text-h6 text-left">
-            {{ translate('Contábil Extratos e Movimentações') }}
+            {{ $t('Contábil Extratos e Movimentações') }}
           </div>
         </div>
       </q-card-section>
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import ContabilExtratosTabela from './../../../components/contabil/ContabilExtratosTabela';
 
 export default {

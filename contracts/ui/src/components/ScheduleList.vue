@@ -48,7 +48,7 @@ export default {
         name  : 'students',
         field : 'students',
         align : 'left',
-        label : this.translate('contracts.columns.student'),
+        label : this.$t('contracts.columns.student'),
         format: (val) => {
           return val.join(', ')
         }
@@ -57,31 +57,31 @@ export default {
         name : 'weekDay',
         field: 'weekDay',
         align: 'left',
-        label: this.translate('contracts.columns.week_days'),
+        label: this.$t('contracts.columns.week_days'),
       },
       {
         name : 'startTime',
         field: 'startTime',
         align: 'left',
-        label: this.translate('contracts.columns.start_time'),
+        label: this.$t('contracts.columns.start_time'),
       },
       {
         name : 'endTime',
         field: 'endTime',
         align: 'left',
-        label: this.translate('contracts.columns.end_time'),
+        label: this.$t('contracts.columns.end_time'),
       },
       {
         name : 'trainer',
         field: 'trainer',
         align: 'left',
-        label: this.translate('contracts.columns.teacher'),
+        label: this.$t('contracts.columns.teacher'),
       },
       {
         name : 'local',
         field: 'local',
         align: 'left',
-        label: this.translate('contracts.columns.local'),
+        label: this.$t('contracts.columns.local'),
       },
       {
         name : 'remove'
@@ -89,19 +89,19 @@ export default {
     ];
 
     this.allDays = {
-      'monday'   : this.translate('contracts.monday'),
-      'tuesday'  : this.translate('contracts.tuesday'),
-      'wednesday': this.translate('contracts.wednesday'),
-      'thursday' : this.translate('contracts.thursday'),
-      'friday'   : this.translate('contracts.friday'),
-      'saturday' : this.translate('contracts.saturday'),
-      'sunday'   : this.translate('contracts.sunday'),
+      'monday'   : this.$t('contracts.monday'),
+      'tuesday'  : this.$t('contracts.tuesday'),
+      'wednesday': this.$t('contracts.wednesday'),
+      'thursday' : this.$t('contracts.thursday'),
+      'friday'   : this.$t('contracts.friday'),
+      'saturday' : this.$t('contracts.saturday'),
+      'sunday'   : this.$t('contracts.sunday'),
     };
 
     this.classType = {
-      'ead'    : this.translate('contracts.ead'),
-      'company': this.translate('contracts.company'),
-      'school' : this.translate('contracts.school'),
+      'ead'    : this.$t('contracts.ead'),
+      'company': this.$t('contracts.company'),
+      'school' : this.$t('contracts.school'),
     };
 
     this.onRequest({
@@ -193,7 +193,7 @@ export default {
     },
 
     removeItem(item) {
-      if (window.confirm(this.translate('messages.sure_remove'))) {
+      if (window.confirm(this.$t('messages.sure_remove'))) {
         item._bussy = true;
         this.Api.Schedules
           .Delete({
@@ -207,7 +207,7 @@ export default {
             })
             .catch(error => {
               this.$q.notify({
-                message : this.translate(error.message),
+                message : this.$t(error.message),
                 position: 'bottom',
                 type    : 'negative',
               });

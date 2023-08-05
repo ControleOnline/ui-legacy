@@ -1,7 +1,7 @@
 <template>
   <div>
     <MenuDefaultHeader
-      :title="translate('notifications_header')"
+      :title="$t('notifications_header')"
       :save_button="false"
       icon="o_notifications"
     >
@@ -12,8 +12,8 @@
       no-caps
       class="text-grey-9 shadow-2 q-px-md "
     >
-      <q-tab name="all" :label="translate('all')" />
-      <q-tab name="unread" :label="translate('unread')" />
+      <q-tab name="all" :label="$t('all')" />
+      <q-tab name="unread" :label="$t('unread')" />
     </q-tabs>
 
     <q-tab-panels v-model="tab">
@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import CardNotifications from '@controleonline/quasar-common-ui/src/components/Card/CardNotifications';
 import NotificationDialog from '@controleonline/quasar-common-ui/src/components/Dialog/NotificationDialog';
 import MenuDefaultHeader from '@controleonline/quasar-common-ui/src/components/Header/MenuDefaultHeader';

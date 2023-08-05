@@ -185,7 +185,7 @@
     <q-dialog v-model="dialog">
       <q-card style="width: 700px; max-width: 95vw">
         <q-card-section class="row items-center">
-          <div class="text-h6">{{ translate("Incrementar valor taxas") }}</div>
+          <div class="text-h6">{{ $t("Incrementar valor taxas") }}</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
@@ -212,7 +212,7 @@
     <q-dialog v-model="dialog2">
       <q-card style="width: 1200px; max-width: 95vw">
         <q-card-section class="row items-center">
-          <div class="text-h6">{{ translate("Adicionar conjunto taxas") }}</div>
+          <div class="text-h6">{{ $t("Adicionar conjunto taxas") }}</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
@@ -240,7 +240,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import Carrierimports from "@controleonline/quasar-import-ui/src/components/import/importsList";
 import CarrierTableFixedkg from "../../components/carrier/TableFixedkg";
 import CarrierTableFixedkm from "../../components/carrier/TableFixedkm";

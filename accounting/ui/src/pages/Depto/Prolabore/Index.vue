@@ -4,12 +4,12 @@
       <q-card-section>
         <div class="row">
           <div class="col-4 q-mb-md text-h6 text-left">
-            {{ translate('Depto Pro-Labore') }}
+            {{ $t('Depto Pro-Labore') }}
           </div>
           <div class="col-8 q-mb-md">
             <div class="row justify-end">
               <q-btn
-                :label ="translate('Novo Pro-Labore')"
+                :label ="$t('Novo Pro-Labore')"
                 icon   ="add"
                 size   ="md"
                 color  ="primary"
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import DeptoProLaboreTabela from './../../../components/depto/DeptoProLaboreTabela';
 
 export default {

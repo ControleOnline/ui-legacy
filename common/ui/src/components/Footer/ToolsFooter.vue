@@ -9,7 +9,7 @@
         <q-btn
           :to="{ name: button.to }"
           :icon="button.icon"
-          :label="translate(button.label)"
+          :label="$t(button.label)"
           stack
           flat
           style="text-transform: none;"

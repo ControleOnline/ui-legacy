@@ -8,7 +8,7 @@
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">
-          {{ translate('dashboard.administrative_expenses') }} ({{ administrative_expenses.total_count }})
+          {{ $t('dashboard.administrative_expenses') }} ({{ administrative_expenses.total_count }})
         </div>
         <div class="col-6 text-right text-red-14 text-h6">
           {{
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import configurable from './../mixins/configurable';
 import dashboard from './../mixins/dashboard';
 

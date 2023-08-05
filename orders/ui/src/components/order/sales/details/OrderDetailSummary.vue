@@ -426,7 +426,7 @@
                         v-if="editTotalPrice"
                         dense
                         stack-label
-                        :label="translate('Valor')"
+                        :label="$t('Valor')"
                         type="text"
                         prefix="R$"
                         reverse-fill-mask
@@ -569,7 +569,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.postal_code"
                   type="text"
-                  :label="translate('CEP')"
+                  :label="$t('CEP')"
                   mask="#####-###"
                   :rules="[isInvalid('postal_code')]"
                 />
@@ -584,7 +584,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.street"
                   type="text"
-                  :label="translate('Rua')"
+                  :label="$t('Rua')"
                   :rules="[isInvalid('street')]"
                 />
               </div>
@@ -598,7 +598,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.number"
                   type="text"
-                  :label="translate('Número')"
+                  :label="$t('Número')"
                   :rules="[isInvalid('number')]"
                 />
               </div>
@@ -611,7 +611,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.complement"
                   type="text"
-                  :label="translate('Complemento')"
+                  :label="$t('Complemento')"
                 />
               </div>
               <div
@@ -624,7 +624,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.district"
                   type="text"
-                  :label="translate('Bairro')"
+                  :label="$t('Bairro')"
                   :rules="[isInvalid('district')]"
                 />
               </div>
@@ -635,7 +635,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.city"
                   type="text"
-                  :label="translate('Cidade')"
+                  :label="$t('Cidade')"
                   :rules="[isInvalid('city')]"
                 />
               </div>
@@ -646,7 +646,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.state"
                   type="text"
-                  :label="translate('UF')"
+                  :label="$t('UF')"
                   mask="AA"
                   :rules="[isInvalid('state')]"
                 />
@@ -661,7 +661,7 @@
                   hide-bottom-space
                   v-model="dialogs.details.data.country"
                   type="text"
-                  :label="translate('País')"
+                  :label="$t('País')"
                   :rules="[isInvalid('country')]"
                 />
               </div>
@@ -678,7 +678,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import translate from "@controleonline/../../src/boot/translate";
 import {
 formatCEP,
 formatDocument,
@@ -1013,13 +1012,13 @@ export default {
     }),
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
         if (key == "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-          return this.translate("messages.emailInvalid");
+          return this.$t("messages.emailInvalid");
 
         if (key == "phone" && !/^\d{10,11}$/.test(val))
-          return this.translate("messages.phoneInvalid");
+          return this.$t("messages.phoneInvalid");
 
         return true;
       };

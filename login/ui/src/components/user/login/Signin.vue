@@ -7,7 +7,7 @@
       ref="username"
       v-model="item.username"
       color="primary"
-      :label="translate('login.yourUser')"
+      :label="$t('login.yourUser')"
     />
 
     <q-input
@@ -18,7 +18,7 @@
       id="inputPassword"
       ref="password"
       v-model="item.password"
-      :label="translate('login.yourPass')"
+      :label="$t('login.yourPass')"
     >
       <template v-slot:append>
         <q-icon
@@ -35,14 +35,13 @@
         color="primary"
         :loading="isLoading"
         type="submit"
-        :label="translate('login.send')"
+        :label="$t('login.send')"
       />
     </div>
   </q-form>
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -97,7 +96,7 @@ export default {
           message : message,
           position: 'bottom',
           type    : 'negative',
-          closeBtn: this.translate('common.labels.close')
+          closeBtn: this.$t('common.labels.close')
         });
       }
       */
@@ -112,7 +111,7 @@ export default {
     onSubmit() {
       this.signIn(this.item).catch((error) => {
         this.$q.notify({
-          message: this.translate("login.invalidUserMessage"),
+          message: this.$t("login.invalidUserMessage"),
           position: "bottom",
           type: "negative",
         });
@@ -121,9 +120,9 @@ export default {
 
     isInvalid(key) {
       return (val) => {
-        if (!(val && val.length > 0)) return this.translate("messages.fieldRequired");
+        if (!(val && val.length > 0)) return this.$t("messages.fieldRequired");
 
-        if (key == "password" && val.length < 6) return this.translate("login.passMessage");
+        if (key == "password" && val.length < 6) return this.$t("login.passMessage");
 
         return true;
       };

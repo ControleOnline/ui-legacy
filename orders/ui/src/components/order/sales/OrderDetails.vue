@@ -158,7 +158,7 @@
                 <tr>
                   <td class="text-center">
                     <div class="text-h6">
-                      {{ translate(`order.statuses.${status.status}`) }}
+                      {{ $t(`order.statuses.${status.status}`) }}
                     </div>
                   </td>
                 </tr>
@@ -395,12 +395,12 @@
         </div>
         <div v-if="hasRural(other_informations) == true" class="row warning">
           <h6>
-            <q-icon name="agriculture" size="30px" /> {{ translate(`order.warning.rural`) }}
+            <q-icon name="agriculture" size="30px" /> {{ $t(`order.warning.rural`) }}
           </h6>
         </div>
         <div v-if="hasDificult(other_informations) == true" class="row warning">
           <h6>
-            <q-icon name="fmd_bad" size="30px" /> {{ translate(`order.warning.dificult`) }}
+            <q-icon name="fmd_bad" size="30px" /> {{ $t(`order.warning.dificult`) }}
           </h6>
         </div>
         <div class="row items-center justify-center buttons-container bg-primary">
@@ -622,7 +622,6 @@
 </template>
 
 <script>
-import translate from "@controleonline/../../src/boot/translate";
 import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
 import OrderDetailSummary from "./details/OrderDetailSummary";
