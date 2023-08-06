@@ -22,7 +22,7 @@ export function getCategories({ commit }, data) {
   export const createCategory = ({ commit }, data) => {
     let options = {
       method: 'POST',
-      body: JSON.stringify(data.values),
+      body: (data.values),
       params: data.params ? data.params : {}
     };
   

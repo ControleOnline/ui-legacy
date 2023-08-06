@@ -100,7 +100,7 @@ export default {
     updateStatus(params) {
       let options = {
         method: "PUT",
-        body: JSON.stringify({ status: params.status }),
+        body: ({ status: params.status }),
         params: {
           myCompany: this.myCompany.id,
         },

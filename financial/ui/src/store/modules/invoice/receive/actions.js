@@ -68,7 +68,7 @@ export const renewInvoice = ({ commit }, { invoiceId, params }) => {
 
     let options = {
         method: 'PUT',
-        body: JSON.stringify({ params })
+        body: ({ params })
     };
     return api.fetch(`/finance/receive/${invoiceId}/renew`, options)
         
@@ -118,7 +118,7 @@ export const getBankPerInvoiceId = ({ commit }, { invoiceId, params = {} }) => {
 export const updateInvoiceDuedate = ({ commit }, { id, dueDate, params }) => {
     let options = {
         method: 'PUT',
-        body: JSON.stringify({ dueDate }),
+        body: ({ dueDate }),
         params: params
     };
 
@@ -135,7 +135,7 @@ export const updateInvoiceDuedate = ({ commit }, { id, dueDate, params }) => {
 export const deleteInvoiceOrder = ({ commit }, { invoiceId, orderId, params }) => {
     let options = {
         method: 'PUT',
-        body: JSON.stringify({ orderId }),
+        body: ({ orderId }),
         params: params
     };
 

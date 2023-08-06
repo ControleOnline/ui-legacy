@@ -250,7 +250,7 @@ export default {
       let options = {
         method: 'PUT',
        
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       let endpoint = `${this.people_type}/${this.id}/addresses`;
@@ -273,7 +273,7 @@ export default {
       let options = {
         method: 'DELETE',
        
-        body: JSON.stringify({ id }),
+        body: ({ id }),
       };
 
       let endpoint = `${this.people_type}/${this.id}/addresses`;

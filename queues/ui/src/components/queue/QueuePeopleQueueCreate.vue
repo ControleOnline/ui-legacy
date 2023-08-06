@@ -156,7 +156,7 @@ export default {
       let options = {
         method: this.queuePeopleQueueId ? "PUT" : "POST",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       this.api

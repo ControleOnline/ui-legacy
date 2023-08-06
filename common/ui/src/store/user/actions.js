@@ -5,7 +5,7 @@ import * as types from './mutation_types';
 export const passwordRecovery = ({ commit }, values) => {
   commit(types.SET_ISLOADING);
 
-  return api.fetch('/password_recoveries', { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch('/password_recoveries', { method: 'POST', body: (values) })
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
@@ -23,7 +23,7 @@ export const passwordRecovery = ({ commit }, values) => {
 export const recoveryAccess = ({ commit }, values) => {
   commit(types.SET_ISLOADING);
 
-  return api.fetch('/recovery_accesses', { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch('/recovery_accesses', { method: 'POST', body: (values) })
     .then(response => {
       commit(types.SET_ISLOADING, false);
 

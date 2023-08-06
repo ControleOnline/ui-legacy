@@ -105,7 +105,7 @@ export default {
     paymentType(paymentType) {
       let params = {
         method: "PUT",
-        body: JSON.stringify({ paymentType: paymentType }),
+        body: ({ paymentType: paymentType }),
         
       };
 
@@ -228,7 +228,7 @@ export default {
     onDemonstrativaClick() {
       let params = {
         method: "PUT",
-        body: JSON.stringify({}),
+        body: ({}),
         
       };
 

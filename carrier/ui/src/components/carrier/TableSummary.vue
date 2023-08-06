@@ -112,7 +112,7 @@ export default {
         company &&
           company.configs &&
           typeof company.configs.groupTableNames != "undefined"
-          ? JSON.parse(company.configs.groupTableNames)
+          ? (company.configs.groupTableNames)
           : [];
     },
   },
@@ -122,7 +122,7 @@ export default {
       let options = {
         method: "PUT",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       let endpoint = `delivery_tax_groups/${this.table.id}`;

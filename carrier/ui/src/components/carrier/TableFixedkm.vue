@@ -405,7 +405,7 @@ export default {
       const options = {
         method: this.item.id === null ? "POST" : "PUT",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       const endpoint =

@@ -224,7 +224,7 @@ export default {
       let options = {
         method: this.hardwareId ? "PUT" : "POST",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       this.api

@@ -141,7 +141,7 @@ export default {
   },
 
   created() {
-    this.reserve_edit = JSON.parse(JSON.stringify(this.reserve));
+    this.reserve_edit = ((this.reserve));
   },
 };
 </script>

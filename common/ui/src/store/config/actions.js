@@ -22,7 +22,7 @@ export const appConfig = ({ commit }) => {
         // Google Tag Manager ID
 
         if (data.response.data.gtmId) {
-          config.gtmId = JSON.parse(data.response.data.gtmId)
+          config.gtmId = (data.response.data.gtmId)
           config.gtmId = config.gtmId[0]
         }
       }
@@ -61,7 +61,7 @@ export const getConfig = ({ commit }, peopleId) => {
 export const saveConfig = ({ commit }, { peopleId, values, params }) => {
   let options = {
     method: 'PUT',
-    body  : JSON.stringify(values),
+    body  : (values),
     params: params
   };
 

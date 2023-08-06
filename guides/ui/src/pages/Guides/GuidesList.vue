@@ -64,7 +64,7 @@ export default {
       return { title, subtitle };
     },
     category() {
-      const categories = JSON.parse(JSON.stringify(this.$store.getters['categories/getCategoryList']));
+      const categories = ((this.$store.getters['categories/getCategoryList']));
 
       return categories
         .find((category) => category.id.toString() === this.$route.params.id_category);
@@ -76,7 +76,7 @@ export default {
       this.value = value;
     },
     filteredList() {
-      const listItems = JSON.parse(JSON.stringify(this.list));
+      const listItems = ((this.list));
 
       if (!this.value) return listItems;
 

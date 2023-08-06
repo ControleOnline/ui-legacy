@@ -107,7 +107,7 @@ export default {
 
       let options = {
         method: "POST",
-        body: JSON.stringify(data),
+        body: (data),
         params: {},
       };
 

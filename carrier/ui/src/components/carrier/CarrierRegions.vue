@@ -234,7 +234,7 @@ export default {
       let options = {
         method : 'PUT',
        
-        body   : JSON.stringify(values),
+        body   : (values),
       };
 
       let endpoint = `carriers/${this.id}/regions`;
@@ -257,7 +257,7 @@ export default {
       let options = {
         method : 'DELETE',
        
-        body   : JSON.stringify({ id }),
+        body   : ({ id }),
       };
 
       let endpoint = `carriers/${this.id}/regions`;

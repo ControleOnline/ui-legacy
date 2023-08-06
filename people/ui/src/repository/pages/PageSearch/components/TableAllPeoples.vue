@@ -276,7 +276,7 @@ export default {
       const options = {
         method: 'PUT',
         
-        body: JSON.stringify(people.enable),
+        body: (people.enable),
         params: {
           company: this.theCompany.id,
           enable: people.enable

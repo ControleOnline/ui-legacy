@@ -172,7 +172,7 @@ export default {
       let options = {
         method: this.id === null ? "POST" : "PUT",
         
-        body: JSON.stringify(values),
+        body: (values),
         params: params,
       };
 

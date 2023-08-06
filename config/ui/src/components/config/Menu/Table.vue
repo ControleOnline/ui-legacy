@@ -197,7 +197,7 @@ export default {
       let options = {
         method : 'DELETE',
        
-        body   : JSON.stringify({ id }),
+        body   : ({ id }),
       };
 
       let endpoint = `customers/${this.id}/addresses`;

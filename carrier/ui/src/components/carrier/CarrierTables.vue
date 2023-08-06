@@ -250,7 +250,7 @@ export default {
         company &&
         company.configs &&
         typeof company.configs.groupTableNames != "undefined"
-          ? JSON.parse(company.configs.groupTableNames)
+          ? (company.configs.groupTableNames)
           : [];
     },
   },
@@ -325,7 +325,7 @@ export default {
       let options = {
         method: "POST",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       return api.fetch
@@ -343,7 +343,7 @@ export default {
       let options = {
         method: "PUT",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       return api.fetch

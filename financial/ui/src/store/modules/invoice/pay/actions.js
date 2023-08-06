@@ -69,7 +69,7 @@ export const getInvoice = ({ commit }, { invoiceId, params }) => {
 export const updateInvoiceDuedate = ({ commit }, { id, dueDate, params }) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify({ dueDate }),
+    body: ({ dueDate }),
     params: params
   };
 
@@ -86,7 +86,7 @@ export const updateInvoiceDuedate = ({ commit }, { id, dueDate, params }) => {
 export const deleteInvoiceOrder = ({ commit }, { invoiceId, orderId, params }) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify({ orderId }),
+    body: ({ orderId }),
     params: params
   };
 

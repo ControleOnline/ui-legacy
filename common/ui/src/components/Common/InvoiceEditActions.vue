@@ -42,7 +42,7 @@ export default {
 
       let options = {
         method: "PUT",
-        body: JSON.stringify({ notified: false }),
+        body: ({ notified: false }),
         params: {
           myCompany: this.myCompany.id,
         },

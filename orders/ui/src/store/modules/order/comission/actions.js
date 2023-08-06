@@ -113,7 +113,7 @@ export const downloadNF = ({ commit }, id) => {
 export const updateStatus = ({ commit }, { id, values, params = {} }) => {
   let options = {
     method: 'PUT',
-    body  : JSON.stringify(values),
+    body  : (values),
     params: params
   };
 

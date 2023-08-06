@@ -586,7 +586,7 @@ export default {
   created() {
     this.userRole = this.$store.getters["User/getUser"].type_account;
 
-    this.userEdit = JSON.parse(JSON.stringify(this.$store.getters["User/getUser"]));
+    this.userEdit = ((this.$store.getters["User/getUser"]));
   },
 };
 </script>

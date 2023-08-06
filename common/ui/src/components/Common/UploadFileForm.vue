@@ -144,7 +144,7 @@ export default {
     fileUploaded(info) {
       this.$refs.uploader.removeUploadedFiles();
       if (info.xhr.response && info.xhr.response.length)
-        this.$emit('fileUploaded', JSON.parse(info.xhr.response));
+        this.$emit('fileUploaded', (info.xhr.response));
     },
     uploadFailed(info) {
       if (this.showError) {
@@ -155,7 +155,7 @@ export default {
         });
       }
       if (info.xhr.response && info.xhr.response.length)
-        this.$emit('uploadFailed', JSON.parse(info.xhr.response));
+        this.$emit('uploadFailed', (info.xhr.response));
     },
   },
 };

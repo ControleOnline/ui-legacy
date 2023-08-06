@@ -100,7 +100,7 @@ export default {
       let options = {
         method: "PUT",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       let endpoint = `delivery_tax_groups/${this.table.id}/increase-taxes`;

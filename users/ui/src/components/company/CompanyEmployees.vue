@@ -174,7 +174,7 @@ export default {
       let options = {
         method: 'PUT',
        
-        body: JSON.stringify(values),
+        body: (values),
         params: { 'company': this.theCompany.id }
       };
 
@@ -198,7 +198,7 @@ export default {
       let options = {
         method: 'PUT',
        
-        body: JSON.stringify({
+        body: ({
           operation: "delete",
           payload: { id }
         }),

@@ -203,7 +203,7 @@ export default {
     createQuoteTax(tax) {
       let options = {
         method: "PUT",
-        body: JSON.stringify({
+        body: ({
           id: tax.id,
           value: tax.value,
           taxProfit: tax.taxProfit,

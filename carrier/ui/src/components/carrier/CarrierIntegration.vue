@@ -148,7 +148,7 @@ export default {
       let options = {
         method: "PUT",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       let endpoint = `carriers/${this.id}/integration`;

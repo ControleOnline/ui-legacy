@@ -194,7 +194,7 @@ export default {
 
       let options = {
         method: "PUT",
-        body: JSON.stringify({
+        body: ({
           total: parseFloat(this.item.total.replace(",", ".")),
           dacte: this.item.dacte,
         }),

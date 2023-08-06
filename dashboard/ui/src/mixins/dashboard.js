@@ -37,7 +37,7 @@ export default {
           '/dashboards',
           {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
               "query": this.query,
               "fromDate": formatDate(this.filters.from),
               "toDate": formatDate(this.filters.to),

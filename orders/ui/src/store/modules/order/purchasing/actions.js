@@ -34,7 +34,7 @@ export const getItems = ({ commit }, params = {}) => {
 export const updateStatus = ({ commit }, { id, values, params = {} }) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify(values),
+    body: (values),
     params: params
   };
 

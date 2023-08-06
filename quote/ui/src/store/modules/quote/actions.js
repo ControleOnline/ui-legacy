@@ -7,7 +7,7 @@ export const quote = ({ commit }, { values, query = null }) => {
 
   let params   = {
       method: 'POST',
-      body  : JSON.stringify(values)
+      body  : (values)
     };
 
   if (query !== null)
@@ -41,7 +41,7 @@ export const chooseRouteTime = ({ commit }, { id, values, query = null }) => {
 
   let params   = {
       method: 'PUT',
-      body  : JSON.stringify(values)
+      body  : (values)
     };
 
 
@@ -69,7 +69,7 @@ export const choose_retireve_quote = ({ commit }, { id, values, query = null }) 
 
   let params   = {
       method: 'PUT',
-      body  : JSON.stringify(values)
+      body  : (values)
     };
 
   if (query !== null)
@@ -97,7 +97,7 @@ export const choose_delivery_quote = ({ commit }, { id, values, query = null }) 
 
   let params   = {
       method: 'PUT',
-      body  : JSON.stringify(values)
+      body  : (values)
     };
 
   if (query !== null)
@@ -126,7 +126,7 @@ export const choose_payer_quote = ({ commit }, { id, values, query = null }) => 
 
   let params   = {
       method: 'PUT',
-      body  : JSON.stringify(values)
+      body  : (values)
     };
 
   if (query !== null)
@@ -155,7 +155,7 @@ export const choose_payment_quote = ({ commit }, { id, values, query = null }) =
 
   let params   = {
       method: 'PUT',
-      body  : JSON.stringify(values)
+      body  : (values)
     };
 
   if (query !== null)
@@ -183,7 +183,7 @@ export const choose_quote = ({ commit }, { id, values, query = null }) => {
 
   let params   = {
       method: 'PUT',
-      body  : JSON.stringify(values)
+      body  : (values)
     };
 
   if (query !== null)
@@ -210,7 +210,7 @@ export const choose_quote = ({ commit }, { id, values, query = null }) => {
 export const quoteRemote = ({ commit }, { values, params }) => {
   const options = {
     method: 'POST',
-    body  : JSON.stringify(values),
+    body  : (values),
     params: params
   };
 

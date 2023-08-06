@@ -194,7 +194,7 @@ export default {
             delete data.file;
 
             var options = {
-                body: JSON.stringify(data),
+                body: (data),
                 method: "POST"
             };
 

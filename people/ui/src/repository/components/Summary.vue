@@ -191,7 +191,7 @@ export default {
       const options = {
         method: "PUT",
         
-        body: JSON.stringify(people.enabled),
+        body: (people.enabled),
         params: { company: this.theCompany.id },
       };
 
@@ -253,7 +253,7 @@ export default {
       let options = {
         method: "PUT",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       let endpoint = `${this.people_type}/${this.id}/summary`;

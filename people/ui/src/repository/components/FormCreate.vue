@@ -149,7 +149,7 @@ export default {
 
       let options = {
         method: "POST",
-        body: JSON.stringify(values),
+        body: (values),
         params: params,
       };
 

@@ -673,7 +673,7 @@ export default {
       } else if (this.summary.payer) {
         let params = {
           method: "POST",
-          body: JSON.stringify({
+          body: ({
             payerId: this.summary.payer.id,
           }),
           

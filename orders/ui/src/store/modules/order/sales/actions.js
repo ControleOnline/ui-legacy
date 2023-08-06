@@ -40,7 +40,7 @@ export const reset = ({ commit }) => {
 export const alterQuotation = ({ commit }, { id, values, params = {} }) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify(values),
+    body: (values),
     params: params
   };
 
@@ -134,7 +134,7 @@ export const downloadNF = ({ commit }, id) => {
 export const removeInvoiceTax = ({ commit }, { id, values, params = {} }) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify(values),
+    body: (values),
     params: params
   };
 
@@ -153,7 +153,7 @@ export const removeInvoiceTax = ({ commit }, { id, values, params = {} }) => {
 export const changeAddress = ({ commit }, { id, values }) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify(values),
+    body: (values),
   };
 
   
@@ -171,7 +171,7 @@ export const changeAddress = ({ commit }, { id, values }) => {
 export const updateStatus = ({ commit }, { id, values, params = {} }) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify(values),
+    body: (values),
     params: params
   };
 
@@ -189,7 +189,7 @@ export const updateStatus = ({ commit }, { id, values, params = {} }) => {
 export const updateRemote = ({ commit }, { id, providerId, params = {} }) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify({ providerId }),
+    body: ({ providerId }),
     params: params
   };
 
@@ -205,7 +205,7 @@ export const updateRemote = ({ commit }, { id, providerId, params = {} }) => {
 export const updateDeadline = ({ commit }, { id, newDeadline, params = {} }) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify({ deadline: newDeadline }),
+    body: ({ deadline: newDeadline }),
     params: params
   };
 
@@ -223,7 +223,7 @@ export const updateDeadline = ({ commit }, { id, newDeadline, params = {} }) => 
 export const updateEstimatedParkingDate = ({ commit }, { id, newEstimatedParkingDate, params = {} }) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify({ estimatedParkingDate: newEstimatedParkingDate }),
+    body: ({ estimatedParkingDate: newEstimatedParkingDate }),
     params: params
   };
 
@@ -241,7 +241,7 @@ export const updateEstimatedParkingDate = ({ commit }, { id, newEstimatedParking
 export const updateParkingDate = ({ commit }, { id, newParkingDate, params = {} }) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify({ parkingDate: newParkingDate }),
+    body: ({ parkingDate: newParkingDate }),
     params: params
   };
 
@@ -260,7 +260,7 @@ export const createNewLabelTag = ({ commit }, { id }) => {
 
   let options = {
     method: 'POST',
-    body: JSON.stringify({})
+    body: ({})
   };
 
   

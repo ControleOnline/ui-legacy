@@ -1773,7 +1773,7 @@ export default {
       let options = {
         method: "POST",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       let endpoint = `/order_logistic_surveys/surveys_create`;
@@ -2267,7 +2267,7 @@ export default {
       let options = {
         method: this.stretch.id ? "PUT" : "POST",
         
-        body: JSON.stringify(stretch),
+        body: (stretch),
       };
       this.api(endpoint, options)
 

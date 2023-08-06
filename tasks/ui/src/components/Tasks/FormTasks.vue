@@ -682,7 +682,7 @@ export default {
     saveTask(payload) {
       return api.fetch
         .private("/task" + (this.taskId ? "/" + this.taskId : ""), {
-          body: JSON.stringify(payload),
+          body: (payload),
           method: this.taskId ? "PUT" : "POST",
         })
 

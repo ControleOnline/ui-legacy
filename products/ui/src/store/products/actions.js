@@ -35,7 +35,7 @@ export const reset = ({ commit }) => {
 export const deleteInvoiceOrder = ({ commit }, { invoiceId, orderId, params }) => {
     let options = {
         method: 'PUT',
-        body: JSON.stringify({ orderId }),
+        body: ({ orderId }),
         params: params
     };
 

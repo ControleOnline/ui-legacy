@@ -118,7 +118,7 @@ export default {
             let options = {
               method: "PUT",
               
-              body: JSON.stringify({ read: 1 }),
+              body: ({ read: 1 }),
             };
             return api.fetch('task_interations/' + element.id, options)
               ;

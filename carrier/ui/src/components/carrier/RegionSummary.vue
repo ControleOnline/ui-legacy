@@ -87,7 +87,7 @@ export default {
       let options = {
         method : 'PUT',
        
-        body   : JSON.stringify(values),
+        body   : (values),
       };
 
       let endpoint = `carriers/${this.region.carrier}/regions/${this.region.id}`;

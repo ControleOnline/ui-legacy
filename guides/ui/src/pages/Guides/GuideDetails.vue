@@ -430,7 +430,7 @@ export default {
 
   created() {
     this.userRole = this.$store.getters['User/getUser'].type_account;
-    this.guideDetailsEdit = JSON.parse(JSON.stringify(this.$store.getters['Guides/getGuideDetails']));
+    this.guideDetailsEdit = ((this.$store.getters['Guides/getGuideDetails']));
   },
 };
 </script>

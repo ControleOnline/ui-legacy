@@ -9,7 +9,7 @@ export default function (id, options = {}) {
     : "pt-BR";
 
   if (options.body) {
-    options.body = JSON.stringify(options.body);
+    options.body = JSON.parse(options.body);
   }
 
   if (options.params) {

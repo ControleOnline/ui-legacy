@@ -1038,7 +1038,7 @@ export default {
       values.comments = this.comments;
       let options = {
         method: "PUT",
-        body: JSON.stringify(values),
+        body: (values),
         params: {},
       };
 
@@ -1082,7 +1082,7 @@ export default {
       values.cubage = parseFloat(this.editCubageValue);
       let options = {
         method: "PUT",
-        body: JSON.stringify(values),
+        body: (values),
         params: {},
       };
       this.isUpdating = true;
@@ -1126,7 +1126,7 @@ export default {
       values.productType = this.editCarValue;
       let options = {
         method: "PUT",
-        body: JSON.stringify(values),
+        body: (values),
         params: {},
       };
       this.isUpdating = true;
@@ -1162,7 +1162,7 @@ export default {
       values.other_informations_type = "carNumber";
       let options = {
         method: "POST",
-        body: JSON.stringify(values),
+        body: (values),
         params: {},
       };
       this.isUpdating = true;
@@ -1210,7 +1210,7 @@ export default {
       values.invoiceTotal = parseFloat(this.editTotalPriceValue);
       let options = {
         method: "PUT",
-        body: JSON.stringify(values),
+        body: (values),
         params: {},
       };
       this.isUpdating = true;
@@ -1324,7 +1324,7 @@ export default {
       } else if (this.summary.payer) {
         let params = {
           method: "POST",
-          body: JSON.stringify({
+          body: ({
             payerId: this.summary.payer.id,
           }),
           

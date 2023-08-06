@@ -181,7 +181,7 @@ export default {
         saveInteraction(payload) {
             var data = Object.assign({}, payload);
             var options = {
-                body: JSON.stringify(data),
+                body: (data),
                 method: "POST"
             };
             return api.fetch('/task_interations/task/' + this.id, options)

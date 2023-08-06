@@ -10,7 +10,7 @@ export const signIn = ({ commit }, values) => {
   commit(types.LOGIN_SET_ERROR, '');
   commit(types.LOGIN_SET_ISLOADING);
 
-  return api.fetch('token', { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch('token', { method: 'POST', body: (values) })
     .then(response => {
       commit(types.LOGIN_SET_ISLOADING, false);
 
@@ -46,7 +46,7 @@ export const signUp = ({ commit }, values) => {
   commit(types.LOGIN_SET_ERROR, '');
   commit(types.LOGIN_SET_ISLOADING);
 
-  return api.fetch('accounts', { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch('accounts', { method: 'POST', body: (values) })
     .then(response => {
       commit(types.LOGIN_SET_ISLOADING, false);
 

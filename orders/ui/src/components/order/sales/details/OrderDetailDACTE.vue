@@ -216,7 +216,7 @@ export default {
 
       let options = {
         method: "POST",
-        body: JSON.stringify({
+        body: ({
           order: this.orderId,
         }),
         params: {
@@ -246,7 +246,7 @@ export default {
 
       let options = {
         method: "PUT",
-        body: JSON.stringify({
+        body: ({
           total: parseFloat(this.item.total.replace(",", ".")),
           dacte: this.item.dacte,
         }),

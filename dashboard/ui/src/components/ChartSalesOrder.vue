@@ -180,7 +180,7 @@ export default {
           '/dashboards',
           {
             method: 'POST',
-            body  : JSON.stringify({
+            body  : ({
             	"query"   : queryName,
             	"fromDate": formatToUSDate(this.from),
             	"toDate"  : formatToUSDate(this.to),

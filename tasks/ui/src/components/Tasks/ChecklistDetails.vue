@@ -1127,7 +1127,7 @@ export default {
     qUploaded(info) {
       // Quando cada arquivo da lista é concluído
       let fileName = info.files[0].name;
-      let response = JSON.parse(info.xhr.response);
+      let response = (info.xhr.response);
       response = response.response;
       if (!response.success) {
         // --- Quando algum erro ocorre

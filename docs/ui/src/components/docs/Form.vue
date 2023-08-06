@@ -556,7 +556,7 @@ export default {
           // Só anexa o arquivo do Recibo se o arquivo do recibo não foi alterado
           formData.append("fileb", this.arquivoRecibo);
         }
-        formData.append("data", JSON.stringify(data));
+        formData.append("data", (data));
       }
       return axios({
         method: method,

@@ -106,7 +106,7 @@ export default {
 
       let options = {
         method: "PUT",
-        body: JSON.stringify({
+        body: ({
           price: parseFloat(this.item.price.replace(",", ".")),
           dueDate: this.item.dueDate.replace(
             /^(\d{2})\/(\d{2})\/(\d{4})$/,

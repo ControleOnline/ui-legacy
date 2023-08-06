@@ -446,7 +446,7 @@ export default {
       }
     },
     clean(obj) {
-      var array = JSON.parse(JSON.stringify(obj));
+      var array = ((obj));
       var rerult = array.filter(function (el) {
         return el != null;
       });
@@ -758,7 +758,7 @@ export default {
           }
         }
 
-        let order = JSON.parse(JSON.stringify(this.order_));
+        let order = ((this.order_));
 
         order.quotes[_index].taxes = taxes;
         this.taxes = taxes;

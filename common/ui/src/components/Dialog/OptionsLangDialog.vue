@@ -47,7 +47,7 @@ export default {
 
   computed: {
     filteredLangs() {
-      const optionsLang = JSON.parse(JSON.stringify(this.options));
+      const optionsLang = ((this.options));
 
       if (!this.search) return optionsLang;
 

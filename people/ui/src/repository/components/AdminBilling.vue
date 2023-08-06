@@ -161,7 +161,7 @@ export default {
       let options = {
         method: "PUT",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       let endpoint = `${this.people_type}/${this.id}/billing`;

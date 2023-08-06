@@ -16,7 +16,7 @@ export const company = ({ commit }, values) => {
     values.origin.state = values.address.state;
   }
 
-  return api.fetch('companies', { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch('companies', { method: 'POST', body: (values) })
     .then(response => {
       commit(types.SET_ISLOADING, false);
 
@@ -103,7 +103,7 @@ export const createContact = ({ commit }, values) => {
   commit(types.SET_ERROR, '');
   commit(types.SET_ISLOADING);
 
-  return api.fetch(`${RESOURCE_ENDPOINT}/contact`, { method: 'POST', body: JSON.stringify(values) })
+  return api.fetch(`${RESOURCE_ENDPOINT}/contact`, { method: 'POST', body: (values) })
     .then(response => {
       commit(types.SET_ISLOADING, false);
 

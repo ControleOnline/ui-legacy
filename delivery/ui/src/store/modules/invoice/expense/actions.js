@@ -20,7 +20,7 @@ export function getProviders({ commit }, data) {
 export const createExpense = ({ commit }, data) => {
   let options = {
     method: 'POST',
-    body: JSON.stringify(data.values),
+    body: (data.values),
     params: data.params ? data.params : {}
   };
 
@@ -41,7 +41,7 @@ export const createExpense = ({ commit }, data) => {
 export const createProvider = ({ commit }, data) => {
   let options = {
     method: 'POST',
-    body: JSON.stringify(data.values),
+    body: (data.values),
     params: data.params ? data.params : {}
   };
 
@@ -62,7 +62,7 @@ export const createProvider = ({ commit }, data) => {
 export const updateExpense = ({ commit }, data) => {
   let options = {
     method: 'PUT',
-    body: JSON.stringify(data.values),
+    body: (data.values),
     params: data.params ? data.params : {}
   };
 
@@ -83,7 +83,7 @@ export const updateExpense = ({ commit }, data) => {
 export const deleteExpense = ({ commit }, data) => {
   let options = {
     method: 'DELETE',
-    body: JSON.stringify(data.values),
+    body: (data.values),
     params: data.params ? data.params : {}
   };
 

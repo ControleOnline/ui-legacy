@@ -45,7 +45,7 @@ export default {
       this.value = value;
     },
     filteredList(items, category) {
-      const listItems = JSON.parse(JSON.stringify(items));
+      const listItems = ((items));
 
       if (!this.value) return listItems;
 

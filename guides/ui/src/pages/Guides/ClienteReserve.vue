@@ -192,7 +192,7 @@ export default {
   },
 
   created() {
-    this.reserveEdit = JSON.parse(JSON.stringify(this.$store.getters['Guides/getClienteReserve']));
+    this.reserveEdit = ((this.$store.getters['Guides/getClienteReserve']));
   },
 };
 </script>

@@ -270,7 +270,7 @@ export default {
       const options = {
         method : this.item.id === null ? 'POST' : 'PUT',
        
-        body   : JSON.stringify(values),
+        body   : (values),
       };
 
       const endpoint = options.method == 'PUT' ? `delivery_taxes/${this.item.id}` : 'delivery_taxes';

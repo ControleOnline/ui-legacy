@@ -6,7 +6,7 @@ export const updateProfile = ({ commit }, { id, component, payload }) => {
   let params = {
     method : 'PUT',
    
-    body   : JSON.stringify(payload),
+    body   : (payload),
   };
 
   return api.fetch(`people/${id}/profile/${component}`, params)

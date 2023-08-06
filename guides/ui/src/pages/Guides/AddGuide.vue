@@ -774,7 +774,7 @@ export default {
     api.fetchGuide() {
       const getterString = this.$route.query.id ? 'Guides/getGuideDetails' : 'Guides/getNewGuide';
 
-      this.guideEdit = JSON.parse(JSON.stringify(this.$store.getters[getterString]));
+      this.guideEdit = ((this.$store.getters[getterString]));
     },
   },
 

@@ -503,7 +503,7 @@ export default {
       let options = {
         method: "POST",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       return api.fetch(
@@ -528,7 +528,7 @@ export default {
 
         let options = {
           method: "POST",
-          body: JSON.stringify(values),
+          body: (values),
         };
 
         return api.fetch(`/sales/orders/` + order.id + `/competitor`, options)
@@ -562,7 +562,7 @@ export default {
 
         let options = {
           method: "POST",
-          body: JSON.stringify(values),
+          body: (values),
         };
         return api.fetch(`/sales/orders/` + order.id + `/competitor`, options)
           
@@ -595,7 +595,7 @@ export default {
 
         let options = {
           method: "POST",
-          body: JSON.stringify(values),
+          body: (values),
         };
 
         return api.fetch(`/sales/orders/` + order.id + `/competitor`, options)

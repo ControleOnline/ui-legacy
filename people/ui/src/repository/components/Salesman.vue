@@ -167,7 +167,7 @@ export default {
       let options = {
         method: 'PUT',
        
-        body: JSON.stringify(values),
+        body: (values),
         params: {
           myProvider: this.myProvider.id
         }
@@ -192,7 +192,7 @@ export default {
       let options = {
         method: 'DELETE',
        
-        body: JSON.stringify({ id }),
+        body: ({ id }),
       };
 
       return api.fetch(`${this.people_type}/${this.id}/salesman`, options)

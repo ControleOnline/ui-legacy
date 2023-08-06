@@ -43,7 +43,7 @@ export const reset = ({ commit }) => {
 export const createCoupon = ({ commit }, data) => {
   let options = {
     method: 'POST',
-    body  : JSON.stringify(data.values),
+    body  : (data.values),
     params: data.params ? data.params : {}
   };
 

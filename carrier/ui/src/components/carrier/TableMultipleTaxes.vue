@@ -207,7 +207,7 @@ export default {
       const options = {
         method: "POST",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       return api.fetch("delivery_taxes", options)

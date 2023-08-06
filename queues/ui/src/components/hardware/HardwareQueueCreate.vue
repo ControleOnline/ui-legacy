@@ -143,7 +143,7 @@ export default {
       let options = {
         method: this.hardwareQueueId ? "PUT" : "POST",
         
-        body: JSON.stringify(values),
+        body: (values),
       };
 
       this.api
