@@ -18,47 +18,46 @@ export default function (id, options = {}) {
       ? "https://api.dev.foccuscegonhas.com.br/"
       : ENTRYPOINT + (ENTRYPOINT.endsWith("/") ? "" : "/");
 
-  return (
-    fetch(new URL(id, entryPoint), options)
-      .then((response) => {
-        if (response.ok) {
-          return response;
-        }
-        return response
-          .json()
-          .then((json) => {
-            const error = json["hydra:description"]
-              ? json["hydra:description"]
-              : response.statusText;
-            if (!json.violations) {
-              Notify.create({
-                message: error,
-                position: "bottom",
-                type: "negative",
-              });
-              throw Error(error);
-            }
-
-            const errors = { _error: error };
-            json.violations.map((violation) =>
-              Object.assign(errors, {
-                [violation.propertyPath]: violation.message,
-              })
-            );
-
+  return fetch(new URL(id, entryPoint), options)
+    .then((response) => {
+      if (response.ok) {
+        return response;
+      }
+      return response
+        .json()
+        .then((json) => {
+          const error = json["hydra:description"]
+            ? json["hydra:description"]
+            : response.statusText;
+          if (!json.violations) {
             Notify.create({
-              message: errors,
+              message: error,
               position: "bottom",
               type: "negative",
             });
-            throw new SubmissionError(errors);
-          })
-          .finally(() => {
-            Loading.hide();
+            throw Error(error);
+          }
+
+          const errors = { _error: error };
+          json.violations.map((violation) =>
+            Object.assign(errors, {
+              [violation.propertyPath]: violation.message,
+            })
+          );
+
+          Notify.create({
+            message: errors,
+            position: "bottom",
+            type: "negative",
           });
-      })
-      /*
-      .then((response) => response.json())
+          throw new SubmissionError(errors);
+        })
+        .finally(() => {
+          Loading.hide();
+        });
+    })
+    .then((response) => response.json());
+  /*
       .then((data) => {
         let error =
           data.response && data.response.error
@@ -91,5 +90,4 @@ export default function (id, options = {}) {
         Loading.hide();
       })
       */
-  );
 }
