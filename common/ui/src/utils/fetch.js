@@ -87,9 +87,9 @@ export default function (id, options = {}) {
         }
         return data;
       })
-      */
       .finally(() => {
         Loading.hide();
       })
+      */
   );
 }
