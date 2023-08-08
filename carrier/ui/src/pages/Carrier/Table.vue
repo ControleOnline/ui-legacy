@@ -55,7 +55,7 @@
     " />
               </q-tab-panel>
               <q-tab-panel name="import">
-                <Carrierimports :tableId="tableId" />
+                <CarrierImports :tableId="tableId" />
               </q-tab-panel>
               <q-tab-panel name="fixedTax">
                 <CarrierTableFixedtax :table="table" @error="(error) => {
@@ -240,7 +240,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import Carrierimports from "@controleonline/quasar-import-ui/src/components/Import/ImportsList";
+import CarrierImports from "@controleonline/quasar-import-ui/src/components/Import/ImportsList";
 import CarrierTableFixedkg from "../../components/carrier/TableFixedkg";
 import CarrierTableFixedkm from "../../components/carrier/TableFixedkm";
 import CarrierTableFixedpercentage from "../../components/carrier/TableFixedpercentage";
@@ -264,7 +264,7 @@ export default {
     CarrierTableFixedkm,
     TableIncreaseTaxes,
     TableMultipleTaxes,
-    Carrierimports,
+    CarrierImports,
   },
 
   created() {
