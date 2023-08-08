@@ -240,7 +240,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import Carrierimports from "@controleonline/quasar-import-ui/src/components/import/importsList";
+import Carrierimports from "@controleonline/quasar-import-ui/src/components/Import/ImportsList";
 import CarrierTableFixedkg from "../../components/carrier/TableFixedkg";
 import CarrierTableFixedkm from "../../components/carrier/TableFixedkm";
 import CarrierTableFixedpercentage from "../../components/carrier/TableFixedpercentage";
