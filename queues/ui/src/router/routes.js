@@ -6,7 +6,7 @@ export const routes = [
       {
         name     : 'queueIndex',
         path     : 'display/:id',
-        component: () =>  import ('../pages/Display/Display.vue')
+        component: () =>  import ('../pages/Display/Queue.vue')
       },
       
     ]

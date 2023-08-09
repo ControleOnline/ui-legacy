@@ -17,7 +17,7 @@
 
               <q-item-section>
                 <q-item-label>#{{ order.id }} </q-item-label>
-                <q-item-label caption>{{ order.client.alias }}</q-item-label>
+                <q-item-label caption>{{ order.client.name }}</q-item-label>
                 <q-item-label :color="order.orderQueue[0].status.color" caption>{{
                   $t("status." + order.orderQueue[0].status.status)
                 }}</q-item-label>
@@ -29,11 +29,11 @@
 
       <div class="col-9 col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 q-pa-sm">
         <div class="row justify-center">
-          <div>
-            <div class="text-h6">Em Preparação</div>
-            <div class="text-subtitle">Próximos pedidos</div>
+          <div class="col-12 justify-center text-center">            
+            <div class="text-subtitle">Disponível para retirada</div>
           </div>
-          <div class="col-9 col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 q-pa-sm" v-for="(order, index) in orders.pending" :key="index">
+          <div class="col-9 col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 q-pa-sm"
+            v-for="(order, index) in orders.pending" :key="index">
             <q-card class="my-card">
               <q-card-section>
                 <div class="text-h6 text-center">#{{ order.id }}</div>
@@ -47,9 +47,9 @@
                       :name="order.orderQueue[0].status.icon || 'local_hospital'" />
                   </q-item-section>
                   <q-item-section>
-                    <q-item-label caption>{{ order.client.alias }}</q-item-label>
+                    <q-item-label caption>{{ order.client.name }}</q-item-label>
                     <q-item-label :color="order.orderQueue[0].status.color" caption>{{
-                      $t("status." + order.orderQueue[0].status.status) 
+                      $t("status." + order.orderQueue[0].status.status)
                     }}</q-item-label>
                   </q-item-section>
                 </q-item>
@@ -66,15 +66,21 @@
   </q-page>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+
+import Config from "@controleonline/quasar-common-ui/src/utils/config";
+
 
 
 export default {
   data() {
     return {
       isSearching: false,
+      timeout: 60 * 1000,
+      refresh: false,
+      config: new Config(),
       orders: {
-        //display: decodeURIComponent(this.$route.params.id),
+        display: null,
         open: [],
         pending: [],
       },
@@ -85,14 +91,22 @@ export default {
     user() {
       return this.$store.getters["auth/user"];
     },
+    ...mapGetters({
+      defaultCompany: "people/defaultCompany",
+      myCompany: "people/currentCompany",
+    }),
   },
 
+
   created() {
+    this.timeout = (this.config.getConfig("darkMode") || 60) * 1000;
+    this.display = decodeURIComponent(this.$route.params.id);
     this.onRequest();
   },
 
   watch: {
     myCompany(company) {
+      clearInterval(this.refresh);
       this.onRequest();
     },
   },
@@ -102,35 +116,32 @@ export default {
       getQueueOrders: "queues/getOrders",
     }),
     onRequest() {
-      this.getMyOrders("open", 5);
-      this.getMyOrders("pending", 3);
+      if (this.myCompany) {
+
+        this.getMyOrders("open", 5);
+        this.getMyOrders("pending", 3);
+
+        this.refresh = setInterval(() => {
+          this.getMyOrders("open", 5);
+          this.getMyOrders("pending", 3);
+        }, this.timeout);
+      }
     },
 
     getMyOrders(status, rows) {
-
-      console.log(decodeURIComponent(this.$route.params.id));
-//console.log(this.display);
-
       this.isSearching = true;
 
       return this.getQueueOrders({
         "itemsPerPage": rows,
         "orderQueue.status.realStatus": status,
-        "orderQueue.queue.displayQueue.display": "1",
-        provider: "/people/1",
+        "orderQueue.queue.displayQueue.display": this.display,
+        "orderQueue.queue.displayQueue.company": '/people/' + this.myCompany.id,
+        provider: "/people/" + this.myCompany.id,
       })
         .then((result) => {
           this.orders[status] = result;
         })
         .finally(() => {
-          setTimeout(
-            (function (self) {
-              return function () {
-                self.getMyOrders(status);
-              };
-            })(this),
-            30000
-          );
           this.isSearching = false;
         });
     },
