@@ -1,42 +1,19 @@
 <template>
   <q-form @submit="onSubmit" class="q-gutter-y-lg">
-    <q-input
-      dense
-      outlined
-      id="inputUsername"
-      ref="username"
-      v-model="item.username"
-      color="primary"
-      :label="$t('login.yourUser')"
-    />
+    <q-input dense outlined id="inputUsername" ref="username" v-model="item.username" color="primary"
+      :label="$t('login.yourUser')" />
 
-    <q-input
-      dense
-      outlined
-      class="q-pt-md"
-      :type="isPwd ? 'password' : 'text'"
-      id="inputPassword"
-      ref="password"
-      v-model="item.password"
-      :label="$t('login.yourPass')"
-    >
+    <q-input dense outlined class="q-pt-md" :type="isPwd ? 'password' : 'text'" id="inputPassword" ref="password"
+      v-model="item.password" :label="$t('login.yourPass')">
       <template v-slot:append>
-        <q-icon
-          :name="isPwd ? 'visibility_off' : 'visibility'"
-          class="cursor-pointer"
-          @click="isPwd = !isPwd"
-        />
+        <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
       </template>
     </q-input>
 
     <div class="column q-pt-md">
-      <q-btn
-        unelevated
-        color="primary"
-        :loading="isLoading"
-        type="submit"
-        :label="$t('login.send')"
-      />
+      <q-btn unelevated color="primary" :loading="isLoading" type="submit" :label="$t('login.send')" />
+
+      <q-btn @click="loginWithGoogle" label="Sign In with Google" color="primary" unelevated />
     </div>
   </q-form>
 </template>
@@ -126,6 +103,40 @@ export default {
 
         return true;
       };
+    },
+
+    async loginWithGoogle() {
+      try {
+        await this.initGoogleAuth(); // Ensure gapi.auth2 is initialized
+
+        const auth2 = gapi.auth2.getAuthInstance();
+        const googleUser = await auth2.signIn();
+
+        const profile = googleUser.getBasicProfile();
+        const userId = profile.getId();
+        const userName = profile.getName();
+        const userEmail = profile.getEmail();
+
+        console.log('ID: ' + userId);
+        console.log('Name: ' + userName);
+        console.log('Email: ' + userEmail);
+      } catch (error) {
+        // Error occurred during sign-in
+        console.error('Error: ' + error);
+      }
+    },
+    async initGoogleAuth() {
+      return new Promise((resolve, reject) => {
+        gapi.load('auth2', () => {
+          gapi.auth2.init({
+            client_id: '576180805339-80brq257lrnlavl5ca7fd347o7vs1amm.apps.googleusercontent.com',
+          }).then(() => {
+            resolve(); // Resolve the promise once gapi.auth2 is initialized
+          }).catch(error => {
+            reject(error); // Reject the promise if initialization fails
+          });
+        });
+      });
     },
   },
 };
