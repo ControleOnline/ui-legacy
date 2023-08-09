@@ -1,7 +1,7 @@
 <template>
   <q-page class="bg-grey">
     <div class="row full-height-vh">
-      <div class="col-3 q-pa-sm">
+      <div class="col-3 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 q-pa-sm">
         <q-card class="my-card full-height">
           <q-card-section>
             <div class="text-h6">Em Preparação</div>
@@ -11,10 +11,8 @@
           <q-list>
             <q-item v-for="(order, index) in orders.open" :key="index">
               <q-item-section avatar>
-                <q-icon
-                  :color="order.orderQueue[0].status.color"
-                  :name="order.orderQueue[0].status.icon || 'local_hospital'"
-                />
+                <q-icon :color="order.orderQueue[0].status.color"
+                  :name="order.orderQueue[0].status.icon || 'local_hospital'" />
               </q-item-section>
 
               <q-item-section>
@@ -29,14 +27,13 @@
         </q-card>
       </div>
 
-      <div class="col-9">
+      <div class="col-9 col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 q-pa-sm">
         <div class="row justify-center">
-          <div
-            class="col-sm-4 q-pa-sm"
-            v-for="(order, index) in orders.pending"
-            :key="index"
-            v-if="index < 3"
-          >
+          <div>
+            <div class="text-h6">Em Preparação</div>
+            <div class="text-subtitle">Próximos pedidos</div>
+          </div>
+          <div class="col-9 col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 q-pa-sm" v-for="(order, index) in orders.pending" :key="index">
             <q-card class="my-card">
               <q-card-section>
                 <div class="text-h6 text-center">#{{ order.id }}</div>
@@ -46,15 +43,13 @@
               <q-list>
                 <q-item>
                   <q-item-section avatar>
-                    <q-icon
-                      :color="order.orderQueue[0].status.color"
-                      :name="order.orderQueue[0].status.icon || 'local_hospital'"
-                    />
+                    <q-icon :color="order.orderQueue[0].status.color"
+                      :name="order.orderQueue[0].status.icon || 'local_hospital'" />
                   </q-item-section>
                   <q-item-section>
                     <q-item-label caption>{{ order.client.alias }}</q-item-label>
                     <q-item-label :color="order.orderQueue[0].status.color" caption>{{
-                      $t("status." + order.orderQueue[0].status.status)
+                      $t("status." + order.orderQueue[0].status.status) 
                     }}</q-item-label>
                   </q-item-section>
                 </q-item>
@@ -63,24 +58,23 @@
           </div>
         </div>
         <div class="full-width q-pa-sm video-height">
-          <q-video
-            src="https://www.youtube.com/embed/YriZWDnixWE?rel=0&controls=0&autoplay=true"
-            style="width: 100%px; height: 100%"
-          />
+          <q-video src="https://www.youtube.com/embed/YriZWDnixWE?rel=0&controls=0&autoplay=true"
+            style="width: 100%px; height: 100%" />
         </div>
       </div>
     </div>
   </q-page>
 </template>
-
 <script>
 import { mapActions } from "vuex";
+
 
 export default {
   data() {
     return {
       isSearching: false,
       orders: {
+        //display: decodeURIComponent(this.$route.params.id),
         open: [],
         pending: [],
       },
@@ -108,14 +102,19 @@ export default {
       getQueueOrders: "queues/getOrders",
     }),
     onRequest() {
-      this.getMyOrders("open");
-      this.getMyOrders("pending");
+      this.getMyOrders("open", 5);
+      this.getMyOrders("pending", 3);
     },
 
-    getMyOrders(status) {
+    getMyOrders(status, rows) {
+
+      console.log(decodeURIComponent(this.$route.params.id));
+//console.log(this.display);
+
       this.isSearching = true;
 
       return this.getQueueOrders({
+        "itemsPerPage": rows,
         "orderQueue.status.realStatus": status,
         "orderQueue.queue.displayQueue.display": "1",
         provider: "/people/1",
@@ -143,6 +142,7 @@ export default {
 .full-height-vh {
   height: calc(100vh - 16px) !important;
 }
+
 .video-height {
   height: calc(100% - 130px) !important;
 }
