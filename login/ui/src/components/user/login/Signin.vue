@@ -115,7 +115,7 @@ export default {
         console.log(code);
         const options = {
           method: 'POST',
-          params: { code: code }
+          params: { code: JSON.stringify(code) }
         };
         api.fetch('/oauth/google/return', options)
           .then(data => {
