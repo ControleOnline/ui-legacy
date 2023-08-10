@@ -111,15 +111,12 @@ export default {
         await this.initGoogleAuth(); // Ensure gapi.auth2 is initialized
         const auth2 = gapi.auth2.getAuthInstance();
         const googleUser = await auth2.signIn();
-        const code = await googleUser.getAuthResponse();
-        //const response = await auth2.AuthorizeResponse();
-        console.log(googleUser);
-        console.log(code);
-        console.log(auth2);
-
+        const response = await googleUser.getAuthResponse();
+        console.log(response);
+        console.log(response.code)
         const options = {
           method: 'POST',
-          params: { code: JSON.parse(response) }
+          params: { code: response.code }
         };
         api.fetch('/oauth/google/return', options)
           .then(data => {
