@@ -112,9 +112,10 @@ export default {
         const auth2 = gapi.auth2.getAuthInstance();
         const googleUser = await auth2.signIn();
         const code = await googleUser.getAuthResponse();
-        const response = await auth2.AuthorizeResponse();
+        //const response = await auth2.AuthorizeResponse();
+        console.log(googleUser);
         console.log(code);
-        console.log(response);
+        console.log(auth2);
 
         const options = {
           method: 'POST',
