@@ -105,33 +105,31 @@ export default {
         return true;
       };
     },
-    getParameterByName(name, url) {
-      if (!url) url = window.location.href;
-      name = name.replace(/[[\]]/g, '\\$&');
-      const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-      const results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
-      return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    },
+
     async loginWithGoogle() {
-      await this.initGoogleAuth(); // Ensure gapi.auth2 is initialized
-      const auth2 = gapi.auth2.getAuthInstance();
-      const googleUser = await auth2.signIn().then(() => {
-        const accessToken = this.getParameterByName('access_token');
+      try {
+        await this.initGoogleAuth(); // Ensure gapi.auth2 is initialized
+        const auth2 = gapi.auth2.getAuthInstance();
+        const googleUser = await auth2.signIn();
+        const code = await googleUser.getAuthResponse();
+        const response = await auth2.AuthorizeResponse();
+        console.log(code);
+        console.log(response);
+
         const options = {
           method: 'POST',
-          params: { code: accessToken }
+          params: { code: JSON.parse(response) }
         };
         api.fetch('/oauth/google/return', options)
           .then(data => {
             console.log(data);
-          }).catch(error => {
-            console.error(error);
+          }).catch(e => {
           });
-      }).catch(error => {
-        console.error(error);
-      });
+
+      } catch (error) {
+        // Error occurred during sign-in
+        console.error('Error: ' + error);
+      }
     },
     async initGoogleAuth() {
       return new Promise((resolve, reject) => {
