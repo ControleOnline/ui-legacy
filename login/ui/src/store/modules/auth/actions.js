@@ -50,7 +50,7 @@ export const gSignIn = ({ commit }, values) => {
   commit(types.LOGIN_SET_ERROR, "");
   commit(types.LOGIN_SET_ISLOADING);
   return api
-    .fetch("oauth/google/return", { method: "POST", body: values })
+    .fetch("oauth/google/return", { method: "POST", params: values })
     .then((response) => {
       commit(types.LOGIN_SET_ISLOADING, false);
 
