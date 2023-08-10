@@ -116,7 +116,7 @@ export default {
             method: 'POST',
             params: {code:code}
           };
-           this.api.fetch('/oauth/google/return', options)
+           api.fetch('/oauth/google/return', options)
             .then(data => {
                   console.log(data);
             }).catch(e => {
