@@ -107,26 +107,23 @@ export default {
     },
 
     async loginWithGoogle() {
-      try {
-        await this.initGoogleAuth(); // Ensure gapi.auth2 is initialized
-        const auth2 = gapi.auth2.getAuthInstance();
-        const googleUser = await auth2.signIn();
-        const code = await googleUser.getAuthResponse();
-        console.log(code);
+      await this.initGoogleAuth(); // Ensure gapi.auth2 is initialized
+      const auth2 = gapi.auth2.getAuthInstance();
+      const googleUser = await auth2.signIn().then(() => {
+        const accessToken = this.getParameterByName('access_token');
         const options = {
           method: 'POST',
-          params: { code: JSON.stringify(code) }
+          params: { code: accessToken }
         };
         api.fetch('/oauth/google/return', options)
           .then(data => {
             console.log(data);
-          }).catch(e => {
+          }).catch(error => {
+            console.error(error);
           });
-
-      } catch (error) {
-        // Error occurred during sign-in
-        console.error('Error: ' + error);
-      }
+      }).catch(error => {
+        console.error(error);
+      });
     },
     async initGoogleAuth() {
       return new Promise((resolve, reject) => {
