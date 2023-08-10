@@ -84,6 +84,7 @@ export default {
   methods: {
     ...mapActions({
       signIn: "auth/signIn",
+      gSignIn:"auth/signIn",
     }),
 
     onSubmit() {
@@ -114,14 +115,7 @@ export default {
         const response = await googleUser.getAuthResponse();
         const reloadResponse = await googleUser.reloadAuthResponse();
 
-        console.log(response);
-        console.log(reloadResponse);
-
-        const options = {
-          method: 'POST',
-          params: { access_token: reloadResponse.access_token }
-        };
-        api.fetch('/oauth/google/return', options)
+        this.gSignIn({ access_token: reloadResponse.access_token })  
           .then(data => {
             console.log(data);
           }).catch(e => {
