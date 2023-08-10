@@ -113,12 +113,13 @@ export default {
         const googleUser = await auth2.signIn();
         const response = await googleUser.getAuthResponse();
         const reloadResponse = await googleUser.reloadAuthResponse();
-        //console.log(reloadResponse);
-        //console.log(response);
-        //console.log(response.code)
+
+        console.log(response);
+        console.log(reloadResponse);
+
         const options = {
           method: 'POST',
-          params: { code: reloadResponse.access_token }
+          params: { access_token: reloadResponse.access_token }
         };
         api.fetch('/oauth/google/return', options)
           .then(data => {
