@@ -20,6 +20,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { api } from "@controleonline/../../src/boot/api";
 
 export default {
   data() {
@@ -108,18 +109,19 @@ export default {
     async loginWithGoogle() {
       try {
         await this.initGoogleAuth(); // Ensure gapi.auth2 is initialized
-
         const auth2 = gapi.auth2.getAuthInstance();
         const googleUser = await auth2.signIn();
-
-        const profile = googleUser.getBasicProfile();
-        const userId = profile.getId();
-        const userName = profile.getName();
-        const userEmail = profile.getEmail();
-
-        console.log('ID: ' + userId);
-        console.log('Name: ' + userName);
-        console.log('Email: ' + userEmail);
+        const code = googleUser.getAuthResponse().code;
+         const options = {
+            method: 'POST',
+            params: {code:code}
+          };
+           this.api.fetch('/oauth/google/return', options)
+            .then(data => {
+                  console.log(data);
+            }).catch(e => {
+            });
+        
       } catch (error) {
         // Error occurred during sign-in
         console.error('Error: ' + error);
