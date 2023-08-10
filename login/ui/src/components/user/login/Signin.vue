@@ -84,7 +84,7 @@ export default {
   methods: {
     ...mapActions({
       signIn: "auth/signIn",
-      gSignIn:"auth/signIn",
+      gSignIn:"auth/gSignIn",
     }),
 
     onSubmit() {
