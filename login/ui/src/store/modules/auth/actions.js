@@ -53,10 +53,11 @@ export const gSignIn = ({ commit }, values) => {
     .fetch("oauth/google/return", { method: "POST", params: values })
     .then((response) => {
       commit(types.LOGIN_SET_ISLOADING, false);
-
+      console.log(response);
       return response;
     })
     .then((data) => {
+      console.log(data);
       commit(types.LOGIN_SET_USER, data);
 
       const entryPoint = ENTRYPOINT + (ENTRYPOINT.endsWith("/") ? "" : "/");
