@@ -112,6 +112,8 @@ export default {
         const auth2 = gapi.auth2.getAuthInstance();
         const googleUser = await auth2.signIn();
         const response = await googleUser.getAuthResponse();
+        const reloadResponse = await googleUser.reloadAuthResponse();
+        console.log(reloadResponse);
         console.log(response);
         console.log(response.code)
         const options = {
