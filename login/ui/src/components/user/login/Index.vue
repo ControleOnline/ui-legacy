@@ -13,12 +13,20 @@
         <LoginForm @authenticated="onAuthenticated" />
       </q-card-section>
 
-      <div class="column q-px-md q-gutter-y-sm q-pb-xl">
+      <div class="column q-px-md q-gutter-y-sm q-pb-xS">
         <q-btn unelevated color="grey-7" outline :label="$t('login.register')" v-if="signinDialogStatus === false"
           @click="onSignUp" />
-
         <q-btn style="color: #19AFBD; text-transform: none; text-decoration: underline;" label="Esqueci a senha" flat
           @click="recovery = !recovery" />
+      </div>
+      <hr />
+      <div class="row q-px-md q-gutter-y-sm q-pb-xl">
+        <Glogin />
+        <Glogin />
+        <Glogin />
+        <Glogin />
+        <Glogin />
+        <Glogin />
       </div>
     </q-card>
 
@@ -42,11 +50,13 @@
 import { mapActions, mapGetters } from "vuex";
 import RecoveryForm from "./Recovery";
 import LoginForm from "./Signin";
+import Glogin from "../../oauth/google/Signin"
 
 export default {
   components: {
     LoginForm,
     RecoveryForm,
+    Glogin
   },
 
   props: {

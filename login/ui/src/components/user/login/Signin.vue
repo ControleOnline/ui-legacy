@@ -12,15 +12,12 @@
 
     <div class="column q-pt-md">
       <q-btn unelevated color="primary" :loading="isLoading" type="submit" :label="$t('login.send')" />
-
-      <q-btn @click="loginWithGoogle" label="Sign In with Google" color="primary" unelevated />
     </div>
   </q-form>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { api } from "@controleonline/../../src/boot/api";
 
 export default {
   data() {
@@ -84,7 +81,6 @@ export default {
   methods: {
     ...mapActions({
       signIn: "auth/signIn",
-      gSignIn:"auth/gSignIn",
     }),
 
     onSubmit() {
@@ -107,38 +103,6 @@ export default {
       };
     },
 
-    async loginWithGoogle() {
-      try {
-        await this.initGoogleAuth(); // Ensure gapi.auth2 is initialized
-        const auth2 = gapi.auth2.getAuthInstance();
-        const googleUser = await auth2.signIn();
-        const response = await googleUser.getAuthResponse();
-        const reloadResponse = await googleUser.reloadAuthResponse();
-
-        this.gSignIn({ access_token: reloadResponse.access_token })  
-          .then(data => {
-            console.log(data);
-          }).catch(e => {
-          });
-
-      } catch (error) {
-        // Error occurred during sign-in
-        console.error('Error: ' + error);
-      }
-    },
-    async initGoogleAuth() {
-      return new Promise((resolve, reject) => {
-        gapi.load('auth2', () => {
-          gapi.auth2.init({
-            client_id: '576180805339-80brq257lrnlavl5ca7fd347o7vs1amm.apps.googleusercontent.com',
-          }).then(() => {
-            resolve(); // Resolve the promise once gapi.auth2 is initialized
-          }).catch(error => {
-            reject(error); // Reject the promise if initialization fails
-          });
-        });
-      });
-    },
   },
 };
 </script>
