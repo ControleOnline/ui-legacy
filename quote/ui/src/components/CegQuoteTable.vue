@@ -657,7 +657,7 @@ export default {
       const self = this;
       const mapDiv = this.$refs["quoteMap"];
 
-      if (HAS_GOOGLE_MAPS && google && google.maps) {
+      if (google && google.maps) {
         const o = this.origin;
         const d = this.destination;
 

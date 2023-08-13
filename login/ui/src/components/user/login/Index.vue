@@ -21,11 +21,7 @@
       </div>
       <hr />
       <div class="row q-px-md q-gutter-y-sm q-pb-xl">
-        <Glogin />
-        <Glogin />
-        <Glogin />
-        <Glogin />
-        <Glogin />
+        <Instagram />
         <Glogin />
       </div>
     </q-card>
@@ -51,12 +47,14 @@ import { mapActions, mapGetters } from "vuex";
 import RecoveryForm from "./Recovery";
 import LoginForm from "./Signin";
 import Glogin from "../../oauth/google/Signin"
+import Instagram from "../../oauth/instagram/Signin"
 
 export default {
   components: {
     LoginForm,
     RecoveryForm,
-    Glogin
+    Glogin,
+    Instagram
   },
 
   props: {

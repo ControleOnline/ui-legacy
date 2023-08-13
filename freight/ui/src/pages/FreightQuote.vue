@@ -692,7 +692,7 @@ export default {
     addressChanged(from, fromMarkers) {
       const mapDiv = this.$refs["map"];
 
-      if (HAS_GOOGLE_MAPS && google && google.maps) {
+      if (google && google.maps) {
         const o = this.origin;
         const d = this.destination;
 

@@ -1,12 +1,12 @@
 <template>
-  <div class="row col-2">
-    <q-btn round v-if="googleClientId" @click="loginWithGoogle" color="white" unelevated :loading="isLoading">
+  <div class="row col-2" v-if="googleClientId">
+    <q-btn round @click="loginWithGoogle" color="white" unelevated :loading="isLoading">
       <q-avatar size="42px">
         <img v-if="isLoading" src="../../../assets/oauth/google/loading.webp">
         <img v-else src="../../../assets/oauth/google/logo.svg">
       </q-avatar>
       <q-tooltip>
-        Sign In with Google
+        {{ login.with_google }}
       </q-tooltip>
     </q-btn>
   </div>
