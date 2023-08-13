@@ -52,39 +52,26 @@ export const gSignIn = ({ commit }, values) => {
   return api
     .fetch("oauth/google/return", { method: "POST", params: values })
     .then((response) => {
-      commit(types.LOGIN_SET_ISLOADING, false);
       return response;
     })
     .then((data) => {
       commit(types.LOGIN_SET_USER, data.response.data);
-      console.log(data.response.data);
-
       const entryPoint = ENTRYPOINT + (ENTRYPOINT.endsWith("/") ? "" : "/");
-      axios
-        .get(
-          new URL(`/people/${data.response.data.people}/status`, entryPoint),
-          {
-            headers: { "api-token": data.response.data.api_key },
-          }
-        )
-        .then((response) => {
-          commit("SET_PEOPLE_STATUS", response.data.response.data);
-          commit(types.LOGIN_SET_ISLOADING, false);
-        });
+      api.fetch("oauth/google/return").then((response) => {
+        commit("SET_PEOPLE_STATUS", response.data.response.data);
+      });
     })
     .catch((e) => {
-      commit(types.LOGIN_SET_ISLOADING, false);
-
       if (e instanceof SubmissionError) {
         commit(types.LOGIN_SET_VIOLATIONS, e.errors);
-
         commit(types.LOGIN_SET_ERROR, e.errors._error);
-
         throw new Error(e.errors._error);
       }
-
       commit(types.LOGIN_SET_ERROR, e.message);
       throw new Error(e.message);
+    })
+    .finally(() => {
+      commit(types.LOGIN_SET_ISLOADING, false);
     });
 };
 
