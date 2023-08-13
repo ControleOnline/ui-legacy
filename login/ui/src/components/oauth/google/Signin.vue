@@ -2,7 +2,7 @@
   <div class="row col-2">
       <q-btn round v-if="googleClientId" @click="loginWithGoogle" color="white" unelevated :loading="isLoading">
         <q-avatar size="42px">
-        <img src="../../../assets/logo.svg">
+        <img src="../../../assets/google_signin_buttons/web/2x/btn_google_signin_dark_normal_web@2x.png">
       </q-avatar>
         <q-tooltip>
           Sign In with Google
