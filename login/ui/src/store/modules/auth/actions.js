@@ -1,9 +1,5 @@
 import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
-
-import axios from "axios";
-
-import { ENTRYPOINT } from "../../../../../../../src/config/entrypoint";
 import * as types from "./mutation_types";
 
 export const signIn = ({ commit }, values) => {
@@ -20,9 +16,8 @@ export const signIn = ({ commit }, values) => {
     .then((data) => {
       commit(types.LOGIN_SET_USER, data);
 
-      const entryPoint = ENTRYPOINT + (ENTRYPOINT.endsWith("/") ? "" : "/");
-      axios
-        .get(new URL(`/people/${data.people}/status`, entryPoint), {
+      api
+      .fetch(`people/${data.people}/status`, {
           headers: { "api-token": data.api_key },
         })
         .then((response) => {
@@ -56,8 +51,9 @@ export const gSignIn = ({ commit }, values) => {
     })
     .then((data) => {
       commit(types.LOGIN_SET_USER, data.response.data);
-      const entryPoint = ENTRYPOINT + (ENTRYPOINT.endsWith("/") ? "" : "/");
-      api.fetch("oauth/google/return").then((response) => {
+      api.fetch(`people/${data.people}/status`, {
+          headers: { "api-token": data.api_key },
+        }).then((response) => {
         commit("SET_PEOPLE_STATUS", response.data.response.data);
       });
     })
