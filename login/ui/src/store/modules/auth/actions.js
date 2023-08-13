@@ -43,7 +43,8 @@ export const signIn = ({ commit }, values) => {
 
 export const gSignIn = ({ commit }, values) => {
   commit(types.LOGIN_SET_ERROR, "");
-  commit(types.LOGIN_SET_ISLOADING);
+  commit(types.LOGIN_SET_ISLOADING, true);
+
   return api
     .fetch("oauth/google/return", { method: "POST", params: values })
     .then((response) => {
@@ -52,7 +53,7 @@ export const gSignIn = ({ commit }, values) => {
     .then((data) => {
       commit(types.LOGIN_SET_USER, data.response.data);
       api.fetch(`people/${data.people}/status`, {
-          headers: { "api-token": data.api_key },
+          headers: { "api-token": data.response.data.api_key },
         }).then((response) => {
         commit("SET_PEOPLE_STATUS", response.data.response.data);
       });
