@@ -1,9 +1,10 @@
 <template>
-  <div class="container text-center q-gutter-y-xl">
-    <q-img :src="defaultLogo" />
-
-    <q-card class="q-px-lg q-mb-lg">
-      <q-card-section class="q-pt-xl">
+  <div class="container text-center q-gutter-y-md">
+    <div class="login-logo-conteiner">
+      <q-img :src="defaultLogo" class="" />
+    </div>
+    <q-card class="q-mb-lg">
+      <q-card-section class="q-pt-md">
         <div class="text-h6">
           <h4 class="q-ma-none login-label">{{ $t("login.title") }}</h4>
         </div>
@@ -153,20 +154,29 @@ export default {
     align-self: center;
   }
 }
+
 .separator {
-    display: flex;
-    align-items: center;
-    text-align: center;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
-.separator::before, .separator::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #E0E0E0;
-}
-.separator::before {
-    margin-right: .5em;
-}
+
+.separator::before,
 .separator::after {
-    margin-left: .5em;
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.separator::before {
+  margin-right: .5em;
+}
+
+.separator::after {
+  margin-left: .5em;
+}
+
+.login-logo-conteiner {
+  /* max-height: 70px;*/
 }
 </style>
