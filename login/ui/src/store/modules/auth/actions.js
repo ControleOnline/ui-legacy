@@ -17,7 +17,7 @@ export const signIn = ({ commit }, values) => {
       commit(types.LOGIN_SET_USER, data);
 
       api
-      .fetch(`people/${data.people}/status`, {
+        .fetch(`people/${data.people}/status`, {
           headers: { "api-token": data.api_key },
         })
         .then((response) => {
@@ -52,11 +52,20 @@ export const gSignIn = ({ commit }, values) => {
     })
     .then((data) => {
       commit(types.LOGIN_SET_USER, data.response.data);
-      api.fetch(`people/${data.people}/status`, {
+
+      console.log(data);
+      api
+        .fetch(`people/${data.people}/status`, {
           headers: { "api-token": data.response.data.api_key },
-        }).then((response) => {
-        commit("SET_PEOPLE_STATUS", response.data.response.data);
-      });
+        })
+        .then((response) => {
+          console.log(response);
+
+          commit("SET_PEOPLE_STATUS", response.data.response.data);
+        })
+        .finally(() => {
+          commit(types.LOGIN_SET_ISLOADING, false);
+        });
     })
     .catch((e) => {
       if (e instanceof SubmissionError) {
@@ -66,9 +75,6 @@ export const gSignIn = ({ commit }, values) => {
       }
       commit(types.LOGIN_SET_ERROR, e.message);
       throw new Error(e.message);
-    })
-    .finally(() => {
-      commit(types.LOGIN_SET_ISLOADING, false);
     });
 };
 
