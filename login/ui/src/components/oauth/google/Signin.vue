@@ -6,7 +6,7 @@
         <img v-else src="../../../assets/oauth/google/logo.svg">
       </q-avatar>
       <q-tooltip>
-        {{ login.with_google }}
+        {{ $t('login.with_google') }}
       </q-tooltip>
     </q-btn>
   </div>

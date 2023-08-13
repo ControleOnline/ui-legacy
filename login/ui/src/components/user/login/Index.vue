@@ -2,7 +2,7 @@
   <div class="container text-center q-gutter-y-xl">
     <q-img :src="defaultLogo" />
 
-    <q-card class="q-px-lg">
+    <q-card class="q-px-lg q-mb-lg">
       <q-card-section class="q-pt-xl">
         <div class="text-h6">
           <h4 class="q-ma-none login-label">{{ $t("login.title") }}</h4>
@@ -19,10 +19,13 @@
         <q-btn style="color: #19AFBD; text-transform: none; text-decoration: underline;" label="Esqueci a senha" flat
           @click="recovery = !recovery" />
       </div>
-      <hr />
-      <div class="row q-px-md q-gutter-y-sm q-pb-xl">
-        <Instagram />
+      <div class="separator">{{ $t("login.or") }}</div>
+      <div class="row q-px-md q-gutter-y-sm q-pa-lg">
+        <div class="row col-5">
+        </div>
         <Glogin />
+        <div class="row col-5">
+        </div>
       </div>
     </q-card>
 
@@ -47,14 +50,12 @@ import { mapActions, mapGetters } from "vuex";
 import RecoveryForm from "./Recovery";
 import LoginForm from "./Signin";
 import Glogin from "../../oauth/google/Signin"
-import Instagram from "../../oauth/instagram/Signin"
 
 export default {
   components: {
     LoginForm,
     RecoveryForm,
-    Glogin,
-    Instagram
+    Glogin
   },
 
   props: {
@@ -151,5 +152,21 @@ export default {
     width: 300px;
     align-self: center;
   }
+}
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.separator::before, .separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #E0E0E0;
+}
+.separator::before {
+    margin-right: .5em;
+}
+.separator::after {
+    margin-left: .5em;
 }
 </style>

@@ -3,6 +3,8 @@
 
 export const translate = {
   login: {
+    or:"Ou",
+    with_google:'Logar com o Google',
     continue: 'Continuar',
     confirm: 'Confirmação',
     confirmYourPass: 'Confirme sua senha',
