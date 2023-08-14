@@ -55,7 +55,7 @@ export const gSignIn = ({ commit }, values) => {
 
       console.log(data);
       api
-        .fetch(`people/${data.people}/status`, {
+        .fetch(`people/${data.response.data.people}/status`, {
           headers: { "api-token": data.response.data.api_key },
         })
         .then((response) => {
