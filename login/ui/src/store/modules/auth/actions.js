@@ -14,6 +14,7 @@ export const signIn = ({ commit }, values) => {
       return response; 
     })
     .catch((e) => {
+      console.log(e);
 
       if (e instanceof SubmissionError) {
         commit(types.LOGIN_SET_VIOLATIONS, e.errors);
@@ -52,7 +53,7 @@ export const gSignIn = ({ commit }, values) => {
       return response;
     })
     .catch((e) => {
-
+      console.log(e);
       if (e instanceof SubmissionError) {
         commit(types.LOGIN_SET_VIOLATIONS, e.errors);
         commit(types.LOGIN_SET_ERROR, e.errors._error);
