@@ -142,7 +142,7 @@ export default {
   },
 
   created() {
-    if (this.isLogged && this.logged.company === null) {
+    if (this.isLogged() && this.logged.company === null) {
       this.current = "create_company";
     }
   },
@@ -154,19 +154,14 @@ export default {
       signUpCustomBg: "auth/signUpCustomBg",
     }),
 
-    isLogged() {
-      return (
-        this.$store.getters["auth/user"] !== null &&
-        this.$store.getters["auth/user"].user
-      );
-    },
+
 
     logged() {
       return this.$store.getters["auth/user"];
     },
 
     userFields() {
-      return this.signUpFields?.user || [];
+      return this.signUpFields?.username || [];
     },
 
     companyFields() {
@@ -199,6 +194,12 @@ export default {
   },
 
   methods: {
+    isLogged() {
+      return (
+        this.$store.getters["auth/user"] !== null &&
+        this.$store.getters["auth/user"].username
+      );
+    },
     goToNext(formHasErrors) {
       this.steps[this.current].hasErrors = formHasErrors;
 

@@ -58,11 +58,7 @@ export default {
       signUpFields: "auth/signUpFields",
     }),
 
-    isLogged() {
-      return (
-        this.$store.getters["auth/user"] !== null && this.$store.getters["auth/user"].user
-      );
-    },
+
 
     logged() {
       return this.$store.getters["auth/user"];
@@ -70,7 +66,7 @@ export default {
   },
 
   mounted() {
-    if (this.isLogged) {
+    if (this.isLogged()) {
       if (this.$route.query.redirect) {
         this.$router.push(this.$route.query.redirect);
       } else {
@@ -85,7 +81,9 @@ export default {
     ...mapActions({
       peopleDefaultCompany: "people/defaultCompany",
     }),
-
+    isLogged() {
+      return         this.$store.getters["auth/user"] !== null && this.$store.getters["auth/user"].username      ;
+    },
     goToIndexRoute() {
       const route = this.indexRoute;
 
@@ -120,7 +118,7 @@ export default {
     // when user logged is succeeded
 
     onLogged(user) {
-      if (this.isLogged) {
+      if (this.isLogged()) {
         if (this.$route.query.redirect) {
           this.$router.push(this.$route.query.redirect);
         } else {
@@ -140,7 +138,7 @@ export default {
     onCreated(user) {
       this.$store.dispatch("auth/logIn");
 
-      if (this.isLogged) {
+      if (this.isLogged()) {
         this.$q.notify({
           message: `Agora você esta logado como "${user.username}"`,
           position: "top",
@@ -174,7 +172,7 @@ export default {
         type: "positive",
       });
 
-      if (this.isLogged) {
+      if (this.isLogged()) {
         if (this.$route.query.redirect) {
           this.$router.push(this.$route.query.redirect);
         } else {

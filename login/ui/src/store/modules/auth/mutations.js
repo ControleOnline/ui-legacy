@@ -24,16 +24,7 @@ export default {
         // save user data in LocalStorage
         let session = LocalStorage.has('session') ? LocalStorage.getItem('session') : {};
 
-        session.user = _user.username;
-        session.token = _user.token;
-        session.people = _user.people;
-        session.company = _user.company;
-        session.realname = _user.realname;
-        session.avatar = _user.avatar;
-        session.email = _user.email;
-        session.phone = _user.phone;
-        session.active = _user.active;
-        session.type = _user.type;
+        session = _user;
 
         LocalStorage.set('session', session);
       }

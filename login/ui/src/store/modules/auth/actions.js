@@ -9,14 +9,11 @@ export const signIn = ({ commit }, values) => {
 
   return api
     .fetch("token", { method: "POST", body: values })
-    .then((data) => {
-      console.log(data);
+    .then((data) => {      
       commit(types.LOGIN_SET_USER, data);
       return data;
     })
     .catch((e) => {
-      console.log(e);
-
       if (e instanceof SubmissionError) {
         commit(types.LOGIN_SET_VIOLATIONS, e.errors);
 
@@ -49,14 +46,11 @@ export const gSignIn = ({ commit }, values) => {
 
   return api
     .fetch("oauth/google/return", { method: "POST", params: values })
-    .then((response) => {
-      console.log(response);
+    .then((response) => {      
       commit(types.LOGIN_SET_USER, response.response.data);
-
       return response;
     })
     .catch((e) => {
-      console.log(e);
       if (e instanceof SubmissionError) {
         commit(types.LOGIN_SET_VIOLATIONS, e.errors);
         commit(types.LOGIN_SET_ERROR, e.errors._error);

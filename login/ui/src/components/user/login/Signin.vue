@@ -41,15 +41,14 @@ export default {
   },
 
   watch: {
-    isLoggedIn: function (isLoggedIn) {
+    isLoggedIn: function (isLoggedIn) {      
       if (isLoggedIn === true) {
         this.$emit("authenticated", this.user);
       }
     },
 
-    user(user) {
+    user(user) {      
       if (!user) return;
-
       if (this.$store.getters["auth/user"] !== null) {
         this.$emit("authenticated", this.$store.getters["auth/user"]);
       }
