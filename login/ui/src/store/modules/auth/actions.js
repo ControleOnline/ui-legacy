@@ -51,21 +51,23 @@ export const gSignIn = ({ commit }, values) => {
       return response;
     })
     .then((data) => {
-      commit(types.LOGIN_SET_USER, data.response.data);
+      //
 
       console.log(data);
-      api
+      let x= api
         .fetch(`people/${data.response.data.people}/status`, {
-          headers: { "api-token": data.response.data.api_key },
+          headers: { method: "GET", "api-token": data.response.data.api_key },
         })
         .then((response) => {
           console.log(response);
-
+          commit(types.LOGIN_SET_USER, data.response.data);
           commit("SET_PEOPLE_STATUS", response.data.response.data);
         })
         .finally(() => {
           commit(types.LOGIN_SET_ISLOADING, false);
+          console.log('F');
         });
+        
     })
     .catch((e) => {
       if (e instanceof SubmissionError) {
