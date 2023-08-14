@@ -31,6 +31,7 @@ export default {
   methods: {
     ...mapActions({
       gSignIn: "auth/gSignIn",
+      getUserStatus: "auth/getUserStatus",
     }),
     async loginWithGoogle() {
       try {

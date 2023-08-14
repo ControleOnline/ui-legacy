@@ -8,10 +8,10 @@ export const signIn = ({ commit }, values) => {
 
   return api
     .fetch("token", { method: "POST", body: values })
-    .then((response) => {
-      console.log(response);
-      commit(types.LOGIN_SET_USER, response.response.data);
-      return response; 
+    .then((data) => {
+      console.log(data);
+      commit(types.LOGIN_SET_USER, data);
+      return data; 
     })
     .catch((e) => {
       console.log(e);
