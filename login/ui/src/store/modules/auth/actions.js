@@ -9,15 +9,18 @@ export const signIn = ({ commit }, values) => {
   return api
     .fetch("token", { method: "POST", body: values })
 
-    .then((data) => {
-      commit(types.LOGIN_SET_USER, data);
+    .then((response) => {
+      console.log(response);
+
+
+      commit(types.LOGIN_SET_USER, response.response.data);
 
       api
-        .fetch(`people/${response.data.response.data.people}/status`, {
-          headers: { "api-token": response.data.response.data.api_key },
+        .fetch(`people/${response.response.data.people}/status`, {
+          headers: { "api-token": response.response.data.api_key },
         })
         .then((response) => {
-          commit("SET_PEOPLE_STATUS", response.data.response.data);
+          commit("SET_PEOPLE_STATUS", response.response.data);
         })
         .finally(() => {
           commit(types.LOGIN_SET_ISLOADING, false);
@@ -45,16 +48,16 @@ export const gSignIn = ({ commit }, values) => {
 
   return api
     .fetch("oauth/google/return", { method: "POST", params: values })
-    .then((data) => {
-      console.log(data);
+    .then((response) => {
+      console.log(response);
       api
-        .fetch(`people/${data.response.data.people}/status`, {
-          headers: { method: "GET", "api-token": data.response.data.api_key },
+        .fetch(`people/${response.response.data.people}/status`, {
+          headers: { method: "GET", "api-token": response.response.data.api_key },
         })
         .then((response) => {
           console.log(response);
-          commit(types.LOGIN_SET_USER, data.response.data);
-          commit("SET_PEOPLE_STATUS", response.data.response.data);
+          commit(types.LOGIN_SET_USER, response.response.data);
+          commit("SET_PEOPLE_STATUS", response.response.data);
         })
         .finally(() => {
           commit(types.LOGIN_SET_ISLOADING, false);
