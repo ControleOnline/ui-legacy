@@ -81,10 +81,13 @@ export default {
   methods: {
     ...mapActions({
       signIn: "auth/signIn",
+      getUserStatus: "auth/getUserStatus",
     }),
 
     onSubmit() {
-      this.signIn(this.item).catch((error) => {
+      this.signIn(this.item).then(()=>{
+        this.getUserStatus();
+      }).catch((error) => {
         this.$q.notify({
           message: this.$t("login.invalidUserMessage"),
           position: "bottom",

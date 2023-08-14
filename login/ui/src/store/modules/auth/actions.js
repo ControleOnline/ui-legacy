@@ -8,23 +8,8 @@ export const signIn = ({ commit }, values) => {
 
   return api
     .fetch("token", { method: "POST", body: values })
-
     .then((response) => {
-      console.log(response);
-
-
       commit(types.LOGIN_SET_USER, response.response.data);
-
-      api
-        .fetch(`people/${response.response.data.people}/status`, {
-          headers: { "api-token": response.response.data.api_key },
-        })
-        .then((response) => {
-          commit("SET_PEOPLE_STATUS", response.response.data);
-        })
-        .finally(() => {
-          commit(types.LOGIN_SET_ISLOADING, false);
-        });
     })
     .catch((e) => {
       commit(types.LOGIN_SET_ISLOADING, false);
@@ -39,6 +24,17 @@ export const signIn = ({ commit }, values) => {
 
       commit(types.LOGIN_SET_ERROR, e.message);
       throw new Error(e.message);
+    })
+    .finally(() => {
+      commit(types.LOGIN_SET_ISLOADING, false);
+    });
+};
+
+export const getUserStatus = ({ commit }, values) => {
+  api
+    .fetch(`people/${response.response.data.people}/status`, {})
+    .then((response) => {
+      commit("SET_PEOPLE_STATUS", response.response.data);
     });
 };
 
@@ -49,22 +45,9 @@ export const gSignIn = ({ commit }, values) => {
   return api
     .fetch("oauth/google/return", { method: "POST", params: values })
     .then((response) => {
-      console.log(response);
-      api
-        .fetch(`people/${response.response.data.people}/status`, {
-          headers: { method: "GET", "api-token": response.response.data.api_key },
-        })
-        .then((response) => {
-          console.log(response);
-          commit(types.LOGIN_SET_USER, response.response.data);
-          commit("SET_PEOPLE_STATUS", response.response.data);
-        })
-        .finally(() => {
-          commit(types.LOGIN_SET_ISLOADING, false);
-          console.log("F");
-        });
+      commit(types.LOGIN_SET_USER, response.response.data);
 
-      return data;
+      return response;
     })
     .catch((e) => {
       commit(types.LOGIN_SET_ISLOADING, false);
@@ -76,6 +59,9 @@ export const gSignIn = ({ commit }, values) => {
       }
       commit(types.LOGIN_SET_ERROR, e.message);
       throw new Error(e.message);
+    })
+    .finally(() => {
+      commit(types.LOGIN_SET_ISLOADING, false);
     });
 };
 
