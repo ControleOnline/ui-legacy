@@ -43,7 +43,7 @@ export default {
 
         this.gSignIn({ access_token: reloadResponse.access_token })
           .then(data => {
-            this.getUserStatus();
+            
           }).catch(e => {
           });
 

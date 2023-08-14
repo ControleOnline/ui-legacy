@@ -41,6 +41,8 @@ export default {
       if (_user === null) {
         LocalStorage.remove('session');
         state.isLoggedIn = false;
+      }else{
+        state.isLoggedIn = true;
       }
 
       Object.assign(state, { user: _user });

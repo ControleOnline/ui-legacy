@@ -1,6 +1,7 @@
 import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 import * as types from "./mutation_types";
+import { LocalStorage } from "quasar";
 
 export const signIn = ({ commit }, values) => {
   commit(types.LOGIN_SET_ERROR, "");
@@ -11,7 +12,7 @@ export const signIn = ({ commit }, values) => {
     .then((data) => {
       console.log(data);
       commit(types.LOGIN_SET_USER, data);
-      return data; 
+      return data;
     })
     .catch((e) => {
       console.log(e);
@@ -33,11 +34,13 @@ export const signIn = ({ commit }, values) => {
 };
 
 export const getUserStatus = ({ commit }, values) => {
-  api
-    .fetch(`people/${response.response.data.people}/status`, {})
-    .then((response) => {
-      commit("SET_PEOPLE_STATUS", response.response.data);
-    });
+  if (!LocalStorage.has("session")) return;
+
+  let session = LocalStorage.getItem("session");
+
+  api.fetch(`people/${session.people}/status`, {}).then((response) => {
+    commit("SET_PEOPLE_STATUS", response.response.data);
+  });
 };
 
 export const gSignIn = ({ commit }, values) => {
