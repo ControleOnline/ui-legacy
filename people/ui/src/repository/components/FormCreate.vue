@@ -154,7 +154,7 @@ export default {
       };
 
       return api.fetch
-        .private("/" + this.people_type, options)
+        ("/" + this.people_type, options)
         
         .then((data) => {
           if (data.response) {
@@ -170,7 +170,7 @@ export default {
 
     searchCustomer(id) {
       return api.fetch
-        .private("/people/people-company", { params: id })
+        ("/people/people-company", { params: id })
         
         .then((data) => {
           if (data.response) {

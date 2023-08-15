@@ -181,7 +181,7 @@ export default {
 
     requestQuery(queryName) {
       return api.fetch.client
-        .private(
+        (
           '/dashboards',
           {
             method: 'POST',

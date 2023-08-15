@@ -564,7 +564,7 @@ export default {
     getGeoPlaces(input) {},
     getPeople(params) {
       return api.fetch
-        .private("/people/client-company", { params })
+        ("/people/client-company", { params })
 
         .then((result) => {
           if (result.response.count == 0) {
@@ -584,7 +584,7 @@ export default {
 
     getOrder(orderId) {
       return api.fetch
-        .private("/sales/orders/" + orderId)
+        ("/sales/orders/" + orderId)
 
         .then((result) => {
           if (!result["@id"]) {
@@ -681,7 +681,7 @@ export default {
 
     saveTask(payload) {
       return api.fetch
-        .private("/task" + (this.taskId ? "/" + this.taskId : ""), {
+        ("/task" + (this.taskId ? "/" + this.taskId : ""), {
           body: (payload),
           method: this.taskId ? "PUT" : "POST",
         })

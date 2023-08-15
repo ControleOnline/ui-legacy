@@ -227,7 +227,7 @@ export default {
     // store method
     getItems(params) {
       return api.fetch
-        .private(`companies/${this.id}/salesman`, { params })
+        (`companies/${this.id}/salesman`, { params })
 
         .then((result) => {
           return result.response.data;
@@ -243,7 +243,7 @@ export default {
       };
 
       return api.fetch
-        .private(`companies/${this.id}/salesman`, options)
+        (`companies/${this.id}/salesman`, options)
 
         .then((data) => {
           if (data.response) {
@@ -265,7 +265,7 @@ export default {
       };
 
       return api.fetch
-        .private(`companies/${this.id}/salesman`, options)
+        (`companies/${this.id}/salesman`, options)
 
         .then((data) => {
           if (data.response) {

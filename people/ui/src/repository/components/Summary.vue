@@ -196,7 +196,7 @@ export default {
       };
 
       return api.fetch
-        .private(
+        (
           `/${people_type}/${people.people_people_id}/change-status/${people.enabled}`,
           options
         )
@@ -241,7 +241,7 @@ export default {
     // store method
     getSummary() {
       return api.fetch
-        .private(`${this.people_type}/${this.id}/summary`)
+        (`${this.people_type}/${this.id}/summary`)
         
         .then((result) => {
           return result.response.data;
@@ -258,7 +258,7 @@ export default {
 
       let endpoint = `${this.people_type}/${this.id}/summary`;
       return api.fetch
-        .private(endpoint, options)
+        (endpoint, options)
         
         .then((data) => {
           if (data.response) {
@@ -280,7 +280,7 @@ export default {
       };
 
       return api.fetch
-        .private("particulars_types", { params })
+        ("particulars_types", { params })
         
         .then((result) => {
           return result["hydra:member"];

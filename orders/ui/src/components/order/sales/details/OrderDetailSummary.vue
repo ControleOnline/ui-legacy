@@ -1043,7 +1043,7 @@ export default {
       };
 
       return api.fetch
-        .private(`/sales/orders/fields/${this.orderId}`, options)
+        (`/sales/orders/fields/${this.orderId}`, options)
 
         .then((data) => {
           if (data["@id"]) {
@@ -1088,7 +1088,7 @@ export default {
       this.isUpdating = true;
 
       return api.fetch
-        .private(`/sales/orders/fields/${this.orderId}`, options)
+        (`/sales/orders/fields/${this.orderId}`, options)
 
         .then((data) => {
           if (data["@id"]) {
@@ -1132,7 +1132,7 @@ export default {
       this.isUpdating = true;
 
       return api.fetch
-        .private(`/sales/orders/fields/${this.orderId}`, options)
+        (`/sales/orders/fields/${this.orderId}`, options)
 
         .then((data) => {
           if (data["@id"]) {
@@ -1167,7 +1167,7 @@ export default {
       };
       this.isUpdating = true;
       return api.fetch
-        .private(`/sales/orders/${this.orderId}/other-informations`, options)
+        (`/sales/orders/${this.orderId}/other-informations`, options)
 
         .then((data) => {
           if (data["@id"]) {
@@ -1216,7 +1216,7 @@ export default {
       this.isUpdating = true;
 
       return api.fetch
-        .private(`/sales/orders/fields/${this.orderId}`, options)
+        (`/sales/orders/fields/${this.orderId}`, options)
 
         .then((data) => {
           if (data["@id"]) {

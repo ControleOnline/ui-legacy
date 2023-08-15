@@ -310,7 +310,7 @@ export default {
     // store method
     getItems(params) {
       return api.fetch
-        .private("delivery_tax_groups", { params })
+        ("delivery_tax_groups", { params })
 
         .then((result) => {
           return {
@@ -329,7 +329,7 @@ export default {
       };
 
       return api.fetch
-        .private("delivery_tax_groups", options)
+        ("delivery_tax_groups", options)
 
         .catch((e) => {
           if (e instanceof SubmissionError) throw new Error(e.errors._error);
@@ -347,7 +347,7 @@ export default {
       };
 
       return api.fetch
-        .private(`delivery_tax_groups/${id}`, options)
+        (`delivery_tax_groups/${id}`, options)
 
         .catch((e) => {
           if (e instanceof SubmissionError) throw new Error(e.errors._error);

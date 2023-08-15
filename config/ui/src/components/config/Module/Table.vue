@@ -174,7 +174,7 @@ export default {
     // store method
     getItems(params) {
       return api.fetch
-        .private("modules", { params })
+        ("modules", { params })
 
         .then((response) => {
           return {

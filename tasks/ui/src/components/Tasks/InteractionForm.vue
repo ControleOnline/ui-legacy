@@ -2,7 +2,7 @@
     <div class="row">
         <q-tabs v-model="currentTab" align="justify" class="text-primary col-xs-12 col-md-3" dense no-caps>
             <q-tab name="public" :label="$t(taskData.type + '.public')" />
-            <q-tab name="private" :label="$t(taskData.type + '.private')" />
+            <q-tab name="private" :label="$t(taskData.type + '')" />
         </q-tabs>
         <q-tab-panels v-model="currentTab" class="col-12 bg-transparent">
             <q-tab-panel class="row q-px-none" name="public">
@@ -214,11 +214,11 @@ export default {
 
 </script>
 <style scoped>
-.private-interaction-my {
+-interaction-my {
     background: #e9e9e9
 }
 
-.private-interaction {
+-interaction {
     background: white
 }
 

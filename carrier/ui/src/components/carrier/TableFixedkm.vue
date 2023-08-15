@@ -379,7 +379,7 @@ export default {
     getItems(params) {
       const endpoint = `delivery_tax_groups/${this.table.id}/delivery_taxes`;
       return api.fetch
-        .private(endpoint, { params })
+        (endpoint, { params })
         
         .then((result) => {
           return {
@@ -393,7 +393,7 @@ export default {
     getCarrierRegions() {
       const endpoint = `carriers/${this.table.carrier}/regions`;
       return api.fetch
-        .private(endpoint, { params: { limit: 1000 } })
+        (endpoint, { params: { limit: 1000 } })
         
         .then((result) => {
           return result.response.data;
@@ -414,7 +414,7 @@ export default {
           : "delivery_taxes";
 
       return api.fetch
-        .private(endpoint, options)
+        (endpoint, options)
         
         .catch((e) => {
           if (e instanceof SubmissionError) throw new Error(e.errors._error);

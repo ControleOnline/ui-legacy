@@ -136,7 +136,7 @@ export default {
     // store method
     getItem(id) {
       return api.fetch
-        .private(`modules/${id}`)
+        (`modules/${id}`)
 
         .then((response) => {
           return response;
@@ -155,7 +155,7 @@ export default {
       let endpoint = this.id === null ? "roles" : `modules/${this.id}`;
 
       return api.fetch
-        .private(endpoint, options)
+        (endpoint, options)
 
         .then((data) => {
           if (data["@id"]) {

@@ -155,7 +155,7 @@ export default {
 
       let endpoint = `${this.people_type}/${this.id}/employees`;
       return api.fetch
-        .private(endpoint, options)
+        (endpoint, options)
         
         .then((data) => {
           if (data.response) {
@@ -217,7 +217,7 @@ export default {
     },
     getItems() {
       return api.fetch
-        .private(`${this.people_type}/${this.id}/companies`)
+        (`${this.people_type}/${this.id}/companies`)
         
         .then((result) => {
           return result.response;

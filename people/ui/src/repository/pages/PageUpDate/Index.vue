@@ -492,7 +492,7 @@ export default {
 
     getPeople() {
       return api.fetch
-        .private(`people/${this.peopleId}`)
+        (`people/${this.peopleId}`)
 
         .then((data) => {
           if (data["@id"]) {

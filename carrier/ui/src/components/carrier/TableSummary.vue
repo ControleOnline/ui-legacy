@@ -127,7 +127,7 @@ export default {
 
       let endpoint = `delivery_tax_groups/${this.table.id}`;
       return api.fetch
-        .private(endpoint, options)
+        (endpoint, options)
         
         .catch((e) => {
           if (e instanceof SubmissionError) throw new Error(e.errors._error);

@@ -181,7 +181,7 @@ export default {
     // store method
     getItems(params) {
       return api.fetch
-        .private("menus", { params })
+        ("menus", { params })
 
         .then((response) => {
           return {

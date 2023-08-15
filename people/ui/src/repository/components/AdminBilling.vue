@@ -149,7 +149,7 @@ export default {
     getItems() {
       let endpoint = `${this.people_type}/${this.id}/billing`;
       return api.fetch
-        .private(endpoint)
+        (endpoint)
         
         .then((result) => {
           return result.response.data;
@@ -166,7 +166,7 @@ export default {
 
       let endpoint = `${this.people_type}/${this.id}/billing`;
       return api.fetch
-        .private(endpoint, options)
+        (endpoint, options)
         
         .then((data) => {
           if (data.response) {

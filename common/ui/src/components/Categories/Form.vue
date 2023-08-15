@@ -138,7 +138,7 @@ export default {
     // store method
     getItem(id) {
       return api.fetch
-        .private(`categories/${id}`)
+        (`categories/${id}`)
 
         .then((response) => {
           return response;
@@ -157,7 +157,7 @@ export default {
       let endpoint = this.id === null ? "categories" : `categories/${this.id}`;
 
       return api.fetch
-        .private(endpoint, options)
+        (endpoint, options)
 
         .then((data) => {
           if (data["@id"]) {

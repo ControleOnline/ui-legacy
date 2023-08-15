@@ -160,7 +160,7 @@ export default {
     // store method
     getItem(id) {
       return api.fetch
-        .private(`menus/${id}`)
+        (`menus/${id}`)
 
         .then((response) => {
           return response;
@@ -179,7 +179,7 @@ export default {
       let endpoint = this.id === null ? "menus" : `menus/${this.id}`;
 
       return api.fetch
-        .private(endpoint, options)
+        (endpoint, options)
 
         .then((data) => {
           if (data["@id"]) {
@@ -221,7 +221,7 @@ export default {
 
     loadRoutes() {
       this.api
-        .private(`routes`)
+        (`routes`)
 
         .then((response) => {
           let data = response["hydra:member"];

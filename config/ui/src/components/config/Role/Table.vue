@@ -143,7 +143,7 @@ export default {
     // store method
     getItems(params) {
       return api.fetch
-        .private("roles", { params })
+        ("roles", { params })
 
         .then((response) => {
           return {

@@ -33,7 +33,7 @@ export default {
       this.isLoading = true;
 
       this.Api.client
-        .private(
+        (
           '/dashboards',
           {
             method: 'POST',
