@@ -29,9 +29,9 @@
         <q-input
       dense
       outlined
-          dense
+
           rounded="rounded"
-          outlined="outlined"
+   
           v-model="search"
           v-on:keyup="emitSearch"
           :placeholder="$t('search_text')"

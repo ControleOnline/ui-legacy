@@ -4,19 +4,12 @@
     <div class="q-pt-lg">
       <q-card>
         <q-card-section>
-          <Product :product="product" class="q-card q-pa-sm" />
+          <Product :product="productData" class="q-card q-pa-sm" />
         </q-card-section>
-        <q-card-section>
+        <q-card-section v-if="idProduct">
           <div class="q-card q-pa-sm" style="max-width: calc(100vw - 30px)">
-            <q-tabs
-              inline-label
-              no-caps
-              outside-arrows
-              mobile-arrows
-              align="left"
-              class="bg-primary text-white shadow-2"
-              v-model="tab"
-            >
+            <q-tabs inline-label no-caps outside-arrows mobile-arrows align="left" class="bg-primary text-white shadow-2"
+              v-model="tab">
               <q-tab name="group" icon="tab" :label="$t('Group')" />
               <q-tab name="categories" icon="tab" :label="$t('Categories')" />
               <q-tab name="price" icon="tab" :label="$t('Price')" />
@@ -26,33 +19,27 @@
               <q-tab name="taxing" icon="tab" :label="$t('Taxing')" />
             </q-tabs>
 
-            <q-tab-panels
-              v-model="tab"
-              animated
-              swipeable
-              transition-prev="jump-up"
-              transition-next="jump-up"
-            >
+            <q-tab-panels v-model="tab" animated swipeable transition-prev="jump-up" transition-next="jump-up">
               <q-tab-panel class="items-center" name="group">
-                <Group :product="product" />
+                <Group :product="productData" />
               </q-tab-panel>
               <q-tab-panel class="items-center" name="categories">
-                <Categories :product="product" />
+                <Categories :product="productData" />
               </q-tab-panel>
               <q-tab-panel class="items-center" name="price">
-                <Price :product="product" />
+                <Price :product="productData" />
               </q-tab-panel>
               <q-tab-panel class="items-center" name="provider">
-                <Provider :product="product" />
+                <Provider :product="productData" />
               </q-tab-panel>
               <q-tab-panel class="items-center" name="stock">
-                <Stock :product="product" />
+                <Stock :product="productData" />
               </q-tab-panel>
               <q-tab-panel class="items-center" name="advertisement">
-                <Advertisement :product="product" />
+                <Advertisement :product="productData" />
               </q-tab-panel>
               <q-tab-panel class="items-center" name="taxing">
-                <Taxing :product="product" />
+                <Taxing :product="productData" />
               </q-tab-panel>
             </q-tab-panels>
           </div>
@@ -63,7 +50,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Product from "./components/product.vue";
 import Advertisement from "./components/tabs/advertisement.vue";
 import Categories from "./components/tabs/categories.vue";
@@ -87,28 +74,52 @@ export default {
 
   data() {
     return {
-      product: {},
+      productData: {
+        id: null,
+        product: null,
+        sku: null,
+        type: null,
+        price: null,
+        productUnit: { productUnit: null },
+        productCondition: null,
+        active: null,
+        description: '',
+      },
+      idProduct: null,
       tab: "group",
     };
   },
   created() {
-    //this.IdProduto = decodeURIComponent(this.$route.params.id);
+    let idProduct = decodeURIComponent(this.$route.params.id);
+    this.idProduct = idProduct == 'undefined' ? null : idProduct;
   },
 
   computed: {
     ...mapGetters({
       myCompany: "people/currentCompany",
+      isLoading: "products/isLoading",
     }),
-    user() {
-      return this.$store.getters["auth/user"];
-    },
-    isLogged() {
-      return (
-        this.$store.getters["auth/user"] !== null && this.$store.getters["auth/user"].user
-      );
-    },
   },
 
-  methods: {},
+  methods: {
+    ...mapActions({
+      getProduct: "products/getProduct",
+    }),
+    getData() {
+      if (this.idProduct)
+        this.getProduct(
+          this.idProduct
+        ).then((data) => {
+          this.productData = data;
+        });
+    }
+  },
+
+  watch: {
+    myCompany(company) {
+      if (company)
+        this.getData();
+    },
+  },
 };
 </script>
