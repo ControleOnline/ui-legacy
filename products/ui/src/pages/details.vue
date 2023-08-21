@@ -51,7 +51,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Product from "./components/product.vue";
+import Product from "./components/details.vue";
 import Advertisement from "./components/tabs/advertisement.vue";
 import Categories from "./components/tabs/categories.vue";
 import Group from "./components/tabs/group.vue";

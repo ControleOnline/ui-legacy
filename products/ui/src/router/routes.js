@@ -6,7 +6,7 @@ export const routes = [
       {
         name: "ProductList",
         path: "",
-        component: () =>  import ("../pages/Products/List.vue"),
+        component: () =>  import ("../pages/list.vue"),
       },
     ],
   },
@@ -17,12 +17,12 @@ export const routes = [
       {
         name: "ProductDetails",
         path: "id/:id",
-        component: () =>  import ("../pages/new/product.vue"),
+        component: () =>  import ("../pages/details.vue"),
       },
       {
         name: "ProductNew",
         path: "new",
-        component: () =>  import ("../pages/new/product.vue"),
+        component: () =>  import ("../pages/details.vue"),
       },
     ],
   },

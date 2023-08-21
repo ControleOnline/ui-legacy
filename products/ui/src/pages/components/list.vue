@@ -195,42 +195,17 @@ Object.freeze(SETTINGS);
 
 export default {
   components: {
-    DataFilter,
+  
   },
   props: {},
 
   created() {
-    if (this.myCompany !== null) {
-      this.onRequest();
-    }
+
   },
 
-  beforeDestroy() {
-    this.reset();
-  },
+
 
   data() {
-    let statuses = [
-      { label: "Abertos", value: -1 },
-      { label: "Todos", value: 0 },
-    ];
-
-    return {
-      settings: SETTINGS,
-      data: [],
-      statuses: statuses,
-      filters: {
-        status: statuses[0].value,
-      },
-      pagination: {
-        sortBy: "ultimaModificacao",
-        descending: false,
-        page: 1,
-        rowsPerPage: 10,
-        rowsNumber: 10,
-      },
-      loadingStatuses: false,
-    };
   },
 
   computed: {
@@ -244,27 +219,17 @@ export default {
   },
 
   watch: {
-    isLoading(isLoading) {
-      //if (isLoading) this.$q.loading.show();
-      //else this.$q.loading.hide();
-    },
-
-    myCompany(company) {
-      if (company !== null) {
-        this.filters.company = company;
-        this.onRequest();
-      }
-    },
+  
   },
 
   methods: {
     ...mapActions({
-      getItems: "products/getProducts",
+      getProducts: "products/getProducts",
       reset: "products/reset",
     }),
     onRequest() {
       this.filters.company = "/people/" + this.myCompany.id;
-      this.getItems(this.filters);
+      this.getProducts(this.filters);
     },
   },
 };
