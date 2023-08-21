@@ -11,11 +11,12 @@
       </div>
     </div>
     <div class="col-12">
-      <q-table dense  :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+      <q-table dense :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
         :loading="isLoading" bordered class="q-mt-md">
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="nickname" :props="props">{{ props.row.nickname }}</q-td>
+            <q-td key="locator" :props="props">{{ props.row.locator }}</q-td>
             <q-td key="postalCode" :props="props">{{ props.cols[1].value }}</q-td>
             <q-td key="street" :props="props">{{ props.row.street }}</q-td>
             <q-td key="number" :props="props">{{ props.row.number }}</q-td>
@@ -44,15 +45,17 @@
           <q-form ref="myForm" @submit="onSubmit">
             <div class="row q-col-gutter-xs q-pb-xs">
               <div class="col-xs-12">
-                <q-input
-      dense
-      outlined stack-label lazy-rules v-model="item.nickname" type="text" :label="$t('Apelido')"
-                  :rules="[isInvalid('nickname')]" class="q-mb-sm"  />
+                <q-input dense outlined stack-label lazy-rules v-model="item.nickname" type="text" :label="$t('Apelido')"
+                  :rules="[isInvalid('nickname')]" />
+              </div>
+              <div class="col-xs-12">
+                <q-input dense outlined stack-label lazy-rules v-model="item.locator" type="text" :label="$t('Localizador')"
+                :rules="[isInvalid('locator')]"  class="q-mb-sm" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <SearchCEPAddress  @found="onCEPFound" @error="(error) => {
+                <SearchCEPAddress :api="api" @found="onCEPFound" @error="(error) => {
                   this.item.postalCode = error.postalCode;
-                
+
                   this.$q.notify({
                     message: error.message,
                     position: 'bottom',
@@ -61,46 +64,32 @@
                 }" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input
-      dense
-      outlined stack-label lazy-rules v-model="item.street" type="text" :label="$t('Rua')"
-                  :rules="[isInvalid('street')]" class="q-mb-sm"  />
+                <q-input dense outlined stack-label lazy-rules v-model="item.street" type="text" :label="$t('Rua')"
+                  :rules="[isInvalid('street')]" class="q-mb-sm" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input
-      dense
-      outlined stack-label lazy-rules reverse-fill-mask v-model="item.number" type="text"
-                  :label="$t('Número')" :rules="[isInvalid('number')]" class="q-mb-sm"  mask="#" />
+                <q-input dense outlined stack-label lazy-rules reverse-fill-mask v-model="item.number" type="text"
+                  :label="$t('Número')" :rules="[isInvalid('number')]" class="q-mb-sm" mask="#" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input
-      dense
-      outlined stack-label v-model="item.complement" type="text" :label="$t('Complemento')" class="q-mb-sm"
-                   />
+                <q-input dense outlined stack-label v-model="item.complement" type="text" :label="$t('Complemento')"
+                  class="q-mb-sm" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input
-      dense
-      outlined stack-label lazy-rules v-model="item.district" type="text" :label="$t('Bairro')"
-                  :rules="[isInvalid('district')]" class="q-mb-sm"  />
+                <q-input dense outlined stack-label lazy-rules v-model="item.district" type="text" :label="$t('Bairro')"
+                  :rules="[isInvalid('district')]" class="q-mb-sm" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <q-input
-      dense
-      outlined stack-label lazy-rules v-model="item.city" type="text" :label="$t('Cidade')"
-                  :rules="[isInvalid('city')]" class="q-mb-sm"  />
+                <q-input dense outlined stack-label lazy-rules v-model="item.city" type="text" :label="$t('Cidade')"
+                  :rules="[isInvalid('city')]" class="q-mb-sm" />
               </div>
               <div class="col-xs-12 col-sm-4">
-                <q-input
-      dense
-      outlined stack-label lazy-rules v-model="item.state" type="text" :label="$t('UF')" mask="AA"
-                  :rules="[isInvalid('state')]" class="q-mb-sm"  />
+                <q-input dense outlined stack-label lazy-rules v-model="item.state" type="text" :label="$t('UF')"
+                  mask="AA" :rules="[isInvalid('state')]" class="q-mb-sm" />
               </div>
               <div class="col-xs-12 col-sm-4">
-                <q-input
-      dense
-      outlined stack-label lazy-rules v-model="item.country" type="text" :label="$t('País')"
-                  :rules="[isInvalid('country')]" class="q-mb-sm"  />
+                <q-input dense outlined stack-label lazy-rules v-model="item.country" type="text" :label="$t('País')"
+                  :rules="[isInvalid('country')]" class="q-mb-sm" />
               </div>
             </div>
 
@@ -116,14 +105,14 @@
 </template>
 
 <script>
-
-import { api } from "@controleonline/../../src/boot/api";
+import Api from '@controleonline/quasar-common-ui/src/utils/api';
 import { formatCEP } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import SearchCEPAddress from './SearchCEPAddress';
 
 const SETTINGS = {
   visibleColumns: [
     'nickname',
+    'locator',
     'postalCode',
     'street',
     'number',
@@ -139,6 +128,11 @@ const SETTINGS = {
       name: 'nickname',
       align: 'left',
       label: 'Apelido'
+    },
+    {
+      name: 'locator',
+      align: 'left',
+      label: 'Localizador'
     },
     {
       name: 'postalCode',
@@ -198,7 +192,10 @@ export default {
     id: {
       required: true,
     },
-
+    api: {
+      type: Api,
+      required: true
+    },
     people_type: {
       type: String,
       required: true
@@ -218,6 +215,7 @@ export default {
       isLoading: false,
       item: {
         nickname: '',
+        locator: '',
         country: '',
         state: '',
         city: '',
@@ -238,8 +236,8 @@ export default {
     // store method
     getItems() {
       let endpoint = `${this.people_type}/${this.id}/addresses`;
-      return api.fetch(endpoint)
-        
+      return this.api.private(endpoint)
+        .then(response => response.json())
         .then(result => {
           return result.response.data;
         });
@@ -249,13 +247,13 @@ export default {
     save(values) {
       let options = {
         method: 'PUT',
-       
+        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
         body: (values),
       };
 
       let endpoint = `${this.people_type}/${this.id}/addresses`;
-      return api.fetch(endpoint, options)
-        
+      return this.api.private(endpoint, options)
+        .then(response => response.json())
         .then(data => {
           if (data.response) {
             if (data.response.success === false)
@@ -272,13 +270,13 @@ export default {
     delete(id) {
       let options = {
         method: 'DELETE',
-       
+        headers: new Headers({ 'Content-Type': 'application/ld+json' }),
         body: ({ id }),
       };
 
       let endpoint = `${this.people_type}/${this.id}/addresses`;
-      return api.fetch(endpoint, options)
-        
+      return this.api.private(endpoint, options)
+        .then(response => response.json())
         .then(data => {
           if (data.response) {
             if (data.response.success === false)
@@ -299,6 +297,7 @@ export default {
 
             this.save({
               nickname: this.item.nickname,
+              locator: this.item.locator,
               country: this.item.country,
               state: this.item.state,
               city: this.item.city,
@@ -377,6 +376,7 @@ export default {
                 street: data.members[index].street,
                 number: data.members[index].number,
                 complement: data.members[index].complement,
+                locator: data.members[index].locator,
                 _bussy: false,
               });
             }
