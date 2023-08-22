@@ -25,14 +25,13 @@
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="id" :props="props">
-          <q-btn outline dense :to="{ name: 'OrderDetails', params: { id: props.cols[0].value } }" :label="`#${props.cols[0].value}`"
-            :style="{ color: props.row.color_status }" class="full-width" />
+          <q-btn outline dense :to="{ name: 'OrderDetails', params: { id: props.cols[0].value } }"
+            :label="`#${props.cols[0].value}`" :style="{ color: props.row.color_status }" class="full-width" />
 
-          <q-icon v-if="
-            props.row.app == 'app' ||
+          <q-icon v-if="props.row.app == 'app' ||
             props.row.app == 'Cota Fácil' ||
             props.row.app == 'Gestor'
-          " name="touch_app" color="blue" />
+            " name="touch_app" color="blue" />
           <q-icon v-else name="electrical_services" color="green" />
 
           <q-icon v-if="hasSchedule(props.row.other_informations) == true" name="schedule" color="blue" />
@@ -44,17 +43,16 @@
         </q-td>
         <q-td key="contrato" :props="props">
           <q-btn v-if="props.cols[1].value" flat dense :to="{
-              name: 'ContractDetails',
-              params: { id: props.cols[1].value },
-            }" :label="props.cols[1].value || '-'" class="full-width" 
-          />
+            name: 'ContractDetails',
+            params: { id: props.cols[1].value },
+          }" :label="props.cols[1].value || '-'" class="full-width" />
           <div v-else> - </div>
         </q-td>
         <q-td key="notaFiscal" :props="props">{{ props.cols[2].value }}</q-td>
         <q-td key="dataPedido" :props="props">{{ props.cols[3].value }}</q-td>
         <q-td key="dataEntrega" :props="props">{{ props.cols[4].value }}</q-td>
         <q-td key="ultimaModificacao" :props="props">{{
-            props.cols[5].value
+          props.cols[5].value
         }}</q-td>
         <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
           {{ $t(`order.statuses.${props.cols[6].value}`) }}
@@ -503,7 +501,7 @@ export default {
           this.defaultCompany.configs &&
             typeof this.defaultCompany.configs.salesOrdersStartRealStatus !=
             "undefined"
-            ? (this.defaultCompany.configs.salesOrdersStartRealStatus)
+            ? JSON.parse(this.defaultCompany.configs.salesOrdersStartRealStatus)
             : ["pending"];
       } else if (
         this.filters.status != null &&
