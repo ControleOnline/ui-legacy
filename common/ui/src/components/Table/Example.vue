@@ -1,11 +1,8 @@
 <template>
     <DefaultTable :configs="configs" v-if="configs" />
 </template>
-  
 <script>
 import DefaultTable from "@nelsys/../../src/modules/nelsys/quasar-common-ui/src/components/Table/DefaultTable";
-import { mapGetters } from 'vuex';
-
 export default {
     name: "Entrada",
     components: {
@@ -24,17 +21,25 @@ export default {
                 isLoading: 'logs/isLoading',
                 totalItems: 'logs/totalItems',
                 columns: 'logs/columns',
+                filters: 'logs/filters',
+                actions: {
+                    setFilters: 'logs/SET_FILTERS',
+                },
                 selection: false,
                 search: false,
-                filters: this.filters
             };
         }
     },
     data() {
         return {};
     },
-    created() { },
-    methods: {},
+    created() {
+        if (this.filters)
+            this.$store.commit('logs/SET_FILTERS', this.filters);
+    },
+    methods: {
+
+    },
 };
 </script>
   

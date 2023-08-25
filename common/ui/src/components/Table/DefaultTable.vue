@@ -93,6 +93,11 @@
 <script>
 import { exportFile } from 'quasar'
 
+
+import { mapActions, mapGetters } from "vuex";
+
+
+
 function wrapCsvValue(val, formatFn, row) {
     let formatted = formatFn !== void 0
         ? formatFn(val, row)
@@ -134,14 +139,10 @@ export default {
 
     data() {
         return {
-            //isLoading:false,
             selectAll: false,
             sumColumn: [],
             data: [],
             selected: [],
-            filters: {},
-            dialog: false,
-            //columns: this.configs.columns,
             pagination: {
                 page: 1,
                 rowsNumber: this.totalItems || 0,
@@ -152,8 +153,12 @@ export default {
     created() { this.loadData() },
 
     computed: {
+
         isloading() {
             return this.$store.getters[this.configs.isLoading]
+        },
+        filters() {
+            return this.$store.getters[this.configs.filters]
         },
         columns() {
             return this.$store.getters[this.configs.columns]
@@ -280,17 +285,17 @@ export default {
         },
         loadData(props) {
 
-
-            this.filters = this.configs.filters
+            let filters = this.filters;
             if (props) {
                 this.pagination = props.pagination;
 
-                if (this.filters)
-                    this.filters = Object.assign(this.filters, props.filters);
+                if (filters)
+                    filters = Object.assign(filters, props.filters);
                 else
-                    this.filters = props.filters
+                    filters = props.filters
             }
-
+            
+            this.$store.commit(this.configs.actions.setFilters, filters);            
             let params = JSON.parse(JSON.stringify(this.pagination));
             if (params.sortBy)
                 params.order = "" + params.sortBy + ";" + (params.descending ? "DESC" : "ASC");
