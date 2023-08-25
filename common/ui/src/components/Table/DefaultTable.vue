@@ -1,8 +1,8 @@
 <template>
     <div class="full-width">
-        <q-table class="default-table" dense :data="data" :row-key="columns[0].name" :pagination.sync="pagination"
-            :loading="isloading" @request="loadData" binary-state-sort :rows-per-page-options="rowsOptions"
-            :grid="this.$q.screen.gt.sm == false" :filter="filters">
+        <q-table class="default-table" dense :data="data" :row-key="columns[0].name" :columns="columns"
+            :pagination.sync="pagination" :loading="isloading" @request="loadData" binary-state-sort
+            :rows-per-page-options="rowsOptions" :grid="this.$q.screen.gt.sm == false" :filter="filters">
             <template v-slot:top-right="props">
                 <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
                     @click="props.toggleFullscreen" class="q-ml-md" />
@@ -17,10 +17,11 @@
             </template>
 
             <template v-slot:header="props">
-                <q-tr :props="props.row">
+                <q-tr :props="props.row" @click="">
                     <q-th v-if="configs.selection">
                     </q-th>
                     <q-th :style="column.style" :class="'text-' + column.align" v-for="column in columns">
+                        <q-icon :name="'xxx'" />
                         {{ $t(column.name) }}
                     </q-th>
                 </q-tr>
@@ -47,6 +48,7 @@
                             <q-checkbox dense v-model="props.selected" :label="props.row.name" />
                         </q-card-section>
                         <q-separator />
+
                         <q-list dense>
                             <q-item v-for="column in columns" :key="column.name">
                                 <q-item-section>
@@ -319,6 +321,7 @@ export default {
     top: 0;
     z-index: 1;
 }
+
 .default-table tbody tr:last-child {
     background-color: #ffffff;
     font-weight: bold;
@@ -335,6 +338,7 @@ export default {
     right: 0;
     z-index: 1;
 }
+
 .default-table thead th:first-child,
 .default-table tbody td:first-child {
     background-color: #ffffff;
