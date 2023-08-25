@@ -18,11 +18,11 @@
 
             <template v-slot:header="props">
                 <q-th :props="props.row">
-                    <q-th v-if="configs.selection">
-                    </q-th>
-                    <q-th :style="column.style" :class="'text-' + column.align" v-for="column in columns">
+                    <q-td v-if="configs.selection">
+                    </q-td>
+                    <q-td :style="column.style" :class="'text-' + column.align" v-for="column in columns">
                         {{ $t(column.name) }}
-                    </q-th>
+                    </q-td>
                 </q-th>
             </template>
             <template v-slot:body="props">
@@ -49,7 +49,7 @@
                         <q-separator />
                         <q-list dense>
                             <q-item v-for="column in columns" :key="column.name">
-                                <q-item-section >
+                                <q-item-section>
                                     <q-item-label>{{ $t(column.name) }}</q-item-label>
                                 </q-item-section>
                                 <q-item-section side>
@@ -313,8 +313,6 @@ export default {
 }
 
 
-.default-table thead th:last-child,
-.default-table tbody th:last-child,
 .default-table thead td:last-child,
 .default-table tbody td:last-child {
     background-color: #ffffff;
@@ -340,8 +338,7 @@ export default {
     z-index: 1;
 }
 
-.default-table thead th:first-child,
-.default-table tbody th:first-child,
+
 .default-table thead td:first-child,
 .default-table tbody td:first-child {
     background-color: #ffffff;
