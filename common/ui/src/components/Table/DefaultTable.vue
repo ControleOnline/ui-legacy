@@ -1,8 +1,8 @@
 <template>
     <div class="full-width">
-        <q-table class="default-table" dense :data="data" :columns="columns" :row-key="columns[0].name"
-            :pagination.sync="pagination" :loading="isloading" @request="loadData" binary-state-sort
-            :rows-per-page-options="rowsOptions" :grid="this.$q.screen.gt.xs == false" :filter="filters">
+        <q-table class="default-table" dense :data="data" :row-key="columns[0].name" :pagination.sync="pagination"
+            :loading="isloading" @request="loadData" binary-state-sort :rows-per-page-options="rowsOptions"
+            :grid="this.$q.screen.gt.sm == false" :filter="filters">
             <template v-slot:top-right="props">
                 <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
                     @click="props.toggleFullscreen" class="q-ml-md" />
@@ -15,6 +15,16 @@
                 <q-btn color="primary" icon-right="archive" label="Export to csv" no-caps @click="exportTable"
                     v-if="configs.export" />
             </template>
+
+            <template v-slot:header="props">
+                <q-th :props="props.row">
+                    <q-th v-if="configs.selection">
+                    </q-th>
+                    <q-th :style="column.style" :class="'text-' + column.align" v-for="column in columns">
+                        {{ $t(column.name) }}
+                    </q-th>
+                </q-th>
+            </template>
             <template v-slot:body="props">
                 <q-tr :props="props.row">
                     <q-td v-if="configs.selection">
@@ -22,24 +32,40 @@
                     </q-td>
                     <q-td :style="column.style" :class="'text-' + column.align" v-for="column in columns"
                         :sum="sum(column, props.row[column.name])">
-                        <q-btn v-if="column.to" @click="verifyClick(column, props.row)"
-                            v-html="format(column, props.row[column.name])">
-                        </q-btn>
+                        <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
+                            :verifyClick="verifyClick" />
                         <span v-else v-html="format(column, props.row[column.name])"></span>
                     </q-td>
                 </q-tr>
             </template>
             <!---------------------------- Aqui a Tabela Vira Card Mobile e Tablet  --------------------------->
             <template v-slot:item="props">
-                <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12 q-pa-xs">
-                    <q-card>
-
+                <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+                    :style="props.selected ? 'transform: scale(0.95);' : ''">
+                    <q-card bordered flat :class="props.selected ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
+                        <q-card-section>
+                            <q-checkbox dense v-model="props.selected" :label="props.row.name" />
+                        </q-card-section>
+                        <q-separator />
+                        <q-list dense>
+                            <q-item v-for="column in columns" :key="column.name">
+                                <q-item-section >
+                                    <q-item-label>{{ $t(column.name) }}</q-item-label>
+                                </q-item-section>
+                                <q-item-section side>
+                                    <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
+                                        :verifyClick="verifyClick" />
+                                    <q-item-label caption v-else
+                                        v-html="format(column, props.row[column.name])"></q-item-label>
+                                </q-item-section>
+                            </q-item>
+                        </q-list>
                     </q-card>
                 </div>
             </template>
             <template v-slot:bottom-row>
                 <q-tr>
-                    <q-td>
+                    <q-td v-if="configs.selection">
                     </q-td>
                     <q-td :class="'text-' + column.align" v-for="column in columns">
                         <span v-if="sumColumn[column.name]" v-html="format(column, sumColumn[column.name])"></span>
@@ -116,7 +142,7 @@ export default {
             //columns: this.configs.columns,
             pagination: {
                 page: 1,
-                rowsNumber: this.totalItems,
+                rowsNumber: this.totalItems || 0,
             },
         };
     },
@@ -166,6 +192,31 @@ export default {
 
     },
     methods: {
+        dynamicButton(column, props) {
+            return {
+                functional: true,
+                props: ['format', 'verifyClick'], // Passar as propriedades necessárias
+                render(createElement, context) {
+                    const buttonProps = {
+                        flat: true,
+                        round: false,
+                        dense: true,
+                        icon: column.icon,
+                        label: context.props.format(column, props.row[column.name]), // Usar a propriedade "format"
+                    };
+                    return createElement('q-btn', {
+                        class: 'q-ml-md',
+                        props: buttonProps,
+                        on: {
+                            click: () => {
+                                context.props.verifyClick(column, props.row)
+                            },
+                        },
+                    });
+
+                },
+            }
+        },
         setSelectedDefault(index, item) {
             this.selected[index] = this.selected[index] == undefined ? false : true;
         },
@@ -260,4 +311,44 @@ export default {
     min-height: 100%;
     width: 100%;
 }
+
+
+.default-table thead th:last-child,
+.default-table tbody th:last-child,
+.default-table thead td:last-child,
+.default-table tbody td:last-child {
+    background-color: #ffffff;
+    font-weight: bold;
+    position: sticky;
+    right: 0;
+    z-index: 1;
+}
+
+.default-table thead tr {
+    background-color: #ffffff;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.default-table tbody tr:last-child {
+    background-color: #ffffff;
+    font-weight: bold;
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+}
+
+.default-table thead th:first-child,
+.default-table tbody th:first-child,
+.default-table thead td:first-child,
+.default-table tbody td:first-child {
+    background-color: #ffffff;
+    font-weight: bold;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
 </style>
+
