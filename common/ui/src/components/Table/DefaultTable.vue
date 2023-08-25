@@ -17,13 +17,13 @@
             </template>
 
             <template v-slot:header="props">
-                <q-th :props="props.row">
-                    <q-td v-if="configs.selection">
-                    </q-td>
-                    <q-td :style="column.style" :class="'text-' + column.align" v-for="column in columns">
+                <q-tr :props="props.row">
+                    <q-th v-if="configs.selection">
+                    </q-th>
+                    <q-th :style="column.style" :class="'text-' + column.align" v-for="column in columns">
                         {{ $t(column.name) }}
-                    </q-td>
-                </q-th>
+                    </q-th>
+                </q-tr>
             </template>
             <template v-slot:body="props">
                 <q-tr :props="props.row">
@@ -312,16 +312,6 @@ export default {
     width: 100%;
 }
 
-
-.default-table thead td:last-child,
-.default-table tbody td:last-child {
-    background-color: #ffffff;
-    font-weight: bold;
-    position: sticky;
-    right: 0;
-    z-index: 1;
-}
-
 .default-table thead tr {
     background-color: #ffffff;
     font-weight: bold;
@@ -329,7 +319,6 @@ export default {
     top: 0;
     z-index: 1;
 }
-
 .default-table tbody tr:last-child {
     background-color: #ffffff;
     font-weight: bold;
@@ -338,8 +327,15 @@ export default {
     z-index: 1;
 }
 
-
-.default-table thead td:first-child,
+.default-table thead th:last-child,
+.default-table tbody td:last-child {
+    background-color: #ffffff;
+    font-weight: bold;
+    position: sticky;
+    right: 0;
+    z-index: 1;
+}
+.default-table thead th:first-child,
 .default-table tbody td:first-child {
     background-color: #ffffff;
     font-weight: bold;
