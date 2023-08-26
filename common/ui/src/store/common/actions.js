@@ -1,17 +1,14 @@
 import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import * as types from './mutation_types';
-const RESOURCE_ENDPOINT = '/products';
+import * as types from '@controleonline/quasar-common-ui/src/store/common/mutation_types';
 
-export const getProducts = ({ commit }, params = {}) => {    
-
+export const getItems = ({ commit }, resourceEndpoint,params = {}) => {    
     commit(types.SET_ISLOADING, true);    
-
-    return api.fetch(RESOURCE_ENDPOINT, { params })
+    return api.fetch(resourceEndpoint, { params })
         
-        .then(data => {            
+        .then(data => {     
+            console.log(data['hydra:member'])       
             commit(types.SET_ITEMS, data['hydra:member']);
-            commit(types.SET_VIEW, data['hydra:view']);
             commit(types.SET_TOTALITEMS, data['hydra:totalItems']);
             return data['hydra:member'];
         }).catch(e => {            
@@ -26,7 +23,7 @@ export const getProducts = ({ commit }, params = {}) => {
         });
 };
 
-export const saveProduct = ({ commit }, data) => {    
+export const save = ({ commit }, resourceEndpoint,data) => {    
 
 
     let options = {
@@ -35,11 +32,10 @@ export const saveProduct = ({ commit }, data) => {
       };
     commit(types.SET_ISLOADING, true);    
 
-    return api.fetch(RESOURCE_ENDPOINT+(data.id?'/'+data.id:''), options)
+    return api.fetch(resourceEndpoint+(data.id?'/'+data.id:''), options)
         
         .then(data => {            
             commit(types.SET_ITEMS, data['hydra:member']);
-            commit(types.SET_VIEW, data['hydra:view']);
             commit(types.SET_TOTALITEMS, data['hydra:totalItems']);
             return data['hydra:member'];
         }).catch(e => {            
@@ -56,15 +52,14 @@ export const saveProduct = ({ commit }, data) => {
 
 
 
-export const getProduct = ({ commit }, idProduct) => {    
+export const get = ({ commit }, resourceEndpoint,id) => {    
 
     commit(types.SET_ISLOADING, true);    
 
-    return api.fetch(RESOURCE_ENDPOINT+'/'+idProduct, {  })
+    return api.fetch(resourceEndpoint+'/'+id, {  })
         
         .then(data => {            
             commit(types.SET_ITEMS, data['hydra:member']);
-            commit(types.SET_VIEW, data['hydra:view']);
             commit(types.SET_TOTALITEMS, data['hydra:totalItems']);
             return data;
         }).catch(e => {            
@@ -79,7 +74,5 @@ export const getProduct = ({ commit }, idProduct) => {
         });
 };
 
-export const reset = ({ commit }) => {
-    commit(types.RESET);
-};
+
 
