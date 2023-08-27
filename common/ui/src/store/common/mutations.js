@@ -20,6 +20,10 @@ export default   {
     Object.assign(state, { totalItems });
   },
 
+  [types.SET_ITEMS](state, items) {
+    Object.assign(state, { items });
+  },
+
   [types.SET_COLUMNS](state, columns) {
     Object.assign(state, { columns });
   },

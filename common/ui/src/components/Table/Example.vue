@@ -1,9 +1,9 @@
 <template>
     <DefaultTable :configs="configs" v-if="configs" />
-</template>
-<script>
-import DefaultTable from "@nelsys/../../src/modules/nelsys/quasar-common-ui/src/components/Table/DefaultTable";
-export default {
+  </template>
+  <script>
+  import DefaultTable from "@controleonline/quasar-common-ui/src/components/Table/DefaultTable";
+  export default {
     name: "Entrada",
     components: {
         DefaultTable
@@ -38,8 +38,7 @@ export default {
             this.$store.commit('logs/SET_FILTERS', this.filters);
     },
     methods: {
-
-    },
-};
-</script>
   
+    },
+  };
+  </script>

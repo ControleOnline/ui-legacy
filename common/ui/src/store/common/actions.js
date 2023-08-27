@@ -7,7 +7,7 @@ export const getItems = ({ commit }, resourceEndpoint,params = {}) => {
     return api.fetch(resourceEndpoint, { params })
         
         .then(data => {     
-            console.log(data['hydra:member'])       
+            //console.log(data['hydra:member']);
             commit(types.SET_ITEMS, data['hydra:member']);
             commit(types.SET_TOTALITEMS, data['hydra:totalItems']);
             return data['hydra:member'];

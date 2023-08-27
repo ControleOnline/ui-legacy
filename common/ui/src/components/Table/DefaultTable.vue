@@ -1,21 +1,27 @@
 <template>
-    <div v-if="columns" class="full-width">
-        <q-table class="default-table" dense :data="data" :row-key="columns[0].name" :columns="columns"
-            :pagination.sync="pagination" :loading="isloading" @request="loadData" binary-state-sort
-            :rows-per-page-options="rowsOptions" :grid="this.$q.screen.gt.sm == false" :filter="filters">
+    <div class="full-width">
+        <q-table class="default-table" dense :data="data" :row-key="columns[0].name" :pagination.sync="pagination"
+            :loading="isloading" @request="loadData" binary-state-sort :rows-per-page-options="rowsOptions"
+            :grid="this.$q.screen.gt.sm == false" :filter="filters">
             <template v-slot:top-right="props">
                 <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
                     @click="props.toggleFullscreen" class="q-ml-md" />
-
+                <q-input v-if="configs.search != false" borderless dense debounce="300" v-model="filter"
+                    :placeholder="$t('Search')">
+                    <template v-slot:append>
+                        <q-icon name="search"></q-icon>
+                    </template>
+                </q-input>
+                <q-btn color="primary" icon-right="archive" label="Export to csv" no-caps @click="exportTable"
+                    v-if="configs.export" />
             </template>
 
             <template v-slot:header="props">
-                <q-tr :props="props.row" @click="">
+                <q-tr :props="props.row">
                     <q-th v-if="configs.selection">
                     </q-th>
                     <q-th :style="column.style" :class="'text-' + column.align" v-for="column in columns">
-                        <q-icon :name="'xxx'" />
-                        {{ $t(column.name) }}
+                        {{ $t(column.label) }}
                     </q-th>
                 </q-tr>
             </template>
@@ -41,11 +47,10 @@
                             <q-checkbox dense v-model="props.selected" :label="props.row.name" />
                         </q-card-section>
                         <q-separator />
-
                         <q-list dense>
                             <q-item v-for="column in columns" :key="column.name">
                                 <q-item-section>
-                                    <q-item-label>{{ $t(column.name) }}</q-item-label>
+                                    <q-item-label>{{ $t(column.label) }}</q-item-label>
                                 </q-item-section>
                                 <q-item-section side>
                                     <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
@@ -82,8 +87,10 @@
         </q-table>
     </div>
 </template>
+  
 <script>
 export default {
+
     props: {
         configs: {
             type: Object,
@@ -97,48 +104,43 @@ export default {
             }
         },
     },
+
+    components: {
+    },
+
     data() {
         return {
+            //isLoading:false,
             selectAll: false,
             sumColumn: [],
             data: [],
             selected: [],
+            filters: {},
+            dialog: false,
+            //columns: this.configs.columns,
             pagination: {
                 page: 1,
                 rowsNumber: this.totalItems || 0,
             },
         };
     },
-    mounted() {
 
-    },
+    created() { this.loadData() },
+
     computed: {
         isloading() {
-            return this.$store.getters[this.configs.mudule + '/getItems']
-        },
-        filters() {
-            return this.$store.getters[this.configs.mudule + '/filters']
+            return this.$store.getters[this.configs.isLoading]
         },
         columns() {
-            return this.$store.getters[this.configs.mudule + '/columns']
+            return this.$store.getters[this.configs.columns]
         },
         totalItems() {
-            return this.$store.getters[this.configs.mudule + '/totalItems']
+            return this.$store.getters[this.configs.totalItems]
         },
     },
     watch: {
-        columns: {
-            handler: function (columns) {
-                if (columns != undefined)
-                    this.loadData()
-            },
-            deep: true,
-        },
         data: {
             handler: function (data) {
-                data.forEach((item, index) => {
-                    this.selected[index] = this.selected[index] == undefined ? false : true;
-                });
             },
             deep: true,
         },
@@ -156,6 +158,12 @@ export default {
             },
             deep: true,
         },
+        myCompany(company) {
+            if (company !== null) {
+
+            }
+        },
+
     },
     methods: {
         dynamicButton(column, props) {
@@ -186,6 +194,9 @@ export default {
         setSelectedDefault(index, item) {
             this.selected[index] = this.selected[index] == undefined ? false : true;
         },
+        
+        
+
         getFilterParams(params) {
             this.columns.forEach((item, i) => {
                 if (item.name && this.filters && this.filters[item.name])
@@ -196,29 +207,35 @@ export default {
         format(column, value) {
             if (column && typeof column.format == 'function')
                 return column.format(value);
+
             return value;
         },
         sum(column, value) {
             if (!isNaN(value) && value && column.sum != false) {
-                this.sumColumn[column.name] = this.sumColumn[column.name] ? parseFloat(this.sumColumn[column.name]) + parseFloat(value) : 1;
+
+
+                this.sumColumn[column.name] = this.sumColumn[column.name] ? parseFloat(this.sumColumn[column.name]) + parseFloat(value) : 0;
             }
+
         },
         verifyClick(column, value) {
             if (column && typeof column.to == 'function') {
+
                 this.$router.push(column.to(value));
             }
             return;
         },
         loadData(props) {
-            let filters = this.filters;
+            this.filters = this.configs.filters
             if (props) {
                 this.pagination = props.pagination;
-                if (filters)
-                    filters = Object.assign(filters, props.filters);
+
+                if (this.filters)
+                    this.filters = Object.assign(this.filters, props.filters);
                 else
-                    filters = props.filters
+                    this.filters = props.filters
             }
-            this.$store.commit(this.configs.module + '/SET_FILTERS', filters);
+
             let params = JSON.parse(JSON.stringify(this.pagination));
             if (params.sortBy)
                 params.order = "" + params.sortBy + ";" + (params.descending ? "DESC" : "ASC");
@@ -228,7 +245,7 @@ export default {
             delete params.rowsPerPage;
             params = this.getFilterParams(params);
             this.data = [];
-            this.$store.dispatch(this.configs.mudule + '/getItems', '/' + this.configs.mudule, params).then((data) => {
+            this.$store.dispatch(this.configs.actions.getItems,this.configs.module, params).then((data) => {
                 this.data = data;
             });
         },
@@ -248,7 +265,6 @@ export default {
     top: 0;
     z-index: 1;
 }
-
 .default-table tbody tr:last-child {
     background-color: #ffffff;
     font-weight: bold;
@@ -265,7 +281,6 @@ export default {
     right: 0;
     z-index: 1;
 }
-
 .default-table thead th:first-child,
 .default-table tbody td:first-child {
     background-color: #ffffff;
@@ -275,4 +290,3 @@ export default {
     z-index: 1;
 }
 </style>
-
