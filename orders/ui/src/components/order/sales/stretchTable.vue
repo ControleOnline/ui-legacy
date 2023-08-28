@@ -99,57 +99,21 @@
               <q-btn color="primary" label="Limpar filtro" @click="cleanFilter()"></q-btn>
             </div>
           </div>
-          <div v-if="hasOrderId" class="row col-xs-12 col-sm-12 col-md-12 q-gutter-sm">
-            <q-input
-              class="col-xs-12 col-sm-2 col-md-2"
-              dense
-              outlined
-              readonly
-              stack-label
-              label="Franquia"
-              v-model="myCompany.alias"
-            ></q-input>
-            <q-input
-              class="col-xs-12 col-sm-2 col-md-2"
-              dense
-              outlined
-              readonly
-              stack-label
-              label="Automóvel"
-              v-model="car"
-            ></q-input>
-            <q-input
-              class="col-xs-12 col-sm-2 col-md-3"
-              dense
-              outlined
-              readonly
-              stack-label
-              label="Endereço da coleta"
-              v-model="collectionAddress"
-            ></q-input>
-            <q-input
-              class="col-xs-12 col-sm-2 col-md-3"
-              dense
-              outlined
-              readonly
-              stack-label
-              label="Endereço da entrega"
-              v-model="destinationAddress"
-            ></q-input>
-            <q-input
-              class="col-xs-12 col-sm-2 col-md-1"
-              dense
-              outlined
-              readonly
-              stack-label
-              label="Valor do seguro"
-              v-model="invoiceTotal"
-            ></q-input>
-          </div>
         </div>
       </div>
     </div>
     <!-- Filtros Fim -->
+
+    <div class="flex justify-end col-12 q-ma-sm">
+      <q-btn
+        v-if="hasOrderId"
+        class=""
+        label="Novo Trecho"
+        color="primary"
+        :disabled="isLoading"
+        @click="addModal = true"
+      ></q-btn>
+    </div>
 
     <!-- Tabela-->
     <div class="q-mt-none">
@@ -280,6 +244,9 @@
             <q-td :props="props" key="OrigemEndereco">
               {{ props.row.originAdress }}
             </q-td>
+            <q-td :props="props" key="OrigemLocalizador">
+              {{ props.row.originLocator }}
+            </q-td>
             <q-td :props="props" key="Fornecedor">
               {{ props.row.provider ? props.row.provider.label : "" }}
             </q-td>
@@ -297,6 +264,9 @@
             </q-td>
             <q-td :props="props" key="DestinoEndereco">
               {{ props.row.destinationAdress }}
+            </q-td>
+            <q-td :props="props" key="DestinoLocalizador">
+              {{ props.row.destinationLocator }}
             </q-td>
             <q-td :props="props" key="DestinoFornecedor">
               {{
@@ -333,285 +303,6 @@
           </q-tr>
         </template>
       </q-table>
-      <div class="row justify-center">
-        <q-form
-          v-if="toggleAddStretch == true"
-          class="row justify-start col-12 q-col-gutter-lg"
-          ref="myForm"
-          @submit="onSubmit"
-        >
-          <div class="row justify-start center col-xs-12 col-sm-12 col-md-12">
-            <q-select
-              class="col-xs-12 col-sm-12 col-md-3"
-              dense
-              outlined
-              stack-label
-              label="Status"
-              :options="statusOptions"
-              v-model="stretch.status"
-              :rules="[(val) => val != null]"
-              hide-bottom-space
-            ></q-select>
-          </div>
-
-          <!-- Origem -->
-          <div class="col-xs-12 col-sm-12 col-md-5 q-col-gutter-y-lg">
-            <q-select
-              class="col-xs-5 col-sm-3 col-md-3"
-              dense
-              outlined
-              stack-label
-              label="Tipo de origem"
-              :options="originTypeOptions"
-              v-model="stretch.originType"
-              :rules="[(val) => val != null]"
-              hide-bottom-space
-            ></q-select>
-
-            <PeopleAutocomplete
-              class="col-xs-3 col-sm-4 col-md-4 reset-padding-bottom"
-              :source="searchPeople"
-              :isLoading="isSearching"
-              label="Fornecedor de origem"
-              @selected="onSelectOriginPeople"
-              placeholder="Pesquisar..."
-            />
-
-            <div class="row col-xs-3 col-sm-4 col-md-4">
-              <div v-if="stretch.originType == 'Base'" class="col-12">
-                <q-select
-                  v-if="originProviderHasAddress"
-                  :options="originProviderAddressOptions"
-                  dense
-                  outlined
-                  stack-label
-                  label="Origem endereço"
-                  v-model="tempOriginAddressAdd"
-                ></q-select>
-                <ListAutocomplete
-                  v-else
-                  class="reset-padding-bottom"
-                  :source="getGeoPlaces"
-                  :isLoading="isSearching"
-                  label="Busca de endereço"
-                  @selected="onSelectOrigin"
-                  placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                />
-              </div>
-              <div v-else class="col-12">
-                <div class="col-12">
-                  <q-input
-                    v-if="editAdress == false"
-                    dense
-                    outlined
-                    readonly
-                    stack-label
-                    label="Endereço de origem"
-                    v-model="stretch.originAdress"
-                  >
-                    <template v-slot:append>
-                      <q-btn
-                        dense
-                        flat
-                        icon="edit"
-                        color="primary"
-                        @click="editAdress = true"
-                      ></q-btn>
-                    </template>
-                  </q-input>
-                </div>
-                <div class="row flex items-center" v-if="editAdress == true">
-                  <ListAutocomplete
-                    class="col-11"
-                    :source="getGeoPlaces"
-                    :isLoading="isSearching"
-                    label="Busca de endereço"
-                    @selected="onSelectOriginEdit"
-                    placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                  />
-                  <div class="col-1">
-                    <q-btn
-                      dense
-                      flat
-                      icon="cancel"
-                      color="negative"
-                      @click="cancelEditAdress()"
-                    ></q-btn>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Destino -->
-          <div class="col-xs-12 col-sm-12 col-md-5 q-col-gutter-y-lg">
-            <q-select
-              class="col-xs-5 col-sm-3 col-md-3"
-              dense
-              outlined
-              stack-label
-              label="Tipo de destino"
-              :options="destinationTypeOptions"
-              v-model="stretch.destinationType"
-              :rules="[(val) => val != null]"
-              hide-bottom-space
-            ></q-select>
-
-            <PeopleAutocomplete
-              class="col-xs-3 col-sm-4 col-md-4 reset-padding-bottom"
-              :source="searchPeople"
-              :isLoading="isSearching"
-              label="Fornecedor de destino"
-              @selected="onSelectDestinationPeople"
-              placeholder="Pesquisar..."
-            />
-
-            <div class="row col-xs-3 col-sm-4 col-md-4">
-              <div v-if="stretch.destinationType != 'Base'" class="col-12">
-                <ListAutocomplete
-                  class="reset-padding-bottom"
-                  :source="getGeoPlaces"
-                  :isLoading="isSearching"
-                  label="Busca de endereço"
-                  @selected="onSelectDestination"
-                  placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                />
-              </div>
-              <div v-if="stretch.destinationType == 'Base'" class="col-12">
-                <q-select
-                  v-if="destinationProviderHasAddress"
-                  :options="destinationProviderAddressOptions"
-                  dense
-                  outlined
-                  stack-label
-                  label="Destino endereço"
-                  v-model="tempDestinationAddressAdd"
-                ></q-select>
-                <ListAutocomplete
-                  v-else
-                  class="reset-padding-bottom"
-                  :source="getGeoPlaces"
-                  :isLoading="isSearching"
-                  label="Busca de endereço"
-                  @selected="onSelectDestination"
-                  placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row justify-start col-xs-12 col-sm-12 col-md-12 q-col-gutter-sm">
-            <q-select
-              class="col-xs-6 col-sm-6 col-md-2"
-              dense
-              outlined
-              stack-label
-              label="Taxa"
-              :options="stretchValueOptions"
-              v-model="stretchValueSelected"
-            ></q-select>
-            <q-input
-              class="col-xs-6 col-sm-6 col-md-2"
-              dense
-              type="number"
-              outlined
-              stack-label
-              label="Valor"
-              v-model="stretch.price"
-              :rules="[(val) => val != null]"
-              hide-bottom-space
-            ></q-input>
-            <q-input
-              class="col-xs-6 col-sm-6 col-md-2"
-              dense
-              type="number"
-              outlined
-              stack-label
-              label="Valor Pago"
-              v-model="stretch.amountPaid"
-            ></q-input>
-            <q-input
-              class="col-xs-6 col-sm-6 col-md-2"
-              dense
-              type="number"
-              outlined
-              readonly
-              stack-label
-              label="Saldo"
-              v-model="stretch.balance"
-            ></q-input>
-          </div>
-
-          <div class="row justify-start col-xs-12 col-sm-12 col-md-12 q-col-gutter-y-sm">
-            <div class="row col-xs-12 col-sm-12 col-md-5 q-col-gutter-sm">
-              <q-input
-                class="col-xs-6 col-sm-6 col-md-5"
-                dense
-                type="date"
-                outlined
-                stack-label
-                label="Previsão de embarque"
-                v-model="stretch.estimatedShippingDate"
-                :rules="[(val) => val != null]"
-                hide-bottom-space
-              ></q-input>
-              <q-input
-                class="col-xs-6 col-sm-6 col-md-5"
-                dense
-                type="date"
-                outlined
-                stack-label
-                label="Embarque"
-                v-model="stretch.shippingDate"
-              ></q-input>
-            </div>
-            <div class="row col-xs-12 col-sm-12 col-md-5 q-col-gutter-sm">
-              <q-input
-                class="col-xs-6 col-sm-6 col-md-5"
-                dense
-                type="date"
-                outlined
-                stack-label
-                label="Previsão de Chegada"
-                v-model="stretch.estimatedArrivalDate"
-                :rules="[(val) => val != null]"
-                hide-bottom-space
-              ></q-input>
-              <q-input
-                class="col-xs-6 col-sm-6 col-md-5"
-                dense
-                type="date"
-                outlined
-                stack-label
-                label="Chegada"
-                v-model="stretch.arrivalDate"
-              ></q-input>
-            </div>
-          </div>
-
-          <div class="row justify-end col-xs-12 col-sm-12 col-md-12">
-            <q-btn color="positive" label="Salvar" @click="onSubmit()"></q-btn>
-          </div>
-        </q-form>
-        <div class="flex justify-end col-12 q-ma-sm">
-          <q-btn
-            v-if="hasOrderId && toggleAddStretch == false"
-            class=""
-            label="Novo Trecho"
-            color="primary"
-            :disabled="isLoading"
-            @click="toggleAddStretch = !toggleAddStretch"
-          ></q-btn>
-          <q-btn
-            v-if="hasOrderId && toggleAddStretch == true"
-            class=""
-            icon="close"
-            label="Novo Trecho"
-            color="negative"
-            @click="toggleAddStretch = !toggleAddStretch"
-          ></q-btn>
-        </div>
-      </div>
     </div>
     <!-- Tabela Fim -->
 
@@ -635,9 +326,7 @@
 
             <div class="row justify-between q-gutter-sm">
               <!-- Origem -->
-              <div
-                class="row col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5 q-gutter-y-sm"
-              >
+              <div class="row col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5 q-gutter-y-sm">
                 <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <label>Origem</label>
                 </div>
@@ -730,7 +419,7 @@
                       dense
                       outlined
                       readonly
-                      stack-la
+                      stack-label
                       label="Fornecedor de origem"
                       v-model="providerLabel"
                     >
@@ -764,14 +453,23 @@
                       </div>
                     </div>
                   </div>
+                  <div>
+                    <q-input
+                      class="col-xs-12 col-sm-5 col-md-4"
+                      dense
+                      outlined
+                      readonly
+                      stack-label
+                      label="Localizador de origem"
+                      v-model="stretch.originLocator"
+                    />
+                  </div>
                 </div>
               </div>
               <!-- Origem Fim -->
 
               <!-- Destino -->
-              <div
-                class="row col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5 q-gutter-y-sm"
-              >
+              <div class="row col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5 q-gutter-y-sm">
                 <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <label>Destino</label>
                 </div>
@@ -864,7 +562,7 @@
                       dense
                       outlined
                       readonly
-                      stack-la
+                      stack-label
                       label="Fornecedor de destino"
                       v-model="destinationProviderLabel"
                     >
@@ -900,6 +598,17 @@
                         ></q-btn>
                       </div>
                     </div>
+                  </div>
+                  <div class="col-12">
+                    <q-input
+                      class="col-xs-12 col-sm-5 col-md-4"
+                      dense
+                      outlined
+                      readonly
+                      stack-label
+                      label="Localizador de destino"
+                      v-model="stretch.destinationLocator"
+                    />
                   </div>
                 </div>
               </div>
@@ -940,9 +649,7 @@
               ></q-input>
             </div>
 
-            <div
-              class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-between q-gutter-xs"
-            >
+            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-between q-gutter-xs">
               <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
                 <q-input
                   dense
@@ -966,9 +673,7 @@
               </div>
             </div>
 
-            <div
-              class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-between q-gutter-xs"
-            >
+            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-between q-gutter-xs">
               <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
                 <q-input
                   dense
@@ -992,17 +697,349 @@
               </div>
             </div>
 
-            <div
-              class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 flex justify-end q-gutter-sm"
-            >
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 flex justify-end q-gutter-sm">
               <q-btn color="positive" label="Salvar" @click="saveStretch()"></q-btn>
               <q-btn color="negative" label="Cancelar" v-close-popup></q-btn>
             </div>
+
           </q-form>
         </q-card>
       </q-dialog>
     </div>
     <!-- Modal Edit Fim -->
+
+    <div>
+      <q-dialog v-model="addModal">
+        <q-card class="q-pa-md" style="max-width: 90%">
+          <q-card-section class="row items-center">
+            <label class="text-h5">Edição</label>
+            <q-space />
+            <q-btn icon="close" flat round dense v-close-popup />
+          </q-card-section>
+          <q-card-section class="q-pa-md">
+            <div class="row col-xs-12 col-sm-12 col-md-12 q-gutter-sm">
+              <q-input
+                class="col-xs-12 col-sm-2 col-md-2"
+                dense
+                outlined
+                readonly
+                stack-label
+                label="Franquia"
+                v-model="myCompany.alias"
+              ></q-input>
+              <q-input
+                class="col-xs-12 col-sm-2 col-md-3"
+                dense
+                outlined
+                readonly
+                stack-label
+                label="Automóvel"
+                v-model="car"
+              ></q-input>
+              <q-input
+                class="col-xs-12 col-sm-2 col-md-2"
+                dense
+                outlined
+                readonly
+                stack-label
+                label="Endereço da coleta"
+                v-model="collectionAddress"
+              ></q-input>
+              <q-input
+                class="col-xs-12 col-sm-2 col-md-2"
+                dense
+                outlined
+                readonly
+                stack-label
+                label="Endereço da entrega"
+                v-model="destinationAddress"
+              ></q-input>
+              <q-input
+                class="col-xs-12 col-sm-2 col-md-2"
+                dense
+                outlined
+                readonly
+                stack-label
+                label="Valor do seguro"
+                v-model="invoiceTotal"
+              ></q-input>
+            </div>
+          </q-card-section>
+          <q-separator></q-separator>
+          <q-card-section>
+            <q-form class="row justify-start col-12 q-col-gutter-lg" ref="myForm" @submit="onSubmit">
+              <div class="row justify-start col-xs-12 col-sm-12 col-md-12">
+                <q-select class="col-xs-12 col-sm-12 col-md-3"
+                  dense
+                  outlined
+                  stack-label
+                  label="Status"
+                  :options="statusOptions"
+                  v-model="stretch.status"
+                  :rules="[(val) => val != null]"
+                  hide-bottom-space
+                ></q-select>
+              </div>
+
+              <!-- Origem -->
+              <div class="row col-xs-12 col-sm-12 col-md-12 q-gutter-sm">
+                <q-select
+                  class="col-xs-12 col-sm-3 col-md-3"
+                  dense
+                  outlined
+                  stack-label
+                  label="Tipo de origem"
+                  :options="originTypeOptions"
+                  v-model="stretch.originType"
+                  :rules="[(val) => val != null]"
+                  hide-bottom-space
+                ></q-select>
+                
+                <PeopleAutocomplete
+                  class="col-xs-12 col-sm-4 col-md-4 reset-padding-bottom"
+                  :source="searchPeople"
+                  :isLoading="isSearching"
+                  label="Fornecedor de origem"
+                  @selected="onSelectOriginPeople"
+                  placeholder="Pesquisar..."
+                />
+
+              </div>
+
+              <div class="row col-xs-12 col-sm-12 col-md-12 q-gutter-sm">
+                <div v-if="stretch.originType == 'Base'" class="col-xs-12 col-sm-7 col-md-7">
+                  <q-select
+                    v-if="originProviderHasAddress"
+                    :options="originProviderAddressOptions"
+                    dense
+                    outlined
+                    stack-label
+                    label="Origem endereço"
+                    v-model="tempOriginAddressAdd"
+                  ></q-select>
+                  <ListAutocomplete
+                    v-else
+                    class="reset-padding-bottom"
+                    :source="getGeoPlaces"
+                    :isLoading="isSearching"
+                    label="Busca de endereço"
+                    @selected="onSelectOrigin"
+                    placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                  />
+                </div>
+                <div v-else class="col-xs-12 col-sm-7 col-md-7">
+                  <div class="col-12">
+                    <q-input
+                      v-if="editAdress == false"
+                      dense
+                      outlined
+                      readonly
+                      stack-label
+                      label="Endereço de origem"
+                      v-model="stretch.originAdress"
+                    >
+                      <template v-slot:append>
+                        <q-btn
+                          dense
+                          flat
+                          icon="edit"
+                          color="primary"
+                          @click="editAdress = true"
+                        ></q-btn>
+                      </template>
+                    </q-input>
+                  </div>
+                  <div class="row flex items-center" v-if="editAdress == true">
+                    <ListAutocomplete
+                      class="col-11"
+                      :source="getGeoPlaces"
+                      :isLoading="isSearching"
+                      label="Busca de endereço"
+                      @selected="onSelectOriginEdit"
+                      placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                    />
+                    <div class="col-1">
+                      <q-btn
+                        dense
+                        flat
+                        icon="cancel"
+                        color="negative"
+                        @click="cancelEditAdress()"
+                      ></q-btn>
+                    </div>
+                  </div>
+                </div>
+                <q-input
+                  class="col-xs-12 col-sm-7 col-md-7"
+                  dense
+                  outlined
+                  readonly
+                  stack-label
+                  label="Localizador de origem"
+                  v-model="stretch.originLocator"
+                />
+              </div>
+
+              <!-- Destino -->
+              <div class="row col-xs-12 col-sm-12 col-md-12 q-gutter-sm">
+                <q-select
+                  class="col-xs-12 col-sm-3 col-md-3"
+                  dense
+                  outlined
+                  stack-label
+                  label="Tipo de destino"
+                  :options="destinationTypeOptions"
+                  v-model="stretch.destinationType"
+                  :rules="[(val) => val != null]"
+                  hide-bottom-space
+                ></q-select>
+
+                <PeopleAutocomplete
+                  class="col-xs-12 col-sm-4 col-md-4 reset-padding-bottom"
+                  :source="searchPeople"
+                  :isLoading="isSearching"
+                  label="Fornecedor de destino"
+                  @selected="onSelectDestinationPeople"
+                  placeholder="Pesquisar..."
+                />
+              </div>
+
+              <div class="row col-xs-12 col-sm-12 col-md-12 q-gutter-sm">
+                <div v-if="stretch.destinationType != 'Base'" class="col-xs-12 col-sm-7 col-md-7">
+                  <ListAutocomplete
+                    class="reset-padding-bottom"
+                    :source="getGeoPlaces"
+                    :isLoading="isSearching"
+                    label="Busca de endereço"
+                    @selected="onSelectDestination"
+                    placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                  />
+                </div>
+                <div v-if="stretch.destinationType == 'Base'" class="col-xs-12 col-sm-7 col-md-7">
+                  <q-select
+                    v-if="destinationProviderHasAddress"
+                    :options="destinationProviderAddressOptions"
+                    dense
+                    outlined
+                    stack-label
+                    label="Destino endereço"
+                    v-model="tempDestinationAddressAdd"
+                  ></q-select>
+                  <ListAutocomplete
+                    v-else
+                    class="reset-padding-bottom"
+                    :source="getGeoPlaces"
+                    :isLoading="isSearching"
+                    label="Busca de endereço"
+                    @selected="onSelectDestination"
+                    placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                  />
+                </div>
+                <q-input
+                class="col-xs-12 col-sm-7 col-md-7"
+                dense
+                outlined
+                readonly
+                stack-label
+                label="Localizador de destino"
+                v-model="stretch.destinationLocator"
+              />
+              </div>
+
+              <div class="row col-xs-12 col-sm-12 col-md-12 q-gutter-xs">
+                <q-select class="col-xs-12 col-sm-5 col-md-3"
+                  dense
+                  outlined
+                  stack-label
+                  label="Taxa"
+                  :options="stretchValueOptions"
+                  v-model="stretchValueSelected"
+                ></q-select>
+                <q-input class="col-xs-12 col-sm-5 col-md-2"
+                  dense
+                  type="number"
+                  outlined
+                  stack-label
+                  label="Valor"
+                  v-model="stretch.price"
+                  :rules="[(val) => val != null]"
+                  hide-bottom-space
+                ></q-input>
+                <q-input class="col-xs-12 col-sm-5 col-md-2"
+                  dense
+                  type="number"
+                  outlined
+                  stack-label
+                  label="Valor Pago"
+                  v-model="stretch.amountPaid"
+                ></q-input>
+                <q-input class="col-xs-12 col-sm-5 col-md-2"
+                  dense
+                  type="number"
+                  outlined
+                  readonly
+                  stack-label
+                  label="Saldo"
+                  v-model="stretch.balance"
+                ></q-input>
+              </div>
+
+              <div class="row col-xs-12 col-sm-12 col-md-12 q-gutter-y-sm">
+                <div class="row col-xs-12 col-sm-12 col-md-12 q-gutter-xs">
+                  <q-input class="col-xs-12 col-sm-5 col-md-5"
+                    dense
+                    type="date"
+                    outlined
+                    stack-label
+                    label="Previsão de embarque"
+                    v-model="stretch.estimatedShippingDate"
+                    :rules="[(val) => val != null]"
+                    hide-bottom-space
+                  ></q-input>
+
+                  <q-input class="col-xs-12 col-sm-5 col-md-5"
+                    dense
+                    type="date"
+                    outlined
+                    stack-label
+                    label="Embarque"
+                    v-model="stretch.shippingDate"
+                  ></q-input>
+                </div>
+
+                <div class="row col-xs-12 col-sm-12 col-md-12 q-gutter-xs">
+                  <q-input class="col-xs-12 col-sm-5 col-md-5"
+                    dense
+                    type="date"
+                    outlined
+                    stack-label
+                    label="Previsão de Chegada"
+                    v-model="stretch.estimatedArrivalDate"
+                    :rules="[(val) => val != null]"
+                    hide-bottom-space
+                  ></q-input>
+                  
+                  <q-input class="col-xs-12 col-sm-5 col-md-5"
+                    dense
+                    type="date"
+                    outlined
+                    stack-label
+                    label="Chegada"
+                    v-model="stretch.arrivalDate"
+                  ></q-input>
+                </div>
+              </div>
+
+              <div class="row justify-end col-xs-12 col-sm-12 col-md-12 q-gutter-md">
+                <q-btn color="positive" label="Salvar" @click="onSubmit()"></q-btn>
+                <q-btn color="negative" label="Cancelar" v-close-popup></q-btn>
+              </div>
+            </q-form>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+    </div>
+
 
     <q-dialog v-model="confirmDelete" persistent>
       <q-card style="width: 600px">
@@ -1282,6 +1319,13 @@ export default {
           format: (val) => `${val}`,
         },
         {
+          name: "OrigemLocalizador",
+          label: "Localizador de origem",
+          align: "center",
+          field: (row) => row.originLocator,
+          format: (val) => `${val}`,
+        },
+        {
           name: "Fornecedor",
           label: "Fornecedor",
           align: "left",
@@ -1321,6 +1365,13 @@ export default {
           label: "Endereço de destino",
           align: "center",
           field: (row) => row.destinationAdress,
+          format: (val) => `${val}`,
+        },
+        {
+          name: "DestinoLocalizador",
+          label: "Localizador de destino",
+          align: "center",
+          field: (row) => row.destinationLocator,
           format: (val) => `${val}`,
         },
         {
@@ -1502,12 +1553,14 @@ export default {
       this.stretch.originState = address.value.state;
       this.stretch.originCity = address.value.city;
       this.stretch.originAdress = address.label;
+      this.stretch.originLocator = address.value.locator;
     },
     tempDestinationAddressAdd(address) {
       this.stretch.destinationRegion = address.value.region;
       this.stretch.destinationState = address.value.state;
       this.stretch.destinationCity = address.value.city;
       this.stretch.destinationAdress = address.label;
+      this.stretch.destinationLocator = address.value.locator;
     },
     stretchValueSelected(value) {
       if (value && value.price) {
@@ -1660,6 +1713,7 @@ export default {
               address.street = data[index].street.street || "";
               address.number = data[index].number || "";
               address.complement = data[index].complement || "";
+              address.locator = data[index].locator || "";
               let formatedAddress = `${address.street}, ${address.number}, ${address.complement} - ${address.district}, ${address.cep}, ${address.city} ${address.state}, ${address.country}`;
 
               this.originProviderAddressOptions.push({
@@ -1698,6 +1752,7 @@ export default {
               address.street = data[index].street.street || "";
               address.number = data[index].number || "";
               address.complement = data[index].complement || "";
+              address.locator = data[index].locator || "";
               let formatedAddress = `${address.street}, ${address.number}, ${address.complement} - ${address.district}, ${address.cep}, ${address.city} ${address.state}, ${address.country}`;
 
               this.destinationProviderAddressOptions.push({
@@ -1963,6 +2018,7 @@ export default {
         this.stretch.originCity = null;
         this.stretch.originAdress = null;
         this.stretch.originType = null;
+        this.stretch.originLocator = null;
       }
       this.stretch.destinationType = null;
       this.stretch.destinationRegion = null;
@@ -1970,6 +2026,7 @@ export default {
       this.stretch.destinationProvider = null;
       this.stretch.destinationCity = null;
       this.stretch.destinationAdress = null;
+      this.stretch.destinationLocator = null;
       this.stretch.price = null;
       this.stretch.amountPaid = null;
       this.stretch.balance = null;
@@ -2269,7 +2326,7 @@ export default {
         
         body: (stretch),
       };
-      this.api(endpoint, options)
+      api.fetch(endpoint, options)
 
         .then((result) => {
           if (result.response.success) {
@@ -2326,7 +2383,7 @@ export default {
       // let params = {};
 
       if (this.orderId) {
-        params["order"] = this.orderId;
+        params["order.id"] = this.orderId;
       }
       if (!this.orderId) {
         console.log(2, this.filters.order);
@@ -2416,6 +2473,7 @@ export default {
                 originState: data.members[index].originState,
                 originCity: data.members[index].originCity,
                 originAdress: data.members[index].originAddress,
+                originLocator: data.members[index].originLocator,
                 provider:
                   data.members[index].provider == null
                     ? null
@@ -2428,6 +2486,7 @@ export default {
                 destinationState: data.members[index].destinationState,
                 destinationCity: data.members[index].destinationCity,
                 destinationAdress: data.members[index].destinationAdress,
+                destinationLocator: data.members[index].destinationLocator,
                 destinationProvider:
                   data.members[index].destinationProvider == null
                     ? null
@@ -2489,21 +2548,11 @@ export default {
 
       return api.fetch("order_logistics/" + stretchId, options)
         .then((result) => {
-          let data = result.response.data;
-          if (result.response.success) {
-            this.$q.notify({
-              message: "Vistoria criada com sucesso.",
-              position: "bottom",
-              type: "positive",
-            });
-            this.$router.push({
-              name: "ChecklistDetails",
-              params: {
-                id: data.order_logistic_surveys_id,
-                token_url: data.order_logistic_surveys_token_url,
-              },
-            });
-          }
+          this.$q.notify({
+            message: "Trecho excluído com sucesso.",
+            position: "bottom",
+            type: "positive",
+          });
         })
 
         .finally(() => {
