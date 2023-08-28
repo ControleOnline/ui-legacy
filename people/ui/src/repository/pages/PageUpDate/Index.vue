@@ -38,7 +38,6 @@
     </div>
     <div class="col-12">
       <q-tabs
-        align="start"
         v-model="currentTab"
         no-caps
         class="bg-transparent text-primary"

@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
+
 
 
 export default {
@@ -31,6 +33,10 @@ export default {
       type    : Boolean,
       required: false,
       default : true
+    },
+    api  : {
+      type    : api,
+      required: false,
     },
   },
 

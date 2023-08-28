@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { Api } from "@controleonline/../../src/boot/api";
+import { api } from "@controleonline/../../src/boot/api";
 import { formatCEP } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import SearchCEPAddress from './SearchCEPAddress';
 
@@ -193,8 +193,8 @@ export default {
       required: true,
     },
     api: {
-      type: Api,
-      required: true
+      type: api,
+      required: false
     },
     people_type: {
       type: String,
@@ -236,9 +236,8 @@ export default {
     // store method
     getItems() {
       let endpoint = `${this.people_type}/${this.id}/addresses`;
-      return this.api.private(endpoint)
-        .then(response => response.json())
-        .then(result => {
+      return api.fetch(endpoint)
+        .then(result => { 
           return result.response.data;
         });
     },
@@ -252,9 +251,8 @@ export default {
       };
 
       let endpoint = `${this.people_type}/${this.id}/addresses`;
-      return this.api.private(endpoint, options)
-        .then(response => response.json())
-        .then(data => {
+      return api.fetch(endpoint, options)
+        .then(data => { 
           if (data.response) {
             if (data.response.success === false)
               throw new Error(data.response.error);
@@ -275,9 +273,8 @@ export default {
       };
 
       let endpoint = `${this.people_type}/${this.id}/addresses`;
-      return this.api.private(endpoint, options)
-        .then(response => response.json())
-        .then(data => {
+      return api.fetch(endpoint, options)
+        .then(data => { 
           if (data.response) {
             if (data.response.success === false)
               throw new Error(data.response.error);
