@@ -23,6 +23,9 @@
                     <q-th :style="column.style" :class="'text-' + column.align" v-for="column in columns">
                         {{ $t(column.label) }}
                     </q-th>
+                    <q-th v-if="configs.components.acoes">
+
+                    </q-th>
                 </q-tr>
             </template>
             <template v-slot:body="props">
@@ -32,9 +35,27 @@
                     </q-td>
                     <q-td :style="column.style" :class="'text-' + column.align" v-for="column in columns"
                         :sum="sum(column, props.row[column.name])">
+
+                        {{ editingInit(props.key, column.name) }}
                         <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
                             :verifyClick="verifyClick" />
-                        <span v-else v-html="format(column, props.row[column.name])"></span>
+                        <span v-else-if="editing[props.key][column.name] != true"
+                            @click="startEditing(props.key, column, format(column, props.row[column.name]))"
+                            v-html="format(column, props.row[column.name])" />
+                        <template v-else>
+                            <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined rounded
+                                :options="configs.list[column.list]" stack-label :label="$t(column.label)"
+                                @input="stopEditing(props.key, column, props.row)" label-color="black"
+                                v-model="editedValue" />
+
+                            <q-input v-else v-model="editedValue" dense autofocus
+                                @blur="stopEditing(props.key, column, props.row)"
+                                @keydown.enter="stopEditing(props.key, column, props.row)" />
+
+                        </template>
+                    </q-td>
+                    <q-td v-if="configs.components.acoes">
+                        <component :is="configs.components.acoes" :row="props.row" />
                     </q-td>
                 </q-tr>
             </template>
@@ -43,7 +64,7 @@
                 <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
                     :style="props.selected ? 'transform: scale(0.95);' : ''">
                     <q-card bordered flat :class="props.selected ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
-                        <q-card-section>
+                        <q-card-section v-if="configs.selection">
                             <q-checkbox dense v-model="props.selected" :label="props.row.name" />
                         </q-card-section>
                         <q-separator />
@@ -53,13 +74,32 @@
                                     <q-item-label>{{ $t(column.label) }}</q-item-label>
                                 </q-item-section>
                                 <q-item-section side>
+                                    {{ editingInit(props.key, column.name) }}
                                     <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
                                         :verifyClick="verifyClick" />
-                                    <q-item-label caption v-else
-                                        v-html="format(column, props.row[column.name])"></q-item-label>
+                                    <span v-else-if="editing[props.key][column.name] != true"
+                                        @click="startEditing(props.key, column, format(column, props.row[column.name]))"
+                                        v-html="format(column, props.row[column.name])" />
+                                    <template v-else>
+                                        <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined rounded
+                                            :options="configs.list[column.list]" stack-label :label="$t(column.label)"
+                                            @input="stopEditing(props.key, column, props.row)" label-color="black"
+                                            v-model="editedValue" />
+
+                                        <q-input v-else v-model="editedValue" dense autofocus
+                                            @blur="stopEditing(props.key, column, props.row)"
+                                            @keydown.enter="stopEditing(props.key, column, props.row)" />
+
+                                    </template>
                                 </q-item-section>
+
+
+
                             </q-item>
                         </q-list>
+                        <q-card-section v-if="configs.components.acoes">
+                            <component :is="configs.components.acoes" :row="props.row" />
+                        </q-card-section>
                     </q-card>
                 </div>
             </template>
@@ -110,14 +150,14 @@ export default {
 
     data() {
         return {
-            //isLoading:false,
+            editedValue: false,
+            initialized: false,
+            editing: [],
             selectAll: false,
             sumColumn: [],
             data: [],
             selected: [],
-            filters: {},
             dialog: false,
-            //columns: this.configs.columns,
             pagination: {
                 page: 1,
                 rowsNumber: this.totalItems || 0,
@@ -125,11 +165,20 @@ export default {
         };
     },
 
-    created() { this.loadData() },
+    created() {
+        this.loadData();
+    },
+    mounted() {
+        this.$nextTick(() => {
+        });
+    },
 
     computed: {
         isloading() {
             return this.$store.getters[this.configs.isLoading]
+        },
+        filters() {
+            return this.$store.getters[this.configs.filters]
         },
         columns() {
             return this.$store.getters[this.configs.columns]
@@ -166,6 +215,33 @@ export default {
 
     },
     methods: {
+        editingInit(index, col) {
+            if (this.initialized)
+                return;
+
+            if (this.editing[index] == undefined || this.editing[index][col] == undefined) {
+                this.editing[index] = [];
+                this.editing[index][col] = false;
+            }
+        },
+        startEditing(index, col, value) {
+
+            if (col.editable == false)
+                return;
+
+            this.initialized = true;
+            this.editedValue = value;
+            let editing = Object.assign({}, this.editing);
+            editing[index][col.name] = true;
+            this.editing = editing;
+        },
+        stopEditing(index, col, row) {
+            let editing = Object.assign({}, this.editing);
+            editing[index][col.name] = false;
+            this.editing = editing;
+            this.save(row, col.name, this.editedValue.value || this.editedValue);
+        },
+
         dynamicButton(column, props) {
             return {
                 functional: true,
@@ -194,9 +270,6 @@ export default {
         setSelectedDefault(index, item) {
             this.selected[index] = this.selected[index] == undefined ? false : true;
         },
-        
-        
-
         getFilterParams(params) {
             this.columns.forEach((item, i) => {
                 if (item.name && this.filters && this.filters[item.name])
@@ -212,8 +285,6 @@ export default {
         },
         sum(column, value) {
             if (!isNaN(value) && value && column.sum != false) {
-
-
                 this.sumColumn[column.name] = this.sumColumn[column.name] ? parseFloat(this.sumColumn[column.name]) + parseFloat(value) : 0;
             }
 
@@ -225,28 +296,70 @@ export default {
             }
             return;
         },
+
+        save(row, name, value) {
+
+            if (row[name] == value) return;
+
+            let params = {};
+            if (row['@id'])
+                params['id'] = row['@id'].split('/').pop();
+
+            params[name] = value;
+            this.$store.dispatch(this.configs.actions.save, {
+                resourceEndpoint: (this.configs.prefix || '') + this.configs.module,
+                params: params
+            }).then((data) => {
+                if (data[name] == value) {
+                    this.loadData();
+
+                    this.$q.notify({
+                        message: this.$t("Success!"),
+                        position: "bottom",
+                        type: "positive",
+                    });
+                } else {
+                    this.$q.notify({
+                        message: this.$t("Unable to save data!"),
+                        position: "bottom",
+                        type: "negative",
+                    });
+                }
+            });
+        },
+
         loadData(props) {
-            this.filters = this.configs.filters
+
             if (props) {
                 this.pagination = props.pagination;
 
                 if (this.filters)
-                    this.filters = Object.assign(this.filters, props.filters);
+                    this.$store.commit('logs/SET_FILTERS', Object.assign(this.filters, props.filters));
                 else
-                    this.filters = props.filters
+                    this.$store.commit('logs/SET_FILTERS', props.filters);
             }
 
-            let params = JSON.parse(JSON.stringify(this.pagination));
+            let params = Object.assign(this.filters, JSON.parse(JSON.stringify(this.pagination)));
+
             if (params.sortBy)
                 params.order = "" + params.sortBy + ";" + (params.descending ? "DESC" : "ASC");
             params.itemsPerPage = params.rowsPerPage || this.rowsOptions[0];
             delete params.sortBy;
             delete params.descending;
             delete params.rowsPerPage;
+
             params = this.getFilterParams(params);
-            this.data = [];
-            this.$store.dispatch(this.configs.actions.getItems,this.configs.module, params).then((data) => {
+
+
+            this.$store.dispatch(this.configs.actions.getItems, {
+
+                resourceEndpoint: (this.configs.prefix || '') + this.configs.module,
+                params: params
+            }).then((data) => {
                 this.data = data;
+                this.pagination.rowsNumber = this.totalItems;
+            }).catch(() => {
+                this.data = [];
             });
         },
     },
@@ -259,14 +372,13 @@ export default {
 }
 
 .default-table thead tr {
-    background-color: #ffffff;
     font-weight: bold;
     position: sticky;
     top: 0;
     z-index: 1;
 }
+
 .default-table tbody tr:last-child {
-    background-color: #ffffff;
     font-weight: bold;
     position: sticky;
     bottom: 0;
@@ -275,15 +387,14 @@ export default {
 
 .default-table thead th:last-child,
 .default-table tbody td:last-child {
-    background-color: #ffffff;
     font-weight: bold;
     position: sticky;
     right: 0;
     z-index: 1;
 }
+
 .default-table thead th:first-child,
 .default-table tbody td:first-child {
-    background-color: #ffffff;
     font-weight: bold;
     position: sticky;
     left: 0;
