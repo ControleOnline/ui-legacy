@@ -21,16 +21,15 @@
 
             <template v-slot:header="props">
                 <q-tr :props="props.row">
-                    <q-th v-if="configs.selection">
-                        <q-checkbox v-on:click.native="toggleSelectAll" v-model="selectAll" />
-                    </q-th>
                     <q-th :style="column.style" :class="[
                         'text-' + column.align,
                         { 'sortable-header': column.sortable },
                         { 'asc': column.sortable && sortedColumn === column.name && sortDirection === 'asc' },
                         { 'desc': column.sortable && sortedColumn === column.name && sortDirection === 'desc' },
 
-                    ]" v-for="column in columns" @click="sortTable(column.name)">
+                    ]" v-for="(column, index)  in columns" @click="sortTable(column.name)">
+                        <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
+                            v-model="selectAll" />
                         {{ $t(column.label) }}
                         <q-icon v-if="column.sortable"
                             :name="sortedColumn === column.name ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
@@ -44,19 +43,18 @@
             <template v-slot:body="props">
                 <transition name="fade" mode="out-in">
                     <q-tr :props="props.row">
-                        <q-td v-if="configs.selection">
-                            <q-checkbox v-model="selected[data.indexOf(props.row)]" :value="false" />
+                        <q-td :style="column.style" :class="'text-' + column.align" v-for="(column, index) in columns"
+                            :key="column.name" :sum="sum(column, props.row[column.name])">
 
-                        </q-td>
-                        <q-td :style="column.style" :class="'text-' + column.align" v-for="column in columns"
-                            :sum="sum(column, props.row[column.name])">
+                            <q-checkbox v-if="index == 0 && configs.selection" v-model="selected[data.indexOf(props.row)]"
+                                :value="false" />
 
                             {{ editingInit(props.key, column.name) }}
                             <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
                                 :verifyClick="verifyClick" />
                             <span v-else-if="editing[props.key][column.name] != true"
-                                @click="startEditing(props.key, column, format(column, props.row[column.name]))"
-                                v-html="format(column, props.row[column.name])" />
+                                @click="startEditing(props.key, column, format(column, column.list ? getNameFromList(column.list, props.row[column.name]) : props.row[column.name]))"
+                                v-html="format(column, column.list ? getNameFromList(column.list, props.row[column.name]).label : props.row[column.name])" />
                             <template v-else>
                                 <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined rounded
                                     :options="configs.list[column.list]" stack-label :label="$t(column.label)"
@@ -241,6 +239,9 @@ export default {
 
     },
     methods: {
+        getNameFromList(list, id) {
+            return this.configs.list[list].find(item => item.value === id);
+        },
         toggleSelectAll() {
             this.selected = this.selected.map(() => this.selectAll);
         },
