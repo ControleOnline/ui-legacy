@@ -4,6 +4,9 @@
             :loading="isloading" @request="loadData" binary-state-sort :rows-per-page-options="rowsOptions"
             :grid="this.$q.screen.gt.sm == false" :filter="filters">
             <template v-slot:top-right="props">
+
+                <q-checkbox v-model="selectAll" @click.native="toggleSelectAll" v-if="$q.screen.gt.sm == false" />
+
                 <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
                     @click="props.toggleFullscreen" class="q-ml-md" />
                 <q-input v-if="configs.search != false" borderless dense debounce="300" v-model="filter"
@@ -73,14 +76,22 @@
                     </q-tr>
                 </transition>
             </template>
-            <!---------------------------- Aqui a Tabela Vira Card Mobile e Tablet  --------------------------->
             <template v-slot:item="props">
                 <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
                     :style="selected[data.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
+
+
+
                     <q-card bordered flat
                         :class="selected[data.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
-                        <q-card-section v-if="configs.selection">
-                            <q-checkbox dense v-model="selected[data.indexOf(props.row)]" :label="props.row.name" />
+                        <q-card-section>
+                            <q-item-section v-if="configs.selection">
+                                <q-checkbox dense v-model="selected[data.indexOf(props.row)]" :label="props.row.name" />
+                            </q-item-section>
+                            <q-item-section v-if="configs.components.acoes" side>
+                                <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
+                                    :row="props.row" />
+                            </q-item-section>
                         </q-card-section>
                         <q-separator />
                         <q-list dense>
@@ -112,10 +123,7 @@
 
                             </q-item>
                         </q-list>
-                        <q-card-section v-if="configs.components.acoes">
-                            <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
-                                :row="props.row" />
-                        </q-card-section>
+
                     </q-card>
                 </div>
             </template>
@@ -219,8 +227,8 @@ export default {
         },
 
         selected: {
-            handler: function (selected) {                    
-                this.$store.commit('logs/SET_SELECTED', selected);                
+            handler: function (selected) {
+                this.$store.commit('logs/SET_SELECTED', selected);
             },
             deep: true,
         },
