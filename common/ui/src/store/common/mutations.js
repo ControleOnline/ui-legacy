@@ -3,7 +3,7 @@ import * as types from "./mutation_types";
 import Filters from "@controleonline/quasar-common-ui/src/utils/filters";
 const persistentFilter = new Filters();
 
-export default   {
+export default {
   [types.SET_ERROR](state, error) {
     Object.assign(state, { error });
   },
@@ -33,9 +33,11 @@ export default   {
     Object.assign(state, { filters });
   },
 
-  [types.SET_REROURCE_ENDPOINT](state, resourceEndpoint) {    
+  [types.SET_REROURCE_ENDPOINT](state, resourceEndpoint) {
     Object.assign(state, { resourceEndpoint });
   },
 
-  
+  [types.SET_SELECTED](state, selected) {
+    Object.assign(state, { selected });
+  },
 };

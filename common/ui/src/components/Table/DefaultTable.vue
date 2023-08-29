@@ -19,10 +19,19 @@
             <template v-slot:header="props">
                 <q-tr :props="props.row">
                     <q-th v-if="configs.selection">
+                        <q-checkbox v-on:click.native="toggleSelectAll" v-model="selectAll" />
                     </q-th>
-                    <q-th :style="column.style" :class="'text-' + column.align" v-for="column in columns"
-                        :key="column.name">
+                    <q-th :style="column.style" :class="[
+                        'text-' + column.align,
+                        { 'sortable-header': column.sortable },
+                        { 'asc': column.sortable && sortedColumn === column.name && sortDirection === 'asc' },
+                        { 'desc': column.sortable && sortedColumn === column.name && sortDirection === 'desc' },
+
+                    ]" v-for="column in columns" @click="sortTable(column.name)">
                         {{ $t(column.label) }}
+                        <q-icon v-if="column.sortable"
+                            :name="sortedColumn === column.name ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
+                            color="grey-8" size="14px" />
                     </q-th>
                     <q-th v-if="configs.components.acoes">
 
@@ -30,44 +39,48 @@
                 </q-tr>
             </template>
             <template v-slot:body="props">
-                <q-tr :props="props.row">
-                    <q-td v-if="configs.selection">
-                        <q-checkbox v-model="selected[data.indexOf(props.row)]" />
-                    </q-td>
-                    <q-td :style="column.style" :class="'text-' + column.align" v-for="column in columns" :key="column.name"
-                        :sum="sum(column, props.row[column.name])">
+                <transition name="fade" mode="out-in">
+                    <q-tr :props="props.row">
+                        <q-td v-if="configs.selection">
+                            <q-checkbox v-model="selected[data.indexOf(props.row)]" :value="false" />
 
-                        {{ editingInit(props.key, column.name) }}
-                        <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
-                            :verifyClick="verifyClick" />
-                        <span v-else-if="editing[props.key][column.name] != true"
-                            @click="startEditing(props.key, column, format(column, props.row[column.name]))"
-                            v-html="format(column, props.row[column.name])" />
-                        <template v-else>
-                            <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined rounded
-                                :options="configs.list[column.list]" stack-label :label="$t(column.label)"
-                                @input="stopEditing(props.key, column, props.row)" label-color="black"
-                                v-model="editedValue" />
+                        </q-td>
+                        <q-td :style="column.style" :class="'text-' + column.align" v-for="column in columns"
+                            :sum="sum(column, props.row[column.name])">
 
-                            <q-input v-else v-model="editedValue" dense autofocus
-                                @blur="stopEditing(props.key, column, props.row)"
-                                @keydown.enter="stopEditing(props.key, column, props.row)" />
+                            {{ editingInit(props.key, column.name) }}
+                            <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
+                                :verifyClick="verifyClick" />
+                            <span v-else-if="editing[props.key][column.name] != true"
+                                @click="startEditing(props.key, column, format(column, props.row[column.name]))"
+                                v-html="format(column, props.row[column.name])" />
+                            <template v-else>
+                                <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined rounded
+                                    :options="configs.list[column.list]" stack-label :label="$t(column.label)"
+                                    @input="stopEditing(props.key, column, props.row)" label-color="black"
+                                    v-model="editedValue" />
 
-                        </template>
-                    </q-td>
-                    <q-td v-if="configs.components.acoes">
-                        <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
-                            :row="props.row" />
-                    </q-td>
-                </q-tr>
+                                <q-input v-else v-model="editedValue" dense autofocus
+                                    @blur="stopEditing(props.key, column, props.row)"
+                                    @keydown.enter="stopEditing(props.key, column, props.row)" />
+
+                            </template>
+                        </q-td>
+                        <q-td v-if="configs.components.acoes">
+                            <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
+                                :row="props.row" />
+                        </q-td>
+                    </q-tr>
+                </transition>
             </template>
             <!---------------------------- Aqui a Tabela Vira Card Mobile e Tablet  --------------------------->
             <template v-slot:item="props">
                 <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
-                    :style="props.selected ? 'transform: scale(0.95);' : ''">
-                    <q-card bordered flat :class="props.selected ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
+                    :style="props.selected[data.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
+                    <q-card bordered flat
+                        :class="props.selected[data.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
                         <q-card-section v-if="configs.selection">
-                            <q-checkbox dense v-model="props.selected" :label="props.row.name" />
+                            <q-checkbox dense v-model="props.selected[data.indexOf(props.row)]" :label="props.row.name" />
                         </q-card-section>
                         <q-separator />
                         <q-list dense>
@@ -110,7 +123,7 @@
                 <q-tr>
                     <q-td v-if="configs.selection">
                     </q-td>
-                    <q-td :class="'text-' + column.align" v-for="column in columns" :key="column.name">
+                    <q-td :class="'text-' + column.align" v-for="column in columns">
                         <span v-if="sumColumn[column.name]" v-html="format(column, sumColumn[column.name])"></span>
                     </q-td>
                 </q-tr>
@@ -153,13 +166,15 @@ export default {
 
     data() {
         return {
+            selectAll: false,
+            sortedColumn: null,
+            sortDirection: null,
             editedValue: false,
             initialized: false,
             editing: [],
-            selectAll: false,
             sumColumn: [],
             data: [],
-            selected: [],
+            selected: new Array(this.rowsOptions.pop()).fill(false),
             dialog: false,
             pagination: {
                 page: 1,
@@ -202,14 +217,14 @@ export default {
             },
             deep: true,
         },
+
         selected: {
-            handler: async function (selected) {
-                selected.forEach((item, i) => {
-                    this.selected[i] = true;
-                });
+            handler: function (selected) {                
+                this.$store.commit('logs/SET_SELECTED', selected);                
             },
             deep: true,
         },
+
         myCompany(company) {
             if (company !== null) {
 
@@ -218,6 +233,49 @@ export default {
 
     },
     methods: {
+        toggleSelectAll() {
+            this.selected = this.selected.map(() => this.selectAll);
+        },
+        sortTable(columnName) {
+            const column = this.columns.find(col => col.name === columnName);
+            if (column && column.sortable) {
+                if (this.sortedColumn === columnName) {
+                    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    this.sortedColumn = columnName;
+                    this.sortDirection = 'asc';
+                }
+
+                this.reorderTableData();
+            }
+        },
+        reorderTableData() {
+            if (!this.sortedColumn || !this.sortDirection) {
+                return; // Não fazer nada se não houver ordenação
+            }
+
+            // Clone os dados originais para evitar a mutação direta
+            const clonedData = [...this.data];
+
+            clonedData.sort((a, b) => {
+                const aValue = a[this.sortedColumn];
+                const bValue = b[this.sortedColumn];
+
+                if (aValue < bValue) {
+                    return this.sortDirection === 'asc' ? -1 : 1;
+                } else if (aValue > bValue) {
+                    return this.sortDirection === 'asc' ? 1 : -1;
+                }
+                return 0;
+            });
+
+            this.data = clonedData;
+            if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
+                this.filters.order = this.sortedColumn + ';' + this.sortDirection;
+                this.loadData();
+            }
+        },
+
         editingInit(index, col) {
             if (this.initialized)
                 return;
@@ -270,9 +328,8 @@ export default {
                 },
             }
         },
-        setSelectedDefault(index, item) {
-            this.selected[index] = this.selected[index] == undefined ? false : true;
-        },
+
+
         getFilterParams(params) {
             this.columns.forEach((item, i) => {
                 if (item.name && this.filters && this.filters[item.name])
@@ -309,9 +366,7 @@ export default {
                 params['id'] = row['@id'].split('/').pop();
 
             params[name] = value;
-            this.$store.dispatch(this.configs.actions.save,
-
-                params
+            this.$store.dispatch(this.configs.actions.save, params
             ).then((data) => {
                 if (data[name] == value) {
                     this.loadData();
@@ -354,11 +409,12 @@ export default {
             params = this.getFilterParams(params);
 
 
-            this.$store.dispatch(this.configs.actions.getItems,
-                params
+            this.$store.dispatch(this.configs.actions.getItems, params
             ).then((data) => {
                 this.data = data;
                 this.pagination.rowsNumber = this.totalItems;
+                this.selected = new Array(data.length).fill(false);
+
             }).catch(() => {
                 this.data = [];
             });
@@ -400,5 +456,43 @@ export default {
     position: sticky;
     left: 0;
     z-index: 1;
+}
+
+
+.sortable-header {
+    cursor: pointer;
+}
+
+.asc .sortable-header {
+    position: relative;
+}
+
+.asc .sortable-header::before {
+    content: '\\25B2';
+    /* Setinha para cima */
+    position: absolute;
+    top: -10px;
+    right: 0;
+}
+
+.desc .sortable-header::before {
+    content: '\\25BC';
+    /* Setinha para baixo */
+    position: absolute;
+    top: -2px;
+    right: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active in <2.1.8 */
+    {
+    opacity: 0;
 }
 </style>
