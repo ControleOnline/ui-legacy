@@ -82,9 +82,9 @@
 </template>
 
 <script>
-import Contract from "./../entity/Contract";
 import configurable from "./../mixins/configurable";
 import validation from "./../mixins/validation";
+import Contract from "./../entity/Contract";
 
 export default {
   name: "ContractProductForm",
@@ -144,7 +144,13 @@ export default {
           });
           this.$emit("added");
         })
-
+        .catch((e) => {
+          this.$q.notify({
+            message: e.message,
+            position: "bottom",
+            type: "negative",
+          });
+        })
         .finally(() => {
           this.isSaving = false;
         });

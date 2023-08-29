@@ -1,4 +1,4 @@
- import Resource from './../../library/resource';
+import Resource from './../../library/resource'
 
 export default class GetDocument extends Resource {
   constructor(client) {
@@ -12,7 +12,7 @@ export default class GetDocument extends Resource {
           return response.text();
         }
         else {
-          return response
+          return response.json()
             .then(responseJson => {
               throw new Error('Unknown error');
             });

@@ -1,3 +1,4 @@
+import myFetch from './fetch';
 
 /**
  * Client class.
@@ -24,10 +25,10 @@ export default class Client {
       'API-TOKEN', this.token
     );
 
-    return api.fetch(this.endpoint, resourceId, options);
+    return myFetch(this.endpoint, resourceId, options);
   }
 
   public(resourceId, options = {}) {
-    return api.fetch(this.endpoint, resourceId, options);
+    return myFetch(this.endpoint, resourceId, options);
   }
 }

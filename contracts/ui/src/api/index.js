@@ -1,8 +1,8 @@
- import Client from './../library/client';
-import Contracts from './Contracts';
-import Customers from './Customers';
-import Products from './Products';
-import Schedules from './Schedules';
+import Client    from './../library/client'
+import Contracts from './Contracts'
+import Customers from './Customers'
+import Products  from './Products'
+import Schedules from './Schedules'
 
 const add = function(api, apiModule, modulekey) {
   for (const resourceClassName in apiModule) {
@@ -19,7 +19,7 @@ const add = function(api, apiModule, modulekey) {
 
     api[modulekey][resourceClassName]
       = function(options = {}) {
-        return api[modulekey][`_${resourceClassName}`].api.fetch(options);
+        return api[modulekey][`_${resourceClassName}`].fetch(options);
       }
   }
 };

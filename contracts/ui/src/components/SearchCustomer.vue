@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import Customer from './../entity/Customer';
 import configurable from './../mixins/configurable';
+import Customer     from './../entity/Customer';
 
 export default {
   name  : 'ContractSearchCustomer',

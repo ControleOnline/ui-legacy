@@ -127,9 +127,9 @@
 </template>  
 
 <script>
-import { date } from "quasar";
-import { mapGetters } from "vuex";
 import { ENTRYPOINT } from "../../../../../src/config/entrypoint";
+import { mapActions, mapGetters } from "vuex";
+import { date } from "quasar";
 
 export default {
   data() {

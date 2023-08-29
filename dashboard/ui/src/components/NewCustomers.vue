@@ -23,7 +23,7 @@
 
 <script>
 import configurable from './../mixins/configurable';
-import dashboard from './../mixins/dashboard';
+import dashboard    from './../mixins/dashboard';
 
 export default {
   name  : 'DashboardNewCustomers',

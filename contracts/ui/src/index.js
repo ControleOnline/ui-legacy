@@ -1,23 +1,36 @@
-import { version } from '../package.json';
+import { version }       from '../package.json'
 
- import ActionAmend from './components/ActionAmend';
-import ActionCancel from './components/ActionCancel';
-import ActionParticipant from './components/ActionParticipant';
-import ActionProduct from './components/ActionProduct';
-import ActionSchedule from './components/ActionSchedule';
-import ContractDetail from './components/ContractDetail';
-import ContractDocument from './components/ContractDocument';
-import ContractForm from './components/ContractForm';
-import ContractList from './components/ContractList';
-import ContractNav from './components/ContractNav';
-import ParticipantList from './components/ParticipantList';
-import ProductList from './components/ProductList';
-import ScheduleList from './components/ScheduleList';
+import ContractList      from './components/ContractList'
+import ContractForm      from './components/ContractForm'
+import ContractNav       from './components/ContractNav'
+import ContractDetail    from './components/ContractDetail'
+import ActionCancel      from './components/ActionCancel'
+import ActionAmend       from './components/ActionAmend'
+import ActionParticipant from './components/ActionParticipant'
+import ParticipantList   from './components/ParticipantList'
+import ProductList       from './components/ProductList'
+import ActionProduct     from './components/ActionProduct'
+import ContractDocument  from './components/ContractDocument'
+import ScheduleList      from './components/ScheduleList'
+import ActionSchedule    from './components/ActionSchedule'
 
 export {
-    ActionAmend, ActionCancel, ActionParticipant, ActionProduct, ActionSchedule, ContractDetail, ContractDocument, ContractForm, ContractList, ContractNav, ParticipantList,
-    ProductList, ScheduleList, version
-};
+  version,
+
+  ContractList     ,
+  ContractForm     ,
+  ContractNav      ,
+  ContractDetail   ,
+  ActionCancel     ,
+  ActionAmend      ,
+  ActionParticipant,
+  ParticipantList  ,
+  ProductList      ,
+  ActionProduct    ,
+  ContractDocument ,
+  ScheduleList     ,
+  ActionSchedule   ,
+}
 
 export default {
   version,

@@ -68,9 +68,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import Contract from "./../entity/Contract";
 import configurable from "./../mixins/configurable";
+import Contract from "./../entity/Contract";
+import { mapGetters } from 'vuex';
 
 export default {
   name: "ContractDetail",

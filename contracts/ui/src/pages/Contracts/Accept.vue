@@ -21,7 +21,7 @@
         <br />
         <h6>
           Os dados foram preenchidos,<br />
-          Enviaremos um e-mail para que você realize a assinatura digital.<br />
+          Enviaremos um e-mail para que você realize a assinatura digital.<br />          
         </h6>
       </div>
     </div>
@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
 import AcceptForm from "../../components/AcceptForm.vue";
+import { fetch } from "../../../../../../src/boot/myapi";
 
 export default {
   components: {
@@ -44,11 +44,11 @@ export default {
       pageLoading: false,
       payerData: {
         carModel: "",
-        other_informations: {
+        other_informations:{
           carColor: "",
           carNumber: "",
           renavan: "",
-        },
+        },        
         personType: "PF",
         name: "",
         alias: "",
@@ -97,22 +97,27 @@ export default {
         params: {},
       };
 
-      return api.fetch(`accept-order-payer/${this.id}`, options).then((data) => {
-        this.pageLoading = false;
-        return data;
-      });
+      return fetch(`/accept/order/${this.id}/payer`, options)
+        .then((response) => response.json())
+        .then((data) => {
+          this.pageLoading = false;
+          return data;
+        });
     },
     onSave(data) {
       this.pageLoading = true;
 
       let options = {
         method: "POST",
-        body: (data),
+        body: JSON.stringify(data),
         params: {},
       };
 
-      return api.fetch(`accept-order-payer/save/${this.id}`, options)
+      return fetch(`/accept/order/${this.id}/payer`, options)
+        .then((response) => response.json())
         .then((data) => {
+          this.pageLoading = false;
+
           if (data && data.response && data.response.success) {
             this.$q.notify({
               message: "Os dados foram salvos com sucesso",
@@ -120,12 +125,15 @@ export default {
               type: "positive",
             });
             this.isSaved = true;
+          } else {
+            this.$q.notify({
+              message: "Não foi possível atualizar o contrato neste momento!",
+              position: "bottom",
+              type: "negative",
+            });
           }
 
           return data;
-        })
-        .finally(() => {
-          this.pageLoading = false;
         });
     },
   },

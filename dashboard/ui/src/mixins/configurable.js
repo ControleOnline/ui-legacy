@@ -1,7 +1,7 @@
-import { api } from "@controleonline/../../src/boot/api";
+import api     from './api';
 import filters from './filters';
-import params from './params';
-import routes from './routes';
+import routes  from './routes';
+import params  from './params';
 
 export default {
   mixins: [ api, filters, routes, params ],

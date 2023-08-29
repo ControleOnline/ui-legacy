@@ -1,4 +1,4 @@
- import ptBR from './pt-br';
+import ptBR from './pt-br'
 
 export default {
   'pt-br': ptBR

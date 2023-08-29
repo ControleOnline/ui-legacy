@@ -33,11 +33,11 @@ export default {
       this.isLoading = true;
 
       this.Api.client
-        (
+        .private(
           '/dashboards',
           {
             method: 'POST',
-            body: ({
+            body: JSON.stringify({
               "query": this.query,
               "fromDate": formatDate(this.filters.from),
               "toDate": formatDate(this.filters.to),
@@ -48,7 +48,7 @@ export default {
         )
         .then(response => {
           if (response.ok) {
-            return response
+            return response.json()
               .then(data => {
                 if (data.response) {
                   if (data.response.success) {
@@ -63,7 +63,7 @@ export default {
               });
           }
           else {
-            return response
+            return response.json()
               .then(responseJson => {
                 throw new Error('Unknown error');
               });

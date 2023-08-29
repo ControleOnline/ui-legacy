@@ -1,6 +1,6 @@
 import {
-    formatBRMoney,
-    formatDateYmdTodmY,
+  formatDateYmdTodmY,
+  formatBRMoney,
 } from './../library/formatter';
 
 export default {

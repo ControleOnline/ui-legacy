@@ -1,4 +1,4 @@
- import Resource from './../../library/resource';
+import Resource from './../../library/resource'
 
 export default class DeleteParticipant extends Resource {
   constructor(client) {
@@ -12,7 +12,7 @@ export default class DeleteParticipant extends Resource {
           return true;
         }
         else {
-          return response
+          return response.json()
             .then(responseJson => {
               if (responseJson['@type'] === 'hydra:Error') {
                 let message = responseJson['hydra:description'];

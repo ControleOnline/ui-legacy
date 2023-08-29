@@ -1,4 +1,4 @@
- import Resource from './../../library/resource';
+import Resource from './../../library/resource'
 
 export default class Save extends Resource {
   constructor(client) {
@@ -16,7 +16,7 @@ export default class Save extends Resource {
     return super.fetch(options)
       .then((response) => {
         if (response.ok) {
-          return response
+          return response.json()
             .then(data => {
               return data;
             });

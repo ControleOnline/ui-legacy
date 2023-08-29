@@ -67,10 +67,10 @@
 </template>
 
 <script>
-import Contract from './../entity/Contract';
+import configurable           from './../mixins/configurable';
+import validation             from './../mixins/validation';
 import { formatDateYmdTodmY } from './../library/formatter';
-import configurable from './../mixins/configurable';
-import validation from './../mixins/validation';
+import Contract               from './../entity/Contract';
 
 export default {
   name  : 'ContractForm',

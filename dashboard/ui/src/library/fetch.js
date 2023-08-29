@@ -34,7 +34,7 @@ export default function(baseEndpoint, resourceId, options = {}) {
 
   const entryPoint = baseEndpoint + (baseEndpoint.endsWith('/') ? '' : '/');
 
-  return api.fetch(new URL(resourceId, entryPoint), options)
+  return fetch(new URL(resourceId, entryPoint), options)
     .then(response => {
       return response;
     });

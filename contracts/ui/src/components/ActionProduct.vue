@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import Contract from './../entity/Contract';
 import configurable from './../mixins/configurable';
-import ProductForm from './ProductForm';
+import Contract     from './../entity/Contract';
+import ProductForm  from './ProductForm';
 
 export default {
   name      : 'ContractActionProduct',

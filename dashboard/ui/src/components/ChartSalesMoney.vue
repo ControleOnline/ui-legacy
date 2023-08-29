@@ -11,14 +11,13 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
+import configurable               from './../mixins/configurable';
+import { date }                   from 'quasar';
+import IEcharts                   from 'vue-echarts-v3/src/lite.js';
 import 'echarts/lib/chart/line';
+import 'echarts/lib/component/title';
 import 'echarts/lib/component/grid';
 import 'echarts/lib/component/legend';
-import 'echarts/lib/component/title';
-import { date } from 'quasar';
-import IEcharts from 'vue-echarts-v3/src/lite.js';
-import configurable from './../mixins/configurable';
 
 function formatToUSDate(dateString) {
   return date.formatDate(date.extractDate(dateString, 'DD/MM/YYYY'), 'YYYY-MM-DD');
@@ -180,12 +179,12 @@ export default {
     },
 
     requestQuery(queryName) {
-      return api.fetch.client
-        (
+      return this.Api.client
+        .private(
           '/dashboards',
           {
             method: 'POST',
-            body  : ({
+            body  : JSON.stringify({
             	"query"   : queryName,
             	"fromDate": formatToUSDate(this.from),
             	"toDate"  : formatToUSDate(this.to),
@@ -196,7 +195,7 @@ export default {
         )
          .then(response => {
            if (response.ok) {
-             return response
+             return response.json()
                .then(data => {
                  if (data.response) {
                    if (data.response.success) {
@@ -211,7 +210,7 @@ export default {
                });
            }
            else {
-             return response
+             return response.json()
                .then(responseJson => {
                  throw new Error('Unknown error');
                });

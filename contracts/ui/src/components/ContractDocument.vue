@@ -52,11 +52,12 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
 import { mapGetters } from "vuex";
-import Contract from "./../entity/Contract";
-import { formatBRDocument, formatBRPostalCode } from "./../library/formatter";
 import configurable from "./../mixins/configurable";
+import Contract from "./../entity/Contract";
+import { formatBRDocument } from "./../library/formatter";
+import { formatBRPostalCode } from "./../library/formatter";
+import { fetch } from '../../../../../src/boot/myapi';
 
 export default {
   name: "ContractDocument",
@@ -105,38 +106,55 @@ export default {
     paymentType(paymentType) {
       let params = {
         method: "PUT",
-        body: ({ paymentType: paymentType }),
-        
+        body: JSON.stringify({ paymentType: paymentType }),
+        headers: new Headers(),
       };
 
       params.headers.set("API-TOKEN", this.logged.token);
 
       this.isLoading = true;
 
-      api
-        .fetch("/contracts/" + this.contract.id + "/change/payment", params)
+      fetch("/contracts/" + this.contract.id + "/change/payment", params)
+        .then((response) => response.json())
         .then(
           ((data) => {
-            if (data.response && data.response.success && data.response.data.contractId) {
+            this.isLoading = false;
+
+            if (
+              data.response &&
+              data.response.success &&
+              data.response.data.contractId
+            ) {
               this.$q.notify({
                 message: "Contrato atualizado com sucesso",
                 position: "bottom",
                 type: "positive",
               });
               this.loadDocument();
+            } else {
+              this.$q.notify({
+                message: "Não foi possível atualizar o contrato neste momento!",
+                position: "bottom",
+                type: "negative",
+              });
             }
 
             return data;
           }).bind(this)
         )
         .catch((e) => {
+          this.isLoading = false;
+
+          this.$q.notify({
+            message: "Não foi possível atualizar o contrato neste momento!",
+            position: "bottom",
+            type: "negative",
+          });
+
           if (e instanceof SubmissionError) {
             return e.errors._error;
           }
           return e.message;
-        })
-        .finally(() => {
-          this.isLoading = false;
         });
     },
   },
@@ -166,7 +184,9 @@ export default {
             info += ` Com sede na`;
             info += ` ${participant.people.address.street}`;
             info += ` nº ${participant.people.address.number}`;
-            info += ` - CEP ${formatBRPostalCode(participant.people.address.postalCode)}`;
+            info += ` - CEP ${formatBRPostalCode(
+              participant.people.address.postalCode
+            )}`;
             info += ` - ${participant.people.address.district}`;
             info += ` - ${participant.people.address.city}`;
             info += ` - ${participant.people.address.state}`;
@@ -200,9 +220,17 @@ export default {
           company: this.Params.Company.get(),
           myCompany: this.Params.Company.get(),
         },
-      }).then((content) => {
-        this.$refs.contractDocument.innerHTML = content;
-      });
+      })
+        .then((content) => {
+          this.$refs.contractDocument.innerHTML = content;
+        })
+        .catch((error) => {
+          this.$q.notify({
+            message: error.message,
+            position: "bottom",
+            type: "negative",
+          });
+        });
     },
 
     requestSignatures() {
@@ -220,6 +248,13 @@ export default {
         .then((contract) => {
           this.$emit("requested", contract);
         })
+        .catch((error) => {
+          this.$q.notify({
+            message: error.message,
+            position: "bottom",
+            type: "negative",
+          });
+        })
         .finally(() => {
           this.isRequesting = false;
         });
@@ -228,19 +263,25 @@ export default {
     onDemonstrativaClick() {
       let params = {
         method: "PUT",
-        body: ({}),
-        
+        body: JSON.stringify({}),
+        headers: new Headers(),
       };
 
       params.headers.set("API-TOKEN", this.logged.token);
 
       this.isLoading = true;
 
-      api
-        .fetch("/contracts/" + this.contract.id + "/status/Active", params)
+      fetch("/contracts/" + this.contract.id + "/status/Active", params)
+        .then((response) => response.json())
         .then(
           ((data) => {
-            if (data.response && data.response.success && data.response.data.contractId) {
+            this.isLoading = false;
+
+            if (
+              data.response &&
+              data.response.success &&
+              data.response.data.contractId
+            ) {
               this.$q.notify({
                 message: "Contrato atualizado com sucesso",
                 position: "bottom",
@@ -248,19 +289,30 @@ export default {
               });
 
               location.reload();
+            } else {
+              this.$q.notify({
+                message: "Não foi possível atualizar o contrato neste momento!",
+                position: "bottom",
+                type: "negative",
+              });
             }
 
             return data;
           }).bind(this)
         )
         .catch((e) => {
+          this.isLoading = false;
+
+          this.$q.notify({
+            message: "Não foi possível atualizar o contrato neste momento!",
+            position: "bottom",
+            type: "negative",
+          });
+
           if (e instanceof SubmissionError) {
             return e.errors._error;
           }
           return e.message;
-        })
-        .finally(() => {
-          this.isLoading = false;
         });
     },
   },

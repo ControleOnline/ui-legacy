@@ -50,7 +50,7 @@ export default class Resource {
     }
 
     if (options.payload) {
-      _options.body = (options.payload);
+      _options.body = JSON.stringify(options.payload);
     }
 
     let endpoint = this.resourceId;
