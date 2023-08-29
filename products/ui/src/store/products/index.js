@@ -53,6 +53,7 @@ export default {
         sortable: true,
         name: "type",
         align: "left",
+        list:"productType",
         label: "products.type",
         format: function (value) {
           return value;
@@ -61,6 +62,7 @@ export default {
       {
         sortable: true,
         name: "productCondition",
+        list:"productConditions",
         align: "left",
         label: "products.productCondition",
         format: function (value) {
@@ -73,7 +75,7 @@ export default {
         align: "right",
         label: "products.price",
         format: function (value) {
-          return value;
+          return parseFloat(value);
         },
       },      
     ],
