@@ -76,11 +76,11 @@
             <!---------------------------- Aqui a Tabela Vira Card Mobile e Tablet  --------------------------->
             <template v-slot:item="props">
                 <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
-                    :style="props.selected[data.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
+                    :style="selected[data.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
                     <q-card bordered flat
-                        :class="props.selected[data.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
+                        :class="selected[data.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
                         <q-card-section v-if="configs.selection">
-                            <q-checkbox dense v-model="props.selected[data.indexOf(props.row)]" :label="props.row.name" />
+                            <q-checkbox dense v-model="selected[data.indexOf(props.row)]" :label="props.row.name" />
                         </q-card-section>
                         <q-separator />
                         <q-list dense>
@@ -219,7 +219,7 @@ export default {
         },
 
         selected: {
-            handler: function (selected) {                
+            handler: function (selected) {                    
                 this.$store.commit('logs/SET_SELECTED', selected);                
             },
             deep: true,
