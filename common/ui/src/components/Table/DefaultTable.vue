@@ -55,7 +55,7 @@
                         </template>
                     </q-td>
                     <q-td v-if="configs.components.acoes">
-                        <component :is="configs.components.acoes" :row="props.row" />
+                        <component :is="configs.components.acoes"  :propsData="configs.components.componentProps" :row="props.row" />
                     </q-td>
                 </q-tr>
             </template>
@@ -98,7 +98,7 @@
                             </q-item>
                         </q-list>
                         <q-card-section v-if="configs.components.acoes">
-                            <component :is="configs.components.acoes" :row="props.row" />
+                            <component :is="configs.components.acoes"  :propsData="configs.components.componentProps" :row="props.row" />
                         </q-card-section>
                     </q-card>
                 </div>

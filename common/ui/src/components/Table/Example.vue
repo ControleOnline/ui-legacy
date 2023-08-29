@@ -20,6 +20,10 @@ export default {
             return {
                 components: {
                     acoes: () => import("@nelsys/../../src/modules/nelsys/quasar-waybill-ui/src/components/pedido/acoes.vue"),
+                    componentProps: {
+                        x: 1,
+                        Y: 2
+                    }
                 },
                 list: {
                     transportadoras: this.transportadoras,
