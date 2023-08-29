@@ -20,7 +20,8 @@
                 <q-tr :props="props.row">
                     <q-th v-if="configs.selection">
                     </q-th>
-                    <q-th :style="column.style" :class="'text-' + column.align" v-for="column in columns">
+                    <q-th :style="column.style" :class="'text-' + column.align" v-for="column in columns"
+                        :key="column.name">
                         {{ $t(column.label) }}
                     </q-th>
                     <q-th v-if="configs.components.acoes">
@@ -33,7 +34,7 @@
                     <q-td v-if="configs.selection">
                         <q-checkbox v-model="selected[data.indexOf(props.row)]" />
                     </q-td>
-                    <q-td :style="column.style" :class="'text-' + column.align" v-for="column in columns"
+                    <q-td :style="column.style" :class="'text-' + column.align" v-for="column in columns" :key="column.name"
                         :sum="sum(column, props.row[column.name])">
 
                         {{ editingInit(props.key, column.name) }}
@@ -55,7 +56,8 @@
                         </template>
                     </q-td>
                     <q-td v-if="configs.components.acoes">
-                        <component :is="configs.components.acoes"  :propsData="configs.components.componentProps" :row="props.row" />
+                        <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
+                            :row="props.row" />
                     </q-td>
                 </q-tr>
             </template>
@@ -98,7 +100,8 @@
                             </q-item>
                         </q-list>
                         <q-card-section v-if="configs.components.acoes">
-                            <component :is="configs.components.acoes"  :propsData="configs.components.componentProps" :row="props.row" />
+                            <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
+                                :row="props.row" />
                         </q-card-section>
                     </q-card>
                 </div>
@@ -107,7 +110,7 @@
                 <q-tr>
                     <q-td v-if="configs.selection">
                     </q-td>
-                    <q-td :class="'text-' + column.align" v-for="column in columns">
+                    <q-td :class="'text-' + column.align" v-for="column in columns" :key="column.name">
                         <span v-if="sumColumn[column.name]" v-html="format(column, sumColumn[column.name])"></span>
                     </q-td>
                 </q-tr>
@@ -306,10 +309,10 @@ export default {
                 params['id'] = row['@id'].split('/').pop();
 
             params[name] = value;
-            this.$store.dispatch(this.configs.actions.save, {
-                resourceEndpoint: (this.configs.prefix || '') + this.configs.module,
-                params: params
-            }).then((data) => {
+            this.$store.dispatch(this.configs.actions.save,
+
+                params
+            ).then((data) => {
                 if (data[name] == value) {
                     this.loadData();
 
@@ -339,7 +342,7 @@ export default {
                     this.$store.commit('logs/SET_FILTERS', props.filters);
             }
 
-            let params = Object.assign(this.filters, JSON.parse(JSON.stringify(this.pagination)));
+            let params = Object.assign(this.filters || {}, JSON.parse(JSON.stringify(this.pagination)));
 
             if (params.sortBy)
                 params.order = "" + params.sortBy + ";" + (params.descending ? "DESC" : "ASC");
@@ -351,11 +354,9 @@ export default {
             params = this.getFilterParams(params);
 
 
-            this.$store.dispatch(this.configs.actions.getItems, {
-
-                resourceEndpoint: (this.configs.prefix || '') + this.configs.module,
-                params: params
-            }).then((data) => {
+            this.$store.dispatch(this.configs.actions.getItems,
+                params
+            ).then((data) => {
                 this.data = data;
                 this.pagination.rowsNumber = this.totalItems;
             }).catch(() => {

@@ -103,12 +103,12 @@ export default {
 
   methods: {
     ...mapActions({
-      getProduct: "products/getProduct",
+      getProduct: "products/get",
     }),
     getData() {
       if (this.idProduct)
-        this.getProduct(
-          this.idProduct
+        this.getProduct( 
+          this.idProduct        
         ).then((data) => {
           this.productData = data;
         });

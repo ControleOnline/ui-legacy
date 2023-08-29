@@ -1,12 +1,13 @@
 import * as actions from "@controleonline/quasar-common-ui/src/store/common/actions";
 import * as getters from "@controleonline/quasar-common-ui/src/store/common/getters";
-import mutations from "@controleonline/quasar-common-ui/src/store/common/mutations";
+import mutations from '@controleonline/quasar-common-ui/src/store/common/mutations';
 import Filters from "@controleonline/quasar-common-ui/src/utils/filters";
 const persistentFilter = new Filters();
 
 export default {
-  namespaced: true,
+  namespaced: true,  
   state: {
+    resourceEndpoint:'products',
     isLoading: false,
     error: "",
     violations: null,
@@ -19,12 +20,17 @@ export default {
         align: "left",
         label: "products.id",
         sum: false,
+        to: function (column) {
+          return {
+            name: "ProductDetails",
+            params: { id: column.id },
+          };
+        },
         format: function (value) {
           return "#" + value;
         },
       },
       {
-        //list: 'transportadoras',
         sortable: true,
         name: "sku",
         align: "left",
@@ -69,8 +75,7 @@ export default {
         format: function (value) {
           return value;
         },
-      },
-      { name: "actions" },
+      },      
     ],
   },
   actions,

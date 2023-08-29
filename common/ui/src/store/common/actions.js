@@ -1,11 +1,12 @@
 import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 import * as types from "@controleonline/quasar-common-ui/src/store/common/mutation_types";
+import { resourceEndpoint } from './getters'; 
 
-export const getItems = ({ commit }, params = {}) => {
+export const getItems = ({ commit ,getters }, params = {}) => {
   commit(types.SET_ISLOADING, true);
   return api
-    .fetch(params.resourceEndpoint, { params: params.params })
+    .fetch(getters.resourceEndpoint, { params: params })
 
     .then((data) => {
       commit(types.SET_ITEMS, data["hydra:member"]);
@@ -25,18 +26,18 @@ export const getItems = ({ commit }, params = {}) => {
     });
 };
 
-export const save = ({ commit }, params) => {
-  let id = params.params.id;
-  delete params.params.id;
+export const save = ({ commit,getters  }, params) => {
+  let id = params.id;
+  delete params.id;
 
   let options = {
     method: id ? "PUT" : "POST",
-    body: params.params,
+    body: params,
   };
   commit(types.SET_ISLOADING, true);
 
   return api
-    .fetch(params.resourceEndpoint + (id ? "/" + id : ""), options)
+    .fetch(getters.resourceEndpoint + (id ? "/" + id : ""), options)
     .then((data) => {
       return data;
     })
@@ -53,11 +54,10 @@ export const save = ({ commit }, params) => {
     });
 };
 
-export const get = ({ commit }, params) => {
-  commit(types.SET_ISLOADING, true);
-
+export const get = ({ commit,getters  }, id) => {
+  commit(types.SET_ISLOADING, true);      
   return api
-    .fetch(params.resourceEndpoint + "/" + params.id, {})
+    .fetch(getters.resourceEndpoint + "/" + id, {})
 
     .then((data) => {
       commit(types.SET_ITEMS, data["hydra:member"]);

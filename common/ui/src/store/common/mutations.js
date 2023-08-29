@@ -32,4 +32,10 @@ export default   {
     persistentFilter.setFilter(filters);
     Object.assign(state, { filters });
   },
+
+  [types.SET_REROURCE_ENDPOINT](state, resourceEndpoint) {    
+    Object.assign(state, { resourceEndpoint });
+  },
+
+  
 };
