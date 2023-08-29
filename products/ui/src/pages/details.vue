@@ -92,6 +92,7 @@ export default {
   created() {
     let idProduct = decodeURIComponent(this.$route.params.id);
     this.idProduct = idProduct == 'undefined' ? null : idProduct;
+    this.getData();
   },
 
   computed: {
@@ -116,10 +117,7 @@ export default {
   },
 
   watch: {
-    myCompany(company) {
-      if (company)
-        this.getData();
-    },
+
   },
 };
 </script>

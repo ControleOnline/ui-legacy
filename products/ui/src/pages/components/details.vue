@@ -24,6 +24,7 @@
       <div class="row col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 justify-content q-pa-sm">
         <q-input debounce="700" :loading="isLoading" class="q-pa-xs col-12" outlined stack-label dense
           :label="$t('price')" hide-bottom-space v-model="product.price" type="number" />
+
       </div>
       <div class="row col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 justify-content q-pa-sm">
         <q-input debounce="700" :loading="isLoading" class="q-pa-xs col-12" outlined stack-label dense
@@ -103,7 +104,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      saveProduct: "products/saveProduct",
+      saveProduct: "products/save",
     }),
     save(product) {
       this.saveProduct({
@@ -129,17 +130,6 @@ export default {
   },
   watch: {
 
-    product: {
-      handler: function (product) {
-
-        //if (this.loaded && product && product.id)
-        //this.save(product);
-
-        this.loaded = true;
-      },
-      immediate: false,
-      deep: true,
-    },
   },
 
 
