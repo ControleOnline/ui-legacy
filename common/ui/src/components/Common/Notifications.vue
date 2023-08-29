@@ -23,12 +23,6 @@ import { api } from "@controleonline/../../src/boot/api";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  props: {
-    peopleId: {
-      required: true,
-    },
-  },
-
   data() {
     return {
       company: null,
@@ -59,7 +53,7 @@ export default {
 
     getNotifications() {
       let params = {};
-      params["people.id"] = this.peopleId;
+      params["people.id"] = this.$store.getters['auth/user'].people;
       params["read"] = 0;
       params.itemsPerPage = 10;
 
