@@ -22,7 +22,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 export default {
   name: 'ContractIndexPage',
@@ -57,7 +56,7 @@ export default {
     setConfig(configs) {
       // config api
       configs.Api.setAsFake (false);
-      configs.Api.setBaseUrl(ENTRYPOINT);
+      configs.Api.setBaseUrl('https://api.dev.foccuscegonhas.com.br/');
       configs.Api.setToken  (this.$store.getters['auth/user'].token);
 
       // config routes

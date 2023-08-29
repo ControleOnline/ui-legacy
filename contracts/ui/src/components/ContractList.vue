@@ -73,9 +73,9 @@
 </template>
 
 <script>
-import { mapGetters }         from 'vuex';
-import configurable           from './../mixins/configurable';
+import { mapGetters } from 'vuex';
 import { formatDateYmdTodmY } from './../library/formatter';
+import configurable from './../mixins/configurable';
 
 export default {
   name  : 'ContractList',

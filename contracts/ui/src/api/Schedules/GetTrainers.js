@@ -1,4 +1,4 @@
-import Resource from './../../library/resource'
+ import Resource from './../../library/resource';
 
 export default class GetTrainers extends Resource {
   constructor(client) {
@@ -9,7 +9,7 @@ export default class GetTrainers extends Resource {
     return super.fetch(options)
       .then((response) => {
         if (response.ok) {
-          return response.json()
+          return response
             .then(data => {
               if (data['hydra:member']) {
                 return {

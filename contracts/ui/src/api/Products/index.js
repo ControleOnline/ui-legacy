@@ -1,4 +1,4 @@
-import GetAll from './GetAll'
+ import GetAll from './GetAll';
 
 export default {
   GetAll,

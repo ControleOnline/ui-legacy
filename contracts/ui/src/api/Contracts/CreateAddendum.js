@@ -1,5 +1,5 @@
-import Resource from './../../library/resource'
-import Errors   from './../../library/errors'
+ import Errors from './../../library/errors';
+import Resource from './../../library/resource';
 
 export default class CreateAddendum extends Resource {
   constructor(client) {
@@ -10,13 +10,13 @@ export default class CreateAddendum extends Resource {
     return super.fetch(options)
       .then((response) => {
         if (response.ok) {
-          return response.json()
+          return response
             .then(data => {
               return data;
             });
         }
         else {
-          return response.json()
+          return response
             .then(responseJson => {
               if (responseJson['@type'] === 'hydra:Error') {
                 let message = responseJson['hydra:description'];

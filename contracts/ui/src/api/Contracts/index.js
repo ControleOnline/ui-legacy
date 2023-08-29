@@ -1,19 +1,19 @@
-import GetAll            from './GetAll'
-import Create            from './Create'
-import GetOne            from './GetOne'
-import GetTemplateList   from './GetTemplateList'
-import Save              from './Save'
-import Cancel            from './Cancel'
-import CreateAddendum    from './CreateAddendum'
-import AddParticipant    from './AddParticipant'
-import GetParticipants   from './GetParticipants'
-import DeleteParticipant from './DeleteParticipant'
-import GetProducts       from './GetProducts'
-import DeleteProduct     from './DeleteProduct'
-import AddProduct        from './AddProduct'
-import GetSigners        from './GetSigners'
-import GetDocument       from './GetDocument'
-import RequestSignatures from './RequestSignatures'
+ import AddParticipant from './AddParticipant';
+import AddProduct from './AddProduct';
+import Cancel from './Cancel';
+import Create from './Create';
+import CreateAddendum from './CreateAddendum';
+import DeleteParticipant from './DeleteParticipant';
+import DeleteProduct from './DeleteProduct';
+import GetAll from './GetAll';
+import GetDocument from './GetDocument';
+import GetOne from './GetOne';
+import GetParticipants from './GetParticipants';
+import GetProducts from './GetProducts';
+import GetSigners from './GetSigners';
+import GetTemplateList from './GetTemplateList';
+import RequestSignatures from './RequestSignatures';
+import Save from './Save';
 
 export default {
   GetAll,

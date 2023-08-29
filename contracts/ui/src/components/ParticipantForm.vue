@@ -109,10 +109,11 @@
 </template>
 
 <script>
-import configurable from "./../mixins/configurable";
-import validation from "./../mixins/validation";
+import { api } from "@controleonline/../../src/boot/api";
 import Contract from "./../entity/Contract";
 import { formatBRDocument } from "./../library/formatter";
+import configurable from "./../mixins/configurable";
+import validation from "./../mixins/validation";
 import SearchCustomer from "./SearchCustomer";
 
 export default {
@@ -170,12 +171,6 @@ export default {
       this.paymentDay = null;
       this.document = null;
       this.email = null;
-
-      this.$q.notify({
-        message: this.$t(error.message),
-        position: "bottom",
-        type: "negative",
-      });
     },
 
     loadMonthDays() {
@@ -201,11 +196,6 @@ export default {
 
     onSubmit() {
       if (!this.customerId) {
-        this.$q.notify({
-          message: this.$t("message.no_customer"),
-          position: "bottom",
-          type: "negative",
-        });
         return;
       }
 
@@ -238,20 +228,14 @@ export default {
 
           this.$emit("added");
         })
-        .catch((error) => {
-          this.$q.notify({
-            message: this.$t(error.message),
-            position: "bottom",
-            type: "negative",
-          });
-        })
+
         .finally(() => {
           this.isSaving = false;
         });
     },
 
     async addParticipant(data) {
-      return this.Api.Contracts.AddParticipant(data);
+      return api.fetch.Contracts.AddParticipant(data);
     },
   },
 };
