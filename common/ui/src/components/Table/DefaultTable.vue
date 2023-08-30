@@ -24,15 +24,15 @@
                     <q-th :style="column.style" :class="[
                         'text-' + column.align,
                         { 'sortable-header': column.sortable },
-                        { 'asc': column.sortable && sortedColumn === column.name && sortDirection === 'asc' },
-                        { 'desc': column.sortable && sortedColumn === column.name && sortDirection === 'desc' },
+                        { 'asc': column.sortable && (sortedColumn === column.name || sortedColumn === column.key) && sortDirection === 'ASC' },
+                        { 'desc': column.sortable && (sortedColumn === column.name || sortedColumn === column.key) && sortDirection === 'DESC' },
 
-                    ]" v-for="(column, index)  in columns" @click="sortTable(column.name)">
+                    ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)">
                         <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
                             v-model="selectAll" />
                         {{ $t(column.label) }}
                         <q-icon v-if="column.sortable"
-                            :name="sortedColumn === column.name ? (sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
+                            :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
                             color="grey-8" size="14px" />
                     </q-th>
                     <q-th v-if="configs.components.acoes">
@@ -44,7 +44,8 @@
                 <transition name="fade" mode="out-in">
                     <q-tr :props="props.row">
                         <q-td :style="column.style" :class="'text-' + column.align" v-for="(column, index) in columns"
-                            :key="column.name" :sum="sum(column, props.row[column.name])">
+                            :key="column.key || column.name"
+                            :sum="sum(column, getObjectFromKey(props.row, column.key || column.name))">
 
                             <q-checkbox v-if="index == 0 && configs.selection" v-model="selected[data.indexOf(props.row)]"
                                 :value="false" />
@@ -52,9 +53,8 @@
                             {{ editingInit(props.key, column.name) }}
                             <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
                                 :verifyClick="verifyClick" />
-                            <span v-else-if="editing[props.key][column.name] != true"
-                                @click="startEditing(props.key, column, format(column, column.list ? getNameFromList(column.list, props.row[column.name]) : props.row[column.name]))"
-                                v-html="format(column, column.list ? getNameFromList(column.list, props.row[column.name]).label : props.row[column.name])" />
+                            <span v-else-if="editing[props.key][column.key || column.name] != true" @click="startEditing(props.key, column,
+                                formatData(column, props))" v-html="formatData(column, props)" />
                             <template v-else>
                                 <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined rounded
                                     :options="configs.list[column.list]" stack-label :label="$t(column.label)"
@@ -93,7 +93,7 @@
                         </q-card-section>
                         <q-separator />
                         <q-list dense>
-                            <q-item v-for="column in columns" :key="column.name">
+                            <q-item v-for="column in columns" :key="column.key || column.name">
                                 <q-item-section>
                                     <q-item-label>{{ $t(column.label) }}</q-item-label>
                                 </q-item-section>
@@ -101,9 +101,9 @@
                                     {{ editingInit(props.key, column.name) }}
                                     <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
                                         :verifyClick="verifyClick" />
-                                    <span v-else-if="editing[props.key][column.name] != true"
-                                        @click="startEditing(props.key, column, format(column, props.row[column.name]))"
-                                        v-html="format(column, props.row[column.name])" />
+                                    <span v-else-if="editing[props.key][column.key || column.name] != true"
+                                        @click="startEditing(props.key, column, formatData(column, props))"
+                                        v-html="formatData(column, props)" />
                                     <template v-else>
                                         <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined rounded
                                             :options="configs.list[column.list]" stack-label :label="$t(column.label)"
@@ -130,7 +130,8 @@
                     <q-td v-if="configs.selection">
                     </q-td>
                     <q-td :class="'text-' + column.align" v-for="column in columns">
-                        <span v-if="sumColumn[column.name]" v-html="format(column, sumColumn[column.name])"></span>
+                        <span v-if="sumColumn[column.key || column.name]"
+                            v-html="format(column, sumColumn[column.key || column.name])"></span>
                     </q-td>
                 </q-tr>
             </template>
@@ -239,26 +240,58 @@ export default {
 
     },
     methods: {
-        getNameFromList(list, id) {
-            return this.configs.list[list].find(item => item.value === id);
+
+
+        formatData(column, props) {
+            let data = this.format(column, column.list ? this.getNameFromList(
+                column.list,
+                this.getObjectFromKey(props.row, column.key || column.name)) :
+                this.getObjectFromKey(props.row, column.key || column.name)[column.key || column.name])
+            return data;
+        },
+
+        getObjectFromKey(object, key) {
+            let objetoAtual = object;
+            if (key.indexOf(".") != -1) {
+                let partesDaChave = key.split('.');
+                for (let parte of partesDaChave) {
+                    objetoAtual = objetoAtual[parte];
+                }
+            }
+            return objetoAtual;
+        },
+
+        getNameFromList(column, row) {
+            let name = this.configs.list[column].find(item => item.value === row.id);
+            return typeof name == 'object' ? name.label : name;
+
         },
         toggleSelectAll() {
             this.selected = this.selected.map(() => this.selectAll);
         },
         sortTable(columnName) {
-            const column = this.columns.find(col => col.name === columnName);
+
+            const column = this.columns.find((col) => {
+                return col.name === columnName || col.key === columnName
+            });
             if (column && column.sortable) {
                 if (this.sortedColumn === columnName) {
-                    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+                    this.sortDirection = this.sortDirection === 'ASC' ? "DESC" : "ASC";
                 } else {
                     this.sortedColumn = columnName;
-                    this.sortDirection = 'asc';
+                    this.sortDirection = 'ASC';
                 }
 
-                this.reorderTableData();
+                if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
+                    this.filters.order = this.sortedColumn + ';' + this.sortDirection;
+                    this.loadData();
+                } else {
+                    this.reorderTableData();
+                }
             }
         },
         reorderTableData() {
+            /*
             if (!this.sortedColumn || !this.sortDirection) {
                 return; // Não fazer nada se não houver ordenação
             }
@@ -266,7 +299,13 @@ export default {
             // Clone os dados originais para evitar a mutação direta
             const clonedData = [...this.data];
 
+            console.log(this.sortedColumn);
+
             clonedData.sort((a, b) => {
+
+                console.log(this.getObjectFromKey(a, this.sortedColumn));
+                console.log(this.getObjectFromKey(b, this.sortedColumn));
+
                 const aValue = a[this.sortedColumn];
                 const bValue = b[this.sortedColumn];
 
@@ -279,10 +318,8 @@ export default {
             });
 
             this.data = clonedData;
-            if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
-                this.filters.order = this.sortedColumn + ';' + this.sortDirection;
-                this.loadData();
-            }
+            */
+
         },
 
         editingInit(index, col) {
@@ -295,21 +332,19 @@ export default {
             }
         },
         startEditing(index, col, value) {
-
-            if (col.editable == false)
+            if (col.editable == false || (col.key && col.key.indexOf(".") != -1))
                 return;
-
             this.initialized = true;
             this.editedValue = value;
             let editing = Object.assign({}, this.editing);
-            editing[index][col.name] = true;
+            editing[index][col.key || col.name] = true;
             this.editing = editing;
         },
         stopEditing(index, col, row) {
             let editing = Object.assign({}, this.editing);
-            editing[index][col.name] = false;
+            editing[index][col.key || col.name] = false;
             this.editing = editing;
-            this.save(row, col.name, this.editedValue.value || this.editedValue);
+            this.save(row, col.key || col.name, this.editedValue.value || this.editedValue);
         },
 
         dynamicButton(column, props) {
@@ -322,7 +357,7 @@ export default {
                         round: false,
                         dense: true,
                         icon: column.icon,
-                        label: context.props.format(column, props.row[column.name]), // Usar a propriedade "format"
+                        label: context.props.format(column, getObjectFromKey(props.row, column.key || column.name)), // Usar a propriedade "format"
                     };
                     return createElement('q-btn', {
                         class: 'q-ml-md',
@@ -354,7 +389,7 @@ export default {
         },
         sum(column, value) {
             if (!isNaN(value) && value && column.sum != false) {
-                this.sumColumn[column.name] = this.sumColumn[column.name] ? parseFloat(this.sumColumn[column.name]) + parseFloat(value) : 0;
+                this.sumColumn[column.key || column.name] = this.sumColumn[column.key || column.name] ? parseFloat(this.sumColumn[column.key || column.name]) + parseFloat(value) : 0;
             }
 
         },
@@ -374,7 +409,11 @@ export default {
             if (row['@id'])
                 params['id'] = row['@id'].split('/').pop();
 
-            params[name] = value;
+            if (typeof row[name] == 'object') {
+                params[name] = '/' + row[name]['@id'].split('/', 2)[1] + '/' + value;
+            } else {
+                params[name] = value;
+            }
             this.$store.dispatch(this.configs.actions.save, params
             ).then((data) => {
                 if (data[name] == value) {
@@ -406,7 +445,9 @@ export default {
                     this.$store.commit('logs/SET_FILTERS', props.filters);
             }
 
+
             let params = Object.assign(this.filters || {}, JSON.parse(JSON.stringify(this.pagination)));
+
 
             if (params.sortBy)
                 params.order = "" + params.sortBy + ";" + (params.descending ? "DESC" : "ASC");
@@ -417,6 +458,7 @@ export default {
 
             params = this.getFilterParams(params);
 
+            this.$store.commit('logs/SET_FILTERS', params);
 
             this.$store.dispatch(this.configs.actions.getItems, params
             ).then((data) => {
@@ -504,6 +546,7 @@ export default {
     {
     opacity: 0;
 }
+
 .q-table--grid.fullscreen {
     background: #fff;
 }
