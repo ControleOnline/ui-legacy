@@ -504,4 +504,7 @@ export default {
     {
     opacity: 0;
 }
+.q-table--grid.fullscreen {
+    background: #fff;
+}
 </style>
