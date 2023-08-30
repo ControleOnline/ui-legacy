@@ -3,7 +3,9 @@ import { LocalStorage } from "quasar";
 export default class Filters {
   getFilters() {
     let storedUser = this.getAllFilters();
-    return storedUser && this.getRoute() ? storedUser[this.getRoute()] : {};
+    return storedUser && this.getRoute()
+      ? storedUser[this.getRoute()] || {}
+      : {};
   }
   getAllFilters() {
     return LocalStorage.getItem("filters") || {};
