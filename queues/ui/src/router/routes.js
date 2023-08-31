@@ -1,19 +1,18 @@
 export const routes = [
   {
-    path     : '',
-    component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
-    children : [
-
+    path: "/displays/",
+    component: () => import("../../../../../src/layouts/AdminLayout.vue"),
+    children: [
       {
-        name     : 'queueList',
-        path     : '/displays/',
-        component: () =>  import ('../pages/Display/Displays.vue')
+        name: "queueList",
+        path: "",
+        component: () => import("../pages/Display/Displays.vue"),
       },
       {
-        name     : 'queueIndex',
-        path     : '/displays/id/:id',
-        component: () =>  import ('../pages/Display/Queue.vue')
+        name: "queueIndex",
+        path: "id/:id",
+        component: () => import("../pages/Display/Queue.vue"),
       },
-    ]
-  }
+    ],
+  },
 ];
