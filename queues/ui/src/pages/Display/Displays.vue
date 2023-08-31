@@ -2,8 +2,7 @@
   <q-page>
     <div class="q-pa-md row q-gutter-md">
 
-      <q-card v-for="display in displays" :key="display.id"
-      @click="openDisplay(display)"
+      <q-card v-for="display in displays" :key="display.id" @click="openDisplay(display)"
         class="row col-4 col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
         <!--<q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />-->
 
@@ -14,9 +13,9 @@
           <q-btn v-if="display.displayType == 'display'" fab color="green" icon="done" class="absolute justify-end"
             style="top: 0; right: 12px; transform: translateY(-50%);" />
 
-          <q-btn v-if="display.displayType == 'production'" fab color="primary" icon="receipt_long" @click="openDisplay(display)"
-
-            class="absolute justify-end" style="top: 0; right: 12px; transform: translateY(-50%);" />
+          <q-btn v-if="display.displayType == 'production'" fab color="primary" icon="receipt_long"
+            @click="openDisplay(display)" class="absolute justify-end"
+            style="top: 0; right: 12px; transform: translateY(-50%);" />
 
           <div class="row no-wrap items-center">
             <div class="col text-h6 ellipsis">
@@ -35,10 +34,10 @@
 
         <q-card-section class="q-pt-none">
           <div class="text-subtitle1">
-            $・Italian, Cafe
+            {{ $t('display.types.' + display.displayType) }}
           </div>
           <div class="text-caption text-grey">
-            Small plates, salads & sandwiches in an intimate setting.
+            {{ $t('display.messages.' + display.displayType) }}
           </div>
         </q-card-section>
 
