@@ -65,7 +65,7 @@ export default {
       });
     },
     getMenu() {
-      return api.fetch(`menus/people`, {
+      return api.fetch(`menus-people`, {
         params: { myCompany: this.company.id },
       })
 
