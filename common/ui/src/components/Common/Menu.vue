@@ -71,8 +71,11 @@ export default {
 
         .then((result) => {
           let menus = result.response?.data;
+
+
+
           let modules = [];
-          menus.modules.forEach((module, i) => {
+          Object.values(menus.modules).forEach((module, i) => {
             module.menus.forEach((menu, ii) => {
               if (this.routeExists(menu.rota)) {
                 let find = modules.findIndex(obj => obj.id == module.id);
