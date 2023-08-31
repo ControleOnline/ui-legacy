@@ -70,31 +70,19 @@ export default {
       })
 
         .then((result) => {
-
-          let menus = result.response?.data?.modules;
+          let menus = result.response?.data;
           let modules = [];
-          let index = 0;
-          let naoexiste = true;
-
-          menus.forEach((item, i) => {
-
-            item.menus.forEach((menu, ii) => {
+          menus.modules.forEach((module, i) => {
+            module.menus.forEach((menu, ii) => {
               if (this.routeExists(menu.rota)) {
-
-                if (!modules[index]) {
-                  modules[index] = item;
-                  modules[index].menus = [];
-                  naoexiste = true;
+                let find = modules.findIndex(obj => obj.id == module.id);
+                if (find === -1) {
+                  let itemCopy = { ...module };
+                  itemCopy.menus = [menu];
+                  modules.push(itemCopy);
                 } else {
-                  naoexiste = false;
+                  modules[find].menus.push(menu);
                 }
-
-                modules[index].menus.push(menu);
-
-                if (!naoexiste)
-                  index++;
-
-
               }
             });
           });
