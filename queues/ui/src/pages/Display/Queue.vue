@@ -29,7 +29,7 @@
 
       <div class="col-9 col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 q-pa-sm">
         <div class="row justify-center">
-          <div class="col-12 justify-center text-center">            
+          <div class="col-12 justify-center text-center">
             <div class="text-subtitle">Disponível para retirada</div>
           </div>
           <div class="col-9 col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 q-pa-sm"
@@ -58,8 +58,10 @@
           </div>
         </div>
         <div class="full-width q-pa-sm video-height">
+          <!-- 
           <q-video src="https://www.youtube.com/embed/YriZWDnixWE?rel=0&controls=0&autoplay=true"
             style="width: 100%px; height: 100%" />
+         -->
         </div>
       </div>
     </div>

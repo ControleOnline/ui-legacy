@@ -1,89 +1,68 @@
 <template>
-  <q-page class="bg-grey">
-    <div class="row full-height-vh">
-      <div class="col-3 col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 q-pa-sm">
-        <q-card class="my-card full-height">
-          <q-card-section>
-            <div class="text-h6">Em Preparação</div>
-            <div class="text-subtitle">Próximos pedidos</div>
-          </q-card-section>
-          <q-separator />
-          <q-list>
-            <q-item v-for="(order, index) in orders.open" :key="index">
-              <q-item-section avatar>
-                <q-icon :color="order.orderQueue[0].status.color"
-                  :name="order.orderQueue[0].status.icon || 'local_hospital'" />
-              </q-item-section>
+  <q-page>
+    <div class="q-pa-md row q-gutter-md">
 
-              <q-item-section>
-                <q-item-label>#{{ order.id }} </q-item-label>
-                <q-item-label caption>{{ order.client.name }}</q-item-label>
-                <q-item-label :color="order.orderQueue[0].status.color" caption>{{
-                  $t("status." + order.orderQueue[0].status.status)
-                }}</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card>
-      </div>
+      <q-card v-for="display in displays" :key="display.id"
+      @click="openDisplay(display)"
+        class="row col-4 col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+        <!--<q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />-->
 
-      <div class="col-9 col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 q-pa-sm">
-        <div class="row justify-center">
-          <div class="col-12 justify-center text-center">            
-            <div class="text-subtitle">Disponível para retirada</div>
+        <q-card-section>
+          <q-btn v-if="display.displayType == 'delivery'" fab color="primary" icon="place" class="absolute justify-end"
+            style="top: 0; right: 12px; transform: translateY(-50%);" />
+
+          <q-btn v-if="display.displayType == 'display'" fab color="green" icon="done" class="absolute justify-end"
+            style="top: 0; right: 12px; transform: translateY(-50%);" />
+
+          <q-btn v-if="display.displayType == 'production'" fab color="primary" icon="receipt_long" @click="openDisplay(display)"
+
+            class="absolute justify-end" style="top: 0; right: 12px; transform: translateY(-50%);" />
+
+          <div class="row no-wrap items-center">
+            <div class="col text-h6 ellipsis">
+              {{ display.display }}
+            </div>
+            <!--
+          <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
+            <q-icon name="place" />
+            250 ft
           </div>
-          <div class="col-9 col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 q-pa-sm"
-            v-for="(order, index) in orders.pending" :key="index">
-            <q-card class="my-card">
-              <q-card-section>
-                <div class="text-h6 text-center">#{{ order.id }}</div>
-              </q-card-section>
-
-              <q-separator />
-              <q-list>
-                <q-item>
-                  <q-item-section avatar>
-                    <q-icon :color="order.orderQueue[0].status.color"
-                      :name="order.orderQueue[0].status.icon || 'local_hospital'" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label caption>{{ order.client.name }}</q-item-label>
-                    <q-item-label :color="order.orderQueue[0].status.color" caption>{{
-                      $t("status." + order.orderQueue[0].status.status)
-                    }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-card>
+          -->
           </div>
-        </div>
-        <div class="full-width q-pa-sm video-height">
-          <q-video src="https://www.youtube.com/embed/YriZWDnixWE?rel=0&controls=0&autoplay=true"
-            style="width: 100%px; height: 100%" />
-        </div>
-      </div>
+
+
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <div class="text-subtitle1">
+            $・Italian, Cafe
+          </div>
+          <div class="text-caption text-grey">
+            Small plates, salads & sandwiches in an intimate setting.
+          </div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions>
+          <q-btn flat round icon="event" />
+          <q-btn flat color="primary">
+            Reserve
+          </q-btn>
+        </q-card-actions>
+      </q-card>
+
     </div>
   </q-page>
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import Config from "@controleonline/quasar-common-ui/src/utils/config";
-
-
-
 export default {
   data() {
     return {
       isSearching: false,
-      timeout: 60 * 1000,
-      refresh: false,
-      config: new Config(),
-      orders: {
-        display: null,
-        open: [],
-        pending: [],
-      },
+      displays: [],
     };
   },
 
@@ -99,47 +78,38 @@ export default {
 
 
   created() {
-    this.timeout = (this.config.getConfig("darkMode") || 60) * 1000;
-    this.display = decodeURIComponent(this.$route.params.id);
     this.onRequest();
   },
 
   watch: {
     myCompany(company) {
-      clearInterval(this.refresh);
       this.onRequest();
     },
   },
 
   methods: {
     ...mapActions({
-      getQueueOrders: "queues/getOrders",
+      getDisplays: "queues/getDisplays",
     }),
     onRequest() {
       if (this.myCompany) {
-
-        this.getMyOrders("open", 5);
-        this.getMyOrders("pending", 3);
-
-        this.refresh = setInterval(() => {
-          this.getMyOrders("open", 5);
-          this.getMyOrders("pending", 3);
-        }, this.timeout);
+        this.getMyDisplays();
       }
     },
 
-    getMyOrders(status, rows) {
+    openDisplay(display) {
+      this.$router.push({
+        name: "queueIndex",
+        params: { id: display.id },
+      });
+    },
+
+    getMyDisplays() {
       this.isSearching = true;
 
-      return this.getQueueOrders({
-        "itemsPerPage": rows,
-        "orderQueue.status.realStatus": status,
-        "orderQueue.queue.displayQueue.display": this.display,
-        "orderQueue.queue.displayQueue.company": '/people/' + this.myCompany.id,
-        provider: "/people/" + this.myCompany.id,
-      })
+      return this.getDisplays()
         .then((result) => {
-          this.orders[status] = result;
+          this.displays = result;
         })
         .finally(() => {
           this.isSearching = false;
@@ -149,12 +119,4 @@ export default {
 };
 </script>
 
-<style>
-.full-height-vh {
-  height: calc(100vh - 16px) !important;
-}
 
-.video-height {
-  height: calc(100% - 130px) !important;
-}
-</style>
