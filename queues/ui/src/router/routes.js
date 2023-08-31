@@ -10,7 +10,7 @@ export const routes = [
       },
       {
         name: "queueIndex",
-        path: "/id/:id",
+        path: "id/:id",
         component: () => import("../pages/Display/Queue.vue"),
       },
     ],
