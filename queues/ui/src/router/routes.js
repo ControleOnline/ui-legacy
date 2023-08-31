@@ -1,6 +1,6 @@
 export const routes = [
   {
-    path: "/displays/",
+    path: "/displays",
     component: () => import("../../../../../src/layouts/AdminLayout.vue"),
     children: [
       {
@@ -10,7 +10,7 @@ export const routes = [
       },
       {
         name: "queueIndex",
-        path: "id/:id",
+        path: "/id/:id",
         component: () => import("../pages/Display/Queue.vue"),
       },
     ],
