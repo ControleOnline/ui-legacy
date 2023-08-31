@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-expansion-item expand-icon-toggle :content-inset-level="0.3" :color="mItem.color" :icon="mItem.icon"
-      class="GNL__drawer-item" :label="mItem.label" v-for="mItem in menu.modules" :key="mItem.id">
+      class="GNL__drawer-item" :label="mItem.label" v-for="mItem in menu" :key="mItem.id">
       <q-item v-ripple clickable class="GNL__drawer-item" v-for="item in mItem.menus" :key="item.id"
         @click="click(item.route)">
         <q-item-section avatar>
@@ -70,10 +70,11 @@ export default {
       })
 
         .then((result) => {
+
+
           let menus = result.response?.data;
-
-
-
+          if (!menus.modules)
+            return;
           let modules = [];
           Object.values(menus.modules).forEach((module, i) => {
             module.menus.forEach((menu, ii) => {
@@ -89,8 +90,8 @@ export default {
               }
             });
           });
-          menus.modules = modules;
-          this.menu = menus;
+
+          this.menu = modules;
         });
     },
 
