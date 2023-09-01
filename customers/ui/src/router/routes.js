@@ -1,7 +1,7 @@
 export const routes = [
   {
     path: '/customers/',
-    component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+    component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
     children: [
       {
         name: 'CustomersIndex',

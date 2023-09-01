@@ -3,7 +3,7 @@ export const routes = [
     {
         path: '/shop/',
         name: 'ShopIndex',
-        component: () =>  import ('../../../../../src/layouts/ShopLayout.vue'),
+        component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/ShopLayout.vue'),
         children: [
             {
               name: 'ShopDefoult',

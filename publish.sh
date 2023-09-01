@@ -157,3 +157,9 @@ cd ..
 cd users
 cd ui
 npm publish --access=public
+cd ..
+cd ..
+
+cd layout
+cd ui
+npm publish --access=public

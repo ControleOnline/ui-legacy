@@ -2,7 +2,7 @@
 export const routes = [
     {
         path: '/freight/',
-        component: () =>  import ('../../../../../src/layouts/MainLayout.vue'),
+        component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue'),
         children: [
             {
                 name: 'FreightQuoteIndex',

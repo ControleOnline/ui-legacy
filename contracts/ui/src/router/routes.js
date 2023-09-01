@@ -1,7 +1,7 @@
 export const routes = [
   {
     path: '/contracts/',
-    component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+    component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
     children: [
       { 
         name: 'ContractIndex'  , 
@@ -17,7 +17,7 @@ export const routes = [
   },
   {
     path: '/contract/',
-    component: () =>  import ('../../../../../src/layouts/MainLayout.vue'),
+    component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue'),
     children: [      
       { name: 'ContractAccept', path: 'accept/:id', component: () =>  import ('../pages/Contracts/Accept.vue') },      
     ]

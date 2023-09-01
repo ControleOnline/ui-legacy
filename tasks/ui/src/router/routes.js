@@ -1,7 +1,7 @@
 export const routes = [
   {
     path     : '/tasks/',
-    component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+    component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
     children : [
       {
         name     : 'SupportIndex',
@@ -16,7 +16,7 @@ export const routes = [
     ]
   },  {
     path     : '/task/',
-    component: () =>  import ('../../../../../src/layouts/MainLayout.vue'),
+    component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue'),
     children : [
 
       {

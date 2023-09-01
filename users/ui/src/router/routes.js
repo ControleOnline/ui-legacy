@@ -1,7 +1,7 @@
 export const routes = [
   {
     path: "/user/",
-    component: () => import("../../../../../src/layouts/AdminLayout.vue"),
+    component: () => import("@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue"),
     children: [
       {
         path: "/view-profile",
@@ -41,7 +41,7 @@ export const routes = [
   },
   {
     path: "/company/",
-    component: () => import("../../../../../src/layouts/AdminLayout.vue"),
+    component: () => import("@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue"),
     children: [
       {
         path: "id/:id/employees/:employeeId",
@@ -62,7 +62,7 @@ export const routes = [
   },
   {
     path: "/forgot-password",
-    component: () => import("../../../../../src/layouts/MainLayout.vue"),
+    component: () => import("@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue"),
     children: [
       {
         name: "ForgotPassword",

@@ -2,7 +2,7 @@
 export const routes = [
     {
       path     : '/finance/',
-      component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+      component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
       children : [
         { name: 'ClientInvoiceIndex', path: 'client', component: () =>  import ('../pages/Invoice/Client/Index.vue') },
         { name: 'ClientInvoiceDetails', path: 'client/id/:id', component: () =>  import ('../pages/Invoice/Client/Details.vue') },

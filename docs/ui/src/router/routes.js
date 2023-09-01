@@ -1,6 +1,6 @@
 export const routes = [{
   path: '/docs/',
-  component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+  component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
   children: [
     {
       name: 'DocsIndex',

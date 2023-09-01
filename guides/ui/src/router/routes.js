@@ -3,7 +3,7 @@ export const routes = [
 
     {
         path: '/Menu',
-        component: () =>  import ('../../../../../src/layouts/MainLayout.vue'),
+        component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue'),
         children: [
             {
                 path: '/profile',
@@ -26,7 +26,7 @@ export const routes = [
     },
     {
         path: '/Categories',
-        component: () =>  import ('../../../../../src/layouts//MainLayout.vue'),
+        component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue'),
         children: [
             {
                 path: '/categories',
@@ -37,7 +37,7 @@ export const routes = [
     },
     {
         path: '/Guides',
-        component: () =>  import ('../../../../../src/layouts//MainLayout.vue'),
+        component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue'),
         children: [
             {
                 name: 'guides',

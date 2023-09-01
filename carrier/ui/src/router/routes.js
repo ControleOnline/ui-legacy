@@ -2,7 +2,7 @@
 export const routes = [   
     {
         path: '/carrier/',
-        component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+        component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
         children: [
           {
             name: 'CarriersIndex',

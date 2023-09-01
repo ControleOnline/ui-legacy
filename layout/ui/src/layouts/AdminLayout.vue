@@ -1,0 +1,434 @@
+<template>
+  <div v-if="pageLoading" class="row">
+    <div class="col-12 pageloader">
+      <q-spinner color="primary" class="q-uploader__spinner" />
+    </div>
+  </div>
+  <q-layout v-else-if="isAdmin && !disabled" view="lHh Lpr fff" class="bg-image">
+    <q-header elevated class="bg-white text-grey-8" height-hint="64">
+      <q-toolbar class="GPL__toolbar" style="height: 64px">
+        <q-btn
+          flat
+          dense
+          round
+          @click="leftDrawerOpen = !leftDrawerOpen"
+          aria-label="Menu"
+          icon="menu"
+          class="q-mx-md menu-button"
+        />
+        <div class="q-gutter-sm items-center row logo-container">
+          <router-link
+            v-if="this.$q.screen.gt.sm"
+            v-bind:to="'/'"
+            tag="a"
+            class="primary"
+          >
+            <img :src="currentCompany.logo || ''" class="current-logo" />
+          </router-link>
+          <img v-else :src="currentCompany.logo || ''" class="current-logo" />
+        </div>
+        <div class="q-gutter-sm row items-center no-wrap current-logo-container">
+          <q-toolbar class="">
+            <MyCompanies
+              :selected="companySelected"
+              @selected="onCompanySelected"
+              @setMyCompanies="setMyCompanies"
+            />
+          </q-toolbar>
+        </div>
+        <div v-if="this.$q.screen.gt.sm" class="q-gutter-sm items-center row">
+          <q-item
+            v-ripple
+            :style="'color:' + ($route.meta.color || 'var(--q-color-secondary)')"
+          >
+            <q-item-section avatar v-if="$route.meta.icon">
+              <q-icon class="item-icon" :name="$route.meta.icon" />
+            </q-item-section>
+            <q-item-section no-wrap>
+              <q-item-label class="module-tittle">{{
+                $t("route." + this.$route.name)
+              }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
+        <div class="q-gutter-sm row items-center no-wrap current-user-container">
+          <Notifications  />
+          <!-- DarkMode -->
+          <q-btn icon="account_circle" flat round>
+            <q-tooltip>{{ $t("menu.myacount") }}</q-tooltip>
+            <q-menu>
+              <div class="row no-wrap q-pa-md">
+                <div class="column">
+                  <div class="text-h6 q-mb-md">{{ $t("menu.myacount") }}</div>
+                  <q-list>
+                    <q-item :to="{ name: 'UserProfile' }" exact>
+                      <q-item-section avatar>
+                        <q-icon name="face" />
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-item-label>{{ $t("menu.myprofile") }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item :to="{ name: 'CompanyIndex' }" exact>
+                      <q-item-section avatar>
+                        <q-icon name="business" />
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-item-label>{{ $t("menu.mycompany") }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </div>
+
+                <q-separator vertical inset class="q-mx-lg" />
+
+                <div class="column items-stretch justify-between">
+                  <div class="text-center">
+                    <q-avatar size="64px">
+                      <q-img :src="user.avatar || gravatar" />
+                    </q-avatar>
+                  </div>
+
+                  <div class="text-body2 text-center">
+                    {{ user.realname || "John Doe" }}
+                  </div>
+
+                  <q-btn
+                    v-close-popup
+                    color="primary"
+                    label="Sair"
+                    size="sm"
+                    @click="onLogout"
+                  />
+                </div>
+              </div>
+            </q-menu>
+          </q-btn>
+        </div>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer v-model="leftDrawerOpen" :width="270" content-class="bg-primary">
+      <q-scroll-area class="fit">
+        <q-toolbar class="GPL__toolbar">
+          <div class="q-gutter-sm items-center row">
+            <router-link v-bind:to="'/'" tag="a" class="primary">
+              <img
+                v-if="defaultCompanyLogo"
+                :src="defaultCompanyLogo"
+                class="main-logo"
+              />
+            </router-link>
+          </div>
+        </q-toolbar>
+
+        <div class="q-pt-xl q-px-sm column">
+          <q-list class="menu-list" padding>
+            <q-item
+              v-if="isSimple() == false"
+              v-ripple
+              clickable
+              class="GNL__drawer-item"
+              @click="leftDrawerOpen != leftDrawerOpen"
+              :to="{ name: 'DashboardIndex' }"
+            >
+              <q-item-section avatar>
+                <q-icon name="home" color="white" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="menu-list-text">{{ $t("menu.home") }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-separator inset class="q-my-sm" />
+            <Menu
+              v-if="isSimple() != true"
+              :context="'super_admin'"
+              :people="this.user.people"
+              @clickmenu="onClickmenu"
+            />
+          </q-list>
+        </div>
+        <div class="q-pt-xl q-px-sm column pull-button">
+          <DarkMode />
+          <Language />
+        </div>
+      </q-scroll-area>
+    </q-drawer>
+    <q-page-container class="GPL__page-container">
+      <q-scroll-observer horizontal @scroll="onScroll"></q-scroll-observer>
+      <div>
+        <div v-if="!this.$q.screen.gt.sm" class="module-tittle-container">
+          <q-item v-ripple>
+            <q-item-section avatar v-if="$route.meta.icon">
+              <q-icon class="item-icon" :name="$route.meta.icon" />
+            </q-item-section>
+            <q-item-section no-wrap>
+              <q-item-label class="module-tittle">{{
+                $t("route." + this.$route.name)
+              }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
+      </div>
+      <router-view />
+    </q-page-container>
+  </q-layout>
+  <div v-else class="row">
+    <div class="col-12 pageloader">
+      <MyCompanies
+        :selected="companySelected"
+        @selected="onCompanySelected"
+        @setMyCompanies="setMyCompanies"
+      />
+      <span>Você não tem permissão para acessar este aplicativo</span><br />
+      <q-btn color="primary" label="Sair" size="sm" @click="onLogout" />
+    </div>
+  </div>
+</template>
+
+<script>
+import Menu from "@controleonline/quasar-common-ui/src/components/Common/Menu";
+import MyCompanies from "@controleonline/quasar-common-ui/src/components/Common/MyCompanies";
+import Notifications from "@controleonline/quasar-common-ui/src/components/Common/Notifications.vue";
+import DarkMode from "@controleonline/quasar-common-ui/src/components/DarkMode/darkModeToggle.vue";
+import Language from "@controleonline/quasar-common-ui/src/components/Language/languageToogle.vue";
+import acl from "@controleonline/quasar-common-ui/src/utils/acl";
+import md5 from "md5";
+import { LocalStorage } from "quasar";
+import { mapActions, mapGetters } from "vuex";
+
+export default {
+  name: "AdminLayout",
+
+  components: {
+    Menu,
+    MyCompanies,
+    DarkMode,
+    Language,
+    Notifications,
+  },
+
+  data() {
+    return {
+      notifications: {
+        count: 0,
+      },
+      ACL: new acl(),
+      defaultCompanyLogo: null,
+      disabled: false,
+      isAdmin: false,
+      permissions: [],
+      companies: [],
+      pageLoading: true,
+      defaultCompany: [],
+      leftDrawerOpen: false, //this.$q.screen.gt.sm,
+      companySelected: -1,
+    };
+  },
+
+  created() {
+    this.discoveryDefaultCompany();
+    this.selectMyCompanyInSession();
+
+    this.setRoute();
+    if (this.getPeopleDefaultCompany) {
+      this.pageLoading = false;
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      getPeopleDefaultCompany: "people/defaultCompany",
+      isLoading: "people/isLoading",
+
+    }),
+
+    user() {
+      let user = this.$store.getters["auth/user"] || {};
+      return user;
+    },
+
+    currentCompany() {
+      return this.$store.getters["people/currentCompany"] || {};
+    },
+
+    style() {
+      return "background: #182840";
+    },
+
+    gravatar() {
+      if (this.user.email === undefined) {
+        return "";
+      }
+
+      return `https://www.gravatar.com/avatar/${md5(this.user.email)}?s=400`;
+    },
+  },
+
+  watch: {
+    "$route.name"() {
+      this.setRoute();
+    },
+    isLoading(isLoading) {
+      if (isLoading)
+        this.$q.loading.show();
+      else
+        this.$q.loading.hide();
+    },
+    getPeopleDefaultCompany(data) {
+
+      if (data) {
+        this.defaultCompany = data;
+        this.defaultCompanyLogo = "//" + data.logo.domain + data.logo.url;
+
+        data.permissions.forEach((item) => {
+          if (this.permissions.indexOf(item) === -1) {
+
+            this.permissions.push(item);
+
+            if (item.indexOf("franchisee") !== -1 ||
+            item.indexOf("salesman") !== -1 ||
+            item.indexOf("super") !== -1 ||
+            item.indexOf("admin") !== -1
+                ) {
+                  this.isAdmin = true;
+                }
+
+          }
+        });
+        this.setRoute();
+        this.pageLoading = false;
+      }
+    },
+  },
+
+  methods: {
+    ...mapActions({
+      config: "config/appConfig",
+      peopleDefaultCompany: "people/defaultCompany",
+    }),
+
+    setRoute() {
+      let storedUser = LocalStorage.getItem("session");
+      storedUser.route = this.$route.name;
+      LocalStorage.set("session", storedUser);
+      this.ACL.setPermission();
+    },
+    onClickmenu(route) {
+      this.leftDrawerOpen = !this.leftDrawerOpen;
+      this.$router.push({ name: route });
+    },
+    onScroll(info) {
+      if (info.position > 0) this.leftDrawerOpen = false;
+    },
+    isSimple() {
+      return this.getPeopleDefaultCompany.domainType === "simple";
+    },
+    setMyCompanies(data) {
+      this.companies = data;
+      if (data) {
+        let disabled = true;
+        let user_disabled = true;
+
+        data.forEach((company) => {
+          user_disabled = !company.user.enabled;
+          if (company.enabled && company.user.employee_enabled && !user_disabled) {
+            disabled = false;
+          } else if (this.companySelected == company.id) {
+            this.companySelected = -1;
+          }
+          company.permission.forEach((item) => {
+            if (this.permissions.indexOf(item) === -1) {
+              this.permissions.push(item);
+            }
+          });
+        });
+        this.disabled = user_disabled || disabled;
+      }
+    },
+    onCompanySelected(company) {
+      let session = LocalStorage.has("session") ? LocalStorage.getItem("session") : {};
+
+      session.mycompany = company.id;
+
+      LocalStorage.set("session", session);
+    },
+
+    selectMyCompanyInSession() {
+      let session = LocalStorage.has("session") ? LocalStorage.getItem("session") : {};
+      if (session.mycompany !== undefined) this.companySelected = session.mycompany;
+    },
+
+    discoveryDefaultCompany() {
+      this.peopleDefaultCompany().then((response) => {
+        let data = [];
+        if (response.success === true && response.data.length) {
+          let item = response.data;
+          let logo = null;
+
+          if (item.logo !== null) {
+            logo = "https://" + item.logo.domain + item.logo.url;
+          }
+
+          data.push({
+            id: item.id,
+            name: item.alias,
+            logo: logo || null,
+          });
+        }
+        this.defaultCompany = data;
+      });
+    },
+
+    onLogout() {
+      this.$store.dispatch("auth/logOut");
+      this.$router.push("/login");
+    },
+  },
+};
+</script>
+
+<style lang="sass">
+.pageloader
+  position: relative
+  text-align: center
+  margin-top: 300px
+.logo-container
+  width: 100%
+
+.current-logo
+  display: block
+  margin: auto
+  margin-top: 3px
+  min-height: 50px
+  height: 50px
+  max-height: 100%
+.logo-container a
+  margin: auto
+.main-logo
+  display: block
+  margin-top: 3px
+  min-height: 50px
+  height: 50px
+  max-width: 100%
+  max-height: 100%
+.bg-image
+  background-position: center !important
+  background-repeat: no-repeat !important
+  background-size: cover !important
+
+.GPL
+  &__toolbar
+    height: 64px
+  &__side-btn
+    margin-bottom: 20px
+    &__label
+      font-size: 14px
+      font-family: 'EB Garamond', 'Exo', Helvetica,Arial,Lucida,sans-serif
+      font-weight: 600
+      text-transform: uppercase
+.q-item__label.menu-list-text
+  color: white
+.GNL__drawer-item
+  color: white
+</style>

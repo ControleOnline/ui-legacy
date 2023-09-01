@@ -1,6 +1,6 @@
 export const routes = [{
   path: '/auditoria/',
-  component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+  component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
   children: [
     {
       name: 'AuditFiscalIndex',
@@ -76,7 +76,7 @@ export const routes = [{
 },
 {
   path: '/fiscal/',
-  component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+  component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
   children: [
     {
       name: 'FiscalImpostoIndex',
@@ -117,7 +117,7 @@ export const routes = [{
 },
 {
   path: '/contabil/',
-  component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+  component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
   children: [
     {
       name: 'ContabilExtratosIndex',
@@ -158,7 +158,7 @@ export const routes = [{
 },
 {
   path: '/depto-pessoal/',
-  component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+  component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
   children: [
     {
       name: 'DeptoImpostoIndex',
@@ -269,7 +269,7 @@ export const routes = [{
 },
 {
   path: '/societario/',
-  component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+  component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
   children: [
     {
       name: 'SocietarioIndex',

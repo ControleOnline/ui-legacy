@@ -1,7 +1,7 @@
 export const routes = [
   {
     path: "/displays",
-    component: () => import("../../../../../src/layouts/AdminLayout.vue"),
+    component: () => import("@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue"),
     children: [
       {
         name: "queueList",

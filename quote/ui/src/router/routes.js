@@ -2,7 +2,7 @@
 export const routes = [
     {
         path: '/sales/',
-        component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+        component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
         children: [
             {
                 name: 'ClientShippingQuoteIndex',
@@ -18,7 +18,7 @@ export const routes = [
     },
     {
         path: '/purchasing/',
-        component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+        component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
         children: [
             {
                 name: 'ClientPurchasingShippingQuoteIndex',
@@ -34,7 +34,7 @@ export const routes = [
     },
     {
         path: '/',
-        component: () =>  import ('../../../../../src/layouts/MainLayout.vue'),
+        component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue'),
         children: [
             {
                 name: 'QuoteIndex',

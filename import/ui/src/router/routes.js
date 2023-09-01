@@ -1,7 +1,7 @@
 export const routes = [
   {
     path: '/imports/',
-    component: () =>  import ('../../../../../src/layouts/AdminLayout.vue'),
+    component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
     children: [
       {
         name: 'ImportIndex',
@@ -12,7 +12,7 @@ export const routes = [
     ]
   }, {
     path: '/import/',
-    component: () =>  import ('../../../../../src/layouts/MainLayout.vue'),
+    component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue'),
     children: [
       {
         name: 'ImportDetails',
