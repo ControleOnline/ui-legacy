@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       config: new Config(),
-      language: new Language(),
+      language: new Language(this.$i18n),
       lang: null,
       langOptions: [
         { value: "en-us", label: "English" },

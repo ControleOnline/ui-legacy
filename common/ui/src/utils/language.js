@@ -1,7 +1,9 @@
- import messages from "boot/i18n";
-
 export default class Language {
+  constructor($i18n) {
+    this.$i18n = $i18n;
+  }
+
   getMessages(lang) {
-    return messages[lang];
+    return this.$i18n.messages[lang];
   }
 }
