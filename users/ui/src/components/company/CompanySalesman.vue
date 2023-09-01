@@ -6,7 +6,7 @@
         grid
         hide-header
         :loading="isLoading"
-        :data="items"
+        :rows="items"
         row-key="id"
         :pagination.sync="pagination"
         @request="onRequest"

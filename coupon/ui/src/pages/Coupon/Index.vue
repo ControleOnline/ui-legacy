@@ -20,7 +20,7 @@
 
     <q-table
       :loading="isLoading"
-      :data="data"
+      :rows="data"
       :columns="settings.columns"
       :pagination.sync="pagination"
       @request="onRequest"

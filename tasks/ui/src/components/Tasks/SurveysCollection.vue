@@ -28,7 +28,7 @@
     <q-table
       v-if="visibleQtable"
       :loading="isLoading"
-      :data="data"
+      :rows="data"
       :columns="settings.columns"
       :pagination.sync="pagination"
       row-key="id"

@@ -7,7 +7,7 @@
           page: 1,
           rowsPerPage: 30,
         }"
-        :data="items"
+        :rows="items"
         :columns="settings.columns"
         row-key="id"
         :loading="loadingQtable"

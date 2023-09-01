@@ -10,7 +10,7 @@
     </div>
 
     <div class="col-12">
-      <q-table dense  bordered grid hide-header :loading="isLoading" :data="items" @request="onRequest" row-key="id">
+      <q-table dense  bordered grid hide-header :loading="isLoading" :rows="items" @request="onRequest" row-key="id">
         <template v-slot:item="props">
           <div class="q-pa-xs col-xs-12 col-sm-4 col-md-3 col-lg-2">
             <q-card>

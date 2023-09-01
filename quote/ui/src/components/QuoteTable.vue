@@ -63,7 +63,7 @@
           flat
           grid
           hide-header
-          :data="order_.quotes"
+          :rows="order_.quotes"
           :columns="columns"
           :visible-columns="visible"
           row-key="id"

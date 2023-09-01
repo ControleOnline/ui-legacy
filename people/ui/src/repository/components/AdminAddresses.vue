@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="col-12">
-      <q-table dense :data="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+      <q-table dense :rows="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
         :loading="isLoading" bordered class="q-mt-md">
         <template v-slot:body="props">
           <q-tr :props="props">

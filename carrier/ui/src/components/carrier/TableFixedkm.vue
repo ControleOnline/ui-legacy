@@ -3,7 +3,7 @@
     <div class="col-12 q-mt-md">
       <q-table
         flat
-        :data="items"
+        :rows="items"
         :columns="settings.columns"
         row-key="id"
         :loading="isLoading"

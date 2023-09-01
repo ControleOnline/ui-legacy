@@ -88,6 +88,10 @@ npm publish --access=public
 cd ..
 cd ..
 
+cd layout
+cd ui
+npm publish --access=public
+
 cd login
 cd ui
 npm publish --access=public
@@ -159,7 +163,3 @@ cd ui
 npm publish --access=public
 cd ..
 cd ..
-
-cd layout
-cd ui
-npm publish --access=public

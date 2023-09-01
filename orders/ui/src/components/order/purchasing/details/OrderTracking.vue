@@ -2,7 +2,7 @@
   <div>
     <q-table
       :loading="isLoading"
-      :data="items"
+      :rows="items"
       :columns="settings.columns"
       :pagination.sync="pagination"
       @request="onRequest"

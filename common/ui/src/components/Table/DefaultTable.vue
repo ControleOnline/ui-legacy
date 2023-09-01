@@ -1,6 +1,6 @@
 <template>
     <div class="full-width">
-        <q-table class="default-table" dense :data="data" :row-key="columns[0].name" :pagination.sync="pagination"
+        <q-table class="default-table" dense :rows="data" :row-key="columns[0].name" :pagination.sync="pagination"
             :loading="isloading" @request="loadData" binary-state-sort :rows-per-page-options="rowsOptions"
             :grid="this.$q.screen.gt.sm == false" :filter="filters">
             <template v-slot:top-right="props">

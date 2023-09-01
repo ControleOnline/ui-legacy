@@ -1,5 +1,5 @@
 <template>
-  <q-table flat grid hide-header :data="items" @request="onRequest" row-key="id">
+  <q-table flat grid hide-header :rows="items" @request="onRequest" row-key="id">
     <template v-slot:item="props">
       <q-card class="my-card row items-start q-pa-md">
         <q-parallax :height="300" :speed="0.5">
