@@ -7,40 +7,21 @@
   <q-layout v-else-if="isAdmin && !disabled" view="lHh Lpr fff" class="bg-image">
     <q-header elevated class="bg-white text-grey-8" height-hint="64">
       <q-toolbar class="GPL__toolbar" style="height: 64px">
-        <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          aria-label="Menu"
-          icon="menu"
-          class="q-mx-md menu-button"
-        />
+        <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" icon="menu"
+          class="q-mx-md menu-button" />
         <div class="q-gutter-sm items-center row logo-container">
-          <router-link
-            v-if="this.$q.screen.gt.sm"
-            v-bind:to="'/'"
-            tag="a"
-            class="primary"
-          >
+          <router-link v-if="this.$q.screen.gt.sm" v-bind:to="'/'" tag="a" class="primary">
             <img :src="currentCompany.logo || ''" class="current-logo" />
           </router-link>
           <img v-else :src="currentCompany.logo || ''" class="current-logo" />
         </div>
         <div class="q-gutter-sm row items-center no-wrap current-logo-container">
           <q-toolbar class="">
-            <MyCompanies
-              :selected="companySelected"
-              @selected="onCompanySelected"
-              @setMyCompanies="setMyCompanies"
-            />
+            <MyCompanies :selected="companySelected" @selected="onCompanySelected" @setMyCompanies="setMyCompanies" />
           </q-toolbar>
         </div>
         <div v-if="this.$q.screen.gt.sm" class="q-gutter-sm items-center row">
-          <q-item
-            v-ripple
-            :style="'color:' + ($route.meta.color || 'var(--q-color-secondary)')"
-          >
+          <q-item v-ripple :style="'color:' + ($route.meta.color || 'var(--q-color-secondary)')">
             <q-item-section avatar v-if="$route.meta.icon">
               <q-icon class="item-icon" :name="$route.meta.icon" />
             </q-item-section>
@@ -52,7 +33,7 @@
           </q-item>
         </div>
         <div class="q-gutter-sm row items-center no-wrap current-user-container">
-          <Notifications  />
+          <Notifications />
           <!-- DarkMode -->
           <q-btn icon="account_circle" flat round>
             <q-tooltip>{{ $t("menu.myacount") }}</q-tooltip>
@@ -93,13 +74,7 @@
                     {{ user.realname || "John Doe" }}
                   </div>
 
-                  <q-btn
-                    v-close-popup
-                    color="primary"
-                    label="Sair"
-                    size="sm"
-                    @click="onLogout"
-                  />
+                  <q-btn v-close-popup color="primary" label="Sair" size="sm" @click="onLogout" />
                 </div>
               </div>
             </q-menu>
@@ -113,25 +88,15 @@
         <q-toolbar class="GPL__toolbar">
           <div class="q-gutter-sm items-center row">
             <router-link v-bind:to="'/'" tag="a" class="primary">
-              <img
-                v-if="defaultCompanyLogo"
-                :src="defaultCompanyLogo"
-                class="main-logo"
-              />
+              <img v-if="defaultCompanyLogo" :src="defaultCompanyLogo" class="main-logo" />
             </router-link>
           </div>
         </q-toolbar>
 
         <div class="q-pt-xl q-px-sm column">
           <q-list class="menu-list" padding>
-            <q-item
-              v-if="isSimple() == false"
-              v-ripple
-              clickable
-              class="GNL__drawer-item"
-              @click="leftDrawerOpen != leftDrawerOpen"
-              :to="{ name: 'DashboardIndex' }"
-            >
+            <q-item v-if="isSimple() == false" v-ripple clickable class="GNL__drawer-item"
+              @click="leftDrawerOpen != leftDrawerOpen" :to="{ name: 'DashboardIndex' }">
               <q-item-section avatar>
                 <q-icon name="home" color="white" />
               </q-item-section>
@@ -140,12 +105,8 @@
               </q-item-section>
             </q-item>
             <q-separator inset class="q-my-sm" />
-            <Menu
-              v-if="isSimple() != true"
-              :context="'super_admin'"
-              :people="this.user.people"
-              @clickmenu="onClickmenu"
-            />
+            <Menu v-if="isSimple() != true" :context="'super_admin'" :people="this.user.people"
+              @clickmenu="onClickmenu" />
           </q-list>
         </div>
         <div class="q-pt-xl q-px-sm column pull-button">
@@ -175,11 +136,7 @@
   </q-layout>
   <div v-else class="row">
     <div class="col-12 pageloader">
-      <MyCompanies
-        :selected="companySelected"
-        @selected="onCompanySelected"
-        @setMyCompanies="setMyCompanies"
-      />
+      <MyCompanies :selected="companySelected" @selected="onCompanySelected" @setMyCompanies="setMyCompanies" />
       <span>Você não tem permissão para acessar este aplicativo</span><br />
       <q-btn color="primary" label="Sair" size="sm" @click="onLogout" />
     </div>
@@ -287,12 +244,12 @@ export default {
             this.permissions.push(item);
 
             if (item.indexOf("franchisee") !== -1 ||
-            item.indexOf("salesman") !== -1 ||
-            item.indexOf("super") !== -1 ||
-            item.indexOf("admin") !== -1
-                ) {
-                  this.isAdmin = true;
-                }
+              item.indexOf("salesman") !== -1 ||
+              item.indexOf("super") !== -1 ||
+              item.indexOf("admin") !== -1
+            ) {
+              this.isAdmin = true;
+            }
 
           }
         });
@@ -416,19 +373,4 @@ export default {
   background-position: center !important
   background-repeat: no-repeat !important
   background-size: cover !important
-
-.GPL
-  &__toolbar
-    height: 64px
-  &__side-btn
-    margin-bottom: 20px
-    &__label
-      font-size: 14px
-      font-family: 'EB Garamond', 'Exo', Helvetica,Arial,Lucida,sans-serif
-      font-weight: 600
-      text-transform: uppercase
-.q-item__label.menu-list-text
-  color: white
-.GNL__drawer-item
-  color: white
 </style>
