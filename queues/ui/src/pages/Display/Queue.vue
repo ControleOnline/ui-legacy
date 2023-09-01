@@ -101,7 +101,7 @@ export default {
 
 
   created() {
-    this.timeout = (this.config.getConfig("darkMode") || 60) * 1000;
+    this.timeout = (parseFloat(this.config.getConfig("refresh-display-time") || 60)) * 1000;
     this.display = decodeURIComponent(this.$route.params.id);
     this.onRequest();
   },
