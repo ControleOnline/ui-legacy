@@ -65,6 +65,7 @@ export const routes = [
     component: () => import("../../../../../src/layouts/MainLayout.vue"),
     children: [
       {
+        name: "ForgotPassword",
         path: ":hash/:lost",
         component: () => import("../pages/User/Recovery/AccessRecovery.vue"),
       },

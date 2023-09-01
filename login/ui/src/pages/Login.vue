@@ -85,34 +85,7 @@ export default {
       return         this.$store.getters["auth/user"] !== null && this.$store.getters["auth/user"].username      ;
     },
     goToIndexRoute() {
-      const route = this.indexRoute;
-
-      if (typeof route === "string") {
-        this.$router.push({ name: route });
-      } else if (typeof route === "object") {
-        let obj = null;
-
-        if (this.logged.type === "student" && route.student) {
-          obj = route.student;
-        } else if (
-          (this.logged.type === "trainer" || this.logged.type === "guest") &&
-          route.trainer
-        ) {
-          obj = route.trainer;
-        } else if (this.logged.type === "admin" && route.admin) {
-          obj = route.admin;
-        } else if (this.logged.type === "salesman" && route.salesman) {
-          obj = route.salesman;
-        } else {
-          this.$store.dispatch("auth/logOut");
-        }
-
-        if (obj) {
-          this.$router.push({ name: typeof obj === "string" ? obj : obj.name });
-        }
-      } else {
-        this.$router.push("/");
-      }
+      this.$router.push({ name: 'HomeIndex' });
     },
 
     // when user logged is succeeded
