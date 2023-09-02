@@ -15,7 +15,6 @@ export default {
 
   methods: {
     ...mapActions({
-      config: "config/appConfig",
       peopleDefaultCompany: "people/defaultCompany",
     }),
 
@@ -54,15 +53,6 @@ export default {
   },
 
   mounted() {
-    /*
-    this.config().then((config) => {
-      if (config.gtmId !== null)
-        Analytics.init({
-          gtmId: config.gtmId,
-        });
-    });
-    */
-
     this.discoveryDefaultCompany();
   },
   computed: {

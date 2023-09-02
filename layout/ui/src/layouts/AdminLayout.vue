@@ -183,6 +183,7 @@ export default {
     };
   },
 
+
   created() {
     this.discoveryDefaultCompany();
     this.selectMyCompanyInSession();
@@ -261,7 +262,6 @@ export default {
 
   methods: {
     ...mapActions({
-      config: "config/appConfig",
       peopleDefaultCompany: "people/defaultCompany",
     }),
 
