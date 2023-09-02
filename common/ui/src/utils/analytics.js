@@ -36,7 +36,7 @@ export default {
   init(config = null) {
     if (config !== null) {
 
-      if (!config.gtmId)
+      if (!config['google-tag-manager'])
         return;
 
       // load main script
@@ -55,7 +55,7 @@ export default {
 
           // load GTM script
 
-          loadGTMScript(config.gtmId);
+          loadGTMScript(config['google-tag-manager']);
         });
 		loadHotjarScript(684016);
     }

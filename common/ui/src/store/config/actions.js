@@ -21,9 +21,9 @@ export const appConfig = ({ commit }) => {
       if (data.response.success) {
         // Google Tag Manager ID
 
-        if (data.response.data.gtmId) {
-          config.gtmId = (data.response.data.gtmId)
-          config.gtmId = config.gtmId[0]
+        if (data.response.data['google-tag-manager']) {
+          config['google-tag-manager'] = (data.response.data['google-tag-manager'])
+          config['google-tag-manager'] = config['google-tag-manager'][0]
         }
       }
 

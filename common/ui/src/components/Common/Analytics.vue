@@ -7,9 +7,9 @@ import { mapActions } from "vuex";
 export default {
   mounted() {
     this.config().then((config) => {
-      if (config.gtmId !== null)
+      if (config['google-tag-manager'] !== null)
         Analytics.init({
-          gtmId: config.gtmId,
+          gtmId: config['google-tag-manager'],
         });
     });
   },
