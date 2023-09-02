@@ -85,3 +85,32 @@ export default {
   },
 };
 </script>
+<style lang="sass">
+.pageloader
+  position: relative
+  text-align: center
+  margin-top: 300px
+.logo-container
+  width: 100%
+
+.current-logo
+  display: block
+  margin: auto
+  margin-top: 3px
+  min-height: 50px
+  height: 50px
+  max-height: 100%
+.logo-container a
+  margin: auto
+.main-logo
+  display: block
+  margin-top: 3px
+  min-height: 50px
+  height: 50px
+  max-width: 100%
+  max-height: 100%
+.bg-image
+  background-position: center !important
+  background-repeat: no-repeat !important
+  background-size: cover !important
+</style>
