@@ -1,10 +1,11 @@
 <script>
 import { BrowserAgent } from '@newrelic/browser-agent/src/loaders/browser-agent';
-import Analytics from "@controleonline/quasar-common-ui/src/components/Common/Analytics";
+import Analytics from "@controleonline/quasar-common-ui/src/utils/analytics";
 
 import { mapActions } from "vuex";
 
 export default {
+
   mounted() {
     this.config().then((config) => {
       if (config['google-tag-manager'] !== null)
