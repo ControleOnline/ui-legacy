@@ -53,26 +53,16 @@ export default {
       displays: [],
     };
   },
-
   computed: {
     user() {
       return this.$store.getters["auth/user"];
     },
     ...mapGetters({
       defaultCompany: "people/defaultCompany",
-      myCompany: "people/currentCompany",
     }),
   },
-
-
   created() {
     this.onRequest();
-  },
-
-  watch: {
-    myCompany(company) {
-      this.onRequest();
-    },
   },
 
   methods: {
@@ -82,26 +72,20 @@ export default {
 
     getCompanyLogo(display) {
       if (display.company.file.id)
-        return ENTRYPOINT+'/files/download/' + display.company.file.id
+        return ENTRYPOINT + '/files/download/' + display.company.file.id
 
     },
-
     onRequest() {
-      if (this.myCompany) {
-        this.getMyDisplays();
-      }
+      this.getMyDisplays();
     },
-
     openDisplay(display) {
       this.$router.push({
         name: "queueIndex",
         params: { id: display.id },
       });
     },
-
     getMyDisplays() {
       this.isSearching = true;
-
       return this.getDisplays()
         .then((result) => {
           this.displays = result;

@@ -89,55 +89,33 @@ export default {
     };
   },
 
-  computed: {
-    user() {
-      return this.$store.getters["auth/user"];
-    },
-    ...mapGetters({
-      defaultCompany: "people/defaultCompany",
-      myCompany: "people/currentCompany",
-    }),
-  },
-
-
   created() {
     this.timeout = (parseFloat(this.config.getConfig("refresh-display-time") || 60)) * 1000;
     this.display = decodeURIComponent(this.$route.params.id);
     this.onRequest();
   },
 
-  watch: {
-    myCompany(company) {
-      clearInterval(this.refresh);
-      this.onRequest();
-    },
-  },
+
 
   methods: {
     ...mapActions({
       getQueueOrders: "queues/getOrders",
     }),
     onRequest() {
-      if (this.myCompany) {
-
+      this.getMyOrders("open", 5);
+      this.getMyOrders("pending", 3);
+      this.refresh = setInterval(() => {
         this.getMyOrders("open", 5);
         this.getMyOrders("pending", 3);
-
-        this.refresh = setInterval(() => {
-          this.getMyOrders("open", 5);
-          this.getMyOrders("pending", 3);
-        }, this.timeout);
-      }
+      }, this.timeout);
     },
 
     getMyOrders(status, rows) {
       this.isSearching = true;
-
       return this.getQueueOrders({
         "itemsPerPage": rows,
         "orderQueue.status.realStatus": status,
         "orderQueue.queue.displayQueue.display": this.display,
-        "orderQueue.queue.displayQueue.company": '/people/' + this.myCompany.id,
       })
         .then((result) => {
           this.orders[status] = result;
