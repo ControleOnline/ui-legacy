@@ -20,5 +20,17 @@ export const translate = {
   },
   hardware: {
     hardware: 'Dispostivo',
+  },
+  display:{
+    types:{
+        display: 'Display de Chamada',
+        production: 'Display de Preparação',
+        delivery: 'Display de Entrega'
+      },
+      messages:{
+        display: 'Para acompanhamento do cliente',
+        production: 'Para a produção dos itens do pedido',
+        delivery: 'Para entrega de pedidos'
+      }
   }
 }
