@@ -138,7 +138,6 @@ export default {
         "orderQueue.status.realStatus": status,
         "orderQueue.queue.displayQueue.display": this.display,
         "orderQueue.queue.displayQueue.company": '/people/' + this.myCompany.id,
-        provider: "/people/" + this.myCompany.id,
       })
         .then((result) => {
           this.orders[status] = result;
