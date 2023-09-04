@@ -51,7 +51,7 @@ export default {
           // configure gtags
 
           gtag('js'    , new Date()     );
-          gtag('config', 'UA-92043223-1');
+          gtag('config', config['google-tag-manager']);
 
           // load GTM script
 
