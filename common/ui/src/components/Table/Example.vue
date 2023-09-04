@@ -52,7 +52,7 @@ export default {
     },
     created() {
         if (this.filters)
-            this.$store.commit('logs/SET_FILTERS', this.filters);
+            this.$store.commit(this.configs.module + '/SET_FILTERS', this.filters);
 
         this.$store.dispatch('people/getTransportadoresAtivo', {
         }).then((data) => {

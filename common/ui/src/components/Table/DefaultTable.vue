@@ -152,6 +152,8 @@
 </template>
   
 <script>
+
+import Filters from "../../utils/filters";
 export default {
 
     props: {
@@ -172,7 +174,9 @@ export default {
     },
 
     data() {
+        let persistentFilter = new Filters();
         return {
+
             selectAll: false,
             sortedColumn: null,
             sortDirection: null,
@@ -181,6 +185,7 @@ export default {
             editing: [],
             sumColumn: [],
             data: [],
+            filters: persistentFilter.getFilters(),
             selected: new Array(this.rowsOptions.pop()).fill(false),
             dialog: false,
             pagination: {
@@ -202,9 +207,6 @@ export default {
         isloading() {
             return this.$store.getters[this.configs.isLoading]
         },
-        filters() {
-            return this.$store.getters[this.configs.filters]
-        },
         columns() {
             return this.$store.getters[this.configs.columns]
         },
@@ -218,16 +220,18 @@ export default {
             },
             deep: true,
         },
+
         filters: {
             handler: async function (filters) {
-                this.loadData();
+                this.$store.commit(this.configs.actions.setFilters, filters);
             },
             deep: true,
         },
 
+
         selected: {
             handler: function (selected) {
-                this.$store.commit('logs/SET_SELECTED', selected);
+                this.$store.commit(this.configs.module + '/SET_SELECTED', selected);
             },
             deep: true,
         },
@@ -439,15 +443,10 @@ export default {
             if (props) {
                 this.pagination = props.pagination;
 
-                if (this.filters)
-                    this.$store.commit('logs/SET_FILTERS', Object.assign(this.filters, props.filters));
-                else
-                    this.$store.commit('logs/SET_FILTERS', props.filters);
+                this.filters = Object.assign(this.filters, props.filters);
             }
 
-
             let params = Object.assign(this.filters || {}, JSON.parse(JSON.stringify(this.pagination)));
-
 
             if (params.sortBy)
                 params.order = "" + params.sortBy + ";" + (params.descending ? "DESC" : "ASC");
@@ -457,8 +456,6 @@ export default {
             delete params.rowsPerPage;
 
             params = this.getFilterParams(params);
-
-            this.$store.commit('logs/SET_FILTERS', params);
 
             this.$store.dispatch(this.configs.actions.getItems, params
             ).then((data) => {
