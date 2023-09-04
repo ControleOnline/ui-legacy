@@ -152,8 +152,6 @@
 </template>
   
 <script>
-
-import Filters from "../../utils/filters";
 export default {
 
     props: {
@@ -174,9 +172,7 @@ export default {
     },
 
     data() {
-        let persistentFilter = new Filters();
         return {
-
             selectAll: false,
             sortedColumn: null,
             sortDirection: null,
@@ -185,7 +181,6 @@ export default {
             editing: [],
             sumColumn: [],
             data: [],
-            filters: persistentFilter.getFilters(),
             selected: new Array(this.rowsOptions.pop()).fill(false),
             dialog: false,
             pagination: {
@@ -207,6 +202,9 @@ export default {
         isloading() {
             return this.$store.getters[this.configs.isLoading]
         },
+        filters() {
+            return this.$store.getters[this.configs.filters]
+        },
         columns() {
             return this.$store.getters[this.configs.columns]
         },
@@ -220,14 +218,6 @@ export default {
             },
             deep: true,
         },
-
-        filters: {
-            handler: async function (filters) {
-                this.$store.commit(this.configs.actions.setFilters, filters);
-            },
-            deep: true,
-        },
-
 
         selected: {
             handler: function (selected) {
@@ -287,7 +277,9 @@ export default {
                 }
 
                 if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
-                    this.filters.order = this.sortedColumn + ';' + this.sortDirection;
+                    let filters = structuredClone(this.filters);
+                    filters.order = this.sortedColumn + ';' + this.sortDirection;
+                    this.$store.commit(this.configs.actions.setFilters, filters);                    
                     this.loadData();
                 } else {
                     this.reorderTableData();
@@ -440,13 +432,15 @@ export default {
 
         loadData(props) {
 
+
             if (props) {
                 this.pagination = props.pagination;
 
-                this.filters = Object.assign(this.filters, props.filters);
+                this.$store.commit(this.configs.actions.setFilters, Object.assign(this.filters, props.filters));
             }
 
-            let params = Object.assign(this.filters || {}, JSON.parse(JSON.stringify(this.pagination)));
+            let params = Object.assign(structuredClone(this.filters || {}), structuredClone(this.pagination));
+
 
             if (params.sortBy)
                 params.order = "" + params.sortBy + ";" + (params.descending ? "DESC" : "ASC");
