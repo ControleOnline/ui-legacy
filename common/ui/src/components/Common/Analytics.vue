@@ -8,10 +8,10 @@ export default {
 
   mounted() {
     this.config().then((config) => {
+console.log(config);
+
       if (config['google-tag-manager'] !== null)
-        Analytics.init({
-          gtmId: config['google-tag-manager'],
-        });
+        Analytics.init(config);
     });
   },
   created() {

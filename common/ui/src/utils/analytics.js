@@ -35,7 +35,7 @@ export default {
 
   init(config = null) {
     if (config !== null) {
-
+console.log(config);
       if (!config['google-tag-manager'])
         return;
 

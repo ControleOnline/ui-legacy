@@ -16,7 +16,7 @@ export const appConfig = ({ commit }) => {
       commit(types.SET_ISLOADING, false);
 
       const config = {
-        gtmId: null,
+
       };
 
       if (data.response.success) {
