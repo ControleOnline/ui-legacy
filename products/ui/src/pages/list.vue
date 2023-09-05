@@ -2,7 +2,7 @@
   <DefaultTable :configs="configs" v-if="configs" />
 </template>
 <script>
-import DefaultTable from "@controleonline/quasar-common-ui/src/components/Table/DefaultTable";
+import DefaultTable from "@controleonline/quasar-common-ui/src/components/Default/DefaultTable";
 export default {
   name: "Products",
   components: {

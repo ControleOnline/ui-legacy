@@ -277,7 +277,7 @@ export default {
                 }
 
                 if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
-                    let filters = structuredClone(this.filters);
+                    let filters = structuredClone(this.filters || {});
                     filters.order = this.sortedColumn + ';' + this.sortDirection;
                     this.$store.commit(this.configs.actions.setFilters, filters);                    
                     this.loadData();
@@ -439,7 +439,7 @@ export default {
                 this.$store.commit(this.configs.actions.setFilters, Object.assign(this.filters, props.filters));
             }
 
-            let params = Object.assign(structuredClone(this.filters || {}), structuredClone(this.pagination));
+            let params = Object.assign(structuredClone(this.filters || {}), structuredClone(this.pagination || {}));
 
 
             if (params.sortBy)

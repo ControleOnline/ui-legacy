@@ -13,6 +13,11 @@ export const routes = [
         path: "id/:id",
         component: () => import("../pages/Display/Queue.vue"),
       },
+      {
+        name: "queueAdd",
+        path: "add",
+        component: () => import("../pages/Display/List.vue"),
+      },
     ],
   },
 ];
