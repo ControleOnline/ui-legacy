@@ -25,6 +25,12 @@
             <q-td key="city" :props="props">{{ props.row.city }}</q-td>
             <q-td key="state" :props="props">{{ props.row.state }}</q-td>
             <q-td key="country" :props="props">{{ props.row.country }}</q-td>
+            <q-td key="searchFor" :props="props">{{ props.row.searchFor }}</q-td>
+            <q-td key="businessHours" :props="props">
+              {{ props.row.openingTime && props.row.closingTime ? 
+                `${props.row.openingTime} - ${props.row.closingTime}` :
+                ''}}
+            </q-td>
             <q-td auto-width>
               <q-btn flat round dense unelevated color="red" icon="delete" @click="removeItem(props.row)"
                 :disable="items.length == 1" :loading="props.row._bussy" />
@@ -91,6 +97,18 @@
                 <q-input dense outlined stack-label lazy-rules v-model="item.country" type="text" :label="$t('País')"
                   :rules="[isInvalid('country')]" class="q-mb-sm" />
               </div>
+              <div class="col-xs-12 col-sm-4">
+                <q-input dense outlined stack-label lazy-rules v-model="item.searchFor" type="text" :label="$t('Procurar por')"
+                  :rules="[isInvalid('searchFor')]" class="q-mb-sm" />
+              </div>
+              <div class="col-xs-12 col-sm-4">
+                <q-input dense outlined stack-label lazy-rules v-model="item.openingTime" type="time" :label="$t('Abre às')"
+                  :rules="[isInvalid('openingTime')]" class="q-mb-sm" />
+              </div>
+              <div class="col-xs-12 col-sm-4">
+                <q-input dense outlined stack-label lazy-rules v-model="item.closingTime" type="time" :label="$t('Fecha às')"
+                  :rules="[isInvalid('closingTime')]" class="q-mb-sm" />
+              </div>
             </div>
 
             <div class="row justify-end">
@@ -122,6 +140,8 @@ const SETTINGS = {
     'state',
     'country',
     'action',
+    'businessHours',
+    'searchFor',
   ],
   columns: [
     {
@@ -180,6 +200,17 @@ const SETTINGS = {
       field: row => row.country,
       align: 'left',
       label: 'País'
+    },
+    {
+      name: 'searchFor',
+      field: row => row.searchFor,
+      align: 'left',
+      label: 'Procurar por'
+    },
+    {
+      name: 'businessHours',
+      align: 'center',
+      label: 'Horário de funcionamento',
     },
     { name: 'action' },
   ],
@@ -303,6 +334,9 @@ export default {
               street: this.item.street,
               number: this.item.number,
               complement: this.item.complement,
+              openingTime: this.item.openingTime,
+              closingTime: this.item.closingTime,
+              searchFor: this.item.searchFor,
             })
               .then(data => {
                 if (data) {
@@ -374,6 +408,9 @@ export default {
                 number: data.members[index].number,
                 complement: data.members[index].complement,
                 locator: data.members[index].locator,
+                openingTime: data.members[index].openingTime,
+                closingTime: data.members[index].closingTime,
+                searchFor: data.members[index].searchFor,
                 _bussy: false,
               });
             }
