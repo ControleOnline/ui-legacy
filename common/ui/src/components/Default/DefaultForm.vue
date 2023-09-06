@@ -1,5 +1,5 @@
 <template>
-    <q-card class="full-width">
+    <q-card class="full-width  q-pa-md">
         <q-form ref="myForm" @submit="onSubmit">
             <div class="row q-col-gutter-xs q-pb-xs">
                 <template v-for="(column, index)  in columns">
