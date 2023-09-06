@@ -26,33 +26,7 @@ export const getItems = ({ commit ,getters }, params = {}) => {
     });
 };
 
-export const save = ({ commit,getters  }, params) => {
-  let id = params.id;
-  delete params.id;
 
-  let options = {
-    method: id ? "PUT" : "POST",
-    body: params,
-  };
-  commit(types.SET_ISLOADING, true);
-
-  return api
-    .fetch(getters.resourceEndpoint + (id ? "/" + id : ""), options)
-    .then((data) => {
-      return data;
-    })
-    .catch((e) => {
-      if (e instanceof SubmissionError) {
-        commit(types.SET_VIOLATIONS, e.errors);
-        commit(types.SET_ERROR, e.errors._error);
-        return;
-      }
-      commit(types.SET_ERROR, e.message);
-    })
-    .finally((e) => {
-      commit(types.SET_ISLOADING, false);
-    });
-};
 
 export const get = ({ commit,getters  }, id) => {
   commit(types.SET_ISLOADING, true);      
@@ -74,5 +48,34 @@ export const get = ({ commit,getters  }, id) => {
     })
     .finally((e) => {
       commit(types.SET_ISLOADING, false);
+    });
+};
+
+
+export const save = ({ commit,getters  }, params) => {
+  let id = params.id;
+  delete params.id;
+
+  let options = {
+    method: id ? "PUT" : "POST",
+    body: params,
+  };
+  commit(types.SET_ISSAVING, true);
+
+  return api
+    .fetch(getters.resourceEndpoint + (id ? "/" + id : ""), options)
+    .then((data) => {
+      return data;
+    })
+    .catch((e) => {
+      if (e instanceof SubmissionError) {
+        commit(types.SET_VIOLATIONS, e.errors);
+        commit(types.SET_ERROR, e.errors._error);
+        return;
+      }
+      commit(types.SET_ERROR, e.message);
+    })
+    .finally((e) => {
+      commit(types.SET_ISSAVING, false);
     });
 };

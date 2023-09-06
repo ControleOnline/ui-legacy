@@ -56,8 +56,8 @@
                             <span v-else-if="editing[props.key][column.key || column.name] != true" @click="startEditing(props.key, column,
                                 formatData(column, props))" v-html="formatData(column, props)" />
                             <template v-else>
-                                <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined rounded
-                                    :options="configs.list[column.list]" stack-label :label="$t(column.label)"
+                                <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
+                                    :options="configs.list[column.list]"  :label="$t(column.label)"
                                     @input="stopEditing(props.key, column, props.row)" label-color="black"
                                     v-model="editedValue" />
 
@@ -105,8 +105,8 @@
                                         @click="startEditing(props.key, column, formatData(column, props))"
                                         v-html="formatData(column, props)" />
                                     <template v-else>
-                                        <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined rounded
-                                            :options="configs.list[column.list]" stack-label :label="$t(column.label)"
+                                        <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
+                                            :options="configs.list[column.list]"  :label="$t(column.label)"
                                             @input="stopEditing(props.key, column, props.row)" label-color="black"
                                             v-model="editedValue" />
 

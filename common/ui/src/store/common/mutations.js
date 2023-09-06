@@ -12,6 +12,10 @@ export default {
     Object.assign(state, { isLoading: isLoading });
   },
 
+  [types.SET_ISSAVING](state, isSaving = true) {
+    Object.assign(state, { isSaving: isSaving });
+  },
+
   [types.SET_VIOLATIONS](state, violations) {
     Object.assign(state, { violations });
   },
