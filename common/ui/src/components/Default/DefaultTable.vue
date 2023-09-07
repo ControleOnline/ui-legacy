@@ -47,17 +47,19 @@
                             :key="column.key || column.name"
                             :sum="sum(column, getObjectFromKey(props.row, column.key || column.name))">
 
-                            <q-checkbox v-if="index == 0 && configs.selection" v-model="selected[data.indexOf(props.row)]"
+                            <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[data.indexOf(props.row)]"
                                 :value="false" />
 
                             {{ editingInit(props.key, column.name) }}
-                            <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
-                                :verifyClick="verifyClick" />
+                            <q-btn v-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
+                                this.format(column, getObjectFromKey(props.row, column.key ||
+                                    column.name)[column.key || column.name]) }}
+                            </q-btn>
                             <span v-else-if="editing[props.key][column.key || column.name] != true" @click="startEditing(props.key, column,
                                 formatData(column, props))" v-html="formatData(column, props)" />
                             <template v-else>
                                 <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                    :options="configs.list[column.list]"  :label="$t(column.label)"
+                                    :options="configs.list[column.list]" :label="$t(column.label)"
                                     @input="stopEditing(props.key, column, props.row)" label-color="black"
                                     v-model="editedValue" />
 
@@ -76,15 +78,12 @@
             </template>
             <template v-slot:item="props">
                 <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
-                    :style="selected[data.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
-
-
-
+                    :style="selectedRows[data.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
                     <q-card bordered flat
-                        :class="selected[data.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
+                        :class="selectedRows[data.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
                         <q-card-section>
                             <q-item-section v-if="configs.selection">
-                                <q-checkbox dense v-model="selected[data.indexOf(props.row)]" :label="props.row.name" />
+                                <q-checkbox dense v-model="selectedRows[data.indexOf(props.row)]" :label="props.row.name" />
                             </q-item-section>
                             <q-item-section v-if="configs.components.acoes" side>
                                 <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
@@ -99,29 +98,26 @@
                                 </q-item-section>
                                 <q-item-section side>
                                     {{ editingInit(props.key, column.name) }}
-                                    <component v-if="column.to" :is="dynamicButton(column, props)" :format="format"
-                                        :verifyClick="verifyClick" />
+                                    <q-btn v-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
+                                        this.format(column, getObjectFromKey(props.row, column.key ||
+                                            column.name)[column.key || column.name]) }}
+                                    </q-btn>
                                     <span v-else-if="editing[props.key][column.key || column.name] != true"
                                         @click="startEditing(props.key, column, formatData(column, props))"
                                         v-html="formatData(column, props)" />
                                     <template v-else>
-                                        <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                            :options="configs.list[column.list]"  :label="$t(column.label)"
+                                        <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label
+                                            lazy-rules :options="configs.list[column.list]" :label="$t(column.label)"
                                             @input="stopEditing(props.key, column, props.row)" label-color="black"
                                             v-model="editedValue" />
 
                                         <q-input v-else v-model="editedValue" dense autofocus
                                             @blur="stopEditing(props.key, column, props.row)"
                                             @keydown.enter="stopEditing(props.key, column, props.row)" />
-
                                     </template>
                                 </q-item-section>
-
-
-
                             </q-item>
                         </q-list>
-
                     </q-card>
                 </div>
             </template>
@@ -181,7 +177,7 @@ export default {
             editing: [],
             sumColumn: [],
             data: [],
-            selected: new Array(this.rowsOptions.pop()).fill(false),
+            selectedRows: new Array(JSON.parse(JSON.stringify(this.rowsOptions.pop()))).fill(false),            
             dialog: false,
             pagination: {
                 page: 1,
@@ -219,9 +215,11 @@ export default {
             deep: true,
         },
 
-        selected: {
-            handler: function (selected) {
-                this.$store.commit(this.configs.module + '/SET_SELECTED', selected);
+        selectedRows: {
+            handler: function (selectedRows) {
+                this.$store.commit(
+                    this.configs.actions.setSelected
+                , selectedRows);
             },
             deep: true,
         },
@@ -261,7 +259,7 @@ export default {
 
         },
         toggleSelectAll() {
-            this.selected = this.selected.map(() => this.selectAll);
+            this.selectedRows = this.selectedRows.map(() => this.selectAll);
         },
         sortTable(columnName) {
 
@@ -277,9 +275,9 @@ export default {
                 }
 
                 if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
-                    let filters = structuredClone(this.filters || {});
+                    let filters = JSON.parse(JSON.stringify(this.filters || {}));
                     filters.order = this.sortedColumn + ';' + this.sortDirection;
-                    this.$store.commit(this.configs.actions.setFilters, filters);                    
+                    this.$store.commit(this.configs.actions.setFilters, filters);
                     this.loadData();
                 } else {
                     this.reorderTableData();
@@ -343,31 +341,7 @@ export default {
             this.save(row, col.key || col.name, this.editedValue.value || this.editedValue);
         },
 
-        dynamicButton(column, props) {
-            return {
-                functional: true,
-                props: ['format', 'verifyClick'], // Passar as propriedades necessárias
-                render(createElement, context) {
-                    const buttonProps = {
-                        flat: true,
-                        round: false,
-                        dense: true,
-                        icon: column.icon,
-                        label: context.props.format(column, getObjectFromKey(props.row, column.key || column.name)), // Usar a propriedade "format"
-                    };
-                    return createElement('q-btn', {
-                        class: 'q-ml-md',
-                        props: buttonProps,
-                        on: {
-                            click: () => {
-                                context.props.verifyClick(column, props.row)
-                            },
-                        },
-                    });
 
-                },
-            }
-        },
 
 
         getFilterParams(params) {
@@ -439,7 +413,7 @@ export default {
                 this.$store.commit(this.configs.actions.setFilters, Object.assign(this.filters, props.filters));
             }
 
-            let params = Object.assign(structuredClone(this.filters || {}), structuredClone(this.pagination || {}));
+            let params = Object.assign(JSON.parse(JSON.stringify(this.filters || {}), JSON.parse(JSON.stringify(this.pagination || {}))));
 
 
             if (params.sortBy)
@@ -455,7 +429,7 @@ export default {
             ).then((data) => {
                 this.data = data;
                 this.pagination.rowsNumber = this.totalItems;
-                this.selected = new Array(data.length).fill(false);
+                this.selectedRows = new Array(data.length).fill(false);
 
             }).catch(() => {
                 this.data = [];

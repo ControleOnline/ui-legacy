@@ -34,6 +34,7 @@
             getItems: module + '/getItems',
             save: module + '/save',
             setFilters: module + '/SET_FILTERS',
+            setSelected: module + '/SET_SELECTED',
           },
   
           selection: false,
