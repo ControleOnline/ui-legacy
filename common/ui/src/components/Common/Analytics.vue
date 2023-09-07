@@ -8,8 +8,6 @@ export default {
 
   mounted() {
     this.config().then((config) => {
-console.log(config);
-
       if (config['google-tag-manager'] !== null)
         Analytics.init(config);
     });

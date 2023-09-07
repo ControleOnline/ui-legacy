@@ -47,8 +47,8 @@
                             :key="column.key || column.name"
                             :sum="sum(column, getObjectFromKey(props.row, column.key || column.name))">
 
-                            <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[data.indexOf(props.row)]"
-                                :value="false" />
+                            <q-checkbox v-if="index == 0 && configs.selection"
+                                v-model="selectedRows[data.indexOf(props.row)]" :value="false" />
 
                             {{ editingInit(props.key, column.name) }}
                             <q-btn v-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
@@ -177,7 +177,7 @@ export default {
             editing: [],
             sumColumn: [],
             data: [],
-            selectedRows: new Array(JSON.parse(JSON.stringify(this.rowsOptions.pop()))).fill(false),            
+            selectedRows: new Array(this.rowsOptions.pop()).fill(false),
             dialog: false,
             pagination: {
                 page: 1,
@@ -217,9 +217,8 @@ export default {
 
         selectedRows: {
             handler: function (selectedRows) {
-                this.$store.commit(
-                    this.configs.actions.setSelected
-                , selectedRows);
+                this.$store.commit(this.configs.actions.setSelected, this.copyObject(selectedRows));
+                this.$emit(selected, this.copyObject(selectedRows));
             },
             deep: true,
         },
@@ -232,7 +231,9 @@ export default {
 
     },
     methods: {
-
+        copyObject(object) {
+            return JSON.parse(JSON.stringify(object || {}))
+        },
 
         formatData(column, props) {
             let data = this.format(column, column.list ? this.getNameFromList(
@@ -275,7 +276,7 @@ export default {
                 }
 
                 if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
-                    let filters = JSON.parse(JSON.stringify(this.filters || {}));
+                    let filters = this.copyObject(this.filters);
                     filters.order = this.sortedColumn + ';' + this.sortDirection;
                     this.$store.commit(this.configs.actions.setFilters, filters);
                     this.loadData();
@@ -413,7 +414,7 @@ export default {
                 this.$store.commit(this.configs.actions.setFilters, Object.assign(this.filters, props.filters));
             }
 
-            let params = Object.assign(JSON.parse(JSON.stringify(this.filters || {}), JSON.parse(JSON.stringify(this.pagination || {}))));
+            let params = Object.assign(this.copyObject(this.filters), this.copyObject(this.pagination));
 
 
             if (params.sortBy)
@@ -429,8 +430,7 @@ export default {
             ).then((data) => {
                 this.data = data;
                 this.pagination.rowsNumber = this.totalItems;
-                this.selectedRows = new Array(data.length).fill(false);
-
+                this.selectedRows = structuredClone(new Array(data.length).fill(false));
             }).catch(() => {
                 this.data = [];
             });
