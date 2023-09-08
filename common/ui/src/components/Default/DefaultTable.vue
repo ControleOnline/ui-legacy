@@ -1,6 +1,6 @@
 <template>
     <div class="full-width">
-        <q-table class="default-table" dense :rows="data" :row-key="columns[0].name" :pagination.sync="pagination"
+        <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" :pagination.sync="pagination"
             :loading="isloading" @request="loadData" binary-state-sort :rows-per-page-options="rowsOptions"
             :grid="this.$q.screen.gt.sm == false" :filter="filters">
             <template v-slot:top-right="props">
@@ -48,7 +48,7 @@
                             :sum="sum(column, getObjectFromKey(props.row, column.key || column.name))">
 
                             <q-checkbox v-if="index == 0 && configs.selection"
-                                v-model="selectedRows[data.indexOf(props.row)]" :value="false" />
+                                v-model="selectedRows[items.indexOf(props.row)]" v-bind:value="false" />
 
                             {{ editingInit(props.key, column.name) }}
                             <q-btn v-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
@@ -78,12 +78,13 @@
             </template>
             <template v-slot:item="props">
                 <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
-                    :style="selectedRows[data.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
+                    :style="selectedRows[items.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
                     <q-card bordered flat
-                        :class="selectedRows[data.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
+                        :class="selectedRows[items.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
                         <q-card-section>
                             <q-item-section v-if="configs.selection">
-                                <q-checkbox dense v-model="selectedRows[data.indexOf(props.row)]" :label="props.row.name" />
+                                <q-checkbox dense v-model="selectedRows[items.indexOf(props.row)]" :label="props.row.name"
+                                    v-bind:value="false" />
                             </q-item-section>
                             <q-item-section v-if="configs.components.acoes" side>
                                 <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
@@ -176,7 +177,7 @@ export default {
             initialized: false,
             editing: [],
             sumColumn: [],
-            data: [],
+            items: [],
             selectedRows: new Array(this.rowsOptions.pop()).fill(false),
             dialog: false,
             pagination: {
@@ -209,8 +210,9 @@ export default {
         },
     },
     watch: {
-        data: {
-            handler: function (data) {
+        items: {
+            handler: function (items) {
+                console.log(items);
             },
             deep: true,
         },
@@ -218,7 +220,7 @@ export default {
         selectedRows: {
             handler: function (selectedRows) {
                 this.$store.commit(this.configs.actions.setSelected, this.copyObject(selectedRows));
-                this.$emit(selected, this.copyObject(selectedRows));
+                this.$emit('selected', this.copyObject(selectedRows));
             },
             deep: true,
         },
@@ -286,35 +288,24 @@ export default {
             }
         },
         reorderTableData() {
-            /*
             if (!this.sortedColumn || !this.sortDirection) {
                 return; // Não fazer nada se não houver ordenação
             }
-
             // Clone os dados originais para evitar a mutação direta
-            const clonedData = [...this.data];
-
-            console.log(this.sortedColumn);
+            const clonedData = this.copyObject(this.items);
 
             clonedData.sort((a, b) => {
-
-                console.log(this.getObjectFromKey(a, this.sortedColumn));
-                console.log(this.getObjectFromKey(b, this.sortedColumn));
-
                 const aValue = a[this.sortedColumn];
                 const bValue = b[this.sortedColumn];
-
                 if (aValue < bValue) {
-                    return this.sortDirection === 'asc' ? -1 : 1;
+                    return this.sortDirection === 'ASC' ? -1 : 1;
                 } else if (aValue > bValue) {
-                    return this.sortDirection === 'asc' ? 1 : -1;
+                    return this.sortDirection === 'ASC' ? 1 : -1;
                 }
                 return 0;
             });
 
-            this.data = clonedData;
-            */
-
+            this.items = clonedData;
         },
 
         editingInit(index, col) {
@@ -428,11 +419,11 @@ export default {
 
             this.$store.dispatch(this.configs.actions.getItems, params
             ).then((data) => {
-                this.data = data;
+                this.items = data;
                 this.pagination.rowsNumber = this.totalItems;
                 this.selectedRows = structuredClone(new Array(data.length).fill(false));
             }).catch(() => {
-                this.data = [];
+                this.items = [];
             });
         },
     },
