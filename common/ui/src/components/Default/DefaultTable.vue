@@ -4,8 +4,12 @@
             :loading="isloading" @request="loadData" binary-state-sort :rows-per-page-options="rowsOptions"
             :grid="this.$q.screen.gt.sm == false" :filter="filters">
             <template v-slot:top-right="props">
-
-                <q-checkbox v-model="selectAll" @click.native="toggleSelectAll" v-if="$q.screen.gt.sm == false" />
+                <q-btn v-if="configs.add != false" class="" label="+" color="green" :disabled="isLoading || addModal"
+                    @click="addModal = true">
+                    <q-tooltip> {{ $t(configs.module + '.add') }} </q-tooltip>
+                </q-btn>
+                <q-checkbox v-model="selectAll" @click.native="toggleSelectAll"
+                    v-if="$q.screen.gt.sm == false && configs.selection" />
 
                 <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
                     @click="props.toggleFullscreen" class="q-ml-md" />
@@ -145,10 +149,27 @@
                 </div>
             </template>
         </q-table>
+
+        <q-dialog v-model="addModal">
+            <q-card class="q-pa-md">
+                <q-card-section class="row items-center">
+                    <label class="text-h5">{{ $t(configs.module + '.add') }}</label>
+                    <q-space />
+                    <q-btn icon="close" flat round dense v-close-popup />
+                </q-card-section>
+                <q-separator></q-separator>
+                <q-card-section>
+                    <DefaultForm :configs="configs" />
+                </q-card-section>
+            </q-card>
+        </q-dialog>
+
     </div>
 </template>
   
 <script>
+import DefaultForm from "@controleonline/quasar-common-ui/src/components/Default/DefaultForm";
+
 export default {
 
     props: {
@@ -166,10 +187,12 @@ export default {
     },
 
     components: {
+        DefaultForm
     },
 
     data() {
         return {
+            addModal: false,
             selectAll: false,
             sortedColumn: null,
             sortDirection: null,

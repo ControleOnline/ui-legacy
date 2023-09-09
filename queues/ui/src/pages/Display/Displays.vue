@@ -80,7 +80,7 @@ export default {
     },
     openDisplay(display) {
       this.$router.push({
-        name: "queueIndex",
+        name: "displayIndex",
         params: { id: display.id },
       });
     },

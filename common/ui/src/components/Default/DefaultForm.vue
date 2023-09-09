@@ -3,7 +3,8 @@
         <q-form ref="myForm" @submit="onSubmit">
             <div class="row q-col-gutter-xs q-pb-xs">
                 <template v-for="(column, index)  in columns">
-                    <div v-if="column.isIdentity != true" :class="column.formClass || 'col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 q-pa-xs'">
+                    <div v-if="column.isIdentity != true"
+                        :class="column.formClass || 'col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 q-pa-xs'">
                         <q-select v-if="column.list" dense outlined stack-label lazy-rules
                             :options="configs.list[column.list]" :label="$t(column.label)" label-color="black"
                             v-model="data[column.name]" />
