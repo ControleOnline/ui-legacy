@@ -75,16 +75,13 @@ export default {
 
     computed: {
         isSaving() {
-            return this.$store.getters[this.configs.isSaving]
+            return this.$store.getters[this.configs.module + '/isSaving']
         },
         columns() {
-            return this.$store.getters[this.configs.columns]
+            return this.$store.getters[this.configs.module + '/columns']
         },
-
     },
     watch: {
-
-
     },
     methods: {
         save(params) {
@@ -92,8 +89,7 @@ export default {
             for (const name in params) {
                 p[name] = this.format(name, params[name]);
             }
-
-            this.$store.dispatch(this.configs.actions.save, p
+            this.$store.dispatch(this.configs.module + '/save', p
             ).then((data) => {
                 this.$q.notify({
                     message: this.$t("Success!"),

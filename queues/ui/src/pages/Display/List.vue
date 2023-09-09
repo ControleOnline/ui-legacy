@@ -10,9 +10,11 @@ export default {
 
   computed: {
     configs() {
-      let module = 'queues';
-
       return {
+        module: 'queues',
+        add: true,
+        selection: false,
+        search: false,
         components: {
           //acoes: () => import("@nelsys/../../src/modules/nelsys/quasar-waybill-ui/src/components/pedido/acoes.vue"),
           //componentProps: {
@@ -24,25 +26,8 @@ export default {
           displayType: this.displayType,
           companies: this.companies,
         },
-        add: true,
-        module: module,
-        isLoading: module + '/isLoading',
-        totalItems: module + '/totalItems',
-        columns: module + '/columns',
-        filters: module + '/filters',
-        actions: {
-          getItems: module + '/getItems',
-          save: module + '/save',
-          setFilters: module + '/SET_FILTERS',
-        },
-
-        selection: false,
-        search: false,
-
       };
     }
-
-
   },
   data() {
     return {

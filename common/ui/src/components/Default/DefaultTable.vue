@@ -220,16 +220,16 @@ export default {
 
     computed: {
         isloading() {
-            return this.$store.getters[this.configs.isLoading]
+            return this.$store.getters[this.configs.module + '/isLoading']
         },
         filters() {
-            return this.$store.getters[this.configs.filters]
+            return this.$store.getters[this.configs.module + '/filters']
         },
         columns() {
-            return this.$store.getters[this.configs.columns]
+            return this.$store.getters[this.configs.module + '/columns']
         },
         totalItems() {
-            return this.$store.getters[this.configs.totalItems]
+            return this.$store.getters[this.configs.module + '/totalItems']
         },
     },
     watch: {
@@ -242,7 +242,7 @@ export default {
 
         selectedRows: {
             handler: function (selectedRows) {
-                this.$store.commit(this.configs.actions.setSelected, this.copyObject(selectedRows));
+                this.$store.commit(this.configs.module + '/SET_SELECTED', this.copyObject(selectedRows));
                 this.$emit('selected', this.copyObject(selectedRows));
             },
             deep: true,
@@ -303,7 +303,7 @@ export default {
                 if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
                     let filters = this.copyObject(this.filters);
                     filters.order = this.sortedColumn + ';' + this.sortDirection;
-                    this.$store.commit(this.configs.actions.setFilters, filters);
+                    this.$store.commit(this.configs.module + '/SET_FILTERS', filters);
                     this.loadData();
                 } else {
                     this.reorderTableData();
@@ -399,7 +399,7 @@ export default {
             } else {
                 params[name] = value;
             }
-            this.$store.dispatch(this.configs.actions.save, params
+            this.$store.dispatch(this.configs.module + '/save', params
             ).then((data) => {
                 if (data[name] == value) {
                     this.loadData();
@@ -420,17 +420,11 @@ export default {
         },
 
         loadData(props) {
-
-
             if (props) {
                 this.pagination = props.pagination;
-
-                this.$store.commit(this.configs.actions.setFilters, Object.assign(this.filters, props.filters));
+                this.$store.commit(this.configs.module + '/SET_FILTERS', Object.assign(this.filters, props.filters));
             }
-
             let params = Object.assign(this.copyObject(this.filters), this.copyObject(this.pagination));
-
-
             if (params.sortBy)
                 params.order = "" + params.sortBy + ";" + (params.descending ? "DESC" : "ASC");
             params.itemsPerPage = params.rowsPerPage || this.rowsOptions[0];
@@ -440,7 +434,7 @@ export default {
 
             params = this.getFilterParams(params);
 
-            this.$store.dispatch(this.configs.actions.getItems, params
+            this.$store.dispatch(this.configs.module + '/getItems', params
             ).then((data) => {
                 this.items = data;
                 this.pagination.rowsNumber = this.totalItems;
