@@ -281,7 +281,7 @@ export default {
                     row[column.key || column.name]);
             });
             return typeof name == 'object' && !editing ? name.label : name;
-            
+
         },
         toggleSelectAll() {
             this.selectedRows = this.selectedRows.map(() => this.selectAll);
@@ -399,7 +399,8 @@ export default {
             }
             this.$store.dispatch(this.configs.module + '/save', params
             ).then((data) => {
-                if (data[name] == value) {
+
+                if (data) {
                     this.loadData();
 
                     this.$q.notify({

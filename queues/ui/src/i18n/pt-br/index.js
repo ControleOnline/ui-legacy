@@ -21,6 +21,18 @@ export const translate = {
   hardware: {
     hardware: 'Dispostivo',
   },
+  displayType:{
+    delivery: 'Delivery',
+    production: 'Produção',
+    display: 'Chamada'
+  },
+
+  displays:{
+    id:'ID',
+  display:'Nome',
+  displayType:'Tipo',
+  company:'Empresa'
+  },
   display:{
     types:{
         display: 'Display de Chamada',
