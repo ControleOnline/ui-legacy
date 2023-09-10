@@ -24,7 +24,7 @@ export default {
         },
         list: {
           displayType: this.displayType,
-          companies: this.companies,
+          company: this.company,
         },
       };
     }
@@ -34,10 +34,10 @@ export default {
 
       displayType: [
         { label: this.$t('displayType.production'), value: 'production' },
-        { label: this.$t('displayType.service'), value: 'delivery' },
+        { label: this.$t('displayType.delivery'), value: 'delivery' },
         { label: this.$t('displayType.display'), value: 'display' }
       ],
-      companies: [
+      company: [
         { label: 'RECANTOS', value: '42' },
         { label: 'Controle Online', value: '1' },
       ],

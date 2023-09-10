@@ -56,17 +56,20 @@ export default {
         align: "left",
         label: "displays.displayType",
         format: function (value) {
+
           return value;
         },
 
       },
       {
         sortable: true,
-        list: "companies",
-        name: "type",
+        list: "company",
+        name: "company",
         align: "left",
         label: "displays.company",
         format: function (value) {
+
+
           return value;
         },
       },

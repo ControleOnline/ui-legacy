@@ -1,17 +1,72 @@
 <template>
-    <div class="full-width" v-if="loaded">
-        <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" 
-        :loading="isloading" 
-            :pagination.sync="pagination" @request="loadData" 
-            :filter="filters"
-            binary-state-sort :rows-per-page-options="rowsOptions"
-            :grid="this.$q.screen.gt.sm == false" >
+    <div class="full-width">
+        <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" :loading="isloading"
+            :pagination.sync="pagination" @request="loadData" :filter="filters" :rows-per-page-options="rowsOptions"
+            :grid="this.$q.screen.gt.sm == false" binary-state-sort>
+            <template v-slot:body="props">
+                <transition name="fade" mode="out-in">
+                    <q-tr :props="props.row">
+                        <q-td :style="column.style" :class="'text-' + column.align" v-for="(column, index) in columns"
+                            :key="column.key || column.name"
+                            :sum="sum(column, getObjectFromKey(props.row, column.key || column.name))">
+
+                            <q-checkbox v-if="index == 0 && configs.selection"
+                                v-model="selectedRows[items.indexOf(props.row)]" v-bind:value="false" />
+
+
+                            <q-btn v-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
+                                this.format(column, getObjectFromKey(props.row, column.key ||
+                                    column.name)[column.key || column.name]) }}
+                            </q-btn>
+                            <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
+                                formatData(column, props, true))" v-html="formatData(column, props)" />
+                            <template v-else>
+                                <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
+                                    :options="configs.list[column.list]" :label="$t(column.label)"
+                                    @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
+                                    v-model="editedValue" />
+
+                                <q-input v-else v-model="editedValue" dense autofocus
+                                    @blur="stopEditing(items.indexOf(props.row), column, props.row)"
+                                    @keydown.enter="stopEditing(items.indexOf(props.row), column, props.row)" />
+
+                            </template>
+                        </q-td>
+                        <q-td v-if="configs.components.acoes">
+                            <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
+                                :row="props.row" />
+                        </q-td>
+                    </q-tr>
+                </transition>
+            </template>
+            <template v-slot:header="props">
+                <q-tr :props="props.row">
+                    <q-th :style="column.style" :class="[
+                        'text-' + column.align,
+                        { 'sortable-header': column.sortable },
+                        { 'asc': column.sortable && (sortedColumn === column.name || sortedColumn === column.key) && sortDirection === 'ASC' },
+                        { 'desc': column.sortable && (sortedColumn === column.name || sortedColumn === column.key) && sortDirection === 'DESC' },
+
+                    ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)">
+                        <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
+                            v-model="selectAll" />
+                        {{ $t(column.label) }}
+                        <q-icon v-if="column.sortable"
+                            :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
+                            color="grey-8" size="14px" />
+                    </q-th>
+                    <q-th v-if="configs.components.acoes">
+
+                    </q-th>
+                </q-tr>
+            </template>
+
             <template v-slot:top-right="props">
                 <q-btn v-if="configs.add != false" class="" label="+" color="green" :disabled="isLoading || addModal"
                     @click="addModal = true">
                     <q-tooltip> {{ $t(configs.module + '.add') }} </q-tooltip>
                 </q-btn>
-                <q-checkbox v-model="selectAll" @click.native="toggleSelectAll"
+                <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                     v-if="$q.screen.gt.sm == false && configs.selection" />
 
                 <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
@@ -26,6 +81,80 @@
                     v-if="configs.export" />
             </template>
 
+
+            <template v-slot:item="props">
+                <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+                    :style="selectedRows[items.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
+                    <q-card bordered flat
+                        :class="selectedRows[items.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
+                        <q-card-section>
+                            <template v-if="configs.selection">
+                                <q-item-section>
+                                    <q-checkbox dense v-model="selectedRows[items.indexOf(props.row)]"
+                                        :label="props.row.name" v-bind:value="false" />
+                                </q-item-section>
+                            </template>
+                            <template v-if="configs.components.acoes">
+                                <q-item-section side>
+                                    <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
+                                        :row="props.row" />
+                                </q-item-section>
+                            </template>
+                        </q-card-section>
+                        <q-separator />
+                        <q-list dense>
+                            <q-item v-for="(column, index) in columns" :key="column.key || column.name">
+                                <q-item-section>
+                                    <q-item-label>{{ $t(column.label) }}</q-item-label>
+                                </q-item-section>
+                                <q-item-section side>
+
+                                    <q-btn v-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
+                                        this.format(column, getObjectFromKey(props.row, column.key ||
+                                            column.name)[column.key || column.name]) }}
+                                    </q-btn>
+                                    <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
+                                        formatData(column, props, true)
+                                    )" v-html="formatData(column, props)" />
+                                    <template v-else>
+                                        <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label
+                                            lazy-rules :options="configs.list[column.list]" :label="$t(column.label)"
+                                            @blur="stopEditing(items.indexOf(props.row), column, props.row)"
+                                            label-color="black" v-model="editedValue" />
+
+                                        <q-input v-else v-model="editedValue" dense autofocus
+                                            @blur="stopEditing(items.indexOf(props.row), column, props.row)"
+                                            @keydown.enter="stopEditing(items.indexOf(props.row), column, props.row)" />
+                                    </template>
+                                </q-item-section>
+                            </q-item>
+                        </q-list>
+                    </q-card>
+                </div>
+            </template>
+
+
+            <template v-slot:bottom-row>
+                <q-tr>
+
+                    <q-td :class="'text-' + column.align" v-for="(column, index)  in columns">
+                        <span v-if="sumColumn[column.key || column.name]"
+                            v-html="format(column, sumColumn[column.key || column.name])"></span>
+                    </q-td>
+                </q-tr>
+            </template>
+            <template v-slot:loading>
+                <q-inner-loading showing color="primary" />
+            </template>
+            <template v-slot:no-data="{ icon, message, filter }">
+                <div class="full-width row flex-center text-accent q-gutter-sm">
+                    <q-icon size="2em" name="sentiment_dissatisfied" />
+                    <span>
+                        {{ message }}
+                    </span>
+                    <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
+                </div>
+            </template>
         </q-table>
 
         <q-dialog v-model="addModal">
@@ -70,13 +199,11 @@ export default {
 
     data() {
         return {
-            loaded: false,
             addModal: false,
             selectAll: false,
             sortedColumn: null,
             sortDirection: null,
             editedValue: false,
-            initialized: false,
             editing: [],
             sumColumn: [],
             items: [],
@@ -90,11 +217,11 @@ export default {
     },
 
     created() {
-        this.loaded = true;
 
     },
     mounted() {
         this.$nextTick(() => {
+            this.loadData();
         });
     },
 
@@ -113,23 +240,6 @@ export default {
         },
     },
     watch: {
-        loaded: {
-            handler: function (loaded) {
-                if (loaded)
-                    this.loadData();
-
-console.log(isloading);
-
-            },
-            deep: true,
-        },
-        items: {
-            handler: function (items) {
-                console.log(items);
-            },
-            deep: true,
-        },
-
         selectedRows: {
             handler: function (selectedRows) {
                 this.$store.commit(this.configs.module + '/SET_SELECTED', this.copyObject(selectedRows));
@@ -137,24 +247,17 @@ console.log(isloading);
             },
             deep: true,
         },
-
-        myCompany(company) {
-            if (company !== null) {
-
-            }
-        },
-
     },
     methods: {
         copyObject(object) {
             return JSON.parse(JSON.stringify(object || {}))
         },
 
-        formatData(column, props) {
+        formatData(column, props, editing) {
             let data = this.format(column, column.list ? this.getNameFromList(
-                column.list,
-                this.getObjectFromKey(props.row, column.key || column.name)) :
+                column.list, column, props.row, editing) :
                 this.getObjectFromKey(props.row, column.key || column.name)[column.key || column.name])
+
             return data;
         },
 
@@ -169,10 +272,16 @@ console.log(isloading);
             return objetoAtual;
         },
 
-        getNameFromList(column, row) {
-            let name = this.configs.list[column].find(item => item.value === row.id);
-            return typeof name == 'object' ? name.label : name;
+        getNameFromList(list, column, row, editing) {
 
+            let name = this.configs.list[list].find((item) => {
+                return item.value == (typeof
+                    row[column.key || column.name] == 'object' ?
+                    row[column.key || column.name]['@id'].split('/').pop() :
+                    row[column.key || column.name]);
+            });
+            return typeof name == 'object' && !editing ? name.label : name;
+            
         },
         toggleSelectAll() {
             this.selectedRows = this.selectedRows.map(() => this.selectAll);
@@ -222,33 +331,32 @@ console.log(isloading);
         },
 
         editingInit(index, col) {
-            if (this.initialized)
-                return;
-
-            if (this.editing[index] == undefined || this.editing[index][col] == undefined) {
-                this.editing[index] = [];
-                this.editing[index][col] = false;
-            }
+            return this.editing[index] && this.editing[index][col.key || col.name] ? true : false;
         },
         startEditing(index, col, value) {
             if (col.editable == false || (col.key && col.key.indexOf(".") != -1))
                 return;
-            this.initialized = true;
             this.editedValue = value;
-            let editing = Object.assign({}, this.editing);
-            editing[index][col.key || col.name] = true;
+            let editing = [
+
+            ];
+
+            editing[index] = {
+                [col.key || col.name]: true
+            };
             this.editing = editing;
         },
+
+
         stopEditing(index, col, row) {
-            let editing = Object.assign({}, this.editing);
-            editing[index][col.key || col.name] = false;
+            let editing = this.copyObject(this.editing);
+            editing[index] = {
+                [col.key || col.name]: false
+            };
             this.editing = editing;
+
             this.save(row, col.key || col.name, this.editedValue.value || this.editedValue);
         },
-
-
-
-
         getFilterParams(params) {
             this.columns.forEach((item, i) => {
                 if (item.name && this.filters && this.filters[item.name])
