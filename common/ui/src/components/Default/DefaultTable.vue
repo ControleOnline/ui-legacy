@@ -32,7 +32,13 @@
 
                             </template>
                         </q-td>
-                        <q-td v-if="configs.components.acoes">
+                        <q-td v-if="configs.components.acoes || configs.delete != false" class="text-right">
+
+                            <q-btn v-if="configs.delete != false" class="q-pa-xs" icon="delete" text-color="white"
+                                color="red" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                                @click="openConfirm(props.row)">
+                                <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
+                            </q-btn>
                             <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
                                 :row="props.row" />
                         </q-td>
@@ -55,15 +61,15 @@
                             :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
                             color="grey-8" size="14px" />
                     </q-th>
-                    <q-th v-if="configs.components.acoes">
+                    <q-th v-if="configs.components.acoes || configs.delete != false">
 
                     </q-th>
                 </q-tr>
             </template>
 
             <template v-slot:top-right="props">
-                <q-btn v-if="configs.add != false" class="" label="+" color="green" :disabled="isLoading || addModal"
-                    @click="addModal = true">
+                <q-btn v-if="configs.add != false" class="q-pa-xs" label="" text-color="white" icon="add" color="green"
+                    :disabled="isLoading || addModal || deleteModal || editing.length > 0" @click="addModal = true">
                     <q-tooltip> {{ $t(configs.module + '.add') }} </q-tooltip>
                 </q-btn>
                 <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
@@ -88,18 +94,21 @@
                     <q-card bordered flat
                         :class="selectedRows[items.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
                         <q-card-section>
-                            <template v-if="configs.selection">
-                                <q-item-section>
-                                    <q-checkbox dense v-model="selectedRows[items.indexOf(props.row)]"
-                                        :label="props.row.name" v-bind:value="false" />
-                                </q-item-section>
-                            </template>
-                            <template v-if="configs.components.acoes">
-                                <q-item-section side>
-                                    <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
-                                        :row="props.row" />
-                                </q-item-section>
-                            </template>
+                            <q-item-section>
+                                <q-checkbox v-if="configs.selection" dense v-model="selectedRows[items.indexOf(props.row)]"
+                                    :label="props.row.name" v-bind:value="false" />
+                            </q-item-section>
+
+                            <q-item-section side>
+                                <q-btn v-if="configs.delete != false" class="q-pa-xs" text-color="white" label=""
+                                    icon="delete" color="red"
+                                    :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                                    @click="deleteModal = true">
+                                    <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
+                                </q-btn>
+                                <component v-if="configs.components.acoes" :is="configs.components.acoes"
+                                    :propsData="configs.components.componentProps" :row="props.row" />
+                            </q-item-section>
                         </q-card-section>
                         <q-separator />
                         <q-list dense>
@@ -141,6 +150,8 @@
                         <span v-if="sumColumn[column.key || column.name]"
                             v-html="format(column, sumColumn[column.key || column.name])"></span>
                     </q-td>
+                    <q-td v-if="configs.components.acoes || configs.delete != false">
+                    </q-td>
                 </q-tr>
             </template>
             <template v-slot:loading>
@@ -158,7 +169,7 @@
         </q-table>
 
         <q-dialog v-model="addModal">
-            <q-card class="q-pa-md">
+            <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
                     <label class="text-h5">{{ $t(configs.module + '.add') }}</label>
                     <q-space />
@@ -170,7 +181,27 @@
                 </q-card-section>
             </q-card>
         </q-dialog>
-
+        <q-dialog v-model="deleteModal">
+            <q-card class="q-pa-md full-width">
+                <q-card-section class="row items-center">
+                    <label class="text-h5">{{ $t(configs.module + '.delete') }}</label>
+                    <q-space />
+                    <q-btn icon="close" flat round dense v-close-popup />
+                </q-card-section>
+                <q-separator></q-separator>
+                <q-card-section>
+                    <div class="flex q-pt-md">
+                        <q-btn class="q-py-sm q-px-md text-capitalize" outline color="secondary"
+                            :label="$t('cancel_dialog')" v-close-popup>
+                        </q-btn>
+                        <q-space></q-space>
+                        <q-btn class="q-py-sm q-px-md text-capitalize" color="secondary" :label="$t('confirm_dialog')"
+                            @click="confirmDelete">
+                        </q-btn>
+                    </div>
+                </q-card-section>
+            </q-card>
+        </q-dialog>
     </div>
 </template>
   
@@ -199,6 +230,7 @@ export default {
 
     data() {
         return {
+            deleteModal: false,
             addModal: false,
             selectAll: false,
             sortedColumn: null,
@@ -256,6 +288,14 @@ export default {
         saved(data) {
             this.addModal = false;
             this.loadData();
+        },
+
+        openConfirm(data) {
+            console.log(data);
+            this.deleteModal = true
+        },
+        confirmDelete() {
+            console.log('confirmado');
         },
         copyObject(object) {
             return JSON.parse(JSON.stringify(object || {}))
@@ -423,6 +463,8 @@ export default {
                         type: "negative",
                     });
                 }
+            }).finally(() => {
+                this.editing = [];
             });
         },
 
