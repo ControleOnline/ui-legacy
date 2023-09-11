@@ -39,8 +39,8 @@
                                 @click="openConfirm(props.row)">
                                 <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
                             </q-btn>
-                            <component :is="configs.components.acoes" :propsData="configs.components.componentProps"
-                                :row="props.row" />
+                            <component v-if="configs.components.acoes" :is="configs.components.acoes"
+                                :componentProps="configs.components.componentProps" :row="props.row" />
                         </q-td>
                     </q-tr>
                 </transition>
@@ -98,16 +98,8 @@
                                 <q-checkbox v-if="configs.selection" dense v-model="selectedRows[items.indexOf(props.row)]"
                                     :label="props.row.name" v-bind:value="false" />
                             </q-item-section>
-
                             <q-item-section side>
-                                <q-btn v-if="configs.delete != false" class="q-pa-xs" text-color="white" label=""
-                                    icon="delete" color="red"
-                                    :disabled="isLoading || addModal || deleteModal || editing.length > 0"
-                                    @click="deleteModal = true">
-                                    <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
-                                </q-btn>
-                                <component v-if="configs.components.acoes" :is="configs.components.acoes"
-                                    :propsData="configs.components.componentProps" :row="props.row" />
+                                a
                             </q-item-section>
                         </q-card-section>
                         <q-separator />
@@ -138,6 +130,22 @@
                                 </q-item-section>
                             </q-item>
                         </q-list>
+
+                        <q-separator />
+                        <q-card-section>
+
+
+                            <q-item-section side>
+                                <q-btn v-if="configs.delete != false" class="q-pa-xs" text-color="white" label=""
+                                    icon="delete" color="red"
+                                    :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                                    @click="deleteModal = true">
+                                    <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
+                                </q-btn>
+                                <component v-if="configs.components.acoes" :is="configs.components.acoes"
+                                    :componentProps="configs.components.componentProps" :row="props.row" />
+                            </q-item-section>
+                        </q-card-section>
                     </q-card>
                 </div>
             </template>
@@ -281,15 +289,14 @@ export default {
         },
     },
     methods: {
-
         error(error) {
-
+            this.$emit('error', error);
         },
         saved(data) {
             this.addModal = false;
             this.loadData();
+            this.$emit('saved', data);
         },
-
         openConfirm(data) {
             console.log(data);
             this.deleteModal = true
@@ -300,7 +307,6 @@ export default {
         copyObject(object) {
             return JSON.parse(JSON.stringify(object || {}))
         },
-
         formatData(column, props, editing) {
             let data = this.format(column, column.list ? this.getNameFromList(
                 column.list, column, props.row, editing) :
@@ -308,7 +314,6 @@ export default {
 
             return data;
         },
-
         getObjectFromKey(object, key) {
             let objetoAtual = object;
             if (key.indexOf(".") != -1) {
@@ -319,7 +324,6 @@ export default {
             }
             return objetoAtual;
         },
-
         getNameFromList(list, column, row, editing) {
 
             let name = this.configs.list[list].find((item) => {
@@ -335,7 +339,6 @@ export default {
             this.selectedRows = this.selectedRows.map(() => this.selectAll);
         },
         sortTable(columnName) {
-
             const column = this.columns.find((col) => {
                 return col.name === columnName || col.key === columnName
             });
@@ -377,7 +380,6 @@ export default {
 
             this.items = clonedData;
         },
-
         editingInit(index, col) {
             return this.editing[index] && this.editing[index][col.key || col.name] ? true : false;
         },
@@ -394,8 +396,6 @@ export default {
             };
             this.editing = editing;
         },
-
-
         stopEditing(index, col, row) {
             let editing = this.copyObject(this.editing);
             editing[index] = {
@@ -431,7 +431,6 @@ export default {
             }
             return;
         },
-
         save(row, name, value) {
 
             if (row[name] == value) return;
@@ -447,7 +446,6 @@ export default {
             }
             this.$store.dispatch(this.configs.module + '/save', params
             ).then((data) => {
-
                 if (data) {
                     this.loadData();
 
@@ -467,7 +465,6 @@ export default {
                 this.editing = [];
             });
         },
-
         loadData(props) {
             if (props) {
                 this.pagination = props.pagination;
