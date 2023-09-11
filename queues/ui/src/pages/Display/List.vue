@@ -13,7 +13,7 @@ export default {
       return {
         module: 'queues',
         add: true,
-        selection: false,
+        selection: true,
         search: false,
         components: {
           //acoes: () => import("@nelsys/../../src/modules/nelsys/quasar-waybill-ui/src/components/pedido/acoes.vue"),

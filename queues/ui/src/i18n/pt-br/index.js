@@ -3,6 +3,14 @@
 
 export const translate = {
   people: 'Pessoa',
+  queues:{
+    save: 'Salvar',
+    add: 'Adicionar Display',
+    msg_delete: 'Deseja remover o Display?',
+    delete:'Delete',
+    cancel: 'Cancelar',
+    confirm: 'Confirmar'
+  },
   queue: {
     add: 'Adicionar Display',
     save:'Salvar',

@@ -79,3 +79,27 @@ export const save = ({ commit,getters  }, params) => {
       commit(types.SET_ISSAVING, false);
     });
 };
+
+export const remove = ({ commit,getters  }, id) => {
+  let options = {
+    method: "DELETE",
+  };
+  commit(types.SET_ISSAVING, true);
+
+  return api
+    .fetch(getters.resourceEndpoint +"/" + id , options)
+    .then((data) => {
+      return data;
+    })
+    .catch((e) => {
+      if (e instanceof SubmissionError) {
+        commit(types.SET_VIOLATIONS, e.errors);
+        commit(types.SET_ERROR, e.errors._error);
+        return;
+      }
+      commit(types.SET_ERROR, e.message);
+    })
+    .finally((e) => {
+      commit(types.SET_ISSAVING, false);
+    });
+};

@@ -34,8 +34,9 @@
                         </q-td>
                         <q-td v-if="configs.components.acoes || configs.delete != false" class="text-right">
 
-                            <q-btn v-if="configs.delete != false" class="q-pa-xs" icon="delete" text-color="white"
-                                color="red" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                            <q-btn :loading="isSaving" v-if="configs.delete != false" class="q-pa-xs" icon="delete"
+                                text-color="white" color="red"
+                                :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                 @click="openConfirm(props.row)">
                                 <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
                             </q-btn>
@@ -94,52 +95,59 @@
                     <q-card bordered flat
                         :class="selectedRows[items.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
                         <q-card-section>
-                            <q-item-section>
-                                <q-checkbox v-if="configs.selection" dense v-model="selectedRows[items.indexOf(props.row)]"
-                                    :label="props.row.name" v-bind:value="false" />
-                            </q-item-section>
-                            <q-item-section side>
-                                a
-                            </q-item-section>
+                            <q-item>
+                                <template v-for="(column, index) in columns" :key="column.key || column.name">
+                                    <q-item-section v-if="column.isIdentity">
+                                        <q-btn v-if="column.to" @click="verifyClick(column, props.row)"
+                                            :icon:="column.icon">
+                                            {{ this.format(column, getObjectFromKey(props.row, column.key ||
+                                                column.name)[column.key || column.name]) }}
+                                        </q-btn>
+                                    </q-item-section>
+                                </template>
+                                <q-item-section side>
+                                    <q-checkbox v-if="configs.selection" dense
+                                        v-model="selectedRows[items.indexOf(props.row)]" :label="props.row.name"
+                                        v-bind:value="false" />
+                                </q-item-section>
+                            </q-item>
                         </q-card-section>
                         <q-separator />
                         <q-list dense>
-                            <q-item v-for="(column, index) in columns" :key="column.key || column.name">
-                                <q-item-section>
-                                    <q-item-label>{{ $t(column.label) }}</q-item-label>
-                                </q-item-section>
-                                <q-item-section side>
-
-                                    <q-btn v-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
-                                        this.format(column, getObjectFromKey(props.row, column.key ||
-                                            column.name)[column.key || column.name]) }}
-                                    </q-btn>
-                                    <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
-                                        formatData(column, props, true)
-                                    )" v-html="formatData(column, props)" />
-                                    <template v-else>
-                                        <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label
-                                            lazy-rules :options="configs.list[column.list]" :label="$t(column.label)"
-                                            @blur="stopEditing(items.indexOf(props.row), column, props.row)"
-                                            label-color="black" v-model="editedValue" />
-
-                                        <q-input v-else v-model="editedValue" dense autofocus
-                                            @blur="stopEditing(items.indexOf(props.row), column, props.row)"
-                                            @keydown.enter="stopEditing(items.indexOf(props.row), column, props.row)" />
-                                    </template>
-                                </q-item-section>
-                            </q-item>
+                            <template v-for="(column, index) in columns" :key="column.key || column.name">
+                                <q-item v-if="!column.isIdentity">
+                                    <q-item-section>
+                                        <q-item-label>{{ $t(column.label) }}</q-item-label>
+                                    </q-item-section>
+                                    <q-item-section side>
+                                        <q-btn v-if="column.to" @click="verifyClick(column, props.row)"
+                                            :icon:="column.icon">{{
+                                                this.format(column, getObjectFromKey(props.row, column.key ||
+                                                    column.name)[column.key || column.name]) }}
+                                        </q-btn>
+                                        <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
+                                            formatData(column, props, true)
+                                        )" v-html="formatData(column, props)" />
+                                        <template v-else>
+                                            <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label
+                                                lazy-rules :options="configs.list[column.list]" :label="$t(column.label)"
+                                                @blur="stopEditing(items.indexOf(props.row), column, props.row)"
+                                                label-color="black" v-model="editedValue" />
+                                            <q-input v-else v-model="editedValue" dense autofocus
+                                                @blur="stopEditing(items.indexOf(props.row), column, props.row)"
+                                                @keydown.enter="stopEditing(items.indexOf(props.row), column, props.row)" />
+                                        </template>
+                                    </q-item-section>
+                                </q-item>
+                            </template>
                         </q-list>
 
                         <q-separator />
                         <q-card-section>
-
-
                             <q-item-section side>
-                                <q-btn v-if="configs.delete != false" class="q-pa-xs" text-color="white" label=""
-                                    icon="delete" color="red"
-                                    :disabled="isLoading || addModal || deleteModal || editing.length > 0"
-                                    @click="deleteModal = true">
+                                <q-btn v-if="configs.delete != false" class="q-pa-xs" icon="delete" text-color="white"
+                                    color="red" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                                    @click="openConfirm(props.row)">
                                     <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
                                 </q-btn>
                                 <component v-if="configs.components.acoes" :is="configs.components.acoes"
@@ -153,7 +161,6 @@
 
             <template v-slot:bottom-row>
                 <q-tr>
-
                     <q-td :class="'text-' + column.align" v-for="(column, index)  in columns">
                         <span v-if="sumColumn[column.key || column.name]"
                             v-html="format(column, sumColumn[column.key || column.name])"></span>
@@ -192,7 +199,7 @@
         <q-dialog v-model="deleteModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ $t(configs.module + '.delete') }}</label>
+                    <label class="text-h5">{{ $t(configs.module + '.msg_delete') }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -200,11 +207,11 @@
                 <q-card-section>
                     <div class="flex q-pt-md">
                         <q-btn class="q-py-sm q-px-md text-capitalize" outline color="secondary"
-                            :label="$t('cancel_dialog')" v-close-popup>
+                            :label="$t(configs.module + '.cancel')" v-close-popup>
                         </q-btn>
                         <q-space></q-space>
-                        <q-btn class="q-py-sm q-px-md text-capitalize" color="secondary" :label="$t('confirm_dialog')"
-                            @click="confirmDelete">
+                        <q-btn class="q-py-sm q-px-md text-capitalize" color="secondary"
+                            :label="$t(configs.module + '.confirm')" @click="confirmDelete" :loading="isSaving">
                         </q-btn>
                     </div>
                 </q-card-section>
@@ -239,6 +246,7 @@ export default {
     data() {
         return {
             deleteModal: false,
+            deleteItem: {},
             addModal: false,
             selectAll: false,
             sortedColumn: null,
@@ -298,11 +306,17 @@ export default {
             this.$emit('saved', data);
         },
         openConfirm(data) {
-            console.log(data);
-            this.deleteModal = true
+            this.deleteItem = data;
+            this.deleteModal = true;
         },
         confirmDelete() {
-            console.log('confirmado');
+            this.$store.dispatch(this.configs.module + '/remove', this.deleteItem['@id'].split('/').pop()
+            ).then((data) => {
+
+            }).finally(() => {
+                this.deleteModal = false;
+                this.loadData();
+            });
         },
         copyObject(object) {
             return JSON.parse(JSON.stringify(object || {}))
