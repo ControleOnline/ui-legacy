@@ -72,6 +72,9 @@ export default {
 
           return value;
         },
+        saveFormat:function(company){
+          return '/people/'+company.value;
+        },
       },
     ],
   },

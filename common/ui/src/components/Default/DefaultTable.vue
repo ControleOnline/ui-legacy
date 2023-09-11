@@ -166,7 +166,7 @@
                 </q-card-section>
                 <q-separator></q-separator>
                 <q-card-section>
-                    <DefaultForm :configs="configs" />
+                    <DefaultForm :configs="configs" @saved="saved" @error="error" />
                 </q-card-section>
             </q-card>
         </q-dialog>
@@ -249,6 +249,14 @@ export default {
         },
     },
     methods: {
+
+        error(error) {
+
+        },
+        saved(data) {
+            this.addModal = false;
+            this.loadData();
+        },
         copyObject(object) {
             return JSON.parse(JSON.stringify(object || {}))
         },

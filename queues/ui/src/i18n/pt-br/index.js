@@ -4,6 +4,8 @@
 export const translate = {
   people: 'Pessoa',
   queue: {
+    add: 'Adicionar Display',
+    save:'Salvar',
     queue: 'Fila',
     queuePeople: 'Fila pessoa',
     status: {
@@ -26,12 +28,11 @@ export const translate = {
     production: 'Produção',
     display: 'Chamada'
   },
-
   displays:{
     id:'ID',
-  display:'Nome',
-  displayType:'Tipo',
-  company:'Empresa'
+    display:'Nome',
+    displayType:'Tipo',
+    company:'Empresa'
   },
   display:{
     types:{

@@ -31,8 +31,8 @@
             </div>
 
             <div class="row justify-end">
-                <q-btn :loading="isSaving" icon="save" type="submit" :label="$t('Salvar')" size="md" color="primary"
-                    class="q-mt-md" />
+                <q-btn :loading="isSaving" icon="save" type="submit" :label="$t(configs.module + '.save')" size="md"
+                    color="primary" class="q-mt-md" />
             </div>
         </q-form>
     </q-card>
@@ -97,11 +97,8 @@ export default {
                     type: "positive",
                 });
                 this.$emit("saved", data);
-                console.log(data);
-
             }).catch((error) => {
-                // Trate o erro aqui
-                console.error("Erro ao salvar:", error);
+                this.$emit("error", error);
                 this.$q.notify({
                     message: this.$t("Erro ao salvar!"),
                     position: "bottom",
@@ -113,7 +110,7 @@ export default {
             const column = this.columns.find((col) => {
                 return col.name === columnName || col.key === columnName
             });
-            if (column.saveFormat == 'function')
+            if (typeof column.saveFormat == 'function')
                 return column.saveFormat(value)
             else
                 if (typeof value == 'object')
