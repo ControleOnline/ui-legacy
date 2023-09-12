@@ -42,10 +42,10 @@
 
                             </template>
                         </q-td>
-                        <q-td v-if="configs.components.acoes || configs.delete != false" class="text-right">
+                        <q-td v-if="configs.components.acoes || configs.delete != false" class="text-right q-gutter-sm">
 
-                            <q-btn v-if="configs.delete != false" class="q-pa-xs" icon="delete" text-color="white"
-                                color="red" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                            <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
+                                :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                 @click="openConfirm(props.row)">
                                 <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
                             </q-btn>
@@ -159,9 +159,9 @@
 
                         <q-separator />
                         <q-card-section>
-                            <q-item-section side>
-                                <q-btn v-if="configs.delete != false" class="q-pa-xs" icon="delete" text-color="white"
-                                    color="red" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                            <q-item-section side class="q-gutter-sm">
+                                <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
+                                    :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                     @click="openConfirm(props.row)">
                                     <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
                                 </q-btn>
