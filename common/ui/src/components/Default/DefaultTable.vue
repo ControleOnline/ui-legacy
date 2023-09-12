@@ -26,6 +26,7 @@
                                 <q-icon
                                     v-if="column.editable != false && !isSaving && showEdit[items.indexOf(props.row)] && showEdit[items.indexOf(props.row)][column.key || column.name] == true"
                                     size="0.8em" name="edit" />
+                                <q-icon v-else size="0.8em" name="" />
                                 <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)"
                                     color="primary" size="2em" />
                             </span>
@@ -43,9 +44,8 @@
                         </q-td>
                         <q-td v-if="configs.components.acoes || configs.delete != false" class="text-right">
 
-                            <q-btn  v-if="configs.delete != false" class="q-pa-xs" icon="delete"
-                                text-color="white" color="red"
-                                :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                            <q-btn v-if="configs.delete != false" class="q-pa-xs" icon="delete" text-color="white"
+                                color="red" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                 @click="openConfirm(props.row)">
                                 <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
                             </q-btn>
@@ -138,6 +138,8 @@
                                             formatData(column, props, true)
                                         )">{{ formatData(column, props) }}
                                             <q-icon v-if="column.editable != false && !isSaving" size="0.8em" name="edit" />
+                                            <q-icon v-else size="0.8em" name="" />
+
                                             <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)"
                                                 color="primary" size="2em" />
                                         </span>
