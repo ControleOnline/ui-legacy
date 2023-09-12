@@ -18,8 +18,17 @@
                                 this.format(column, getObjectFromKey(props.row, column.key ||
                                     column.name)[column.key || column.name]) }}
                             </q-btn>
-                            <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
-                                formatData(column, props, true))" v-html="formatData(column, props)" />
+                            <span @mouseenter="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: true }"
+                                @mouseleave="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: false }"
+                                v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
+                                    formatData(column, props, true))">
+                                {{ formatData(column, props) }}
+                                <q-icon
+                                    v-if="column.editable != false && !isSaving && showEdit[items.indexOf(props.row)] && showEdit[items.indexOf(props.row)][column.key || column.name] == true"
+                                    size="0.8em" name="edit" />
+                                <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)"
+                                    color="primary" size="2em" />
+                            </span>
                             <template v-else>
                                 <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
                                     :options="configs.list[column.list]" :label="$t(column.label)"
@@ -34,7 +43,7 @@
                         </q-td>
                         <q-td v-if="configs.components.acoes || configs.delete != false" class="text-right">
 
-                            <q-btn :loading="isSaving" v-if="configs.delete != false" class="q-pa-xs" icon="delete"
+                            <q-btn  v-if="configs.delete != false" class="q-pa-xs" icon="delete"
                                 text-color="white" color="red"
                                 :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                 @click="openConfirm(props.row)">
@@ -127,7 +136,11 @@
                                         </q-btn>
                                         <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
                                             formatData(column, props, true)
-                                        )" v-html="formatData(column, props)" />
+                                        )">{{ formatData(column, props) }}
+                                            <q-icon v-if="column.editable != false && !isSaving" size="0.8em" name="edit" />
+                                            <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)"
+                                                color="primary" size="2em" />
+                                        </span>
                                         <template v-else>
                                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label
                                                 lazy-rules :options="configs.list[column.list]" :label="$t(column.label)"
@@ -245,6 +258,8 @@ export default {
 
     data() {
         return {
+            showEdit: [],
+            saveEditing: [],
             deleteModal: false,
             deleteItem: {},
             addModal: false,
@@ -276,6 +291,9 @@ export default {
     computed: {
         isloading() {
             return this.$store.getters[this.configs.module + '/isLoading']
+        },
+        isSaving() {
+            return this.$store.getters[this.configs.module + '/isSaving']
         },
         filters() {
             return this.$store.getters[this.configs.module + '/filters']
@@ -401,23 +419,26 @@ export default {
             if (col.editable == false || (col.key && col.key.indexOf(".") != -1))
                 return;
             this.editedValue = value;
-            let editing = [
 
-            ];
+            this.editing[index] = { [col.key || col.name]: true };
+            this.showEdit[index] = { [col.key || col.name]: false };
 
-            editing[index] = {
-                [col.key || col.name]: true
-            };
-            this.editing = editing;
         },
         stopEditing(index, col, row) {
             let editing = this.copyObject(this.editing);
             editing[index] = {
                 [col.key || col.name]: false
             };
+
+            this.saveEditing[index] = {
+                [col.key || col.name]: true
+            };
             this.editing = editing;
 
-            this.save(row, col.key || col.name, this.editedValue.value || this.editedValue);
+            this.save(index, row, col.key || col.name, this.editedValue.value || this.editedValue);
+        },
+        isEditing(index, col) {
+            return this.saveEditing[index] && this.saveEditing[index][col.key || col.name] ? true : false;
         },
         getFilterParams(params) {
             this.columns.forEach((item, i) => {
@@ -445,7 +466,7 @@ export default {
             }
             return;
         },
-        save(row, name, value) {
+        save(index, row, name, value) {
 
             if (row[name] == value) return;
 
@@ -477,6 +498,9 @@ export default {
                 }
             }).finally(() => {
                 this.editing = [];
+                this.saveEditing[index] = {
+                    [name]: false
+                };
             });
         },
         loadData(props) {
