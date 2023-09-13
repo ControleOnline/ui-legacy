@@ -42,15 +42,14 @@
 
                             </template>
                         </q-td>
-                        <q-td v-if="configs.components.acoes || configs.delete != false" class="text-right q-gutter-sm">
-
+                        <q-td v-if="tableActionsComponent() || configs.delete != false" class="text-right q-gutter-sm">
                             <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                                 :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                 @click="openConfirm(props.row)">
                                 <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
                             </q-btn>
-                            <component v-if="configs.components.acoes" :is="configs.components.acoes"
-                                :componentProps="configs.components.componentProps" :row="props.row" />
+                            <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
+                                :componentProps="tableActionsProps()" :row="props.row" />
                         </q-td>
                     </q-tr>
                 </transition>
@@ -71,7 +70,7 @@
                             :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
                             color="grey-8" size="14px" />
                     </q-th>
-                    <q-th v-if="configs.components.acoes || configs.delete != false">
+                    <q-th v-if="tableActionsComponent() || configs.delete != false">
 
                     </q-th>
                 </q-tr>
@@ -165,8 +164,8 @@
                                     @click="openConfirm(props.row)">
                                     <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
                                 </q-btn>
-                                <component v-if="configs.components.acoes" :is="configs.components.acoes"
-                                    :componentProps="configs.components.componentProps" :row="props.row" />
+                                <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
+                                    :componentProps="tableActionsProps()" :row="props.row" />
                             </q-item-section>
                         </q-card-section>
                     </q-card>
@@ -180,7 +179,7 @@
                         <span v-if="sumColumn[column.key || column.name]"
                             v-html="format(column, sumColumn[column.key || column.name])"></span>
                     </q-td>
-                    <q-td v-if="configs.components.acoes || configs.delete != false">
+                    <q-td v-if="tableActionsComponent() || configs.delete != false">
                     </q-td>
                 </q-tr>
             </template>
@@ -317,6 +316,12 @@ export default {
         },
     },
     methods: {
+        tableActionsComponent() {
+            return this.configs.components?.tableActions?.component
+        },
+        tableActionsProps() {
+            return this.configs.components?.tableActions?.pops
+        },
         error(error) {
             this.$emit('error', error);
         },
