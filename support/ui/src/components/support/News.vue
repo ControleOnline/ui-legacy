@@ -1,6 +1,6 @@
 <template>
 <q-table dense  grid hide-header        
-        :data   ="items"
+        :rows   ="items"
         @request="onRequest"
         row-key ="id"
       >  

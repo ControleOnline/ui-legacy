@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 q-mt-md">
       <q-table dense 
-        :data   ="items"
+        :rows   ="items"
         :columns="settings.columns"
         row-key ="id"
         :loading="loading"

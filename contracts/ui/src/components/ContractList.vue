@@ -13,7 +13,7 @@
     <q-table
       v-else
       :loading        ="isLoading"
-      :data           ="data"
+      :rows           ="data"
       :columns        ="columns"
       :pagination.sync="pagination"
       @request        ="onRequest"
