@@ -1,0 +1,39 @@
+// This is just an example,
+// so you can safely delete all default props below
+
+export const translate = {
+  support: {
+    task_for:'Responsável',
+    allTasks: 'Todas',
+    create: 'Ocorrências Criadas',
+    myTasks: 'Minhas Ocorrências',
+    category: 'Categorias',
+    title: 'Ocorrências',
+    information: 'Detalhes da Ocorrências',
+    interactions: 'Interações',
+    categoryInfo: 'Detalhes da Categoria',
+    newInteraction: 'Nova Interação',
+    status_label: 'Status',
+    criticality: 'Criticidade',
+    reason: 'Execução',
+    public: 'Visível',
+    private: 'Interna',
+    status: {
+      open: 'Aberta',
+      closed: 'Fechada',
+      pending: 'Em Andamento',
+      all: 'Todas',
+      'Waiting client': 'Aguardando cliente',
+      'Waiting delivery': 'Aguardando entrega de guincho',
+      delayed: 'Atrasado',
+      canceled: 'Cancelado',
+      'Waiting Payment': 'Aguardando Pagamento',
+      'Waiting retrieve': 'Aguardando Retirada',
+      'on the way': 'Em trânsito',
+      prepared: 'Liberado para base',
+      waiting: 'Pátio',
+      'Waiting retrieve': 'Pendente de coleta',
+      retrieved: 'Retirado',
+    }
+  }
+}
