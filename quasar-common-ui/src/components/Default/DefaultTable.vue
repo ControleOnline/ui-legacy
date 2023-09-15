@@ -1,7 +1,7 @@
 <template>
     <div class="full-width">
         <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" :loading="isloading"
-            :pagination.sync="pagination" @request="loadData" :filter="filters" :rows-per-page-options="rowsOptions"
+            :pagination.sync="pagination" @request="loadData" :rows-per-page-options="rowsOptions"
             :grid="this.$q.screen.gt.sm == false" binary-state-sort>
             <template v-slot:body="props">
                 <transition name="fade" mode="out-in">
@@ -46,7 +46,7 @@
                             <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                                 :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                 @click="openConfirm(props.row)">
-                                <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
+                                <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
                             </q-btn>
                             <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
                                 :componentProps="tableActionsProps()" :row="props.row" />
@@ -79,7 +79,7 @@
             <template v-slot:top-right="props">
                 <q-btn v-if="configs.add != false" class="q-pa-xs" label="" text-color="white" icon="add" color="green"
                     :disabled="isLoading || addModal || deleteModal || editing.length > 0" @click="addModal = true">
-                    <q-tooltip> {{ $t(configs.module + '.add') }} </q-tooltip>
+                    <q-tooltip> {{ $t(configs.store + '.add') }} </q-tooltip>
                 </q-btn>
                 <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                     v-if="$q.screen.gt.sm == false && configs.selection" />
@@ -162,7 +162,7 @@
                                 <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                                     :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                     @click="openConfirm(props.row)">
-                                    <q-tooltip> {{ $t(configs.module + '.delete') }} </q-tooltip>
+                                    <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
                                 </q-btn>
                                 <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
                                     :componentProps="tableActionsProps()" :row="props.row" />
@@ -200,7 +200,7 @@
         <q-dialog v-model="addModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ $t(configs.module + '.add') }}</label>
+                    <label class="text-h5">{{ $t(configs.store + '.add') }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -213,7 +213,7 @@
         <q-dialog v-model="deleteModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ $t(configs.module + '.msg_delete') }}</label>
+                    <label class="text-h5">{{ $t(configs.store + '.msg_delete') }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -221,11 +221,11 @@
                 <q-card-section>
                     <div class="flex q-pt-md">
                         <q-btn class="q-py-sm q-px-md text-capitalize" outline color="secondary"
-                            :label="$t(configs.module + '.cancel')" v-close-popup>
+                            :label="$t(configs.store + '.cancel')" v-close-popup>
                         </q-btn>
                         <q-space></q-space>
                         <q-btn class="q-py-sm q-px-md text-capitalize" color="secondary"
-                            :label="$t(configs.module + '.confirm')" @click="confirmDelete" :loading="isSaving">
+                            :label="$t(configs.store + '.confirm')" @click="confirmDelete" :loading="isSaving">
                         </q-btn>
                     </div>
                 </q-card-section>
@@ -275,7 +275,8 @@ export default {
             dialog: false,
             pagination: {
                 page: 1,
-                rowsNumber: this.totalItems || 0,
+                rowsNumber: 0,
+                rowsPerPage: this.rowsOptions[0] || 50
             },
         };
     },
@@ -291,25 +292,25 @@ export default {
 
     computed: {
         isloading() {
-            return this.$store.getters[this.configs.module + '/isLoading']
+            return this.$store.getters[this.configs.store + '/isLoading']
         },
         isSaving() {
-            return this.$store.getters[this.configs.module + '/isSaving']
+            return this.$store.getters[this.configs.store + '/isSaving']
         },
         filters() {
-            return this.$store.getters[this.configs.module + '/filters']
+            return this.$store.getters[this.configs.store + '/filters']
         },
         columns() {
-            return this.$store.getters[this.configs.module + '/columns']
+            return this.$store.getters[this.configs.store + '/columns']
         },
         totalItems() {
-            return this.$store.getters[this.configs.module + '/totalItems']
+            return this.$store.getters[this.configs.store + '/totalItems']
         },
     },
     watch: {
         selectedRows: {
             handler: function (selectedRows) {
-                this.$store.commit(this.configs.module + '/SET_SELECTED', this.copyObject(selectedRows));
+                this.$store.commit(this.configs.store + '/SET_SELECTED', this.copyObject(selectedRows));
                 this.$emit('selected', this.copyObject(selectedRows));
             },
             deep: true,
@@ -335,7 +336,7 @@ export default {
             this.deleteModal = true;
         },
         confirmDelete() {
-            this.$store.dispatch(this.configs.module + '/remove', this.deleteItem['@id'].split('/').pop()
+            this.$store.dispatch(this.configs.store + '/remove', this.deleteItem['@id'].split('/').pop()
             ).then((data) => {
 
             }).finally(() => {
@@ -392,7 +393,7 @@ export default {
                 if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
                     let filters = this.copyObject(this.filters);
                     filters.order = this.sortedColumn + ';' + this.sortDirection;
-                    this.$store.commit(this.configs.module + '/SET_FILTERS', filters);
+                    this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
                     this.loadData();
                 } else {
                     this.reorderTableData();
@@ -486,7 +487,7 @@ export default {
             } else {
                 params[name] = value;
             }
-            this.$store.dispatch(this.configs.module + '/save', params
+            this.$store.dispatch(this.configs.store + '/save', params
             ).then((data) => {
                 if (data) {
                     this.loadData();
@@ -513,7 +514,7 @@ export default {
         loadData(props) {
             if (props) {
                 this.pagination = props.pagination;
-                this.$store.commit(this.configs.module + '/SET_FILTERS', Object.assign(this.filters, props.filters));
+                this.$store.commit(this.configs.store + '/SET_FILTERS', Object.assign(this.filters, props.filters));
             }
             let params = Object.assign(this.copyObject(this.filters), this.copyObject(this.pagination));
             if (params.sortBy)
@@ -525,10 +526,10 @@ export default {
 
             params = this.getFilterParams(params);
 
-            this.$store.dispatch(this.configs.module + '/getItems', params
+            this.$store.dispatch(this.configs.store + '/getItems', params
             ).then((data) => {
-                this.items = data;
                 this.pagination.rowsNumber = this.totalItems;
+                this.items = data;
                 this.selectedRows = structuredClone(new Array(data.length).fill(false));
             }).catch(() => {
                 this.items = [];

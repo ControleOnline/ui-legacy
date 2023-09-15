@@ -3,25 +3,29 @@
 </template>
 <script>
 import DefaultTable from "@controleonline/quasar-common-ui/src/components/Default/DefaultTable";
+//import acoes from "@nelsys/../../src/modules/nelsys/quasar-waybill-ui/src/components/pedido/acoes.vue";
+
 export default {
   components: {
-    DefaultTable
+    DefaultTable,
+    //acoes
   },
 
   computed: {
     configs() {
       return {
-        module: 'queues',
+        store: 'queues',
         add: true,
         selection: true,
         search: false,
-        components: {
-          //acoes: () => import("@nelsys/../../src/modules/nelsys/quasar-waybill-ui/src/components/pedido/acoes.vue"),
-          //componentProps: {
-          //   x: 1,
-          //    Y: 2
-          //}
-        },
+        /*
+        tableActions: {
+          component: acoes,
+          props: {
+            teste: 1
+          }
+        }
+        */
         list: {
           displayType: this.displayType,
           company: this.company,
