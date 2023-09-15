@@ -111,6 +111,10 @@
                                             {{ this.format(column, getObjectFromKey(props.row, column.key ||
                                                 column.name)[column.key || column.name]) }}
                                         </q-btn>
+                                        <span v-else :icon:="column.icon">
+                                            {{ this.format(column, getObjectFromKey(props.row, column.key ||
+                                                column.name)[column.key || column.name]) }}
+                                        </span>
                                     </q-item-section>
                                 </template>
                                 <q-item-section side>
