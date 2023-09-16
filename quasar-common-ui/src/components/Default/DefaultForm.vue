@@ -7,10 +7,10 @@
                         :class="column.formClass || 'col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 q-pa-xs'">
                         <q-select v-if="column.list" dense outlined stack-label lazy-rules
                             :options="configs.list[column.list]" :label="$t(column.label)" label-color="black"
-                            v-model="data[column.name]" />
+                            v-model="item[column.key || column.name]" />
                         <q-input v-else :disable="column.editable == false" dense outlined stack-label lazy-rules
-                            v-model="data[column.name]" type="text" :mask="mask(column)" :label="$t(column.name)"
-                            :rules="[isInvalid()]" />
+                            v-model="item[column.key || column.name]" type="text" :mask="mask(column)"
+                            :label="$t(column.key || column.name)" :rules="[isInvalid()]" />
                     </div>
                 </template>
                 <!--
@@ -31,7 +31,7 @@
             </div>
 
             <div class="row justify-end">
-                <q-btn :loading="isSaving" icon="save" type="submit" :label="$t(configs.module + '.save')" size="md"
+                <q-btn :loading="isSaving" icon="save" type="submit" :label="$t(configs.store + '.save')" size="md"
                     color="primary" class="q-mt-md" />
             </div>
         </q-form>
@@ -39,34 +39,44 @@
 </template>
   
 <script>
-export default {
+import * as DefaultMethods from './DefaultMethods.js';
 
+export default {
     props: {
         configs: {
             type: Object,
             required: true,
         },
-        rowsOptions: {
-            type: Array,
+        data: {
+            type: Object,
             required: false,
             default() {
-                return [50, 100, 200, 500];
+                return {};
             }
         },
     },
-
     components: {
     },
-
     data() {
         return {
             periodo: false,
-            data: {},
+            item: {}
         };
     },
-
     created() {
-
+        let data = {};
+        Object.keys(this.data).forEach((item, i) => {
+            let column = this.columns.find((c) => {
+                return (c.key || c.name) == item
+            });
+            if (column) {
+                data[column.key || column.name] =
+                    column.list ?
+                        this.formatData(column, this.data, true) :
+                        this.data[column.key || column.name];
+            }
+        });
+        this.item = data;
     },
     mounted() {
         this.$nextTick(() => {
@@ -75,28 +85,29 @@ export default {
 
     computed: {
         isSaving() {
-            return this.$store.getters[this.configs.module + '/isSaving']
+            return this.$store.getters[this.configs.store + '/isSaving']
         },
         columns() {
-            return this.$store.getters[this.configs.module + '/columns']
+            return this.$store.getters[this.configs.store + '/columns']
         },
     },
     watch: {
     },
     methods: {
+        ...DefaultMethods,
         save(params) {
             let p = {};
             for (const name in params) {
-                p[name] = this.format(name, params[name]);
+                p[name] = this.saveFormat(name, params[name]);
             }
-            this.$store.dispatch(this.configs.module + '/save', p
-            ).then((data) => {
+            this.$store.dispatch(this.configs.store + '/save', p
+            ).then((item) => {
                 this.$q.notify({
                     message: this.$t("Success!"),
                     position: "bottom",
                     type: "positive",
                 });
-                this.$emit("saved", data);
+                this.$emit("saved", item);
             }).catch((error) => {
                 this.$emit("error", error);
                 this.$q.notify({
@@ -106,32 +117,13 @@ export default {
                 });
             });
         },
-        format(columnName, value) {
-            const column = this.columns.find((col) => {
-                return col.name === columnName || col.key === columnName
-            });
-            if (typeof column.saveFormat == 'function')
-                return column.saveFormat(value)
-            else
-                if (typeof value == 'object')
-                    return !isNaN(value.value) ? parseFloat(value.value) : value.value;
-
-            return !isNaN(value) ? parseFloat(value) : value;
-        },
         onSubmit() {
             this.$refs.myForm.validate().then((success) => {
                 if (success) {
-                    let payload = this.data;
+                    let payload = this.item;
                     this.save(payload);
                 }
             });
-        },
-        mask(column) {
-            if (typeof column.mask == 'function')
-                return column.mask();
-        },
-        isInvalid(key) {
-            return true;
         },
     }
 };

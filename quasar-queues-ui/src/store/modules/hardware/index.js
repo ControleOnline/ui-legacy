@@ -13,7 +13,7 @@ export default {
   totalItems: 0,
   filters: persistentFilter.getFilters(),
   state: {
-    resourceEndpoint:'displays',
+    resourceEndpoint:'hardware',
     isLoading: false,
     error: "",
     violations: null,
@@ -26,11 +26,11 @@ export default {
         sortable: true,
         name: "id",
         align: "left",
-        label: "displays.id",
+        label: "hardware.id",
         sum: false,
         to: function (column) {
           return {
-            name: "queueIndex",
+            name: "hardwareDetails",
             params: { id: column.id },
           };
         },
@@ -40,9 +40,9 @@ export default {
       },
       {
         sortable: true,
-        name: "display",
+        name: "hardware",
         align: "left",
-        label: "displays.display",
+        label: "hardware.hardware",
         sum: false,
         format: function (value) {
           return value;
@@ -50,11 +50,11 @@ export default {
 
       },
       {
-        list: "displayType",
+        list: "hardwareType",
         sortable: true,
-        name: "displayType",
+        name: "hardwareType",
         align: "left",
-        label: "displays.displayType",
+        label: "hardware.hardwareType",
         format: function (value) {
 
           return value;
@@ -66,7 +66,7 @@ export default {
         list: "company",
         name: "company",
         align: "left",
-        label: "displays.company",
+        label: "hardware.company",
         format: function (value) {
 
 

@@ -21,8 +21,8 @@
                             <span @mouseenter="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: true }"
                                 @mouseleave="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: false }"
                                 v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
-                                    formatData(column, props, true))">
-                                {{ formatData(column, props) }}
+                                    formatData(column, props.row, true))">
+                                {{ formatData(column, props.row) }}
                                 <q-icon
                                     v-if="column.editable != false && !isSaving && showEdit[items.indexOf(props.row)] && showEdit[items.indexOf(props.row)][column.key || column.name] == true"
                                     size="0.8em" name="edit" />
@@ -43,6 +43,11 @@
                             </template>
                         </q-td>
                         <q-td v-if="tableActionsComponent() || configs.delete != false" class="text-right q-gutter-sm">
+                            <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white" color="primary"
+                                :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                                @click="editItem(props.row)">
+                                <q-tooltip> {{ $t(configs.store + '.edit') }} </q-tooltip>
+                            </q-btn>
                             <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                                 :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                 @click="openConfirm(props.row)">
@@ -138,8 +143,8 @@
                                                     column.name)[column.key || column.name]) }}
                                         </q-btn>
                                         <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
-                                            formatData(column, props, true)
-                                        )">{{ formatData(column, props) }}
+                                            formatData(column, props.row, true)
+                                        )">{{ formatData(column, props.row) }}
                                             <q-icon v-if="column.editable != false && !isSaving" size="0.8em" name="edit" />
                                             <q-icon v-else size="0.8em" name="" />
 
@@ -162,14 +167,23 @@
 
                         <q-separator />
                         <q-card-section>
-                            <q-item-section side class="q-gutter-sm">
-                                <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
-                                    :disabled="isLoading || addModal || deleteModal || editing.length > 0"
-                                    @click="openConfirm(props.row)">
-                                    <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
-                                </q-btn>
-                                <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
-                                    :componentProps="tableActionsProps()" :row="props.row" />
+                            <q-item-section side class="">
+                                <div class="row justify-end q-gutter-sm">
+                                        <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white"
+                                            color="primary"
+                                            :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                                            @click="editItem(props.row)">
+                                            <q-tooltip> {{ $t(configs.store + '.edit') }} </q-tooltip>
+                                        </q-btn>
+                                        <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white"
+                                            color="red"
+                                            :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                                            @click="openConfirm(props.row)">
+                                            <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
+                                        </q-btn>
+                                        <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
+                                            :componentProps="tableActionsProps()" :row="props.row" />
+                                </div>
                             </q-item-section>
                         </q-card-section>
                     </q-card>
@@ -210,7 +224,7 @@
                 </q-card-section>
                 <q-separator></q-separator>
                 <q-card-section>
-                    <DefaultForm :configs="configs" @saved="saved" @error="error" />
+                    <DefaultForm :configs="configs" @saved="saved" @error="error" :data="item" />
                 </q-card-section>
             </q-card>
         </q-dialog>
@@ -240,6 +254,7 @@
   
 <script>
 import DefaultForm from "@controleonline/quasar-common-ui/src/components/Default/DefaultForm";
+import * as DefaultMethods from './DefaultMethods.js';
 
 export default {
 
@@ -275,6 +290,7 @@ export default {
             editing: [],
             sumColumn: [],
             items: [],
+            item: {},
             selectedRows: new Array(this.rowsOptions.pop()).fill(false),
             dialog: false,
             pagination: {
@@ -321,6 +337,8 @@ export default {
         },
     },
     methods: {
+        ...DefaultMethods,
+
         tableActionsComponent() {
             return this.configs.components?.tableActions?.component
         },
@@ -339,7 +357,11 @@ export default {
             this.deleteItem = data;
             this.deleteModal = true;
         },
-        confirmDelete() {
+        editItem(item) {
+            this.item = this.copyObject(item);
+            this.addModal = true;
+        }
+        , confirmDelete() {
             this.$store.dispatch(this.configs.store + '/remove', this.deleteItem['@id'].split('/').pop()
             ).then((data) => {
 
@@ -347,37 +369,6 @@ export default {
                 this.deleteModal = false;
                 this.loadData();
             });
-        },
-        copyObject(object) {
-            return JSON.parse(JSON.stringify(object || {}))
-        },
-        formatData(column, props, editing) {
-            let data = this.format(column, column.list ? this.getNameFromList(
-                column.list, column, props.row, editing) :
-                this.getObjectFromKey(props.row, column.key || column.name)[column.key || column.name])
-
-            return data;
-        },
-        getObjectFromKey(object, key) {
-            let objetoAtual = object;
-            if (key.indexOf(".") != -1) {
-                let partesDaChave = key.split('.');
-                for (let parte of partesDaChave) {
-                    objetoAtual = objetoAtual[parte];
-                }
-            }
-            return objetoAtual;
-        },
-        getNameFromList(list, column, row, editing) {
-
-            let name = this.configs.list[list].find((item) => {
-                return item.value == (typeof
-                    row[column.key || column.name] == 'object' ?
-                    row[column.key || column.name]['@id'].split('/').pop() :
-                    row[column.key || column.name]);
-            });
-            return typeof name == 'object' && !editing ? name.label : name;
-
         },
         toggleSelectAll() {
             this.selectedRows = this.selectedRows.map(() => this.selectAll);
@@ -459,12 +450,7 @@ export default {
             });
             return params;
         },
-        format(column, value) {
-            if (column && typeof column.format == 'function')
-                return column.format(value);
 
-            return value;
-        },
         sum(column, value) {
             if (!isNaN(value) && value && column.sum != false) {
                 this.sumColumn[column.key || column.name] = this.sumColumn[column.key || column.name] ? parseFloat(this.sumColumn[column.key || column.name]) + parseFloat(value) : 0;

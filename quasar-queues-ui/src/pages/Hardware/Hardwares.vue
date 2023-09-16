@@ -2,19 +2,19 @@
   <q-page>
     <div class="q-pa-md row q-gutter-md">
 
-      <q-card v-for="display in displays" :key="display.id" @click="openDisplay(display)"
-        class=" display-card  col-4 col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+      <q-card v-for="hardware in hardwares" :key="hardware.id" @click="openHardware(hardware)"
+        class=" hardware-card  col-4 col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
         <q-card-actions>
           <div class="q-gutter-sm items-center row full-width">
-            <img :src="getCompanyLogo(display)" class="current-logo" v-if="getCompanyLogo(display)" />
-            <span v-else> {{ display.company.alias }}</span>
+            <img :src="getCompanyLogo(hardware)" class="current-logo" v-if="getCompanyLogo(hardware)" />
+            <span v-else> {{ hardware.company.alias }}</span>
           </div>
           <div class="col-auto justify-end icon-absolute-right">
-            <q-btn v-if="display.displayType == 'delivery'" fab color="primary" icon="place"
-              @click="openDisplay(display)" />
-            <q-btn v-if="display.displayType == 'display'" fab color="green" icon="done" @click="openDisplay(display)" />
-            <q-btn v-if="display.displayType == 'production'" fab color="primary" icon="receipt_long"
-              @click="openDisplay(display)" />
+            <q-btn v-if="hardware.hardwareType == 'delivery'" fab color="primary" icon="place"
+              @click="openHardware(hardware)" />
+            <q-btn v-if="hardware.hardwareType == 'hardware'" fab color="green" icon="done" @click="openHardware(hardware)" />
+            <q-btn v-if="hardware.hardwareType == 'production'" fab color="primary" icon="receipt_long"
+              @click="openHardware(hardware)" />
 
           </div>
         </q-card-actions>
@@ -22,7 +22,7 @@
         <q-card-section class="full-width">
           <div class="row no-wrap items-center q-col-gutter-md justify-between">
             <div class="col text-h6 ellipsis">
-              {{ display.display }}
+              {{ hardware.hardware }}
             </div>
             <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
               <q-icon name="place" />
@@ -32,10 +32,10 @@
         </q-card-section>
         <q-card-section class="q-pt-none">
           <div class="text-subtitle1">
-            {{ $t('display.types.' + display.displayType) }}
+            {{ $t('hardware.types.' + hardware.hardwareType) }}
           </div>
           <div class="text-caption text-grey">
-            {{ $t('display.messages.' + display.displayType) }}
+            {{ $t('hardware.messages.' + hardware.hardwareType) }}
           </div>
         </q-card-section>
       </q-card>
@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       isSearching: false,
-      displays: [],
+      hardwares: [],
     };
   },
   computed: {
@@ -67,28 +67,28 @@ export default {
 
   methods: {
     ...mapActions({
-      getDisplays: "queues/getDisplays",
+      getHardwares: "queues/getHardwares",
     }),
 
-    getCompanyLogo(display) {
-      if (display.company.file.id)
-        return ENTRYPOINT + '/files/download/' + display.company.file.id
+    getCompanyLogo(hardware) {
+      if (hardware.company.file.id)
+        return ENTRYPOINT + '/files/download/' + hardware.company.file.id
 
     },
     onRequest() {
-      this.getMyDisplays();
+      this.getMyHardwares();
     },
-    openDisplay(display) {
+    openHardware(hardware) {
       this.$router.push({
-        name: "displayIndex",
-        params: { id: display.id },
+        name: "hardwareDetails",
+        params: { id: hardware.id },
       });
     },
-    getMyDisplays() {
+    getMyHardwares() {
       this.isSearching = true;
-      return this.getDisplays()
+      return this.getHardwares()
         .then((result) => {
-          this.displays = result;
+          this.hardwares = result;
         })
         .finally(() => {
           this.isSearching = false;
@@ -100,7 +100,7 @@ export default {
 
 
 <style scoped>
-.display-card {
+.hardware-card {
   cursor: pointer;
   transition: box-shadow 0.3s ease;
 }
@@ -111,7 +111,7 @@ export default {
   top: 25px;
 }
 
-.display-card:hover {
+.hardware-card:hover {
   box-shadow: 0 4px 8px rgb(0 0 0 / 53%);
 }
 </style>
