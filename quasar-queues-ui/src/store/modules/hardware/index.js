@@ -1,7 +1,6 @@
-import * as customActions from "./customActions";
 import * as actions from "@controleonline/quasar-common-ui/src/store/common/actions";
 import * as getters from "@controleonline/quasar-common-ui/src/store/common/getters";
-import mutations from '@controleonline/quasar-common-ui/src/store/common/mutations';
+import mutations from "@controleonline/quasar-common-ui/src/store/common/mutations";
 import Filters from "@controleonline/quasar-common-ui/src/utils/filters";
 const persistentFilter = new Filters();
 
@@ -13,7 +12,7 @@ export default {
   totalItems: 0,
   filters: persistentFilter.getFilters(),
   state: {
-    resourceEndpoint:'hardware',
+    resourceEndpoint: "hardware",
     isLoading: false,
     error: "",
     violations: null,
@@ -21,8 +20,8 @@ export default {
     filters: persistentFilter.getFilters(),
     columns: [
       {
-        editable:false,
-        isIdentity:true,
+        editable: false,
+        isIdentity: true,
         sortable: true,
         name: "id",
         align: "left",
@@ -47,7 +46,6 @@ export default {
         format: function (value) {
           return value;
         },
-
       },
       {
         list: "hardwareType",
@@ -56,10 +54,8 @@ export default {
         align: "left",
         label: "hardware.hardwareType",
         format: function (value) {
-
           return value;
         },
-
       },
       {
         sortable: true,
@@ -68,20 +64,15 @@ export default {
         align: "left",
         label: "hardware.company",
         format: function (value) {
-
-
           return value;
         },
-        saveFormat:function(company){
-          return '/people/'+company.value;
+        saveFormat: function (company) {
+          return "/people/" + company.value;
         },
       },
     ],
   },
-  actions: { 
-    ...actions, 
-    ...customActions 
-  },
+  actions: actions,
   getters,
   mutations,
 };
