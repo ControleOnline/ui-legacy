@@ -1,7 +1,7 @@
 <template>
   <div>
     <Filters :filters="filters" @onRequest="onRequest" />
-    <q-table dense :loading="isLoading" :rows="data" :columns="settings.columns" :pagination.sync="pagination"
+    <q-table dense :loading="isLoading" :rows="data" :columns="settings.columns" v-model:pagination="pagination"
       @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" style="min-height: 90vh">
       <template v-slot:body="props">
         <q-tr :props="props">
@@ -165,7 +165,7 @@ export default {
     }
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     this.reset();
   },
 

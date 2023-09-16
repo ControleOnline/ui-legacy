@@ -1,6 +1,6 @@
 {
     "name": "@controleonline/quasar-import-ui",
-    "version": "1.0.24",
+    "version": "1.0.25",
     "author": "ControleOnline",
     "description": "ControleOnline Quasar UI Component",
     "license": "MIT",
@@ -16,5 +16,5 @@
     "homepage": "https://www.controleonline.com/devs/plugins",
     "browserslist": [
       "last 1 version, not dead, ie >= 11"
-    ]  
+    ]
   }

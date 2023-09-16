@@ -1,7 +1,7 @@
 <template>
     <div class="full-width">
         <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" :loading="isloading"
-            :pagination.sync="pagination" @request="loadData" :rows-per-page-options="rowsOptions"
+            v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions"
             :grid="this.$q.screen.gt.sm == false" binary-state-sort>
             <template v-slot:body="props">
                 <transition name="fade" mode="out-in">

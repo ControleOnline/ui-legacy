@@ -123,7 +123,7 @@
         :loading="isLoading"
         :rows="data"
         :columns="columns"
-        :pagination.sync="pagination"
+        v-model:pagination="pagination"
         @request="onRequest"
         row-key="Id"
         :rows-per-page-options="[0]"
@@ -1109,7 +1109,7 @@ export default {
     }
   },
 
-  beforeDestroy() {},
+  beforeUnmount() {},
 
   data() {
     return {

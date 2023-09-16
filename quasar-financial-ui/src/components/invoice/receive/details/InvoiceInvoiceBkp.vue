@@ -107,7 +107,7 @@ export default {
     window.addEventListener   ('focus', this.loadItauDataOnFocus);
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener('focus', this.loadItauDataOnFocus);
   },
 

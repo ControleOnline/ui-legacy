@@ -8,7 +8,7 @@
         :loading="isLoading"
         :rows="items"
         row-key="id"
-        :pagination.sync="pagination"
+        v-model:pagination="pagination"
         @request="onRequest"
         :rows-per-page-options="[5, 10, 15, 20, 25, 50]"
       >

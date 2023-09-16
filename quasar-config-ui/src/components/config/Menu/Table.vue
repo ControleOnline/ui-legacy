@@ -5,7 +5,7 @@
       :loading="isLoading"
       :rows="items"
       :columns="settings.columns"
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
       @request="onRequest"
       row-key="id"
       bordered

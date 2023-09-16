@@ -3,7 +3,7 @@
     :loading="isLoading"
     :rows="data"
     :columns="settings.columns"
-    :pagination.sync="pagination"
+    v-model:pagination="pagination"
     @request="onRequest"
     row-key="id"
     style="min-height: 90vh"
@@ -148,7 +148,7 @@ export default {
     this.requestStatuses();
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     this.reset();
   },
 

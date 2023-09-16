@@ -3,7 +3,7 @@
     :loading        ="isLoading"
     :rows           ="data"
     :columns        ="columns"
-    :pagination.sync="pagination"
+    v-model:pagination="pagination"
     @request        ="onRequest"
     row-key         ="id"
   >

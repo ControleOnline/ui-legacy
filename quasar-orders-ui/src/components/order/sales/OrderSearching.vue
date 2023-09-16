@@ -1,5 +1,5 @@
 <template>
-  <q-table :loading="isLoading" :rows="data" :columns="settings.columns" :pagination.sync="pagination"
+  <q-table :loading="isLoading" :rows="data" :columns="settings.columns" v-model:pagination="pagination"
     @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" style="min-height: 90vh">
     <template v-slot:top v-if="search === true">
       <div class="col-xs-12 q-pb-md text-h6">Pedidos de venda</div>
@@ -228,7 +228,7 @@ export default {
     this.requestStatuses();
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     this.reset();
   },
 

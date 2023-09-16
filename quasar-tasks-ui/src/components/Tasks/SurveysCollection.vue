@@ -30,7 +30,7 @@
       :loading="isLoading"
       :rows="data"
       :columns="settings.columns"
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
       row-key="id"
       :visible-columns="settings.visibleColumns"
       style="min-height: 90vh"

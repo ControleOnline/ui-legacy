@@ -1,6 +1,6 @@
 {
     "name": "@controleonline/quasar-quote-ui",
-    "version": "1.0.17",
+    "version": "1.0.18",
     "author": "Controle Online",
     "description": "Controle Online Quote Quasar UI Component",
     "license": "MIT",
@@ -14,5 +14,5 @@
     "homepage": "https://www.controleonline.com/devs/plugins",
     "browserslist": [
       "last 1 version, not dead, ie >= 11"
-    ]  
+    ]
   }

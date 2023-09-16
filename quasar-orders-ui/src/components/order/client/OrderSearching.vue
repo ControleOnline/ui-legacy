@@ -3,7 +3,7 @@
     :loading="isLoading"
     :rows="data"
     :columns="settings.columns"
-    :pagination.sync="pagination"
+    v-model:pagination="pagination"
     @request="onRequest"
     row-key="id"
     :visible-columns="settings.visibleColumns"
@@ -197,7 +197,7 @@ export default {
     this.requestStatuses();
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     this.reset();
   },
 

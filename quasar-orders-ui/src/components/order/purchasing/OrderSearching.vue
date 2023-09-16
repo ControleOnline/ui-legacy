@@ -1,5 +1,5 @@
 <template>
-  <q-table :loading="isLoading" :rows="data" :columns="settings.columns" :pagination.sync="pagination"
+  <q-table :loading="isLoading" :rows="data" :columns="settings.columns" v-model:pagination="pagination"
     @request="onRequest" row-key="id" style="min-height: 90vh;">
     <template v-slot:top v-if="search === true">
       <div class="col-sm-12 col-xs-12 q-pb-md text-h6">
@@ -164,7 +164,7 @@ export default {
     this.requestStatuses();
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     this.reset();
   },
 

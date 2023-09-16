@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12 q-mt-md">
-      <q-table dense  grid hide-header :loading="isLoading" :rows="items" row-key="id" :pagination.sync="pagination"
+      <q-table dense  grid hide-header :loading="isLoading" :rows="items" row-key="id" v-model:pagination="pagination"
         @request="onRequest" :rows-per-page-options="[5, 10, 15, 20, 25, 50]">
         <template v-slot:top>
           <div class="col-12 q-mb-md">

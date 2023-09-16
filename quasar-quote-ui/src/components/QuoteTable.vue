@@ -67,7 +67,7 @@
           :columns="columns"
           :visible-columns="visible"
           row-key="id"
-          :pagination.sync="pagination"
+          v-model:pagination="pagination"
         >
           <template v-slot:item="props">
             <div class="q-pb-xs-md q-pa-sm-md col-xs-12 col-sm-6 col-md-3">

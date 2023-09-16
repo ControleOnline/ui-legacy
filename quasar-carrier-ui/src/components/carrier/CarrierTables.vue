@@ -8,7 +8,7 @@
         :visible-columns="settings.visibleColumns"
         row-key="id"
         :loading="isLoading"
-        :pagination.sync="pagination"
+        v-model:pagination="pagination"
         @request="onRequest"
       >
         <template v-slot:top>
