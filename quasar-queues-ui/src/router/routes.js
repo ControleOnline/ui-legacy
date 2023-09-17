@@ -6,24 +6,29 @@ export const routes = [
       {
         name: "hardwareList",
         path: "",
-        component: () => import("../pages/Hardware/Hardwares.vue"),
+        component: () => import("../pages/Hardware/List.vue"),
       },
       {
         name: "hardwareDetails",
         path: "id/:id",
-        component: () => import("../pages/Hardware/Queue.vue"),
+        component: () => import("../pages/Displays/Queue.vue"),
       }
     ],
   },
 
   {
-    path: "/queues",
-    component: () => import("@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue"),
+    path: "/displays  ",
+    component: () => import("@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue"),
     children: [
       {
-        name: "queueList",
+        name: "displayList",
         path: "",
-        component: () => import("../pages/Hardware/List.vue"),
+        component: () => import("../pages/Displays/Displays.vue"),
+      },
+      {
+        name: "displayDetails",
+        path: "id/:id",
+        component: () => import("../pages/Displays/Queue.vue"),
       }
     ],
   },

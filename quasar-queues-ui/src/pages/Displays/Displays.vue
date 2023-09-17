@@ -80,7 +80,7 @@ export default {
     },
     openHardware(hardware) {
       this.$router.push({
-        name: "hardwareDetails",
+        name: "displayDetails",
         params: { id: hardware.id },
       });
     },
