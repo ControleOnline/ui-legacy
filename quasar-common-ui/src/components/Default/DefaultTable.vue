@@ -1,74 +1,79 @@
 <template>
     <div class="full-width">
         <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" :loading="isloading"
-            v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions"
+            v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions" :key="tableKey"
             :grid="this.$q.screen.gt.sm == false" binary-state-sort>
             <template v-slot:body="props">
-                <transition name="fade" mode="out-in">
-                    <q-tr :props="props.row">
-                        <q-td :style="column.style" :class="'text-' + column.align" v-for="(column, index) in columns"
-                            :key="column.key || column.name"
-                            :sum="sum(column, getObjectFromKey(props.row, column.key || column.name))">
 
-                            <q-checkbox v-if="index == 0 && configs.selection"
-                                v-model="selectedRows[items.indexOf(props.row)]" v-bind:value="false" />
+                <q-tr :props="props.row">
+                    <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name"
+                        :sum="sum(column, getObjectFromKey(props.row, column.key || column.name))" :class="[
+                            'text-' + column.align,
+                            { 'dragging-column': isDraggingCollumn[index] }]">
+
+                        <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[items.indexOf(props.row)]"
+                            v-bind:value="false" />
 
 
-                            <q-btn v-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
-                                this.format(column, getObjectFromKey(props.row, column.key ||
-                                    column.name)[column.key || column.name]) }}
-                            </q-btn>
-                            <span @mouseenter="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: true }"
-                                @mouseleave="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: false }"
-                                v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
-                                    formatData(column, props.row, true))">
-                                {{ formatData(column, props.row) }}
-                                <q-icon
-                                    v-if="column.editable != false && !isSaving && showEdit[items.indexOf(props.row)] && showEdit[items.indexOf(props.row)][column.key || column.name] == true"
-                                    size="0.8em" name="edit" />
-                                <q-icon v-else size="0.8em" name="" />
-                                <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)"
-                                    color="primary" size="2em" />
-                            </span>
-                            <template v-else>
-                                <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                    :options="configs.list[column.list]" :label="$t(configs.store + '.' + column.label)"
-                                    @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
-                                    v-model="editedValue"
-                                    @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)" />
+                        <q-btn v-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
+                            this.format(column, getObjectFromKey(props.row, column.key ||
+                                column.name)[column.key || column.name]) }}
+                        </q-btn>
+                        <span @mouseenter="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: true }"
+                            @mouseleave="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: false }"
+                            v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
+                                formatData(column, props.row, true))">
+                            {{ formatData(column, props.row) }}
+                            <q-icon
+                                v-if="column.editable != false && !isSaving && showEdit[items.indexOf(props.row)] && showEdit[items.indexOf(props.row)][column.key || column.name] == true"
+                                size="0.8em" name="edit" />
+                            <q-icon v-else size="0.8em" name="" />
+                            <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)" color="primary"
+                                size="2em" />
+                        </span>
+                        <template v-else>
+                            <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
+                                :options="configs.list[column.list]" :label="$t(configs.store + '.' + column.label)"
+                                @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
+                                v-model="editedValue"
+                                @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)" />
 
-                                <q-input v-else v-model="editedValue" dense autofocus
-                                    @blur="stopEditing(items.indexOf(props.row), column, props.row)"
-                                    @keydown.enter="stopEditing(items.indexOf(props.row), column, props.row)" />
+                            <q-input v-else v-model="editedValue" dense autofocus
+                                @blur="stopEditing(items.indexOf(props.row), column, props.row)"
+                                @keydown.enter="stopEditing(items.indexOf(props.row), column, props.row)" />
 
-                            </template>
-                        </q-td>
-                        <q-td v-if="tableActionsComponent() || configs.delete != false" class="text-right q-gutter-sm">
-                            <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white" color="primary"
-                                :disabled="isLoading || addModal || deleteModal || editing.length > 0"
-                                @click="editItem(props.row)">
-                                <q-tooltip> {{ $t(configs.store + '.edit') }} </q-tooltip>
-                            </q-btn>
-                            <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
-                                :disabled="isLoading || addModal || deleteModal || editing.length > 0"
-                                @click="openConfirm(props.row)">
-                                <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
-                            </q-btn>
-                            <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
-                                :componentProps="tableActionsProps()" :row="props.row" />
-                        </q-td>
-                    </q-tr>
-                </transition>
+                        </template>
+                    </q-td>
+                    <q-td v-if="tableActionsComponent() || configs.delete != false" class="text-right q-gutter-sm">
+                        <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white" color="primary"
+                            :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                            @click="editItem(props.row)">
+                            <q-tooltip> {{ $t(configs.store + '.edit') }} </q-tooltip>
+                        </q-btn>
+                        <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
+                            :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                            @click="openConfirm(props.row)">
+                            <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
+                        </q-btn>
+                        <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
+                            :componentProps="tableActionsProps()" :row="props.row" />
+                    </q-td>
+                </q-tr>
             </template>
             <template v-slot:header="props">
                 <q-tr :props="props.row">
-                    <q-th :style="column.style" :class="[
-                        'text-' + column.align,
-                        { 'sortable-header': column.sortable },
-                        { 'asc': column.sortable && (sortedColumn === column.name || sortedColumn === column.key) && sortDirection === 'ASC' },
-                        { 'desc': column.sortable && (sortedColumn === column.name || sortedColumn === column.key) && sortDirection === 'DESC' },
+                    <q-th @mousedown="startDrag(index)" @mouseup="stopDrag()" @mousemove="dragColumn(index)"
+                        :style="column.style" :class="[
+                            'text-' + column.align,
+                            { 'no-drag': index === 0 && nodrag },
+                            { 'sortable-header': column.sortable },
+                            { 'asc': column.sortable && (sortedColumn === column.name || sortedColumn === column.key) && sortDirection === 'ASC' },
+                            { 'desc': column.sortable && (sortedColumn === column.name || sortedColumn === column.key) && sortDirection === 'DESC' },
+                            { 'dragging-column': isDraggingCollumn[index] }
+                        ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)">
+                        <q-icon v-if="isDragging && index === draggedColumnIndex"
+                            :name="(draggedColumnPosition === 'before' ? 'keyboard_arrow_left' : 'keyboard_arrow_right')" />
 
-                    ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)">
                         <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
                             v-model="selectAll" />
                         {{ $t(configs.store + '.' + column.label) }}
@@ -84,7 +89,7 @@
 
             <template v-slot:top-right="props">
                 <q-btn v-if="configs.add != false" class="q-pa-xs" label="" text-color="white" icon="add" color="green"
-                    :disabled="isLoading || addModal || deleteModal || editing.length > 0" @click="addModal = true">
+                    :disabled="isLoading || addModal || deleteModal || editing.length > 0" @click="editItem({})">
                     <q-tooltip> {{ $t(configs.store + '.add') }} </q-tooltip>
                 </q-btn>
                 <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
@@ -219,7 +224,7 @@
         <q-dialog v-model="addModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ $t(configs.store + '.add') }}</label>
+                    <label class="text-h5">{{ $t(configs.store + (this.item ? '.edit' : '.add')) }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -279,6 +284,12 @@ export default {
 
     data() {
         return {
+            nodrag: false,
+            timeoutId: null,
+            isDraggingCollumn: [],
+            isDragging: false,
+            tableKey: 0,
+            draggedColumnIndex: -1,
             showEdit: [],
             saveEditing: [],
             deleteModal: false,
@@ -322,7 +333,7 @@ export default {
             return this.$store.getters[this.configs.store + '/filters']
         },
         columns() {
-            return this.$store.getters[this.configs.store + '/columns']
+            return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
         totalItems() {
             return this.$store.getters[this.configs.store + '/totalItems']
@@ -339,7 +350,47 @@ export default {
     },
     methods: {
         ...DefaultMethods,
+        startDrag(index) {
+            if (index !== 0) {
+                this.columns.forEach((column, columnIndex) => {
+                    this.isDraggingCollumn[columnIndex] = false;
+                });
+                this.draggedColumnIndex = index;
 
+                this.timeoutId = setTimeout(() => {
+                    this.isDragging = true;
+                    this.isDraggingCollumn[index] = true;
+                }, 100);
+            } else {
+                this.nodrag = true;
+            }
+
+        },
+        stopDrag() {
+            this.isDraggingCollumn = [];
+            this.nodrag = false;
+            this.draggedColumnIndex = -1;
+            clearTimeout(this.timeoutId);
+            this.timeoutId = null;
+            if (this.isDragging) {
+                console.log(this.columns);
+            }
+
+            this.isDragging = false;
+        },
+        dragColumn(index) {
+            if (this.isDragging && index !== this.draggedColumnIndex) {
+                this.isDraggingCollumn = [];
+
+                const draggedColumn = this.columns[this.draggedColumnIndex];
+                this.columns.splice(this.draggedColumnIndex, 1);
+                this.columns.splice(index, 0, draggedColumn);
+                this.draggedColumnIndex = index;
+
+                this.isDraggingCollumn[index] = true;
+                this.tableKey += 1;
+            }
+        },
         tableActionsComponent() {
             return this.configs.components?.tableActions?.component
         },
@@ -609,5 +660,15 @@ export default {
 
 .q-table--grid.fullscreen {
     background: #fff;
+}
+
+.dragging-column {
+    border-left: 2px solid #babaca;
+    border-right: 2px solid #babaca;
+    /* Estilo da borda para a coluna sendo arrastada */
+}
+
+.no-drag {
+    cursor: not-allowed;
 }
 </style>
