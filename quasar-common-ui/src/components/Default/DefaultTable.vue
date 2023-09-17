@@ -34,7 +34,8 @@
                                 <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
                                     :options="configs.list[column.list]" :label="$t(configs.store + '.' + column.label)"
                                     @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
-                                    v-model="editedValue" />
+                                    v-model="editedValue"
+                                    @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)" />
 
                                 <q-input v-else v-model="editedValue" dense autofocus
                                     @blur="stopEditing(items.indexOf(props.row), column, props.row)"
@@ -155,7 +156,8 @@
                                                 lazy-rules :options="configs.list[column.list]"
                                                 :label="$t(configs.store + '.' + column.label)"
                                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)"
-                                                label-color="black" v-model="editedValue" />
+                                                label-color="black" v-model="editedValue"
+                                                @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)" />
                                             <q-input v-else v-model="editedValue" dense autofocus
                                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)"
                                                 @keydown.enter="stopEditing(items.indexOf(props.row), column, props.row)" />
