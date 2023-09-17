@@ -32,7 +32,7 @@
                             </span>
                             <template v-else>
                                 <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                    :options="configs.list[column.list]" :label="$t(column.label)"
+                                    :options="configs.list[column.list]" :label="$t(configs.store + '.' + column.label)"
                                     @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
                                     v-model="editedValue" />
 
@@ -70,7 +70,7 @@
                     ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)">
                         <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
                             v-model="selectAll" />
-                        {{ $t(column.label) }}
+                        {{ $t(configs.store + '.' + column.label) }}
                         <q-icon v-if="column.sortable"
                             :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
                             color="grey-8" size="14px" />
@@ -123,9 +123,8 @@
                                     </q-item-section>
                                 </template>
                                 <q-item-section side>
-                                    <q-checkbox v-if="configs.selection" dense
-                                        v-model="selectedRows[items.indexOf(props.row)]" :label="props.row.name"
-                                        v-bind:value="false" />
+                                    <q-checkbox v-if="1 == 1 || configs.selection" dense
+                                        v-model="selectedRows[items.indexOf(props.row)]" v-bind:value="false" />
                                 </q-item-section>
                             </q-item>
                         </q-card-section>
@@ -134,7 +133,7 @@
                             <template v-for="(column, index) in columns" :key="column.key || column.name">
                                 <q-item v-if="!column.isIdentity">
                                     <q-item-section>
-                                        <q-item-label>{{ $t(column.label) }}</q-item-label>
+                                        <q-item-label>{{ $t(configs.store + '.' + column.label) }}</q-item-label>
                                     </q-item-section>
                                     <q-item-section side>
                                         <q-btn v-if="column.to" @click="verifyClick(column, props.row)"
@@ -153,7 +152,8 @@
                                         </span>
                                         <template v-else>
                                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label
-                                                lazy-rules :options="configs.list[column.list]" :label="$t(column.label)"
+                                                lazy-rules :options="configs.list[column.list]"
+                                                :label="$t(configs.store + '.' + column.label)"
                                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)"
                                                 label-color="black" v-model="editedValue" />
                                             <q-input v-else v-model="editedValue" dense autofocus
@@ -169,20 +169,19 @@
                         <q-card-section>
                             <q-item-section side class="">
                                 <div class="row justify-end q-gutter-sm">
-                                        <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white"
-                                            color="primary"
-                                            :disabled="isLoading || addModal || deleteModal || editing.length > 0"
-                                            @click="editItem(props.row)">
-                                            <q-tooltip> {{ $t(configs.store + '.edit') }} </q-tooltip>
-                                        </q-btn>
-                                        <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white"
-                                            color="red"
-                                            :disabled="isLoading || addModal || deleteModal || editing.length > 0"
-                                            @click="openConfirm(props.row)">
-                                            <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
-                                        </q-btn>
-                                        <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
-                                            :componentProps="tableActionsProps()" :row="props.row" />
+                                    <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white"
+                                        color="primary"
+                                        :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                                        @click="editItem(props.row)">
+                                        <q-tooltip> {{ $t(configs.store + '.edit') }} </q-tooltip>
+                                    </q-btn>
+                                    <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
+                                        :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                                        @click="openConfirm(props.row)">
+                                        <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
+                                    </q-btn>
+                                    <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
+                                        :componentProps="tableActionsProps()" :row="props.row" />
                                 </div>
                             </q-item-section>
                         </q-card-section>
@@ -465,9 +464,13 @@ export default {
             return;
         },
         save(index, row, name, value) {
-
-            if (row[name] == value) return;
-
+            if (row[name] == value) {
+                this.editing = [];
+                this.saveEditing[index] = {
+                    [name]: false
+                };
+                return;
+            }
             let params = {};
             if (row['@id'])
                 params['id'] = row['@id'].split('/').pop();

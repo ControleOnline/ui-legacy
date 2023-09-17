@@ -6,11 +6,11 @@
                     <div v-if="column.isIdentity != true"
                         :class="column.formClass || 'col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 q-pa-xs'">
                         <q-select v-if="column.list" dense outlined stack-label lazy-rules
-                            :options="configs.list[column.list]" :label="$t(column.label)" label-color="black"
+                            :options="configs.list[column.list]" :label="$t(configs.store + '.'+column.label)" label-color="black"
                             v-model="item[column.key || column.name]" />
                         <q-input v-else :disable="column.editable == false" dense outlined stack-label lazy-rules
                             v-model="item[column.key || column.name]" type="text" :mask="mask(column)"
-                            :label="$t(column.key || column.name)" :rules="[isInvalid()]" />
+                            :label="$t(configs.store + '.'+column.label)" :rules="[isInvalid()]" />
                     </div>
                 </template>
                 <!--

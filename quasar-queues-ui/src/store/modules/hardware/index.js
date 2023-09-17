@@ -25,7 +25,7 @@ export default {
         sortable: true,
         name: "id",
         align: "left",
-        label: "hardware.id",
+        label: "id",
         sum: false,
         to: function (column) {
           return {
@@ -41,7 +41,7 @@ export default {
         sortable: true,
         name: "hardware",
         align: "left",
-        label: "hardware.hardware",
+        label: "hardware",
         sum: false,
         format: function (value) {
           return value;
@@ -52,7 +52,7 @@ export default {
         sortable: true,
         name: "hardwareType",
         align: "left",
-        label: "hardware.hardwareType",
+        label: "hardwareType",
         format: function (value) {
           return value;
         },
@@ -62,7 +62,7 @@ export default {
         list: "company",
         name: "company",
         align: "left",
-        label: "hardware.company",
+        label: "company",
         format: function (value) {
           return value;
         },
