@@ -1,5 +1,25 @@
-export function copyObject(object) {
-  return JSON.parse(JSON.stringify(object || {}));
+export function copyObject(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj || {};
+  }
+
+  if (Array.isArray(obj)) {
+    const newArray = obj.map((item) => this.copyObject(item));
+    return newArray;
+  }
+
+  if (typeof obj === 'function') {
+    return obj || {};
+  }
+
+  const newObj = {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      newObj[key] = this.copyObject(obj[key]);
+    }
+  }
+
+  return newObj || {};
 }
 
 export function mask(column) {
