@@ -138,13 +138,6 @@
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
-            @before="
-              (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
-                }
-              }
-            "
           />
         </q-tab-panel>
 
@@ -158,13 +151,6 @@
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
-            @before="
-              (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
-                }
-              }
-            "
           />
         </q-tab-panel>
 
@@ -178,13 +164,6 @@
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
-            @before="
-              (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
-                }
-              }
-            "
           />
         </q-tab-panel>
 
@@ -198,13 +177,6 @@
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
-            @before="
-              (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
-                }
-              }
-            "
           />
         </q-tab-panel>
 
@@ -218,13 +190,6 @@
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
-            @before="
-              (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
-                }
-              }
-            "
           />
         </q-tab-panel>
 
@@ -238,13 +203,6 @@
             :toDate="dateTo"
             :searchBy="searchBy"
             @selected="onPeopleSelected"
-            @before="
-              (params) => {
-                if (this.fetchs.loadPeoples) {
-                  this.fetchs.loadPeoples.before(params);
-                }
-              }
-            "
           />
         </q-tab-panel>
       </q-tab-panels>

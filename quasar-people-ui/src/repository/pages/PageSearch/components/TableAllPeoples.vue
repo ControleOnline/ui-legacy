@@ -296,7 +296,7 @@ export default {
     // store method
     getCustomers(params) {
       this.onBeforeLoadPeople(params);
-      return api.fetch(`/${this.peopleType}`, { params })
+      return api.fetch(`/${this.peopleType}s`, { params })
         
         .then(result => {
           return {
