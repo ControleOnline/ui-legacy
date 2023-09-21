@@ -20,14 +20,16 @@
                                 column.name)[column.key || column.name]) }}
                         </q-btn>
                         <span
-                            @mouseenter="showEdit[items.indexOf(props.row)] = configs.editable == false ? false : { [column.key || column.name]: true }"
+                            @mouseenter="showEdit[items.indexOf(props.row)] = column.editable == false ? false : { [column.key || column.name]: true }"
                             @mouseleave="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: false }"
                             v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
                                 formatData(column, props.row, true))">
                             {{ formatData(column, props.row) }}
-                            <q-icon
-                                v-if="column.editable != false && !isSaving && showEdit[items.indexOf(props.row)] && showEdit[items.indexOf(props.row)][column.key || column.name] == true"
-                                size="0.8em" name="edit" />
+                            <q-icon v-if="column.editable != false &&
+                                !isSaving &&
+                                showEdit[items.indexOf(props.row)] &&
+                                showEdit[items.indexOf(props.row)][column.key || column.name] == true
+                                " size="0.8em" name="edit" />
                             <q-icon v-else size="0.8em" name="" />
                             <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)" color="primary"
                                 size="2em" />
@@ -151,9 +153,7 @@
                                         <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
                                             formatData(column, props.row, true)
                                         )">{{ formatData(column, props.row) }}
-                                            <q-icon
-                                                v-if="configs.editable != false && column.editable != false && !isSaving"
-                                                size="0.8em" name="edit" />
+                                            <q-icon v-if="column.editable != false && !isSaving" size="0.8em" name="edit" />
                                             <q-icon v-else size="0.8em" name="" />
 
                                             <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)"
@@ -474,7 +474,7 @@ export default {
             return this.editing[index] && this.editing[index][col.key || col.name] ? true : false;
         },
         startEditing(index, col, value) {
-            if (this.configs.editable == false || col.editable == false || (col.key && col.key.indexOf(".") != -1))
+            if (col.editable == false || (col.key && col.key.indexOf(".") != -1))
                 return;
             this.editedValue = value;
 
