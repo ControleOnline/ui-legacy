@@ -90,10 +90,14 @@
                         <div class="row col-12 input-container" style="min-height: 28px;">
                             <input :id="'input-' + (column.key || column.name)"
                                 :class="{ show: colFilter[column.key || column.name] != undefined }"
-                                @click="stopPropagation" v-model="colFilter[column.key || column.name]" />
+                                @click="stopPropagation" v-model="colFilter[column.key || column.name]"
+                                @blur="filterColumn(column.key || column.name)"
+                                @keydown.enter="filterColumn(column.key || column.name)" />
 
+                            <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
+                                size="2em" />
                             <q-icon name="close" @click.stop="clearFilter(column.key || column.name)"
-                                v-if="colFilter[column.key || column.name]" />
+                                v-else-if="colFilter[column.key || column.name]" />
                         </div>
                     </q-th>
                     <q-th v-if="tableActionsComponent() || configs.delete != false">
@@ -339,6 +343,7 @@ export default {
     },
     mounted() {
         this.$nextTick(() => {
+            this.colFilter = this.copyObject(this.filters);
             this.loadData();
         });
     },
@@ -371,9 +376,19 @@ export default {
     },
     methods: {
         ...DefaultMethods,
+        filterColumn(colName) {
+            let filters = this.copyObject(this.filters);
+            if (!this.colFilter[colName])
+                delete filters[colName];
+            else
+                filters[colName] = this.colFilter[colName];
 
+            this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
+            this.loadData();
+        },
         clearFilter(colName) {
             this.colFilter[colName] = undefined; // Limpa o filtro para a coluna correspondente
+            this.filterColumn(colName);
         },
         stopPropagation(event) {
             event.stopPropagation();
@@ -483,10 +498,19 @@ export default {
                     this.sortDirection = 'ASC';
                 }
 
-                if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
-                    let filters = this.copyObject(this.filters);
+
+                console.log(this.sortedColumn);
+
+                let filters = this.copyObject(this.filters);
+                if (!this.sortedColumn)
+                    delete filters.order;
+                else
                     filters.order = this.sortedColumn + ';' + this.sortDirection;
-                    this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
+                this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
+
+
+
+                if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
                     this.loadData();
                 } else {
                     this.reorderTableData();
@@ -525,6 +549,9 @@ export default {
             this.showEdit[index] = { [col.key || col.name]: false };
 
         },
+
+
+
         stopEditing(index, col, row) {
             let editing = this.copyObject(this.editing);
             editing[index] = {
@@ -535,8 +562,8 @@ export default {
                 [col.key || col.name]: true
             };
             this.editing = editing;
-
-            this.save(index, row, col.key || col.name, this.editedValue.value || this.editedValue);
+            if (this.editedValue)
+                this.save(index, row, col.key || col.name, this.editedValue.value || this.editedValue);
         },
         isEditing(index, col) {
             return this.saveEditing[index] && this.saveEditing[index][col.key || col.name] ? true : false;
@@ -608,10 +635,11 @@ export default {
                 this.pagination = props.pagination;
                 this.$store.commit(this.configs.store + '/SET_FILTERS', Object.assign(this.filters, props.filters));
             }
+
             let params = Object.assign(this.copyObject(this.filters), this.copyObject(this.pagination));
-            if (params.sortBy)
-                params.order = "" + params.sortBy + ";" + (params.descending ? "DESC" : "ASC");
             params.itemsPerPage = params.rowsPerPage || this.rowsOptions[0];
+
+            delete params.rowsNumber;
             delete params.sortBy;
             delete params.descending;
             delete params.rowsPerPage;
