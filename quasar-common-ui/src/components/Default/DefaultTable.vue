@@ -70,19 +70,31 @@
                             'text-' + column.align,
                             { 'no-drag': index === 0 && nodrag },
                             { 'sortable-header': column.sortable },
-                            { 'asc': column.sortable && (sortedColumn === column.name || sortedColumn === column.key) && sortDirection === 'ASC' },
-                            { 'desc': column.sortable && (sortedColumn === column.name || sortedColumn === column.key) && sortDirection === 'DESC' },
+                            { 'asc': column.sortable && (sortedColumn === (column.key || column.name)) && sortDirection === 'ASC' },
+                            { 'desc': column.sortable && (sortedColumn === (column.key || column.name)) && sortDirection === 'DESC' },
                             { 'dragging-column': isDraggingCollumn[index] }
-                        ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)">
-                        <q-icon v-if="isDragging && index === draggedColumnIndex"
-                            :name="(draggedColumnPosition === 'before' ? 'keyboard_arrow_left' : 'keyboard_arrow_right')" />
+                        ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)"
+                        class="header-column" @mouseover="showInput(column.key || column.name)"
+                        @mouseout="hideInput(column.key || column.name)">
+                        <div class="row col-12">
+                            <q-icon v-if="isDragging && index === draggedColumnIndex"
+                                :name="(draggedColumnPosition === 'before' ? 'keyboard_arrow_left' : 'keyboard_arrow_right')" />
 
-                        <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
-                            v-model="selectAll" />
-                        {{ $t(configs.store + '.' + column.label) }}
-                        <q-icon v-if="column.sortable"
-                            :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
-                            color="grey-8" size="14px" />
+                            <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
+                                v-model="selectAll" />
+                            {{ $t(configs.store + '.' + column.label) }}
+                            <q-icon v-if="column.sortable"
+                                :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
+                                color="grey-8" size="14px" />
+                        </div>
+                        <div class="row col-12 input-container" style="min-height: 28px;">
+                            <input :id="'input-' + (column.key || column.name)"
+                                :class="{ show: colFilter[column.key || column.name] != undefined }"
+                                @click="stopPropagation" v-model="colFilter[column.key || column.name]" />
+
+                            <q-icon name="close" @click.stop="clearFilter(column.key || column.name)"
+                                v-if="colFilter[column.key || column.name]" />
+                        </div>
                     </q-th>
                     <q-th v-if="tableActionsComponent() || configs.delete != false">
 
@@ -91,6 +103,11 @@
             </template>
 
             <template v-slot:top-right="props">
+
+
+                <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
+                    :componentProps="headerActionsProps()" :row="props.row" />
+
                 <q-btn v-if="configs.add != false" class="q-pa-xs" label="" text-color="white" icon="add" color="green"
                     :disabled="isLoading || addModal || deleteModal || editing.length > 0" @click="editItem({})">
                     <q-tooltip> {{ $t(configs.store + '.add') }} </q-tooltip>
@@ -304,6 +321,7 @@ export default {
             editedValue: false,
             editing: [],
             sumColumn: [],
+            colFilter: {},
             items: [],
             item: {},
             selectedRows: new Array(this.rowsOptions.pop()).fill(false),
@@ -353,6 +371,25 @@ export default {
     },
     methods: {
         ...DefaultMethods,
+
+        clearFilter(colName) {
+            this.colFilter[colName] = undefined; // Limpa o filtro para a coluna correspondente
+        },
+        stopPropagation(event) {
+            event.stopPropagation();
+        },
+
+        showInput(colName) {
+            if (!this.colFilter[colName]) {
+                this.colFilter[colName] = '';
+            }
+        },
+        hideInput(colName) {
+            if (this.colFilter[colName] == '') {
+                this.colFilter[colName] = undefined;
+            }
+        },
+
         startDrag(index) {
             if (index !== 0) {
                 this.columns.forEach((column, columnIndex) => {
@@ -393,6 +430,12 @@ export default {
                 this.isDraggingCollumn[index] = true;
                 this.tableKey += 1;
             }
+        },
+        headerActionsComponent() {
+            return this.configs.components?.headerActions?.component
+        },
+        headerActionsProps() {
+            return this.configs.components?.headerActions?.pops
         },
         tableActionsComponent() {
             return this.configs.components?.tableActions?.component
@@ -587,7 +630,20 @@ export default {
     },
 };
 </script>  
+
+
 <style scoped>
+.header-column input {
+    display: none;
+    /* Começa oculto */
+}
+
+.header-column input:focus,
+.header-column input.show {
+    display: inline-block;
+    /* Exibe ao passar o mouse ou se houver um valor */
+}
+
 .default-table {
     min-height: 100%;
     width: 100%;
@@ -673,5 +729,11 @@ export default {
 
 .no-drag {
     cursor: not-allowed;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    /* Centralizar verticalmente */
 }
 </style>
