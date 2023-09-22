@@ -1,25 +1,60 @@
 <template>
-  <q-page padding>
-    <div class="row">
-      <div class="col-12">
-        <InvoiceSearching context="pay" />
-      </div>
-    </div>
-  </q-page>
+  <DefaultTable :configs="configs" v-if="configs" />
 </template>
-
 <script>
- import InvoiceSearching from "../../../components/invoice/invoice/InvoiceSearching.vue";
+import DefaultTable from "@controleonline/quasar-common-ui/src/components/Default/DefaultTable";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "InvoiceIndexPage",
-
   components: {
-    InvoiceSearching,
+    DefaultTable,
   },
 
+  computed: {
+    configs() {
+      return {
+        store: 'pay',
+        add: true,
+        selection: false,
+        search: false,
+
+        list: {
+          company: this.companies,
+        },
+      };
+    }
+  },
   data() {
-    return {};
+    return {
+      companies: [],
+    };
+  },
+  created() {
+    this.getMyCompanies();
+  },
+  methods: {
+    ...mapActions({
+      getCompanies: "people/myCompanies",
+    }),
+
+    getMyCompanies() {
+      this.getCompanies().then((response) => {
+        console.log(response);
+        if (response.success === true && response.data.length) {
+
+          response.data.forEach((item, i) => {
+            this.companies.push(
+              {
+                label: item.alias,
+                value: item.id
+              }
+            );
+          });
+
+
+        }
+      });
+    },
   },
 };
 </script>
