@@ -27,12 +27,12 @@ export default {
         align: "left",
         label: "id",
         sum: false,
-        // to: function (column) {
-        //   return {
-        //     name: "hardwareDetails",
-        //     params: { id: column.id },
-        //   };
-        // },
+        to: function (column) {
+          return {
+            name: "hardwareDetails",
+            params: { id: column.id },
+          };
+        },
         format: function (value) {
           return "#" + value;
         },
@@ -49,6 +49,15 @@ export default {
       },
       {
         sortable: true,
+        name: "description",
+        align: "left",
+        label: "description",
+        format: function (value) {
+          return value;
+        },
+      },      
+      {
+        sortable: true,
         name: "status",
         align: "left",
         label: "Status",
@@ -58,13 +67,32 @@ export default {
       },
       {
         sortable: true,
-        name: "description",
+        name: "dueDate",
         align: "left",
-        label: "description",
+        label: "dueDate",
         format: function (value) {
           return value;
         },
       },
+      {
+        sortable: true,
+        name: "categoryName",
+        align: "left",
+        label: "categoryName",
+        format: function (value) {
+          return value;
+        },
+      },
+      {
+        sortable: true,
+        name: "price",
+        align: "left",
+        label: "price",
+        format: function (value) {
+          return value;
+        },
+      },
+
     ],
   },
   actions: actions,
