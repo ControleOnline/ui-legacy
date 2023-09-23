@@ -155,7 +155,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      return api.fetch(`${this.people_type}/${this.id}/salesman`)
+      return api.fetch(`customers/${this.id}/salesman`)
         
         .then(result => {
           return result.response.data;
