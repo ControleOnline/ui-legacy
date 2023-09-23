@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 
 
 const SETTINGS = {
