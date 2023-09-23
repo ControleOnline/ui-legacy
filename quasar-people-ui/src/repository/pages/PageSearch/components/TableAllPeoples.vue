@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-col-gutter-md">
+  <div class="row justify-center q-col-gutter-md">
     <div v-if="isLoading" class="row col-12 q-col-gutter-md">
       <div v-for="n in 6" :key="n" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <q-card>
@@ -26,45 +26,50 @@
       </div>
     </div>
 
-    <div v-else v-for="people in data" :key="people.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <q-card class="column full-height" :class="people.active ? 'bg-red' : ''">
-        <q-card-actions align="center" class="row q-pa-none">
-          <div class="col-12 text-center text-bold">
-            <q-icon v-if="people.people_type == 'F'" name="person" class="icon" color="blue" />
-            <q-icon v-else name="factory" class="icon" color="green" />
-            {{ people.name }}
-          </div>
-        </q-card-actions>
-        <q-separator />
-        <q-card-section class="col">
-          <div v-if="people.name != people.alias" class="text-body2">
-            {{ people.alias }}
-          </div>
-          <div v-if="people.cnpj" class="text-body2">
-            {{ people.cnpj }}
-          </div>
-          <div class="text-body2 text-bold">
-            <q-icon name="phone" />
-            {{ people.phone }}
-          </div>
-          <div class="text-body2">
-            <q-icon name="mail" /> {{ people.email }}
-          </div>
-        </q-card-section>
-        <q-separator />
-        <q-card-actions align="right" class="row q-pa-none">
-          <div class="col-6 text-center">
-            <q-btn outline dense :to="{
-              name: getRoute(), params: { id: people.id }
-            }" flat no-caps color="grey-9" icon="edit" :label="`#${people.id}`" class="full-width q-py-xs" />
-          </div>
-          <div class="col-6 text-center">
-            <q-toggle v-model="people.enable" checked-icon="check" color="green"
-              :label="!people.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear"
-              @input="changeEnable(people)" />
-          </div>
-        </q-card-actions>
-      </q-card>
+    <div v-else  class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <template v-if="data.length" v-for="people in data" :key="people.id">
+        <q-card class="column full-height" :class="people.active ? 'bg-red' : ''">
+          <q-card-actions align="center" class="row q-pa-none">
+            <div class="col-12 text-center text-bold">
+              <q-icon v-if="people.people_type == 'F'" name="person" class="icon" color="blue" />
+              <q-icon v-else name="factory" class="icon" color="green" />
+              {{ people.name }}
+            </div>
+          </q-card-actions>
+          <q-separator />
+          <q-card-section class="col">
+            <div v-if="people.name != people.alias" class="text-body2">
+              {{ people.alias }}
+            </div>
+            <div v-if="people.cnpj" class="text-body2">
+              {{ people.cnpj }}
+            </div>
+            <div class="text-body2 text-bold">
+              <q-icon name="phone" />
+              {{ people.phone }}
+            </div>
+            <div class="text-body2">
+              <q-icon name="mail" /> {{ people.email }}
+            </div>
+          </q-card-section>
+          <q-separator />
+          <q-card-actions align="right" class="row q-pa-none">
+            <div class="col-6 text-center">
+              <q-btn outline dense :to="{
+                name: getRoute(), params: { id: people.id }
+              }" flat no-caps color="grey-9" icon="edit" :label="`#${people.id}`" class="full-width q-py-xs" />
+            </div>
+            <div class="col-6 text-center">
+              <q-toggle v-model="people.enable" checked-icon="check" color="green"
+                :label="!people.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear"
+                @input="changeEnable(people)" />
+            </div>
+          </q-card-actions>
+        </q-card>
+      </template>
+      <div v-else  class="flex justify-center">
+        <span>Sem Resultados</span>
+      </div>
     </div>
 
     <div class="col-12">
