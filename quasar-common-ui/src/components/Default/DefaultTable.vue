@@ -76,6 +76,29 @@
                         ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)"
                         class="header-column" @mouseover="showInput(column.key || column.name)"
                         @mouseout="hideInput(column.key || column.name)">
+
+                        <div :class="[
+                            'row',
+                            'col-12',
+                            'input-container',
+                            'round',
+                            { show: forceShow[column.key || column.name] }
+                        ]" style="">
+                            <input :id="'input-' + (column.key || column.name)"
+                                :class="[{ show: forceShow[column.key || column.name] }]" @click="stopPropagation"
+                                v-model="colFilter[column.key || column.name]"
+                                @blur="filterColumn(column.key || column.name)"
+                                @keydown.enter="filterColumn(column.key || column.name)" />
+
+                            <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
+                                size="2em" />
+                            <q-icon :class="[{
+                                show: forceShow[column.key || column.name]
+                            }]
+                                " name="close" @click.stop="clearFilter(column.key || column.name)"
+                                v-else-if="colFilter[column.key || column.name]" />
+                        </div>
+
                         <div class="row col-12">
                             <q-icon v-if="isDragging && index === draggedColumnIndex"
                                 :name="(draggedColumnPosition === 'before' ? 'keyboard_arrow_left' : 'keyboard_arrow_right')" />
@@ -86,18 +109,7 @@
                             <q-icon v-if="column.sortable"
                                 :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
                                 color="grey-8" size="14px" />
-                        </div>
-                        <div class="row col-12 input-container" style="min-height: 28px;">
-                            <input :id="'input-' + (column.key || column.name)"
-                                :class="{ show: colFilter[column.key || column.name] != undefined }"
-                                @click="stopPropagation" v-model="colFilter[column.key || column.name]"
-                                @blur="filterColumn(column.key || column.name)"
-                                @keydown.enter="filterColumn(column.key || column.name)" />
-
-                            <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
-                                size="2em" />
-                            <q-icon name="close" @click.stop="clearFilter(column.key || column.name)"
-                                v-else-if="colFilter[column.key || column.name]" />
+                            <q-icon name="search" v-if="colFilter[column.key || column.name]" />
                         </div>
                     </q-th>
                     <q-th v-if="tableActionsComponent() || configs.delete != false">
@@ -308,6 +320,7 @@ export default {
 
     data() {
         return {
+            forceShow: [],
             nodrag: false,
             timeoutId: null,
             isDraggingCollumn: [],
@@ -387,6 +400,7 @@ export default {
             this.loadData();
         },
         clearFilter(colName) {
+            console.log(colName);
             this.colFilter[colName] = undefined; // Limpa o filtro para a coluna correspondente
             this.filterColumn(colName);
         },
@@ -395,16 +409,11 @@ export default {
         },
 
         showInput(colName) {
-            if (!this.colFilter[colName]) {
-                this.colFilter[colName] = '';
-            }
+            this.forceShow[colName] = true;
         },
         hideInput(colName) {
-            if (this.colFilter[colName] == '') {
-                this.colFilter[colName] = undefined;
-            }
+            this.forceShow[colName] = false;
         },
-
         startDrag(index) {
             if (index !== 0) {
                 this.columns.forEach((column, columnIndex) => {
@@ -419,7 +428,6 @@ export default {
             } else {
                 this.nodrag = true;
             }
-
         },
         stopDrag() {
             this.isDraggingCollumn = [];
@@ -436,12 +444,10 @@ export default {
         dragColumn(index) {
             if (this.isDragging && index !== this.draggedColumnIndex) {
                 this.isDraggingCollumn = [];
-
                 const draggedColumn = this.columns[this.draggedColumnIndex];
                 this.columns.splice(this.draggedColumnIndex, 1);
                 this.columns.splice(index, 0, draggedColumn);
                 this.draggedColumnIndex = index;
-
                 this.isDraggingCollumn[index] = true;
                 this.tableKey += 1;
             }
@@ -661,17 +667,6 @@ export default {
 
 
 <style scoped>
-.header-column input {
-    display: none;
-    /* Começa oculto */
-}
-
-.header-column input:focus,
-.header-column input.show {
-    display: inline-block;
-    /* Exibe ao passar o mouse ou se houver um valor */
-}
-
 .default-table {
     min-height: 100%;
     width: 100%;
@@ -759,9 +754,55 @@ export default {
     cursor: not-allowed;
 }
 
+
+.q-table {
+    padding-top: 38px;
+}
+
 .input-container {
+    position: absolute;
+    background: #fff;
+    top: -36px;
+    z-index: 999;
+    min-height: 28px;
     display: flex;
     align-items: center;
     /* Centralizar verticalmente */
+
+}
+
+.input-container,
+.input-container input,
+.input-container i {
+    display: none !important;
+    /* Começa oculto */
+}
+
+.input-container.show {
+    display: flex !important;
+}
+
+.input-container input:focus,
+.input-container input.show,
+.input-container i.show {
+    display: inline-block !important;
+    /* Exibe ao passar o mouse ou se houver um valor */
+}
+
+
+
+.input-container {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    width: 180px;
+    padding: 5px;
+}
+
+.input-container input {
+    max-width: 150px;
+}
+
+.input-container i {
+    position: relative;
+    left: 5px px;
 }
 </style>
