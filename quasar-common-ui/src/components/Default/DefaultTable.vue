@@ -83,7 +83,7 @@
                             'input-container',
                             'round',
                             { show: forceShow[column.key || column.name] }
-                        ]" style="">
+                        ]" @click="stopPropagation">
                             <input :id="'input-' + (column.key || column.name)"
                                 :class="[{ show: forceShow[column.key || column.name] }]" @click="stopPropagation"
                                 v-model="colFilter[column.key || column.name]"
@@ -109,7 +109,7 @@
                             <q-icon v-if="column.sortable"
                                 :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
                                 color="grey-8" size="14px" />
-                            <q-icon name="search" v-if="colFilter[column.key || column.name]" />
+                            <q-icon name="filter_list" v-if="colFilter[column.key || column.name]" />
                         </div>
                     </q-th>
                     <q-th v-if="tableActionsComponent() || configs.delete != false">
@@ -409,11 +409,16 @@ export default {
         },
 
         showInput(colName) {
+
             this.forceShow[colName] = true;
+
         },
         hideInput(colName) {
+
             this.forceShow[colName] = false;
+
         },
+
         startDrag(index) {
             if (index !== 0) {
                 this.columns.forEach((column, columnIndex) => {
@@ -428,6 +433,7 @@ export default {
             } else {
                 this.nodrag = true;
             }
+
         },
         stopDrag() {
             this.isDraggingCollumn = [];
@@ -444,10 +450,12 @@ export default {
         dragColumn(index) {
             if (this.isDragging && index !== this.draggedColumnIndex) {
                 this.isDraggingCollumn = [];
+
                 const draggedColumn = this.columns[this.draggedColumnIndex];
                 this.columns.splice(this.draggedColumnIndex, 1);
                 this.columns.splice(index, 0, draggedColumn);
                 this.draggedColumnIndex = index;
+
                 this.isDraggingCollumn[index] = true;
                 this.tableKey += 1;
             }
@@ -666,7 +674,7 @@ export default {
 </script>  
 
 
-<style scoped>
+<style>
 .default-table {
     min-height: 100%;
     width: 100%;
@@ -755,8 +763,8 @@ export default {
 }
 
 
-.q-table {
-    padding-top: 38px;
+.default-table .q-table {
+    padding-top: 38px !important;
 }
 
 .input-container {
@@ -803,6 +811,6 @@ export default {
 
 .input-container i {
     position: relative;
-    left: 5px px;
+    left: 5px;
 }
 </style>
