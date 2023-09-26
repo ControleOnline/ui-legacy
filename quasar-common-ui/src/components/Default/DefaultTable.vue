@@ -74,26 +74,39 @@
                             { 'desc': column.sortable && (sortedColumn === (column.key || column.name)) && sortDirection === 'DESC' },
                             { 'dragging-column': isDraggingCollumn[index] }
                         ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)"
-                        class="header-column" @mouseover="showInput(column.key || column.name)"
+                        class="header-column" @mouseover="setShowInput(column.key || column.name)"
                         @mouseout="hideInput(column.key || column.name)">
 
                         <div :class="[
                             'row',
                             'col-12',
-                            'input-container',
+                            'header-filter-container',
                             'round',
-                            { show: forceShow[column.key || column.name] }
+                            { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
                         ]" @click="stopPropagation">
-                            <input :id="'input-' + (column.key || column.name)"
-                                :class="[{ show: forceShow[column.key || column.name] }]" @click="stopPropagation"
+
+
+
+                            <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
+                                :options="configs.list[column.list]" label-color="black"
+                                :label="$t(configs.store + '.' + column.label)" v-model="editedValue"
+                                
+                                @blur="filterColumn(items.indexOf(props.row), column, props.row)"
+                                @update:modelValue="filterColumn(items.indexOf(props.row), column, props.row)" />
+
+
+
+                            <input v-else :id="'input-' + (column.key || column.name)"
+                                :class="[{ show: showInput[column.key || column.name] }]" @click="stopPropagation"
                                 v-model="colFilter[column.key || column.name]"
+                                @focus="setForceShowInput(column.key || column.name)"
                                 @blur="filterColumn(column.key || column.name)"
                                 @keydown.enter="filterColumn(column.key || column.name)" />
 
                             <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
                                 size="2em" />
                             <q-icon :class="[{
-                                show: forceShow[column.key || column.name]
+                                show: showInput[column.key || column.name]
                             }]
                                 " name="close" @click.stop="clearFilter(column.key || column.name)"
                                 v-else-if="colFilter[column.key || column.name]" />
@@ -320,7 +333,8 @@ export default {
 
     data() {
         return {
-            forceShow: [],
+            forceShowInput: [],
+            showInput: [],
             nodrag: false,
             timeoutId: null,
             isDraggingCollumn: [],
@@ -397,6 +411,8 @@ export default {
                 filters[colName] = this.colFilter[colName];
 
             this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
+            this.showInput[colName] = false;
+            this.forceShowInput[colName] = false;
             this.loadData();
         },
         clearFilter(colName) {
@@ -408,15 +424,17 @@ export default {
             event.stopPropagation();
         },
 
-        showInput(colName) {
-
-            this.forceShow[colName] = true;
-
+        setShowInput(colName) {
+            this.showInput[colName] = true;
+        },
+        setForceShowInput(colName) {
+            console.log('e');
+            this.showInput[colName] = true;
+            this.forceShowInput[colName] = true;
         },
         hideInput(colName) {
-
-            this.forceShow[colName] = false;
-
+            if (this.forceShowInput[colName] != true)
+                this.showInput[colName] = false;
         },
 
         startDrag(index) {
@@ -767,7 +785,7 @@ export default {
     padding-top: 38px !important;
 }
 
-.input-container {
+.header-filter-container {
     position: absolute;
     background: #fff;
     top: -36px;
@@ -779,37 +797,30 @@ export default {
 
 }
 
-.input-container,
-.input-container input,
-.input-container i {
+.header-filter-container {
     display: none !important;
-    /* Começa oculto */
-}
-
-.input-container.show {
-    display: flex !important;
-}
-
-.input-container input:focus,
-.input-container input.show,
-.input-container i.show {
-    display: inline-block !important;
-    /* Exibe ao passar o mouse ou se houver um valor */
-}
-
-
-
-.input-container {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     width: 180px;
     padding: 5px;
 }
 
-.input-container input {
+.header-filter-container.show {
+    display: flex !important;
+}
+
+/*
+.header-filter-container input:focus,
+.header-filter-container input.show,
+.header-filter-container i.show {
+    display: inline-block !important;    
+}
+*/
+
+.header-filter-container input {
     max-width: 150px;
 }
 
-.input-container i {
+.header-filter-container i {
     position: relative;
     left: 5px;
 }
