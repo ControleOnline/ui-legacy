@@ -9,7 +9,9 @@
                     <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name"
                         :sum="sum(column, getObjectFromKey(props.row, column.key || column.name))" :class="[
                             'text-' + column.align,
-                            { 'dragging-column': isDraggingCollumn[index] }]">
+                            { 'dragging-column': isDraggingCollumn[index] },
+                            { 'hidden': column.visible != true }
+                        ]">
 
                         <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[items.indexOf(props.row)]"
                             v-bind:value="false" />
@@ -72,7 +74,8 @@
                             { 'sortable-header': column.sortable },
                             { 'asc': column.sortable && (sortedColumn === (column.key || column.name)) && sortDirection === 'ASC' },
                             { 'desc': column.sortable && (sortedColumn === (column.key || column.name)) && sortDirection === 'DESC' },
-                            { 'dragging-column': isDraggingCollumn[index] }
+                            { 'dragging-column': isDraggingCollumn[index] },
+                            { 'hidden': column.visible != true }
                         ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)"
                         class="header-column" @mouseover="setShowInput(column.key || column.name)"
                         @mouseout="hideInput(column.key || column.name)">
@@ -83,6 +86,8 @@
                             'header-filter-container',
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
                         ]" @click="stopPropagation">
+
+
 
 
 
@@ -130,10 +135,23 @@
             </template>
 
             <template v-slot:top-right="props">
-
-
+                <q-btn class="q-pa-xs" label="" text-color="primary" icon="view_week" color="white">
+                    <q-tooltip> {{ $t(configs.store + '.config_columns') }} </q-tooltip>
+                </q-btn>
+                <!-- Menu de configuração de colunas -->
+                <q-menu v-model="showColumnMenu">
+                    <q-list>
+                        <q-item v-for="column in columns" :key="column.key || column.name">
+                            <q-item-section>
+                                <q-toggle v-model="visibleColumns[column.key || column.name]" :label="column.name"
+                                    @click="saveVisibleColumns" />
+                            </q-item-section>
+                        </q-item>
+                    </q-list>
+                    <q-btn slot="bottom" label="Fechar" @click="toggleShowColumnMenu" />
+                </q-menu>
                 <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
-                    :componentProps="headerActionsProps()" :row="props.row" />
+                    :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
 
                 <q-btn v-if="configs.add != false" class="q-pa-xs" label="" text-color="white" icon="add" color="green"
                     :disabled="isLoading || addModal || deleteModal || editing.length > 0" @click="editItem({})">
@@ -163,7 +181,8 @@
                         <q-card-section>
                             <q-item>
                                 <template v-for="(column, index) in columns" :key="column.key || column.name">
-                                    <q-item-section v-if="column.isIdentity">
+                                    <q-item-section v-if="column.isIdentity"
+                                        :class="[{ 'hidden': column.visible != true }]">
                                         <q-btn v-if="column.to" @click="verifyClick(column, props.row)"
                                             :icon:="column.icon">
                                             {{ this.format(column, getObjectFromKey(props.row, column.key ||
@@ -246,7 +265,9 @@
 
             <template v-slot:bottom-row>
                 <q-tr>
-                    <q-td :class="'text-' + column.align" v-for="(column, index)  in columns">
+                    <q-td v-for="(column, index)  in columns" :class="[
+                        'text-' + column.align,
+                        { 'hidden': column.visible != true }]">
                         <span v-if="sumColumn[column.key || column.name]"
                             v-html="format(column, sumColumn[column.key || column.name])"></span>
                     </q-td>
@@ -331,6 +352,8 @@ export default {
 
     data() {
         return {
+            showColumnMenu: false,
+            visibleColumns: [],
             forceShowInput: [],
             showInput: [],
             nodrag: false,
@@ -369,6 +392,11 @@ export default {
     mounted() {
         this.$nextTick(() => {
             this.colFilter = this.copyObject(this.filters);
+
+            this.columns.forEach((column, columnIndex) => {
+                this.visibleColumns[column.key || column.name] = column.visible != false ? true : false;
+            });
+            this.saveVisibleColumns();
             this.loadData();
         });
     },
@@ -391,6 +419,7 @@ export default {
         },
     },
     watch: {
+
         selectedRows: {
             handler: function (selectedRows) {
                 this.$store.commit(this.configs.store + '/SET_SELECTED', this.copyObject(selectedRows));
@@ -401,6 +430,19 @@ export default {
     },
     methods: {
         ...DefaultMethods,
+        saveVisibleColumns() {
+            let columns = this.copyObject(this.columns);
+            this.columns.forEach((column, columnIndex) => {
+                if (this.visibleColumns[column.key || column.name] == true)
+                    columns[columnIndex].visible = true;
+                else
+                    delete columns[columnIndex].visible;
+            });
+            this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
+        },
+        toggleShowColumnMenu() {
+            this.showColumnMenu = this.showColumnMenu ? false : true;
+        },
         filterColumn(colName) {
             let filters = this.copyObject(this.filters);
             if (!this.colFilter[colName])
@@ -414,7 +456,7 @@ export default {
             this.loadData();
         },
         clearFilter(colName) {
-            console.log(colName);
+
             this.colFilter[colName] = undefined; // Limpa o filtro para a coluna correspondente
             this.filterColumn(colName);
         },
@@ -426,7 +468,7 @@ export default {
             this.showInput[colName] = true;
         },
         setForceShowInput(colName) {
-            console.log('e');
+
             this.showInput[colName] = true;
             this.forceShowInput[colName] = true;
         },
@@ -458,7 +500,7 @@ export default {
             clearTimeout(this.timeoutId);
             this.timeoutId = null;
             if (this.isDragging) {
-                console.log(this.columns);
+                //console.log(this.columns);
             }
 
             this.isDragging = false;
@@ -527,9 +569,6 @@ export default {
                     this.sortedColumn = columnName;
                     this.sortDirection = 'ASC';
                 }
-
-
-                console.log(this.sortedColumn);
 
                 let filters = this.copyObject(this.filters);
                 if (!this.sortedColumn)
