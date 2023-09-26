@@ -44,4 +44,11 @@ export default {
   [types.SET_SELECTED](state, selected) {
     Object.assign(state, { selected });
   },
+
+  [types.SET_VISIBLECOLUMNS](state, visibleColumns) {    
+    persistentFilter.setVisibleColumns(visibleColumns);
+    Object.assign(state, { visibleColumns });
+  },
+  
+
 };

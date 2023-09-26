@@ -26,6 +26,19 @@ export function mask(column) {
   if (typeof column.mask == "function") return column.mask();
 }
 
+export function isEmptyProxy(obj) {
+  // Verifique se o objeto é um Proxy
+  if (!obj || typeof obj !== 'object' || !obj.hasOwnProperty('__ob__')) {
+    return false;
+  }
+
+  // Obtenha as chaves do objeto
+  const keys = Object.keys(obj);
+
+  // Verifique se não há nenhuma chave no objeto
+  return keys.length === 0;
+}
+
 export function isInvalid(key) {
   return true;
 }

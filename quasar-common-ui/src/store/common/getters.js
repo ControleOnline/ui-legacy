@@ -8,3 +8,5 @@ export const columns = (state) => state.columns;
 export const filters = (state) => state.filters;
 export const resourceEndpoint = (state) => state.resourceEndpoint;
 export const selected = (state) => state.selected;
+export const visibleColumns = (state) => state.visibleColumns;
+

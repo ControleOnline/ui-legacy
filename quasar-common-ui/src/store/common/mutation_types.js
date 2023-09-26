@@ -8,6 +8,8 @@ export const SET_COLUMNS                    = 'SET_COLUMNS';
 export const SET_FILTERS                    = 'SET_FILTERS';
 export const SET_REROURCE_ENDPOINT          = 'SET_REROURCE_ENDPOINT';
 export const SET_SELECTED                   = 'SET_SELECTED';
+export const SET_VISIBLECOLUMNS             = 'SET_VISIBLECOLUMNS';
+
 
 
 

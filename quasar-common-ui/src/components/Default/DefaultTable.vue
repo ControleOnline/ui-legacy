@@ -143,7 +143,7 @@
                     <q-list>
                         <q-item v-for="column in columns" :key="column.key || column.name">
                             <q-item-section>
-                                <q-toggle v-model="visibleColumns[column.key || column.name]" :label="column.name"
+                                <q-toggle v-model="toogleVisibleColumns[column.key || column.name]" :label="column.name"
                                     @click="saveVisibleColumns" />
                             </q-item-section>
                         </q-item>
@@ -329,6 +329,8 @@
 <script>
 import DefaultForm from "@controleonline/quasar-common-ui/src/components/Default/DefaultForm";
 import * as DefaultMethods from './DefaultMethods.js';
+import Filters from "@controleonline/quasar-common-ui/src/utils/filters";
+
 
 export default {
 
@@ -353,7 +355,7 @@ export default {
     data() {
         return {
             showColumnMenu: false,
-            visibleColumns: [],
+            persistentFilter: new Filters(),
             forceShowInput: [],
             showInput: [],
             nodrag: false,
@@ -378,6 +380,7 @@ export default {
             item: {},
             selectedRows: new Array(this.rowsOptions.pop()).fill(false),
             dialog: false,
+            toogleVisibleColumns: [],
             pagination: {
                 page: 1,
                 rowsNumber: 0,
@@ -392,10 +395,12 @@ export default {
     mounted() {
         this.$nextTick(() => {
             this.colFilter = this.copyObject(this.filters);
-
-            this.columns.forEach((column, columnIndex) => {
-                this.visibleColumns[column.key || column.name] = column.visible != false ? true : false;
-            });
+            if (this.isEmptyProxy(this.visibleColumns))
+                this.toogleVisibleColumns = this.copyObject(this.visibleColumns);
+            else
+                this.columns.forEach((column, columnIndex) => {
+                    this.toogleVisibleColumns[column.key || column.name] = column.visible != false ? true : false;
+                });
             this.saveVisibleColumns();
             this.loadData();
         });
@@ -417,6 +422,9 @@ export default {
         totalItems() {
             return this.$store.getters[this.configs.store + '/totalItems']
         },
+        visibleColumns() {
+            return this.$store.getters[this.configs.store + '/visibleColumns']
+        }
     },
     watch: {
 
@@ -433,11 +441,13 @@ export default {
         saveVisibleColumns() {
             let columns = this.copyObject(this.columns);
             this.columns.forEach((column, columnIndex) => {
-                if (this.visibleColumns[column.key || column.name] == true)
+                if (this.toogleVisibleColumns[column.key || column.name] == true)
                     columns[columnIndex].visible = true;
                 else
                     delete columns[columnIndex].visible;
             });
+
+            this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', this.toogleVisibleColumns);
             this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
         },
         toggleShowColumnMenu() {
