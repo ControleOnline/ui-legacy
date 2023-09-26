@@ -81,7 +81,6 @@
                             'row',
                             'col-12',
                             'header-filter-container',
-                            'round',
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
                         ]" @click="stopPropagation">
 
@@ -90,7 +89,6 @@
                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
                                 :options="configs.list[column.list]" label-color="black"
                                 :label="$t(configs.store + '.' + column.label)" v-model="editedValue"
-                                
                                 @blur="filterColumn(items.indexOf(props.row), column, props.row)"
                                 @update:modelValue="filterColumn(items.indexOf(props.row), column, props.row)" />
 
@@ -800,7 +798,6 @@ export default {
 .header-filter-container {
     display: none !important;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    width: 180px;
     padding: 5px;
 }
 
@@ -822,6 +819,7 @@ export default {
 
 .header-filter-container i {
     position: relative;
-    left: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 </style>
