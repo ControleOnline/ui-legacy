@@ -14,7 +14,7 @@ export default class Filters {
     if (!this.getRoute()) return;
 
     let storedUser = this.getAllFilters();
-    storedUser[this.getRoute()] = JSON.parse(JSON.stringify(data));
+    storedUser[this.getRoute()] = data;
     LocalStorage.set("filters", storedUser);
   }
 
@@ -35,13 +35,11 @@ export default class Filters {
   }
   
   setVisibleColumns(visibleColumns) {
-    if (!this.getRoute()) return;    
-    
-    let storedUser = this.getVisibleColumns();
-    storedUser[this.getRoute()] = visibleColumns;
+    if (!this.getRoute()) return;            
 
-    console.log(visibleColumns);
-    console.log(storedUser[this.getRoute()]);
+    let storedUser = this.getAllVisibleColumns();
+    storedUser[this.getRoute()] = visibleColumns;
     LocalStorage.set("VisibleColumns", storedUser);
+
   }
 }

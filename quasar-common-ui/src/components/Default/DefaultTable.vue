@@ -395,7 +395,8 @@ export default {
     mounted() {
         this.$nextTick(() => {
             this.colFilter = this.copyObject(this.filters);
-            if (this.isEmptyProxy(this.visibleColumns))
+
+            if (!this.isEmptyProxy(this.visibleColumns))
                 this.toogleVisibleColumns = this.copyObject(this.visibleColumns);
             else
                 this.columns.forEach((column, columnIndex) => {
@@ -440,14 +441,21 @@ export default {
         ...DefaultMethods,
         saveVisibleColumns() {
             let columns = this.copyObject(this.columns);
+            let persistVisibleColumns = {};
             this.columns.forEach((column, columnIndex) => {
-                if (this.toogleVisibleColumns[column.key || column.name] == true)
+                if (this.toogleVisibleColumns[column.key || column.name] == true) {
                     columns[columnIndex].visible = true;
-                else
+                    persistVisibleColumns[column.key || column.name] = true;
+                }
+                else {
                     delete columns[columnIndex].visible;
-            });
+                    persistVisibleColumns[column.key || column.name] = false;
+                }
 
-            this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', this.toogleVisibleColumns);
+
+
+            });
+            this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', persistVisibleColumns);
             this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
         },
         toggleShowColumnMenu() {
