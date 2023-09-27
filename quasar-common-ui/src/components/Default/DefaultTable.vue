@@ -61,7 +61,7 @@
                             <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
                         </q-btn>
                         <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
-                            :componentProps="tableActionsProps()" :row="props.row" />
+                            :componentProps="tableActionsProps()" :row="props.row" @loadData="loadData" />
                     </q-td>
                 </q-tr>
             </template>
@@ -137,19 +137,20 @@
             <template v-slot:top-right="props">
                 <q-btn class="q-pa-xs" label="" text-color="primary" icon="view_week" color="white">
                     <q-tooltip> {{ $t(configs.store + '.config_columns') }} </q-tooltip>
+                    <!-- Menu de configuração de colunas -->
+                    <q-menu v-model="showColumnMenu">
+                        <q-list>
+                            <q-item v-for="column in columns" :key="column.key || column.name">
+                                <q-item-section>
+                                    <q-toggle v-model="toogleVisibleColumns[column.key || column.name]" :label="column.name"
+                                        @click="saveVisibleColumns" />
+                                </q-item-section>
+                            </q-item>
+                        </q-list>
+                        <q-btn slot="bottom" label="Fechar" @click="toggleShowColumnMenu" />
+                    </q-menu>
                 </q-btn>
-                <!-- Menu de configuração de colunas -->
-                <q-menu v-model="showColumnMenu">
-                    <q-list>
-                        <q-item v-for="column in columns" :key="column.key || column.name">
-                            <q-item-section>
-                                <q-toggle v-model="toogleVisibleColumns[column.key || column.name]" :label="column.name"
-                                    @click="saveVisibleColumns" />
-                            </q-item-section>
-                        </q-item>
-                    </q-list>
-                    <q-btn slot="bottom" label="Fechar" @click="toggleShowColumnMenu" />
-                </q-menu>
+
                 <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
                     :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
 
@@ -254,7 +255,7 @@
                                         <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
                                     </q-btn>
                                     <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
-                                        :componentProps="tableActionsProps()" :row="props.row" />
+                                        :componentProps="tableActionsProps()" :row="props.row" @loadData="loadData" />
                                 </div>
                             </q-item-section>
                         </q-card-section>
