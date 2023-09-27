@@ -395,8 +395,7 @@ export default {
     mounted() {
         this.$nextTick(() => {
             this.colFilter = this.copyObject(this.filters);
-
-            if (!this.isEmptyProxy(this.visibleColumns))
+            if (this.visibleColumns && !this.isEmptyProxy(this.visibleColumns))
                 this.toogleVisibleColumns = this.copyObject(this.visibleColumns);
             else
                 this.columns.forEach((column, columnIndex) => {
