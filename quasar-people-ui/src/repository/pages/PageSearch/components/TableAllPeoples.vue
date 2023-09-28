@@ -26,9 +26,9 @@
       </div>
     </div>
 
-    <div v-else  class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <template v-if="data.length" v-for="people in data" :key="people.id">
-        <q-card class="column full-height" :class="people.active ? 'bg-red' : ''">
+    <div v-else class="row col-12 q-col-gutter-md">
+      <div v-if="data.length" v-for="people in data" :key="people.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <q-card class="q-pa-md full-width full-height">
           <q-card-actions align="center" class="row q-pa-none">
             <div class="col-12 text-center text-bold">
               <q-icon v-if="people.people_type == 'F'" name="person" class="icon" color="blue" />
@@ -66,7 +66,7 @@
             </div>
           </q-card-actions>
         </q-card>
-      </template>
+      </div>
       <div v-else  class="flex justify-center">
         <span>Sem Resultados</span>
       </div>
