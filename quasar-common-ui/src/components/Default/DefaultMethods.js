@@ -1,6 +1,6 @@
 export function copyObject(obj) {
   if (obj === null || typeof obj !== 'object') {
-    return obj || {};
+    return obj;
   }
 
   if (Array.isArray(obj)) {
@@ -9,7 +9,7 @@ export function copyObject(obj) {
   }
 
   if (typeof obj === 'function') {
-    return obj || {};
+    return obj;
   }
 
   const newObj = {};
@@ -22,6 +22,7 @@ export function copyObject(obj) {
   return newObj || {};
 }
 
+
 export function mask(column) {
   if (typeof column.mask == "function") return column.mask();
 }
@@ -29,7 +30,7 @@ export function mask(column) {
 export function isEmptyProxy(obj) {
   // Verifique se o objeto é um Proxy
   if (!obj || typeof obj !== 'object' || !obj.hasOwnProperty('__ob__')) {
-    return false;
+    return this.isProxyEmpty(obj);
   }
 
   // Obtenha as chaves do objeto
@@ -37,6 +38,15 @@ export function isEmptyProxy(obj) {
 
   // Verifique se não há nenhuma chave no objeto
   return keys.length === 0;
+}
+
+export function isProxyEmpty(proxy) {
+  for (const _ in proxy) {
+    if (proxy.hasOwnProperty(_)) {
+      return false;
+    }
+  }
+  return true;
 }
 
 export function isInvalid(key) {
