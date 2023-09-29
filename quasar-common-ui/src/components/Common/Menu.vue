@@ -1,16 +1,13 @@
 <template>
-  <q-list>
-    <q-expansion-item expand :content-inset-level="0.3" :icon="mItem.icon" :color="mItem.color" class="GNL__drawer-item"
-      :label="mItem.label" v-for="mItem in menu" :key="mItem.id">
-      <q-item v-ripple clickable class="GNL__drawer-item" v-for="item in mItem.menus" :color="item.color" :key="item.id"
-        @click="click(item.route)">
+  <q-list :class="$q.dark.isActive ? 'text-white' : 'text-white'">
+    <q-expansion-item :content-inset-level="0.3" :icon="mItem.icon" :label="mItem.label" v-for="mItem in menu"
+      :key="mItem.id" :expand-icon-class="$q.dark.isActive ? 'text-white' : 'text-white'">
+      <q-item v-ripple clickable v-for="item in mItem.menus" :key="item.id" @click="click(item.route)">
         <q-item-section avatar>
-          <q-icon class="item-icon" :name="item.icon" :color="item.color" />
+          <q-icon :name="item.icon" />
         </q-item-section>
         <q-item-section no-wrap>
-          <q-item-label class="menu-list-text">{{
-            $t(item.label)
-          }}</q-item-label>
+          {{ $t(item.label) }}
         </q-item-section>
       </q-item>
     </q-expansion-item>
@@ -61,18 +58,18 @@ export default {
       return this.$router.options.routes.some((route) => {
         if (route.children)
           return route.children.some((child) => {
-            
+
             return routeName === child.name
           });
       });
     },
     getMenu() {
 
-      
+
 
       return api.fetch(`menus-people`, {
         params: { myCompany: this.company.id },
-      }).then((result) => {        
+      }).then((result) => {
         let menus = result.response?.data;
         if (!menus.modules)
           return;
@@ -91,7 +88,7 @@ export default {
             }
           });
         });
-        
+
         this.menu = modules;
       });
     },
@@ -102,18 +99,5 @@ export default {
   },
 };
 </script>
-
-
-
-<style lang="sass">
-.GPL
-  &__toolbar
-    height: 64px
-  &__side-btn
-    margin-bottom: 20px
-    &__label
-      font-size: 14px
-      font-family: 'EB Garamond', 'Exo', Helvetica,Arial,Lucida,sans-serif
-      font-weight: 600
-      text-transform: uppercase
+<style>
 </style>

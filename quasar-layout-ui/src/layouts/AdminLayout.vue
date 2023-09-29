@@ -83,25 +83,27 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" :width="270" content-class="bg-primary">
+    <q-drawer v-model="leftDrawerOpen" :width="270" :class="$q.dark.isActive ? 'bg-grey-10' : 'bg-primary'">
       <q-scroll-area class="fit">
-        <q-toolbar class="GPL__toolbar">
-          <div class="q-gutter-sm items-center row">
-            <router-link v-bind:to="'/'" tag="a" class="primary">
-              <img v-if="defaultCompanyLogo" :src="defaultCompanyLogo" class="main-logo" />
-            </router-link>
-          </div>
+        <q-toolbar class="q-pa-md">
+          <q-toolbar-title class="text-center">
+            <q-avatar size="100px" class="vertical-middle" color="white">
+              <router-link v-bind:to="'/'" tag="a" class="primary">
+                <img v-if="defaultCompanyLogo" :src="defaultCompanyLogo" class="q-pa-sm  main-logo" />
+              </router-link>
+            </q-avatar>
+          </q-toolbar-title>
         </q-toolbar>
 
-        <div class="q-pt-xl q-px-sm column">
-          <q-list class="menu-list" padding>
+        <div class="q-pt-md q-px-sm column">
+          <q-list  padding :class="$q.dark.isActive ? 'text-white' : 'text-white' ">
             <q-item v-if="isSimple() == false" v-ripple clickable class="GNL__drawer-item"
               @click="leftDrawerOpen != leftDrawerOpen" :to="{ name: 'DashboardIndex' }">
               <q-item-section avatar>
-                <q-icon name="home" color="white" />
+                <q-icon name="home" />
               </q-item-section>
               <q-item-section>
-                <q-item-label class="menu-list-text">{{ $t("menu.home") }}</q-item-label>
+                {{ $t("menu.home") }}
               </q-item-section>
             </q-item>
             <q-separator inset class="q-my-sm" />
@@ -118,15 +120,13 @@
     <q-page-container class="GPL__page-container">
       <q-scroll-observer horizontal @scroll="onScroll"></q-scroll-observer>
       <div>
-        <div v-if="!this.$q.screen.gt.sm" class="module-tittle-container">
+        <div v-if="!this.$q.screen.gt.sm" >
           <q-item v-ripple>
             <q-item-section avatar v-if="$route.meta.icon">
-              <q-icon class="item-icon" :name="$route.meta.icon" />
+              <q-icon  :name="$route.meta.icon" />
             </q-item-section>
             <q-item-section no-wrap>
-              <q-item-label class="module-tittle">{{
-                $t("route." + this.$route.name)
-              }}</q-item-label>
+            {{ $t("route." + this.$route.name) }}
             </q-item-section>
           </q-item>
         </div>
