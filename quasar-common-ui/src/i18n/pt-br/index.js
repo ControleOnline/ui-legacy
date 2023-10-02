@@ -119,4 +119,22 @@ export const translate = {
     gmapsReqNoData: "Pesquisa sem resultados",
     mustDefinePackages: "Deve definir a cubagem total ou os productos",
   },
+  route: {
+    'HomeIndex': 'Dashboard',
+    'DashboardIndex': 'Dashboard',
+    'CustomersIndex': 'CRM',
+    'ContractIndex': 'Contratos',
+    'ShippingQuoteIndex': 'Cotação',
+    'SalesOrderIndex': 'Pedidos de Venda',
+    'ProvidersIndex': 'Fornecedores',
+    'ImportIndex': 'Importar',
+    'SupportIndex': 'Ocorrências',
+    'CarriersIndex': 'Transportadoras',
+    'StretchSearching': 'Logística',
+    'FinancePayIndex': 'Contas a Pagar',
+    'FinanceReceiveIndex': 'Contas a Receber',
+    'MenuIndex': 'Menus',
+    'ModuleIndex': 'Módulos',
+    'RoleIndex': 'Setores',
+  }
 };

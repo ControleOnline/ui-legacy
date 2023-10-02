@@ -28,7 +28,8 @@ export const translate = {
       'entered the base': "Entrou na Base",
       'boarded': "Embarcou",
       'expired': "Expirado",
-      'pending': "Aguardando Documentação"
+      'pending': "Aguardando Documentação",
+      'proposal sent': "Proposta enviada",
     },
   },
   logistic:{
