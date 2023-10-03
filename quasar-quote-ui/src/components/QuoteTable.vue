@@ -393,11 +393,7 @@ export default {
           field: (row) =>
             row.deliveryDeadline == null ? 1 : row.deliveryDeadline,
           format: (value) => {
-            if (value == 1) return "Entrega em 1 dia útil";
-            else
-              return `Entrega entre ${value} e ${
-                parseInt(value) + 2
-              } dias úteis`;
+            return this.getRouteRime(value);
           },
           label: "Delivery Deadline",
         },
@@ -474,6 +470,12 @@ export default {
   },
 
   methods: {
+    getRouteRime(deadline){
+
+      const minRouteTime = deadline <= 5 ? minRouteTime = 2 : deadline -5;
+
+      return deadline > 0 ? "Entrega entre " + Math.round(minRouteTime) + " e " + Math.round(deadline) + " dias úteis" : "--";
+    },
     domainType() {
       return this.defaultCompany.domainType;
     },

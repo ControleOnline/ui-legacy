@@ -63,9 +63,9 @@
                         <strong>Destino:</strong>
                         {{ order_.address.destination.city }}
                       </li>
-                      <li v-if="mapRouteTime">
+                      <li v-if="routeTime">
                         <strong>Tempo estimado:</strong>
-                        {{ mapRouteTime }}
+                        {{ routeTime }}
                       </li>
                       <li v-if="mapRouteKm">
                         <strong>Distância aproximada:</strong>
@@ -108,9 +108,9 @@
           <strong>Destino:</strong>
           {{ order_.address.destination.city }}
         </li>
-        <li v-if="mapRouteTime">
+        <li v-if="routeTime">
           <strong>Tempo estimado:</strong>
-          {{ mapRouteTime }}
+          {{ routeTime }}
         </li>
         <li v-if="mapRouteKm">
           <strong>Distância aproximada:</strong>
@@ -287,6 +287,7 @@ export default {
       dtaxes: false,
       order_: Object.assign({}, this.order),
       mapRouteTime: 0,
+      routeTime: 0,
       mapRouteKm: null,
       taxes: [],
       carriers: [],
@@ -402,6 +403,10 @@ export default {
         let r = [];
         let taxes = [];
         quotes.forEach((quote, index) => {
+
+
+          this.routeTime =  quote.deliveryDeadline;
+
           if (
             typeof taxes[quote.carrier.id] === "undefined" &&
             quote.carrier.id !== "undefined"
@@ -588,6 +593,32 @@ export default {
         : "--";
     },
 
+    getRouteRime(){
+      const minRouteTime = this.routeTime <= 5 ? minRouteTime = 2 : this.routeTime -5;
+
+      if (!this.route_time) {
+        let payload = {
+          id: this.order.id,
+          values: {
+            route_time: Math.round(this.routeTime),
+          },
+        };
+
+        if (this.myCompany !== null)
+          payload.query = {
+            myCompany: this.myCompany.id,
+          };
+
+        if (!this.processed_route_time) {
+          this.chooseRouteTime(payload);
+        }
+
+        this.processed_route_time = true;
+      }
+
+      this.routeTime = this.routeTime > 0 ? "de " + Math.round(minRouteTime) + " até " + Math.round(this.routeTime) + " dias" : "--";
+    },
+
     formatMoney(value) {
       let formatter = new Intl.NumberFormat(this.$i18n.locale, {
         style: "currency",
@@ -730,7 +761,8 @@ export default {
 
       //this.mapRouteTime = time;
       this.mapRouteKm = total;
-      this.getMapRouteTime();
+      // this.getMapRouteTime();
+      this.getRouteRime();
     },
     onAddNewTax(quote) {
       if (this.order_.quotes) {
