@@ -2,12 +2,8 @@
   <div v-if="!contract" class="flex column flex-center q-mt-lg">
     <q-icon name="warning" class="text-red" style="font-size: 4rem" />
     <q-banner dense inline-actions class="text-white bg-red q-pa-xs">
-      <span
-        v-html="
-          '<strong>Ainda não há contrato para esse pedido</strong>'
-        "
-        style="font-size: 14px"
-      >
+      <span v-html="'<strong>Ainda não há contrato para esse pedido</strong>'
+        " style="font-size: 14px">
       </span>
     </q-banner>
   </div>
@@ -15,37 +11,20 @@
   <div class="row q-pa-md" v-else>
     <div class="col-12">
       <div class="row q-mb-lg justify-end">
-        <q-btn-toggle
-          v-model="paymentType"
-          toggle-color="primary"
-          push
-          glossy
-          class="q-ml-md"
-          :options="paymentOptions"
-        >
+        <q-btn-toggle v-model="paymentType" toggle-color="primary" push glossy class="q-ml-md" :options="paymentOptions">
         </q-btn-toggle>
 
         <!-- Gerar aula demonstrativa
           :disable="!contract.canEdit()"
          -->
-        <q-btn
-          v-if="isIps()"
-          class="demonstrativa"
-          color="primary"
-          label="Gerar aula demonstrativa"
-          @click="onDemonstrativaClick"
-          :loading="isRequesting"
-        />
+        <q-btn v-if="isIps()" class="demonstrativa" color="primary" label="Gerar aula demonstrativa"
+          @click="onDemonstrativaClick" :loading="isRequesting" />
 
         <!-- contracts.request_signatures
           :disable="!contract.canSign()"
          -->
-        <q-btn
-          color="primary"
-          :label="$t('contracts.request_signatures')"
-          @click="requestSignatures"
-          :loading="isRequesting"
-        />
+        <q-btn color="primary" :label="$t('contracts.request_signatures')" @click="requestSignatures"
+          :loading="isRequesting" />
       </div>
     </div>
 
@@ -53,84 +32,70 @@
       <div class="text-h6 q-mb-md">
         {{ $t("contracts.signers") }}
       </div>
-      <div
-        v-for="(participant, index) in participants"
-        :key="index"
-        class="text-body2 q-mb-sm text-justify"
-      >
+      <div v-for="(participant, index) in participants" :key="index" class="text-body2 q-mb-sm text-justify">
         {{ participant }}
       </div>
     </div>
 
     <div class="col-12">
       <div ref="contractDocument" class="contract-document"></div>
-      <div class="flex flex-center">
-        <q-circular-progress
-          :indeterminate="true"
-          size="sm"
-          color="primary"
-          class="q-ma-md"
-        />
+      <!-- <div class="flex flex-center">
+        <q-circular-progress :indeterminate="true" size="sm" color="primary" class="q-ma-md" />
         Carregando contrato...
       </div>
-      <!-- <q-editor
-        class="full-width"
-        v-model="htmlContract"
-        :dense="$q.screen.lt.md"
-        :toolbar="[
-          [
-            {
-              label: $q.lang.editor.align,
-              icon: $q.iconSet.editor.align,
-              fixedLabel: true,
-              list: 'only-icons',
-              options: ['left', 'center', 'right', 'justify'],
-            },
-          ],
-          [
-            'bold',
-            'italic',
-            'strike',
-            'underline',
-            'subscript',
-            'superscript',
-          ],
-          ['token', 'hr', 'link', 'custom_btn'],
-          ['print', 'fullscreen'],
-          [
-            {
-              label: $q.lang.editor.defaultFont,
-              icon: $q.iconSet.editor.font,
-              fixedIcon: true,
-              list: 'no-icons',
-              options: [
-                'default_font',
-                'arial',
-                'arial_black',
-                'comic_sans',
-                'courier_new',
-                'impact',
-                'lucida_grande',
-                'times_new_roman',
-                'verdana',
-              ],
-            },
-          ],
+      -->
+      <q-editor class="full-width" v-model="htmlContract" :dense="$q.screen.lt.md" :toolbar="[
+        [
+          {
+            label: $q.lang.editor.align,
+            icon: $q.iconSet.editor.align,
+            fixedLabel: true,
+            list: 'only-icons',
+            options: ['left', 'center', 'right', 'justify'],
+          },
+        ],
+        [
+          'bold',
+          'italic',
+          'strike',
+          'underline',
+          'subscript',
+          'superscript',
+        ],
+        ['token', 'hr', 'link', 'custom_btn'],
+        ['print', 'fullscreen'],
+        [
+          {
+            label: $q.lang.editor.defaultFont,
+            icon: $q.iconSet.editor.font,
+            fixedIcon: true,
+            list: 'no-icons',
+            options: [
+              'default_font',
+              'arial',
+              'arial_black',
+              'comic_sans',
+              'courier_new',
+              'impact',
+              'lucida_grande',
+              'times_new_roman',
+              'verdana',
+            ],
+          },
+        ],
 
-          ['undo', 'redo'],
-          ['viewsource'],
-        ]"
-        :fonts="{
-          arial: 'Arial',
-          arial_black: 'Arial Black',
-          comic_sans: 'Comic Sans MS',
-          courier_new: 'Courier New',
-          impact: 'Impact',
-          lucida_grande: 'Lucida Grande',
-          times_new_roman: 'Times New Roman',
-          verdana: 'Verdana',
-        }"
-      /> -->
+        ['undo', 'redo'],
+        ['viewsource'],
+      ]" :fonts="{
+  arial: 'Arial',
+  arial_black: 'Arial Black',
+  comic_sans: 'Comic Sans MS',
+  courier_new: 'Courier New',
+  impact: 'Impact',
+  lucida_grande: 'Lucida Grande',
+  times_new_roman: 'Times New Roman',
+  verdana: 'Verdana',
+}" />
     </div>
   </div>
 </template>
@@ -195,7 +160,7 @@ export default {
       let params = {
         method: "PUT",
         body: ({ paymentType: paymentType }),
-        
+
       };
 
       params.headers.set("API-TOKEN", this.logged.token);
@@ -240,56 +205,55 @@ export default {
       let params = {};
       params.myCompany = this.myCompany.id;
       api.fetch(`/my_contracts/${this.contract}/participants`, params)
-      .then((response) => {
-        response.response.data.forEach((participant) => {
-          let info = "";
+        .then((response) => {
+          response.response.data.forEach((participant) => {
+            let info = "";
 
-          info += this.$t(`contracts.roles.${participant.role}`) + ":";
-          info += ` ${participant.people.name}.`;
+            info += this.$t(`contracts.roles.${participant.role}`) + ":";
+            info += ` ${participant.people.name}.`;
 
-          if (participant.people.address !== null) {
-            info += ` Com sede na`;
-            info += ` ${participant.people.address.street}`;
-            info += ` nº ${participant.people.address.number}`;
-            info += ` - CEP ${formatBRPostalCode(participant.people.address.postalCode)}`;
-            info += ` - ${participant.people.address.district}`;
-            info += ` - ${participant.people.address.city}`;
-            info += ` - ${participant.people.address.state}`;
-          }
-
-          if (participant.people.document !== null) {
-            let document = formatBRDocument(participant.people.document.id);
-
-            if (participant.people.document.type == "CNPJ")
-              info += `, inscrita no CNPJ sob nº ${document}.`;
-            else {
-              if (participant.people.document.type == "CPF")
-                info += `, CPF nº ${document}.`;
-              else info += `, ${document}.`;
+            if (participant.people.address !== null) {
+              info += ` Com sede na`;
+              info += ` ${participant.people.address.street}`;
+              info += ` nº ${participant.people.address.number}`;
+              info += ` - CEP ${formatBRPostalCode(participant.people.address.postalCode)}`;
+              info += ` - ${participant.people.address.district}`;
+              info += ` - ${participant.people.address.city}`;
+              info += ` - ${participant.people.address.state}`;
             }
-          }
 
-          if (info.length) {
-            this.participants.push(info);
-          }
+            if (participant.people.document !== null) {
+              let document = formatBRDocument(participant.people.document.id);
+
+              if (participant.people.document.type == "CNPJ")
+                info += `, inscrita no CNPJ sob nº ${document}.`;
+              else {
+                if (participant.people.document.type == "CPF")
+                  info += `, CPF nº ${document}.`;
+                else info += `, ${document}.`;
+              }
+            }
+
+            if (info.length) {
+              this.participants.push(info);
+            }
+          });
         });
-      });
     },
 
     loadDocument() {
       let params = {};
       params.company = 418;
+      params.myCompany = 418;
 
       const config = {
         method: 'GET',
-        url: `/my_contracts/${this.contract}/document`,
+        url: `https://api.foccuscegonhas.com.br/my_contracts/${this.contract}/document`,
         headers: {
-          'Accept': 'text/html',
+          'Accept': 'application/ld+json',
           'API-TOKEN': this.logged.token,
         },
-        params: {
-          company: 418,
-        }
+        params: params
       };
 
       api.execute(config).then((response) => {
@@ -306,7 +270,7 @@ export default {
 
     requestSignatures() {
       let options = {};
-      options.params = {myCompany: this.myCompany.id};
+      options.params = { myCompany: this.myCompany.id };
       options.method = 'PUT';
       options.body = {};
 
@@ -325,7 +289,7 @@ export default {
       let params = {
         method: "PUT",
         body: ({}),
-        
+
       };
 
       params.headers.set("API-TOKEN", this.logged.token);
