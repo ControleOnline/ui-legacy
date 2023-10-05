@@ -1,5 +1,18 @@
 <template>
-  <div class="row q-pa-md">
+  <div v-if="!contract" class="flex column flex-center q-mt-lg">
+    <q-icon name="warning" class="text-red" style="font-size: 4rem" />
+    <q-banner dense inline-actions class="text-white bg-red q-pa-xs">
+      <span
+        v-html="
+          '<strong>Ainda não há contrato para esse pedido</strong>'
+        "
+        style="font-size: 14px"
+      >
+      </span>
+    </q-banner>
+  </div>
+
+  <div class="row q-pa-md" v-else>
     <div class="col-12">
       <div class="row q-mb-lg justify-end">
         <q-btn-toggle
@@ -12,6 +25,9 @@
         >
         </q-btn-toggle>
 
+        <!-- Gerar aula demonstrativa
+          :disable="!contract.canEdit()"
+         -->
         <q-btn
           v-if="isIps()"
           class="demonstrativa"
@@ -19,15 +35,16 @@
           label="Gerar aula demonstrativa"
           @click="onDemonstrativaClick"
           :loading="isRequesting"
-          :disable="!contract.canEdit()"
         />
 
+        <!-- contracts.request_signatures
+          :disable="!contract.canSign()"
+         -->
         <q-btn
           color="primary"
           :label="$t('contracts.request_signatures')"
           @click="requestSignatures"
           :loading="isRequesting"
-          :disable="!contract.canSign()"
         />
       </div>
     </div>
@@ -47,6 +64,73 @@
 
     <div class="col-12">
       <div ref="contractDocument" class="contract-document"></div>
+      <div class="flex flex-center">
+        <q-circular-progress
+          :indeterminate="true"
+          size="sm"
+          color="primary"
+          class="q-ma-md"
+        />
+        Carregando contrato...
+      </div>
+      <!-- <q-editor
+        class="full-width"
+        v-model="htmlContract"
+        :dense="$q.screen.lt.md"
+        :toolbar="[
+          [
+            {
+              label: $q.lang.editor.align,
+              icon: $q.iconSet.editor.align,
+              fixedLabel: true,
+              list: 'only-icons',
+              options: ['left', 'center', 'right', 'justify'],
+            },
+          ],
+          [
+            'bold',
+            'italic',
+            'strike',
+            'underline',
+            'subscript',
+            'superscript',
+          ],
+          ['token', 'hr', 'link', 'custom_btn'],
+          ['print', 'fullscreen'],
+          [
+            {
+              label: $q.lang.editor.defaultFont,
+              icon: $q.iconSet.editor.font,
+              fixedIcon: true,
+              list: 'no-icons',
+              options: [
+                'default_font',
+                'arial',
+                'arial_black',
+                'comic_sans',
+                'courier_new',
+                'impact',
+                'lucida_grande',
+                'times_new_roman',
+                'verdana',
+              ],
+            },
+          ],
+
+          ['undo', 'redo'],
+          ['viewsource'],
+        ]"
+        :fonts="{
+          arial: 'Arial',
+          arial_black: 'Arial Black',
+          comic_sans: 'Comic Sans MS',
+          courier_new: 'Courier New',
+          impact: 'Impact',
+          lucida_grande: 'Lucida Grande',
+          times_new_roman: 'Times New Roman',
+          verdana: 'Verdana',
+        }"
+      /> -->
     </div>
   </div>
 </template>
@@ -64,17 +148,20 @@ export default {
 
   props: {
     contract: {
-      type: Contract,
-      required: true,
+      required: false,
     },
   },
 
   created() {
-    this.loadParticipants();
+    if (this.contract) {
+      this.loadParticipants();
+    }
   },
 
   mounted() {
-    this.loadDocument();
+    if (this.contract) {
+      this.loadDocument();
+    }
   },
 
   data() {
@@ -88,6 +175,7 @@ export default {
       ],
       paymentType: null,
       participants: [],
+      htmlContract: null,
       isRequesting: false,
       isLoading: false,
     };
@@ -95,6 +183,7 @@ export default {
   computed: {
     ...mapGetters({
       defaultCompany: "people/defaultCompany",
+      myCompany: "people/currentCompany",
     }),
 
     logged() {
@@ -114,7 +203,7 @@ export default {
       this.isLoading = true;
 
       api
-        .fetch("/contracts/" + this.contract.id + "/change/payment", params)
+        .fetch("/contracts/" + this.contract + "/change/payment", params)
         .then(
           ((data) => {
             if (data.response && data.response.success && data.response.data.contractId) {
@@ -148,15 +237,11 @@ export default {
     },
 
     loadParticipants() {
-      this.Api.Contracts.GetSigners({
-        params: {
-          id: this.contract.id,
-        },
-        query: {
-          myCompany: this.Params.Company.get(),
-        },
-      }).then((participants) => {
-        participants.forEach((participant) => {
+      let params = {};
+      params.myCompany = this.myCompany.id;
+      api.fetch(`/my_contracts/${this.contract}/participants`, params)
+      .then((response) => {
+        response.response.data.forEach((participant) => {
           let info = "";
 
           info += this.$t(`contracts.roles.${participant.role}`) + ":";
@@ -192,31 +277,42 @@ export default {
     },
 
     loadDocument() {
-      this.Api.Contracts.GetDocument({
+      let params = {};
+      params.company = 418;
+
+      const config = {
+        method: 'GET',
+        url: `/my_contracts/${this.contract}/document`,
+        headers: {
+          'Accept': 'text/html',
+          'API-TOKEN': this.logged.token,
+        },
         params: {
-          id: this.contract.id,
-        },
-        query: {
-          company: this.Params.Company.get(),
-          myCompany: this.Params.Company.get(),
-        },
-      }).then((content) => {
-        this.$refs.contractDocument.innerHTML = content;
-      });
+          company: 418,
+        }
+      };
+
+      api.execute(config).then((response) => {
+        this.htmlContract = response.data;
+        // this.$refs.contractDocument.innerHTML = response.data;
+
+      })
+
+      // api.fetchText(`/my_contracts/${this.contract}/document`, {params})
+      // .then((response) => {
+      //   this.$refs.contractDocument.innerHTML = response.text();
+      // });
     },
 
     requestSignatures() {
+      let options = {};
+      options.params = {myCompany: this.myCompany.id};
+      options.method = 'PUT';
+      options.body = {};
+
       this.isRequesting = true;
 
-      this.Api.Contracts.RequestSignatures({
-        params: {
-          id: this.contract.id,
-        },
-        query: {
-          myCompany: this.Params.Company.get(),
-        },
-        payload: {},
-      })
+      api.fetch(`/my_contracts/${this.contract}/request-signatures`, options)
         .then((contract) => {
           this.$emit("requested", contract);
         })
@@ -237,7 +333,7 @@ export default {
       this.isLoading = true;
 
       api
-        .fetch("/contracts/" + this.contract.id + "/status/Active", params)
+        .fetch("/contracts/" + this.contract + "/status/Active", params)
         .then(
           ((data) => {
             if (data.response && data.response.success && data.response.data.contractId) {

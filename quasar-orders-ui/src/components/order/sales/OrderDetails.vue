@@ -541,6 +541,7 @@
             class="bg-white text-primary"
           >
             <q-tab name="resumo" label="Resumo" />
+            <q-tab name="contract" label="Contrato" />
             <q-tab name="quotation" label="Cotação" />
             <!-- <q-tab name="notafiscal" label="Nota Fiscal" /> -->
             <q-tab name="invoice" label="Fatura" />
@@ -560,6 +561,13 @@
           <q-tab-panels v-model="currentTab">
             <q-tab-panel name="resumo" class="q-pa-none">
               <OrderDetailSummary @quote-details="setQuoteDetails" :orderId="orderId" />
+            </q-tab-panel>
+
+            <q-tab-panel name="contract" class="q-pa-none">
+              <contract-document
+                :contract ="contract"
+                @requested="$refs.contractDetail.loadContract()"
+              />
             </q-tab-panel>
 
             <q-tab-panel name="quotation" class="q-pa-none">
@@ -638,6 +646,8 @@ import OrderDetailNotaFiscal from "./details/OrderDetailNotaFiscal";
 import OrderDetailQuotation from "./details/OrderDetailQuotation";
 import OrderDetailTag from "./details/OrderDetailTag";
 import OrderDetailTracking from "./details/OrderTracking";
+import ContractDocument from "@controleonline/quasar-contracts-ui/src/components/ContractDocument.vue";
+import Contract from "@controleonline/quasar-contracts-ui/src/entity/Contract.js";
 
  import SurveysCollection from "@controleonline/quasar-tasks-ui/src/components/Tasks/SurveysCollection";
 
@@ -653,6 +663,7 @@ export default {
     OrderDetailTag,
     OrderTasks,
     SurveysCollection,
+    ContractDocument,
   },
 
   created() {
