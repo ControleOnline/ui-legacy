@@ -395,7 +395,7 @@ export default {
     },
     mounted() {
         this.$nextTick(() => {
-            this.colFilter = this.copyObject(this.filters);            
+            this.colFilter = this.copyObject(this.filters);
             if (this.visibleColumns && !this.isEmptyProxy(this.visibleColumns))
                 this.toogleVisibleColumns = this.copyObject(this.visibleColumns);
             else
@@ -454,7 +454,7 @@ export default {
             });
 
             this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', persistVisibleColumns);
-            this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);            
+            this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
         },
         toggleShowColumnMenu() {
             this.showColumnMenu = this.showColumnMenu ? false : true;
@@ -684,12 +684,12 @@ export default {
             }
             let params = {};
             if (row['@id'])
-                params['id'] = row['@id'].split('/').pop();
+                params['id'] = this.saveFormat(name, row['@id'].split('/').pop());
 
             if (typeof row[name] == 'object') {
                 params[name] = '/' + row[name]['@id'].split('/', 2)[1] + '/' + value;
             } else {
-                params[name] = value;
+                params[name] = this.saveFormat(name, value);
             }
             this.$store.dispatch(this.configs.store + '/save', params
             ).then((data) => {
