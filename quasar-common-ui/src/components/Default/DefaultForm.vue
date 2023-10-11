@@ -6,11 +6,11 @@
                     <div v-if="column.isIdentity != true"
                         :class="column.formClass || 'col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 q-pa-xs'">
                         <q-select v-if="column.list" dense outlined stack-label lazy-rules
-                            :options="configs.list[column.list]" :label="$t(configs.store + '.'+column.label)" label-color="black"
-                            v-model="item[column.key || column.name]" />
+                            :options="configs.list[column.list]" :label="$t(configs.store + '.' + column.label)"
+                            label-color="black" v-model="item[column.key || column.name]" />
                         <q-input v-else :disable="column.editable == false" dense outlined stack-label lazy-rules
                             v-model="item[column.key || column.name]" type="text" :mask="mask(column)"
-                            :label="$t(configs.store + '.'+column.label)" :rules="[isInvalid()]" />
+                            :label="$t(configs.store + '.' + column.label)" :rules="[isInvalid()]" />
                     </div>
                 </template>
                 <!--
@@ -60,7 +60,8 @@ export default {
     data() {
         return {
             periodo: false,
-            item: {}
+            item: {},
+            id: null,
         };
     },
     created() {
@@ -74,6 +75,9 @@ export default {
                     column.list ?
                         this.formatData(column, this.data, true) :
                         this.data[column.key || column.name];
+
+                if (column.isIdentity)
+                    this.id = data[column.key || column.name];
             }
         });
         this.item = data;
@@ -100,6 +104,8 @@ export default {
             for (const name in params) {
                 p[name] = this.saveFormat(name, params[name]);
             }
+            if (this.id)
+                p.id = this.id;
             this.$store.dispatch(this.configs.store + '/save', p
             ).then((item) => {
                 this.$q.notify({
