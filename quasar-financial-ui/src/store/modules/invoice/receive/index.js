@@ -55,16 +55,17 @@ export default {
         format: function (value) {
           return value;
         },
-      },      
+      }, 
       {
+        list: "status", 
         sortable: true,
-        name: "status",
+        name: "status", // o nome tem que ser o mesmo que vem da API
         align: "left",
-        label: "Status",
+        label: "statusList",
         format: function (value) {
           return value;
         },
-      },
+      },           
       {
         sortable: true,
         name: "dueDate",

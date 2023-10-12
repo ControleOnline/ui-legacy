@@ -19,6 +19,7 @@ export default {
         search: false,
 
         list: {
+          status: this.status,
           company: this.companies,
         },
       };
@@ -26,6 +27,25 @@ export default {
   },
   data() {
     return {
+    //   statuses: {
+    //   'waiting payment': 'Aguardando pagamento',
+    //   'paid': 'Pago',
+    //   'divergence of values': 'Divergência de valores',
+    //   'canceled': 'Cancelado',
+    //   'outdated billing': 'Fatura em atraso',
+    //   'open': 'Aberto',
+    //   'exceeded billing': 'Limite de faturamento excedido',
+    //   'waiting billing': 'Aguardando fatura',
+    //   'waiting generate invoice': 'Gerando NF',
+    //   'waiting for discount': 'Aguardando desconto',
+    //   'resolved': 'Resolvido'
+    // },
+
+      status: [
+        { label: this.$t('statusList.31'), value: '31' },
+        { label: this.$t('statusList.31'), value: '31' },
+        { label: this.$t('statusList.31'), value: '31' }
+      ],
       companies: [],
     };
   },

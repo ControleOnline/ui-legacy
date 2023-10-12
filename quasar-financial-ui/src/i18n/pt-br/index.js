@@ -26,5 +26,8 @@ export const translate = {
       'resolved': 'Resolvido'
     },
   },
+  receive: {
+    description: 'Descrição',
+  }
 
 }
