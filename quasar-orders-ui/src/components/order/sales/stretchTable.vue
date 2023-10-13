@@ -789,6 +789,7 @@
                     :rules="[(val) => val != null]"
                     hide-bottom-space
                   ></q-select>
+
                   <PeopleAutocomplete
                     class="col-12 reset-padding-bottom"
                     :source="searchPeople"
@@ -2136,7 +2137,7 @@ export default {
       this.editModal = true;
       if (!this.orderId) this.getquotationId(props.row.order);
 
-      this.stretch = structuredClone(props.row);
+      this.stretch = this.deepClone(props.row);
 
       this.stretch.estimatedShippingDate = this.formatDate(
         this.stretch.estimatedShippingDate
@@ -2420,7 +2421,7 @@ export default {
       if (props.row.status.label == "Finalizado") return;
 
       let arrivalDate = this.buildAmericanDate(new Date().toLocaleDateString());
-      this.stretch = structuredClone(props.row);
+      this.stretch = this.deepClone(props.row);
 
       this.selectedProvider = props.row.providerId;
       this.selectedDestinationProvider = props.row.destinationProviderId;
@@ -2483,6 +2484,29 @@ export default {
       if (this.orderId) this.getquotationId(this.orderId);
     },
 
+    deepClone(obj) {
+      if (obj === null || typeof obj !== 'object') {
+        return obj;
+      }
+
+      if (Array.isArray(obj)) {
+        const newArray = [];
+        for (let i = 0; i < obj.length; i++) {
+          newArray[i] = this.deepClone(obj[i]);
+        }
+        return newArray;
+      }
+
+      const newObj = {};
+      for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          newObj[key] = this.deepClone(obj[key]);
+        }
+      }
+
+      return newObj;
+    },
+
     // CRUD
     onSubmit() {
       this.$refs.myForm.validate().then((success) => {
@@ -2492,7 +2516,7 @@ export default {
       });
     },
     saveStretch() {
-      let stretch = structuredClone(this.stretch);
+      let stretch = this.deepClone(this.stretch);
       this.addModal = false;
       this.editModal = false;
 
