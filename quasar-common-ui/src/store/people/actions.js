@@ -143,7 +143,7 @@ export const myCompanies = ({ commit, dispatch }) => {
       commit(types.SET_ISLOADING, false);
 
       dispatch('auth/logOut', null, { root: true });
-      localStorage.clear();
+      localStorage.remove('session');
       //location.reload();
 
       if (e instanceof SubmissionError) {
@@ -201,7 +201,7 @@ export const defaultCompany = ({ commit, dispatch }) => {
       commit(types.SET_ISLOADING, false);
 
       dispatch('auth/logOut', null, { root: true });
-      localStorage.clear();
+      localStorage.remove('session');
       //location.reload();
 
       if (e instanceof SubmissionError) {
