@@ -544,10 +544,10 @@
             <q-tab name="contract" label="Contrato" />
             <q-tab name="quotation" label="Cotação" />
             <!-- <q-tab name="notafiscal" label="Nota Fiscal" /> -->
-            <q-tab name="invoice" label="Fatura" />
+            <!-- <q-tab name="invoice" label="Fatura" /> -->
             <q-tab v-if="showDacteTab" name="dacte" label="DACTE" />
 
-            <q-tab name="tasks" label="Ocorrências" />
+            <!-- <q-tab name="tasks" label="Ocorrências" /> -->
             <!-- <q-tab name="tracking" label="Rastreamento" /> -->
 
             <!-- <q-tab name="tag" label="Etiqueta" /> -->
