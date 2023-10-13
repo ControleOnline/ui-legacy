@@ -32,6 +32,30 @@ export const getItems = ({ commit }, params = {}) => {
     });
 };
 
+export const getProviders = ({ commit }, params = {}) => {
+  commit(types.SET_ISLOADING);
+
+  return api.fetch('people_providers', { params })
+    
+    .then(data => {
+      commit(types.SET_ISLOADING, false);
+
+      return data['hydra:member'];
+
+    }).catch(e => {
+      commit(types.SET_ISLOADING, false);
+
+      if (e instanceof SubmissionError) {
+        commit(types.SET_VIOLATIONS, e.errors);
+        // eslint-disable-next-line
+        commit(types.SET_ERROR, e.errors._error);
+        return;
+      }
+
+      commit(types.SET_ERROR, e.message);
+    });
+};
+
 export const reset = ({ commit }) => {
   commit(types.RESET);
 };

@@ -28,7 +28,7 @@
               <ListAutocomplete
                 ref="originAddress"
                 :source="getGeoPlaces"
-                :isLoading="isSearching"
+                :isLoading="originAddressFilterLoading"
                 label="Origem"
                 @selected="onSelectOriginFilter"
                 placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
@@ -38,7 +38,7 @@
               <ListAutocomplete
                 ref="destinationAddress"
                 :source="getGeoPlaces"
-                :isLoading="isSearching"
+                :isLoading="destinationAddressFilterLoading"
                 label="Destino"
                 @selected="onSelectDestinationFilter"
                 placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
@@ -65,7 +65,7 @@
               <PeopleAutocomplete
                 ref="originProvider"
                 :source="searchPeople"
-                :isLoading="isSearching"
+                :isLoading="originProviderFilterLoading"
                 label="Fornecedor de origem"
                 @selected="onSelectOriginPeopleFilter"
                 placeholder="Pesquisar..."
@@ -75,7 +75,7 @@
               <PeopleAutocomplete
                 ref="destinationProvider"
                 :source="searchPeople"
-                :isLoading="isSearching"
+                :isLoading="destinationProviderFilterLoading"
                 label="Fornecedor de destino"
                 @selected="onSelectDestinationPeopleFilter"
                 placeholder="Pesquisar..."
@@ -91,6 +91,16 @@
                 :toDate="filters.to"
                 :showButton="false"
                 @dateChanged="dateChanged"
+              />
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 q-pb-sm">
+              <q-select
+                dense
+                outlined
+                stack-label
+                label="Pendentes"
+                v-model="filters.pendings"
+                :options="[{label: 'Sim', value: true}, {label: 'Não', value: false},{label: 'Todos', value: 'Todos'}]"
               />
             </div>
           </div>
@@ -1115,6 +1125,10 @@ export default {
     return {
       isLoading: false,
       isSearching: false,
+      originAddressFilterLoading: false,
+      destinationAddressFilterLoading: false,
+      originProviderFilterLoading: false,
+      destinationProviderFilterLoading: false,
       editShippingTax: true,
       shippingTax: null,
       hasOrderId: null,
@@ -1225,6 +1239,7 @@ export default {
           value: 46,
           label: "Aberto",
         },
+        pendings: {label: 'Todos', value: 'Todos'},
         from: "",
         to: "",
       },
@@ -1529,6 +1544,12 @@ export default {
         filter: this.filters,
       });
     },
+    "filters.pendings"(value) {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
     addModal() {
       if (this.addModal == false) this.deliveryBaseTax = null;
     },
@@ -1585,7 +1606,7 @@ export default {
   methods: {
     ...mapActions({
       geoplace: "gmaps/geoplace",
-      search: "people/searchPeople",
+      search: "salesOrder/getProviders",
     }),
 
     hideOrderIdColumn() {
@@ -1598,17 +1619,17 @@ export default {
 
       return this.search(input)
         .then((result) => {
-          if (result && result.success) {
+          if (result) {
             let items = [];
-            for (let i = 0; i < result.data.length; i++) {
+            for (let i = 0; i < result.length; i++) {
               items.push({
                 label:
-                  result.data[i].id +
+                  result[i].provider.id +
                   " - " +
-                  result.data[i].name +
+                  result[i].provider.name +
                   " - " +
-                  result.data[i].alias,
-                value: result.data[i],
+                  result[i].provider.alias,
+                value: result[i].provider,
               });
             }
             return items;
@@ -2164,6 +2185,7 @@ export default {
       this.filters.status = "Todos";
       this.filters.from = "";
       this.filters.to = "";
+      this.filters.pendings = {label: 'Todos', value: 'Todos'};
       this.$refs.myDataFilter.$data.date["from"] = "";
       this.$refs.myDataFilter.$data.date["to"] = "";
       this.$refs.originAddress.model = null;
@@ -2423,6 +2445,10 @@ export default {
 
         if (this.filters.to != null && this.filters.to != "") {
           params["arrivalDate"] = this.buildAmericanDate(this.filters.to);
+        }
+
+        if (this.filters.pendings && this.filters.pendings.value != 'Todos') {
+          params["pendings"] = this.filters.pendings.value;
         }
       }
       if (this.filters.company != null) {
