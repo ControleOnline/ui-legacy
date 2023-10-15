@@ -8,7 +8,7 @@
     :outlined="editMode"
     :borderless="!editMode" 
     :readonly="!editMode" 
-    @keyup="onInputChange" 
+    @update:model-value="getAddress" 
   />
 </template>
 
@@ -51,12 +51,6 @@ export default {
     setPostalCode(code) {
       if (code.length == 8)
         this.postalCode = code;
-    },
-
-    onInputChange() {
-      if (this.postalCode.length === 8) {
-        this.getAddress(this.postalCode);
-      }
     },
 
     getAddress() {

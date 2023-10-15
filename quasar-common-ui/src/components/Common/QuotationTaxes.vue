@@ -27,7 +27,7 @@
 
     <q-card-section :class="showTaxes == false ? 'hidden' : ''">
       <q-separator />
-      <div class="text-subtitle2 q-mt-sm q-mb-sm text-center">Taxas opcionais</div>
+      <div class="text-subtitle2 q-mt-sm q-mb-sm text-center">Taxas dasdas opcionais</div>
       <q-select
         dense
         outlined
@@ -35,9 +35,9 @@
         stack-label
         v-model="newTax"
         label="Taxa"
-        @input="onSelect"
         :options="deliveryTaxes"
         :loading="isloadingTaxes"
+        @update:model-value="onSelect"
       >
       </q-select>
       <q-input
