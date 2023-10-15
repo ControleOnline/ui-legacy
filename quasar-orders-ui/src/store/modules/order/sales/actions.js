@@ -8,7 +8,7 @@ export const getItems = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return api.fetch(RESOURCE_ENDPOINT, { params })
-    
+
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -32,11 +32,67 @@ export const getItems = ({ commit }, params = {}) => {
     });
 };
 
+export const getOrderLogistics = ({ commit }, params = {}) => {
+  commit(types.SET_ISLOADING);
+
+  return api.fetch('order_logistics', { params })
+
+    .then(data => {
+      commit(types.SET_ISLOADING, false);
+
+      return data['hydra:member'];
+
+    }).catch(e => {
+      commit(types.SET_ISLOADING, false);
+
+      if (e instanceof SubmissionError) {
+        commit(types.SET_VIOLATIONS, e.errors);
+        // eslint-disable-next-line
+        commit(types.SET_ERROR, e.errors._error);
+        return;
+      }
+
+      commit(types.SET_ERROR, e.message);
+    });
+};
+
+export const saveOrderLogistic = ({ commit }, { id = null, values }) => {
+  commit(types.SET_ISLOADING, true);
+
+  let options = {
+    method: id ? "PUT" : "POST",
+    body: values,
+  };
+  let endpoint = id
+    ? `/order_logistics/update`
+    : `/order_logistics/create`;
+
+  return api
+    .fetch(endpoint, options)
+
+    .then((response) => {
+      return response.response.success;
+    })
+    .catch((e) => {
+      if (e instanceof SubmissionError) {
+        commit(types.SET_VIOLATIONS, e.errors);
+        // eslint-disable-next-line
+        commit(types.SET_ERROR, e.errors._error);
+        return;
+      }
+
+      commit(types.SET_ERROR, e.message);
+    })
+    .finally(() => {
+      commit(types.SET_ISLOADING, false);
+    });
+};
+
 export const getProviders = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
   return api.fetch('people_providers', { params })
-    
+
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -68,10 +124,10 @@ export const alterQuotation = ({ commit }, { id, values, params = {} }) => {
     params: params
   };
 
-  
+
 
   return api.fetch(`${RESOURCE_ENDPOINT}/${id}/alter/quote`, options)
-    
+
     .then(data => {
 
       return data;
@@ -83,7 +139,7 @@ export const alterQuotation = ({ commit }, { id, values, params = {} }) => {
 
 export const getStatuses = ({ commit }, params = {}) => {
   return api.fetch('/statuses', { params })
-    
+
     .then(data => {
 
       return data['hydra:member'];
@@ -102,7 +158,7 @@ export const getStatuses = ({ commit }, params = {}) => {
 
 export const getDetailStatus = ({ commit }, { orderId, params }) => {
   return api.fetch(`/sales/orders/${orderId}/detail/status`, { params })
-    
+
     .then(data => {
 
       return data;
@@ -112,7 +168,7 @@ export const getDetailStatus = ({ commit }, { orderId, params }) => {
 
 export const getDetailSummary = ({ commit }, { orderId, params }) => {
   return api.fetch(`/sales/orders/${orderId}/detail/summary`, { params })
-    
+
     .then(data => {
 
       return data.response;
@@ -122,7 +178,7 @@ export const getDetailSummary = ({ commit }, { orderId, params }) => {
 
 export const getDetailQuotation = ({ commit }, { orderId, params }) => {
   return api.fetch(`/sales/orders/${orderId}/detail/quotation`, { params })
-    
+
     .then(data => {
 
       return data.response;
@@ -134,7 +190,7 @@ export const getDetailOrder = ({ commit }, { id, params = {} }) => {
   commit(types.SET_ISLOADING);
 
   return api.fetch(`/sales/orders/${id}/detail/invoice`, { params })
-    
+
     .then(data => {
       commit(types.SET_ISLOADING, false);
 
@@ -162,10 +218,10 @@ export const removeInvoiceTax = ({ commit }, { id, values, params = {} }) => {
     params: params
   };
 
-  
+
 
   return api.fetch(`${RESOURCE_ENDPOINT}/${id}/remove-invoice-tax`, options)
-    
+
     .then(data => {
 
       return data;
@@ -180,10 +236,10 @@ export const changeAddress = ({ commit }, { id, values }) => {
     body: (values),
   };
 
-  
+
 
   return api.fetch(`${RESOURCE_ENDPOINT}/${id}/add-address`, options)
-    
+
     .then(data => {
 
       return data;
@@ -199,10 +255,10 @@ export const updateStatus = ({ commit }, { id, values, params = {} }) => {
     params: params
   };
 
-  
+
 
   return api.fetch(`${RESOURCE_ENDPOINT}/${id}/update-status`, options)
-    
+
     .then(data => {
 
       return data;
@@ -218,7 +274,7 @@ export const updateRemote = ({ commit }, { id, providerId, params = {} }) => {
   };
 
   return api.fetch(`/sales/orders/${id}/detail/update-remote`, options)
-    
+
     .then(data => {
 
       return data;
@@ -233,10 +289,10 @@ export const updateDeadline = ({ commit }, { id, newDeadline, params = {} }) => 
     params: params
   };
 
-  
+
 
   return api.fetch(`${RESOURCE_ENDPOINT}/${id}/detail/update-deadline`, options)
-    
+
     .then(data => {
 
       return data;
@@ -251,10 +307,10 @@ export const updateEstimatedParkingDate = ({ commit }, { id, newEstimatedParking
     params: params
   };
 
-  
+
 
   return api.fetch(`${RESOURCE_ENDPOINT}/fields/${id}`, options)
-    
+
     .then(data => {
 
       return data;
@@ -269,10 +325,10 @@ export const updateParkingDate = ({ commit }, { id, newParkingDate, params = {} 
     params: params
   };
 
-  
+
 
   return api.fetch(`${RESOURCE_ENDPOINT}/fields/${id}`, options)
-    
+
     .then(data => {
 
       return data;
@@ -287,10 +343,10 @@ export const createNewLabelTag = ({ commit }, { id }) => {
     body: ({})
   };
 
-  
+
 
   return api.fetch(`/label/` + id, options)
-    
+
     .then(data => {
 
       return data;

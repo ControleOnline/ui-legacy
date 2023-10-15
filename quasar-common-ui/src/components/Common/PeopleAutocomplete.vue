@@ -60,12 +60,23 @@ export default {
       type    : Boolean,
       required: false,
       default : false,
-    }
+    },
+    input: {
+      type: Object,
+      required: false,
+    },
   },
 
   watch: {
     model(item) {
       this.$emit('selected', item);
+    }
+  },
+
+  mounted() {
+    if (this.input && Object.keys(this.input).length) {
+      this.model = this.input;
+
     }
   },
 
