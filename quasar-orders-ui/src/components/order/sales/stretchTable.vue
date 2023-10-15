@@ -315,13 +315,13 @@
       </q-table>
     </div>
 
-    <q-dialog v-model="openModal">
+    <q-dialog persistent v-model="openModal">
         <div style="max-width: 90vw">
           <StrechModal 
             :orderId="orderId" :myCompany="myCompany" :vehicle="car" :collectionAddress="collectionAddress"
             :destinationAddress="destinationAddress" :invoiceTotal="invoiceTotal"
             :statusOptions="statusOptions" :stretchValueOptions="stretchValueOptions"
-            :stretchToEdit="stretchToEdit" @loadLogistics="getValuesToLoad()"
+            :stretchToEdit="stretchToEdit" @close="() => { openModal = false; stretchToEdit = {}}" @loadLogistics="openModal = false; stretchToEdit = {}; getValuesToLoad()"
             >
           </StrechModal>
 

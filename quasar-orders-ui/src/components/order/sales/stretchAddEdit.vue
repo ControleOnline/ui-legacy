@@ -4,7 +4,7 @@
             <div class="row items-center">
                 <label class="text-h5">Edição</label>
                 <q-space />
-                <q-btn icon="close" flat round dense v-close-popup />
+                <q-btn icon="close" flat round dense v-close-popup @click="$emit('close')" />
             </div>
         </q-card-section>
         <q-card-section class="q-pa-md">
@@ -36,23 +36,24 @@
                     <div class="col-6">
                         <div class="row q-col-gutter-sm">
                             <label class="col-12">Origem</label>
-                            <PeopleAutocomplete class="col-12 reset-padding-bottom" ref="provider" :key="updateProvider" :source="searchPeople"
-                                :isLoading="originProviderLoading" placeholder="Pesquisar..." label="Fornecedor de origem"
-                                @selected="onSelectOriginPeople" :input="stretch.provider" />
+                            <PeopleAutocomplete class="col-12 reset-padding-bottom" ref="provider" :key="updateProvider"
+                                :source="searchPeople" :isLoading="originProviderLoading" placeholder="Pesquisar..."
+                                label="Fornecedor de origem" @selected="onSelectOriginPeople" :input="stretch.provider" />
                             <q-select class="col-12" dense outlined stack-label label="Tipo de origem" hide-bottom-space
                                 :options="originTypeOptions" v-model="stretch.originType"
                                 :rules="[(val) => val != null]"></q-select>
                             <div v-if="stretch.originType == 'Base'" class="col-12">
-                                <PeopleAutocomplete v-if="originProviderHasAddress" class="reset-padding-bottom" :key="updateAddress" :source="getGeoPlaces"
-                                :isLoading="originAddressLoading" label="Busca de endereço" @selected="onSelectOrigin"
-                                placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-                                :input="stretch.originAdress" />
-                                <q-select v-else :options="originProviderAddressOptions" dense
+                                <q-select v-if="originProviderHasAddress" :options="originProviderAddressOptions" dense
                                     outlined stack-label label="Origem endereço" v-model="tempOriginAddressAdd"></q-select>
+                                <PeopleAutocomplete v-else class="reset-padding-bottom" :key="updateAddress"
+                                    :source="getGeoPlaces" :isLoading="originAddressLoading" label="Busca de endereço"
+                                    @selected="onSelectOrigin"
+                                    placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
+                                    :input="stretch.originAdress" />
                             </div>
                             <div v-else class="col-12">
-                                <PeopleAutocomplete class="col-11" ref="addressAutoComplete" :source="getGeoPlaces" :isLoading="originAddressLoading"
-                                    label="Busca de endereço" @selected="onSelectOrigin"
+                                <PeopleAutocomplete class="col-11" ref="addressAutoComplete" :source="getGeoPlaces"
+                                    :isLoading="originAddressLoading" label="Busca de endereço" @selected="onSelectOrigin"
                                     placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
                                     :input="stretch.originAdress" />
                             </div>
@@ -65,15 +66,17 @@
                         <div class="row q-col-gutter-sm">
                             <label class="col-12">Destino</label>
                             <PeopleAutocomplete class="col-12 reset-padding-bottom" :source="searchPeople"
-                                :isLoading="destinationProviderLoading" label="Fornecedor de destino" @selected="onSelectDestinationPeople"
-                                placeholder="Pesquisar..." :input="stretch.destinationProvider" />
+                                :isLoading="destinationProviderLoading" label="Fornecedor de destino"
+                                @selected="onSelectDestinationPeople" placeholder="Pesquisar..."
+                                :input="stretch.destinationProvider" />
                             <q-select class="col-12" dense outlined stack-label label="Tipo de destino"
                                 :options="destinationTypeOptions" v-model="stretch.destinationType"
                                 :rules="[(val) => val != null]" hide-bottom-space></q-select>
 
                             <div v-if="stretch.destinationType != 'Base'" class="col-12">
                                 <PeopleAutocomplete class="reset-padding-bottom" :source="getGeoPlaces"
-                                    :isLoading="destinationAddressLoading" label="Busca de endereço" @selected="onSelectDestination"
+                                    :isLoading="destinationAddressLoading" label="Busca de endereço"
+                                    @selected="onSelectDestination"
                                     placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
                                     :input="stretch.destinationAdress" />
                             </div>
@@ -81,8 +84,9 @@
                                 <q-select v-if="destinationProviderHasAddress" :options="destinationProviderAddressOptions"
                                     dense outlined stack-label label="Destino endereço"
                                     v-model="tempDestinationAddressAdd"></q-select>
-                                <PeopleAutocomplete v-else class="reset-padding-bottom" :source="getGeoPlaces"
-                                    :isLoading="destinationAddressLoading" label="Busca de endereço" @selected="onSelectDestination"
+                                <PeopleAutocomplete v-else class="reset-padding-bottom" ref="destinationAddress"
+                                    :source="getGeoPlaces" :isLoading="destinationAddressLoading" label="Busca de endereço"
+                                    @selected="onSelectDestination"
                                     placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
                                     :input="stretch.destinationAdress" />
                             </div>
@@ -126,7 +130,7 @@
                     </div>
                     <div class="row justify-end col-12 q-gutter-sm q-mt-md">
                         <q-btn color="positive" label="Salvar" @click="onSubmit()"></q-btn>
-                        <q-btn color="negative" label="Cancelar" v-close-popup></q-btn>
+                        <q-btn color="negative" label="Cancelar" v-close-popup @click="$emit('close')"></q-btn>
                     </div>
                 </q-form>
             </div>
@@ -188,17 +192,28 @@ export default {
     created() {
         if (Object.keys(this.stretchToEdit).length) {
             this.stretch = this.stretchToEdit;
+            this.stretch.estimatedShippingDate = this.stretch.estimatedShippingDate ?
+                date.formatDate((new Date(this.stretch.estimatedShippingDate)).getTime(), 'YYYY-MM-DD') :
+                null;
+            this.stretch.shippingDate = this.stretch.shippingDate ?
+                date.formatDate((new Date(this.stretch.shippingDate)).getTime(), 'YYYY-MM-DD') :
+                null;
+            this.stretch.estimatedArrivalDate = this.stretch.estimatedArrivalDate ?
+                date.formatDate((new Date(this.stretch.estimatedArrivalDate)).getTime(), 'YYYY-MM-DD') :
+                null;
+            this.stretch.arrivalDate = this.stretch.arrivalDate ?
+                date.formatDate((new Date(this.stretch.arrivalDate)).getTime(), 'YYYY-MM-DD') :
+                null;
         } else {
             this.requestPreviewStretch();
         }
     },
 
     beforeUnmount() {
-        console.log('desmontaaaaaaaaaaaddddddddddddddooo')
         this.onReset();
     },
 
-    methods: {  
+    methods: {
         ...mapActions({
             geoplace: "gmaps/geoplace",
             // search: "salesOrder/getProviders",
@@ -282,8 +297,7 @@ export default {
                     this.stretch.originAdress = lastStretch.destinationAdress;
                     this.tempOriginAddressAdd = lastStretch.destinationAdress;
                     this.$refs.addressAutoComplete['model'] = lastStretch.destinationAdress;
-                    this.stretch.provider = {label: lastStretch.destinationProvider.name, value: lastStretch.destinationProvider.id};
-                    console.log('refs', this.$refs.addressAutoComplete)
+                    this.stretch.provider = { label: lastStretch.destinationProvider.name, value: lastStretch.destinationProvider.id };
 
                     let destinationType = '';
                     if (lastStretch.destinationType == 'b') {
@@ -298,14 +312,13 @@ export default {
             });
         },
 
-        getProviderAddress(providerId) {
+        getProviderAddress(providerId, typeProvider) {
             return this.people(providerId).then((result) => {
-                let addresses = result.address;
                 if (result["@id"] && result.address.length > 0) {
-                    return addresses;
+                    return result.address;
                 } else {
                     this.$q.notify({
-                        message: "Endereço de fornecedor não encontrado",
+                        message: `Endereço de fornecedor de ${typeProvider} para base não encontrado`,
                         position: "bottom",
                         type: "negative",
                     });
@@ -321,7 +334,7 @@ export default {
                 this.stretch.provider = item.id;
             }
             if (this.stretch.originType == "Base") {
-                this.getProviderAddress(this.stretch.provider).then((data) => {
+                this.getProviderAddress(this.stretch.provider, 'origem').then((data) => {
                     if (data != null && data.length != 0) {
                         this.originProviderHasAddress = true;
                         this.originProviderAddressOptions = [];
@@ -354,9 +367,13 @@ export default {
         },
 
         onSelectDestinationPeople(item) {
-            this.stretch.destinationProvider = item.id;
+            if (item?.value) {
+                this.stretch.destinationProvider = item.value;
+            } else {
+                this.stretch.destinationProvider = item.id;
+            }
             if (this.stretch.destinationType == "Base") {
-                this.getProviderAddress(item.id).then((data) => {
+                this.getProviderAddress(this.stretch.destinationProvider, 'destino').then((data) => {
                     if (data != null) {
                         this.destinationProviderHasAddress = true;
                         this.destinationProviderAddressOptions = [];
@@ -389,9 +406,7 @@ export default {
         },
 
         onSelectOrigin(item) {
-            console.log('origin', item)
             if (typeof item == 'string') {
-                this.updateAddress++;
                 return;
             }
             this.stretch.originRegion = this.getRegion(item.state);
@@ -532,14 +547,14 @@ export default {
             this.stretch.shippingDate = null;
             this.stretch.estimatedArrivalDate = null;
             this.stretch.arrivalDate = null;
-                this.stretch.originType = null;
-                this.stretch.originRegion = null;
-                this.stretch.originState = null;
-                this.stretch.provider = null;
-                this.stretch.originCity = null;
-                this.stretch.originAdress = null;
-                this.stretch.originType = null;
-                this.stretch.originLocator = null;
+            this.stretch.originType = null;
+            this.stretch.originRegion = null;
+            this.stretch.originState = null;
+            this.stretch.provider = null;
+            this.stretch.originCity = null;
+            this.stretch.originAdress = null;
+            this.stretch.originType = null;
+            this.stretch.originLocator = null;
             this.stretch.destinationType = null;
             this.stretch.destinationRegion = null;
             this.stretch.destinationState = null;
@@ -574,7 +589,7 @@ export default {
             isFirstStretch: null,
             addNewStretch: false,
             originProviderHasAddress: false,
-            destinationProviderHasAddress: true,
+            destinationProviderHasAddress: false,
             toggleAddStretch: false,
             indexRowEdit: null,
 
@@ -647,6 +662,90 @@ export default {
             }
         },
 
+        "stretch.originType"(newVal, oldVal) {
+            console.log('watch');
+            if (newVal == 'Base' && this.stretch.provider) {
+                let id;
+                if (this.stretch.provider?.value) {
+                    id = this.stretch.provider.value
+                } else {
+                    id = this.stretch.provider;
+                }
+                this.getProviderAddress(id, 'origem').then((data) => {
+                    if (data != null) {
+                        this.originProviderHasAddress = true;
+                        this.originProviderAddressOptions = [];
+
+                        for (let index in data) {
+                            let address = {};
+                            address.country =
+                                data[index].street.district.city.state.country.countryname || "";
+                            address.state = data[index].street.district.city.state.uf || "";
+                            address.region = this.getRegion(address.state) || "";
+                            address.city = data[index].street.district.city.city || "";
+                            address.district = data[index].street.district.district || "";
+                            address.cep = data[index].street.cep.cep || "";
+                            address.street = data[index].street.street || "";
+                            address.number = data[index].number || "";
+                            address.complement = data[index].complement || "";
+                            address.locator = data[index].locator || "";
+                            let formatedAddress = `${address.street}, ${address.number}, ${address.complement} - ${address.district}, ${address.cep}, ${address.city} ${address.state}, ${address.country}`;
+
+                            this.originProviderAddressOptions.push({
+                                label: formatedAddress,
+                                value: address,
+                            });
+                        }
+                    } else {
+                        this.originProviderHasAddress = false;
+                    }
+                });
+            }
+        },
+
+        "stretch.destinationType"(newVal, oldVal) {
+            if (newVal == 'Base' && this.stretch.destinationProvider) {
+                let id;
+                if (this.stretch.destinationProvider?.value) {
+                    id = this.stretch.destinationProvider.value
+                } else {
+                    id = this.stretch.destinationProvider;
+                }
+                this.getProviderAddress(id, 'destino').then((data) => {
+                    if (data != null) {
+                        this.destinationProviderHasAddress = true;
+                        this.destinationProviderAddressOptions = [];
+
+                        for (let index in data) {
+                            let address = {};
+                            address.country =
+                                data[index].street.district.city.state.country.countryname || "";
+                            address.state = data[index].street.district.city.state.uf || "";
+                            address.region = this.getRegion(address.state) || "";
+                            address.city = data[index].street.district.city.city || "";
+                            address.district = data[index].street.district.district || "";
+                            address.cep = data[index].street.cep.cep || "";
+                            address.street = data[index].street.street || "";
+                            address.number = data[index].number || "";
+                            address.complement = data[index].complement || "";
+                            address.locator = data[index].locator || "";
+                            let formatedAddress = `${address.street}, ${address.number}, ${address.complement} - ${address.district}, ${address.cep}, ${address.city} ${address.state}, ${address.country}`;
+
+                            this.destinationProviderAddressOptions.push({
+                                label: formatedAddress,
+                                value: address,
+                            });
+                        }
+                    } else {
+                        this.destinationProviderHasAddress = false;
+                        if (!Object.keys(this.stretchToEdit).length) {
+                            this.$refs.destinationAddress['model'] = null;
+                        }
+                    }
+                });
+            }
+        },
+
         tempOriginAddressAdd(address) {
             if (typeof address == 'string') {
                 return;
@@ -663,6 +762,13 @@ export default {
             this.stretch.destinationCity = address.value.city;
             this.stretch.destinationAdress = address.label;
             this.stretch.destinationLocator = address.value.locator;
+        },
+
+        stretchValueSelected(value) {
+            if (value && value.price) {
+                let val = value.price.toFixed(2);
+                this.stretch.price = parseFloat(val);
+            }
         },
     }
 
