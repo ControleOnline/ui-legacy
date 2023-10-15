@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="col-12 q-mt-md">
-      <q-table dense  :rows="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
+      <q-table dense :rows="items" :columns="settings.columns" :visible-columns="settings.visibleColumns" row-key="id"
         :loading="isLoading" bordered>
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -33,20 +33,14 @@
         </q-card-section>
         <q-card-section>
           <q-form ref="myForm" @submit="onSubmit" class="q-mt-md">
-            <q-input
-      dense
-      outlined lazy-rules stack-label v-model="item.username" type="text" label="Nome de usuário" class="q-mt-md"
-              :rules="[isInvalid('username')]" />
+            <q-input dense outlined lazy-rules stack-label v-model="item.username" type="text" label="Nome de usuário"
+              class="q-mt-md" :rules="[isInvalid('username')]" />
 
-            <q-input
-      dense
-      outlined lazy-rules stack-label v-model="item.password" type="password" label="Senha" class="q-mt-md"
-              :rules="[isInvalid('password')]" />
+            <q-input dense outlined lazy-rules stack-label v-model="item.password" type="password" label="Senha"
+              class="q-mt-md" :rules="[isInvalid('password')]" />
 
-            <q-input
-      dense
-      outlined lazy-rules stack-label v-model="item.confirm" type="password" label="Confirme sua senha"
-              class="q-mt-md" :rules="[isInvalid('confirm')]" />
+            <q-input dense outlined lazy-rules stack-label v-model="item.confirm" type="password"
+              label="Confirme sua senha" class="q-mt-md" :rules="[isInvalid('confirm')]" />
 
             <div class="row justify-end">
               <q-btn :loading="saving" icon="save" type="submit" label="Salvar" size="md" color="primary"
@@ -60,7 +54,7 @@
 </template>
 
 <script>
-
+import { api } from "@controleonline/../../src/boot/api";
 
 const SETTINGS = {
   visibleColumns: [
@@ -123,7 +117,7 @@ export default {
     getItems() {
       let endpoint = `${this.people_type}/${this.id}/users`;
       return api.fetch(endpoint)
-        
+
         .then(result => {
           return result.response.data;
         });
@@ -133,13 +127,13 @@ export default {
     save(values) {
       let options = {
         method: 'PUT',
-       
+
         body: (values),
       };
 
       let endpoint = `${this.people_type}/${this.id}/users`;
       return api.fetch(endpoint, options)
-        
+
         .then(data => {
           if (data.response) {
             if (data.response.success === false)
@@ -156,13 +150,13 @@ export default {
     delete(id) {
       let options = {
         method: 'DELETE',
-       
+
         body: ({ id }),
       };
 
       let endpoint = `${this.people_type}/${this.id}/users`;
       return api.fetch(endpoint, options)
-        
+
         .then(data => {
           if (data.response) {
             if (data.response.success === false)

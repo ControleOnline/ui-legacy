@@ -59,7 +59,7 @@
                 :rules="[isInvalid('locator')]"  class="q-mb-sm" />
               </div>
               <div class="col-xs-12 col-sm-grow">
-                <SearchCEPAddress :api="api" @found="onCEPFound" @error="(error) => {
+                <SearchCEPAddress  @found="onCEPFound" @error="(error) => {
                   this.item.postalCode = error.postalCode;
 
                   this.$q.notify({
@@ -98,16 +98,13 @@
                   :rules="[isInvalid('country')]" class="q-mb-sm" />
               </div>
               <div class="col-xs-12 col-sm-4">
-                <q-input dense outlined stack-label lazy-rules v-model="item.searchFor" type="text" :label="$t('Procurar por')"
-                  :rules="[isInvalid('searchFor')]" class="q-mb-sm" />
+                <q-input dense outlined stack-label lazy-rules v-model="item.searchFor" type="text" :label="$t('Procurar por')" class="q-mb-sm" />
               </div>
               <div class="col-xs-12 col-sm-4">
-                <q-input dense outlined stack-label lazy-rules v-model="item.openingTime" type="time" :label="$t('Abre às')"
-                  :rules="[isInvalid('openingTime')]" class="q-mb-sm" />
+                <q-input dense outlined stack-label lazy-rules v-model="item.openingTime" type="time" :label="$t('Abre às')" class="q-mb-sm" />
               </div>
               <div class="col-xs-12 col-sm-4">
-                <q-input dense outlined stack-label lazy-rules v-model="item.closingTime" type="time" :label="$t('Fecha às')"
-                  :rules="[isInvalid('closingTime')]" class="q-mb-sm" />
+                <q-input dense outlined stack-label lazy-rules v-model="item.closingTime" type="time" :label="$t('Fecha às')" class="q-mb-sm" />
               </div>
             </div>
 
@@ -223,10 +220,6 @@ export default {
     id: {
       required: true,
     },
-    api: {
-      type: api,
-      required: false
-    },
     people_type: {
       type: String,
       required: true
@@ -255,6 +248,9 @@ export default {
         street: '',
         number: '',
         complement: '',
+        searchFor: null,
+        openingTime: null,
+        closingTime: null,
       },
     };
   },

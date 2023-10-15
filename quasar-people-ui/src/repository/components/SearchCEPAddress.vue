@@ -1,60 +1,49 @@
 <template>
-  <q-input
-      dense
-      outlined stack-label unmasked-value hide-bottom-space
-    v-model    ="postalCode"
-    type       ="text"
-    label      ="CEP"
-    mask       ="#####-###"
-    :rules     ="rules"
+  <q-input dense outlined stack-label unmasked-value hide-bottom-space type="text" label="CEP"
     placeholder="Busque o endereço pelo CEP"
-    :loading   ="loading"
-    :outlined  ="editMode"
-    :borderless="!editMode"
-    :readonly  ="!editMode"
-    @input     ="getAddress"
+    mask="#####-###" 
+    v-model="postalCode" 
+    :rules="rules" 
+    :loading="loading" 
+    :outlined="editMode"
+    :borderless="!editMode" 
+    :readonly="!editMode" 
+    @keyup="onInputChange" 
   />
 </template>
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
 
-
-
 export default {
   props: {
-
-    editMode  : {
-      type    : Boolean,
+    editMode: {
+      type: Boolean,
       required: false,
-      default : true
+      default: true
     },
-    required  : {
-      type    : Boolean,
+    required: {
+      type: Boolean,
       required: false,
-      default : true
-    },
-    api  : {
-      type    : api,
-      required: false,
+      default: true
     },
   },
 
   data() {
     return {
-      loading   : false,
+      loading: false,
       postalCode: '',
-      item      : {
-        country   : '',
-        state     : '',
-        city      : '',
-        district  : '',
+      item: {
+        country: '',
+        state: '',
+        city: '',
+        district: '',
         postalCode: '',
-        street    : '',
-        number    : '',
+        street: '',
+        number: '',
         complement: '',
       },
-      rules    : this.required ? [this.isInvalid('postal_code')] : []
+      rules: this.required ? [this.isInvalid('postalCode')] : []
     };
   },
 
@@ -64,22 +53,28 @@ export default {
         this.postalCode = code;
     },
 
-    getAddress(code) {
+    onInputChange() {
+      if (this.postalCode.length === 8) {
+        this.getAddress(this.postalCode);
+      }
+    },
+
+    getAddress() {
       if (!this.editMode)
         return;
 
-      if (code.length == 8) {
+      if (this.postalCode.length == 8) {
         this.loading = true;
 
-        this.getAddressByCEP(code)
+        this.getAddressByCEP(this.postalCode)
           .then(address => {
             if (address['@id']) {
-              this.item.country    = address.country;
-              this.item.state      = address.state;
-              this.item.city       = address.city;
-              this.item.district   = address.district;
-              this.item.street     = address.street;
-              this.item.number     = address.number;
+              this.item.country = address.country;
+              this.item.state = address.state;
+              this.item.city = address.city;
+              this.item.district = address.district;
+              this.item.street = address.street;
+              this.item.number = address.number;
               this.item.postalCode = address.id;
 
               this.$emit('found', this.item);
@@ -87,7 +82,7 @@ export default {
           })
           .catch(error => {
             let _error = {
-              message   : 'Nenhum endereço foi encontrado',
+              message: 'Nenhum endereço foi encontrado',
               postalCode: this.postalCode
             };
 
@@ -101,11 +96,8 @@ export default {
 
     getAddressByCEP(cep) {
       return api.fetch(`/cep_address/${cep}`)
-        
         .then(data => {
-
           return data;
-
         });
     },
 
