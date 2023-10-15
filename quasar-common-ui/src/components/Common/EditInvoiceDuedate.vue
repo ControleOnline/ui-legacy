@@ -12,7 +12,7 @@
           autofocus
           :value="dueDateValue"
           :rules="[(val) => validate(value) || 'A data não é válida']"
-          @input="emitValue"
+          @update:model-value="emitValue"
           mask="##/##/####"
         >
           <template v-slot:after>

@@ -98,7 +98,7 @@
           mask="#####-###"
           :rules="[isInvalid('postal_code')]"
           :loading="loading"
-          @input="searchByCEP"
+          @update:model-value="searchByCEP"
         />
       </div>
       <div class="col-xs-12 col-sm-grow q-mb-sm" v-else>

@@ -43,7 +43,7 @@
                 <q-date
                   v-model="item.periodo"
                   mask="MM/YYYY"
-                  @input="() => $refs.qDateProxy1.hide()"
+                  @update:model-value="() => $refs.qDateProxy1.hide()"
                 />
               </q-popup-proxy>
             </q-icon>
@@ -56,7 +56,7 @@
           bottom-slots
           v-model="item.arquivo"
           :label="$t('Arquivo')"
-          @input="
+          @update:model-value="
             (file) => {
               uploadFile(null, file);
             }

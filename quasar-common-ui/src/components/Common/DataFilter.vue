@@ -23,7 +23,7 @@
             <q-date
               v-model="date.from"
               mask="DD/MM/YYYY"
-              @input="() => $refs.qDateProxy1.hide()"
+              @update:model-value="() => $refs.qDateProxy1.hide()"
             />
           </q-popup-proxy>
         </q-icon>
@@ -48,7 +48,7 @@
             <q-date
               v-model="date.to"
               mask="DD/MM/YYYY"
-              @input="() => $refs.qDateProxy2.hide()"
+              @update:model-value="() => $refs.qDateProxy2.hide()"
             />
           </q-popup-proxy>
         </q-icon>

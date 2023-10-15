@@ -121,7 +121,7 @@
                 <q-date
                   v-model="item.dueDate"
                   mask="DD/MM/YYYY"
-                  @input="() => $refs.qDateProxy1.hide()"
+                  @update:model-value="() => $refs.qDateProxy1.hide()"
                 />
               </q-popup-proxy>
             </q-icon>

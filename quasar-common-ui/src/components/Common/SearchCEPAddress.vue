@@ -15,7 +15,7 @@
     :outlined="editMode"
     :borderless="!editMode"
     :readonly="!editMode"
-    @input="getAddress"
+    @update:model-value="getAddress"
   />
 </template>
 

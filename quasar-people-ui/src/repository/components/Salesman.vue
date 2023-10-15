@@ -80,7 +80,7 @@
       dense
       outlined  stack-label lazy-rules unmasked-value v-model="item.document" type="text"
                   class="q-mb-sm" :label="$t('CNPJ')" :mask="'##.###.###/####-##'" :placeholder="'Digite o CNPJ'"
-                  :rules="[isInvalid('document')]" :loading="searching" @input="searchSalesman" />
+                  :rules="[isInvalid('document')]" :loading="searching" @update:model-value="searchSalesman" />
               </div>
               <div class="col-xs-12 col-sm-6">
                 <q-input

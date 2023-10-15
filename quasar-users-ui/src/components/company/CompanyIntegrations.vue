@@ -19,7 +19,7 @@
               label="Serviço de assinaturas padrão"
               v-model="integrations.default_provider['provider-signature'].value"
               :options="select.signature_providers"
-              @input="
+              @update:model-value="
                 (value) => {
                   this.integrations.default_provider['provider-signature'].changed = true;
                 }
@@ -36,7 +36,7 @@
               :label="$t('Email para integrações')"
               :stack-label="true"
               :rules="[isInvalid('email')]"
-              @input="
+              @update:model-value="
                 (value) => {
                   items.email.changed = true;
                 }
@@ -62,7 +62,7 @@
               :label="$t(fieldId)"
               :stack-label="true"
               :readonly="field.readonly === true"
-              @input="
+              @update:model-value="
                 (value) => {
                   field.changed = true;
                 }
@@ -74,7 +74,7 @@
               :label="$t(fieldId)"
               true-value="1"
               false-value="0"
-              @input="
+              @update:model-value="
                 (value) => {
                   field.changed = true;
                 }
@@ -100,7 +100,7 @@
               :label="$t(fieldId)"
               :stack-label="true"
               :readonly="field.readonly === true"
-              @input="
+              @update:model-value="
                 (value) => {
                   field.changed = true;
                 }
@@ -112,7 +112,7 @@
               :label="$t(fieldId)"
               true-value="1"
               false-value="0"
-              @input="
+              @update:model-value="
                 (value) => {
                   field.changed = true;
                 }

@@ -62,7 +62,7 @@
             <div class="col-6 text-center">
               <q-toggle v-model="people.enable" checked-icon="check" color="green"
                 :label="!people.enable ? 'Desabilitado' : 'Habilitado'" unchecked-icon="clear"
-                @input="changeEnable(people)" />
+                @update:model-value="changeEnable(people)" />
             </div>
           </q-card-actions>
         </q-card>

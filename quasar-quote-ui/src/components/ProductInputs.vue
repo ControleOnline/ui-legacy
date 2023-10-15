@@ -51,7 +51,7 @@
             v-if="isCeg()"
             :options="groupTables"
             :isLoading="false"
-            @input="onGroupSelect"
+            @update:model-value="onGroupSelect"
             v-model="gTable"
             label="Tipo de Veículo"
             placeholder="Selecione uma opção"

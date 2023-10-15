@@ -29,7 +29,7 @@
           bottom-slots
           v-model="item.arquivo"
           :label="$t('Arquivo')"
-          @input="
+          @update:model-value="
             (file) => {
               uploadFile(null, file);
             }

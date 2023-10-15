@@ -532,7 +532,7 @@
               <div class="col-xs-12 q-mb-sm">
                 <q-select
                   outlined
-                  @input="changeAddressType"
+                  @update:model-value="changeAddressType"
                   v-model="dialogs.details.data.address_type"
                   :options="address_type"
                   label="Tipo de embarque"

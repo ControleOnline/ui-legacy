@@ -41,7 +41,7 @@
           v-model="item.contact.email"
           type="text"
           :label="$t('Email')"
-          @input="searchEmail"
+          @update:model-value="searchEmail"
           placeholder="Digite um e-mail"
           :loading="loadingContact"
         />

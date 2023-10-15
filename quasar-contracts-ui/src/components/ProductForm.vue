@@ -10,7 +10,7 @@
           :label="$t('contracts.product')"
           :options="products"
           :loading="isloadingProds"
-          @input="price = (parseFloat(product.price) + 0.001).toFixed(2)"
+          @update:model-value="price = (parseFloat(product.price) + 0.001).toFixed(2)"
           :rules="[(val) => val !== null || $t('messages.select_an_option')]"
         >
         </q-select>

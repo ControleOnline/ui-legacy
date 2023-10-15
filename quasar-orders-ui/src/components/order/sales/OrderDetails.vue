@@ -273,7 +273,7 @@
                           autofocus
                           dense
                           :value="inputDeadline"
-                          @input="emitValue"
+                          @update:model-value="emitValue"
                           mask="##/##/####"
                         >
                           <template v-slot:after>

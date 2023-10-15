@@ -21,7 +21,7 @@
                 inline
                 type="radio"
                 v-model="item.type"
-                @input="changeType()"
+                @update:model-value="changeType()"
                 :options="[
                   { label: 'Pessoa Física', value: 'F' },
                   { label: 'Pessoa Jurídica', value: 'J' },
@@ -36,7 +36,7 @@
                 color="green"
                 :label="!item.enabled ? 'Desativado' : 'Ativado'"
                 unchecked-icon="clear"
-                @input="changeEnable(item)"
+                @update:model-value="changeEnable(item)"
               />
             </div>
           </div>
@@ -96,7 +96,7 @@
                     <q-date
                       v-model="item.birthday"
                       mask="DD/MM/YYYY"
-                      @input="() => $refs.qDateProxy1.hide()"
+                      @update:model-value="() => $refs.qDateProxy1.hide()"
                     />
                   </q-popup-proxy>
                 </q-icon>
@@ -118,7 +118,7 @@
               :label="$t(field.label)"
               :rules="field.required ? [isInvalid('field_text')] : [true]"
               class="q-mb-sm"
-              @input="field._updated = true"
+              @update:model-value="field._updated = true"
             />
           </div>
         </div>

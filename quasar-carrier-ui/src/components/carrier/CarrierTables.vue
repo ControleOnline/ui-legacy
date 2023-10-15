@@ -46,7 +46,7 @@
             <q-td key="market" :props="props">
               <q-checkbox
                 v-model="props.row.market"
-                @input="
+                @update:model-value="
                   (value) => {
                     enableTable('marketplace', props.row.id, value);
                   }
@@ -56,7 +56,7 @@
             <q-td key="website" :props="props">
               <q-checkbox
                 v-model="props.row.website"
-                @input="
+                @update:model-value="
                   (value) => {
                     enableTable('website', props.row.id, value);
                   }
