@@ -628,6 +628,7 @@ import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Co
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 // import StrechModal from "@controleonline/quasar-orders-ui/src/components/order/sales/";
 import StrechModal from "./stretchAddEdit.vue";
+import * as DefaultMethods from '../../../../../quasar-common-ui/src/components/Default/DefaultMethods';
 import {
 formatDateYmdTodmY,
 formatMoney,
@@ -1170,6 +1171,8 @@ export default {
       search: "salesOrder/getProviders",
     }),
 
+    ...DefaultMethods,
+
     hideOrderIdColumn() {
       return this.orderId ? true : false;
     },
@@ -1510,7 +1513,7 @@ export default {
       this.editDestinationProvider = false;
       if (!this.orderId) this.getquotationId(props.row.order);
 
-      this.stretchToEdit = this.deepClone(props.row);
+      this.stretchToEdit = this.copyObject(props.row);
       this.openModal = true;
 
 
@@ -1879,7 +1882,6 @@ export default {
           newObj[key] = this.deepClone(obj[key]);
         }
       }
-
       return newObj;
     },
 
@@ -1986,7 +1988,6 @@ export default {
         });
     },
     onRequest(props) {
-      console.log(1);
       let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination;
       let params = { itemsPerPage: rowsPerPage, page };
       // let params = {};
@@ -1995,10 +1996,8 @@ export default {
         params["order.id"] = this.orderId;
       }
       if (!this.orderId) {
-        console.log(2, this.filters.order);
 
         if (this.filters.order != null) {
-          console.log("aqui", params);
           params["order.id"] = this.filters.order;
         }
 

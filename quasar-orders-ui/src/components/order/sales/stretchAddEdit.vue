@@ -663,7 +663,6 @@ export default {
         },
 
         "stretch.originType"(newVal, oldVal) {
-            console.log('watch');
             if (newVal == 'Base' && this.stretch.provider) {
                 let id;
                 if (this.stretch.provider?.value) {
