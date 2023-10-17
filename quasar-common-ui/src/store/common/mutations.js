@@ -16,6 +16,10 @@ export default {
     Object.assign(state, { isSaving: isSaving });
   },
 
+  [types.SET_ISLOADINGLIST](state, isLoadingList = true) {
+    Object.assign(state, { isLoadingList: isLoadingList });
+  },
+
   [types.SET_VIOLATIONS](state, violations) {
     Object.assign(state, { violations });
   },
@@ -45,10 +49,8 @@ export default {
     Object.assign(state, { selected });
   },
 
-  [types.SET_VISIBLECOLUMNS](state, visibleColumns) {    
+  [types.SET_VISIBLECOLUMNS](state, visibleColumns) {
     persistentFilter.setVisibleColumns(visibleColumns);
     Object.assign(state, { visibleColumns });
   },
-  
-
 };

@@ -1,5 +1,5 @@
 export function copyObject(obj) {
-  if (obj === null || typeof obj !== 'object') {
+  if (obj === null || typeof obj !== "object") {
     return obj;
   }
 
@@ -8,7 +8,7 @@ export function copyObject(obj) {
     return newArray;
   }
 
-  if (typeof obj === 'function') {
+  if (typeof obj === "function") {
     return obj;
   }
 
@@ -22,14 +22,13 @@ export function copyObject(obj) {
   return newObj || {};
 }
 
-
 export function mask(column) {
   if (typeof column.mask == "function") return column.mask();
 }
 
 export function isEmptyProxy(obj) {
   // Verifique se o objeto é um Proxy
-  if (!obj || typeof obj !== 'object' || !obj.hasOwnProperty('__ob__')) {
+  if (!obj || typeof obj !== "object" || !obj.hasOwnProperty("__ob__")) {
     return this.isProxyEmpty(obj);
   }
 
@@ -65,17 +64,44 @@ export function formatData(column, item, editing) {
 
   return data;
 }
+
 export function getNameFromList(column, row, editing) {
-  let name = this.configs.list[column.list].find((item) => {
-    return (
-      item.value ==
-      (typeof row[column.key || column.name] == "object"
-        ? row[column.key || column.name]["@id"].split("/").pop()
-        : row[column.key || column.name])
-    );
-  });
-  return typeof name == "object" && !editing ? name.label : name;
+  let name = null;
+  if (typeof this.configs.list[column.list] == "function") {
+    return row;
+  } else {
+    name = this.configs.list[column.list].find((item) => {
+      return (
+        item.value ==
+        (typeof row[column.key || column.name] == "object" &&
+        row[column.key || column.name]
+          ? row[column.key || column.name]["@id"].split("/").pop()
+          : row[column.key || column.name])
+      );
+    });
+
+    return typeof name == "object" && !editing ? name.label : name;
+  }
 }
+
+export async function getNameFromSearchList(column, row, editing, search = {}) {
+  let name = null;
+  let result = await this.configs.list[column.list](search).then((result) => {
+    name = result.find((item) => {
+      return (
+        item["@id"].split("/").pop() ==
+        (typeof row[column.key || column.name] == "object" &&
+        row[column.key || column.name]
+          ? row[column.key || column.name]["@id"].split("/").pop()
+          : row[column.key || column.name])
+      );
+    });
+  });
+  let x = this.formatList(column, name);
+
+  return typeof x == "object" && !editing ? x.label : x;
+}
+
 export function getObjectFromKey(object, key) {
   let objetoAtual = object;
   if (key.indexOf(".") != -1) {
@@ -86,6 +112,14 @@ export function getObjectFromKey(object, key) {
   }
   return objetoAtual;
 }
+
+export function formatList(column, value) {
+  if (column && typeof column.formatList == "function")
+    return column.formatList(value);
+
+  return value;
+}
+
 export function format(column, value) {
   if (column && typeof column.format == "function") return column.format(value);
 

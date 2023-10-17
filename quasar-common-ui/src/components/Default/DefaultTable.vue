@@ -38,10 +38,20 @@
                         </span>
                         <template v-else>
                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                :options="configs.list[column.list]" :label="$t(configs.store + '.' + column.label)"
+                                use-input map-options hide-selected fill-input options-cover @filter="searchList"
+                                input-debounce="700" :loading="isLoadingList" :options="listAutocomplete[column.list]"
+                                :label="$t(configs.store + '.' + column.label)"
                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
                                 v-model="editedValue"
-                                @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)" />
+                                @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)">
+                                <template v-slot:no-option>
+                                    <q-item>
+                                        <q-item-section class="text-grey">
+                                            No results
+                                        </q-item-section>
+                                    </q-item>
+                                </template>
+                            </q-select>
 
                             <q-input v-else v-model="editedValue" dense autofocus
                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)"
@@ -86,19 +96,20 @@
                             'header-filter-container',
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
                         ]" @click="stopPropagation">
-
-
-
-
-
                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                :options="configs.list[column.list]" label-color="black"
-                                :label="$t(configs.store + '.' + column.label)" v-model="editedValue"
-                                @blur="filterColumn(items.indexOf(props.row), column, props.row)"
-                                @update:modelValue="filterColumn(items.indexOf(props.row), column, props.row)" />
-
-
-
+                                use-input map-options hide-selected fill-input options-cover @filter="searchList"
+                                :options="listAutocomplete[column.list]" label-color="black" input-debounce="700"
+                                :loading="isLoadingList" :label="$t(configs.store + '.' + column.label)"
+                                v-model="editedValue" @blur="filterColumn(items.indexOf(props.row), column, props.row)"
+                                @update:modelValue="filterColumn(items.indexOf(props.row), column, props.row)">
+                                <template v-slot:no-option>
+                                    <q-item>
+                                        <q-item-section class="text-grey">
+                                            No results
+                                        </q-item-section>
+                                    </q-item>
+                                </template>
+                            </q-select>
                             <input v-else :id="'input-' + (column.key || column.name)"
                                 :class="[{ show: showInput[column.key || column.name] }]" @click="stopPropagation"
                                 v-model="colFilter[column.key || column.name]"
@@ -225,11 +236,21 @@
                                         </span>
                                         <template v-else>
                                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label
-                                                lazy-rules :options="configs.list[column.list]"
+                                                lazy-rules use-input map-options hide-selected fill-input options-cover
+                                                @filter="searchList" input-debounce="700" :loading="isLoadingList"
+                                                :options="listAutocomplete[column.list]"
                                                 :label="$t(configs.store + '.' + column.label)"
                                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)"
                                                 label-color="black" v-model="editedValue"
-                                                @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)" />
+                                                @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)">
+                                                <template v-slot:no-option>
+                                                    <q-item>
+                                                        <q-item-section class="text-grey">
+                                                            No results
+                                                        </q-item-section>
+                                                    </q-item>
+                                                </template>
+                                            </q-select>
                                             <q-input v-else v-model="editedValue" dense autofocus
                                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)"
                                                 @keydown.enter="stopEditing(items.indexOf(props.row), column, props.row)" />
@@ -355,6 +376,7 @@ export default {
 
     data() {
         return {
+            listAutocomplete: [],
             showColumnMenu: false,
             persistentFilter: new Filters(),
             forceShowInput: [],
@@ -425,6 +447,9 @@ export default {
         },
         visibleColumns() {
             return this.$store.getters[this.configs.store + '/visibleColumns']
+        },
+        isLoadingList() {
+            return this.$store.getters[this.configs.store + '/isLoadingList']
         }
     },
     watch: {
@@ -674,6 +699,46 @@ export default {
             }
             return;
         },
+
+        searchList(input, update, abort) {
+
+            let columnName = null;
+
+            if (this.editing.length > 0) {
+                this.editing.forEach((item) => {
+                    let i = Object.keys(item);
+                    if (i)
+                        columnName = i[0];
+                });
+            }
+
+            if ((input.length >= 3 || input.length == 0) && columnName) {
+                const column = this.columns.find((col) => {
+                    return col.name === columnName || col.key === columnName
+                });
+
+                let params = { search: input };
+                console.log(typeof this.configs.list[column.list]);
+                if (typeof this.configs.list[column.list] == 'function') {
+                    this.configs.list[column.list](params).then((result) => {
+                        this.listAutocomplete[column.list] = [];
+                        result.forEach((item) => {
+                            this.listAutocomplete[column.list].push(this.formatList(column, item));
+                        });
+                        update();
+                    })
+                } else {
+                    this.listAutocomplete[column.list] = this.configs.list[column.list];
+                    update();
+                }
+            }
+
+            update();
+            //this.editedValue = [];
+            //abort();
+            //return;
+        },
+
         save(index, row, name, value) {
             if (row[name] == value) {
                 this.editing = [];
@@ -695,7 +760,6 @@ export default {
             ).then((data) => {
                 if (data) {
                     this.loadData();
-
                     this.$q.notify({
                         message: this.$t("Success!"),
                         position: "bottom",

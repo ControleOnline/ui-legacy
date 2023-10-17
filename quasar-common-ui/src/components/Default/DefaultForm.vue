@@ -21,7 +21,7 @@
                         <template v-slot:append>
                             <q-icon name="event" class="cursor-pointer">
                                 <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">
-                                    <q-date v-model="periodo" mask="MM/YYYY" @update:model-value="() => $refs.qDateProxy1.hide()" />
+                                    <q-date v-model="periodo" mask="MM/YYYY" @input="() => $refs.qDateProxy1.hide()" />
                                 </q-popup-proxy>
                             </q-icon>
                         </template>
@@ -100,6 +100,7 @@ export default {
     methods: {
         ...DefaultMethods,
         save(params) {
+            
             let p = {};
             for (const name in params) {
                 p[name] = this.saveFormat(name, params[name]);
