@@ -717,8 +717,7 @@ export default {
                     return col.name === columnName || col.key === columnName
                 });
 
-                let params = { search: input };
-                console.log(typeof this.configs.list[column.list]);
+                let params = { search: input };                
                 if (typeof this.configs.list[column.list] == 'function') {
                     this.configs.list[column.list](params).then((result) => {
                         this.listAutocomplete[column.list] = [];
