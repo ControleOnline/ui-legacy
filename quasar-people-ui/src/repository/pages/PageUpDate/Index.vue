@@ -101,7 +101,7 @@
               "
             />
           </div>
-          <div v-if="people.type === 'F'" class="col-12 row">
+          <div v-if="people_type === 'providers' || people.type === 'F'" class="col-12 row">
             <div class="col-xs-12 col-sm-6">
               <PeopleAdminEmails
                 :people_type="people_type"
@@ -127,7 +127,7 @@
                 "
               />
             </div>
-            <div v-if="people.type === 'F'" class="col-xs-12 col-sm-6 q-pl-lg">
+            <div v-if="people_type === 'providers' || people.type === 'F'" class="col-xs-12 col-sm-6 q-pl-lg">
               <PeopleAdminPhones
                 :people_type="people_type"
                 class="full-height"
@@ -179,7 +179,7 @@
             />
           </div>
 
-          <div class="col-12" v-if="people.type === 'F'">
+          <div class="col-12" v-if="people.type === 'F' && people_type !== 'providers' ">
             <PeopleAdminUsers
               :people_type="people_type"
               :id="peopleId"
@@ -204,7 +204,7 @@
             />
           </div>
 
-          <div class="col-12" v-if="people.type === 'F'">
+          <div class="col-12" v-if="people.type === 'F' && people_type !== 'providers' ">
             <PeopleCompany
               :people_type="people_type"
               :id="peopleId"
