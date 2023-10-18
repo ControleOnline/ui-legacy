@@ -247,7 +247,7 @@ export default {
     return {
       key: null,
       context: "relationship",
-      currentTab: this.people_type == "customers" ? "oportunities" : "allPeoples",
+      currentTab: this.people_type == "customers" ? "allPeoples" : "allPeoples",
       dateFrom: date.formatDate(
         date.subtractFromDate(Date.now(), { month: 1 }),
         "DD-MM-YYYY"
