@@ -87,6 +87,9 @@
             <q-tooltip>Salvar</q-tooltip>
           </q-btn>
         </div>
+        <div class="col-2 col-sm-2">
+
+        </div>
         <div class="col-6 col-sm-2">
           <q-btn
             dense
@@ -96,16 +99,14 @@
           >
             Gerar Proposta
           </q-btn>
-        </div>
-        <div class="col-6 col-sm-2">
-          <q-btn
+          <!-- <q-btn
             dense
             style="margin-top: 13px"
             color="primary"
             @click="createNewContract()"
           >
             {{ hasContract() ? "Ver" : "Gerar" }} Contrato
-          </q-btn>
+          </q-btn> -->
         </div>
       </div>
 

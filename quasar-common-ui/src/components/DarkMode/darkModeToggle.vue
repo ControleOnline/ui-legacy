@@ -1,5 +1,5 @@
 <template>
-  <q-toggle size="lg" v-model="darkMode" unchecked-icon="light_mode" icon="nightlight" />
+  <!-- <q-toggle size="lg" v-model="darkMode" unchecked-icon="light_mode" icon="nightlight" /> -->
 </template>
 
 <script>
@@ -21,7 +21,7 @@ export default {
     let mediaQueryObj = window.matchMedia("(prefers-color-scheme: dark)");
     let isDarkMode = mediaQueryObj.matches;
     let darkMode = this.config.getConfig("darkMode");
-    this.darkMode = darkMode == undefined ? isDarkMode : darkMode;
+    this.darkMode = false;//darkMode == undefined ? isDarkMode : darkMode;
   },
 
   watch: {

@@ -1,5 +1,5 @@
 <template>
-  <q-select
+  <!-- <q-select
     v-model="lang"
     :options="langOptions"
     label="Language"
@@ -8,7 +8,7 @@
     emit-value
     map-options
     options-dense
-  />
+  /> -->
 </template>
 
 <script>

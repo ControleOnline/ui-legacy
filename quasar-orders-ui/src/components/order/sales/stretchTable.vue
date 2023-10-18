@@ -211,7 +211,8 @@
               />
             </q-td>
             <q-td :props="props" key="IdContrato">
-              <q-btn
+              {{ props.row.contract }}
+              <!-- <q-btn
                 v-if="props.row.contract"
                 outline
                 dense
@@ -219,7 +220,7 @@
                 :label="props.row.contract"
                 class="full-width"
               />
-              <div v-else>-</div>
+              <div v-else>-</div> -->
             </q-td>
             <q-td :props="props" key="IdFatura">
               <q-btn

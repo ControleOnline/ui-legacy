@@ -68,18 +68,18 @@
           class="bg-transparent text-primary col-auto"
           dense
         >
-          <q-tab
+          <!-- <q-tab
             v-if="people_type == 'customers'"
             name="oportunities"
             :label="$t(people_type + '.Oportunities')"
             class="text-capitalize"
-          />
-          <q-tab
+          /> -->
+          <!-- <q-tab
             v-if="people_type == 'customers'"
             name="leads"
             :label="$t(people_type + '.Leads')"
             class="text-capitalize"
-          />
+          /> -->
           <q-tab
             name="allPeoples"
             :label="$t(people_type + '.Customers')"
