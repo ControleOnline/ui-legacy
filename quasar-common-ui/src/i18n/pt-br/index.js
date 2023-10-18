@@ -136,5 +136,8 @@ export const translate = {
     'MenuIndex': 'Menus',
     'ModuleIndex': 'Módulos',
     'RoleIndex': 'Setores',
+    'CompanyIndex': 'Minhas empresa',
+    'CompanyDetailsPage': 'Detalhes da empresa',
+    'CompanyEmployee': 'Funcionário da empresa',
   }
 };

@@ -1,12 +1,14 @@
 <template>
   <div class="row">
     <div class="col-12 q-mt-md">
-      <q-table dense 
-        :data           ="items"
-        :columns        ="settings.columns"
+      <q-table
+        :rows="items"
+        row-key="id"
+        :loading="isLoading"
+        :columns="settings.columns"
         :visible-columns="settings.visibleColumns"
-        row-key         ="id"
-        :loading        ="isLoading"
+        @request="onRequest"
+        dense 
       >
         <template v-slot:top>
           <div class="col-3 q-mb-md text-h6">

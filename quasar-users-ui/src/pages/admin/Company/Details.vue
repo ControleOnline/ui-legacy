@@ -141,21 +141,27 @@ export default {
   },
 
   created() {
-    if (this.$route.params.id) {
-      this.companyId = parseInt(decodeURIComponent(this.$route.params.id));
+  if (this.$route.params.id) {
+    this.companyId = parseInt(decodeURIComponent(this.$route.params.id));
 
-      this.getCompany(this.companyId)
-        .then(company => {
-          if (company) {
-            this.company.name  = company.alias;
-            this.company.image = (
-              company.image !== null ?
-                `https://${ENTRYPOINT}${company.image.url}` : null
-            );
+    this.getCompany(this.companyId)
+      .then(company => {
+        if (company) {
+          this.company.name = company.alias;
+          if (company.image && company.image.url) {
+            this.company.image = `https://${ENTRYPOINT}${company.image.url}`;
+          } else {
+            this.company.image = null;
           }
-        });
-    }
-  },
+        } else {
+          console.error("Company data is undefined or null.");
+        }
+      })
+      .catch(error => {
+        console.error("Error while fetching company data:", error);
+      });
+  }
+},
 
   data () {
     return {

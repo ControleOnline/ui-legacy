@@ -1,11 +1,13 @@
 <template>
   <q-card class="q-pa-sm">
-    <q-table dense  grid hide-header
+    <q-table
+      :rows="items"
+      row-key="id"
       :loading="isLoading"
-      :data   ="items"
+      hide-header
+      style="min-height: 90vh;"
       @request="onRequest"
-      row-key ="id"
-      style   ="min-height: 90vh;"
+      dense grid 
     >
       <template v-slot:top>
         <div class="col-3 q-mb-md text-h6">
@@ -28,15 +30,11 @@
       <template v-slot:item="props">
         <div class="q-pa-xs col-xs-12 col-sm-4 col-md-3 col-lg-2">
           <q-card>
-            <q-img
-              :contain="true"
-              src     ="~assets/business.png"
-              style   ="height: 100px; max-width: 100%"
-            >
-              <div class="absolute-bottom text-subtitle1 text-center">
+            <q-card-section>
+              <div class="text-center">
                 {{ props.row.name || props.row.alias }}
               </div>
-            </q-img>
+            </q-card-section>
             <q-card-section>
               <q-list>
                 <q-item dense>
@@ -125,8 +123,8 @@ export default {
     }),
 
     userTypeCapitalized() {
-      return this.user ?
-        `${this.user.type.charAt(0).toUpperCase()}${this.user.type.slice(1)}`
+      return this.user && this.user.type
+        ? this.user.type.charAt(0).toUpperCase() + this.user.type.slice(1)
         : 'Guest';
     },
 

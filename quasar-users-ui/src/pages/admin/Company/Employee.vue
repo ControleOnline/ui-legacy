@@ -161,8 +161,8 @@ export default {
     }),
 
     userTypeCapitalized() {
-      return this.user ?
-        `${this.user.type.charAt(0).toUpperCase()}${this.user.type.slice(1)}`
+      return this.user && this.user.type
+        ? this.user.type.charAt(0).toUpperCase() + this.user.type.slice(1)
         : 'Guest';
     },
   },

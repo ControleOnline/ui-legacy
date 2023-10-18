@@ -12,7 +12,7 @@
           @request="onRequest"
         >
           <template v-slot:top>
-            <div class="col-3 q-mb-md text-h6">import ador</div>
+            <div class="col-3 q-mb-md text-h6">Importar</div>
 
             <div class="col-9 q-mb-md">
               <div class="row justify-end">
@@ -231,6 +231,7 @@
 </template>
 
 <script>
+import { api } from "@controleonline/../../src/boot/api";
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 
@@ -364,7 +365,7 @@ export default {
   methods: {
     // store method
     getItems(params) {
-      const endpoint = `importS`;
+      const endpoint = `imports`;
 
       if (!params) {
         params = {};
