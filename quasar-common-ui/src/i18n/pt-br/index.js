@@ -143,5 +143,11 @@ export const translate = {
     'ProvidersDetails': 'Detalhes do Fornecedor',
     'CarrierTableDetails': 'Detalhes da Transportadora',
     'OrderDetails': 'Detalhes do Pedido',
-  }
+  },
+  menu: {
+    'myacount': 'Minha Conta',
+    'myprofile': 'Meu Perfil',
+    'mycompany': 'Minhas Empresas',
+    'home': 'Home',
+  },
 };
