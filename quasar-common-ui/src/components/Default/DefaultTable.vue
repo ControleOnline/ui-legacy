@@ -38,7 +38,7 @@
                         </span>
                         <template v-else>
                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                use-input use-chips map-options fill-input options-cover transition-show="flip-down"
+                                use-input  map-options fill-input options-cover transition-show="flip-down"
                                 transition-hide="flip-up" @filter="searchList" input-debounce="700" :loading="isLoadingList"
                                 :options="listAutocomplete[column.list]" :label="$t(configs.store + '.' + column.label)"
                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
@@ -149,42 +149,59 @@
             </template>
 
             <template v-slot:top-right="props">
-                <q-btn class="q-pa-xs" label="" text-color="primary" icon="view_week" color="white">
-                    <q-tooltip> {{ $t(configs.store + '.config_columns') }} </q-tooltip>
-                    <!-- Menu de configuração de colunas -->
-                    <q-menu v-model="showColumnMenu">
-                        <q-list>
-                            <q-item v-for="column in columns" :key="column.key || column.name">
-                                <q-item-section>
-                                    <q-toggle v-model="toogleVisibleColumns[column.key || column.name]" :label="column.name"
-                                        @click="saveVisibleColumns" />
-                                </q-item-section>
-                            </q-item>
-                        </q-list>
-                        <q-btn slot="bottom" label="Fechar" @click="toggleShowColumnMenu" />
-                    </q-menu>
-                </q-btn>
+                <div class="text-right q-gutter-sm">
+                    <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
+                        v-if="$q.screen.gt.sm == false && configs.selection" />
 
-                <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
-                    :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
+                    <q-input class="q-pa-xs" v-if="configs.search != false" borderless dense debounce="300" v-model="filter"
+                        :placeholder="$t('Search')">
+                        <template v-slot:append>
+                            <q-icon name="search"></q-icon>
+                        </template>
+                    </q-input>
 
-                <q-btn v-if="configs.add != false" class="q-pa-xs" label="" text-color="white" icon="add" color="green"
-                    :disabled="isLoading || addModal || deleteModal || editing.length > 0" @click="editItem({})">
-                    <q-tooltip> {{ $t(configs.store + '.add') }} </q-tooltip>
-                </q-btn>
-                <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
-                    v-if="$q.screen.gt.sm == false && configs.selection" />
 
-                <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                    @click="props.toggleFullscreen" class="q-ml-md" />
-                <q-input v-if="configs.search != false" borderless dense debounce="300" v-model="filter"
-                    :placeholder="$t('Search')">
-                    <template v-slot:append>
-                        <q-icon name="search"></q-icon>
-                    </template>
-                </q-input>
-                <q-btn color="primary" icon-right="archive" label="Export to csv" no-caps @click="exportTable"
-                    v-if="configs.export" />
+
+                    <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
+                        color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                        @click="editItem({})">
+                        <q-tooltip> {{ $t(configs.store + '.add') }} </q-tooltip>
+                    </q-btn>
+
+
+                    <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
+                        :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
+
+
+
+                    <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
+                        <q-tooltip> {{ $t(configs.store + '.config_columns') }} </q-tooltip>
+                        <!-- Menu de configuração de colunas -->
+                        <q-menu v-model="showColumnMenu">
+                            <q-list>
+                                <q-item v-for="column in columns" :key="column.key || column.name">
+                                    <q-item-section>
+                                        <q-toggle v-model="toogleVisibleColumns[column.key || column.name]"
+                                            :label="column.name" @click="saveVisibleColumns" />
+                                    </q-item-section>
+                                </q-item>
+                            </q-list>
+                            <q-btn slot="bottom" label="Fechar" @click="toggleShowColumnMenu" />
+                        </q-menu>
+                    </q-btn>
+
+                    <q-btn class="q-pa-xs" label="" dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+                        @click="props.toggleFullscreen">
+                        <q-tooltip> {{ $t(configs.store + (props.inFullscreen ? '.minimize' : '.maximize')) }} </q-tooltip>
+                    </q-btn>
+
+
+                    <q-btn color="primary" icon-right="archive" dense class="q-pa-xs" label="" @click="exportTable"
+                        v-if="configs.export">
+                        <q-tooltip> {{ $t(configs.store + '.export') }} </q-tooltip>
+
+                    </q-btn>
+                </div>
             </template>
 
 
@@ -239,7 +256,7 @@
                                         </span>
                                         <template v-else>
                                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label
-                                                lazy-rules use-input use-chips map-options fill-input options-cover
+                                                lazy-rules use-input  map-options fill-input options-cover
                                                 transition-show="flip-down" transition-hide="flip-up" @filter="searchList"
                                                 input-debounce="700" :loading="isLoadingList"
                                                 :options="listAutocomplete[column.list]"
@@ -523,7 +540,7 @@ export default {
         setShowInput(colName) {
             this.showInput = { [colName]: true };
         },
-        setForceShowInput(colName) {            
+        setForceShowInput(colName) {
             this.showInput = { [colName]: true };
             this.forceShowInput = { [colName]: true };
         },
@@ -932,4 +949,5 @@ export default {
     position: relative;
     margin-left: 5px;
     margin-right: 5px;
-}</style>
+}
+</style>
