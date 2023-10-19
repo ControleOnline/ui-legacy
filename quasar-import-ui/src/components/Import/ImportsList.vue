@@ -380,7 +380,7 @@ export default {
 
         .then((result) => {
           return {
-            importS: result.response.data.importS,
+            imports: result.response.data.imports,
             total: result.response.data.total,
           };
         });
@@ -443,9 +443,9 @@ export default {
         .then((data) => {
           let _items = [];
 
-          if (data.importS.length) {
-            for (let index in data.importS) {
-              const row = data.importS[index];
+          if (data.imports.length) {
+            for (let index in data.imports) {
+              const row = data.imports[index];
               _items.push({
                 id: row.id,
                 fileName: row.Name,

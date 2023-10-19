@@ -26,7 +26,7 @@
           <div class="col-12">
             <q-tabs align="justify" v-model="currentTab" class="bg-white text-primary">
               <q-tab name="summary" label="Sumário" />
-              <q-tab name="import " label="importar" />
+              <q-tab name="import" label="importar" />
               <q-tab name="fixedTax" label="Taxa fixa" />
               <q-tab name="fixedPercentage" label="Taxa por porcentagem" />
               <q-tab name="fixedKg" label="Taxa fixa por KG" />

@@ -163,12 +163,11 @@ export default {
 
       };
 
-      params.headers.set("API-TOKEN", this.logged.token);
+      // params.headers.set("API-TOKEN", this.logged.token);
 
       this.isLoading = true;
 
-      api
-        .fetch("/contracts/" + this.contract + "/change/payment", params)
+      api.fetch("/contracts/" + this.contract + "/change/payment", params)
         .then(
           ((data) => {
             if (data.response && data.response.success && data.response.data.contractId) {

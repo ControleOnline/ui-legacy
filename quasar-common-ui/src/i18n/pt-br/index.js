@@ -141,5 +141,7 @@ export const translate = {
     'CompanyEmployee': 'Funcionário da Empresa',
     'UserProfile': 'Meu Perfil',
     'ProvidersDetails': 'Detalhes do Fornecedor',
+    'CarrierTableDetails': 'Detalhes da Transportadora',
+    'OrderDetails': 'Detalhes do Pedido',
   }
 };
