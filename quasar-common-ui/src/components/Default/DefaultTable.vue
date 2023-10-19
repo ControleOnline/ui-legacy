@@ -95,8 +95,7 @@
                             'col-12',
                             'header-filter-container',
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
-                        ]" @click="stopPropagation">
-                            fff
+                        ]" @click="stopPropagation">                            
                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
                                 use-input map-options hide-selected fill-input options-cover @filter="searchList"
                                 :options="listAutocomplete[column.list]" label-color="black" input-debounce="700"

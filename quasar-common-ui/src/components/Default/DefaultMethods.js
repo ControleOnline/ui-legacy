@@ -107,13 +107,13 @@ export function searchList(input, update, abort) {
   let columnName = null;  
 
 
-  if (Object.keys(this.showInput).length > 0  ) {     
+  if (Object.keys(this.showInput || {}).length > 0  ) {     
     let i = Object.keys(this.showInput);
     if (i)
         columnName = i[0];
   }  
 
-  if (Object.keys(this.editing.length) > 0  ) {     
+  if (Object.keys(this.editing || {}).length > 0  ) {     
     this.editing.forEach((item) => {
           let i = Object.keys(item);
           if (i)
