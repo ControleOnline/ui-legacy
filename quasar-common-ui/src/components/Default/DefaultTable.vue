@@ -38,9 +38,9 @@
                         </span>
                         <template v-else>
                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                use-input map-options hide-selected fill-input options-cover @filter="searchList"
-                                input-debounce="700" :loading="isLoadingList" :options="listAutocomplete[column.list]"
-                                :label="$t(configs.store + '.' + column.label)"
+                                use-input use-chips map-options fill-input options-cover transition-show="flip-down"
+                                transition-hide="flip-up" @filter="searchList" input-debounce="700" :loading="isLoadingList"
+                                :options="listAutocomplete[column.list]" :label="$t(configs.store + '.' + column.label)"
                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
                                 v-model="editedValue"
                                 @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)">
@@ -95,11 +95,12 @@
                             'col-12',
                             'header-filter-container',
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
-                        ]" @click="stopPropagation">                            
+                        ]" @click="stopPropagation">
                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                use-input map-options hide-selected fill-input options-cover @filter="searchList"
-                                :options="listAutocomplete[column.list]" label-color="black" input-debounce="700"
-                                :loading="isLoadingList" :label="$t(configs.store + '.' + column.label)"
+                                use-input use-chips map-options fill-input options-cover transition-show="flip-down"
+                                transition-hide="flip-up" @filter="searchList" :options="listAutocomplete[column.list]"
+                                label-color="black" input-debounce="700" :loading="isLoadingList" multiple
+                                :label="$t(configs.store + '.' + column.label)"
                                 v-model="colFilter[column.key || column.name]"
                                 @blur="filterColumn(column.key || column.name, column, props.row)">
                                 <template v-slot:no-option v-if="!isLoadingList">
@@ -236,8 +237,9 @@
                                         </span>
                                         <template v-else>
                                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label
-                                                lazy-rules use-input map-options hide-selected fill-input options-cover
-                                                @filter="searchList" input-debounce="700" :loading="isLoadingList"
+                                                lazy-rules use-input use-chips map-options fill-input options-cover
+                                                transition-show="flip-down" transition-hide="flip-up" @filter="searchList"
+                                                input-debounce="700" :loading="isLoadingList"
                                                 :options="listAutocomplete[column.list]"
                                                 :label="$t(configs.store + '.' + column.label)"
                                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)"
@@ -486,11 +488,21 @@ export default {
             this.showColumnMenu = this.showColumnMenu ? false : true;
         },
         filterColumn(colName) {
-            let filters = this.copyObject(this.filters);
-            if (!this.colFilter[colName])
+            let filters = this.copyObject(this.filters || []) || [];
+            if (!this.colFilter[colName]) {
                 delete filters[colName];
-            else
-                filters[colName] = this.colFilter[colName].value || this.colFilter[colName];
+
+            } else if (this.colFilter[colName] instanceof Array) {
+                filters[colName] = [];
+                this.colFilter[colName].forEach((item) => {
+                    filters[colName].push(item)
+                })
+            } else {
+                filters[colName] = this.colFilter[colName];
+            }
+
+
+
 
             this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
             this.showInput = { [colName]: false };
@@ -681,8 +693,18 @@ export default {
         },
         getFilterParams(params) {
             this.columns.forEach((item, i) => {
-                if (item.name && this.filters && this.filters[item.name])
-                    params[item.name] = this.filters[item.name];
+                if (item.name && this.filters && this.filters[item.name]) {                    
+                    if (this.filters[item.name] instanceof Object) {
+                        let obj = [];
+                        Object.entries(this.filters[item.name]).forEach(([chave, valor]) => {
+                            obj.push(valor.value);
+                        });
+                        params[item.name] = obj;
+                    } else {
+                        params[item.name] = this.filters[item.name];
+                    }
+
+                }
             });
             return params;
         },

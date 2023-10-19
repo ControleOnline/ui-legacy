@@ -137,7 +137,8 @@ export function searchList(input, update, abort) {
           this.configs.list[column.list](params).then((result) => {
               this.listAutocomplete[column.list] = [];              
               result.forEach((item) => {                
-                  this.listObject[columnName] = item['@id'].split("/").slice(0, -1).join("/");                  
+                  this.listObject[columnName] = item['@id'].split("/").slice(0, -1).join("/");   
+
                   this.listAutocomplete[column.list].push(this.formatList(column, item));
               });
               update();
@@ -145,13 +146,12 @@ export function searchList(input, update, abort) {
             this.$store.commit(this.configs.store + '/SET_ISLOADINGLIST', false);
           });
       } else {          
-          this.listAutocomplete[column.list] = this.configs.list[column.list].filter((item) => {
+          this.listAutocomplete[column.list] = this.configs.list[column.list].filter((item) => {            
             return !input || item.value.toString().toLowerCase().includes(input.toLowerCase()) || item.label.toString().toLowerCase().includes(input.toLowerCase()) ;
           });
           update();
       }
   }
-
   update();
   //this.editedValue = [];
   //abort();
