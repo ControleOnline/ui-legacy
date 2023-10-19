@@ -523,8 +523,7 @@ export default {
         setShowInput(colName) {
             this.showInput = { [colName]: true };
         },
-        setForceShowInput(colName) {
-            console.log('eeee');
+        setForceShowInput(colName) {            
             this.showInput = { [colName]: true };
             this.forceShowInput = { [colName]: true };
         },
