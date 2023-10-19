@@ -5,9 +5,20 @@
                 <template v-for="(column, index)  in columns">
                     <div v-if="column.isIdentity != true"
                         :class="column.formClass || 'col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 q-pa-xs'">
-                        <q-select v-if="column.list" dense outlined stack-label lazy-rules
-                            :options="configs.list[column.list]" :label="$t(configs.store + '.' + column.label)"
-                            label-color="black" v-model="item[column.key || column.name]" />
+
+                        <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules use-input
+                            map-options hide-selected fill-input options-cover @filter="searchList" input-debounce="700"
+                            :loading="isLoadingList" :options="listAutocomplete[column.list]" @focus="editingInit(column)"
+                            :label="$t(configs.store + '.' + column.label)" v-model="item[column.key || column.name]">
+                            <template v-slot:no-option v-if="!isLoadingList">
+                                <q-item>
+                                    <q-item-section class="text-grey">
+                                        No results
+                                    </q-item-section>
+                                </q-item>
+                            </template>
+                        </q-select>
+
                         <q-input v-else :disable="column.editable == false" dense outlined stack-label lazy-rules
                             v-model="item[column.key || column.name]" type="text" :mask="mask(column)"
                             :label="$t(configs.store + '.' + column.label)" :rules="[isInvalid()]" />
@@ -59,6 +70,9 @@ export default {
     },
     data() {
         return {
+            listObject: {},
+            listAutocomplete: [],
+            editing: [],
             periodo: false,
             item: {},
             id: null,
@@ -94,16 +108,22 @@ export default {
         columns() {
             return this.$store.getters[this.configs.store + '/columns']
         },
+        isLoadingList() {
+            return this.$store.getters[this.configs.store + '/isLoadingList']
+        }
     },
     watch: {
     },
     methods: {
         ...DefaultMethods,
         save(params) {
-            
+
             let p = {};
             for (const name in params) {
-                p[name] = this.saveFormat(name, params[name]);
+                if (this.listObject[name])
+                    p[name] = this.listObject[name] + '/' + params[name].value;
+                else
+                    p[name] = this.saveFormat(name, params[name]);
             }
             if (this.id)
                 p.id = this.id;
@@ -124,6 +144,12 @@ export default {
                 });
             });
         },
+
+        editingInit(col) {
+            this.editing = [{ [col.key || col.name]: true }];
+            return this.editing;
+        },
+
         onSubmit() {
             this.$refs.myForm.validate().then((success) => {
                 if (success) {

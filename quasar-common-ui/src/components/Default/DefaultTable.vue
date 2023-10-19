@@ -44,7 +44,7 @@
                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
                                 v-model="editedValue"
                                 @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)">
-                                <template v-slot:no-option>
+                                <template v-slot:no-option v-if="!isLoadingList">
                                     <q-item>
                                         <q-item-section class="text-grey">
                                             No results
@@ -102,7 +102,7 @@
                                 :loading="isLoadingList" :label="$t(configs.store + '.' + column.label)"
                                 v-model="editedValue" @blur="filterColumn(items.indexOf(props.row), column, props.row)"
                                 @update:modelValue="filterColumn(items.indexOf(props.row), column, props.row)">
-                                <template v-slot:no-option>
+                                <template v-slot:no-option v-if="!isLoadingList">
                                     <q-item>
                                         <q-item-section class="text-grey">
                                             No results
@@ -243,7 +243,7 @@
                                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)"
                                                 label-color="black" v-model="editedValue"
                                                 @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)">
-                                                <template v-slot:no-option>
+                                                <template v-slot:no-option v-if="!isLoadingList">
                                                     <q-item>
                                                         <q-item-section class="text-grey">
                                                             No results
@@ -376,6 +376,7 @@ export default {
 
     data() {
         return {
+            listObject:{},
             listAutocomplete: [],
             showColumnMenu: false,
             persistentFilter: new Filters(),
@@ -700,43 +701,7 @@ export default {
             return;
         },
 
-        searchList(input, update, abort) {
 
-            let columnName = null;
-
-            if (this.editing.length > 0) {
-                this.editing.forEach((item) => {
-                    let i = Object.keys(item);
-                    if (i)
-                        columnName = i[0];
-                });
-            }
-
-            if ((input.length >= 3 || input.length == 0) && columnName) {
-                const column = this.columns.find((col) => {
-                    return col.name === columnName || col.key === columnName
-                });
-
-                let params = { search: input };                
-                if (typeof this.configs.list[column.list] == 'function') {
-                    this.configs.list[column.list](params).then((result) => {
-                        this.listAutocomplete[column.list] = [];
-                        result.forEach((item) => {
-                            this.listAutocomplete[column.list].push(this.formatList(column, item));
-                        });
-                        update();
-                    })
-                } else {
-                    this.listAutocomplete[column.list] = this.configs.list[column.list];
-                    update();
-                }
-            }
-
-            update();
-            //this.editedValue = [];
-            //abort();
-            //return;
-        },
 
         save(index, row, name, value) {
             if (row[name] == value) {
@@ -750,13 +715,12 @@ export default {
             if (row['@id'])
                 params['id'] = this.saveFormat(name, row['@id'].split('/').pop());
 
-            if (typeof row[name] == 'object') {
+            if (row[name] instanceof Object) {
                 params[name] = '/' + row[name]['@id'].split('/', 2)[1] + '/' + value;
             } else {
                 params[name] = this.saveFormat(name, value);
             }
-            this.$store.dispatch(this.configs.store + '/save', params
-            ).then((data) => {
+            this.$store.dispatch(this.configs.store + '/save', params).then((data) => {
                 if (data) {
                     this.loadData();
                     this.$q.notify({

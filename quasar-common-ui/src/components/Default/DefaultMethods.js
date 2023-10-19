@@ -102,6 +102,54 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
   return typeof x == "object" && !editing ? x.label : x;
 }
 
+export function searchList(input, update, abort) {
+  
+  let columnName = null;
+
+  if (this.editing.length > 0) {
+      this.editing.forEach((item) => {
+          let i = Object.keys(item);
+          if (i)
+              columnName = i[0];
+      });
+  }
+
+  if ((input.length >= 3 || input.length == 0) && columnName) {
+      const column = this.columns.find((col) => {
+          return col.name === columnName || col.key === columnName
+      });
+
+      let params = { search: input };
+      if (typeof this.configs.list[column.list] == 'function') {
+
+        
+        this.$store.commit(this.configs.store + '/SET_ISLOADINGLIST', true);
+
+          this.configs.list[column.list](params).then((result) => {
+              this.listAutocomplete[column.list] = [];              
+              result.forEach((item) => {                
+                  this.listObject[columnName] = item['@id'].split("/").slice(0, -1).join("/");
+                  console.log(this.listObject);
+                  this.listAutocomplete[column.list].push(this.formatList(column, item));
+              });
+              update();
+          }).finally(()=>{
+            this.$store.commit(this.configs.store + '/SET_ISLOADINGLIST', false);
+          });
+      } else {          
+          this.listAutocomplete[column.list] = this.configs.list[column.list].filter((item) => {
+            return !input || item.value.toString().toLowerCase().includes(input.toLowerCase()) || item.label.toString().toLowerCase().includes(input.toLowerCase()) ;
+          });
+          update();
+      }
+  }
+
+  update();
+  //this.editedValue = [];
+  //abort();
+  //return;
+}
+
 export function getObjectFromKey(object, key) {
   let objetoAtual = object;
   if (key.indexOf(".") != -1) {
