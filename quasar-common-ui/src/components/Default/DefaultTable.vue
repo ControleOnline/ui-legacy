@@ -697,21 +697,21 @@ export default {
         },
         getFilterParams(params) {
             this.columns.forEach((item, i) => {
-                if (item.name && this.filters && this.filters[item.name]) {
-                    if (this.filters[item.name] instanceof Array) {
+                if (item.name && this.filters && this.filters[item.key || item.name]) {
+                    if (this.filters[item.key || item.name] instanceof Array) {
                         let obj = [];
-                        this.filters[item.name].forEach((valor) => {
+                        this.filters[item.key || item.name].forEach((valor) => {
                             obj.push(valor.value || valor);
                         });
-                        params[item.name] = obj;
+                        params[item.key || item.name] = obj;
                     } else if (this.filters[item.name] instanceof Object) {
                         let obj = [];
                         Object.entries(this.filters[item.name]).forEach(([chave, valor]) => {
                             obj.push(valor.value || valor);
                         });
-                        params[item.name] = obj;
+                        params[item.key || item.name] = obj;
                     } else {
-                        params[item.name] = this.filters[item.name];
+                        params[item.key || item.name] = this.filters[item.name];
                     }
                 }
             });
