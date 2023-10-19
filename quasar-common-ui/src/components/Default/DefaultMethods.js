@@ -104,15 +104,24 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
 
 export function searchList(input, update, abort) {
   
-  let columnName = null;
+  let columnName = null;  
 
-  if (this.editing.length > 0) {
-      this.editing.forEach((item) => {
+
+  if (Object.keys(this.showInput).length > 0  ) {     
+    let i = Object.keys(this.showInput);
+    if (i)
+        columnName = i[0];
+  }  
+
+  if (Object.keys(this.editing.length) > 0  ) {     
+    this.editing.forEach((item) => {
           let i = Object.keys(item);
           if (i)
               columnName = i[0];
       });
   }
+
+
 
   if ((input.length >= 3 || input.length == 0) && columnName) {
       const column = this.columns.find((col) => {
@@ -128,8 +137,7 @@ export function searchList(input, update, abort) {
           this.configs.list[column.list](params).then((result) => {
               this.listAutocomplete[column.list] = [];              
               result.forEach((item) => {                
-                  this.listObject[columnName] = item['@id'].split("/").slice(0, -1).join("/");
-                  console.log(this.listObject);
+                  this.listObject[columnName] = item['@id'].split("/").slice(0, -1).join("/");                  
                   this.listAutocomplete[column.list].push(this.formatList(column, item));
               });
               update();

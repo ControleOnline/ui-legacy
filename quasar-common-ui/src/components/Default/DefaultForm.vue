@@ -70,6 +70,7 @@ export default {
     },
     data() {
         return {
+            showInput:null,
             listObject: {},
             listAutocomplete: [],
             editing: [],

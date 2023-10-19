@@ -96,12 +96,13 @@
                             'header-filter-container',
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
                         ]" @click="stopPropagation">
+                            fff
                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
                                 use-input map-options hide-selected fill-input options-cover @filter="searchList"
                                 :options="listAutocomplete[column.list]" label-color="black" input-debounce="700"
                                 :loading="isLoadingList" :label="$t(configs.store + '.' + column.label)"
-                                v-model="editedValue" @blur="filterColumn(items.indexOf(props.row), column, props.row)"
-                                @update:modelValue="filterColumn(items.indexOf(props.row), column, props.row)">
+                                v-model="colFilter[column.key || column.name]"
+                                @blur="filterColumn(column.key || column.name, column, props.row)">
                                 <template v-slot:no-option v-if="!isLoadingList">
                                     <q-item>
                                         <q-item-section class="text-grey">
@@ -376,7 +377,7 @@ export default {
 
     data() {
         return {
-            listObject:{},
+            listObject: {},
             listAutocomplete: [],
             showColumnMenu: false,
             persistentFilter: new Filters(),
@@ -490,11 +491,11 @@ export default {
             if (!this.colFilter[colName])
                 delete filters[colName];
             else
-                filters[colName] = this.colFilter[colName];
+                filters[colName] = this.colFilter[colName].value || this.colFilter[colName];
 
             this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
-            this.showInput[colName] = false;
-            this.forceShowInput[colName] = false;
+            this.showInput = { [colName]: false };
+            this.forceShowInput = { [colName]: false };
             this.loadData();
         },
         clearFilter(colName) {
@@ -507,16 +508,16 @@ export default {
         },
 
         setShowInput(colName) {
-            this.showInput[colName] = true;
+            this.showInput = { [colName]: true };
         },
         setForceShowInput(colName) {
 
-            this.showInput[colName] = true;
-            this.forceShowInput[colName] = true;
+            this.showInput = { [colName]: true };
+            this.forceShowInput = { [colName]: true };
         },
         hideInput(colName) {
             if (this.forceShowInput[colName] != true)
-                this.showInput[colName] = false;
+                this.showInput = { [colName]: false };
         },
 
         startDrag(index) {
@@ -673,8 +674,8 @@ export default {
                 [col.key || col.name]: true
             };
             this.editing = editing;
-            if (this.editedValue)
-                this.save(index, row, col.key || col.name, this.editedValue.value || this.editedValue);
+
+            this.save(index, row, col.key || col.name, this.editedValue.value || this.editedValue);
         },
         isEditing(index, col) {
             return this.saveEditing[index] && this.saveEditing[index][col.key || col.name] ? true : false;
