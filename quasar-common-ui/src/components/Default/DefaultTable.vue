@@ -102,7 +102,8 @@
                                 label-color="black" input-debounce="700" :loading="isLoadingList" multiple
                                 :label="$t(configs.store + '.' + column.label)"
                                 v-model="colFilter[column.key || column.name]"
-                                @blur="filterColumn(column.key || column.name, column, props.row)">
+                                @blur="filterColumn(column.key || column.name, column, props.row)"
+                                @focus="setForceShowInput(column.key || column.name)">
                                 <template v-slot:no-option v-if="!isLoadingList">
                                     <q-item>
                                         <q-item-section class="text-grey">
@@ -112,7 +113,8 @@
                                 </template>
                             </q-select>
                             <input v-else :id="'input-' + (column.key || column.name)"
-                                :class="[{ show: showInput[column.key || column.name] }]" @click="stopPropagation"
+                                :class="[{ show: showInput[column.key || column.name] }]"
+                                @click.stop="setForceShowInput(column.key || column.name)"
                                 v-model="colFilter[column.key || column.name]"
                                 @focus="setForceShowInput(column.key || column.name)"
                                 @blur="filterColumn(column.key || column.name)"
@@ -522,11 +524,14 @@ export default {
             this.showInput = { [colName]: true };
         },
         setForceShowInput(colName) {
-
+            console.log('eeee');
             this.showInput = { [colName]: true };
             this.forceShowInput = { [colName]: true };
         },
         hideInput(colName) {
+
+
+
             if (this.forceShowInput[colName] != true)
                 this.showInput = { [colName]: false };
         },
@@ -693,17 +698,22 @@ export default {
         },
         getFilterParams(params) {
             this.columns.forEach((item, i) => {
-                if (item.name && this.filters && this.filters[item.name]) {                    
-                    if (this.filters[item.name] instanceof Object) {
+                if (item.name && this.filters && this.filters[item.name]) {
+                    if (this.filters[item.name] instanceof Array) {
+                        let obj = [];
+                        this.filters[item.name].forEach((valor) => {
+                            obj.push(valor.value || valor);
+                        });
+                        params[item.name] = obj;
+                    } else if (this.filters[item.name] instanceof Object) {
                         let obj = [];
                         Object.entries(this.filters[item.name]).forEach(([chave, valor]) => {
-                            obj.push(valor.value);
+                            obj.push(valor.value || valor);
                         });
                         params[item.name] = obj;
                     } else {
                         params[item.name] = this.filters[item.name];
                     }
-
                 }
             });
             return params;
@@ -771,14 +781,12 @@ export default {
             }
 
             let params = Object.assign(this.copyObject(this.filters), this.copyObject(this.pagination));
-            params.itemsPerPage = params.rowsPerPage || this.rowsOptions[0];
-
             delete params.rowsNumber;
             delete params.sortBy;
             delete params.descending;
             delete params.rowsPerPage;
-
             params = this.getFilterParams(params);
+            params.itemsPerPage = params.rowsPerPage || this.rowsOptions[0];
 
             this.$store.dispatch(this.configs.store + '/getItems', params
             ).then((data) => {
@@ -925,5 +933,4 @@ export default {
     position: relative;
     margin-left: 5px;
     margin-right: 5px;
-}
-</style>
+}</style>
