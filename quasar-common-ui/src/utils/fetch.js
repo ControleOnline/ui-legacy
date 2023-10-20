@@ -10,13 +10,13 @@ export default function (id, options = {}) {
 
   const domain = DOMAIN + (DOMAIN.endsWith("/") ? "" : "/");
 
-  const entryPoint =
-    id.indexOf("searchBy") != -1 &&
-    id.indexOf("/sales/orders") != -1 &&
-    id.indexOf("/detail/status") == -1 &&
-    domain == "foccuscegonhas.com.br"
-      ? "https://api.dev.foccuscegonhas.com.br/"
-      : ENTRYPOINT + (ENTRYPOINT.endsWith("/") ? "" : "/");
+  const entryPoint = ENTRYPOINT + (ENTRYPOINT.endsWith("/") ? "" : "/");
+    // id.indexOf("searchBy") != -1 &&
+    // id.indexOf("/sales/orders") != -1 &&
+    // id.indexOf("/detail/status") == -1 &&
+    // domain == "foccuscegonhas.com.br"
+    //   ? "https://api.dev.foccuscegonhas.com.br/"
+    //   : ENTRYPOINT + (ENTRYPOINT.endsWith("/") ? "" : "/");
 
   return fetch(new URL(id, entryPoint), options)
     .then((response) => {

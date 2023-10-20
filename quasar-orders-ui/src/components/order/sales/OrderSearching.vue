@@ -4,9 +4,12 @@
     <template v-slot:top v-if="search === true">
       <div class="col-xs-12 q-pb-md text-h6">Pedidos de venda</div>
       <div class="col-sm-3 col-xs-12 q-pa-md">
-        <q-input stack-label label="Buscar por" debounce="1000" v-model="filters.text" class="full-width" />
+        <q-input stack-label label="Buscar por pedido" debounce="1000" v-model="filters.text" class="full-width" />
       </div>
       <div class="col-sm-3 col-xs-12 q-pa-md">
+        <q-input stack-label label="Buscar por contrato" debounce="1000" v-model="filters.contract" class="full-width" />
+      </div>
+      <div class="col-sm-6 col-xs-12 q-pa-md">
         <q-select stack-label label="Status do pedido" v-model="filters.status" :options="statuses" class="full-width"
           :loading="loadingStatuses">
           <template v-slot:no-option>
@@ -17,9 +20,7 @@
             </q-item>
           </template>
         </q-select>
-      </div>
-      <div class="col-sm-6 col-xs-12 q-pa-md">
-        <DataFilter :fromDate="filters.from" :toDate="filters.to" :showButton="false" @dateChanged="dateChanged" />
+        <!-- <DataFilter :fromDate="filters.from" :toDate="filters.to" :showButton="false" @dateChanged="dateChanged" /> -->
       </div>
     </template>
     <template v-slot:body="props">
@@ -352,6 +353,13 @@ export default {
       });
     },
 
+    "filters.contract"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+
     "filters.status"() {
       this.onRequest({
         pagination: this.pagination,
@@ -493,8 +501,15 @@ export default {
       if (this.filters.text != null && this.filters.text.length > 0) {
         if (this.filters.text.length < 2) return;
 
-        params["searchBy"] = this.filters.text;
+        params["id"] = this.filters.text;
       }
+
+      if (this.filters.contract != null && this.filters.contract.length > 0) {
+        if (this.filters.contract.length < 2) return;
+
+        params["contract"] = this.filters.contract;
+      }
+      
 
       if (this.filters.status != null && this.filters.status.value == -1) {
         params["status.realStatus"] =
@@ -509,8 +524,8 @@ export default {
       ) {
         params["status"] = this.filters.status.value;
       }
-      params.fromDate = this.formatDate(this.filters.from) || "";
-      params.toDate = this.formatDate(this.filters.to) || "";
+      // params.fromDate = this.formatDate(this.filters.from) || "";
+      // params.toDate = this.formatDate(this.filters.to) || "";
 
       if (this.filters.company != null) {
         params["myCompany"] = this.filters.company.id;
