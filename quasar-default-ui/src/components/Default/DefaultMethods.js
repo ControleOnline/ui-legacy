@@ -122,11 +122,12 @@ export function searchList(input, update, abort) {
   }
 
 
+  const column = this.columns.find((col) => {
+    return col.name === columnName || col.key === columnName
+  });
 
-  if ((input.length >= 3 || input.length == 0) && columnName) {
-      const column = this.columns.find((col) => {
-          return col.name === columnName || col.key === columnName
-      });
+
+  if ((input.length >= 3 || (!this.isLoadingList && input.length == 0 && ((this.listAutocomplete[column.list] && this.listAutocomplete[column.list].length == 0) || !this.listAutocomplete[column.list]))) && columnName) {
 
       let params = { search: input };
       if (typeof this.configs.list[column.list] == 'function') {
