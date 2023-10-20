@@ -170,6 +170,7 @@ export function getObjectFromKey(object, key) {
 }
 
 export function formatList(column, value) {
+
   if (column && typeof column.formatList == "function")
     return column.formatList(value);
 

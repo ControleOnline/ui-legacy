@@ -38,7 +38,7 @@
                         </span>
                         <template v-else>
                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                use-input  map-options fill-input options-cover transition-show="flip-down"
+                                use-input hide-selected map-options fill-input options-cover transition-show="flip-down"
                                 transition-hide="flip-up" @filter="searchList" input-debounce="700" :loading="isLoadingList"
                                 :options="listAutocomplete[column.list]" :label="$t(configs.store + '.' + column.label)"
                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
@@ -256,7 +256,7 @@
                                         </span>
                                         <template v-else>
                                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label
-                                                lazy-rules use-input  map-options fill-input options-cover
+                                                lazy-rules use-input hide-selected map-options fill-input options-cover
                                                 transition-show="flip-down" transition-hide="flip-up" @filter="searchList"
                                                 input-debounce="700" :loading="isLoadingList"
                                                 :options="listAutocomplete[column.list]"
@@ -687,7 +687,15 @@ export default {
         startEditing(index, col, value) {
             if (col.editable == false || (col.key && col.key.indexOf(".") != -1))
                 return;
-            this.editedValue = value;
+
+
+            if (col.list)
+                this.editedValue = this.formatList(col, this.items[index][col.key || col.name])
+            else
+                this.editedValue = this.format(col, value);
+
+
+
 
             this.editing[index] = { [col.key || col.name]: true };
             this.showEdit[index] = { [col.key || col.name]: false };
@@ -707,7 +715,7 @@ export default {
             };
             this.editing = editing;
 
-            this.save(index, row, col.key || col.name, this.editedValue.value || this.editedValue);
+            this.save(index, row, col, this.editedValue.value || this.editedValue);
         },
         isEditing(index, col) {
             return this.saveEditing[index] && this.saveEditing[index][col.key || col.name] ? true : false;
@@ -747,27 +755,27 @@ export default {
                 this.$router.push(column.to(value));
             }
             return;
-        },
+        },        
+        save(index, row, col, value) {
 
-
-
-        save(index, row, name, value) {
-            if (row[name] == value) {
+            let c = col.list ? this.formatList(col, row[col.key || col.name]).value : this.format(col, row[col.key || col.name]);            
+            if (c == value) {
                 this.editing = [];
                 this.saveEditing[index] = {
-                    [name]: false
+                    [col.key || col.name]: false
                 };
                 return;
             }
             let params = {};
             if (row['@id'])
-                params['id'] = this.saveFormat(name, row['@id'].split('/').pop());
+                params['id'] = this.saveFormat(col.key || col.name, row['@id'].split('/').pop());
 
-            if (row[name] instanceof Object) {
-                params[name] = '/' + row[name]['@id'].split('/', 2)[1] + '/' + value;
+            if (row[col.key || col.name] instanceof Object) {
+                params[col.key || col.name] = '/' + row[col.key || col.name]['@id'].split('/', 2)[1] + '/' + value;
             } else {
-                params[name] = this.saveFormat(name, value);
+                params[col.key || col.name] = this.saveFormat(col.key || col.name, value);
             }
+
             this.$store.dispatch(this.configs.store + '/save', params).then((data) => {
                 if (data) {
                     this.loadData();
@@ -786,7 +794,7 @@ export default {
             }).finally(() => {
                 this.editing = [];
                 this.saveEditing[index] = {
-                    [name]: false
+                    [col.key || col.name]: false
                 };
             });
         },
