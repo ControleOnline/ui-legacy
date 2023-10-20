@@ -1,5 +1,5 @@
 import { api } from "@controleonline/../../src/boot/api";
-import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
+import SubmissionError from "@controleonline/quasar-default-ui/src/error/SubmissionError";
 import * as types from "@controleonline/quasar-default-ui/src/store/default/mutation_types";
 import { resourceEndpoint } from './getters'; 
 
