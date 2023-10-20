@@ -1,6 +1,6 @@
 import { LocalStorage } from "quasar";
 import * as types from "./mutation_types";
-import Filters from "@controleonline/quasar-common-ui/src/utils/filters";
+import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 const persistentFilter = new Filters();
 
 export default {
