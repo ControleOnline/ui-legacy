@@ -370,7 +370,7 @@
 </template>
   
 <script>
-import DefaultForm from "@controleonline/quasar-common-ui/src/components/Default/DefaultForm";
+import DefaultForm from "@controleonline/quasar-default-ui/src/components/Default/DefaultForm";
 import * as DefaultMethods from './DefaultMethods.js';
 import Filters from "@controleonline/quasar-common-ui/src/utils/filters";
 
