@@ -15,7 +15,8 @@
       <div>
         <div class="row">
           <div v-if="!hasOrderId" class="row col-12 q-col-gutter-sm">
-            <div class="col-xs-12 col-sm-2 col-md-2 q-pb-sm">
+
+            <div class="col-xs-12 col-sm-4 col-md-4 q-pb-sm">
               <q-input
                 dense
                 outlined
@@ -24,6 +25,47 @@
                 v-model="filters.order"
               ></q-input>
             </div>
+
+            <div class="col-xs-12 col-sm-4 col-md-4 q-pb-sm">
+              <q-input
+                dense
+                outlined
+                stack-label
+                label="Contrato"
+                v-model="filters.contract"
+              ></q-input>
+            </div>
+
+            <div class="col-xs-12 col-sm-4 col-md-4 q-pb-sm">
+              <q-input
+                dense
+                outlined
+                stack-label
+                label="Cliente"
+                v-model="filters.clientName"
+              ></q-input>
+            </div>
+
+            <div class="col-xs-12 col-sm-4 col-md-4 q-pb-sm">
+              <q-input
+                dense
+                outlined
+                stack-label
+                label="Placa do Veiculo"
+                v-model="filters.vehiclePlate"
+              ></q-input>
+            </div>
+
+            <div class="col-xs-12 col-sm-4 col-md-4 q-pb-sm">
+              <q-input
+                dense
+                outlined
+                stack-label
+                label="Veículo"
+                v-model="filters.vehicleType"
+              ></q-input>
+            </div>
+
             <div class="col-xs-12 col-sm-3 col-md-4">
               <ListAutocomplete
                 ref="originAddress"
@@ -794,6 +836,7 @@ export default {
         company: null,
         defaultCompany: null,
         order: null,
+        contract: null,
         origin: null,
         provider: null,
         destination: null,
@@ -1055,6 +1098,34 @@ export default {
     },
 
     "filters.order"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+
+    "filters.contract"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+
+    "filters.clientName"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+
+    "filters.vehiclePlate"() {
+      this.onRequest({
+        pagination: this.pagination,
+        filter: this.filters,
+      });
+    },
+
+    "filters.vehicleType"() {
       this.onRequest({
         pagination: this.pagination,
         filter: this.filters,
@@ -1747,6 +1818,10 @@ export default {
     },
     cleanFilter() {
       this.filters.order = null;
+      this.filters.contract = null;
+      this.filters.clientName = null;
+      this.filters.vehiclePlate = null;
+      this.filters.vehicleType = null;
       this.filters.origin = null;
       this.filters.provider = null;
       this.filters.destinationProvider = null;
@@ -2001,6 +2076,22 @@ export default {
         if (this.filters.order != null) {
           params["order.id"] = this.filters.order;
         }
+
+        if (this.filters.contract != null) {
+          params["order.contract.id"] = this.filters.contract;
+        }
+
+        if (this.filters.clientName != null) {
+          params["order.client.name"] = this.filters.clientName;
+        } 
+
+        if (this.filters.vehiclePlate != null) {
+          params["order.otherInformations"] = this.filters.vehiclePlate;
+        } 
+        
+        if (this.filters.vehicleType != null) {
+          params["order.productType"] = this.filters.vehicleType;
+        } 
 
         if (this.filters.origin != null && this.filters.origin.length > 0) {
           params["originCity"] = this.filters.origin;
