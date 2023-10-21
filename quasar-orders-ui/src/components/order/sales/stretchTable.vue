@@ -629,7 +629,7 @@ import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Co
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 // import StrechModal from "@controleonline/quasar-orders-ui/src/components/order/sales/";
 import StrechModal from "./stretchAddEdit.vue";
-import * as DefaultMethods from '../../../../../quasar-common-ui/src/components/Default/DefaultMethods';
+import * as DefaultMethods from '../../../../../quasar-default-ui/src/components/Default/DefaultMethods';
 import {
 formatDateYmdTodmY,
 formatMoney,

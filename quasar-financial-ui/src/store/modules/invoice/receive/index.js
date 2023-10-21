@@ -1,6 +1,6 @@
-import * as actions from "@controleonline/quasar-common-ui/src/store/common/actions";
-import * as getters from "@controleonline/quasar-common-ui/src/store/common/getters";
-import mutations from "@controleonline/quasar-common-ui/src/store/common/mutations";
+import * as actions from "@controleonline/quasar-default-ui/src/store/default/actions";
+import * as getters from "@controleonline/quasar-default-ui/src/store/default/getters";
+import mutations from "@controleonline/quasar-default-ui/src/store/default/mutations";
 import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 const persistentFilter = new Filters();
 
