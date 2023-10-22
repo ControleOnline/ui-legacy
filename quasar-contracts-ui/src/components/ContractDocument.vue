@@ -9,24 +9,48 @@
   </div>
 
   <div class="row q-pa-md" v-else>
-    <div class="col-12">
-      <div class="row q-mb-lg justify-end">
-        <q-btn-toggle v-model="paymentType" toggle-color="primary" push glossy class="q-ml-md" :options="paymentOptions">
-        </q-btn-toggle>
 
-        <!-- Gerar aula demonstrativa
-          :disable="!contract.canEdit()"
-         -->
-        <q-btn v-if="isIps()" class="demonstrativa" color="primary" label="Gerar aula demonstrativa"
-          @click="onDemonstrativaClick" :loading="isRequesting" />
-
-        <!-- contracts.request_signatures
+    <q-card class="q-pa-md q-mb-sm col-12">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-4">
+          <div :class="statusStyle" v-if="contract_s">
+            {{ this.$t(`contracts.statuses.${contract_s.status}`) }}
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <div class="row items-center justify-end">
+            <contract-action-cancel :config="config" :contract="contract" />
+            <contract-action-amend :config="config" :contract="contract" />
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <div class="row items-center justify-end">
+            <!-- contracts.request_signatures
           :disable="!contract.canSign()"
          -->
-        <q-btn color="primary" :label="$t('contracts.request_signatures')" @click="requestSignatures"
-          :loading="isRequesting" />
+            <q-btn color="primary" :label="$t('contracts.request_signatures')" @click="requestSignatures"
+              :disable="statusIsWaitingForSignature()" :loading="isRequesting" />
+          </div>
+        </div>
       </div>
-    </div>
+
+    </q-card>
+
+    <q-btn-toggle v-model="paymentType" toggle-color="primary" push glossy class="q-mb-md "
+      :options="paymentOptions"></q-btn-toggle>
+
+
+
+    <!-- Gerar aula demonstrativa
+          :disable="!contract.canEdit()"
+         -->
+    <q-btn v-if="isIps()" class="demonstrativa" color="primary" label="Gerar aula demonstrativa"
+      @click="onDemonstrativaClick" :loading="isRequesting" />
+
+
+
+    <!-- </div> -->
+    <!-- </div> -->
 
     <div v-if="participants.length > 0" class="col-12">
       <div class="text-h6 q-mb-md">
@@ -39,54 +63,54 @@
 
     <div class="col-12">
       <div ref="contractDocument" class="contract-document"></div>
-      <!-- <div class="flex flex-center">
-        <q-circular-progress :indeterminate="true" size="sm" color="primary" class="q-ma-md" />
-        Carregando contrato...
+      <div class="flex flex-center">
+        <q-circular-progress :indeterminate="isLoading" size="sm" color="primary" class="q-ma-md" />
       </div>
-      -->
-      <q-editor class="full-width" v-model="htmlContract" :dense="$q.screen.lt.md" :toolbar="[
-        [
-          {
-            label: $q.lang.editor.align,
-            icon: $q.iconSet.editor.align,
-            fixedLabel: true,
-            list: 'only-icons',
-            options: ['left', 'center', 'right', 'justify'],
-          },
-        ],
-        [
-          'bold',
-          'italic',
-          'strike',
-          'underline',
-          'subscript',
-          'superscript',
-        ],
-        ['token', 'hr', 'link', 'custom_btn'],
-        ['print', 'fullscreen'],
-        [
-          {
-            label: $q.lang.editor.defaultFont,
-            icon: $q.iconSet.editor.font,
-            fixedIcon: true,
-            list: 'no-icons',
-            options: [
-              'default_font',
-              'arial',
-              'arial_black',
-              'comic_sans',
-              'courier_new',
-              'impact',
-              'lucida_grande',
-              'times_new_roman',
-              'verdana',
-            ],
-          },
-        ],
 
-        ['undo', 'redo'],
-        ['viewsource'],
-      ]" :fonts="{
+      <q-editor :disable="statusIsWaitingForSignature()" class="full-width" v-model="htmlContract"
+        :dense="$q.screen.lt.md" :toolbar="[
+          [
+            {
+              label: $q.lang.editor.align,
+              icon: $q.iconSet.editor.align,
+              fixedLabel: true,
+              list: 'only-icons',
+              options: ['left', 'center', 'right', 'justify'],
+            },
+          ],
+          [
+            'bold',
+            'italic',
+            'strike',
+            'underline',
+            'subscript',
+            'superscript',
+          ],
+          ['token', 'hr', 'link', 'custom_btn'],
+          ['print', 'fullscreen'],
+          [
+            {
+              label: $q.lang.editor.defaultFont,
+              icon: $q.iconSet.editor.font,
+              fixedIcon: true,
+              list: 'no-icons',
+              options: [
+                'default_font',
+                'arial',
+                'arial_black',
+                'comic_sans',
+                'courier_new',
+                'impact',
+                'lucida_grande',
+                'times_new_roman',
+                'verdana',
+              ],
+            },
+          ],
+
+          ['undo', 'redo'],
+          ['viewsource'],
+        ]" :fonts="{
   arial: 'Arial',
   arial_black: 'Arial Black',
   comic_sans: 'Comic Sans MS',
@@ -103,7 +127,6 @@
 <script>
 import { api } from "@controleonline/../../src/boot/api";
 import { mapGetters } from "vuex";
-import Contract from "./../entity/Contract";
 import { formatBRDocument, formatBRPostalCode } from "./../library/formatter";
 import configurable from "./../mixins/configurable";
 
@@ -120,12 +143,14 @@ export default {
   created() {
     if (this.contract) {
       this.loadParticipants();
+      this.loadContract();
     }
   },
 
   mounted() {
     if (this.contract) {
       this.loadDocument();
+      this.loadContract();
     }
   },
 
@@ -143,19 +168,20 @@ export default {
       htmlContract: null,
       isRequesting: false,
       isLoading: false,
+      contract_s: null,
     };
   },
-  computed: {
-    ...mapGetters({
-      defaultCompany: "people/defaultCompany",
-      myCompany: "people/currentCompany",
-    }),
 
-    logged() {
-      return this.$store.getters["auth/user"];
-    },
-  },
   watch: {
+
+    currentCompany(data) {
+      if (data) {
+        this.pageLoading = false;
+        this.loadDocument();
+        this.loadContract();
+      }
+    },
+
     paymentType(paymentType) {
       let params = {
         method: "PUT",
@@ -193,6 +219,48 @@ export default {
         });
     },
   },
+
+  computed: {
+    ...mapGetters({
+      currentCompany: "people/currentCompany",
+      defaultCompany: "people/defaultCompany",
+      myCompany: "people/currentCompany",
+    }),
+
+    logged() {
+      return this.$store.getters["auth/user"];
+    },
+
+    statusStyle() {
+      let style = "text-center text-h6 rounded-borders q-pl-sm q-pr-sm ";
+
+      if (this.contract_s && this.contract_s.status) {
+        switch (this.contract_s.status) {
+          case "Draft":
+            style += "bg-blue text-white";
+            break;
+          case "Waiting approval":
+          case "Waiting signatures":
+            style += "bg-yellow text-black";
+            break;
+          case "Active":
+            style += "bg-green text-white";
+            break;
+          case "Canceled":
+          case "Amended":
+            style += "bg-red text-white";
+            break;
+          default:
+            style += "text-black";
+        }
+      } else {
+        style += "text-black";
+      }
+
+      return style;
+    }
+  },
+
   methods: {
     isIps() {
       const ipsTypes = ["ips"];
@@ -242,8 +310,8 @@ export default {
 
     loadDocument() {
       let params = {};
-      params.company = 418;
-      params.myCompany = 418;
+      params.company = this.myCompany.id;
+      params.myCompany = this.myCompany.id;
 
       const config = {
         method: 'GET',
@@ -257,14 +325,38 @@ export default {
 
       api.execute(config).then((response) => {
         this.htmlContract = response.data;
-        // this.$refs.contractDocument.innerHTML = response.data;
-
       })
+    },
 
-      // api.fetchText(`/my_contracts/${this.contract}/document`, {params})
-      // .then((response) => {
-      //   this.$refs.contractDocument.innerHTML = response.text();
-      // });
+    loadContract() {
+      if (this.contract !== null) {
+        let params = {
+          method: "GET",
+        };
+
+        this.isLoading = true;
+
+        api.fetch("/contracts/" + this.contract, params)
+          .then((data) => {
+            const contract = {
+              status: data.contractStatus,
+            };
+
+            return contract;
+          })
+          .then((contract) => {
+            this.contract_s = contract;
+            this.isLoading = false;
+          })
+          .catch((error) => {
+            console.error("Erro ao carregar contrato:", error);
+            this.isLoading = false;
+          });
+      }
+    },
+
+    statusIsWaitingForSignature() {
+      return this.contract_s && this.contract_s.status === "Waiting signatures";
     },
 
     requestSignatures() {
@@ -278,11 +370,18 @@ export default {
       api.fetch(`/my_contracts/${this.contract}/request-signatures`, options)
         .then((contract) => {
           this.$emit("requested", contract);
+
+          this.$q.notify({
+            message: "Contrato atualizado com sucesso",
+            position: "bottom",
+            type: "positive",
+          });
         })
         .finally(() => {
           this.isRequesting = false;
         });
     },
+
 
     onDemonstrativaClick() {
       let params = {
