@@ -80,24 +80,30 @@ export default {
         };
     },
     created() {
-        /*
+
         let data = {};
         Object.keys(this.data).forEach((item, i) => {
             let column = this.columns.find((c) => {
                 return (c.key || c.name) == item
             });
+
+
+
             if (column) {
                 data[column.key || column.name] =
                     column.list ?
-                        this.formatList(column, this.data, true) :
+                        this.formatList(column, this.data[column.key || column.name], true) :
                         this.format(this.data[column.key || column.name]);
 
                 if (column.isIdentity)
                     this.id = data[column.key || column.name];
             }
         });
-        */
-        this.item = this.data;
+
+        if (this.data['@id'])
+            data['id'] = this.data['@id'].split('/').pop();
+
+        this.item = data;        
     },
     mounted() {
         this.$nextTick(() => {
@@ -120,10 +126,6 @@ export default {
     methods: {
         ...DefaultMethods,
         save(params) {
-
-
-            console.log(this.item);
-
             let p = {};
             for (const name in params) {
                 if (this.listObject[name])

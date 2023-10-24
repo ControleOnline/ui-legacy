@@ -172,8 +172,7 @@ export function getObjectFromKey(object, key) {
   return objetoAtual;
 }
 
-export function formatList(column, value) {
-
+export function formatList(column, value) {  
   if (column && column.formatList instanceof Function)
     return column.formatList(value);
 
