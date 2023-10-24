@@ -758,7 +758,7 @@ export default {
         },
         save(index, row, col, value) {
 
-            let c = col.list ? this.formatList(col, row[col.key || col.name]).value : this.format(col, row[col.key || col.name]);
+            let c = col.list ? (this.formatList(col, row[col.key || col.name])?.value) : this.format(col, row[col.key || col.name]);
             if (c == value) {
                 this.editing = [];
                 this.saveEditing[index] = {
