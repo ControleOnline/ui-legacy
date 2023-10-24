@@ -80,6 +80,7 @@ export default {
         };
     },
     created() {
+        /*
         let data = {};
         Object.keys(this.data).forEach((item, i) => {
             let column = this.columns.find((c) => {
@@ -88,14 +89,15 @@ export default {
             if (column) {
                 data[column.key || column.name] =
                     column.list ?
-                        this.formatData(column, this.data, true) :
-                        this.data[column.key || column.name];
+                        this.formatList(column, this.data, true) :
+                        this.format(this.data[column.key || column.name]);
 
                 if (column.isIdentity)
                     this.id = data[column.key || column.name];
             }
         });
-        this.item = data;
+        */
+        this.item = this.data;
     },
     mounted() {
         this.$nextTick(() => {
@@ -118,6 +120,9 @@ export default {
     methods: {
         ...DefaultMethods,
         save(params) {
+
+
+            console.log(this.item);
 
             let p = {};
             for (const name in params) {

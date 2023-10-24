@@ -755,10 +755,10 @@ export default {
                 this.$router.push(column.to(value));
             }
             return;
-        },        
+        },
         save(index, row, col, value) {
 
-            let c = col.list ? this.formatList(col, row[col.key || col.name]).value : this.format(col, row[col.key || col.name]);            
+            let c = col.list ? this.formatList(col, row[col.key || col.name]).value : this.format(col, row[col.key || col.name]);
             if (c == value) {
                 this.editing = [];
                 this.saveEditing[index] = {
@@ -768,13 +768,9 @@ export default {
             }
             let params = {};
             if (row['@id'])
-                params['id'] = this.saveFormat(col.key || col.name, row['@id'].split('/').pop());
+                params['id'] = row['@id'].split('/').pop();
 
-            if (row[col.key || col.name] instanceof Object) {
-                params[col.key || col.name] = '/' + row[col.key || col.name]['@id'].split('/', 2)[1] + '/' + value;
-            } else {
-                params[col.key || col.name] = this.saveFormat(col.key || col.name, value);
-            }
+            params[col.key || col.name] = this.saveFormat(col.key || col.name, value);
 
             this.$store.dispatch(this.configs.store + '/save', params).then((data) => {
                 if (data) {

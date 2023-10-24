@@ -1,5 +1,5 @@
 export function copyObject(obj) {
-  if (obj === null || typeof obj !== "object") {
+  if (obj === null || !(obj instanceof Object)) {
     return obj;
   }
 
@@ -8,7 +8,7 @@ export function copyObject(obj) {
     return newArray;
   }
 
-  if (typeof obj === "function") {
+  if ( obj instanceof Function) {
     return obj;
   }
 
@@ -23,12 +23,12 @@ export function copyObject(obj) {
 }
 
 export function mask(column) {
-  if (typeof column.mask == "function") return column.mask();
+  if (column.mask instanceof Function) return column.mask();
 }
 
 export function isEmptyProxy(obj) {
   // Verifique se o objeto é um Proxy
-  if (!obj || typeof obj !== "object" || !obj.hasOwnProperty("__ob__")) {
+  if (!obj ||  !(obj instanceof Object) || !obj.hasOwnProperty("__ob__")) {
     return this.isProxyEmpty(obj);
   }
 
@@ -67,20 +67,20 @@ export function formatData(column, item, editing) {
 
 export function getNameFromList(column, row, editing) {
   let name = null;
-  if (typeof this.configs.list[column.list] == "function") {
+  if ( this.configs.list[column.list] instanceof  Function) {
     return row;
   } else {
     name = this.configs.list[column.list].find((item) => {
       return (
         item.value ==
-        (typeof row[column.key || column.name] == "object" &&
+        (row[column.key || column.name] instanceof Object &&
         row[column.key || column.name]
           ? row[column.key || column.name]["@id"].split("/").pop()
           : row[column.key || column.name])
       );
     });
 
-    return typeof name == "object" && !editing ? name.label : name;
+    return name instanceof Object && !editing ? name.label : name;
   }
 }
 
@@ -90,7 +90,7 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
     name = result.find((item) => {
       return (
         item["@id"].split("/").pop() ==
-        (typeof row[column.key || column.name] == "object" &&
+        (row[column.key || column.name] instanceof Object &&
         row[column.key || column.name]
           ? row[column.key || column.name]["@id"].split("/").pop()
           : row[column.key || column.name])
@@ -99,7 +99,7 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
   });
   let x = this.formatList(column, name);
 
-  return typeof x == "object" && !editing ? x.label : x;
+  return  x instanceof Object && !editing ? x.label : x;
 }
 
 export function searchList(input, update, abort) {
@@ -129,8 +129,10 @@ export function searchList(input, update, abort) {
 
   if ((input.length >= 3 || (!this.isLoadingList && input.length == 0 && ((this.listAutocomplete[column.list] && this.listAutocomplete[column.list].length == 0) || !this.listAutocomplete[column.list]))) && columnName) {
 
-      let params = { search: input };
-      if (typeof this.configs.list[column.list] == 'function') {
+      let s = 'x';
+
+      let params = { [s]: input };
+      if ( this.configs.list[column.list] instanceof Function) {
 
         
         this.$store.commit(this.configs.store + '/SET_ISLOADINGLIST', true);
@@ -172,23 +174,31 @@ export function getObjectFromKey(object, key) {
 
 export function formatList(column, value) {
 
-  if (column && typeof column.formatList == "function")
+  if (column && column.formatList instanceof Function)
     return column.formatList(value);
 
   return value;
 }
 
 export function format(column, value) {
-  if (column && typeof column.format == "function") return column.format(value);
+  if (column && column.format instanceof Function) return column.format(value);
 
   return value;
 }
 export function saveFormat(columnName, value) {
+
+
+
   const column = this.columns.find((col) => {
     return col.name === columnName || col.key === columnName;
   });
-  if (typeof column.saveFormat == "function") return column.saveFormat(value);
-  else if (typeof value == "object")
+
+  
+  if (!column)
+    return value;
+
+  if ( column.saveFormat instanceof Function) return column.saveFormat(value);
+  else if ( value instanceof Object)
     return !isNaN(value.value) ? parseFloat(value.value) : value.value;
 
   return !isNaN(value) ? parseFloat(value) : value;
