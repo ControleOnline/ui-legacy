@@ -770,7 +770,7 @@ export default {
             if (row['@id'])
                 params['id'] = row['@id'].split('/').pop();
 
-            params[col.key || col.name] = this.saveFormat(col.key || col.name, value) || null;
+            params[col.key || col.name] = this.saveFormat(col.key || col.name, value) || (col.list ? null : '');
 
 
             this.$store.dispatch(this.configs.store + '/save', params).then((data) => {
