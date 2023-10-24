@@ -87,8 +87,6 @@ export default {
                 return (c.key || c.name) == item
             });
 
-
-
             if (column) {
                 data[column.key || column.name] =
                     column.list ?

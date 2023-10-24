@@ -127,11 +127,17 @@ export function searchList(input, update, abort) {
   });
 
 
-  if ((input.length >= 3 || (!this.isLoadingList && input.length == 0 && ((this.listAutocomplete[column.list] && this.listAutocomplete[column.list].length == 0) || !this.listAutocomplete[column.list]))) && columnName) {
+  if ((input.length >= 3 || (!this.isLoadingList && input.length == 0 && ((
+    this.listAutocomplete[column.list] && 
+    this.listAutocomplete[column.list].length == 0) || 
+    !this.listAutocomplete[column.list])
+    )) && columnName
+    ) {
 
-      let s = 'x';
-
+      
+      let s = column.searchParam || 'search';
       let params = { [s]: input };
+
       if ( this.configs.list[column.list] instanceof Function) {
 
         
