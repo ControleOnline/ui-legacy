@@ -955,4 +955,8 @@ export default {
     margin-left: 5px;
     margin-right: 5px;
 }
+
+.default-table .q-table__control {
+    display: contents !important;
+}
 </style>
