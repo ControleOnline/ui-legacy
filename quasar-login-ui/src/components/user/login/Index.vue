@@ -1,8 +1,10 @@
 <template>
   <div class="container text-center q-gutter-y-md">
-    <div class="login-logo-conteiner">
-      <q-img :src="defaultLogo" class="" />
-    </div>
+    <!-- <div class="login-logo-conteiner"> -->
+      <q-avatar size="260px">
+        <q-img   :src="defaultLogo" class="" />
+      </q-avatar>
+    <!-- </div> -->
     <q-card class="q-mb-lg">
       <q-card-section class="q-pt-md">
         <div class="text-h6">
