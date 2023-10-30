@@ -36,21 +36,24 @@
 
     </q-card>
 
-    <q-btn-toggle v-model="paymentType" toggle-color="primary" push glossy class="q-mb-md "
-      :options="paymentOptions"></q-btn-toggle>
+    <div class="col-12">
+      <q-btn-toggle v-model="paymentType" toggle-color="primary" push glossy class="q-mb-md" :options="paymentOptions"
+        @click="confirmChange"></q-btn-toggle>
 
-
-
-    <!-- Gerar aula demonstrativa
-          :disable="!contract.canEdit()"
-         -->
-    <q-btn v-if="isIps()" class="demonstrativa" color="primary" label="Gerar aula demonstrativa"
-      @click="onDemonstrativaClick" :loading="isRequesting" />
-
-
-
-    <!-- </div> -->
-    <!-- </div> -->
+      <q-dialog v-model="showConfirmationDialog">
+        <q-card>
+          <q-card-section>
+            <p>Tem certeza de que deseja alterar a forma de pagamento?
+              Isso vai resultar em uma atualização completa do contrato.
+            </p>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn label="Cancelar" color="negative" @click="cancelChange" />
+            <q-btn label="Confirmar" color="primary" @click="changePayment" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </div>
 
     <div v-if="participants.length > 0" class="col-12">
       <div class="text-h6 q-mb-md">
@@ -170,6 +173,7 @@ export default {
       isLoading: false,
       contract_s: null,
       isEditDisable: true,
+      showConfirmationDialog: false,
     };
   },
 
@@ -183,66 +187,11 @@ export default {
       }
     },
 
-    paymentType(paymentType) {
-      const contractData = {
-        id: this.contractId,
-        contratante: this.contratante,
-        contratante_doc_type: this.contratanteDocType,
-        payment_type: paymentType,
-      };
-
-      function replaceVariables(data, html = '') {
-        if (typeof html !== 'string') {
-          html = html.toString();
-        }
-
-        for (const key in data) {
-          if (data.hasOwnProperty(key)) {
-            const regex = new RegExp('{{\\s*' + key + '\\s*}}', 'g');
-            html = html.replace(regex, data[key]);
-          }
-        }
-        return html;
+    paymentType(newPaymentType, oldPaymentType) {
+      if (newPaymentType !== oldPaymentType) {
+        this.showConfirmationDialog = true;
       }
-
-
-      const updatedHtmlContent = replaceVariables(contractData);
-
-      const params = {
-        method: "PUT",
-        body: JSON.stringify({
-          paymentType: paymentType,
-          htmlContent: updatedHtmlContent,
-        }),
-      };
-
-      this.isLoading = true;
-
-      const url = `/contracts/${this.contract}/change/payment`;
-
-      api.fetch(url, params)
-        .then(data => {
-          if (data.response && data.response.success && data.response.data && data.response.data.contractId) {
-            this.$q.notify({
-              message: "Contrato atualizado com sucesso",
-              position: "bottom",
-              type: "positive",
-            });
-            this.loadDocument();
-          }
-          return data;
-        })
-        .catch(error => {
-          console.error('Erro:', error);
-          if (error instanceof SubmissionError) {
-            return error.errors._error;
-          } else {
-            return error.message;
-          }
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+      console.log(this.paymentType)
     },
 
   },
@@ -289,10 +238,74 @@ export default {
   },
 
   methods: {
-    isIps() {
-      const ipsTypes = ["ips"];
 
-      return ipsTypes.indexOf(this.defaultCompany.domainType) > -1;
+    changePayment() {
+      this.showConfirmationDialog = false;
+
+      const contractData = {
+        id: this.contractId,
+        contratante: this.contratante,
+        contratante_doc_type: this.contratanteDocType,
+        payment_type: this.paymentType,
+      };
+
+      function replaceVariables(data, html = '') {
+        if (typeof html !== 'string') {
+          html = html.toString();
+        }
+
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            const regex = new RegExp('{{\\s*' + key + '\\s*}}', 'g');
+            html = html.replace(regex, data[key]);
+          }
+        }
+        return html;
+      }
+
+
+      const updatedHtmlContent = replaceVariables(contractData);
+
+      const params = {
+        method: "PUT",
+        body: JSON.stringify({
+          paymentType: this.paymentType,
+          htmlContent: updatedHtmlContent,
+        }),
+      };
+
+      this.isLoading = true;
+
+      const url = `/contracts/${this.contract}/change/payment`;
+
+      api.fetch(url, params)
+        .then(data => {
+          if (data.response && data.response.success && data.response.data && data.response.data.contractId) {
+            this.$q.notify({
+              message: "Contrato atualizado com sucesso",
+              position: "bottom",
+              type: "positive",
+            });
+            this.loadDocument();
+          }
+          return data;
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+          if (error instanceof SubmissionError) {
+            return error.errors._error;
+          } else {
+            return error.message;
+          }
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+
+    },
+
+    cancelChange() {
+      this.showConfirmationDialog = false;
     },
 
     loadParticipants() {
