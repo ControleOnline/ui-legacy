@@ -17,6 +17,7 @@ export const translate = {
     model: 'Template',
     payment_day: 'Dia de pagamento',
     start_date: 'Data de inicio',
+    edit: 'Editar Contrato',
     save: 'Salvar',
     go_original: 'Ver contrato original',
     go_amended: 'Ver contrato adendo',

@@ -19,15 +19,15 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4">
           <div class="row items-center justify-end">
-            <contract-action-cancel :config="config" :contract="contract" />
-            <contract-action-amend :config="config" :contract="contract" />
+
+            <q-btn color="primary" :label="$t('contracts.edit')" @click="isEdit" :loading="isRequesting" />
+            <q-btn color="primary" :label="$t('contracts.save')" @click="saveContract" :loading="isRequesting" />
+            <!-- <contract-action-cancel :config="config" :contract="contract" />
+            <contract-action-amend :config="config" :contract="contract" /> -->
           </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4">
           <div class="row items-center justify-end">
-            <!-- contracts.request_signatures
-          :disable="!contract.canSign()"
-         -->
             <q-btn color="primary" :label="$t('contracts.request_signatures')" @click="requestSignatures"
               :disable="statusIsWaitingForSignature()" :loading="isRequesting" />
           </div>
@@ -67,50 +67,49 @@
         <q-circular-progress :indeterminate="isLoading" size="sm" color="primary" class="q-ma-md" />
       </div>
 
-      <q-editor :disable="statusIsWaitingForSignature()" class="full-width" v-model="htmlContract"
-        :dense="$q.screen.lt.md" :toolbar="[
-          [
-            {
-              label: $q.lang.editor.align,
-              icon: $q.iconSet.editor.align,
-              fixedLabel: true,
-              list: 'only-icons',
-              options: ['left', 'center', 'right', 'justify'],
-            },
-          ],
-          [
-            'bold',
-            'italic',
-            'strike',
-            'underline',
-            'subscript',
-            'superscript',
-          ],
-          ['token', 'hr', 'link', 'custom_btn'],
-          ['print', 'fullscreen'],
-          [
-            {
-              label: $q.lang.editor.defaultFont,
-              icon: $q.iconSet.editor.font,
-              fixedIcon: true,
-              list: 'no-icons',
-              options: [
-                'default_font',
-                'arial',
-                'arial_black',
-                'comic_sans',
-                'courier_new',
-                'impact',
-                'lucida_grande',
-                'times_new_roman',
-                'verdana',
-              ],
-            },
-          ],
+      <q-editor :disable="isEditDisable" class="full-width" v-model="htmlContract" :dense="$q.screen.lt.md" :toolbar="[
+        [
+          {
+            label: $q.lang.editor.align,
+            icon: $q.iconSet.editor.align,
+            fixedLabel: true,
+            list: 'only-icons',
+            options: ['left', 'center', 'right', 'justify'],
+          },
+        ],
+        [
+          'bold',
+          'italic',
+          'strike',
+          'underline',
+          'subscript',
+          'superscript',
+        ],
+        ['token', 'hr', 'link', 'custom_btn'],
+        ['print', 'fullscreen'],
+        [
+          {
+            label: $q.lang.editor.defaultFont,
+            icon: $q.iconSet.editor.font,
+            fixedIcon: true,
+            list: 'no-icons',
+            options: [
+              'default_font',
+              'arial',
+              'arial_black',
+              'comic_sans',
+              'courier_new',
+              'impact',
+              'lucida_grande',
+              'times_new_roman',
+              'verdana',
+            ],
+          },
+        ],
 
-          ['undo', 'redo'],
-          ['viewsource'],
-        ]" :fonts="{
+        ['undo', 'redo'],
+        ['viewsource'],
+      ]" :fonts="{
   arial: 'Arial',
   arial_black: 'Arial Black',
   comic_sans: 'Comic Sans MS',
@@ -126,6 +125,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
+import { ENTRYPOINT } from '../../../../../src/config/entrypoint';
 import { mapGetters } from "vuex";
 import { formatBRDocument, formatBRPostalCode } from "./../library/formatter";
 import configurable from "./../mixins/configurable";
@@ -163,12 +163,13 @@ export default {
         { label: this.$t("Payment.Options.Half"), value: 4 },
         { label: this.$t("Payment.Options.Card"), value: 3 },
       ],
-      paymentType: null,
+      paymentType: "",
       participants: [],
       htmlContract: null,
       isRequesting: false,
       isLoading: false,
       contract_s: null,
+      isEditDisable: true,
     };
   },
 
@@ -183,41 +184,67 @@ export default {
     },
 
     paymentType(paymentType) {
-      let params = {
-        method: "PUT",
-        body: ({ paymentType: paymentType }),
-
+      const contractData = {
+        id: this.contractId,
+        contratante: this.contratante,
+        contratante_doc_type: this.contratanteDocType,
+        payment_type: paymentType,
       };
 
-      // params.headers.set("API-TOKEN", this.logged.token);
+      function replaceVariables(data, html = '') {
+        if (typeof html !== 'string') {
+          html = html.toString();
+        }
+
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            const regex = new RegExp('{{\\s*' + key + '\\s*}}', 'g');
+            html = html.replace(regex, data[key]);
+          }
+        }
+        return html;
+      }
+
+
+      const updatedHtmlContent = replaceVariables(contractData);
+
+      const params = {
+        method: "PUT",
+        body: JSON.stringify({
+          paymentType: paymentType,
+          htmlContent: updatedHtmlContent,
+        }),
+      };
 
       this.isLoading = true;
 
-      api.fetch("/contracts/" + this.contract + "/change/payment", params)
-        .then(
-          ((data) => {
-            if (data.response && data.response.success && data.response.data.contractId) {
-              this.$q.notify({
-                message: "Contrato atualizado com sucesso",
-                position: "bottom",
-                type: "positive",
-              });
-              this.loadDocument();
-            }
+      const url = `/contracts/${this.contract}/change/payment`;
 
-            return data;
-          }).bind(this)
-        )
-        .catch((e) => {
-          if (e instanceof SubmissionError) {
-            return e.errors._error;
+      api.fetch(url, params)
+        .then(data => {
+          if (data.response && data.response.success && data.response.data && data.response.data.contractId) {
+            this.$q.notify({
+              message: "Contrato atualizado com sucesso",
+              position: "bottom",
+              type: "positive",
+            });
+            this.loadDocument();
           }
-          return e.message;
+          return data;
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+          if (error instanceof SubmissionError) {
+            return error.errors._error;
+          } else {
+            return error.message;
+          }
         })
         .finally(() => {
           this.isLoading = false;
         });
     },
+
   },
 
   computed: {
@@ -309,23 +336,30 @@ export default {
     },
 
     loadDocument() {
-      let params = {};
-      params.company = this.myCompany.id;
-      params.myCompany = this.myCompany.id;
+      const params = {
+        company: this.myCompany.id,
+        myCompany: this.myCompany.id,
+      };
+
+      const url = `${ENTRYPOINT}/my_contracts/${this.contract}/document`;
 
       const config = {
         method: 'GET',
-        url: `https://api.foccuscegonhas.com.br/my_contracts/${this.contract}/document`,
+        url: url,
         headers: {
           'Accept': 'application/ld+json',
           'API-TOKEN': this.logged.token,
         },
-        params: params
+        params: params,
       };
 
-      api.execute(config).then((response) => {
-        this.htmlContract = response.data;
-      })
+      api.execute(config)
+        .then((response) => {
+          this.htmlContract = response.data;
+        })
+        .catch((error) => {
+          console.error("Error loading document:", error);
+        });
     },
 
     loadContract() {
@@ -355,6 +389,49 @@ export default {
       }
     },
 
+    isEdit() {
+      this.isEditDisable = false;
+    },
+
+    saveContract() {
+      const novoConteudoHTML = this.htmlContract;
+
+      this.isLoading = true;
+
+      const url = `/contracts/${this.contract}/change`;
+      const params = {
+        method: "PUT",
+        body: JSON.stringify({ htmlContent: novoConteudoHTML }),
+      };
+
+      api.fetch(url, params)
+        .then(data => {
+          if (data.response && data.response.success && data.response.data.contractId) {
+            this.$q.notify({
+              message: "Contrato atualizado com sucesso",
+              position: "bottom",
+              type: "positive",
+            });
+            this.loadDocument();
+          } else {
+            throw new Error("Erro ao atualizar o contrato");
+          }
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+          if (error instanceof SubmissionError) {
+            return error.errors._error;
+          } else {
+            return error.message;
+          }
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+
+      this.isEditDisable = true;
+    },
+
     statusIsWaitingForSignature() {
       return this.contract_s && this.contract_s.status === "Waiting signatures";
     },
@@ -379,46 +456,6 @@ export default {
         })
         .finally(() => {
           this.isRequesting = false;
-        });
-    },
-
-
-    onDemonstrativaClick() {
-      let params = {
-        method: "PUT",
-        body: ({}),
-
-      };
-
-      params.headers.set("API-TOKEN", this.logged.token);
-
-      this.isLoading = true;
-
-      api
-        .fetch("/contracts/" + this.contract + "/status/Active", params)
-        .then(
-          ((data) => {
-            if (data.response && data.response.success && data.response.data.contractId) {
-              this.$q.notify({
-                message: "Contrato atualizado com sucesso",
-                position: "bottom",
-                type: "positive",
-              });
-
-              location.reload();
-            }
-
-            return data;
-          }).bind(this)
-        )
-        .catch((e) => {
-          if (e instanceof SubmissionError) {
-            return e.errors._error;
-          }
-          return e.message;
-        })
-        .finally(() => {
-          this.isLoading = false;
         });
     },
   },
