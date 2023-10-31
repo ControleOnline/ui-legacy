@@ -507,6 +507,11 @@ export default {
             this.showColumnMenu = this.showColumnMenu ? false : true;
         },
         filterColumn(colName) {
+
+            const column = this.columns.find((col) => {
+                return col.name === colName || col.key === colName
+            });
+
             let filters = this.copyObject(this.filters || []) || [];
             if (!this.colFilter[colName]) {
                 delete filters[colName];
@@ -517,7 +522,7 @@ export default {
                     filters[colName].push(item)
                 })
             } else {
-                filters[colName] = this.colFilter[colName];
+                filters[colName] = this.formatFilter(column,this.colFilter[colName]);
             }
 
 

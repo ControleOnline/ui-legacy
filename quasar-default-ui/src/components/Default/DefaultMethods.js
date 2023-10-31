@@ -102,6 +102,14 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
   return  x instanceof Object && !editing ? x.label : x;
 }
 
+
+export function formatFilter(column,value){    
+    if (column && column.formatFilter instanceof Function)
+      return column.formatFilter(value);
+  
+    return value;
+}
+
 export function searchList(input, update, abort) {
   
   let columnName = null;  
