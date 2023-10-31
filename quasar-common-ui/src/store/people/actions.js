@@ -126,7 +126,7 @@ export const createContact = ({ commit }, values) => {
 };
 
 export const myCompanies = ({ commit, dispatch }) => {
-  commit(types.SET_ISLOADING);
+  commit(types.SET_ISLOADING, false);
 
   return api.fetch(`${RESOURCE_ENDPOINT}/companies/my`)
     
@@ -158,7 +158,7 @@ export const myCompanies = ({ commit, dispatch }) => {
 };
 
 export const mySaleCompanies = ({ commit }) => {
-  commit(types.SET_ISLOADING);
+  commit(types.SET_ISLOADING, false);
 
   return api.fetch(`${RESOURCE_ENDPOINT}/my-sale-companies`)
     
@@ -186,32 +186,28 @@ export const mySaleCompanies = ({ commit }) => {
 };
 
 export const defaultCompany = ({ commit, dispatch }) => {
-  commit(types.SET_ISLOADING);
+  commit(types.SET_ISLOADING, false);
 
   return api.fetch(`${RESOURCE_ENDPOINT}/company/default?domain=` + DOMAIN)
-    
     .then(data => {
-      commit(types.SET_ISLOADING, false);
-
       commit(types.SET_DEFAULT_COMPANY, data.response.data);
-
       return data.response;
-
-    }).catch(e => {
-      commit(types.SET_ISLOADING, false);
-
+    })
+    .catch(e => {
       dispatch('auth/logOut', null, { root: true });
       localStorage.remove('session');
-      //location.reload();
+      // location.reload();
 
       if (e instanceof SubmissionError) {
         commit(types.SET_VIOLATIONS, e.errors);
-        // eslint-disable-next-line
         commit(types.SET_ERROR, e.errors._error);
         return;
       }
 
       commit(types.SET_ERROR, e.message);
+    })
+    .finally(() => {
+      commit(types.SET_ISLOADING, false);
     });
 };
 

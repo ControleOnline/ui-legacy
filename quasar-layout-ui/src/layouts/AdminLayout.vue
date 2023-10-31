@@ -4,7 +4,7 @@
       <q-spinner color="primary" class="q-uploader__spinner" />
     </div>
   </div>
-  <q-layout v-else-if="isAdmin && !disabled" view="lHh Lpr fff" class="bg-image">
+  <q-layout v-else-if="isSuperAdmin && !disabled" view="lHh Lpr fff" class="bg-image">
     <q-header elevated class="bg-white text-grey-8" height-hint="64">
       <q-toolbar class="GPL__toolbar" style="height: 64px">
         <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" icon="menu"
@@ -198,7 +198,7 @@ export default {
     ...mapGetters({
       getPeopleDefaultCompany: "people/defaultCompany",
       isLoading: "people/isLoading",
-
+      myCompany: "people/currentCompany",
     }),
 
     user() {
@@ -221,6 +221,14 @@ export default {
 
       return `https://www.gravatar.com/avatar/${md5(this.user.email)}?s=400`;
     },
+
+    isSuperAdmin() {
+      return this.myCompany
+        ? Object.values(this.myCompany.permission).indexOf("super") != -1 ||
+            Object.values(this.myCompany.permission).indexOf("franchisee") != -1
+        : false;
+    },
+
   },
 
   watch: {
