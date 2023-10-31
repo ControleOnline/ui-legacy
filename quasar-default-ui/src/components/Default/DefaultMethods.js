@@ -53,9 +53,6 @@ export function isInvalid(key) {
 }
 
 export function formatData(column, item, editing) {
-
-
-
   let data = this.format(
     column,
     column.list
@@ -63,13 +60,14 @@ export function formatData(column, item, editing) {
       : this.getObjectFromKey(item, column.key || column.name)[
           column.key || column.name
         ]
+        ,editing
   );
 
   return data;
 }
 
 export function getNameFromList(column, row, editing) {
-  
+  //console.log(column, row, editing);
   let name = null;
   if ( this.configs.list[column.list] instanceof  Function) {
     return row;
@@ -84,7 +82,8 @@ export function getNameFromList(column, row, editing) {
       );
     });
 
-    return name instanceof Object && !editing ? name.label : name;
+    //return name instanceof Object && !editing ? name.label : name;
+    return name;
   }
 }
 
@@ -198,11 +197,13 @@ export function formatList(column, value) {
   return value;
 }
 
-export function format(column, value) {
+export function format(column, value,editing) {
   
   if (column && column.format instanceof Function) return column.format(value,column);
 
-  return value;
+  
+  return value instanceof Object && !editing ? value.label : value;
+  
 }
 export function saveFormat(columnName, value) {
 
