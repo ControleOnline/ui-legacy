@@ -53,6 +53,9 @@ export function isInvalid(key) {
 }
 
 export function formatData(column, item, editing) {
+
+
+
   let data = this.format(
     column,
     column.list
@@ -66,17 +69,18 @@ export function formatData(column, item, editing) {
 }
 
 export function getNameFromList(column, row, editing) {
+  
   let name = null;
   if ( this.configs.list[column.list] instanceof  Function) {
     return row;
   } else {
     name = this.configs.list[column.list].find((item) => {
       return (
-        item.value ==
+        item.value.trim() ==
         (row[column.key || column.name] instanceof Object &&
         row[column.key || column.name]
-          ? row[column.key || column.name]["@id"].split("/").pop()
-          : row[column.key || column.name])
+          ? row[column.key || column.name]["@id"].split("/").pop().trim()
+          : row[column.key || column.name].trim())
       );
     });
 
@@ -182,19 +186,21 @@ export function getObjectFromKey(object, key) {
     for (let parte of partesDaChave) {
       objetoAtual = objetoAtual[parte];
     }
-  }
+  }  
+
   return objetoAtual;
 }
 
 export function formatList(column, value) {  
   if (column && column.formatList instanceof Function)
-    return column.formatList(value);
+    return column.formatList(value,column);
 
   return value;
 }
 
 export function format(column, value) {
-  if (column && column.format instanceof Function) return column.format(value);
+  
+  if (column && column.format instanceof Function) return column.format(value,column);
 
   return value;
 }
@@ -210,7 +216,7 @@ export function saveFormat(columnName, value) {
   if (!column)
     return value;
 
-  if ( column.saveFormat instanceof Function) return column.saveFormat(value);
+  if ( column.saveFormat instanceof Function) return column.saveFormat(value,column);
   else if ( value instanceof Object)
     return !isNaN(value.value) ? parseFloat(value.value) : value.value;
 

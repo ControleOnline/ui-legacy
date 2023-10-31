@@ -25,7 +25,7 @@
                             @mouseenter="showEdit[items.indexOf(props.row)] = column.editable == false ? false : { [column.key || column.name]: true }"
                             @mouseleave="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: false }"
                             v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
-                                formatData(column, props.row, true))">
+                                formatData(column, props.row, true))">                                                                   
                             {{ formatData(column, props.row) }}
                             <q-icon v-if="column.editable != false &&
                                 !isSaving &&
@@ -247,7 +247,10 @@
                                         </q-btn>
                                         <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
                                             formatData(column, props.row, true)
-                                        )">{{ formatData(column, props.row) }}
+                                        )">                        
+
+                                                                                     
+                                        {{ formatData(column, props.row) }}
                                             <q-icon v-if="column.editable != false && !isSaving" size="0.8em" name="edit" />
                                             <q-icon v-else size="0.8em" name="" />
 
