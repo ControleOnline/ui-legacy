@@ -59,7 +59,7 @@
 
                         </template>
                     </q-td>
-                    <q-td v-if="tableActionsComponent() || configs.delete != false" class="text-right q-gutter-sm">
+                    <q-td  class="text-right q-gutter-sm">
                         <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white" color="primary"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem(props.row)">
