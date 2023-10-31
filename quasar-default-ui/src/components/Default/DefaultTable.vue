@@ -25,7 +25,7 @@
                             @mouseenter="showEdit[items.indexOf(props.row)] = column.editable == false ? false : { [column.key || column.name]: true }"
                             @mouseleave="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: false }"
                             v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
-                                formatData(column, props.row, true))">                                                                   
+                                formatData(column, props.row, true))">
                             {{ formatData(column, props.row) }}
                             <q-icon v-if="column.editable != false &&
                                 !isSaving &&
@@ -59,7 +59,7 @@
 
                         </template>
                     </q-td>
-                    <q-td  class="text-right q-gutter-sm">
+                    <q-td class="text-right q-gutter-sm">
                         <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white" color="primary"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem(props.row)">
@@ -247,10 +247,10 @@
                                         </q-btn>
                                         <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
                                             formatData(column, props.row, true)
-                                        )">                        
+                                        )">
 
-                                                                                     
-                                        {{ formatData(column, props.row) }}
+
+                                            {{ formatData(column, props.row) }}
                                             <q-icon v-if="column.editable != false && !isSaving" size="0.8em" name="edit" />
                                             <q-icon v-else size="0.8em" name="" />
 
@@ -482,7 +482,8 @@ export default {
         selectedRows: {
             handler: function (selectedRows) {
                 this.$store.commit(this.configs.store + '/SET_SELECTED', this.copyObject(selectedRows));
-                this.$emit('selected', this.copyObject(selectedRows));
+                const selected = this.items.filter((objeto, indice) => selectedRows[indice]);
+                this.$emit('selected', this.copyObject(selected));
             },
             deep: true,
         },
@@ -525,7 +526,7 @@ export default {
                     filters[colName].push(item)
                 })
             } else {
-                filters[colName] = this.formatFilter(column,this.colFilter[colName]);
+                filters[colName] = this.formatFilter(column, this.colFilter[colName]);
             }
 
 
