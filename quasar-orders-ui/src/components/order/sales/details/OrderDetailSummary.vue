@@ -541,7 +541,7 @@
               </div>
             </div>                      
             <div
-            v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
+            v-if="selectedAddressType && selectedAddressType.value === 'winch'"
               class="row q-col-gutter-xs q-pb-xs"
             >
               <div class="col-xs-12 text-subtitle1 text-left">
@@ -560,7 +560,7 @@
 
             <div class="row q-col-gutter-sm q-pb-xs">
               <div
-               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
+               v-if="selectedAddressType && selectedAddressType.value === 'winch'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -576,7 +576,7 @@
                 />
               </div>
               <div
-               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
+               v-if="selectedAddressType && selectedAddressType.value === 'winch'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -590,7 +590,7 @@
                 />
               </div>
               <div
-               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
+               v-if="selectedAddressType && selectedAddressType.value === 'winch'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -604,7 +604,7 @@
                 />
               </div>
               <div
-               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
+               v-if="selectedAddressType && selectedAddressType.value === 'winch'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -616,7 +616,7 @@
                 />
               </div>
               <div
-               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
+               v-if="selectedAddressType && selectedAddressType.value === 'winch'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -629,7 +629,7 @@
                   :rules="[isInvalid('district')]"
                 />
               </div>
-              <div v-if="selectedAddressType && selectedAddressType.value === 'winch' || selectedAddressType && selectedAddressType.value === 'meeting'" class="col-xs-12 col-sm-grow q-mb-sm">
+              <div v-if="selectedAddressType && selectedAddressType.value === 'meeting' || selectedAddressType && selectedAddressType.value === 'winch'" class="col-xs-12 col-sm-grow q-mb-sm">
                 <q-input
                   stack-label
                   lazy-rules
@@ -640,7 +640,7 @@
                   :rules="[isInvalid('city')]"
                 />
               </div>
-              <div v-if="selectedAddressType && selectedAddressType.value === 'winch' || selectedAddressType && selectedAddressType.value === 'meeting'" class="col-xs-12 col-sm-grow q-mb-sm">
+              <div v-if="selectedAddressType && selectedAddressType.value === 'meeting' || selectedAddressType && selectedAddressType.value === 'winch'" class="col-xs-12 col-sm-grow q-mb-sm">
                 <q-input
                   stack-label
                   lazy-rules
@@ -653,7 +653,7 @@
                 />
               </div>
               <div
-               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
+               v-if="selectedAddressType && selectedAddressType.value === 'winch'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
