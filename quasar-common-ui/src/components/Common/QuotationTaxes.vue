@@ -133,7 +133,7 @@ export default {
         return;
       }
 
-      let taxVal = this.taxValue ? this.taxValue.toString().replace(",", ".") : 0;
+      let taxVal = parseFloat(this.taxValue ? this.taxValue.toString().replace(",", ".") : 0);
 
       if (this.newTax.label.toUpperCase() == "DESCONTO") {
         taxVal = parseFloat(taxVal) * -1;
@@ -154,7 +154,7 @@ export default {
               tax: {
                 id: this.newTax.value,
                 name: this.newTax.label,
-                price: taxVal,
+                price: this.newTax.price,
               },
             });
           }
@@ -211,7 +211,7 @@ export default {
           id: tax.id,
           value: tax.value,
           taxProfit: tax.taxProfit,
-          price: tax.value,
+          price: tax.price,
         }),
       };
 
