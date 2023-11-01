@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-card v-if="this.order_.quotes.length > 0">
-      <q-card-section v-if="header" style="background-color: #00519b">
+      <q-card-section v-if="header" style="background-color: var(--primary);">
         <div class="row items-center title-bar">
           <q-icon
             name="local_shipping"
@@ -165,7 +165,7 @@
                 <q-card-section
                   class="text-white"
                   align="center"
-                  style="background: #00519b"
+                  style="background: var(--primary);"
                 >
                   <q-list>
                     <q-item
@@ -262,7 +262,7 @@
         <q-btn
           flat
           label="Retornar aos dados da Cotação"
-          style="color: #00519b"
+          style="color: var(--primary);"
           v-close-popup
         />
       </q-card-actions>

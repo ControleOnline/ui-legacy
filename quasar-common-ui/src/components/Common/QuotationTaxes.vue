@@ -1,5 +1,5 @@
 <template>
-  <q-card class="text-white" style="background-color: #00519b">
+  <q-card class="text-white bg-color-primary">
     <q-card-section>
       <div class="text-h6 text-center">Taxas</div>
     </q-card-section>
@@ -29,6 +29,8 @@
       <q-separator />
       <div class="text-subtitle2 q-mt-sm q-mb-sm text-center">Taxas dasdas opcionais</div>
       <q-select
+        bg-color="white"
+        color="black"
         dense
         outlined
         filled
@@ -41,6 +43,8 @@
       >
       </q-select>
       <q-input
+        bg-color="white"
+        color="black"
         dense
         outlined
         lazy-rules
@@ -72,7 +76,7 @@
       >
         <q-btn
           :class="showValues == false ? 'hidden' : ''"
-          color="primary"
+          color="secondary"
           label="Adicionar"
           :loading="isSaving"
           @click="addnewTax"
@@ -140,6 +144,7 @@ export default {
         id: this.newTax.value,
         value: taxVal,
         taxProfit: this.taxProfit,
+        price: taxVal,
       })
         .then((quotation) => {
           if (quotation["@id"]) {
@@ -188,7 +193,6 @@ export default {
 
     getDeliveryTaxes() {
       return api.fetch(`/quotations/${this.quote.id}/optional-taxes`)
-        
         .then((data) => {
           if (data.response) {
             if (data.response.success === false) throw Error(data.response.error);
@@ -207,6 +211,7 @@ export default {
           id: tax.id,
           value: tax.value,
           taxProfit: tax.taxProfit,
+          price: tax.value,
         }),
       };
 
@@ -240,3 +245,8 @@ export default {
   },
 };
 </script>
+<style scss>
+.bg-color-primary{
+  background-color: var(--primary);
+}
+</style>

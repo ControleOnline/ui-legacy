@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-card v-if="this.order.quotes.length > 0">
-      <q-card-section v-if="header" style="background-color: #00519b">
+      <q-card-section v-if="header" style="background-color: var(--primary);">
         <div class="row items-center title-bar">
           <q-icon name="local_shipping" style="color: #ffbc16; font-size: 40px; margin-right: 20px" />
           <div class="text-h5" style="color: #ffbc16">
@@ -54,7 +54,7 @@
                     </div>
                   </template>
                 </q-img>
-                <q-card-section class="text-white" align="center" style="background: #00519b">
+                <q-card-section class="text-white" align="center" style="background: var(--primary);">
                   <q-list>
                     <q-item :class="
                       props.row.retrieveDeadline == 0 ||
@@ -106,12 +106,12 @@
       </q-card-section>
 
       <q-card-actions v-if="footer" align="center" class="q-pa-md">
-        <q-btn flat label="Retornar aos dados da Cotação" style="color: #00519b" v-close-popup />
+        <q-btn flat label="Retornar aos dados da Cotação" style="color: var(--primary);" v-close-popup />
       </q-card-actions>
     </q-card>
 
     <q-dialog v-model="dtaxes" persistent transition-show="scale" transition-hide="scale">
-      <q-card class="text-white" style="background-color: #00519b">
+      <q-card class="text-white" style="background-color: var(--primary);">
         <q-card-section>
           <div class="text-h6 text-center">Taxas</div>
         </q-card-section>
