@@ -534,14 +534,14 @@
                 <q-select
                   outlined
                   @update:model-value="changeAddressType"
-                  v-model="dialogs.details.data.address_type"
+                  v-model="selectedAddressType"
                   :options="address_type"
                   label="Tipo de embarque"
                 />
               </div>
-            </div>
+            </div>                      
             <div
-              v-if="showByAddressType && !forceHidden"
+            v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
               class="row q-col-gutter-xs q-pb-xs"
             >
               <div class="col-xs-12 text-subtitle1 text-left">
@@ -560,7 +560,7 @@
 
             <div class="row q-col-gutter-sm q-pb-xs">
               <div
-                v-if="showByAddressType && !forceHidden"
+               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -576,7 +576,7 @@
                 />
               </div>
               <div
-                v-if="showByAddressType && !forceHidden"
+               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -590,7 +590,7 @@
                 />
               </div>
               <div
-                v-if="showByAddressType && !forceHidden"
+               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -604,7 +604,7 @@
                 />
               </div>
               <div
-                v-if="showByAddressType && !forceHidden"
+               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -616,7 +616,7 @@
                 />
               </div>
               <div
-                v-if="showByAddressType && !forceHidden"
+               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -629,7 +629,7 @@
                   :rules="[isInvalid('district')]"
                 />
               </div>
-              <div v-if="showByAddressType" class="col-xs-12 col-sm-grow q-mb-sm">
+              <div v-if="selectedAddressType && selectedAddressType.value === 'winch' || selectedAddressType && selectedAddressType.value === 'meeting'" class="col-xs-12 col-sm-grow q-mb-sm">
                 <q-input
                   stack-label
                   lazy-rules
@@ -640,7 +640,7 @@
                   :rules="[isInvalid('city')]"
                 />
               </div>
-              <div v-if="showByAddressType" class="col-xs-12 col-sm-grow q-mb-sm">
+              <div v-if="selectedAddressType && selectedAddressType.value === 'winch' || selectedAddressType && selectedAddressType.value === 'meeting'" class="col-xs-12 col-sm-grow q-mb-sm">
                 <q-input
                   stack-label
                   lazy-rules
@@ -653,7 +653,7 @@
                 />
               </div>
               <div
-                v-if="showByAddressType && !forceHidden"
+               v-if="selectedAddressType && selectedAddressType.value === 'meeting'"
                 class="col-xs-12 col-sm-grow q-mb-sm"
               >
                 <q-input
@@ -724,6 +724,7 @@ export default {
       editable: false,
       payerContact: null,
       showByAddressType: false,
+      selectedAddressType: null,
       forceHidden: false,
       editTotalPrice: false,
       editTotalPriceValue: null,
@@ -1250,26 +1251,16 @@ export default {
       this.dialogs.details.data.street = item.street;
       this.dialogs.details.data.number = item.number;
     },
-    changeAddressType() {
-      if (
-        this.dialogs.details.data.address_type &&
-        this.dialogs.details.data.address_type.value == "winch"
-      ) {
-        this.showByAddressType = true;
-      } else {
-        this.showByAddressType = true;
-      }
 
-      if (
-        this.dialogs.details.data.address_type &&
-        this.dialogs.details.data.address_type.value == "meeting" &&
-        this.isCeg() == true
-      ) {
-        this.forceHidden = true;
-      } else {
-        this.forceHidden = false;
-      }
+    changeAddressType(value) {
+      this.selectedAddressType = value.value;
+
+      this.dialogs.details.data.address_type = {
+        label: value.label,
+        value: value.value
+      };
     },
+    
     getStatus(orderId) {
       this.requestStatus({ orderId })
         .then((data) => {

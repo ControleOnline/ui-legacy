@@ -470,12 +470,11 @@ export default {
   },
 
   methods: {
-    getRouteRime(deadline){
-
-      const minRouteTime = deadline <= 5 ? minRouteTime = 2 : deadline -5;
-
+    getRouteRime(deadline) {
+      const minRouteTime = deadline <= 5 ? 2 : deadline - 5;
       return deadline > 0 ? "Entrega entre " + Math.round(minRouteTime) + " e " + Math.round(deadline) + " dias úteis" : "--";
     },
+
     domainType() {
       return this.defaultCompany.domainType;
     },

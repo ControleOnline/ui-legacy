@@ -450,27 +450,42 @@ export default {
     },
 
     requestSignatures() {
-      let options = {};
-      options.params = { myCompany: this.myCompany.id };
-      options.method = 'PUT';
-      options.body = {};
+      if (this.contract !== null) {
+        const options = {
+          method: "PUT",
+          body: {},
+        };
 
-      this.isRequesting = true;
+        this.isRequesting = true;
 
-      api.fetch(`/my_contracts/${this.contract}/request-signatures`, options)
-        .then((contract) => {
-          this.$emit("requested", contract);
+        api.fetch(`/my_contracts/${this.contract}/request-signatures`, options)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw response;
+            }
+          })
+          .then((contract) => {
+            this.$emit("requested", contract);
 
-          this.$q.notify({
-            message: "Contrato atualizado com sucesso",
-            position: "bottom",
-            type: "positive",
+            this.$q.notify({
+              message: "Contrato atualizado com sucesso",
+              position: "bottom",
+              type: "positive",
+            });
+          })
+          .catch((errorResponse) => {
+            this.$q.notify({
+              message: "Erro ao solicitar assinaturas: " + errorResponse.response.error,
+              position: "bottom",
+              type: "negative",
+            });
+            this.isRequesting = false;
           });
-        })
-        .finally(() => {
-          this.isRequesting = false;
-        });
+      }
     },
+
   },
 };
 </script>
