@@ -18,7 +18,7 @@ export const translate = {
     payment_day: 'Dia de pagamento',
     start_date: 'Data de inicio',
     edit: 'Editar Contrato',
-    save: 'Salvar',
+    save: 'Salvar Contrato',
     go_original: 'Ver contrato original',
     go_amended: 'Ver contrato adendo',
     cancel_contract: 'Cancelar contrato',

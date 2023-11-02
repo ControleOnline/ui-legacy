@@ -13,22 +13,41 @@
     <q-card class="q-pa-md q-mb-sm col-12">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-4">
-          <div :class="statusStyle" v-if="contract_s">
-            {{ this.$t(`contracts.statuses.${contract_s.status}`) }}
-          </div>
+          <div class="row items-center justify-center">
+              <div :class="statusStyle" class="relative-position full-width" v-if="contract">
+                {{ this.$t(`contracts.statuses.${contractStatus}`) }} 
+                <q-inner-loading :showing="isLoading">
+                  <q-spinner-gears size="50px" color="primary" />                  
+                </q-inner-loading> 
+              </div>
+            </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
-          <div class="row items-center justify-end">
+        <div class="col-xs-12 col-sm-6 col-md-5">
+          <div class="row items-center justify-center">
 
-            <q-btn color="primary" :label="$t('contracts.edit')" @click="isEdit" :loading="isRequesting" />
-            <q-btn color="primary" :label="$t('contracts.save')" @click="saveContract" :loading="isRequesting" />
-            <!-- <contract-action-cancel :config="config" :contract="contract" />
-            <contract-action-amend :config="config" :contract="contract" /> -->
+            <q-btn color="red" :label="$t('contracts.cancel_contract')" @click="cancelContract" class="q-mr-sm"/>            
+            <q-btn :color="isEditing ? 'secondary' : 'primary'"
+              :label="$t(isEditing ? 'contracts.save' : 'contracts.edit')"
+              @click="isEditing ? toggleSave() : toggleEdit()" />
+
+            <q-dialog v-model="showDialogEditContract">
+              <q-card>
+                <q-card-section>
+                  <p>Tem certeza de que deseja salvar alterações no contrato? Isso vai resultar em uma atualização
+                    completa do contrato.</p>
+                </q-card-section>
+                <q-card-actions align="right">
+                  <q-btn label="Cancelar" color="negative" @click="cancelChangeContract" />
+                  <q-btn label="Confirmar" color="primary" @click="confirmChangeContract" />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
+
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-3">
           <div class="row items-center justify-end">
-            <q-btn color="primary" :label="$t('contracts.request_signatures')" @click="requestSignatures"
+            <q-btn color="secondary" :label="$t('contracts.request_signatures')" @click="requestSignatures"
               :disable="statusIsWaitingForSignature()" :loading="isRequesting" />
           </div>
         </div>
@@ -70,7 +89,7 @@
         <q-circular-progress :indeterminate="isLoading" size="sm" color="primary" class="q-ma-md" />
       </div>
 
-      <q-editor :disable="isEditDisable" class="full-width" v-model="htmlContract" :dense="$q.screen.lt.md" :toolbar="[
+      <q-editor :disable="!isEditing" class="full-width" v-model="htmlContract" :dense="$q.screen.lt.md" :toolbar="[
         [
           {
             label: $q.lang.editor.align,
@@ -132,6 +151,7 @@ import { ENTRYPOINT } from '../../../../../src/config/entrypoint';
 import { mapGetters } from "vuex";
 import { formatBRDocument, formatBRPostalCode } from "./../library/formatter";
 import configurable from "./../mixins/configurable";
+import { date } from 'quasar';
 
 export default {
   name: "ContractDocument",
@@ -146,14 +166,13 @@ export default {
   created() {
     if (this.contract) {
       this.loadParticipants();
-      this.loadContract();
+      this.loadContractStatus();
     }
   },
 
   mounted() {
     if (this.contract) {
       this.loadDocument();
-      this.loadContract();
     }
   },
 
@@ -169,11 +188,13 @@ export default {
       paymentType: "",
       participants: [],
       htmlContract: null,
+      isEditing: false,
+      cancelDate: null,
       isRequesting: false,
       isLoading: false,
-      contract_s: null,
-      isEditDisable: true,
+      contractStatus: null,
       showConfirmationDialog: false,
+      showDialogEditContract: false,
     };
   },
 
@@ -183,7 +204,6 @@ export default {
       if (data) {
         this.pageLoading = false;
         this.loadDocument();
-        this.loadContract();
       }
     },
 
@@ -191,53 +211,54 @@ export default {
       if (newPaymentType !== oldPaymentType) {
         this.showConfirmationDialog = true;
       }
-      console.log(this.paymentType)
     },
 
-  },
-
-  computed: {
-    ...mapGetters({
-      currentCompany: "people/currentCompany",
-      defaultCompany: "people/defaultCompany",
-      myCompany: "people/currentCompany",
-    }),
-
-    logged() {
-      return this.$store.getters["auth/user"];
-    },
-
-    statusStyle() {
-      let style = "text-center text-h6 rounded-borders q-pl-sm q-pr-sm ";
-
-      if (this.contract_s && this.contract_s.status) {
-        switch (this.contract_s.status) {
-          case "Draft":
-            style += "bg-blue text-white";
-            break;
-          case "Waiting approval":
-          case "Waiting signatures":
-            style += "bg-yellow text-black";
-            break;
-          case "Active":
-            style += "bg-green text-white";
-            break;
-          case "Canceled":
-          case "Amended":
-            style += "bg-red text-white";
-            break;
-          default:
-            style += "text-black";
-        }
-      } else {
-        style += "text-black";
-      }
-
-      return style;
-    }
   },
 
   methods: {
+
+    toggleEdit() {
+      this.isEditing = true;
+    },
+    toggleSave() {
+      console.log('Save');
+      this.showDialogEditContract = true;
+    },
+    cancelChangeContract() {
+      this.isEditing = false;
+      this.showDialogEditContract = false;
+    },
+    confirmChangeContract() {
+      if (this.isEditing) {
+        this.saveContract();
+        this.updateContractAmendedStatus();
+      } else {
+        this.isEditing = true;
+      }
+
+      this.showDialogEditContract = false;
+    },
+
+    loadContractStatus() {
+      if (this.contract !== null) {
+        let params = {
+          method: "GET",
+        };
+
+        this.isLoading = true;
+
+        api.fetch(`/my_contracts/${this.contract}`, params)
+          .then((data) => {
+            this.contractStatus = data.contractStatus;
+          })
+          .catch((error) => {
+            console.error("Erro ao carregar contrato:", error);
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
+      }
+    },
 
     changePayment() {
       this.showConfirmationDialog = false;
@@ -375,35 +396,44 @@ export default {
         });
     },
 
-    loadContract() {
-      if (this.contract !== null) {
-        let params = {
-          method: "GET",
-        };
+    cancelContract() {
+      const params = {
+        method: "PUT",
+        body: JSON.stringify({
+          endDate: new Date().toDateString(),
+        }),
+      };
+      const url = `/my_contracts/${this.contract}/cancel-contract`;
 
-        this.isLoading = true;
+      api.fetch(url, params)
+        .then(data => {
+          this.loadContractStatus();
+        })
+        .catch(e => {
 
-        api.fetch("/contracts/" + this.contract, params)
-          .then((data) => {
-            const contract = {
-              status: data.contractStatus,
-            };
-
-            return contract;
-          })
-          .then((contract) => {
-            this.contract_s = contract;
-            this.isLoading = false;
-          })
-          .catch((error) => {
-            console.error("Erro ao carregar contrato:", error);
-            this.isLoading = false;
-          });
-      }
+        })
+        .finally(() => {
+         
+        });
     },
 
-    isEdit() {
-      this.isEditDisable = false;
+    updateContractAmendedStatus() {
+      const params = {
+        method: "PUT",
+        body: JSON.stringify({}),
+      };
+      const url = `/my_contracts/${this.contract}/contract-amended`;
+
+      api.fetch(url, params)
+        .then(data => {
+          this.loadContractStatus();
+        })
+        .catch(e => {
+ 
+        })
+        .finally(() => {
+
+        });
     },
 
     saveContract() {
@@ -431,18 +461,13 @@ export default {
           }
         })
         .catch(error => {
-          console.error('Erro:', error);
-          if (error instanceof SubmissionError) {
-            return error.errors._error;
-          } else {
-            return error.message;
-          }
+          console.error('Erro ao salvar contrato:', error);
+          return error.message;
         })
         .finally(() => {
           this.isLoading = false;
+          this.isEditing = false;
         });
-
-      this.isEditDisable = true;
     },
 
     statusIsWaitingForSignature() {
@@ -450,42 +475,80 @@ export default {
     },
 
     requestSignatures() {
-      if (this.contract !== null) {
-        const options = {
+      if (this.contract !== null) {        
+        this.isRequesting = true;
+
+        const params = {
           method: "PUT",
           body: {},
         };
 
-        this.isRequesting = true;
+        const url = `/my_contracts/${this.contract}/request-signatures`;
 
-        api.fetch(`/my_contracts/${this.contract}/request-signatures`, options)
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw response;
-            }
-          })
-          .then((contract) => {
-            this.$emit("requested", contract);
-
-            this.$q.notify({
-              message: "Contrato atualizado com sucesso",
-              position: "bottom",
-              type: "positive",
-            });
-          })
-          .catch((errorResponse) => {
-            this.$q.notify({
-              message: "Erro ao solicitar assinaturas: " + errorResponse.response.error,
-              position: "bottom",
-              type: "negative",
-            });
-            this.isRequesting = false;
+        api.fetch(url, params)
+        .then((response) => {
+          this.$q.notify({
+            message: "Solicitação de assinatura enviada com sucesso",
+            position: "bottom",
+            type: "positive",
           });
+
+          this.loadContractStatus();
+        })
+        .catch((e) => {
+          this.$q.notify({
+            message: "Erro ao solicitar assinaturas, verifique o cadastro do cliente!",
+            position: "bottom",
+            type: "negative",
+          })
+        })
+        .finally(() => {
+            this.loadContractStatus();
+            this.isRequesting = false;
+        });
       }
     },
 
+  },
+  computed: {
+    ...mapGetters({
+      currentCompany: "people/currentCompany",
+      defaultCompany: "people/defaultCompany",
+      myCompany: "people/currentCompany",
+    }),
+
+    logged() {
+      return this.$store.getters["auth/user"];
+    },
+
+    statusStyle() {
+      let style = "text-center text-h6 rounded-borders q-pl-sm q-pr-sm ";
+
+      if (this.contractStatus) {
+        switch (this.contractStatus) {
+          case "Draft":
+            style += "bg-blue text-white";
+            break;
+          case "Waiting approval":
+          case "Waiting signatures":
+            style += "bg-yellow text-black";
+            break;
+          case "Active":
+            style += "bg-green text-white";
+            break;
+          case "Canceled":
+          case "Amended":
+            style += "bg-red text-white";
+            break;
+          default:
+            style += "text-black";
+        }
+      } else {
+        style += "text-black";
+      }
+
+      return style;
+    }
   },
 };
 </script>
