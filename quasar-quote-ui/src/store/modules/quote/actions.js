@@ -1,4 +1,5 @@
 import { api } from "@controleonline/../../src/boot/api";
+import { DOMAIN } from "@controleonline/../../src/config/domain";
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
 import * as types from './mutation_types';
 
@@ -226,10 +227,13 @@ export const quoteRemote = ({ commit }, { values, params }) => {
 export const sendProposta = ({ commit }, { id, params }) => {
   const options = {
     method: 'GET',
-    params: params
+    params: {
+      ...params,
+      domain: DOMAIN
+    }
   };
 
-  return api.fetch('/quotations/' + id + '/get-pdf', options)
+  return api.fetch('/quotations/' + id + '/get-pdf/', options)
     
     .then(response => {
 
