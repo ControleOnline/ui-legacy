@@ -91,8 +91,8 @@ export default {
                 data[column.key || column.name] =
                     column.list ?
                         this.formatList(column, this.data[column.key || column.name], true) :
-                        this.format(this.data[column.key || column.name]);
-
+                        this.format(column, this.data[column.key || column.name]);
+                        
                 if (column.isIdentity)
                     this.id = data[column.key || column.name];
             }
@@ -101,7 +101,7 @@ export default {
         if (this.data['@id'])
             data['id'] = this.data['@id'].split('/').pop();
 
-        this.item = data;        
+        this.item = data;
     },
     mounted() {
         this.$nextTick(() => {

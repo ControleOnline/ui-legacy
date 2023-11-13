@@ -67,7 +67,7 @@ export function formatData(column, item, editing) {
 }
 
 export function getNameFromList(column, row, editing) {
-  //console.log(column, row, editing);
+  
   let name = null;
   if ( this.configs.list[column.list] instanceof  Function) {
     return row;
