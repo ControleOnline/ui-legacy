@@ -30,6 +30,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
+import { DOMAIN } from "@controleonline/../../src/config/domain";
 import AcceptForm from "../../components/AcceptForm.vue";
 
 export default {
@@ -107,11 +108,10 @@ export default {
 
       let options = {
         method: "POST",
-        body: (data),
-        params: {},
+        body: (data)
       };
 
-      return api.fetch(`accept-order-payer/save/${this.id}`, options)
+      return api.fetch(`accept-order-payer/save/${this.id}?domain=${DOMAIN}`, options)
         .then((data) => {
           if (data && data.response && data.response.success) {
             this.$q.notify({
