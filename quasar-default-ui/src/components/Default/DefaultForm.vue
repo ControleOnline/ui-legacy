@@ -92,9 +92,11 @@ export default {
                     column.list ?
                         this.formatList(column, this.data[column.key || column.name], true) :
                         this.format(column, this.data[column.key || column.name]);
-                        
-                if (column.isIdentity)
-                    this.id = data[column.key || column.name];
+
+                if (column.isIdentity) {
+                    this.id = this.data[column.key || column.name];
+                    data.id = this.id;
+                }
             }
         });
 
