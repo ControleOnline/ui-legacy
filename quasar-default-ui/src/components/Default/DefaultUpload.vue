@@ -119,14 +119,17 @@ export default {
       this.$emit('fileUploaded', (response));
     },
     uploadFailed(info) {
+
+      let response = JSON.parse(info.xhr.response);
+
       if (this.showError) {
         this.$q.notify({
-          message: this.$t('errors.upload_failed'),
+          message: this.$t(response.error),
           position: 'bottom',
           type: 'negative',
         });
       }
-      let response = JSON.parse(info.xhr.response);
+
       this.$emit('uploadFailed', (response));
     },
   },
