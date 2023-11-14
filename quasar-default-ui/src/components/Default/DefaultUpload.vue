@@ -1,38 +1,15 @@
 <template>
-  <q-uploader ref="uploader" no-thumbnails square flat
-    :url        ="endpoint"
-    :headers    ="headers"
-    :accept     ="accepted"
-    field-name  ="file"
-    color       ="white"
-    @uploaded   ="fileUploaded"
-    @failed     ="uploadFailed"
-    @removed    ="filesRemoved"
-    :multiple   ="multiple"
-    :class      ="myClass"
-    :auto-upload="autoupd"
-    :form-fields="getFields"
-  >
+  <q-uploader ref="uploader" no-thumbnails square flat :url="endpoint" :headers="headers" :accept="accepted"
+    field-name="file" color="white" @uploaded="fileUploaded" @failed="uploadFailed" @removed="filesRemoved"
+    :multiple="multiple" :class="myClass" :auto-upload="autoupd" :form-fields="getFields">
     <template v-slot:header="scope">
       <div class="row no-wrap items-center justify-end q-pa-sm q-gutter-xs">
-        <q-spinner v-if="scope.isUploading"
-          color="primary"
-          class="q-uploader__spinner"
-        />
-        <q-btn flat dense rounded
-          v-if  ="scope.canAddFiles"
-          type  ="a"
-          icon  ="add_box"
-          color ="primary"
-        >
+        <q-spinner v-if="scope.isUploading" color="primary" class="q-uploader__spinner" />
+        <q-btn flat dense rounded v-if="scope.canAddFiles" type="a" icon="add_box" color="primary">
           <q-uploader-add-trigger />
           <q-tooltip>Selecione o arquivo</q-tooltip>
         </q-btn>
-        <q-btn v-if="scope.isUploading" round dense flat
-          icon  ="clear"
-          color ="red"
-          @click="scope.abort"
-        >
+        <q-btn v-if="scope.isUploading" round dense flat icon="clear" color="red" @click="scope.abort">
           <q-tooltip>Cancelar upload</q-tooltip>
         </q-btn>
       </div>
@@ -40,18 +17,12 @@
 
     <template v-slot:list="scope">
       <div class="row items-center" style="min-height: 100%">
-        <div
-          v-if ="scope.files.length == 0"
-          class="text-center text-camelcase"
-          style="min-width: 100%; min-height: 100%"
-        >
-          <span class="text-bold text-uppercase">Area de upload</span><br>Clique no botão "mais" ou arraste seu arquivo até esta caixa
+        <div v-if="scope.files.length == 0" class="text-center text-camelcase" style="min-width: 100%; min-height: 100%">
+          <span class="text-bold text-uppercase">Area de upload</span><br>Clique no botão "mais" ou arraste seu arquivo
+          até esta caixa
         </div>
 
-        <q-list separator
-          v-if ="scope.files.length > 0"
-          style="min-width: 100%"
-        >
+        <q-list separator v-if="scope.files.length > 0" style="min-width: 100%">
           <q-item v-for="file in scope.files" :key="file.name">
             <q-item-section>
               <q-item-label class="full-width ellipsis">
@@ -68,13 +39,8 @@
             </q-item-section>
 
             <q-item-section top side>
-              <q-btn flat dense round
-                class ="gt-xs"
-                size  ="12px"
-                icon  ="clear"
-                color ="red"
-                @click="scope.removeFile(file)"
-              />
+              <q-btn flat dense round class="gt-xs" size="12px" icon="clear" color="red"
+                @click="scope.removeFile(file)" />
             </q-item-section>
           </q-item>
         </q-list>
@@ -88,42 +54,47 @@ import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
 
 export default {
   props: {
-    multiple : {
-      type    : Boolean,
+    multiple: {
+      type: Boolean,
       required: false,
-      default : true,
+      default: true,
     },
-    autoupd  : {
-      type    : Boolean,
+    autoupd: {
+      type: Boolean,
       required: false,
-      default : true,
+      default: true,
     },
     extraData: {
-      type    : Array,
+      type: Array,
       required: false,
       default: () => []
     },
-    accepted : {
-      type    : String,
+    maximized: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    accepted: {
+      type: String,
       required: false,
       default: () => '.jpg, .pdf, image/*'
     },
-    endpoint : {
-      type    : String,
+    endpoint: {
+      type: String,
       required: false,
       default: () => `${ENTRYPOINT}/media_objects`
     },
     showError: {
-      type    : Boolean,
+      type: Boolean,
       required: false,
-      default : true,
+      default: true,
     },
   },
   data() {
     return {
-      headers : [
+      headers: [
         {
-          name : 'API-TOKEN',
+          name: 'API-TOKEN',
           value: this.$store.getters['auth/user'].token
         },
       ],
@@ -131,10 +102,11 @@ export default {
   },
   computed: {
     myClass() {
-      return `q-upd ${this.multiple ? 'q-upd-multiple' : 'q-upd-single'}`;
+      return (`q-upd ${this.multiple ? 'q-upd-multiple' : 'q-upd-single'}`) +
+        (` ${this.maximized ? 'q-upd-maximized' : ''}`);
     }
   },
-  methods : {
+  methods: {
     getFields() {
       return this.extraData;
     },
@@ -142,20 +114,20 @@ export default {
       this.$emit('filesRemoved');
     },
     fileUploaded(info) {
+      let response = JSON.parse(info.xhr.response);
       this.$refs.uploader.removeUploadedFiles();
-      if (info.xhr.response && info.xhr.response.length)
-        this.$emit('fileUploaded', (info.xhr.response));
+      this.$emit('fileUploaded', (response));
     },
     uploadFailed(info) {
       if (this.showError) {
         this.$q.notify({
-          message : this.$t('errors.upload_failed'),
+          message: this.$t('errors.upload_failed'),
           position: 'bottom',
-          type    : 'negative',
+          type: 'negative',
         });
       }
-      if (info.xhr.response && info.xhr.response.length)
-        this.$emit('uploadFailed', (info.xhr.response));
+      let response = JSON.parse(info.xhr.response);
+      this.$emit('uploadFailed', (response));
     },
   },
 };
@@ -167,4 +139,6 @@ export default {
     width     : 100% !important
     &-multiple, &-single
       border    : 1px dashed #cccccc !important
+  .q-upd-maximized
+    min-height: calc(100vh - 150px)!important    
 </style>
