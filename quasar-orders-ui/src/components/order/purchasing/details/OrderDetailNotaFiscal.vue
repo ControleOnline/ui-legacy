@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import UploadFileForm from "@controleonline/quasar-common-ui/src/components/Common/UploadFileForm.vue";
+import UploadFileForm from "@controleonline/quasar-default-ui/src/components/Default/DefaultUpload.vue";
 import {
 formatCEP,
 formatDocument,

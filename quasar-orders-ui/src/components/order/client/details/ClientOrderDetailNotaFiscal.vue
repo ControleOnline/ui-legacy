@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import UploadFileForm from '@controleonline/quasar-common-ui/src/components/Common/UploadFileForm';
+import UploadFileForm from '@controleonline/quasar-common-ui/src/components/Common@controleonline/quasar-default-ui/src/components/Default/DefaultUpload.vue';
 import { formatCEP, formatDocument } from '@controleonline/quasar-common-ui/src/utils/formatter';
 import { mapActions, mapGetters } from 'vuex';
 import { ENTRYPOINT } from '../../../../../../../../src/config/entrypoint';
