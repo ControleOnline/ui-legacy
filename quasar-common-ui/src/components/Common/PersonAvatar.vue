@@ -64,7 +64,7 @@
 </template>
 
 <script>
- import UploadForm from '.@controleonline/quasar-default-ui/src/components/Default/DefaultUpload.vue';
+ import UploadForm from '@controleonline/quasar-default-ui/src/components/Default/DefaultUpload.vue';
 
 export default {
   props: {
