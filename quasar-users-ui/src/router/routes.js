@@ -1,7 +1,20 @@
 export const routes = [
   {
+    path: "/oauth/",
+    component: () =>
+      import("@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue"),
+    children: [
+      {
+        path: "/mercadolivre/return",
+        name: "mercadolivre-return",
+        component: () => import("../pages/Oauth/MercadoLivre/return.vue"),
+      },
+    ],
+  },
+  {
     path: "/user/",
-    component: () => import("@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue"),
+    component: () =>
+      import("@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue"),
     children: [
       {
         path: "/view-profile",
@@ -41,7 +54,8 @@ export const routes = [
   },
   {
     path: "/company/",
-    component: () => import("@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue"),
+    component: () =>
+      import("@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue"),
     children: [
       {
         path: "id/:id/employees/:employeeId",
@@ -62,7 +76,8 @@ export const routes = [
   },
   {
     path: "/forgot-password",
-    component: () => import("@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue"),
+    component: () =>
+      import("@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue"),
     children: [
       {
         name: "ForgotPassword",

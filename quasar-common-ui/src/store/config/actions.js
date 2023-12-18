@@ -15,21 +15,14 @@ export const appConfig = ({ commit }) => {
     .then((data) => {
       commit(types.SET_ISLOADING, false);
 
-      const config = {
-
-      };
+      const config = {};
 
       if (data.response.success) {
         // Google Tag Manager ID
 
-        if (data.response.data["google-tag-manager"]) {
-          config["google-tag-manager"] =
-            data.response.data["google-tag-manager"];
-        }
+        config = data.response.data;
       }
-
       commit(types.SET_APPCONFIG, config);
-
       return config;
     })
     .catch((e) => {
@@ -43,19 +36,6 @@ export const appConfig = ({ commit }) => {
       }
 
       commit(types.SET_ERROR, e.message);
-    });
-};
-
-export const getConfig = ({ commit }, peopleId) => {
-  const params = {
-    method: "GET",
-  };
-
-  return api
-    .fetch(`/configs/${peopleId}`, params)
-
-    .then((response) => {
-      return response.response ? response.response.data : null;
     });
 };
 

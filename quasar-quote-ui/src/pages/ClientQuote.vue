@@ -327,7 +327,6 @@ export default {
     ...mapActions({
       remote: "quote/quoteRemote",
       createContract: "contracts/saveContract",
-      config: "config/appConfig",
       getClose: "people/getCloseProfessionals",
     }),
     isCeg() {

@@ -306,7 +306,6 @@ export default {
     ...mapActions({
 
       createContract: "contracts/saveContract",
-      config: "config/appConfig",
       getClose: "people/getCloseProfessionals",
     }),
     

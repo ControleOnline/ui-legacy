@@ -2,15 +2,21 @@
 import { BrowserAgent } from '@newrelic/browser-agent/src/loaders/browser-agent';
 import Analytics from "@controleonline/quasar-common-ui/src/utils/analytics";
 
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-
+  computed: {
+    ...mapGetters({
+      defaultCompany: "people/defaultCompany",
+    }),
+  },
   mounted() {
-    this.config().then((config) => {
-      if (config['google-tag-manager'] !== null)
-        Analytics.init(config);
-    });
+  },
+  watch: {
+    defaultCompany(defaultCompany) {
+      if (defaultCompany.configs['google-tag-manager'])
+        Analytics.init(defaultCompany.configs);
+    },
   },
   created() {
     /* global configs */
@@ -19,7 +25,6 @@ export default {
   },
   methods: {
     ...mapActions({
-      config: "config/appConfig",
     }),
     newrelic() {
       const options = {
