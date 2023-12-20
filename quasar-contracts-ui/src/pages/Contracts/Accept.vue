@@ -111,7 +111,7 @@ export default {
         body: (data)
       };
 
-      return api.fetch(`accept-order-payer/save/${this.id}?domain=${DOMAIN}`, options)
+      return api.fetch(`accept-order-payer/save/${this.id}?app-domain=${DOMAIN}`, options)
         .then((data) => {
           if (data && data.response && data.response.success) {
             this.$q.notify({

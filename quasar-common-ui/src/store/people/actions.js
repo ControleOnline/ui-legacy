@@ -188,7 +188,7 @@ export const mySaleCompanies = ({ commit }) => {
 export const defaultCompany = ({ commit, dispatch }) => {
   commit(types.SET_ISLOADING, false);
 
-  return api.fetch(`${RESOURCE_ENDPOINT}/company/default?domain=` + DOMAIN)
+  return api.fetch(`${RESOURCE_ENDPOINT}/company/default?app-domain=` + DOMAIN)
     .then(data => {
       commit(types.SET_DEFAULT_COMPANY, data.response.data);
       return data.response;
