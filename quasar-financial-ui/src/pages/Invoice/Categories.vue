@@ -1,16 +1,5 @@
 <template>
-  <q-page padding>
-    <q-card style="min-height: 90vh" :bordered="false" :flat="true">
-      <q-card-section class="text-h6">
-        {{ $t("Categorias") }}
-      </q-card-section>
-      <div class="row">
-        <div class="col-12">
-          <TableCategories :context="'expense'" />
-        </div>
-      </div>
-    </q-card>
-  </q-page>
+  <TableCategories context="expense" />
 </template>
 
 <script>
@@ -25,6 +14,6 @@ export default {
     return {};
   },
 
-  created() {},
+  created() { },
 };
 </script>

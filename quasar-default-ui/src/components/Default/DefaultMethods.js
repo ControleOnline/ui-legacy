@@ -74,7 +74,7 @@ export function getNameFromList(column, row, editing) {
   } else {
     name = this.configs.list[column.list].find((item) => {
       return (
-        item.value?.trim() ==
+        item.value && item.value.toString().trim() ==
         (row[column.key || column.name] instanceof Object &&
         row[column.key || column.name]
           ? row[column.key || column.name]["@id"].split("/").pop().trim()
