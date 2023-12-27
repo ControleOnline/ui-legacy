@@ -1,16 +1,19 @@
 <template>
-  <DefaultTable :configs="configs" v-if="configs && loaded" />
+  <DefaultTable :configs="configs" v-if="configs" />
 </template>
 <script>
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
 import { mapActions, mapGetters } from "vuex";
-
+import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 export default {
   components: {
     DefaultTable,
   },
 
   computed: {
+    ...mapGetters({
+      companies: 'people/companies',
+    }),
     configs() {
       return {
         store: 'categories',
@@ -19,6 +22,7 @@ export default {
         search: false,
         list: {
           //parentCategories: this.hardwareType,
+          categories: this.categories,
           company: this.companies,
         },
       };
@@ -26,36 +30,21 @@ export default {
   },
   data() {
     return {
-      loaded: false,
-      companies: [
-
-      ],
-
+      context: 'expense',
+      filters: new Filters()
     };
   },
   created() {
-    this.getMyCompanies();
+    let filters = {
+      context: this.context
+    };
+    this.$store.commit('categories' + '/SET_FILTERS', filters);
+
   },
   methods: {
     ...mapActions({
-      getCompanies: "people/myCompanies",
-    }),
-    getMyCompanies() {
-      this.getCompanies().then((response) => {
-        if (response.success === true && response.data.length) {
-          response.data.forEach((item, i) => {
-            this.companies.push(
-              {
-                label: item.alias,
-                value: item.id
-              }
-            );
-          });
-        }
-      }).finally(() => {
-        this.loaded = true;
-      });
-    },
+      categories : 'categories/getItems'
+    })
   },
 };
 </script>

@@ -6,11 +6,6 @@ const persistentFilter = new Filters();
 
 export default {
   namespaced: true,
-  isLoading: false,
-  error: "",
-  violations: null,
-  totalItems: 0,
-  filters: persistentFilter.getFilters(),
   state: {
     resourceEndpoint: "categories",
     isLoading: false,
@@ -41,7 +36,6 @@ export default {
           return value;
         },
       },
-
       {
         sortable: true,
         list: "company",
@@ -49,28 +43,23 @@ export default {
         align: "left",
         label: "company",
         formatList: function (value) {
-          return value.id;
+          return {
+            label: value?.alias,
+            value: value?.id,
+          };
+        },
+        format: function (value) {
+          return value;
         },
         saveFormat: function (company) {
           return "/people/" + company;
         },
       },
-
       {
         sortable: true,
         name: "color",
         align: "left",
         label: "color",
-        format: function (value) {
-          return value;
-        },
-      },
-
-      {
-        sortable: true,
-        name: "context",
-        align: "left",
-        label: "context",
         format: function (value) {
           return value;
         },
@@ -82,6 +71,29 @@ export default {
         label: "icon",
         format: function (value) {
           return value;
+        },
+      },
+      {
+        sortable: true,
+        name: "parent",
+        align: "left",
+        label: "parent",
+        list: "categories",
+        searchParam: "name",
+        format: function (value) {
+          return value?.name;
+        },
+        saveFormat: function (value) {
+         
+          return value  ?"/categories/" + value:null;
+        },
+        formatList: function (value) {
+          return value && value?.id
+            ? {
+                label: value?.name,
+                value: value?.id,
+              }
+            : null;
         },
       },
     ],

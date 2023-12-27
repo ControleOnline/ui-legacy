@@ -7,7 +7,7 @@
 
                 <q-tr :props="props.row">
                     <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name"
-                        :sum="sum(column, getObjectFromKey(props.row, column.key || column.name))" :class="[
+                        :sum="sum(column, getNameFromList(column, props.row, column.key || column.name))" :class="[
                             'text-' + column.align,
                             { 'dragging-column': isDraggingCollumn[index] },
                             { 'hidden': column.visible != true }
@@ -18,8 +18,8 @@
 
 
                         <q-btn v-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
-                            this.format(column, getObjectFromKey(props.row, column.key ||
-                                column.name)[column.key || column.name]) }}
+                            this.format(column, getNameFromList(column, props.row, column.key ||
+                                column.name)) }}
                         </q-btn>
                         <span
                             @mouseenter="showEdit[items.indexOf(props.row)] = column.editable == false ? false : { [column.key || column.name]: true }"
@@ -217,12 +217,12 @@
                                         :class="[{ 'hidden': column.visible != true }]">
                                         <q-btn v-if="column.to" @click="verifyClick(column, props.row)"
                                             :icon:="column.icon">
-                                            {{ this.format(column, getObjectFromKey(props.row, column.key ||
-                                                column.name)[column.key || column.name]) }}
+                                            {{ this.format(column, getNameFromList(column, props.row, column.key ||
+                                                column.name)) }}
                                         </q-btn>
                                         <span v-else :icon:="column.icon">
-                                            {{ this.format(column, getObjectFromKey(props.row, column.key ||
-                                                column.name)[column.key || column.name]) }}
+                                            {{ this.format(column, getNameFromList(column, props.row, column.key ||
+                                                column.name)) }}
                                         </span>
                                     </q-item-section>
                                 </template>
@@ -242,8 +242,8 @@
                                     <q-item-section side>
                                         <q-btn v-if="column.to" @click="verifyClick(column, props.row)"
                                             :icon:="column.icon">{{
-                                                this.format(column, getObjectFromKey(props.row, column.key ||
-                                                    column.name)[column.key || column.name]) }}
+                                                this.format(column, getNameFromList(column, props.row, column.key ||
+                                                    column.name)) }}
                                         </q-btn>
                                         <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
                                             formatData(column, props.row, true)
@@ -724,7 +724,7 @@ export default {
             };
             this.editing = editing;
 
-            this.save(index, row, col, this.editedValue.value || this.editedValue);
+            this.save(index, row, col, this.editedValue?.value || this.editedValue);
         },
         isEditing(index, col) {
             return this.saveEditing[index] && this.saveEditing[index][col.key || col.name] ? true : false;

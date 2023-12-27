@@ -6,11 +6,6 @@ const persistentFilter = new Filters();
 
 export default {
   namespaced: true,
-  isLoading: false,
-  error: "",
-  violations: null,
-  totalItems: 0,
-  filters: persistentFilter.getFilters(),
   state: {
     resourceEndpoint: "hardware",
     isLoading: false,

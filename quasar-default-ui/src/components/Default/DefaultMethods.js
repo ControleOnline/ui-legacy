@@ -8,7 +8,7 @@ export function copyObject(obj) {
     return newArray;
   }
 
-  if ( obj instanceof Function) {
+  if (obj instanceof Function) {
     return obj;
   }
 
@@ -28,7 +28,7 @@ export function mask(column) {
 
 export function isEmptyProxy(obj) {
   // Verifique se o objeto é um Proxy
-  if (!obj ||  !(obj instanceof Object) || !obj.hasOwnProperty("__ob__")) {
+  if (!obj || !(obj instanceof Object) || !obj.hasOwnProperty("__ob__")) {
     return this.isProxyEmpty(obj);
   }
 
@@ -55,35 +55,39 @@ export function isInvalid(key) {
 export function formatData(column, item, editing) {
   let data = this.format(
     column,
-    column.list
-      ? this.getNameFromList(column, item, editing)
-      : this.getObjectFromKey(item, column.key || column.name)[
-          column.key || column.name
-        ]
-        ,editing
+
+    this.getNameFromList(column, item, editing),
+    editing
   );
 
   return data;
 }
 
 export function getNameFromList(column, row, editing) {
-  
   let name = null;
-  if ( this.configs.list[column.list] instanceof  Function) {
-    return row;
+  if (
+    this.configs.list[column.list] instanceof Function ||
+    this.configs.list[column.list] == undefined
+  ) {
+    return row[column.key || column.name];
   } else {
     name = this.configs.list[column.list].find((item) => {
+      let i;
+      if (item instanceof Object) i = this.formatList(column, item);
+      else i = this.format(column, item);
+
       return (
-        item.value && item.value.toString().trim() ==
-        (row[column.key || column.name] instanceof Object &&
-        row[column.key || column.name]
-          ? row[column.key || column.name]["@id"].split("/").pop().trim()
-          : row[column.key || column.name].trim())
+        i.value &&
+        i.value.toString().trim() ==
+          (row[column.key || column.name] instanceof Object &&
+          row[column.key || column.name]
+            ? row[column.key || column.name]["@id"].split("/").pop().trim()
+            : row[column.key || column.name].trim())
       );
     });
-
-    //return name instanceof Object && !editing ? name.label : name;
-    return name;
+    return name instanceof Object && !editing
+      ? this.formatList(column, name).label
+      : this.formatList(column, name);
   }
 }
 
@@ -102,75 +106,92 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
   });
   let x = this.formatList(column, name);
 
-  return  x instanceof Object && !editing ? x.label : x;
+  return x instanceof Object && !editing ? x.label : x;
 }
 
+export function formatFilter(column, value) {
+  if (column && column.formatFilter instanceof Function)
+    return column.formatFilter(value);
 
-export function formatFilter(column,value){    
-    if (column && column.formatFilter instanceof Function)
-      return column.formatFilter(value);
-  
-    return value;
+  return value;
 }
 
 export function searchList(input, update, abort) {
-  
-  let columnName = null;  
+  let columnName = null;
 
-
-  if (Object.keys(this.showInput || {}).length > 0  ) {     
+  if (Object.keys(this.showInput || {}).length > 0) {
     let i = Object.keys(this.showInput);
-    if (i)
-        columnName = i[0];
-  }  
-
-  if (Object.keys(this.editing || {}).length > 0  ) {     
-    this.editing.forEach((item) => {
-          let i = Object.keys(item);
-          if (i)
-              columnName = i[0];
-      });
+    if (i) columnName = i[0];
   }
 
+  if (Object.keys(this.editing || {}).length > 0) {
+    this.editing.forEach((item) => {
+      let i = Object.keys(item);
+      if (i) columnName = i[0];
+    });
+  }
 
   const column = this.columns.find((col) => {
-    return col.name === columnName || col.key === columnName
+    return col.name === columnName || col.key === columnName;
   });
 
+  if (
+    (input.length >= 3 ||
+      (!this.isLoadingList &&
+        input.length == 0 &&
+        ((this.listAutocomplete[column.list] &&
+          this.listAutocomplete[column.list].length == 0) ||
+          !this.listAutocomplete[column.list]))) &&
+    columnName
+  ) {
+    let s = column.searchParam || "search";
+    let params = this.copyObject(this.filters);
+    params[s] = input;
 
-  if ((input.length >= 3 || (!this.isLoadingList && input.length == 0 && ((
-    this.listAutocomplete[column.list] && 
-    this.listAutocomplete[column.list].length == 0) || 
-    !this.listAutocomplete[column.list])
-    )) && columnName
-    ) {
+    if (this.configs.list[column.list] instanceof Function) {
+      this.$store.commit(this.configs.store + "/SET_ISLOADINGLIST", true);
+      this.listAutocomplete[column.list] = [];
 
-      
-      let s = column.searchParam || 'search';
-      let params = { [s]: input };
+      this.configs.list[column.list](params)
+        .then((result) => {
+          this.listAutocomplete[column.list].push(null);
 
-      if ( this.configs.list[column.list] instanceof Function) {
+          result.forEach((item) => {
+            this.listObject[columnName] = item["@id"]
+              .split("/")
+              .slice(0, -1)
+              .join("/");
 
-        
-        this.$store.commit(this.configs.store + '/SET_ISLOADINGLIST', true);
-
-          this.configs.list[column.list](params).then((result) => {
-              this.listAutocomplete[column.list] = [];              
-              result.forEach((item) => {                
-                  this.listObject[columnName] = item['@id'].split("/").slice(0, -1).join("/");   
-
-                  this.listAutocomplete[column.list].push(this.formatList(column, item));
-              });
-              update();
-          }).finally(()=>{
-            this.$store.commit(this.configs.store + '/SET_ISLOADINGLIST', false);
-          });
-      } else {          
-          this.listAutocomplete[column.list] = this.configs.list[column.list].filter((item) => {            
-            return !input || item.value.toString().toLowerCase().includes(input.toLowerCase()) || item.label.toString().toLowerCase().includes(input.toLowerCase()) ;
+            this.listAutocomplete[column.list].push(
+              this.formatList(column, item)
+            );
           });
           update();
-      }
+        })
+        .finally(() => {
+          this.$store.commit(this.configs.store + "/SET_ISLOADINGLIST", false);
+        });
+    } else {
+      this.listAutocomplete[column.list] = this.configs.list[column.list]
+        .filter((item) => {
+          return (
+            column,
+            !input ||
+              this.formatList(column, item)
+                .value.toString()
+                .toLowerCase()
+                .includes(input.toLowerCase()) ||
+              this.formatList(column, item)
+                .label.toString()
+                .toLowerCase()
+                .includes(input.toLowerCase())
+          );
+        })
+        .map((item) => {
+          return this.formatList(column, item);
+        });
+      update();
+    }
   }
   update();
   //this.editedValue = [];
@@ -178,47 +199,29 @@ export function searchList(input, update, abort) {
   //return;
 }
 
-export function getObjectFromKey(object, key) {
-  let objetoAtual = object;
-  if (key.indexOf(".") != -1) {
-    let partesDaChave = key.split(".");
-    for (let parte of partesDaChave) {
-      objetoAtual = objetoAtual[parte];
-    }
-  }  
-
-  return objetoAtual;
-}
-
-export function formatList(column, value) {  
+export function formatList(column, value) {
   if (column && column.formatList instanceof Function)
-    return column.formatList(value,column);
+    return column.formatList(value, column);
 
   return value;
 }
 
-export function format(column, value,editing) {
-  
-  if (column && column.format instanceof Function) return column.format(value,column);
+export function format(column, value, editing) {
+  if (column && column.format instanceof Function)
+    return column.format(value, column);
 
-  
   return value instanceof Object && !editing ? value.label : value;
-  
 }
 export function saveFormat(columnName, value) {
-
-
-
   const column = this.columns.find((col) => {
     return col.name === columnName || col.key === columnName;
   });
 
-  
-  if (!column)
-    return value;
+  if (!column) return value;
 
-  if ( column.saveFormat instanceof Function) return column.saveFormat(value,column);
-  else if ( value instanceof Object)
+  if (column.saveFormat instanceof Function)
+    return column.saveFormat(value, column);
+  else if (value instanceof Object)
     return !isNaN(value.value) ? parseFloat(value.value) : value.value;
 
   return !isNaN(value) ? parseFloat(value) : value;
