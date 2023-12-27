@@ -114,6 +114,9 @@ export default {
         isSaving() {
             return this.$store.getters[this.configs.store + '/isSaving']
         },
+        filters() {
+            return this.$store.getters[this.configs.store + '/filters']
+        },
         columns() {
             return this.$store.getters[this.configs.store + '/columns']
         },
@@ -126,7 +129,7 @@ export default {
     methods: {
         ...DefaultMethods,
         save(params) {
-            let p = {};
+            let p = this.copyObject(this.filters);
             for (const name in params) {
                 if (this.listObject[name])
                     p[name] = this.listObject[name] + '/' + params[name].value;

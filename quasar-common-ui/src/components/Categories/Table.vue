@@ -13,6 +13,7 @@ export default {
   computed: {
     ...mapGetters({
       companies: 'people/companies',
+      myCompany: 'people/currentCompany',
     }),
     configs() {
       return {
@@ -23,7 +24,7 @@ export default {
         list: {
           //parentCategories: this.hardwareType,
           categories: this.categories,
-          company: this.companies,
+          company: this.companies
         },
       };
     }
@@ -36,14 +37,15 @@ export default {
   },
   created() {
     let filters = {
-      context: this.context
+      context: this.context,
+      company: '/people/'+this.myCompany.id
     };
     this.$store.commit('categories' + '/SET_FILTERS', filters);
 
   },
   methods: {
     ...mapActions({
-      categories : 'categories/getItems'
+      categories: 'categories/getItems'
     })
   },
 };

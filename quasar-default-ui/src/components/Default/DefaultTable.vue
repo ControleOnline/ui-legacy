@@ -375,7 +375,6 @@
 <script>
 import DefaultForm from "@controleonline/quasar-default-ui/src/components/Default/DefaultForm";
 import * as DefaultMethods from './DefaultMethods.js';
-import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 
 
 export default {
@@ -403,7 +402,6 @@ export default {
             listObject: {},
             listAutocomplete: [],
             showColumnMenu: false,
-            persistentFilter: new Filters(),
             forceShowInput: [],
             showInput: [],
             nodrag: false,

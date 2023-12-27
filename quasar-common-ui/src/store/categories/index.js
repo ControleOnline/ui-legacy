@@ -36,25 +36,25 @@ export default {
           return value;
         },
       },
-      {
-        sortable: true,
-        list: "company",
-        name: "company",
-        align: "left",
-        label: "company",
-        formatList: function (value) {
-          return {
-            label: value?.alias,
-            value: value?.id,
-          };
-        },
-        format: function (value) {
-          return value;
-        },
-        saveFormat: function (company) {
-          return "/people/" + company;
-        },
-      },
+      //{
+      //  sortable: true,
+      //  list: "company",
+      //  name: "company",
+      //  align: "left",
+      //  label: "company",
+      //  formatList: function (value) {
+      //    return {
+      //      label: value?.alias,
+      //      value: value?.id,
+      //    };
+      //  },
+      //  format: function (value) {
+      //    return value;
+      //  },
+      //  saveFormat: function (company) {
+      //    return "/people/" + company;
+      //  },
+      //},
       {
         sortable: true,
         name: "color",
@@ -88,7 +88,7 @@ export default {
           return value  ?"/categories/" + value:null;
         },
         formatList: function (value) {
-          return value && value?.id
+          return value 
             ? {
                 label: value?.name,
                 value: value?.id,
