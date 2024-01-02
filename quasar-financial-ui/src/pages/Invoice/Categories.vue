@@ -1,5 +1,5 @@
 <template>
-  <TableCategories context="expense" />
+  <TableCategories  :context="context" v-if="context"/>
 </template>
 
 <script>
@@ -11,9 +11,10 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      context:this.$route.params.context
+    };
   },
-
   created() { },
 };
 </script>

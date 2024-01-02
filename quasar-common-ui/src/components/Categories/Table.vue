@@ -9,6 +9,11 @@ export default {
   components: {
     DefaultTable,
   },
+  props: {
+    context: {
+      required: true
+    },
+  },
 
   computed: {
     ...mapGetters({
@@ -31,14 +36,13 @@ export default {
   },
   data() {
     return {
-      context: 'expense',
       filters: new Filters()
     };
   },
   created() {
     let filters = {
       context: this.context,
-      company: '/people/'+this.myCompany.id
+      company: '/people/' + this.myCompany.id
     };
     this.$store.commit('categories' + '/SET_FILTERS', filters);
 

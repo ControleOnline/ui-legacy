@@ -6,13 +6,8 @@ const persistentFilter = new Filters();
 
 export default {
   namespaced: true,
-  isLoading: false,
-  error: "",
-  violations: null,
-  totalItems: 0,
-  filters: persistentFilter.getFilters(),
   state: {
-    resourceEndpoint: "finance/pay",
+    resourceEndpoint: "categories",
     isLoading: false,
     error: "",
     violations: null,
@@ -23,77 +18,84 @@ export default {
         editable: false,
         isIdentity: true,
         sortable: true,
-        name: "@id",
+        name: "id",
         align: "left",
         label: "id",
         sum: false,
-        to: function (column) {
-          return {
-            name: "hardwareDetails",
-            params: { id: column.id },
-          };
-        },
         format: function (value) {
           return "#" + value;
         },
       },
       {
         sortable: true,
-        name: "invoice_type",
+        name: "name",
         align: "left",
-        label: "Tipo",
+        label: "name",
         sum: false,
         format: function (value) {
           return value;
         },
       },
+      //{
+      //  sortable: true,
+      //  list: "company",
+      //  name: "company",
+      //  align: "left",
+      //  label: "company",
+      //  formatList: function (value) {
+      //    return {
+      //      label: value?.alias,
+      //      value: value?.id,
+      //    };
+      //  },
+      //  format: function (value) {
+      //    return value;
+      //  },
+      //  saveFormat: function (company) {
+      //    return "/people/" + company;
+      //  },
+      //},
       {
         sortable: true,
-        name: "description",
+        name: "color",
         align: "left",
-        label: "description",
-        format: function (value) {
-          return value;
-        },
-      }, 
-      {
-        list: "status", 
-        sortable: true,
-        name: "status", // o nome tem que ser o mesmo que vem da API
-        align: "left",
-        label: "statusList",
-        format: function (value) {
-          return value;
-        },
-      },           
-      {
-        sortable: true,
-        name: "dueDate",
-        align: "left",
-        label: "dueDate",
-        format: function (value) {
-          return value;
-        },
-      },
-      {
-        sortable: true,
-        name: "categoryName",
-        align: "left",
-        label: "categoryName",
+        label: "color",
         format: function (value) {
           return value;
         },
       },
       {
         sortable: true,
-        name: "price",
+        name: "icon",
         align: "left",
-        label: "price",
+        label: "icon",
         format: function (value) {
           return value;
         },
       },
-
+      {
+        sortable: true,
+        name: "parent",
+        align: "left",
+        label: "parent",
+        list: "categories",
+        searchParam: "name",
+        format: function (value) {
+          return value?.name;
+        },
+        saveFormat: function (value) {
+         
+          return value  ?"/categories/" + value:null;
+        },
+        formatList: function (value) {
+          return value 
+            ? {
+                label: value?.name,
+                value: value?.id,
+              }
+            : null;
+        },
+      },
     ],
   },
   actions: actions,

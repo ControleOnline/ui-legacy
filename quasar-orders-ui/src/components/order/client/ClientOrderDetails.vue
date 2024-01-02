@@ -136,7 +136,9 @@
               />
             </q-tab-panel>
             <q-tab-panel name="invoice" class="q-pa-none">
+               <!--
               <ClientOrderDetailInvoice :orderId="orderId" />
+                 -->
             </q-tab-panel>
             <!--
             <q-tab-panel name="tasks" class="q-pa-none">
@@ -178,7 +180,7 @@ import { formatMoney } from "@controleonline/quasar-common-ui/src/utils/formatte
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import { mapActions, mapGetters } from "vuex";
 import OrderDetailTag from "../sales/details/OrderDetailTag";
-import ClientOrderDetailInvoice from "./details/ClientOrderDetailInvoice";
+//import ClientOrderDetailInvoice from "./details/ClientOrderDetailInvoice";
 import ClientOrderDetailNotaFiscal from "./details/ClientOrderDetailNotaFiscal";
 import ClientOrderDetailQuotation from "./details/ClientOrderDetailQuotation";
 import ClientOrderDetailsummary from "./details/ClientOrderDetailSummary";
@@ -189,7 +191,7 @@ export default {
     ClientOrderDetailsummary,
     ClientOrderDetailQuotation,
     ClientOrderDetailNotaFiscal,
-    ClientOrderDetailInvoice,
+    //ClientOrderDetailInvoice,
     ClientOrderDetailTracking,
     OrderTasks,
     OrderDetailTag,
