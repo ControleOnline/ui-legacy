@@ -708,6 +708,7 @@ export default {
       //   inCharge: null,
       // },
       openModal: false,
+      test: false,
       editModal: false,
       peopleOptions: ["Fornecedor 1", "Fornecedor 2", "Fornecedor 3"],
       peopleStatusOptions: ["Liberado para base", "Aguardando cliente", "Pátio"],
