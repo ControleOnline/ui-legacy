@@ -2,6 +2,11 @@ import * as actions from "@controleonline/quasar-default-ui/src/store/default/ac
 import * as getters from "@controleonline/quasar-default-ui/src/store/default/getters";
 import mutations from "@controleonline/quasar-default-ui/src/store/default/mutations";
 import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
+import {
+  formatDateYmdTodmY,
+  formatMoney,
+} from "@controleonline/quasar-common-ui/src/utils/formatter";
+
 const persistentFilter = new Filters();
 
 export default {
@@ -10,222 +15,206 @@ export default {
   error: "",
   violations: null,
   totalItems: 0,
-  filters: persistentFilter.getFilters(),
+  filters: {...persistentFilter.getFilters(), status:46},
   state: {
     resourceEndpoint: "order_logistics",
     isLoading: false,
     error: "",
     violations: null,
     totalItems: 0,
-    filters: persistentFilter.getFilters(),
+    filters: {...persistentFilter.getFilters(), status:46},
     columns: [
       {
-        name: "acoes",
-        label: "",
-      },
-      {
-        name: "Vistoria",
+        name: "orderLogisticSurvey",
         label: "Vistoria",
         align: "center",
-        format: (val) => `${val}`,
+        format: (val) => val ? `${val.id}` : '',
       },
       {
-        name: "Id",
+        name: "id",
         label: "Id",
         align: "center",
-        field: (row) => row.id,
-        format: (val) => `${val}`,
       },
       {
-        name: "IdPedido",
-        label: "Id Pedido",
+        name: "order",
+        label: "IdPedido",
         align: "center",
         classes: "hidden",
         headerClasses: "hidden",
-        field: (row) => row.order,
-        format: (val) => `${val}`,
+        format: (val) => `${val.id}`,
       },
       {
-        name: "IdContrato",
-        label: "Id Contrato",
+        name: "order",
+        label: "IdContrato",
         align: "center",
-        field: (row) => row.contract,
-        format: (val) => `${val}`,
+        format: (val) => val.contract ? `${val.contract.id}` : '',
       },
       {
         name: "IdFatura",
-        label: "Id Fatura",
+        label: "IdFatura",
         align: "center",
-        field: (row) => row.orderInvoice,
-        format: (val) => `${val}`,
       },
       {
-        name: "stretchstatus",
+        name: "status",
         label: "Status",
         align: "center",
-        field: (row) => row.stretchstatus,
-        format: (val) => `${val}`,
+        format: (val) => `${val.status}`,
       },
       {
-        name: "OrigemTipo",
-        label: "Origem Tipo",
+        name: "originType",
+        label: "originType",
         align: "center",
-        field: (row) => row.originType,
-        format: (val) => `${val}`,
+        format: (val) => {
+          switch (val) {
+            case 'b':
+              return 'Base';
+              break;
+            case 'c':
+              return 'Coleta';
+              break;
+            case 'p':
+              return 'Ponto de encontro';
+              break;
+            default:
+              return ''
+          }
+        },
       },
       {
-        name: "OrigemRegiao",
-        label: "Origem Região",
+        name: "originRegion",
+        label: "originRegion",
         align: "center",
-        field: (row) => row.originRegion,
-        format: (val) => `${val}`,
       },
       {
-        name: "OrigemEstado",
-        label: "Origem Estado",
+        name: "originState",
+        label: "originState",
         align: "center",
-        field: (row) => row.originState,
-        format: (val) => `${val}`,
       },
       {
-        name: "OrigemCidade",
-        label: "Origem Cidade",
+        name: "originCity",
+        label: "originCity",
         align: "center",
-        field: (row) => row.originCity,
-        format: (val) => `${val}`,
       },
       {
-        name: "OrigemEndereco",
-        label: "Endereço de origem",
+        name: "originAddress",
+        label: "originAddress",
         align: "center",
-        field: (row) => row.originAdress,
-        format: (val) => `${val}`,
       },
       {
-        name: "OrigemLocalizador",
-        label: "Localizador de origem",
+        name: "originLocator",
+        label: "originLocator",
         align: "center",
-        field: (row) => row.originLocator,
-        format: (val) => `${val}`,
       },
       {
-        name: "Fornecedor",
-        label: "Fornecedor",
+        name: "provider",
+        label: "provider",
         align: "left",
-        field: (row) => row.people,
-        format: (val) => `${val}`,
+        format: (val) => val ? `${val.name}` : '',
       },
       {
-        name: "DestinoTipo",
-        label: "Destino Tipo",
+        name: "destinationType",
+        label: "destinationType",
         align: "center",
-        field: (row) => row.destinationype,
-        format: (val) => `${val}`,
+        format: (val) => {
+          switch (val) {
+            case 'b':
+              return 'Base';
+              break;
+            case 'e':
+              return 'Entrega';
+              break;
+            case 'p':
+              return 'Ponto de encontro';
+              break;
+            default:
+              return ''
+          }
+        },
       },
       {
-        name: "DestinoRegiao",
-        label: "Destino Região",
+        name: "destinationRegion",
+        label: "destinationRegion",
         align: "center",
-        field: (row) => row.destinationRegion,
-        format: (val) => `${val}`,
       },
       {
-        name: "DestinoEstado",
-        label: "Destino Estado",
+        name: "destinationState",
+        label: "destinationState",
         align: "center",
-        field: (row) => row.destinationState,
-        format: (val) => `${val}`,
       },
       {
-        name: "DestinoCidade",
-        label: "Destino Cidade",
+        name: "destinationCity",
+        label: "destinationCity",
         align: "center",
-        field: (row) => row.destinationCity,
-        format: (val) => `${val}`,
       },
       {
-        name: "DestinoEndereco",
-        label: "Endereço de destino",
+        name: "destinationAdress",
+        label: "destinationAdress",
         align: "center",
-        field: (row) => row.destinationAdress,
-        format: (val) => `${val}`,
       },
       {
-        name: "DestinoLocalizador",
-        label: "Localizador de destino",
+        name: "destinationLocator",
+        label: "destinationLocator",
         align: "center",
-        field: (row) => row.destinationLocator,
-        format: (val) => `${val}`,
       },
       {
-        name: "DestinoFornecedor",
-        label: "Fornecedor de destino",
+        name: "destinationProvider",
+        label: "destinationProvider",
         align: "center",
-        field: (row) => row.destinationProvider,
-        format: (val) => `${val}`,
+        format: (val) => val ? `${val.name}` : '',
       },
       {
-        name: "Valor",
-        label: "Valor",
+        name: "price",
+        label: "price",
         align: "center",
-        field: (row) => row.price,
-        format: (val) => `${val}`,
+        format: (val) => formatMoney(val, "BRL", "pt-br")
       },
       {
-        name: "ValorPago",
-        label: "Valor Pago",
+        name: "amountPaid",
+        label: "amountPaid",
         align: "center",
-        field: (row) => row.amountPaid,
-        format: (val) => `${val}`,
+        format: (val) => formatMoney(val, "BRL", "pt-br")
       },
       {
-        name: "Saldo",
-        label: "Saldo",
+        name: "balance",
+        label: "balance",
         align: "center",
-        field: (row) => row.balance,
-        format: (val) => `${val}`,
+        format: (val) => formatMoney(val, "BRL", "pt-br")
       },
       {
-        name: "PrevisaoDataEmbarque",
-        label: "Previsão Data embarque",
+        name: "estimatedShippingDate",
+        label: "estimatedShippingDate",
         align: "right",
-        field: (row) => row.estimatedShippingDate,
-        format: (val) => `${val}`,
+        format: (val) => val ? formatDateYmdTodmY(val) : ''
       },
       {
-        name: "DataEmbarque",
-        label: "Data embarque",
+        name: "shippingDate",
+        label: "shippingDate",
         align: "right",
-        field: (row) => row.shippingDate,
-        format: (val) => `${val}`,
+        format: (val) => val ? formatDateYmdTodmY(val) : ''
       },
       {
-        name: "PrevisaoDataChegada",
-        label: "Previsão Data chegada",
+        name: "estimatedArrivalDate",
+        label: "estimatedArrivalDate",
         align: "right",
-        field: (row) => row.estimatedArrivalDate,
-        format: (val) => `${val}`,
+        format: (val) => val ? formatDateYmdTodmY(val) : ''
       },
       {
-        name: "DataChegada",
-        label: "Data chegada",
+        name: "arrivalDate",
+        label: "arrivalDate",
         align: "right",
-        field: (row) => row.arrivalDate,
-        format: (val) => `${val}`,
+        format: (val) => val ? formatDateYmdTodmY(val) : ''
       },
       {
-        name: "UltimaModificacao",
-        label: "Modificado",
+        name: "lastModified",
+        label: "lastModified",
         align: "center",
-        field: (row) => row.lastModified,
-        format: (val) => `${val}`,
+        format: (val) => val ? formatDateYmdTodmY(val, true) : ''
       },
       {
-        name: "Responsavel",
-        label: "Responsável",
+        name: "inCharge",
+        label: "inCharge",
         align: "right",
-        field: (row) => row.inCharge,
-        format: (val) => `${val}`,
+        format: (val) => val ? `${val.name}` : '',
       },
     ],
   },

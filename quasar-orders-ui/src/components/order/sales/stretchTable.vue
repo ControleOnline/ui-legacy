@@ -86,8 +86,194 @@
     </div>
 
     <!-- Tabela-->
-    <div class="q-mt-none">
+    <div class="table-container q-mt-none">
+      <q-table
+        ref="myTable"
+        flat
+        :loading="isLoading"
+        :rows="data"
+        :columns="columns"
+        :pagination.sync="pagination"
+        @request="onRequest"
+        row-key="Id"
+        :rows-per-page-options="[0]"
+      >
+        <!-- <template v-slot:header-selection="scope"></template> -->
+        <template v-slot:body="props">
+          <q-tr :props="props">
+            <q-td key="acoes">
+              <q-btn dense flat icon="settings">
+                <q-menu>
+                  <q-list>
+                    <q-item clickable @click="openEditModal(props)">
+                      <q-item-section side>
+                        <q-icon name="edit"></q-icon>
+                      </q-item-section>
+                      <q-item-section> Editar </q-item-section>
+                    </q-item>
+                    <q-separator></q-separator>
 
+                    <q-item
+                      clickable
+                      @click="finish(props)"
+                      v-if="props.row.status.label != 'Finalizado'"
+                    >
+                      <q-item-section side>
+                        <q-icon name="check"></q-icon>
+                      </q-item-section>
+                      <q-item-section> Finalizar </q-item-section>
+                    </q-item>
+                    <q-separator></q-separator>
+                    <q-item
+                      clickable
+                      @click="addSurvey(props)"
+                      v-if="!props.row.surveyId"
+                    >
+                      <q-item-section side>
+                        <q-icon name="checklist"></q-icon>
+                      </q-item-section>
+                      <q-item-section> Vistoria </q-item-section>
+                    </q-item>
+                    <q-separator></q-separator>
+                    <q-item clickable @click="deleteTrecho(props)">
+                      <q-item-section side>
+                        <q-icon name="delete"></q-icon>
+                      </q-item-section>
+                      <q-item-section> Excluir </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
+            </q-td>
+            <q-td :props="props" key="Vistoria">
+              <q-btn
+                v-if="props.row.surveyId"
+                outline
+                dense
+                :to="{
+                  name: 'ChecklistDetails',
+                  params: { id: props.row.surveyId, token_url: props.row.surveyToken },
+                }"
+                label="Vistoria Id"
+                class="full-width"
+              />
+            </q-td>
+            <q-td :props="props" key="Id">
+              {{ props.row.id }}
+            </q-td>
+            <q-td :props="props" key="IdPedido">
+              <q-btn
+                outline
+                dense
+                :to="{ name: 'OrderDetails', params: { id: props.row.order } }"
+                :label="props.row.order"
+                class="full-width"
+              />
+            </q-td>
+            <q-td :props="props" key="IdContrato">
+              {{ props.row.contract }}
+              <!-- <q-btn
+                v-if="props.row.contract"
+                outline
+                dense
+                :to="{ name: 'ContractDetails', params: { id: props.row.contract } }"
+                :label="props.row.contract"
+                class="full-width"
+              />
+              <div v-else>-</div> -->
+            </q-td>
+            <q-td :props="props" key="IdFatura">
+              <q-btn
+                v-if="props.row.orderInvoice"
+                outline
+                dense
+                :to="{ name: 'PayDetails', params: { id: props.row.orderInvoice } }"
+                :label="props.row.orderInvoice"
+                class="full-width"
+              />
+              <div v-else>-</div>
+            </q-td>
+            <q-td
+              key="stretchstatus"
+              :props="props"
+              :style="{ color: getStatusColor(props.row.status.label) }"
+            >
+              {{ props.row.status.label }}
+            </q-td>
+            <q-td :props="props" key="OrigemTipo">
+              {{ props.row.originType }}
+            </q-td>
+            <q-td :props="props" key="OrigemRegiao">
+              {{ props.row.originRegion }}
+            </q-td>
+            <q-td :props="props" key="OrigemEstado">
+              {{ props.row.originState }}
+            </q-td>
+            <q-td :props="props" key="OrigemCidade">
+              {{ props.row.originCity }}
+            </q-td>
+            <q-td :props="props" key="OrigemEndereco">
+              {{ props.row.originAdress }}
+            </q-td>
+            <q-td :props="props" key="OrigemLocalizador">
+              {{ props.row.originLocator }}
+            </q-td>
+            <q-td :props="props" key="Fornecedor">
+              {{ props.row.provider ? props.row.provider.label : "" }}
+            </q-td>
+            <q-td :props="props" key="DestinoTipo">
+              {{ props.row.destinationType }}
+            </q-td>
+            <q-td :props="props" key="DestinoRegiao">
+              {{ props.row.destinationRegion }}
+            </q-td>
+            <q-td :props="props" key="DestinoEstado">
+              {{ props.row.destinationState }}
+            </q-td>
+            <q-td :props="props" key="DestinoCidade">
+              {{ props.row.destinationCity }}
+            </q-td>
+            <q-td :props="props" key="DestinoEndereco">
+              {{ props.row.destinationAdress }}
+            </q-td>
+            <q-td :props="props" key="DestinoLocalizador">
+              {{ props.row.destinationLocator }}
+            </q-td>
+            <q-td :props="props" key="DestinoFornecedor">
+              {{
+                props.row.destinationProvider ? props.row.destinationProvider.label : ""
+              }}
+            </q-td>
+            <q-td :props="props" key="Valor">
+              {{ formatMoney(props.row.price) }}
+            </q-td>
+            <q-td :props="props" key="ValorPago">
+              {{ formatMoney(props.row.amountPaid) }}
+            </q-td>
+            <q-td :props="props" key="Saldo">
+              {{ formatMoney(props.row.balance) }}
+            </q-td>
+            <q-td :props="props" key="PrevisaoDataEmbarque">
+              {{ formatDate(props.row.estimatedShippingDate) }}
+            </q-td>
+            <q-td :props="props" key="DataEmbarque">
+              {{ formatDate(props.row.shippingDate) }}
+            </q-td>
+            <q-td :props="props" key="PrevisaoDataChegada">
+              {{ formatDate(props.row.estimatedArrivalDate) }}
+            </q-td>
+            <q-td :props="props" key="DataChegada">
+              {{ formatDate(props.row.arrivalDate) }}
+            </q-td>
+            <q-td :props="props" key="UltimaModificacao">
+              {{ formatFullDateTime(props.row.lastModified, "DD/MM/YYYY") }}
+            </q-td>
+            <q-td :props="props" key="Responsavel">
+              {{ props.row.inCharge }}
+            </q-td>
+          </q-tr>
+        </template>
+      </q-table>
 
       <DefaultTable :configs="tableSettings" v-if="tableSettings"></DefaultTable>
     </div>
@@ -827,6 +1013,8 @@ export default {
       return {
         store: 'logistics',
         add: true,
+        editable: false,
+        delete: false,
         selection: false,
         search: false,
 
