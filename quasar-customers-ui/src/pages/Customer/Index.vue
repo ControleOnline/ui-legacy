@@ -1,6 +1,7 @@
 <template>
   <q-page padding>
-    <PeoplePage v-if="this.myProvider != null" ref="clientPageRef" :provider="myProvider" :key="key"
+    <PeoplePage v-if="this.myProvider != null" ref="clientPageRef" 
+    :provider="myProvider" :key="key"
       :people_type="'customers'" :config="{
         endpoint: endpoint,
         token: $store.getters['auth/user'].token,
