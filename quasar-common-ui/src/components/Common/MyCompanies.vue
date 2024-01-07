@@ -8,7 +8,8 @@
         <q-item clickable v-close-popup dense v-for="(company, index) in myCompanies" :disable="company.enabled && company.user.employee_enabled ? false : true
           " :key="index" @click="onCompanySelection(company)">
           <q-item-section>
-            <q-item-label lines="1">{{ company.name }}</q-item-label>
+            <q-item-label lines="1">
+              {{ company.alias }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -94,28 +95,9 @@ export default {
 
       for (let index in companies) {
         let item = companies[index];
-        let logo = null;
-
-        if (item.logo !== null) {
-          logo = "https://" + item.logo.domain + item.logo.url;
-        }
-
-        let i = {
-          id: item.id,
-          enabled: item.enabled,
-          name: item.alias,
-          logo: logo || null,
-          commission: item.commission,
-          alias: item.alias,
-          configs: item.configs,
-          document: item.document,
-          domains: item.domains,
-          permission: item.permission,
-          user: item.user,
-        };
-        this.myCompanies.push(i);
+        this.myCompanies.push(item);
         if (item.enabled && !selected)
-          selected = i;
+          selected = item;
       }
 
       if (selected != -1) {

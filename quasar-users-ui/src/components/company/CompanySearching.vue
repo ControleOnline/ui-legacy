@@ -58,7 +58,6 @@
                     id: props.row.id
                   }
                 }"
-                :disable="props.row._bussy"
               >
                 <q-tooltip>Editar</q-tooltip>
               </q-btn>
@@ -151,16 +150,7 @@ export default {
       let _companies = [];
 
       for (let index in companies) {
-        _companies.push({
-          id      : companies[index].id,
-          alias   : companies[index].alias,
-          logo    : (
-            companies[index].logo !== null ?
-              `https://${companies[index].logo.domain}${companies[index].logo.url}` : null
-          ),
-          document: companies[index].document !== null ? formatDocument(companies[index].document) : null,
-          _bussy  : false,
-        });
+        _companies.push(companies);
       }
 
       this.items = _companies;

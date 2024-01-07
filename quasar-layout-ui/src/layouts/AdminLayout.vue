@@ -10,10 +10,10 @@
         <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" icon="menu"
           class="q-mx-md menu-button" />
         <div class="q-gutter-sm items-center row logo-container">
-          <router-link v-if="this.$q.screen.gt.sm" v-bind:to="'/'" tag="a" class="primary">
-            <img :src="currentCompany.logo || ''" class="current-logo" />
+          <router-link v-if="this.$q.screen.gt.sm && myCompany && myCompany.logo" v-bind:to="'/'" tag="a" class="primary">
+            <img :src="'//' + myCompany.logo.domain + myCompany.logo.url" class="current-logo" />
           </router-link>
-          <img v-else :src="currentCompany.logo || ''" class="current-logo" />
+          <img v-else-if="myCompany && myCompany.logo" :src="'//' + myCompany.logo.domain + myCompany.logo.url" class="current-logo" />
         </div>
         <div class="q-gutter-sm row items-center no-wrap current-logo-container">
           <q-toolbar class="">
@@ -89,7 +89,8 @@
           <q-toolbar-title class="text-center">
             <q-avatar size="100px" class="vertical-middle" color="white">
               <router-link v-bind:to="'/'" tag="a" class="primary">
-                <img v-if="defaultCompanyLogo" :src="defaultCompanyLogo" class="q-pa-sm  main-logo" />
+                <img v-if="defaultCompany.logo" :src="'//' + defaultCompany.logo.domain + defaultCompany.logo.url"
+                  class="q-pa-sm  main-logo" />
               </router-link>
             </q-avatar>
           </q-toolbar-title>
@@ -171,12 +172,10 @@ export default {
         count: 0,
       },
       ACL: new acl(this.$route),
-      defaultCompanyLogo: null,
       disabled: false,
       isAdmin: false,
       permissions: [],
       pageLoading: true,
-      defaultCompany: [],
       leftDrawerOpen: false, //this.$q.screen.gt.sm,
     };
   },
@@ -184,14 +183,14 @@ export default {
 
   created() {
     this.discoveryDefaultCompany();
-    if (this.getPeopleDefaultCompany) {
+    if (this.defaultCompany) {
       this.pageLoading = false;
     }
   },
 
   computed: {
     ...mapGetters({
-      getPeopleDefaultCompany: "people/defaultCompany",
+      defaultCompany: "people/defaultCompany",
       isLoading: "people/isLoading",
       myCompany: "people/currentCompany",
     }),
@@ -200,23 +199,15 @@ export default {
       let user = this.$store.getters["auth/user"] || {};
       return user;
     },
-
-    currentCompany() {
-      return this.$store.getters["people/currentCompany"] || {};
-    },
-
     style() {
       return "background: #182840";
     },
-
     gravatar() {
       if (this.user.email === undefined) {
         return "";
       }
-
       return `https://www.gravatar.com/avatar/${md5(this.user.email)}?s=400`;
     },
-
     isSuperAdmin() {
       return this.myCompany
         ? Object.values(this.myCompany.permission).indexOf("super") != -1 ||
@@ -227,17 +218,19 @@ export default {
   },
 
   watch: {
+    myCompany(myCompany) {
+      console.log(myCompany);
+    },
     isLoading(isLoading) {
       if (isLoading)
         this.$q.loading.show();
       else
         this.$q.loading.hide();
     },
-    getPeopleDefaultCompany(data) {
+    defaultCompany(data) {
 
       if (data) {
-        this.defaultCompany = data;
-        this.defaultCompanyLogo = "//" + data.logo.domain + data.logo.url;
+
 
         data.permissions.forEach((item) => {
           if (this.permissions.indexOf(item) === -1) {
@@ -263,7 +256,6 @@ export default {
     ...mapActions({
       peopleDefaultCompany: "people/defaultCompany",
       getCompanies: 'people/myCompanies',
-
     }),
     onClickmenu(item) {
       this.leftDrawerOpen = !this.leftDrawerOpen;
@@ -273,7 +265,7 @@ export default {
       if (info.position > 0) this.leftDrawerOpen = false;
     },
     isSimple() {
-      return this.getPeopleDefaultCompany.domainType === "simple";
+      return this.defaultCompany.domainType === "simple";
     },
     setMyCompanies(data) {
       this.companies = data;
@@ -302,22 +294,6 @@ export default {
 
     discoveryDefaultCompany() {
       this.peopleDefaultCompany().then((response) => {
-        let data = [];
-        if (response.success === true && response.data.length) {
-          let item = response.data;
-          let logo = null;
-
-          if (item.logo !== null) {
-            logo = "https://" + item.logo.domain + item.logo.url;
-          }
-
-          data.push({
-            id: item.id,
-            name: item.alias,
-            logo: logo || null,
-          });
-        }
-        this.defaultCompany = data;
         this.getCompanies().then((response) => {
           this.setMyCompanies(response.data)
         });
