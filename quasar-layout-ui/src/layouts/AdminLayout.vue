@@ -265,9 +265,9 @@ export default {
       getCompanies: 'people/myCompanies',
 
     }),
-    onClickmenu(route) {
+    onClickmenu(item) {
       this.leftDrawerOpen = !this.leftDrawerOpen;
-      this.$router.push({ name: route });
+      this.$router.push({ name: item.route });
     },
     onScroll(info) {
       if (info.position > 0) this.leftDrawerOpen = false;

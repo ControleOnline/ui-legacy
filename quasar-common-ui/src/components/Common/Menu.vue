@@ -2,7 +2,7 @@
   <q-list :class="$q.dark.isActive ? 'text-white' : 'text-white'">
     <q-expansion-item :content-inset-level="0.3" :icon="mItem.icon" :label="mItem.label" v-for="mItem in menu"
       :key="mItem.id" :expand-icon-class="$q.dark.isActive ? 'text-white' : 'text-white'">
-      <q-item v-ripple clickable v-for="item in mItem.menus" :key="item.id" @click="click(item.route)">
+      <q-item v-ripple clickable v-for="item in mItem.menus" :key="item.id" @click="click(item)">
         <q-item-section avatar>
           <q-icon :name="item.icon" />
         </q-item-section>
@@ -30,12 +30,13 @@ export default {
 
   data() {
     return {
-      company: null,
       menu: [],
     };
   },
 
-  created() { },
+  created() {
+    this.getMenu();
+  },
 
   computed: {
     ...mapGetters({
@@ -44,8 +45,7 @@ export default {
   },
 
   watch: {
-    myCompany(company) {
-      this.company = company;
+    myCompany() {
       this.getMenu();
     },
   },
@@ -65,32 +65,32 @@ export default {
     },
     getMenu() {
 
+      if (this.myCompany)
 
-
-      return api.fetch(`menus-people`, {
-        params: { myCompany: this.company.id },
-      }).then((result) => {
-        let menus = result.response?.data;
-        if (!menus.modules)
-          return;
-        let modules = [];
-        Object.values(menus.modules).forEach((module, i) => {
-          module.menus.forEach((menu, ii) => {
-            if (this.routeExists(menu.route)) {
-              let find = modules.findIndex(obj => obj.id == module.id);
-              if (find === -1) {
-                let itemCopy = { ...module };
-                itemCopy.menus = [menu];
-                modules.push(itemCopy);
-              } else {
-                modules[find].menus.push(menu);
+        api.fetch(`menus-people`, {
+          params: { myCompany: this.myCompany.id },
+        }).then((result) => {
+          let menus = result.response?.data;
+          if (!menus.modules)
+            return;
+          let modules = [];
+          Object.values(menus.modules).forEach((module, i) => {
+            module.menus.forEach((menu, ii) => {
+              if (this.routeExists(menu.route)) {
+                let find = modules.findIndex(obj => obj.id == module.id);
+                if (find === -1) {
+                  let itemCopy = { ...module };
+                  itemCopy.menus = [menu];
+                  modules.push(itemCopy);
+                } else {
+                  modules[find].menus.push(menu);
+                }
               }
-            }
+            });
           });
-        });
 
-        this.menu = modules;
-      });
+          this.menu = modules;
+        });
     },
 
     click(route) {
@@ -99,5 +99,4 @@ export default {
   },
 };
 </script>
-<style>
-</style>
+<style></style>
