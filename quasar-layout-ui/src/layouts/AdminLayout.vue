@@ -17,7 +17,7 @@
         </div>
         <div class="q-gutter-sm row items-center no-wrap current-logo-container">
           <q-toolbar class="">
-            <MyCompanies :selected="companySelected" @selected="onCompanySelected" @setMyCompanies="setMyCompanies" />
+            <MyCompanies />
           </q-toolbar>
         </div>
         <div v-if="this.$q.screen.gt.sm" class="q-gutter-sm items-center row">
@@ -96,7 +96,7 @@
         </q-toolbar>
 
         <div class="q-pt-md q-px-sm column">
-          <q-list  padding :class="$q.dark.isActive ? 'text-white' : 'text-white' ">
+          <q-list padding :class="$q.dark.isActive ? 'text-white' : 'text-white'">
             <q-item v-if="isSimple() == false" v-ripple clickable class="GNL__drawer-item"
               @click="leftDrawerOpen != leftDrawerOpen" :to="{ name: 'DashboardIndex' }">
               <q-item-section avatar>
@@ -120,13 +120,13 @@
     <q-page-container class="GPL__page-container">
       <q-scroll-observer horizontal @scroll="onScroll"></q-scroll-observer>
       <div>
-        <div v-if="!this.$q.screen.gt.sm" >
+        <div v-if="!this.$q.screen.gt.sm">
           <q-item v-ripple>
             <q-item-section avatar v-if="$route.meta.icon">
-              <q-icon  :name="$route.meta.icon" />
+              <q-icon :name="$route.meta.icon" />
             </q-item-section>
             <q-item-section no-wrap>
-            {{ $t("route." + this.$route.name) }}
+              {{ $t("route." + this.$route.name) }}
             </q-item-section>
           </q-item>
         </div>
@@ -136,7 +136,7 @@
   </q-layout>
   <div v-else class="row">
     <div class="col-12 pageloader">
-      <MyCompanies :selected="companySelected" @selected="onCompanySelected" @setMyCompanies="setMyCompanies" />
+      <MyCompanies />
       <span>Você não tem permissão para acessar este aplicativo</span><br />
       <q-btn color="primary" label="Sair" size="sm" @click="onLogout" />
     </div>
@@ -170,25 +170,20 @@ export default {
       notifications: {
         count: 0,
       },
-      ACL: new acl(),
+      ACL: new acl(this.$route),
       defaultCompanyLogo: null,
       disabled: false,
       isAdmin: false,
       permissions: [],
-      companies: [],
       pageLoading: true,
       defaultCompany: [],
       leftDrawerOpen: false, //this.$q.screen.gt.sm,
-      companySelected: -1,
     };
   },
 
 
   created() {
     this.discoveryDefaultCompany();
-    this.selectMyCompanyInSession();
-
-    this.setRoute();
     if (this.getPeopleDefaultCompany) {
       this.pageLoading = false;
     }
@@ -225,16 +220,13 @@ export default {
     isSuperAdmin() {
       return this.myCompany
         ? Object.values(this.myCompany.permission).indexOf("super") != -1 ||
-            Object.values(this.myCompany.permission).indexOf("franchisee") != -1
+        Object.values(this.myCompany.permission).indexOf("franchisee") != -1
         : false;
     },
 
   },
 
   watch: {
-    "$route.name"() {
-      this.setRoute();
-    },
     isLoading(isLoading) {
       if (isLoading)
         this.$q.loading.show();
@@ -262,7 +254,6 @@ export default {
 
           }
         });
-        this.setRoute();
         this.pageLoading = false;
       }
     },
@@ -271,14 +262,9 @@ export default {
   methods: {
     ...mapActions({
       peopleDefaultCompany: "people/defaultCompany",
-    }),
+      getCompanies: 'people/myCompanies',
 
-    setRoute() {
-      let storedUser = LocalStorage.getItem("session");
-      storedUser.route = this.$route.name;
-      LocalStorage.set("session", storedUser);
-      this.ACL.setPermission();
-    },
+    }),
     onClickmenu(route) {
       this.leftDrawerOpen = !this.leftDrawerOpen;
       this.$router.push({ name: route });
@@ -291,37 +277,27 @@ export default {
     },
     setMyCompanies(data) {
       this.companies = data;
-      if (data) {
+      this.discoveryIfEnabled();
+    },
+    discoveryIfEnabled() {
+      if (this.companies) {
         let disabled = true;
         let user_disabled = true;
 
-        data.forEach((company) => {
+        this.companies.forEach((company) => {
           user_disabled = !company.user.enabled;
           if (company.enabled && company.user.employee_enabled && !user_disabled) {
             disabled = false;
-          } else if (this.companySelected == company.id) {
-            this.companySelected = -1;
           }
           company.permission.forEach((item) => {
-            if (this.permissions.indexOf(item) === -1) {
+            if (this.permissions.indexOf(item) === 1) {
               this.permissions.push(item);
             }
           });
         });
         this.disabled = user_disabled || disabled;
+
       }
-    },
-    onCompanySelected(company) {
-      let session = LocalStorage.has("session") ? LocalStorage.getItem("session") : {};
-
-      session.mycompany = company.id;
-
-      LocalStorage.set("session", session);
-    },
-
-    selectMyCompanyInSession() {
-      let session = LocalStorage.has("session") ? LocalStorage.getItem("session") : {};
-      if (session.mycompany !== undefined) this.companySelected = session.mycompany;
     },
 
     discoveryDefaultCompany() {
@@ -342,6 +318,9 @@ export default {
           });
         }
         this.defaultCompany = data;
+        this.getCompanies().then((response) => {
+          this.setMyCompanies(response.data)
+        });
       });
     },
 

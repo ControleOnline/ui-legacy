@@ -9,8 +9,11 @@ export default {
   components: {
     DefaultTable,
   },
-
   computed: {
+    ...mapGetters({
+      companies: "people/companies",
+
+    }),
     configs() {
       return {
         store: 'hardware',
@@ -40,31 +43,8 @@ export default {
     };
   },
   created() {
-    this.getMyCompanies();
   },
   methods: {
-    ...mapActions({
-      getCompanies: "people/myCompanies",
-    }),
-
-    getMyCompanies() {
-      this.getCompanies().then((response) => {
-        console.log(response);
-        if (response.success === true && response.data.length) {
-
-          response.data.forEach((item, i) => {
-            this.companies.push(
-              {
-                label: item.alias,
-                value: item.id
-              }
-            );
-          });
-
-
-        }
-      });
-    },
   },
 };
 </script>

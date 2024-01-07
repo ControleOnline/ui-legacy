@@ -91,7 +91,6 @@ import ProductInputs from "./ProductInputs";
 
 import { formatPhone } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
-import { productName } from "../../../../../package.json";
 import { DOMAIN } from "../../../../../src/config/domain";
 
 export default {
@@ -327,7 +326,7 @@ export default {
       }
 
       return {
-        app: productName,
+        app: '',
         groupTable: this.groupTable,
         selectedCompany: this.myCompany ? this.myCompany.id : null,
         domain:

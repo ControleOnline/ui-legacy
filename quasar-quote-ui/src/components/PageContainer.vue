@@ -16,17 +16,8 @@
     </q-card-section>
 
     <q-card-section>
-      <q-form
-        ref="form"
-        @submit="onSubmit"
-        autocorrect="off"
-        autocomplete="off"
-        spellcheck="false"
-      >
-        <ContactInputs
-          v-if="!logged || logged || showContacts"
-          :values="contact"
-        />
+      <q-form ref="form" @submit="onSubmit" autocorrect="off" autocomplete="off" spellcheck="false">
+        <ContactInputs v-if="!logged || logged || showContacts" :values="contact" />
 
         <div class="row q-col-gutter-xs q-pb-xs">
           <OriginInputs :values="origin" />
@@ -36,12 +27,7 @@
         <ProductInputs :values="product" :groupTable="groupTable" />
 
         <div class="row q-pa-md justify-center items-center">
-          <q-btn
-            :loading="isLoading"
-            :label="$t('form.labels.submit')"
-            type="submit"
-            color="primary"
-          />
+          <q-btn :loading="isLoading" :label="$t('form.labels.submit')" type="submit" color="primary" />
         </div>
       </q-form>
     </q-card-section>
@@ -51,14 +37,13 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
- import ContactInputs from "./ContactInputs";
+import ContactInputs from "./ContactInputs";
 import DestinationInputs from "./DestinationInputs";
 import OriginInputs from "./OriginInputs";
 import ProductInputs from "./ProductInputs";
 
 import { formatPhone } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
-import { productName } from "../../../../../package.json";
 import { DOMAIN } from "../../../../../src/config/domain";
 
 export default {
@@ -298,7 +283,7 @@ export default {
       }
 
       return {
-        app: productName,
+        app: '',
         groupTable: this.groupTable,
         myCompany: this.myCompany ? this.myCompany.id : null,
         domain:

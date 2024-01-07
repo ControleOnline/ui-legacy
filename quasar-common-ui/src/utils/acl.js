@@ -3,15 +3,14 @@ import { LocalStorage } from "quasar";
 
 
 export default class acl {
-  getPermissions() {    
-    if (LocalStorage.has("session")) {      
-      let storedUser = LocalStorage.getItem("session");      
-      return  storedUser.actions ? storedUser.actions[storedUser["route"]] : {};      
-    }
 
-  };
-  setPermission() {         
-   this.fetchPermission();           
+  constructor(router) {
+    this.router = router;
+  }
+
+  getPermissions() {
+    let storedUser = LocalStorage.getItem("session") || {};
+    return storedUser.actions ? storedUser.actions[this.router.name] : {};
   }
 
   fetchPermission(){
