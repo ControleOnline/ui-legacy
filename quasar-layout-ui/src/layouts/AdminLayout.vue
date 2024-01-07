@@ -13,7 +13,8 @@
           <router-link v-if="this.$q.screen.gt.sm && myCompany && myCompany.logo" v-bind:to="'/'" tag="a" class="primary">
             <img :src="'//' + myCompany.logo.domain + myCompany.logo.url" class="current-logo" />
           </router-link>
-          <img v-else-if="myCompany && myCompany.logo" :src="'//' + myCompany.logo.domain + myCompany.logo.url" class="current-logo" />
+          <img v-else-if="myCompany && myCompany.logo" :src="'//' + myCompany.logo.domain + myCompany.logo.url"
+            class="current-logo" />
         </div>
         <div class="q-gutter-sm row items-center no-wrap current-logo-container">
           <q-toolbar class="">
@@ -218,9 +219,6 @@ export default {
   },
 
   watch: {
-    myCompany(myCompany) {
-      console.log(myCompany);
-    },
     isLoading(isLoading) {
       if (isLoading)
         this.$q.loading.show();
@@ -228,27 +226,8 @@ export default {
         this.$q.loading.hide();
     },
     defaultCompany(data) {
-
-      if (data) {
-
-
-        data.permissions.forEach((item) => {
-          if (this.permissions.indexOf(item) === -1) {
-
-            this.permissions.push(item);
-
-            if (item.indexOf("franchisee") !== -1 ||
-              item.indexOf("salesman") !== -1 ||
-              item.indexOf("super") !== -1 ||
-              item.indexOf("admin") !== -1
-            ) {
-              this.isAdmin = true;
-            }
-
-          }
-        });
-        this.pageLoading = false;
-      }
+      this.verifyPermissions()
+      this.pageLoading = false;
     },
   },
 
@@ -271,11 +250,25 @@ export default {
       this.companies = data;
       this.discoveryIfEnabled();
     },
+    verifyPermissions() {
+      this.defaultCompany.permissions.forEach((item) => {
+        if (this.permissions.indexOf(item) === -1) {
+          this.permissions.push(item);
+          if (item.indexOf("franchisee") !== -1 ||
+            item.indexOf("salesman") !== -1 ||
+            item.indexOf("super") !== -1 ||
+            item.indexOf("admin") !== -1
+          ) {
+            this.isAdmin = true;
+          }
+
+        }
+      });
+    },
     discoveryIfEnabled() {
       if (this.companies) {
         let disabled = true;
         let user_disabled = true;
-
         this.companies.forEach((company) => {
           user_disabled = !company.user.enabled;
           if (company.enabled && company.user.employee_enabled && !user_disabled) {
@@ -288,10 +281,8 @@ export default {
           });
         });
         this.disabled = user_disabled || disabled;
-
       }
     },
-
     discoveryDefaultCompany() {
       this.peopleDefaultCompany().then((response) => {
         this.getCompanies().then((response) => {
@@ -299,7 +290,6 @@ export default {
         });
       });
     },
-
     onLogout() {
       this.$store.dispatch("auth/logOut");
       this.$router.push("/login");
