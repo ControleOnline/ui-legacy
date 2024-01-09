@@ -153,7 +153,7 @@
                     <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                         v-if="$q.screen.gt.sm == false && configs.selection" />
 
-                    <q-input class="q-pa-xs" v-if="configs.search != false" borderless dense debounce="300" v-model="filter"
+                    <q-input class="q-pa-xs" v-if="configs.search != false" borderless dense debounce="300" v-model="search"
                         :placeholder="$t('Search')">
                         <template v-slot:append>
                             <q-icon name="search"></q-icon>
@@ -399,6 +399,7 @@ export default {
 
     data() {
         return {
+            search: '',
             listObject: {},
             listAutocomplete: [],
             showColumnMenu: false,
@@ -447,8 +448,10 @@ export default {
                 this.columns.forEach((column, columnIndex) => {
                     this.toogleVisibleColumns[column.key || column.name] = column.visible != false ? true : false;
                 });
+
             this.saveVisibleColumns();
-            this.loadData();
+            this.search = this.colFilter['search'];
+            //this.loadData();
         });
     },
 
@@ -476,7 +479,16 @@ export default {
         }
     },
     watch: {
-
+        search: {
+            handler: function (search) {
+                let filters = this.copyObject(this.filters);
+                if (search && search != '')
+                    filters['search'] = search;
+                this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
+                this.loadData();
+            },
+            deep: true,
+        },
         selectedRows: {
             handler: function (selectedRows) {
                 this.$store.commit(this.configs.store + '/SET_SELECTED', this.copyObject(selectedRows));

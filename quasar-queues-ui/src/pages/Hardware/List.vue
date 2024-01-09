@@ -19,8 +19,9 @@ export default {
         store: 'hardware',
         add: true,
         selection: false,
-        search: false,
+        search: {
 
+        },
         list: {
           hardwareType: this.hardwareType,
           company: this.companies,

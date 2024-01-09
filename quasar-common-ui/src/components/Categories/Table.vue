@@ -25,7 +25,9 @@ export default {
         store: 'categories',
         add: true,
         selection: false,
-        search: false,
+        search: {
+          
+        },
         list: {
           //parentCategories: this.hardwareType,
           categories: this.categories,

@@ -24,7 +24,9 @@ export default {
                 store: 'invoice',
                 add: true,
                 selection: false,
-                search: false,
+                search: {
+
+                },
                 list: {
                     categories: this.categories,
                     company: this.companies
