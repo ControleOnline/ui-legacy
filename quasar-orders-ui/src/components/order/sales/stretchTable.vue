@@ -592,6 +592,7 @@ import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/
 import StrechModal from "./stretchAddEdit.vue";
 import * as DefaultMethods from '../../../../../quasar-default-ui/src/components/Default/DefaultMethods';
 import DefaultTable from '@controleonline/quasar-default-ui/src/components/Default/DefaultTable.vue';
+import DefaultCustomActions from '@controleonline/quasar-default-ui/src/components/Default/DefaultCustomActions.vue';
 import {
   formatDateYmdTodmY,
   formatMoney,
@@ -1021,6 +1022,23 @@ export default {
 
         list: {
         },
+        components:{
+          tableActions: {
+            component: DefaultCustomActions,
+            pops:{
+              btnTitle: '',
+              btnIcon: 'settings',
+              btnFlat: true,
+              btnDense: true,
+              items: [
+                {title:'Editar', icon:'edit', action: this.openEditModal},
+                {title:'Finalizar', icon:'check', action: this.finish},
+                {title:'Vistoria', icon:'checklist', action: this.addSurvey},
+                {title:'Excluir', icon:'delete', action: this.deleteTrecho},
+              ]
+            }
+          }
+        }
       };
     },
   },
