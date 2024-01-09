@@ -451,7 +451,7 @@ export default {
 
             this.saveVisibleColumns();
             this.search = this.colFilter['search'];
-            //this.loadData();
+            this.loadData();
         });
     },
 
@@ -815,6 +815,9 @@ export default {
             });
         },
         loadData(props) {
+            if (this.isLoading)
+                return;
+
             if (props) {
                 this.pagination = props.pagination;
                 this.$store.commit(this.configs.store + '/SET_FILTERS', Object.assign(this.filters, props.filters));
