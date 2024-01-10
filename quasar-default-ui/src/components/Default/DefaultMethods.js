@@ -21,7 +21,46 @@ export function copyObject(obj) {
 
   return newObj || {};
 }
+export function filterColumn(colName) {
+  const column = this.columns.find((col) => {
+    return col.name === colName || col.key === colName;
+  });
 
+  let filters = this.copyObject(this.filters || []) || [];
+  if (!this.colFilter[colName]) {
+    delete filters[colName];
+  } else if (this.colFilter[colName] instanceof Array) {
+    filters[colName] = [];
+    this.colFilter[colName].forEach((item) => {
+      filters[colName].push(item);
+    });
+  } else {
+    filters[colName] = this.formatFilter(column, this.colFilter[colName]);
+  }
+
+  this.applyFilters(filters);
+  this.showInput = { [colName]: false };
+  this.forceShowInput = { [colName]: false };
+}
+export function applyFilters(filters) {
+  this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
+}
+export function onSearch() {
+  let filters = this.copyObject(this.filters);
+  if (this.search != "") filters["search"] = this.search;
+  this.applyFilters(filters);
+}
+export function clearFilters() {
+  this.$store.commit(this.configs.store + "/SET_FILTERS", {});
+}
+export function clearFilter(colName) {
+  this.colFilter[colName] = undefined; // Limpa o filtro para a coluna correspondente
+  this.filterColumn(colName);
+}
+export function setForceShowInput(colName) {
+  this.showInput = { [colName]: true };
+  this.forceShowInput = { [colName]: true };
+}
 export function mask(column) {
   if (column.mask instanceof Function) return column.mask();
 }

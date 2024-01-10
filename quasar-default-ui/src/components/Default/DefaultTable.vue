@@ -4,7 +4,6 @@
             v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions" :key="tableKey"
             :grid="this.$q.screen.gt.sm == false" binary-state-sort>
             <template v-slot:body="props">
-
                 <q-tr :props="props.row">
                     <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name"
                         :sum="sum(column, getNameFromList(column, props.row, column.key || column.name))" :class="[
@@ -96,37 +95,16 @@
                             'header-filter-container',
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
                         ]" @click="stopPropagation">
-                            <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                use-input use-chips map-options fill-input options-cover transition-show="flip-down"
-                                transition-hide="flip-up" @filter="searchList" :options="listAutocomplete[column.list]"
-                                label-color="black" input-debounce="700" :loading="isLoadingList" multiple
-                                :label="$t(configs.store + '.' + column.label)"
-                                v-model="colFilter[column.key || column.name]"
-                                @blur="filterColumn(column.key || column.name, column, props.row)"
-                                @focus="setForceShowInput(column.key || column.name)">
-                                <template v-slot:no-option v-if="!isLoadingList">
-                                    <q-item>
-                                        <q-item-section class="text-grey">
-                                            No results
-                                        </q-item-section>
-                                    </q-item>
-                                </template>
-                            </q-select>
-                            <input v-else :id="'input-' + (column.key || column.name)"
-                                :class="[{ show: showInput[column.key || column.name] }]"
-                                @click.stop="setForceShowInput(column.key || column.name)"
-                                v-model="colFilter[column.key || column.name]"
-                                @focus="setForceShowInput(column.key || column.name)"
-                                @blur="filterColumn(column.key || column.name)"
-                                @keydown.enter="filterColumn(column.key || column.name)" />
 
+
+                            <FiltersInput :column='column' :configs='configs'
+                                :class="[{ show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }]">
+                            </FiltersInput>
                             <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
                                 size="2em" />
-                            <q-icon :class="[{
-                                show: showInput[column.key || column.name]
-                            }]
-                                " name="close" @click.stop="clearFilter(column.key || column.name)"
+                            <q-icon name="close" @click.stop="clearFilter(column.key || column.name)"
                                 v-else-if="colFilter[column.key || column.name]" />
+
                         </div>
 
                         <div class="row col-12">
@@ -153,14 +131,17 @@
                     <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                         v-if="$q.screen.gt.sm == false && configs.selection" />
 
-                    <q-input class="q-pa-xs" v-if="configs.search != false" borderless dense debounce="300" v-model="search"
+                    <q-input class="q-pa-xs" v-if="configs.search != false" borderless dense 
+                    @keyup.enter="onSearch"
+                    v-model="search"
                         :placeholder="$t('Search')">
                         <template v-slot:append>
-                            <q-icon name="search"></q-icon>
+                            <q-btn flat icon="search" @click="onSearch"></q-btn>
+
                         </template>
                     </q-input>
 
-
+                    <DefaultFilters :configs="configs"></DefaultFilters>
 
                     <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
                         color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
@@ -374,8 +355,9 @@
   
 <script>
 import DefaultForm from "@controleonline/quasar-default-ui/src/components/Default/DefaultForm";
+import DefaultFilters from "@controleonline/quasar-default-ui/src/components/Default/DefaultFilters";
+import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Common/FiltersInput";
 import * as DefaultMethods from './DefaultMethods.js';
-
 
 export default {
 
@@ -394,13 +376,15 @@ export default {
     },
 
     components: {
-        DefaultForm
+        DefaultForm,
+        DefaultFilters,
+        FiltersInput
     },
 
     data() {
         return {
+            noReload: false,
             search: '',
-            listObject: {},
             listAutocomplete: [],
             showColumnMenu: false,
             forceShowInput: [],
@@ -479,16 +463,17 @@ export default {
         }
     },
     watch: {
-        search: {
-            handler: function (search) {
-                let filters = this.copyObject(this.filters);
-                if (search && search != '')
-                    filters['search'] = search;
-                this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
+
+        filters: {
+            handler: function () {
+                this.colFilter = this.copyObject(this.filters);
+                this.search = this.colFilter.search;
                 this.loadData();
+
             },
             deep: true,
         },
+
         selectedRows: {
             handler: function (selectedRows) {
                 this.$store.commit(this.configs.store + '/SET_SELECTED', this.copyObject(selectedRows));
@@ -500,6 +485,7 @@ export default {
     },
     methods: {
         ...DefaultMethods,
+
         saveVisibleColumns() {
             let columns = this.copyObject(this.columns);
             let persistVisibleColumns = {};
@@ -520,38 +506,8 @@ export default {
         toggleShowColumnMenu() {
             this.showColumnMenu = this.showColumnMenu ? false : true;
         },
-        filterColumn(colName) {
-
-            const column = this.columns.find((col) => {
-                return col.name === colName || col.key === colName
-            });
-
-            let filters = this.copyObject(this.filters || []) || [];
-            if (!this.colFilter[colName]) {
-                delete filters[colName];
-
-            } else if (this.colFilter[colName] instanceof Array) {
-                filters[colName] = [];
-                this.colFilter[colName].forEach((item) => {
-                    filters[colName].push(item)
-                })
-            } else {
-                filters[colName] = this.formatFilter(column, this.colFilter[colName]);
-            }
 
 
-
-
-            this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
-            this.showInput = { [colName]: false };
-            this.forceShowInput = { [colName]: false };
-            this.loadData();
-        },
-        clearFilter(colName) {
-
-            this.colFilter[colName] = undefined; // Limpa o filtro para a coluna correspondente
-            this.filterColumn(colName);
-        },
         stopPropagation(event) {
             event.stopPropagation();
         },
@@ -559,14 +515,8 @@ export default {
         setShowInput(colName) {
             this.showInput = { [colName]: true };
         },
-        setForceShowInput(colName) {
-            this.showInput = { [colName]: true };
-            this.forceShowInput = { [colName]: true };
-        },
+
         hideInput(colName) {
-
-
-
             if (this.forceShowInput[colName] != true)
                 this.showInput = { [colName]: false };
         },
@@ -669,22 +619,17 @@ export default {
                     delete filters.order;
                 else
                     filters.order = this.sortedColumn + ';' + this.sortDirection;
-                this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
-
-
-
-                if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
-                    this.loadData();
-                } else {
+                if (!this.pagination.rowsPerPage && this.totalItems <= this.pagination.rowsPerPage) {
                     this.reorderTableData();
                 }
+                this.applyFilters(filters);
+
             }
         },
         reorderTableData() {
             if (!this.sortedColumn || !this.sortDirection) {
                 return; // Não fazer nada se não houver ordenação
             }
-            // Clone os dados originais para evitar a mutação direta
             const clonedData = this.copyObject(this.items);
 
             clonedData.sort((a, b) => {
@@ -712,16 +657,10 @@ export default {
                 this.editedValue = this.formatList(col, this.items[index][col.key || col.name])
             else
                 this.editedValue = this.format(col, value);
-
-
-
-
             this.editing[index] = { [col.key || col.name]: true };
             this.showEdit[index] = { [col.key || col.name]: false };
 
         },
-
-
 
         stopEditing(index, col, row) {
             let editing = this.copyObject(this.editing);
