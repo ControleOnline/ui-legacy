@@ -1,9 +1,15 @@
 <template>
-    <q-select v-if="column.list" dense outlined stack-label fill-input lazy-rules use-input use-chips map-options
+    <DateRangeInput v-if="column.inputType == 'date-range'" :label="$t(configs.store + '.' + column.label)"                
+        :column="column"
+        :configs="configs"
+        @changedDateModel="changedDateModel" />
+
+    <q-select v-else-if="column.list" dense outlined stack-label fill-input lazy-rules use-input use-chips map-options
         options-cover transition-show="flip-down" transition-hide="flip-up" @filter="searchList"
         :options="listAutocomplete[column.list]" label-color="black" input-debounce="700" :loading="isLoadingList" multiple
-        :label="$t(configs.store + '.' + column.label)" v-model="colFilter[column.key || column.name]"
-        @blur="filterColumn(column.key || column.name)" @focus="setForceShowInput(column.key || column.name)">
+        :label="$t(configs.store + '.' + column.label)" v-model="colFilter[column.key || column.name]" @blur="
+            onChange ? sendFilterColumn(column.key || column.name) :
+                filterColumn(column.key || column.name)" @focus="setForceShowInput(column.key || column.name)">
         <template v-slot:no-option v-if="!isLoadingList">
             <q-item>
                 <q-item-section class="text-grey">
@@ -14,8 +20,10 @@
     </q-select>
     <q-input v-else dense outlined stack-label fill-input :label="$t(configs.store + '.' + column.label)"
         :id="'input-' + (column.key || column.name)" @click.stop="setForceShowInput(column.key || column.name)"
-        v-model="colFilter[column.key || column.name]" @focus="setForceShowInput(column.key || column.name)"
-        @blur="filterColumn(column.key || column.name)" @keydown.enter="filterColumn(column.key || column.name)">
+        v-model="colFilter[column.key || column.name]" @focus="setForceShowInput(column.key || column.name)" @blur="
+
+            onChange ? sendFilterColumn(column.key || column.name) :
+                filterColumn(column.key || column.name)" @keydown.enter="sendFilterColumn(column.key || column.name)">
         <template v-slot:append>
             <q-icon name="close" @click="colFilter[column.key || column.name] = ''" class="cursor-pointer" />
         </template>
@@ -23,8 +31,12 @@
 </template>
 <script>
 import * as DefaultMethods from '../DefaultMethods.js';
+import DateRangeInput from './DateRangeInput';
 
 export default {
+    components: {
+        DateRangeInput
+    },
     props: {
         column: {
             type: Object,
@@ -33,6 +45,11 @@ export default {
         configs: {
             type: Object,
             required: true,
+        },
+        onChange: {
+            type: Boolean,
+            required: false,
+            default: false
         },
     },
     computed: {
@@ -51,6 +68,7 @@ export default {
     },
     data() {
         return {
+            dateRange: {},
             listObject: {},
             colFilter: {},
             listAutocomplete: [],
@@ -58,8 +76,21 @@ export default {
     },
     mounted() {
         this.colFilter = this.copyObject(this.filters);
+        this.dateRange =
+            this.colFilter[this.column.key || this.column.name];
     },
     methods: {
+        sendFilterColumn() {            
+            this.filterColumn(this.column.key || this.column.name);
+            this.sendFilter();
+        },
+
+        changedDateModel(value) {
+            this.colFilter[this.column.key || this.column.name] = value;
+            this.filterColumn(this.column.key || this.column.name);
+            if (this.onChange)
+                this.sendFilter();
+        },
         ...DefaultMethods,
     }
 }

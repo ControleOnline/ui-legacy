@@ -49,9 +49,13 @@ export function onSearch() {
   let filters = this.copyObject(this.filters);
   if (this.search != "") filters["search"] = this.search;
   this.applyFilters(filters);
+  this.sendFilter();
 }
 export function clearFilters() {
   this.$store.commit(this.configs.store + "/SET_FILTERS", {});
+}
+export function sendFilter(){                        
+  this.$emit('loadData');
 }
 export function clearFilter(colName) {
   this.colFilter[colName] = undefined; // Limpa o filtro para a coluna correspondente

@@ -1,7 +1,7 @@
 <template>
     <div class="full-width">
         <div class="text-right q-gutter-sm">
-            <DefaultExternalFilters :configs="configs"></DefaultExternalFilters>
+            <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
         </div>
         <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" :loading="isloading"
             v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions" :key="tableKey"
@@ -100,7 +100,7 @@
                         ]" @click="stopPropagation">
 
 
-                            <FiltersInput :column='column' :configs='configs'
+                            <FiltersInput :column='column' :configs='configs' @loadData="loadData" :onChange="true"
                                 :class="[{ show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }]">
                             </FiltersInput>
                             <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
@@ -131,14 +131,14 @@
 
             <template v-slot:top-left="props">
                 <div class="text-right q-gutter-sm">
-                    <DefaultSearch :configs="configs"></DefaultSearch>
+                    <DefaultSearch :configs="configs" @loadData="loadData"></DefaultSearch>
                 </div>
             </template>
             <template v-slot:top-right="props">
                 <div class="text-right q-gutter-sm">
                     <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                         v-if="$q.screen.gt.sm == false && configs.selection" />
-                    <DefaultFilters :configs="configs"></DefaultFilters>
+                    <DefaultFilters :configs="configs" @loadData="loadData"></DefaultFilters>
                     <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
                         color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                         @click="editItem({})">
@@ -375,8 +375,6 @@ export default {
 
     data() {
         return {
-            noReload: false,
-
             listAutocomplete: [],
             showColumnMenu: false,
             forceShowInput: [],
@@ -460,8 +458,8 @@ export default {
             handler: function () {
                 this.colFilter = this.copyObject(this.filters);
                 this.search = this.colFilter.search;
-                this.loadData();
-
+                console.log(this.colFilter);
+                //this.loadData();
             },
             deep: true,
         },
@@ -682,7 +680,10 @@ export default {
                     } else if (this.filters[item.name] instanceof Object) {
                         let obj = [];
                         Object.entries(this.filters[item.name]).forEach(([chave, valor]) => {
-                            obj.push(valor.value || valor);
+                            if (valor?.value)
+                                obj.push(valor.value);
+                            else
+                                obj.push(valor);
                         });
                         params[item.key || item.name] = obj;
                     } else {

@@ -12,16 +12,19 @@
                 <div class="row col-12">
                     <!--<q-separator />-->
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 q-py-sm" v-for="(column, index)  in columns">
-                        <FiltersInput :column='column' :configs='configs'> </FiltersInput>
+                        <FiltersInput :column='column' :configs='configs' @loadData="sendFilter"> </FiltersInput>
                     </div>
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
                         <q-btn class="botao col-12 q-pa-xs q-mt-xs float-left full-width" color="primary" label="Filtrar"
-                            dense outline icon-right="search"
-                            @click="() => { applyFilters(filters); openFilters = false }"></q-btn>
+                            dense outline icon-right="search" @click="() => {
+                                applyFilters(filters);
+                                sendFilter();
+                                openFilters = false;
+                            }"></q-btn>
                     </div>
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 q-pa-xs">
                         <q-btn class="botao col-12 q-pa-xs float-right" dense icon-right="filter_alt_off" color="primary"
-                            outline @click="() => { clearFilters(); openFilters = false }">
+                            outline @click="() => { clearFilters(); openFilters = false; }">
                             <q-tooltip> Limpar Filtros </q-tooltip>
                         </q-btn>
                     </div>
@@ -59,6 +62,7 @@ export default {
     },
     methods: {
         ...DefaultMethods,
+
     }
 }
 

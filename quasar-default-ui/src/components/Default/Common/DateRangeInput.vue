@@ -2,10 +2,10 @@
     <div class="row outlined-div">
         <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xg-10 col-xs-10 flex">
             <div class="label-range-date row">{{ label }}</div>
-            <q-input borderless readonly label="De: " class="q-pa-none custom-input" dense v-model="dateModel.from"
-                mask="##/##/####"></q-input>
-            <q-input borderless readonly label="Até: " class="q-pa-none custom-input" dense v-model="dateModel.to"
-                mask="##/##/####"></q-input>
+            <q-input borderless stack-label readonly label="De: " class="q-pa-none custom-input" dense
+                v-model="dateModel.from" mask="##/##/####"></q-input>
+            <q-input borderless stack-label readonly label="Até: " class="q-pa-none custom-input" dense
+                v-model="dateModel.to" mask="##/##/####"></q-input>
         </div>
         <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xg-2 col-xs-2 q-pa-sm  flex flex-end justify-end items-center">
             <q-icon :clickable="true" @click="dateModel = { from: null, to: null }" name="event"
@@ -20,22 +20,38 @@
             </q-icon>
         </div>
     </div>
-</template>
-
-   
+</template>   
 <script>
 import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/DefaultMethods.js';
 
 export default {
     props: {
-        range: {
+        column: {
+            type: Object,
+            required: true,
+        },
+        configs: {
             type: Object,
             required: true,
         },
         label: {
             type: String,
             required: true
-        }
+        },
+
+    },
+    computed: {
+        range() {
+
+            let filters = this.copyObject(this.filters)[this.column.key || this.column.name];
+            return {
+                before: filters.before || filters.from,
+                after: filters.after || filters.to
+            };
+        },
+        filters() {
+            return this.$store.getters[this.configs.store + '/filters']
+        },
     },
     data() {
         return {
@@ -48,7 +64,7 @@ export default {
     watch: {
         dateModel: {
             handler: function (dateModel) {
-                let persistDate = dateModel;
+                let persistDate = {};
                 persistDate.before = dateModel.from;
                 persistDate.after = dateModel.to;
                 this.$emit('changedDateModel', persistDate);
@@ -77,8 +93,9 @@ export default {
 
 
 .outlined-div>div {
-    padding: 0px 10px 0px 10px;
+    padding: 0px;
 }
+
 .custom-input .q-field__native {
     padding-top: 18px;
     padding-left: 25px;
@@ -86,7 +103,7 @@ export default {
 }
 
 .custom-input .q-field__label {
-    top: 27px;
+    top: 25px;
     font-size: 14px;
 }
 </style>
