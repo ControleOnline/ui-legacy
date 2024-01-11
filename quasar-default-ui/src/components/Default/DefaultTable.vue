@@ -458,8 +458,6 @@ export default {
             handler: function () {
                 this.colFilter = this.copyObject(this.filters);
                 this.search = this.colFilter.search;
-                console.log(this.colFilter);
-                //this.loadData();
             },
             deep: true,
         },
