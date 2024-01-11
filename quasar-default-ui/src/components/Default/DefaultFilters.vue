@@ -12,7 +12,6 @@
                 <div class="row col-12">
                     <!--<q-separator />-->
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 q-py-sm" v-for="(column, index)  in columns">
-                        <div class="tittle-filters">{{ $t(configs.store + '.' + column.label) }}</div>
                         <FiltersInput :column='column' :configs='configs'> </FiltersInput>
                     </div>
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">

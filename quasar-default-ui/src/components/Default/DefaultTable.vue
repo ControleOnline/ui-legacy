@@ -1,5 +1,8 @@
 <template>
     <div class="full-width">
+        <div class="text-right q-gutter-sm">
+            <DefaultExternalFilters :configs="configs"></DefaultExternalFilters>
+        </div>
         <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" :loading="isloading"
             v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions" :key="tableKey"
             :grid="this.$q.screen.gt.sm == false" binary-state-sort>
@@ -126,13 +129,16 @@
                 </q-tr>
             </template>
 
+            <template v-slot:top-left="props">
+                <div class="text-right q-gutter-sm">
+                    <DefaultSearch :configs="configs"></DefaultSearch>
+                </div>
+            </template>
             <template v-slot:top-right="props">
                 <div class="text-right q-gutter-sm">
                     <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                         v-if="$q.screen.gt.sm == false && configs.selection" />
-                    <DefaultSearch :configs="configs"></DefaultSearch>
-                    <DefaultExternalFilters :configs="configs"></DefaultExternalFilters>
-                    <DefaultFilters :configs="configs"></DefaultFilters>                                                                                
+                    <DefaultFilters :configs="configs"></DefaultFilters>
                     <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
                         color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                         @click="editItem({})">

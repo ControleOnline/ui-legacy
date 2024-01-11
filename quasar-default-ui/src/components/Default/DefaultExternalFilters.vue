@@ -2,8 +2,7 @@
     <div class="row q-pt-xs q-px-xs">
         <div class="row col-10">
 
-            <div v-for="(column, index) in filteredColumns" class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2 q-py-sm">
-                <div class="tittle-filters">{{ $t(configs.store + '.' + column.label) }}</div>
+            <div v-for="(column, index) in filteredColumns" class="row col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2 q-py-sm">                
                 <FiltersInput :column="column" :configs="configs"></FiltersInput>
             </div>
         </div>
