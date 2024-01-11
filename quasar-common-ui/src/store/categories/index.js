@@ -27,6 +27,7 @@ export default {
         },
       },
       {
+        //externalFilter:true,
         sortable: true,
         name: "name",
         align: "left",
@@ -56,6 +57,7 @@ export default {
       //  },
       //},
       {
+        externalFilter:true,
         sortable: true,
         name: "color",
         align: "left",
@@ -65,6 +67,7 @@ export default {
         },
       },
       {
+        externalFilter:true,
         sortable: true,
         name: "icon",
         align: "left",
@@ -74,6 +77,7 @@ export default {
         },
       },
       {
+        externalFilter:true,
         sortable: true,
         name: "parent",
         align: "left",

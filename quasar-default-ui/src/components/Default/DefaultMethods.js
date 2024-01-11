@@ -116,6 +116,7 @@ export function getNameFromList(column, row, editing) {
       else i = this.format(column, item);
 
       return (
+        i &&
         i.value &&
         i.value.toString().trim() ==
           (row[column.key || column.name] instanceof Object &&

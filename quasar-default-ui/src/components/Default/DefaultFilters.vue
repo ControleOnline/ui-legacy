@@ -1,4 +1,7 @@
 <template>
+    <q-btn class="q-pa-xs" dense icon="filter_alt" color="primary" @click="openFilters = true">
+        <q-tooltip>Filtros</q-tooltip>
+    </q-btn>
     <q-dialog v-model="openFilters" :position="configs.filterPosition || 'left'">
         <q-card class="">
             <q-toolbar class="cabecalhoFiltros">
@@ -27,16 +30,6 @@
             </q-card-section>
         </q-card>
     </q-dialog>
-
-    <q-btn class="q-pa-xs" dense icon="filter_alt" color="primary" @click="openFilters = true">
-        <q-tooltip>Filtros</q-tooltip>
-    </q-btn>
-    <!--
-    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-1 q-pt-xs q-px-xs float-right">
-        <q-btn class="botao col-12 q-pa-xs q-mt-xs float-left full-width" color="primary"
-            :label="$t(configs.store + '.filters')" dense icon-right="search" @click="applyFilters"></q-btn>
-    </div>
-    -->
 </template>
 <script>
 import * as DefaultMethods from './DefaultMethods.js';
@@ -62,7 +55,7 @@ export default {
     data() {
         return {
             openFilters: false,
-            filters: {}
+            filters: {},
         }
     },
     methods: {

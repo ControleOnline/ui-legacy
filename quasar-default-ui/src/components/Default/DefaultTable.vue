@@ -130,31 +130,16 @@
                 <div class="text-right q-gutter-sm">
                     <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                         v-if="$q.screen.gt.sm == false && configs.selection" />
-
-                    <q-input class="q-pa-xs" v-if="configs.search != false" borderless dense 
-                    @keyup.enter="onSearch"
-                    v-model="search"
-                        :placeholder="$t('Search')">
-                        <template v-slot:append>
-                            <q-btn flat icon="search" @click="onSearch"></q-btn>
-
-                        </template>
-                    </q-input>
-
-                    <DefaultFilters :configs="configs"></DefaultFilters>
-
+                    <DefaultSearch :configs="configs"></DefaultSearch>
+                    <DefaultExternalFilters :configs="configs"></DefaultExternalFilters>
+                    <DefaultFilters :configs="configs"></DefaultFilters>                                                                                
                     <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
                         color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                         @click="editItem({})">
                         <q-tooltip> {{ $t(configs.store + '.add') }} </q-tooltip>
                     </q-btn>
-
-
                     <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
                         :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
-
-
-
                     <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
                         <q-tooltip> {{ $t(configs.store + '.config_columns') }} </q-tooltip>
                         <!-- Menu de configuração de colunas -->
@@ -170,17 +155,13 @@
                             <q-btn slot="bottom" label="Fechar" @click="toggleShowColumnMenu" />
                         </q-menu>
                     </q-btn>
-
                     <q-btn class="q-pa-xs" label="" dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
                         @click="props.toggleFullscreen">
                         <q-tooltip> {{ $t(configs.store + (props.inFullscreen ? '.minimize' : '.maximize')) }} </q-tooltip>
                     </q-btn>
-
-
                     <q-btn color="primary" icon-right="archive" dense class="q-pa-xs" label="" @click="exportTable"
                         v-if="configs.export">
                         <q-tooltip> {{ $t(configs.store + '.export') }} </q-tooltip>
-
                     </q-btn>
                 </div>
             </template>
@@ -355,7 +336,10 @@
   
 <script>
 import DefaultForm from "@controleonline/quasar-default-ui/src/components/Default/DefaultForm";
+import DefaultExternalFilters from "@controleonline/quasar-default-ui/src/components/Default/DefaultExternalFilters";
+import DefaultSearch from "@controleonline/quasar-default-ui/src/components/Default/DefaultSearch";
 import DefaultFilters from "@controleonline/quasar-default-ui/src/components/Default/DefaultFilters";
+
 import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Common/FiltersInput";
 import * as DefaultMethods from './DefaultMethods.js';
 
@@ -377,14 +361,16 @@ export default {
 
     components: {
         DefaultForm,
-        DefaultFilters,
-        FiltersInput
+        DefaultExternalFilters,
+        FiltersInput,
+        DefaultSearch,
+        DefaultFilters
     },
 
     data() {
         return {
             noReload: false,
-            search: '',
+
             listAutocomplete: [],
             showColumnMenu: false,
             forceShowInput: [],
