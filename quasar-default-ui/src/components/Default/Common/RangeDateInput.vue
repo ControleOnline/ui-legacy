@@ -7,7 +7,7 @@
             <q-input borderless readonly label="Até: " class="q-pa-none custom-input" dense v-model="dateModel.to"
                 mask="##/##/####"></q-input>
         </div>
-        <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xg-2 col-xs-2 q-pa-sm  flex flex-end justify-end align-center">
+        <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xg-2 col-xs-2 q-pa-sm  flex flex-end justify-end items-center">
             <q-icon :clickable="true" @click="dateModel = { from: null, to: null }" name="event"
                 class="vertical-middle cursor-pointer text-primary" size="sm">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
