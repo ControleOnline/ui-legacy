@@ -92,7 +92,7 @@
                         class="header-column" @mouseover="setShowInput(column.key || column.name)"
                         @mouseout="hideInput(column.key || column.name)">
 
-                        <div v-if="this.config.filters" :class="[
+                        <div v-if="this.configs.filters" :class="[
                             'row',
                             'col-12',
                             'header-filter-container',
@@ -137,7 +137,7 @@
                 <div class="q-gutter-sm">
                     <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                         v-if="$q.screen.gt.sm == false && configs.selection" />
-                    <DefaultFilters v-if="this.config.filters" :configs="configs" @loadData="loadData"></DefaultFilters>
+                    <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData"></DefaultFilters>
                     <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
                         color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                         @click="editItem({})">
