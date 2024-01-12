@@ -43,6 +43,24 @@ export const formatMoney = (value, currency, locale) => {
   return formatter.format(value);
 };
 
+export const buildAmericanDate = (dateString) => {
+  let formatedDate;
+
+  if (!dateString) {
+    return dateString;
+  }
+  dateString = dateString.replaceAll("/", "-");
+  if (dateString) {
+    formatedDate = date.formatDate(
+      date.extractDate(dateString, "DD-MM-YYYY"),
+      "YYYY-MM-DD"
+    );
+  } else {
+    return null;
+  }
+  return formatedDate;
+};
+
 export const formatDateYmdTodmY = (value, withTime = false) => {
   let result = value.match(/^(\d{4})\-(\d{2})\-(\d{2})\s*([\w:]*)/);
 

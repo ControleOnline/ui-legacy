@@ -23,6 +23,7 @@
 </template>   
 <script>
 import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/DefaultMethods.js';
+import { buildAmericanDate } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 export default {
     props: {
@@ -65,8 +66,8 @@ export default {
         dateModel: {
             handler: function (dateModel) {
                 let persistDate = {};
-                persistDate.before = dateModel.from;
-                persistDate.after = dateModel.to;
+                persistDate.before = buildAmericanDate(dateModel.from);
+                persistDate.after = buildAmericanDate(dateModel.to);
                 this.$emit('changedDateModel', persistDate);
             },
             deep: true,
