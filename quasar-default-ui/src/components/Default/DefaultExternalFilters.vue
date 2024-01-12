@@ -2,19 +2,19 @@
     <div class="row q-pt-xs q-pa-md" v-if="getFilterNumber() > 0">
         <q-card class="full-width">
             <q-card-section class="row col-12 q-pa-sm q-pl-lg">
-                    <q-title class="">Filtros</q-title>
+                <q-title class="">Filtros</q-title>
             </q-card-section>
             <q-card-section class="row col-12 q-pa-sm">
 
-                <div class="row col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                <div class="row col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
                     <template v-for="(column, index)  in  columns ">
-                        <div v-if="index < getFilterNumber()" class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 q-pa-sm">
+                        <div v-if="index < getFilterNumber()" class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2 q-pa-sm">
                             <FiltersInput :key="key" :column="column" :configs="configs" @loadData="sendFilter">
                             </FiltersInput>
                         </div>
                     </template>
                 </div>
-                <div :class="'col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3  q-pa-sm flex items-end ' +
+                <div :class="'col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2  q-pa-sm flex items-end ' +
                     (this.$q.screen.sm ? 'justify-end' : 'justify-center')
                     ">
                     <q-btn v-if="filteredColumns.length > 0" class="q-pa-sm q-mr-md" color="primary"
@@ -70,9 +70,10 @@ export default {
         ...DefaultMethods,
         getFilterNumber() {
             if (this.$q.screen.xs) return 0;
-            else if (this.$q.screen.sm) return 2;
+            else if (this.$q.screen.sm) return 4;
             else if (this.$q.screen.md) return 4;
-            else if (this.$q.screen.lg || this.$q.screen.xl) return 5;
+            else if (this.$q.screen.lg) return 4;
+            else if (this.$q.screen.xl) return 6;
             else return 0;
         }
     }
