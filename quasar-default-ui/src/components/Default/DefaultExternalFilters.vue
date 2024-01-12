@@ -61,7 +61,7 @@ export default {
     watch: {
         filters: {
             handler: function () {
-                //this.key++;
+                this.key++;
             },
             deep: true,
         },
