@@ -753,7 +753,7 @@ export default {
 
             if (props) {
                 this.pagination = props.pagination;
-                this.$store.commit(this.configs.store + '/SET_FILTERS', Object.assign(this.filters, props.filters));
+                this.applyFilters(Object.assign(this.filters, props.filters));
             }
 
             let params = Object.assign(this.copyObject(this.filters), this.copyObject(this.pagination));
