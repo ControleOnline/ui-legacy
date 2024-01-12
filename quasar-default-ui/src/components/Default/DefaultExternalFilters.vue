@@ -50,7 +50,7 @@ export default {
             return this.columns.filter(column => column.externalFilter == true);
         },
         filters() {
-            return this.$store.getters[this.configs.store + '/filters']
+            return this.$store.getters[this.configs.store + '/filters'] || {}
         },
     },
     data() {

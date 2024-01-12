@@ -51,7 +51,7 @@ export default {
             };
         },
         filters() {
-            return this.$store.getters[this.configs.store + '/filters']
+            return this.$store.getters[this.configs.store + '/filters'] || {}
         },
     },
     data() {

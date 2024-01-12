@@ -58,7 +58,7 @@ export default {
             return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
         filters() {
-            return this.$store.getters[this.configs.store + '/filters']
+            return this.$store.getters[this.configs.store + '/filters'] || {}
         },
     },
     created() {

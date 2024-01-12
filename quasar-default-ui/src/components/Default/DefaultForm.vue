@@ -115,7 +115,7 @@ export default {
             return this.$store.getters[this.configs.store + '/isSaving']
         },
         filters() {
-            return this.$store.getters[this.configs.store + '/filters']
+            return this.$store.getters[this.configs.store + '/filters'] || {}
         },
         columns() {
             return this.$store.getters[this.configs.store + '/columns']

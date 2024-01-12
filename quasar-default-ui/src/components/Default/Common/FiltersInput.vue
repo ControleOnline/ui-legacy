@@ -63,7 +63,7 @@ export default {
             return this.$store.getters[this.configs.store + '/isLoadingList']
         },
         filters() {
-            return this.$store.getters[this.configs.store + '/filters']
+            return this.$store.getters[this.configs.store + '/filters'] || {}
         },
         columns() {
             return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
