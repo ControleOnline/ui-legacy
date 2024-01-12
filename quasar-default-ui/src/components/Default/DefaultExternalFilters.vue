@@ -7,7 +7,7 @@
             <q-card-section class="row col-12 q-pa-sm">
 
                 <div class="row col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
-                    <template v-for="(column, index)  in  columns ">
+                    <template v-for="(column, index)  in  filteredColumns ">
                         <div v-if="index < getFilterNumber()" class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2 q-pa-sm">
                             <FiltersInput :key="key" :column="column" :configs="configs" @loadData="sendFilter">
                             </FiltersInput>
@@ -47,7 +47,7 @@ export default {
             return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
         filteredColumns() {
-            return this.columns.filter(column => column.externalFilter);
+            return this.columns.filter(column => column.externalFilter == true);
         },
         filters() {
             return this.$store.getters[this.configs.store + '/filters']

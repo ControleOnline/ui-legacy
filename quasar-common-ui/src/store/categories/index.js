@@ -27,7 +27,7 @@ export default {
         },
       },
       {
-        //externalFilter:true,
+        externalFilter: true,
         sortable: true,
         name: "name",
         align: "left",
@@ -37,27 +37,7 @@ export default {
           return value;
         },
       },
-      //{
-      //  sortable: true,
-      //  list: "company",
-      //  name: "company",
-      //  align: "left",
-      //  label: "company",
-      //  formatList: function (value) {
-      //    return {
-      //      label: value?.alias,
-      //      value: value?.id,
-      //    };
-      //  },
-      //  format: function (value) {
-      //    return value;
-      //  },
-      //  saveFormat: function (company) {
-      //    return "/people/" + company;
-      //  },
-      //},
       {
-        externalFilter:true,
         sortable: true,
         name: "color",
         align: "left",
@@ -67,7 +47,6 @@ export default {
         },
       },
       {
-        externalFilter:true,
         sortable: true,
         name: "icon",
         align: "left",
@@ -77,7 +56,7 @@ export default {
         },
       },
       {
-        externalFilter:true,
+        externalFilter: true,
         sortable: true,
         name: "parent",
         align: "left",
@@ -88,11 +67,10 @@ export default {
           return value?.name;
         },
         saveFormat: function (value) {
-         
-          return value  ?"/categories/" + value:null;
+          return value ? "/categories/" + value : null;
         },
         formatList: function (value) {
-          return value 
+          return value
             ? {
                 label: value?.name,
                 value: value?.id,
