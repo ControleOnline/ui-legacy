@@ -124,8 +124,7 @@ export default {
             return this.$store.getters[this.configs.store + '/isLoadingList']
         }
     },
-    watch: {
-    },
+
     methods: {
         ...DefaultMethods,
         save(params) {

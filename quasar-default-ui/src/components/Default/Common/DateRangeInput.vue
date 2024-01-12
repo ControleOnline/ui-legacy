@@ -46,8 +46,8 @@ export default {
 
             let filters = this.copyObject(this.filters)[this.column.key || this.column.name];
             return {
-                before: filters.before || filters.from,
-                after: filters.after || filters.to
+                before: filters?.before || filters?.from,
+                after: filters?.after || filters?.to
             };
         },
         filters() {
