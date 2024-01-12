@@ -1,6 +1,7 @@
 <template>
     <q-btn class="q-pa-xs" dense icon="filter_alt" color="primary" @click="openFilters = true">
-        <q-tooltip>Filtros</q-tooltip>
+        <q-tooltip v-if="countFilters > 0">{{ countFilters }} filtros aplicados</q-tooltip>
+        <q-tooltip v-else>Filtros</q-tooltip>
         <q-badge color="orange" v-if="countFilters > 0" floating>{{ countFilters }}</q-badge>
     </q-btn>
     {{ Object.keys(filters).lenght }}

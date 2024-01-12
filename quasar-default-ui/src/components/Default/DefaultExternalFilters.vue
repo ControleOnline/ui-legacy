@@ -1,25 +1,28 @@
 <template>
-    <div class="row q-pt-xs q-pa-md">
+    <div class="row q-pt-xs q-pa-md" v-if="getFilterNumber() > 0">
         <q-card class="full-width">
-            <q-card-section class="row col-12 q-pa-sm">
-                <q-toolbar>
-                    <q-toolbar-title class="">Filtros</q-toolbar-title>
-                </q-toolbar>
+            <q-card-section class="row col-12 q-pa-sm q-pl-lg">
+                    <q-title class="">Filtros</q-title>
             </q-card-section>
             <q-card-section class="row col-12 q-pa-sm">
-                <div class="col-12 col-sm-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 q-pa-sm"
-                    v-for="(column, index)  in columns">
-                    <FiltersInput :key="key" :column="column" :configs="configs" @loadData="sendFilter"></FiltersInput>
+
+                <div class="row col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                    <template v-for="(column, index)  in  columns ">
+                        <div v-if="index < getFilterNumber()" class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 q-pa-sm">
+                            <FiltersInput :key="key" :column="column" :configs="configs" @loadData="sendFilter">
+                            </FiltersInput>
+                        </div>
+                    </template>
                 </div>
-            </q-card-section>
-            <q-card-section class="row q-pa-md">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-                    <q-btn class="float-right q-pa-sm " dense icon-right="filter_alt_off" color="primary" outline
+                <div :class="'col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3  q-pa-sm flex items-end ' +
+                    (this.$q.screen.sm ? 'justify-end' : 'justify-center')
+                    ">
+                    <q-btn v-if="filteredColumns.length > 0" class="q-pa-sm q-mr-md" color="primary"
+                        :label="$t(configs.store + '.filters')" dense icon-right="search" @click="sendFilter"></q-btn>
+                    <q-btn class="q-pa-sm" dense icon-right="filter_alt_off" color="primary" outline
                         @click="() => { clearFilters(); openFilters = false; }">
                         <q-tooltip> Limpar Filtros </q-tooltip>
                     </q-btn>
-                    <q-btn v-if="filteredColumns.length > 0" class="float-right q-pa-sm q-mr-md" color="primary"
-                        :label="$t(configs.store + '.filters')" dense icon-right="search" @click="sendFilter"></q-btn>
                 </div>
             </q-card-section>
         </q-card>
@@ -65,7 +68,13 @@ export default {
     },
     methods: {
         ...DefaultMethods,
-
+        getFilterNumber() {
+            if (this.$q.screen.xs) return 0;
+            else if (this.$q.screen.sm) return 2;
+            else if (this.$q.screen.md) return 4;
+            else if (this.$q.screen.lg || this.$q.screen.xl) return 5;
+            else return 0;
+        }
     }
 }
 
