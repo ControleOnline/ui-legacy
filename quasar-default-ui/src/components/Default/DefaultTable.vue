@@ -682,9 +682,9 @@ export default {
                         let obj = [];
                         Object.entries(this.filters[item.name]).forEach(([chave, valor]) => {
                             if (valor?.value)
-                                obj.push(valor.value);
+                                obj.push({ chave: valor.value });
                             else
-                                obj.push(valor);
+                                obj = this.filters[item.name];
                         });
                         params[item.key || item.name] = obj;
                     } else {
