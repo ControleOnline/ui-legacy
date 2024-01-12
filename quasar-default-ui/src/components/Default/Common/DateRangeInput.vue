@@ -66,8 +66,10 @@ export default {
         dateModel: {
             handler: function (dateModel) {
                 let persistDate = {};
-                persistDate.before = buildAmericanDate(dateModel.from);
-                persistDate.after = buildAmericanDate(dateModel.to);
+                if (dateModel.from)
+                    persistDate.before = buildAmericanDate(dateModel.from);
+                if (persistDate.after)
+                    persistDate.after = buildAmericanDate(dateModel.to);
                 this.$emit('changedDateModel', persistDate);
             },
             deep: true,
