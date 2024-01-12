@@ -1,6 +1,6 @@
 <template>
     <div class="full-width">
-        <div class="q-gutter-sm">
+        <div class="q-gutter-sm" v-if="this.configs.filters">
             <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
         </div>
         <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" :loading="isloading"
@@ -92,7 +92,7 @@
                         class="header-column" @mouseover="setShowInput(column.key || column.name)"
                         @mouseout="hideInput(column.key || column.name)">
 
-                        <div :class="[
+                        <div v-if="this.config.filters" :class="[
                             'row',
                             'col-12',
                             'header-filter-container',
@@ -137,7 +137,7 @@
                 <div class="q-gutter-sm">
                     <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                         v-if="$q.screen.gt.sm == false && configs.selection" />
-                    <DefaultFilters :configs="configs" @loadData="loadData"></DefaultFilters>
+                    <DefaultFilters v-if="this.config.filters" :configs="configs" @loadData="loadData"></DefaultFilters>
                     <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
                         color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                         @click="editItem({})">
