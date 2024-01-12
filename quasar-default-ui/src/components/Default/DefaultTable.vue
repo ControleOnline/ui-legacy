@@ -457,10 +457,10 @@ export default {
             handler: function () {
                 this.colFilter = this.copyObject(this.filters);
                 this.search = this.colFilter?.search;
-                this.onChange = false;
+                //this.onChange = false;
                 setTimeout(() => {
-                    this.onChange = true;
-                    this.tableKey++;
+                    //this.onChange = true;
+                    //this.tableKey++;
                 }, 100);
             },
             deep: true,
