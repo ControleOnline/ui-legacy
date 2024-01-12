@@ -43,7 +43,11 @@ export function filterColumn(colName) {
   this.forceShowInput = { [colName]: false };
 }
 export function applyFilters(filters) {
-  this.$store.commit(this.configs.store + "/SET_FILTERS", this.copyObject(filters));
+
+  let f = this.copyObject(filters);
+  let pf = this.copyObject(this.filters);
+  if (f != pf)
+    this.$store.commit(this.configs.store + "/SET_FILTERS",);
 }
 export function onSearch() {
   let filters = this.copyObject(this.filters);
@@ -54,7 +58,7 @@ export function onSearch() {
 export function clearFilters() {
   this.$store.commit(this.configs.store + "/SET_FILTERS", {});
 }
-export function sendFilter(){                        
+export function sendFilter() {
   this.$emit('loadData');
 }
 export function clearFilter(colName) {
@@ -123,10 +127,10 @@ export function getNameFromList(column, row, editing) {
         i &&
         i.value &&
         i.value.toString().trim() ==
-          (row[column.key || column.name] instanceof Object &&
+        (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-            ? row[column.key || column.name]["@id"].split("/").pop().trim()
-            : row[column.key || column.name].trim())
+          ? row[column.key || column.name]["@id"].split("/").pop().trim()
+          : row[column.key || column.name].trim())
       );
     });
     return name instanceof Object && !editing
@@ -142,7 +146,7 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
       return (
         item["@id"].split("/").pop() ==
         (row[column.key || column.name] instanceof Object &&
-        row[column.key || column.name]
+          row[column.key || column.name]
           ? row[column.key || column.name]["@id"].split("/").pop()
           : row[column.key || column.name])
       );
@@ -221,14 +225,14 @@ export function searchList(input, update, abort) {
           return (
             column,
             !input ||
-              this.formatList(column, item)
-                .value.toString()
-                .toLowerCase()
-                .includes(input.toLowerCase()) ||
-              this.formatList(column, item)
-                .label.toString()
-                .toLowerCase()
-                .includes(input.toLowerCase())
+            this.formatList(column, item)
+              .value.toString()
+              .toLowerCase()
+              .includes(input.toLowerCase()) ||
+            this.formatList(column, item)
+              .label.toString()
+              .toLowerCase()
+              .includes(input.toLowerCase())
           );
         })
         .map((item) => {
