@@ -41,10 +41,6 @@ export default {
         DateRangeInput
     },
     props: {
-        ccc: {
-           required: false,
-        },
-
         column: {
             type: Object,
             required: true,
@@ -85,9 +81,8 @@ export default {
         this.colFilter = this.copyObject(this.filters);
     },
     mounted() {
-        this.colFilter = this.copyObject(this.filters);
-        this.dateRange =
-            this.colFilter[this.column.key || this.column.name];
+        this.colFilter = this.copyObject(this.filters) || {};
+        this.dateRange = this.colFilter[this.column?.key || this.column?.name];
     },
     methods: {
         sendFilterColumn() {
