@@ -1,33 +1,37 @@
 <template>
     <q-btn class="q-pa-xs" dense icon="filter_alt" color="primary" @click="openFilters = true">
         <q-tooltip>Filtros</q-tooltip>
+        <q-badge color="orange" v-if="countFilters > 0" floating>{{ countFilters }}</q-badge>
     </q-btn>
+    {{ Object.keys(filters).lenght }}
     <q-dialog v-model="openFilters" :position="configs.filterPosition || 'left'">
         <q-card class="">
-            <q-toolbar class="cabecalhoFiltros">
-                <q-toolbar-title class="tituloFiltros">Filtros</q-toolbar-title>
-                <q-btn no-caps flat v-close-popup round dense icon="close" />
-            </q-toolbar>
+            <q-card-section class="row col-12 q-pa-sm">
+                <q-toolbar class="">
+                    <q-toolbar-title class="">Filtros</q-toolbar-title>
+                    <q-btn no-caps flat v-close-popup round dense icon="close" />
+                </q-toolbar>
+            </q-card-section>
             <q-card-section class="row items-center no-wrap">
                 <div class="row col-12">
-                    <!--<q-separator />-->
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 q-py-sm" v-for="(column, index)  in columns">
-                        <FiltersInput :column='column' :configs='configs' @loadData="sendFilter"> </FiltersInput>
+                        <FiltersInput :column='column' :configs='configs' @loadData="sendFilter" />
                     </div>
-                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                        <q-btn class="botao col-12 q-pa-xs q-mt-xs float-left full-width" color="primary" label="Filtrar"
-                            dense outline icon-right="search" @click="() => {
-                                applyFilters(filters);
-                                sendFilter();
-                                openFilters = false;
-                            }"></q-btn>
-                    </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 q-pa-xs">
-                        <q-btn class="botao col-12 q-pa-xs float-right" dense icon-right="filter_alt_off" color="primary"
-                            outline @click="() => { clearFilters(); openFilters = false; }">
-                            <q-tooltip> Limpar Filtros </q-tooltip>
-                        </q-btn>
-                    </div>
+                </div>
+            </q-card-section>
+            <q-card-section class="row q-pa-md">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 q-py-sm">
+                    <q-btn class="float-right q-pa-sm" dense icon-right="filter_alt_off" color="primary" outline
+                        @click="() => { clearFilters(); openFilters = false; }">
+                        <q-tooltip> Limpar Filtros </q-tooltip>
+                    </q-btn>
+                    <q-btn class="float-right q-pa-sm q-mr-md" style="width:calc(100% - 56px)" color="primary"
+                        label="Filtrar" dense outline icon-right="search" @click="() => {
+                            applyFilters(filters);
+                            sendFilter();
+                            openFilters = false;
+                        }"></q-btn>
+
                 </div>
             </q-card-section>
         </q-card>
@@ -49,20 +53,28 @@ export default {
         FiltersInput
     },
     computed: {
-
         columns() {
             return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
+        filters() {
+            return this.$store.getters[this.configs.store + '/filters']
+        },
+    },
+    created() {
+        let filters = Object.keys(this.copyObject(this.filters) || {});
+        let count = Object.keys(this.columns.filter(column => {
+            return Object.values(filters).includes(column.name);
+        }) || {});
+        this.countFilters = count.length;
     },
     data() {
         return {
+            countFilters: 0,
             openFilters: false,
-            filters: {},
         }
     },
     methods: {
         ...DefaultMethods,
-
     }
 }
 

@@ -1,6 +1,6 @@
 <template>
     <div class="full-width">
-        <div class="text-right q-gutter-sm">
+        <div class="q-gutter-sm">
             <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
         </div>
         <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" :loading="isloading"
@@ -61,7 +61,7 @@
 
                         </template>
                     </q-td>
-                    <q-td class="text-right q-gutter-sm">
+                    <q-td class="q-gutter-sm">
                         <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white" color="primary"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem(props.row)">
@@ -99,8 +99,7 @@
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
                         ]" @click="stopPropagation">
 
-
-                            <FiltersInput :column='column' :configs='configs' @loadData="loadData" :onChange="true"
+                            <FiltersInput :column='column' :configs='configs' @loadData="loadData" :onChange="onChange"
                                 :class="[{ show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }]">
                             </FiltersInput>
                             <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
@@ -130,12 +129,12 @@
             </template>
 
             <template v-slot:top-left="props">
-                <div class="text-right q-gutter-sm">
+                <div class="q-gutter-sm">
                     <DefaultSearch :configs="configs" @loadData="loadData"></DefaultSearch>
                 </div>
             </template>
             <template v-slot:top-right="props">
-                <div class="text-right q-gutter-sm">
+                <div class="q-gutter-sm">
                     <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                         v-if="$q.screen.gt.sm == false && configs.selection" />
                     <DefaultFilters :configs="configs" @loadData="loadData"></DefaultFilters>
@@ -375,6 +374,7 @@ export default {
 
     data() {
         return {
+            onChange: true,
             listAutocomplete: [],
             showColumnMenu: false,
             forceShowInput: [],
@@ -453,15 +453,18 @@ export default {
         }
     },
     watch: {
-
         filters: {
             handler: function () {
                 this.colFilter = this.copyObject(this.filters);
-                this.search = this.colFilter.search;
+                this.search = this.colFilter?.search;
+                this.onChange = false;
+                setTimeout(() => {
+                    this.onChange = true;
+                    this.tableKey++;
+                }, 100);
             },
             deep: true,
         },
-
         selectedRows: {
             handler: function (selectedRows) {
                 this.$store.commit(this.configs.store + '/SET_SELECTED', this.copyObject(selectedRows));

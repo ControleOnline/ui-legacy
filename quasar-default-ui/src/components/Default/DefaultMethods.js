@@ -43,7 +43,7 @@ export function filterColumn(colName) {
   this.forceShowInput = { [colName]: false };
 }
 export function applyFilters(filters) {
-  this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
+  this.$store.commit(this.configs.store + "/SET_FILTERS", this.copyObject(filters));
 }
 export function onSearch() {
   let filters = this.copyObject(this.filters);

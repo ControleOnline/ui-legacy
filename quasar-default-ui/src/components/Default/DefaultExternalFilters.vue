@@ -1,16 +1,28 @@
 <template>
-    <div class="row q-pt-xs q-px-xs">
-        <div class="row col-10">
-
-            <div v-for="(column, index) in filteredColumns" class="row col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2 q-py-sm">                
-                <FiltersInput :column="column" :configs="configs" @loadData="sendFilter"></FiltersInput>
-            </div>
-        </div>
-        <div class="row col-2">
-            <q-btn v-if="filteredColumns.length > 0" class="botao col-12 q-pa-xs q-mt-xs float-left full-width"
-                color="primary" :label="$t(configs.store + '.filters')" dense icon-right="search"
-                @click="sendFilter"></q-btn>
-        </div>
+    <div class="row q-pt-xs q-pa-md">
+        <q-card class="full-width">
+            <q-card-section class="row col-12 q-pa-sm">
+                <q-toolbar>
+                    <q-toolbar-title class="">Filtros</q-toolbar-title>
+                </q-toolbar>
+            </q-card-section>
+            <q-card-section class="row col-12 q-pa-sm">
+                <div class="col-12 col-sm-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 q-pa-sm"
+                    v-for="(column, index)  in columns">
+                    <FiltersInput :key="key" :column="column" :configs="configs" @loadData="sendFilter"></FiltersInput>
+                </div>
+            </q-card-section>
+            <q-card-section class="row q-pa-md">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                    <q-btn class="float-right q-pa-sm " dense icon-right="filter_alt_off" color="primary" outline
+                        @click="() => { clearFilters(); openFilters = false; }">
+                        <q-tooltip> Limpar Filtros </q-tooltip>
+                    </q-btn>
+                    <q-btn v-if="filteredColumns.length > 0" class="float-right q-pa-sm q-mr-md" color="primary"
+                        :label="$t(configs.store + '.filters')" dense icon-right="search" @click="sendFilter"></q-btn>
+                </div>
+            </q-card-section>
+        </q-card>
     </div>
 </template>
 <script>
@@ -28,18 +40,28 @@ export default {
         FiltersInput,
     },
     computed: {
-
         columns() {
             return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
         filteredColumns() {
             return this.columns.filter(column => column.externalFilter);
         },
+        filters() {
+            return this.$store.getters[this.configs.store + '/filters']
+        },
     },
     data() {
         return {
-            filters: {},            
+            key: 0
         }
+    },
+    watch: {
+        filters: {
+            handler: function () {
+                this.key++;
+            },
+            deep: true,
+        },
     },
     methods: {
         ...DefaultMethods,
