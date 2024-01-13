@@ -305,7 +305,7 @@
         <q-dialog v-model="addModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ translate( (this.item ? '.edit' : '.add'),'title') }}</label>
+                    <label class="text-h5">{{ translate( (this.item ? 'edit' : 'add'),'title') }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
