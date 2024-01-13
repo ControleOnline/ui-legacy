@@ -9,7 +9,9 @@
                         <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules use-input
                             map-options hide-selected fill-input options-cover @filter="searchList" input-debounce="700"
                             :loading="isLoadingList" :options="listAutocomplete[column.list]" @focus="editingInit(column)"
-                            :label="$t(configs.store + '.' + column.label)" v-model="item[column.key || column.name]">
+                            :label="
+                             translate( column.label, 'input') 
+                            " v-model="item[column.key || column.name]">
                             <template v-slot:no-option v-if="!isLoadingList">
                                 <q-item>
                                     <q-item-section class="text-grey">
@@ -21,14 +23,14 @@
 
                         <q-input v-else :disable="column.editable == false" dense outlined stack-label lazy-rules
                             v-model="item[column.key || column.name]" type="text" :mask="mask(column)"
-                            :label="$t(configs.store + '.' + column.label)" :rules="[isInvalid()]" />
+                            :label="translate( column.label, 'input') " :rules="[isInvalid()]" />
                     </div>
                 </template>
                 <!--
                 <div class="col-xs-12 col-sm-6">
                     <q-input dense outlined stack-label 
                     v-model="periodo" 
-                    mask="##/####" :label="$t('Período')">
+                    mask="##/####" :label="translate( column.label, 'input') ">
                         <template v-slot:append>
                             <q-icon name="event" class="cursor-pointer">
                                 <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">
@@ -42,7 +44,9 @@
             </div>
 
             <div class="row justify-end">
-                <q-btn :loading="isSaving" icon="save" type="submit" :label="$t(configs.store + '.save')" size="md"
+                <q-btn :loading="isSaving" icon="save" type="submit" :label="
+                translate( 'save', 'btn') 
+                " size="md"
                     color="primary" class="q-mt-md" />
             </div>
         </q-form>
@@ -140,7 +144,7 @@ export default {
             this.$store.dispatch(this.configs.store + '/save', p
             ).then((item) => {
                 this.$q.notify({
-                    message: this.$t("Success!"),
+                    message: this.translate( 'success', 'message'),
                     position: "bottom",
                     type: "positive",
                 });
@@ -148,7 +152,7 @@ export default {
             }).catch((error) => {
                 this.$emit("error", error);
                 this.$q.notify({
-                    message: this.$t("Erro ao salvar!"),
+                    message: this.translate( 'error', 'message'),
                     position: "bottom",
                     type: "negative",
                 });

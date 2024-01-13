@@ -1,16 +1,17 @@
 <template>
     <label :for="'input-' + (column.key || column.name)" v-if="labelType != 'stack-label'">
-        {{ $t(configs.store + '.' + column.label) }}
+        {{ translate( column.label, 'input') }}
     </label>
     <DateRangeInput :labelType="labelType" :id="'input-' + (column.key || column.name)"
         v-if="column.inputType == 'date-range'"
-        :label="labelType != 'stack-label' ? '' : $t(configs.store + '.' + column.label)" :column="column" :configs="configs"
-        @changedDateModel="changedDateModel" />
+        :label="labelType != 'stack-label' ? '' : translate( column.label, 'input')"
+        :column="column" :configs="configs" @changedDateModel="changedDateModel" />
 
-    <q-select :id="'input-' + (column.key || column.name)" v-else-if="column.list" dense outlined :stack-label="labelType"
-        lazy-rules use-input use-chips map-options options-cover transition-show="flip-down" transition-hide="flip-up"
-        @filter="searchList" :options="listAutocomplete[column.list]" label-color="black" input-debounce="700"
-        :loading="isLoadingList" multiple :label="labelType != 'stack-label' ? '' : $t(configs.store + '.' + column.label)"
+    <q-select :id="'input-' + (column.key || column.name)" v-else-if="column.list" dense outlined
+        :stack-label="labelType" lazy-rules use-input use-chips map-options options-cover transition-show="flip-down"
+        transition-hide="flip-up" @filter="searchList" :options="listAutocomplete[column.list]" label-color="black"
+        input-debounce="700" :loading="isLoadingList" multiple
+        :label="labelType != 'stack-label' ? '' : translate( column.label, 'input')"
         v-model="colFilter[column.key || column.name]" @blur="sendFilterColumn(column.key || column.name)"
         @focus="setForceShowInput(column.key || column.name)">
         <template v-slot:no-option v-if="!isLoadingList">
@@ -22,7 +23,7 @@
         </template>
     </q-select>
     <q-input :id="'input-' + (column.key || column.name)" v-else dense outlined :stack-label="labelType"
-        :label="labelType != 'stack-label' ? '' : $t(configs.store + '.' + column.label)"
+        :label="labelType != 'stack-label' ? '' : translate( column.label, 'input')"
         @click.stop="setForceShowInput(column.key || column.name)" v-model="colFilter[column.key || column.name]"
         @focus="setForceShowInput(column.key || column.name)" @blur="sendFilterColumn(column.key || column.name)"
         @keydown.enter="sendFilterColumn(column.key || column.name); sendFilter()">

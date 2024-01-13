@@ -1,6 +1,8 @@
 <template>
     <q-input class="q-pa-xs" v-if="configs.search != false" borderless dense @keyup.enter="onSearch" v-model="search"
-        :placeholder="$t('Search')">
+        :placeholder="
+        translate( 'search', 'input')
+        ">
         <template v-slot:append>
             <q-btn flat icon="search" @click="onSearch"></q-btn>
         </template>

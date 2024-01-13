@@ -2,7 +2,7 @@
     <div class="row q-pt-xs q-pa-md" v-if="filterNumber > 0">
         <q-card class="full-width">
             <q-card-section class="row col-12 q-pa-sm q-pl-lg">
-                <q-title class="">Filtros</q-title>
+                <q-title class="">{{ translate( 'filters', 'title') }}</q-title>
             </q-card-section>
             <q-card-section class="row col-12 q-pa-sm">
 
@@ -19,10 +19,11 @@
                     (this.$q.screen.sm ? 'justify-end' : 'justify-center')
                     ">
                     <q-btn v-if="filteredColumns.length > 0" class="q-pa-sm q-mr-md" color="primary"
-                        :label="$t(configs.store + '.filters')" dense icon-right="search" @click="sendFilter"></q-btn>
+                        :label="translate( 'filter', 'btn')" dense icon-right="search"
+                        @click="sendFilter"></q-btn>
                     <q-btn class="q-pa-sm" dense icon-right="filter_alt_off" color="primary" outline
                         @click="() => { clearFilters(); openFilters = false; }">
-                        <q-tooltip> Limpar Filtros </q-tooltip>
+                        <q-tooltip> {{ translate( 'clear', 'tooltip') }} </q-tooltip>
                     </q-btn>
                 </div>
             </q-card-section>

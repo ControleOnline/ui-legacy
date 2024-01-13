@@ -163,6 +163,11 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
 
   return x instanceof Object && !editing ? x.label : x;
 }
+export function translate(value, type) {
+  if (this.configs && this.$te(value))
+    return this.$t(this.configs.store + "." + value);
+  else return this.$t(type + "." + value);
+}
 
 export function formatFilter(column, value) {
   if (column && column.formatFilter instanceof Function)

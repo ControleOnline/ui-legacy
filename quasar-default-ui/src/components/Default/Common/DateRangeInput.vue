@@ -1,14 +1,16 @@
 <template>
     <div class="row outlined-div">
         <label :for="'input-' + (column.key || column.name)" v-if="labelType != 'stack-label'">
-            {{ $t(configs.store + '.' + column.label) }}
+            {{ translate( column.label, 'input') }}
         </label>
         <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xg-10 col-xs-10 flex">
-            <div class="label-range-date row" v-if="labelType == 'stack-label'">{{ label }}</div>
-            <q-input borderless stack-label readonly label="De: " class="q-pa-none custom-input" dense
-                v-model="dateModel.from" mask="##/##/####"></q-input>
-            <q-input borderless stack-label readonly label="Até: " class="q-pa-none custom-input" dense
-                v-model="dateModel.to" mask="##/##/####"></q-input>
+            <div class="label-range-date row" v-if="labelType == 'stack-label'">
+                {{ translate( label, 'input') }}
+            </div>
+            <q-input borderless stack-label readonly :label="translate( 'dateFrom', 'input')"
+                class="q-pa-none custom-input" dense v-model="dateModel.from" mask="##/##/####"></q-input>
+            <q-input borderless stack-label readonly :label="translate( 'dateTo', 'input')"
+                class="q-pa-none custom-input" dense v-model="dateModel.to" mask="##/##/####"></q-input>
         </div>
         <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xg-2 col-xs-2 q-pa-sm  flex flex-end justify-end items-center">
             <q-icon :clickable="true" @click="dateModel = { from: null, to: null }" name="event"
@@ -16,7 +18,8 @@
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                     <q-date v-model="dateModel" range mask="DD/MM/YYYY">
                         <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
+                            <q-btn v-close-popup :label="translate( 'close', 'btn')" color="primary"
+                                flat />
                         </div>
                     </q-date>
                 </q-popup-proxy>
