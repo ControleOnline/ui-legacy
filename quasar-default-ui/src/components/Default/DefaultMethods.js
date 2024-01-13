@@ -200,7 +200,7 @@ export function searchList(input, update, abort) {
     columnName
   ) {
     let s = column.searchParam || "search";
-    let params = this.copyObject(this.filters);
+    let params = this.copyObject(column.filters || {});
     params[s] = input;
 
     if (this.configs.list[column.list] instanceof Function) {
