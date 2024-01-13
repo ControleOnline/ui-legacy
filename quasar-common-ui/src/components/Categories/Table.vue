@@ -25,9 +25,17 @@ export default {
         store: 'categories',
         add: true,
         selection: false,
-        filters:true,
+        filters: true,
+        columns: {
+          parent: {
+            filters: {
+              context: this.context,
+              company: '/people/' + this.myCompany.id
+            }
+          }
+        },
         search: {
-          
+
         },
         list: {
           //parentCategories: this.hardwareType,
