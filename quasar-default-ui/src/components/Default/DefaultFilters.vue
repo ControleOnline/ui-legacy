@@ -11,7 +11,6 @@
         }}</q-tooltip>
         <q-badge color="orange" v-if="countFilters > 0" floating>{{ countFilters }}</q-badge>
     </q-btn>
-    {{ Object.keys(filters).lenght }}
     <q-dialog v-model="openFilters" :position="configs.filterPosition || 'left'">
         <q-card class="">
             <q-card-section class="row col-12 q-pa-sm">

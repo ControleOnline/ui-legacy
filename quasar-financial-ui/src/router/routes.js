@@ -5,14 +5,26 @@ export const routes = [
       import("@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue"),
     children: [
       {
-        name: "FinanceIndex",
-        path: ":context",
-        component: () => import("../pages/Invoice/Invoice.vue"),
+        name: "FinanceExpenseIndex",
+        path: "expense",
+        component: () => import("../pages/Expense/Invoice.vue"),
+      },
+
+      {
+        name: "FinanceReceiveIndex",
+        path: "receive",
+        component: () => import("../pages/Receive/Invoice.vue"),
       },
       {
-        name: "FinanceCategories",
-        path: "categories/:context",
-        component: () => import("../pages/Invoice/Categories.vue"),
+        name: "FinanceExpenseCategories",
+        path: "categories/expense",
+        component: () => import("../pages/Expense/Categories.vue"),
+      },
+
+      {
+        name: "FinanceReceiveCategories",
+        path: "categories/receive",
+        component: () => import("../pages/Receive/Categories.vue"),
       },
     ],
   },

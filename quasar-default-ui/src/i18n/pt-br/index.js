@@ -8,6 +8,8 @@ export const translate = {
       save: "Salvar",
       cancel: "Cancelar",
       confirm: "Confirmar",
+      categories_expense: "Categorias de Despesa",
+      categories_receive: "Categorias de Receita",
     },
     input: {
       name: "Nome",
@@ -28,6 +30,8 @@ export const translate = {
       delete: "Deletar",
     },
     title: {
+      categories_expense: "Categorias de Despesa",
+      categories_receive: "Categorias de Receita",
       clear: "Limpar Filtros",
       filters: "Filtros",
       edit: "Editar",
