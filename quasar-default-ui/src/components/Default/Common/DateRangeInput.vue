@@ -1,7 +1,10 @@
 <template>
     <div class="row outlined-div">
+        <label :for="'input-' + (column.key || column.name)" v-if="labelType != 'stack-label'">
+            {{ $t(configs.store + '.' + column.label) }}
+        </label>
         <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xg-10 col-xs-10 flex">
-            <div class="label-range-date row">{{ label }}</div>
+            <div class="label-range-date row" v-if="labelType == 'stack-label'">{{ label }}</div>
             <q-input borderless stack-label readonly label="De: " class="q-pa-none custom-input" dense
                 v-model="dateModel.from" mask="##/##/####"></q-input>
             <q-input borderless stack-label readonly label="Até: " class="q-pa-none custom-input" dense
@@ -27,6 +30,11 @@ import { buildAmericanDate } from '@controleonline/quasar-common-ui/src/utils/fo
 
 export default {
     props: {
+        labelType: {
+            type: String,
+            required: false,
+            default: 'stack-label'
+        },
         column: {
             type: Object,
             required: true,

@@ -1,5 +1,5 @@
 <template>
-    <div class="row q-pt-xs q-pa-md" v-if="getFilterNumber() > 0">
+    <div class="row q-pt-xs q-pa-md" v-if="filterNumber > 0">
         <q-card class="full-width">
             <q-card-section class="row col-12 q-pa-sm q-pl-lg">
                 <q-title class="">Filtros</q-title>
@@ -8,8 +8,9 @@
 
                 <div class="row col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
                     <template v-for="(column, index)  in  filteredColumns ">
-                        <div v-if="index < getFilterNumber()" class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2 q-pa-sm">
-                            <FiltersInput :key="key" :column="column" :configs="configs" @loadData="sendFilter">
+                        <div v-if="index < filterNumber" class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2 q-pa-sm">
+                            <FiltersInput :key="key" :labelType="'upper'" :column="column" :configs="configs"
+                                @loadData="sendFilter">
                             </FiltersInput>
                         </div>
                     </template>
@@ -55,26 +56,33 @@ export default {
     },
     data() {
         return {
+            filterNumber: 0,
             key: 0
         }
     },
     watch: {
         filters: {
             handler: function () {
-                //this.key++;
+                this.getFilterNumber();
+                this.key++;
             },
             deep: true,
         },
     },
+    created() {
+        this.getFilterNumber();
+    },
     methods: {
         ...DefaultMethods,
         getFilterNumber() {
-            if (this.$q.screen.xs) return 0;
-            else if (this.$q.screen.sm) return 4;
-            else if (this.$q.screen.md) return 4;
-            else if (this.$q.screen.lg) return 4;
-            else if (this.$q.screen.xl) return 6;
-            else return 0;
+
+            if (this.$q.screen.xs) this.filterNumber = 0;
+            else if (this.$q.screen.sm) this.filterNumber = 4;
+            else if (this.$q.screen.md) this.filterNumber = 4;
+            else if (this.$q.screen.lg) this.filterNumber = 4;
+            else if (this.$q.screen.xl) this.filterNumber = 6;
+            else this.filterNumber = 0;
+
         }
     }
 }

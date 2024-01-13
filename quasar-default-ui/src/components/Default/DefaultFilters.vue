@@ -62,11 +62,7 @@ export default {
         },
     },
     created() {
-        let filters = Object.keys(this.copyObject(this.filters) || {});
-        let count = Object.keys(this.columns.filter(column => {
-            return Object.values(filters).includes(column.name);
-        }) || {});
-        this.countFilters = count.length;
+        this.count()
     },
     data() {
         return {
@@ -74,8 +70,29 @@ export default {
             openFilters: false,
         }
     },
+
+    watch: {
+        filters: {
+            handler: function (dateModel) {
+                this.count()
+            },
+            deep: true,
+        },
+    },
     methods: {
         ...DefaultMethods,
+        count() {
+            let count = this.getUsedFilters();
+            this.countFilters = count.length;
+        },
+        
+        getUsedFilters() {
+            let filters = Object.keys(this.copyObject(this.filters) || {});
+            return Object.keys(this.columns.filter(column => {
+                return Object.values(filters).includes(column.name);
+            }) || {});
+        }
+
     }
 }
 

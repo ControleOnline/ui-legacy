@@ -99,7 +99,7 @@
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
                         ]" @click="stopPropagation">
 
-                            <FiltersInput :column='column' :configs='configs' @loadData="loadData" :onChange="onChange"
+                            <FiltersInput :onChange="true" :column='column' :configs='configs' @loadData="loadData" 
                                 :class="[{ show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }]">
                             </FiltersInput>
                             <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
@@ -374,7 +374,6 @@ export default {
 
     data() {
         return {
-            onChange: true,
             listAutocomplete: [],
             showColumnMenu: false,
             forceShowInput: [],
@@ -457,11 +456,6 @@ export default {
             handler: function () {
                 this.colFilter = this.copyObject(this.filters);
                 this.search = this.colFilter?.search;
-                //this.onChange = false;
-                setTimeout(() => {
-                    //this.onChange = true;
-                    //this.tableKey++;
-                }, 100);
             },
             deep: true,
         },

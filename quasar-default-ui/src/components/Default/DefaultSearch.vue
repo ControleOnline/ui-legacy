@@ -27,6 +27,15 @@ export default {
     created() {
         this.search = this.copyObject(this.filters).search;
     },
+
+    watch: {
+        filters: {
+            handler: function (dateModel) {
+                this.search = this.copyObject(this.filters).search;
+            },
+            deep: true,
+        },
+    },
     data() {
         return {
             search: '',

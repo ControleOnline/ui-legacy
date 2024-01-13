@@ -1,18 +1,18 @@
 <template>
-    <label :for="'input-' + (column.key || column.name)">
+    <label :for="'input-' + (column.key || column.name)" v-if="labelType != 'stack-label'">
         {{ $t(configs.store + '.' + column.label) }}
     </label>
-    <DateRangeInput :id="'input-' + (column.key || column.name)" v-if="column.inputType == 'date-range'"
-        :label="$t(configs.store + '.' + column.label)" :column="column" :configs="configs"
+    <DateRangeInput :labelType="labelType" :id="'input-' + (column.key || column.name)"
+        v-if="column.inputType == 'date-range'"
+        :label="labelType != 'stack-label' ? '' : $t(configs.store + '.' + column.label)" :column="column" :configs="configs"
         @changedDateModel="changedDateModel" />
 
-    <q-select :id="'input-' + (column.key || column.name)" v-else-if="column.list" dense outlined stack-label lazy-rules
-        use-input use-chips map-options options-cover transition-show="flip-down" transition-hide="flip-up"
+    <q-select :id="'input-' + (column.key || column.name)" v-else-if="column.list" dense outlined :stack-label="labelType"
+        lazy-rules use-input use-chips map-options options-cover transition-show="flip-down" transition-hide="flip-up"
         @filter="searchList" :options="listAutocomplete[column.list]" label-color="black" input-debounce="700"
-        :loading="isLoadingList" multiple :label="$t(configs.store + '.' + column.label)"
-        v-model="colFilter[column.key || column.name]" @blur="
-            onChange ? sendFilterColumn(column.key || column.name) :
-                filterColumn(column.key || column.name)" @focus="setForceShowInput(column.key || column.name)">
+        :loading="isLoadingList" multiple :label="labelType != 'stack-label' ? '' : $t(configs.store + '.' + column.label)"
+        v-model="colFilter[column.key || column.name]" @blur="sendFilterColumn(column.key || column.name)"
+        @focus="setForceShowInput(column.key || column.name)">
         <template v-slot:no-option v-if="!isLoadingList">
             <q-item>
                 <q-item-section class="text-grey">
@@ -21,12 +21,11 @@
             </q-item>
         </template>
     </q-select>
-    <q-input :id="'input-' + (column.key || column.name)" v-else dense outlined stack-label
-        :label="$t(configs.store + '.' + column.label)" @click.stop="setForceShowInput(column.key || column.name)"
-        v-model="colFilter[column.key || column.name]" @focus="setForceShowInput(column.key || column.name)" @blur="
-
-            onChange ? sendFilterColumn(column.key || column.name) :
-                filterColumn(column.key || column.name)" @keydown.enter="sendFilterColumn(column.key || column.name)">
+    <q-input :id="'input-' + (column.key || column.name)" v-else dense outlined :stack-label="labelType"
+        :label="labelType != 'stack-label' ? '' : $t(configs.store + '.' + column.label)"
+        @click.stop="setForceShowInput(column.key || column.name)" v-model="colFilter[column.key || column.name]"
+        @focus="setForceShowInput(column.key || column.name)" @blur="sendFilterColumn(column.key || column.name)"
+        @keydown.enter="sendFilterColumn(column.key || column.name); sendFilter()">
         <template v-slot:append v-if="colFilter[column.key || column.name] && colFilter[column.key || column.name] != ''">
             <q-icon name="close" @click="colFilter[column.key || column.name] = ''" class="cursor-pointer" />
         </template>
@@ -41,6 +40,11 @@ export default {
         DateRangeInput
     },
     props: {
+        labelType: {
+            type: String,
+            required: false,
+            default: 'stack-label'
+        },
         column: {
             type: Object,
             required: true,
@@ -80,21 +84,25 @@ export default {
     created() {
         this.colFilter = this.copyObject(this.filters);
     },
-    mounted() {
-        this.colFilter = this.copyObject(this.filters) || {};
-        this.dateRange = this.colFilter[this.column?.key || this.column?.name];
+
+    watch: {
+        filters: {
+            handler: function (filters) {
+                this.colFilter[this.column.key || this.column.name] = this.filters[this.column.key || this.column.name];
+            },
+            deep: true,
+        },
     },
     methods: {
         sendFilterColumn() {
             this.filterColumn(this.column.key || this.column.name);
-            this.sendFilter();
+            if (this.onChange)
+                this.sendFilter();
         },
 
         changedDateModel(value) {
             this.colFilter[this.column.key || this.column.name] = value;
-            this.filterColumn(this.column.key || this.column.name);
-            if (this.onChange)
-                this.sendFilter();
+            this.sendFilterColumn();
         },
         ...DefaultMethods,
     }

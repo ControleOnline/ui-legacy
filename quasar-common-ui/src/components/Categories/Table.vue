@@ -25,6 +25,7 @@ export default {
         store: 'categories',
         add: true,
         selection: false,
+        filters:true,
         search: {
           
         },

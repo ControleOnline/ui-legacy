@@ -44,10 +44,8 @@ export function filterColumn(colName) {
 }
 export function applyFilters(filters) {
   let f = this.copyObject(filters);
-  let pf = this.copyObject(this.filters);  
-  if (f != pf)
-    this.$store.commit(this.configs.store + "/SET_FILTERS", f);
-
+  let pf = this.copyObject(this.filters);
+  if (f != pf) this.$store.commit(this.configs.store + "/SET_FILTERS", f);
 }
 export function onSearch() {
   let filters = this.copyObject(this.filters);
@@ -56,10 +54,19 @@ export function onSearch() {
   this.sendFilter();
 }
 export function clearFilters() {
-  this.$store.commit(this.configs.store + "/SET_FILTERS", {});
+  let filters = this.copyObject(this.filters);
+
+  this.columns.forEach((column) => {
+    if ((column.key || column.name) in filters) {
+      delete filters[column.key || column.name];
+    }
+  });
+  delete filters.search;
+  this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
+  this.sendFilter();
 }
 export function sendFilter() {
-  this.$emit('loadData');
+  this.$emit("loadData");
 }
 export function clearFilter(colName) {
   this.colFilter[colName] = undefined; // Limpa o filtro para a coluna correspondente
@@ -127,10 +134,10 @@ export function getNameFromList(column, row, editing) {
         i &&
         i.value &&
         i.value.toString().trim() ==
-        (row[column.key || column.name] instanceof Object &&
+          (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-          ? row[column.key || column.name]["@id"].split("/").pop().trim()
-          : row[column.key || column.name].trim())
+            ? row[column.key || column.name]["@id"].split("/").pop().trim()
+            : row[column.key || column.name].trim())
       );
     });
     return name instanceof Object && !editing
@@ -146,7 +153,7 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
       return (
         item["@id"].split("/").pop() ==
         (row[column.key || column.name] instanceof Object &&
-          row[column.key || column.name]
+        row[column.key || column.name]
           ? row[column.key || column.name]["@id"].split("/").pop()
           : row[column.key || column.name])
       );
@@ -225,14 +232,14 @@ export function searchList(input, update, abort) {
           return (
             column,
             !input ||
-            this.formatList(column, item)
-              .value.toString()
-              .toLowerCase()
-              .includes(input.toLowerCase()) ||
-            this.formatList(column, item)
-              .label.toString()
-              .toLowerCase()
-              .includes(input.toLowerCase())
+              this.formatList(column, item)
+                .value.toString()
+                .toLowerCase()
+                .includes(input.toLowerCase()) ||
+              this.formatList(column, item)
+                .label.toString()
+                .toLowerCase()
+                .includes(input.toLowerCase())
           );
         })
         .map((item) => {
