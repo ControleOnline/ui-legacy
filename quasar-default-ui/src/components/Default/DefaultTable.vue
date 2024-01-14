@@ -395,7 +395,7 @@ export default {
             editing: [],
             sumColumn: [],
             colFilter: {},
-            listObject:{},
+            listObject: {},
             items: [],
             item: {},
             selectedRows: new Array(this.rowsOptions.pop()).fill(false),
@@ -694,7 +694,15 @@ export default {
                     }
                 }
             });
-            return params;
+
+            let filteredParams = Object.entries(params).reduce((acc, [key, value]) => {
+                if (value !== '' && value != null) {
+                    acc[key] = value;
+                }
+                return acc;
+            }, {});
+
+            return filteredParams;
         },
 
         sum(column, value) {

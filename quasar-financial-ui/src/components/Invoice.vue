@@ -40,8 +40,7 @@ export default {
                     },
                     status: {
                         filters: {
-                            context: 'invoice',
-                            company: '/people/' + this.myCompany.id
+                            context: 'invoice'
                         }
                     }
                 },

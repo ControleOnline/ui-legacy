@@ -225,7 +225,7 @@ export function searchList(input, update, abort) {
       ? configColumns[column.key || column.name]?.filters || {}
       : {};
     let params = this.copyObject(filters || {});
-    params[s] = input;
+    if (input.length > 0) params[s] = input;
 
     if (this.configs.list[column.list] instanceof Function) {
       this.$store.commit(this.configs.store + "/SET_ISLOADINGLIST", true);
