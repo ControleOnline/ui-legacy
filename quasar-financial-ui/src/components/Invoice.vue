@@ -37,9 +37,16 @@ export default {
                             context: this.context,
                             company: '/people/' + this.myCompany.id
                         }
+                    },
+                    status: {
+                        filters: {
+                            context: 'invoice',
+                            company: '/people/' + this.myCompany.id
+                        }
                     }
                 },
                 list: {
+                    status: this.status,
                     categories: this.categories,
                     company: this.companies
                 },
@@ -63,7 +70,8 @@ export default {
     },
     methods: {
         ...mapActions({
-            categories: 'categories/getItems'
+            categories: 'categories/getItems',
+            status: 'status/getItems'
         })
     },
 };

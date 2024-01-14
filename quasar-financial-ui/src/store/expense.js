@@ -2,6 +2,11 @@ import * as actions from "@controleonline/quasar-default-ui/src/store/default/ac
 import * as getters from "@controleonline/quasar-default-ui/src/store/default/getters";
 import mutations from "@controleonline/quasar-default-ui/src/store/default/mutations";
 import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
+import {
+  formatMoney,
+  formatDateYmdTodmY,
+} from "@controleonline/quasar-common-ui/src/utils/formatter";
+
 const persistentFilter = new Filters();
 
 export default {
@@ -21,7 +26,7 @@ export default {
         name: "id",
         align: "left",
         label: "id",
-        sum: false,
+
         externalFilter: true,
         format: function (value) {
           return "#" + value;
@@ -32,7 +37,7 @@ export default {
         name: "category",
         align: "left",
         label: "category",
-        sum: false,
+
         list: "categories",
         searchParam: "name",
         externalFilter: true,
@@ -69,7 +74,7 @@ export default {
         label: "dueDate",
         externalFilter: true,
         format: function (value) {
-          return value;
+          return formatDateYmdTodmY(value);
         },
       },
       {
@@ -83,12 +88,32 @@ export default {
         name: "price",
         align: "left",
         label: "price",
+        sum: true,
+        format(value) {
+          return formatMoney(value);
+        },
       },
       {
         sortable: true,
         name: "status",
         align: "left",
         label: "status",
+        list: "status",
+        searchParam: "status",
+        externalFilter: true,
+        format: function (value) {
+          return value?.status;
+        },
+        formatList: function (value) {
+          if (value)
+            return {
+              value: value["@id"].split("/").pop(),
+              label: value.status,
+            };
+        },
+        saveFormat: function (value) {
+          return value ? "/statuses/" + value : null;
+        },
       },
     ],
   },

@@ -76,6 +76,7 @@ export default {
     },
     data() {
         return {
+            listObject:{},
             countFilters: 0,
             openFilters: false,
         }

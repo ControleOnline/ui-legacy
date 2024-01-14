@@ -57,6 +57,7 @@ export default {
     },
     data() {
         return {
+            listObject:{},
             filterNumber: 0,
             key: 0
         }

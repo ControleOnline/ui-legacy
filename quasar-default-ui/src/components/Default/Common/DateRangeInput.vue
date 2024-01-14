@@ -51,6 +51,7 @@ export default {
     },
     data() {
         return {
+            listObject:{},
             from: null,
             to: null,
             dateModel: {},
@@ -80,8 +81,6 @@ export default {
             this.$emit('changedDateInput', dateModel);
         },
         setinputDate() {
-
-
             if (typeof this.dateModel === 'object') {
                 this.from = this.dateModel.from;
                 this.to = this.dateModel.to;
@@ -89,9 +88,7 @@ export default {
                 this.from = this.dateModel;
                 this.to = this.dateModel;
             }
-
         }
-
     }
 }
 

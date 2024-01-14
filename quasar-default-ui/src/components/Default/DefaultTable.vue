@@ -8,12 +8,11 @@
             :grid="this.$q.screen.gt.sm == false" binary-state-sort>
             <template v-slot:body="props">
                 <q-tr :props="props.row">
-                    <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name"
-                        :sum="sum(column, getNameFromList(column, props.row, column.key || column.name))" :class="[
-                            'text-' + column.align,
-                            { 'dragging-column': isDraggingCollumn[index] },
-                            { 'hidden': column.visible != true }
-                        ]">
+                    <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name" :class="[
+                        'text-' + column.align,
+                        { 'dragging-column': isDraggingCollumn[index] },
+                        { 'hidden': column.visible != true }
+                    ]">
 
                         <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[items.indexOf(props.row)]"
                             v-bind:value="false" />
@@ -275,10 +274,8 @@
                     </q-card>
                 </div>
             </template>
-
-
             <template v-slot:bottom-row>
-                <q-tr>
+                <q-tr class="tr-sum">
                     <q-td v-for="(column, index)  in columns" :class="[
                         'text-' + column.align,
                         { 'hidden': column.visible != true }]">
@@ -398,6 +395,7 @@ export default {
             editing: [],
             sumColumn: [],
             colFilter: {},
+            listObject:{},
             items: [],
             item: {},
             selectedRows: new Array(this.rowsOptions.pop()).fill(false),
@@ -700,8 +698,8 @@ export default {
         },
 
         sum(column, value) {
-            if (!isNaN(value) && value && column.sum != false) {
-                this.sumColumn[column.key || column.name] = this.sumColumn[column.key || column.name] ? parseFloat(this.sumColumn[column.key || column.name]) + parseFloat(value) : 0;
+            if (column.sum == true) {
+                this.sumColumn[column.key || column.name] = this.sumColumn[column.key || column.name] ? parseFloat(this.sumColumn[column.key || column.name]) + parseFloat(value) : parseFloat(value);
             }
 
         },
@@ -768,10 +766,22 @@ export default {
             params = this.getFilterParams(params);
             params.itemsPerPage = params.rowsPerPage || this.rowsOptions[0];
             params.company = '/people/' + this.myCompany.id;
-
+            this.sumColumn = {};
+            this.items = [];
             this.$store.dispatch(this.configs.store + '/getItems', params
             ).then((data) => {
                 this.pagination.rowsNumber = this.totalItems;
+                data.forEach(d => {
+                    for (const key in d) {
+                        if (d.hasOwnProperty(key)) {
+                            const value = d[key];
+                            const column = this.columns.filter(column => column.id === key || column.name === key);
+                            if (column.length > 0 && column[0].sum) {
+                                this.sum(column[0], value);
+                            }
+                        }
+                    }
+                });
                 this.items = data;
                 this.selectedRows = structuredClone(new Array(data.length).fill(false));
             }).catch(() => {
@@ -970,7 +980,8 @@ export default {
     }
 
     .q-table thead tr:first-child th:first-child,
-    .q-table td:first-child {
+    .q-table td:first-child,
+    .tr-sum {
         position: sticky;
         -webkit-position: sticky;
         left: 0;
@@ -1009,17 +1020,25 @@ export default {
             position: fixed !important;
         }
 
-
+        .tr-sum {
+            bottom: 30px !important;
+        }
     }
+
+    .q-table {
+        padding-bottom: 35px;
+    }
+
 }
+
 .q-body--fullscreen-mixin {
-        .q-table__top {
-            top: 0px !important;
-        }
-
-        .q-table thead {
-            top: 50px !important;
-        }
-
+    .q-table__top {
+        top: 0px !important;
     }
+
+    .q-table thead {
+        top: 50px !important;
+    }
+
+}
 </style>

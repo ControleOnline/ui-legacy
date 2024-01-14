@@ -30,14 +30,15 @@ export const formatCEP = (value) => {
 };
 
 export const formatMoney = (value, currency, locale) => {
-  let formatter = new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency: currency,
+  let formatter = new Intl.NumberFormat(locale || 'pt-br', {
+    style: 'currency',
+    currency: currency || 'BRL',
   });
+  if (typeof value == 'string')
+    value = value.replace(',', '.');
 
-  if (typeof value == "string") value = value.replace(",", ".");
-
-  if (!value) return 0;
+  if (!value)
+    return 0;
 
   return formatter.format(value);
 };
