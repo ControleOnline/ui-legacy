@@ -347,6 +347,7 @@ import DefaultFilters from "@controleonline/quasar-default-ui/src/components/Def
 
 import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Common/FiltersInput";
 import * as DefaultMethods from './DefaultMethods.js';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
 
@@ -429,6 +430,9 @@ export default {
     },
 
     computed: {
+        ...mapGetters({
+            myCompany: 'people/currentCompany',
+        }),
         isloading() {
             return this.$store.getters[this.configs.store + '/isLoading']
         },
@@ -470,7 +474,6 @@ export default {
     },
     methods: {
         ...DefaultMethods,
-
         saveVisibleColumns() {
             let columns = this.copyObject(this.columns);
             let persistVisibleColumns = {};
@@ -757,6 +760,7 @@ export default {
             delete params.rowsPerPage;
             params = this.getFilterParams(params);
             params.itemsPerPage = params.rowsPerPage || this.rowsOptions[0];
+            params.company = '/people/' + this.myCompany.id;
 
             this.$store.dispatch(this.configs.store + '/getItems', params
             ).then((data) => {

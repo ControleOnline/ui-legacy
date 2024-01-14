@@ -22,6 +22,7 @@ export default {
         align: "left",
         label: "id",
         sum: false,
+        externalFilter: true,
         format: function (value) {
           return "#" + value;
         },
@@ -34,15 +35,15 @@ export default {
         sum: false,
         list: "categories",
         searchParam: "name",
+        externalFilter: true,
         format: function (value) {
           return value?.name;
         },
         saveFormat: function (value) {
-         
-          return value  ?"/categories/" + value:null;
+          return value ? "/categories/" + value : null;
         },
         formatList: function (value) {
-          return value 
+          return value
             ? {
                 label: value?.name,
                 value: value?.id,
@@ -50,7 +51,7 @@ export default {
             : null;
         },
       },
-     
+
       {
         sortable: true,
         name: "description",
@@ -61,10 +62,12 @@ export default {
         },
       },
       {
+        inputType: "date-range",
         sortable: true,
         name: "dueDate",
         align: "left",
         label: "dueDate",
+        externalFilter: true,
         format: function (value) {
           return value;
         },
@@ -74,24 +77,19 @@ export default {
         name: "paymentMode",
         align: "left",
         label: "paymentMode",
-        
       },
       {
         sortable: true,
         name: "price",
         align: "left",
         label: "price",
-        
       },
       {
         sortable: true,
         name: "status",
         align: "left",
         label: "status",
-        
       },
-      
-      
     ],
   },
   actions: actions,

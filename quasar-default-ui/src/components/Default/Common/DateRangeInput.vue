@@ -1,25 +1,21 @@
 <template>
     <div class="row outlined-div">
-        <label :for="'input-' + (column.key || column.name)" v-if="labelType != 'stack-label'">
-            {{ translate( column.label, 'input') }}
-        </label>
-        <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xg-10 col-xs-10 flex">
+        <div class="col-11 col-sm-11col-md-11 col-lg-11 col-xg-11 col-xs-11 flex">
             <div class="label-range-date row" v-if="labelType == 'stack-label'">
-                {{ translate( label, 'input') }}
+                {{ translate(column.label, 'input') }}
             </div>
-            <q-input borderless stack-label readonly :label="translate( 'dateFrom', 'input')"
-                class="q-pa-none custom-input" dense v-model="dateModel.from" mask="##/##/####"></q-input>
-            <q-input borderless stack-label readonly :label="translate( 'dateTo', 'input')"
-                class="q-pa-none custom-input" dense v-model="dateModel.to" mask="##/##/####"></q-input>
+            <q-input borderless stack-label readonly :label="translate('dateFrom', 'input')" class="q-pa-none custom-input"
+                dense v-model="from" mask="##/##/####"></q-input>
+            <q-input borderless stack-label readonly :label="translate('dateTo', 'input')" class="q-pa-none custom-input"
+                dense v-model="to" mask="##/##/####"></q-input>
         </div>
-        <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xg-2 col-xs-2 q-pa-sm  flex flex-end justify-end items-center">
+        <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xg-1 col-xs-1 q-pa-sm  flex flex-end justify-end items-center">
             <q-icon :clickable="true" @click="dateModel = { from: null, to: null }" name="event"
                 class="vertical-middle cursor-pointer text-primary" size="sm">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                     <q-date v-model="dateModel" range mask="DD/MM/YYYY">
                         <div class="row items-center justify-end">
-                            <q-btn v-close-popup :label="translate( 'close', 'btn')" color="primary"
-                                flat />
+                            <q-btn v-close-popup @click="apply" :label="translate('apply', 'btn')" color="primary" flat />
                         </div>
                     </q-date>
                 </q-popup-proxy>
@@ -29,10 +25,13 @@
 </template>   
 <script>
 import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/DefaultMethods.js';
-import { buildAmericanDate } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 export default {
     props: {
+        initialRange: {
+            type: Object,
+            required: true,
+        },
         labelType: {
             type: String,
             required: false,
@@ -46,48 +45,53 @@ export default {
             type: Object,
             required: true,
         },
-        label: {
-            type: String,
-            required: true
-        },
-
     },
     computed: {
-        range() {
 
-            let filters = this.copyObject(this.filters)[this.column.key || this.column.name];
-            return {
-                before: filters?.before || filters?.from,
-                after: filters?.after || filters?.to
-            };
-        },
-        filters() {
-            return this.$store.getters[this.configs.store + '/filters'] || {}
-        },
     },
     data() {
         return {
-            dateModel: {}
+            from: null,
+            to: null,
+            dateModel: {},
+            initied: false
         }
     },
     created() {
-        this.dateModel = this.copyObject(this.range) || {};
+
+    },
+    mounted() {
+        this.dateModel = this.rangeDate(this.initialRange);
+        this.setinputDate();
+        this.initied = true;
     },
     watch: {
-        dateModel: {
-            handler: function (dateModel) {
-                let persistDate = {};
-                if (dateModel.from)
-                    persistDate.before = buildAmericanDate(dateModel.from);
-                if (persistDate.after)
-                    persistDate.after = buildAmericanDate(dateModel.to);
-                this.$emit('changedDateModel', persistDate);
-            },
-            deep: true,
-        },
     },
     methods: {
         ...DefaultMethods,
+        apply() {
+            let dateModel = {};
+            this.setinputDate();
+            if (typeof this.dateModel === 'object')
+                dateModel = this.dateModel
+            else
+                dateModel = { from: this.dateModel, to: this.dateModel }
+
+            this.$emit('changedDateInput', dateModel);
+        },
+        setinputDate() {
+
+
+            if (typeof this.dateModel === 'object') {
+                this.from = this.dateModel.from;
+                this.to = this.dateModel.to;
+            } else {
+                this.from = this.dateModel;
+                this.to = this.dateModel;
+            }
+
+        }
+
     }
 }
 
@@ -108,6 +112,10 @@ export default {
 
 .outlined-div>div {
     padding: 0px;
+}
+
+.custom-input {
+    width: 50%;
 }
 
 .custom-input .q-field__native {

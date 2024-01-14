@@ -1,17 +1,14 @@
 <template>
-    <label :for="'input-' + (column.key || column.name)" v-if="labelType != 'stack-label'">
-        {{ translate( column.label, 'input') }}
+    <label v-if="labelType != 'stack-label'">
+        {{ translate(column.label, 'input') }}
     </label>
-    <DateRangeInput :labelType="labelType" :id="'input-' + (column.key || column.name)"
-        v-if="column.inputType == 'date-range'"
-        :label="labelType != 'stack-label' ? '' : translate( column.label, 'input')"
-        :column="column" :configs="configs" @changedDateModel="changedDateModel" />
+    <DateRangeInput :initialRange="colFilter[column.key || column.name]" @changedDateInput="changedDateInput"
+        :labelType="labelType" v-if="column.inputType == 'date-range'" :column="column" :configs="configs" />
 
-    <q-select :id="'input-' + (column.key || column.name)" v-else-if="column.list" dense outlined
-        :stack-label="labelType" lazy-rules use-input use-chips map-options options-cover transition-show="flip-down"
-        transition-hide="flip-up" @filter="searchList" :options="listAutocomplete[column.list]" label-color="black"
-        input-debounce="700" :loading="isLoadingList" multiple
-        :label="labelType != 'stack-label' ? '' : translate( column.label, 'input')"
+    <q-select v-else-if="column.list" dense outlined :stack-label="labelType" lazy-rules use-input use-chips map-options
+        options-cover transition-show="flip-down" transition-hide="flip-up" @filter="searchList"
+        :options="listAutocomplete[column.list]" label-color="black" input-debounce="700" :loading="isLoadingList" multiple
+        :label="labelType != 'stack-label' ? '' : translate(column.label, 'input')"
         v-model="colFilter[column.key || column.name]" @blur="sendFilterColumn(column.key || column.name)"
         @focus="setForceShowInput(column.key || column.name)">
         <template v-slot:no-option v-if="!isLoadingList">
@@ -22,8 +19,8 @@
             </q-item>
         </template>
     </q-select>
-    <q-input :id="'input-' + (column.key || column.name)" v-else dense outlined :stack-label="labelType"
-        :label="labelType != 'stack-label' ? '' : translate( column.label, 'input')"
+    <q-input v-else dense outlined :stack-label="labelType"
+        :label="labelType != 'stack-label' ? '' : translate(column.label, 'input')"
         @click.stop="setForceShowInput(column.key || column.name)" v-model="colFilter[column.key || column.name]"
         @focus="setForceShowInput(column.key || column.name)" @blur="sendFilterColumn(column.key || column.name)"
         @keydown.enter="sendFilterColumn(column.key || column.name); sendFilter()">
@@ -35,6 +32,7 @@
 <script>
 import * as DefaultMethods from '../DefaultMethods.js';
 import DateRangeInput from './DateRangeInput';
+import { buildAmericanDate, formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 export default {
     components: {
@@ -89,23 +87,34 @@ export default {
     watch: {
         filters: {
             handler: function (filters) {
-                this.colFilter[this.column.key || this.column.name] = this.filters[this.column.key || this.column.name];
+                let filter = this.filters[this.column.key || this.column.name];
+                this.colFilter[this.column.key || this.column.name] = filter;
             },
             deep: true,
         },
     },
     methods: {
+        ...DefaultMethods,
         sendFilterColumn() {
             this.filterColumn(this.column.key || this.column.name);
             if (this.onChange)
                 this.sendFilter();
         },
+        changedDateInput(dateModel) {
+            
+            let filters = this.copyObject(this.filters);
+            let filter = filters[this.column.key || this.column.name] || {};
+            if (dateModel.from)
+                filter.before = buildAmericanDate(dateModel.from);
+            if (dateModel.to)
+                filter.after = buildAmericanDate(dateModel.to);
 
-        changedDateModel(value) {
-            this.colFilter[this.column.key || this.column.name] = value;
-            this.sendFilterColumn();
-        },
-        ...DefaultMethods,
+            filters[this.column.key || this.column.name] = filter;
+            this.applyFilters(filters);
+            if (this.onChange)
+                this.sendFilter();
+
+        }
     }
 }
 

@@ -24,11 +24,20 @@ export default {
         }),
         configs() {
             return {
-                store: 'invoice',
+                filters: true,
+                store: this.context,
                 add: true,
                 selection: false,
                 search: {
 
+                },
+                columns: {
+                    category: {
+                        filters: {
+                            context: this.context,
+                            company: '/people/' + this.myCompany.id
+                        }
+                    }
                 },
                 list: {
                     categories: this.categories,
@@ -51,11 +60,6 @@ export default {
         };
     },
     created() {
-        let filters = {
-            context: this.context,
-            company: '/people/' + this.myCompany.id
-        };
-        this.$store.commit('categories' + '/SET_FILTERS', filters);
     },
     methods: {
         ...mapActions({

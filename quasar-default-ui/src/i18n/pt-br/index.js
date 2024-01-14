@@ -12,6 +12,10 @@ export const translate = {
       categories_receive: "Categorias de Receita",
     },
     input: {
+      category: 'Categoria',
+      dateFrom: "De: ",
+      dateTo: "Até: ",
+      dueDate: 'Data de Vencimento',
       name: "Nome",
       parent: "Categoria",
       search: "Pesquisar",

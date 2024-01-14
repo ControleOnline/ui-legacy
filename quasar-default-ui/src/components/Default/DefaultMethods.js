@@ -1,3 +1,8 @@
+import {
+  buildAmericanDate,
+  formatDateYmdTodmY,
+} from "@controleonline/quasar-common-ui/src/utils/formatter";
+
 export function copyObject(obj) {
   if (obj === null || !(obj instanceof Object)) {
     return obj;
@@ -21,6 +26,15 @@ export function copyObject(obj) {
 
   return newObj || {};
 }
+
+export function rangeDate(range) {
+  let filters = this.copyObject(range);
+  let initialDate = {};
+  initialDate.from = formatDateYmdTodmY(filters?.before);
+  initialDate.to = formatDateYmdTodmY(filters?.after);
+  return initialDate;
+}
+
 export function filterColumn(colName) {
   const column = this.columns.find((col) => {
     return col.name === colName || col.key === colName;
@@ -205,7 +219,10 @@ export function searchList(input, update, abort) {
     columnName
   ) {
     let s = column.searchParam || "search";
-    let filters = this.configs?.columns[column.key || column.name]?.filters || {};
+    let configColumns = this.configs?.columns;
+    let filters = configColumns
+      ? configColumns[column.key || column.name]?.filters || {}
+      : {};
     let params = this.copyObject(filters || {});
     params[s] = input;
 
