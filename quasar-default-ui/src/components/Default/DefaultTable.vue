@@ -137,14 +137,15 @@
                 <div class="q-gutter-sm">
                     <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                         v-if="$q.screen.gt.sm == false && configs.selection" />
-                    <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData"></DefaultFilters>
+
+                    <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
+                        :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
                     <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
                         color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                         @click="editItem({})">
                         <q-tooltip> {{ translate('add', 'tooltip') }} </q-tooltip>
                     </q-btn>
-                    <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
-                        :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
+                    <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData"></DefaultFilters>
                     <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
                         <q-tooltip> {{ translate('config_columns', 'tooltip') }} </q-tooltip>
                         <!-- Menu de configuração de colunas -->
@@ -995,8 +996,6 @@ export default {
     }
 
     @media only screen and (min-width: 1024px) {
-
-
         .q-table__top {
             top: 57px;
         }
@@ -1013,4 +1012,14 @@ export default {
 
     }
 }
+.q-body--fullscreen-mixin {
+        .q-table__top {
+            top: 0px !important;
+        }
+
+        .q-table thead {
+            top: 50px !important;
+        }
+
+    }
 </style>

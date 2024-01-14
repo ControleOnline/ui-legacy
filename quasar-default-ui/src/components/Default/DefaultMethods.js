@@ -64,6 +64,7 @@ export function applyFilters(filters) {
 export function onSearch() {
   let filters = this.copyObject(this.filters);
   if (this.search != "") filters["search"] = this.search;
+  else delete filters["search"];
   this.applyFilters(filters);
   this.sendFilter();
 }
