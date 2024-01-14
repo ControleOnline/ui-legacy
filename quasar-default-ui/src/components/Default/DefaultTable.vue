@@ -801,37 +801,36 @@ export default {
 </script>  
 
 
-<style scoped>
+<style>
 .default-table {
     min-height: 100%;
     width: 100%;
 }
 
-
-thead tr {
+.default-table thead tr {
     font-weight: bold;
     position: sticky;
     top: 0;
     z-index: 1;
 }
 
-tbody tr:last-child {
+.default-table tbody tr:last-child {
     font-weight: bold;
     position: sticky;
     bottom: 0;
     z-index: 1;
 }
 
-thead th:last-child,
-tbody td:last-child {
+.default-table thead th:last-child,
+.default-table tbody td:last-child {
     font-weight: bold;
     position: sticky;
     right: 0;
     z-index: 1;
 }
 
-thead th:first-child,
-tbody td:first-child {
+.default-table thead th:first-child,
+.default-table tbody td:first-child {
     font-weight: bold;
     position: sticky;
     left: 0;
@@ -839,15 +838,15 @@ tbody td:first-child {
 }
 
 
-.sortable-header {
+.default-table .sortable-header {
     cursor: pointer;
 }
 
-.asc .sortable-header {
+.default-table .asc .sortable-header {
     position: relative;
 }
 
-.asc .sortable-header::before {
+.default-table .asc .sortable-header::before {
     content: '\\25B2';
     /* Setinha para cima */
     position: absolute;
@@ -855,7 +854,7 @@ tbody td:first-child {
     right: 0;
 }
 
-.desc .sortable-header::before {
+.default-table .desc .sortable-header::before {
     content: '\\25BC';
     /* Setinha para baixo */
     position: absolute;
@@ -863,39 +862,39 @@ tbody td:first-child {
     right: 0;
 }
 
-.fade-enter-active,
-.fade-leave-active {
+.default-table .fade-enter-active,
+.default-table .fade-leave-active {
     transition: opacity 0.5s;
 }
 
-.fade-enter,
-.fade-leave-to
+.default-table .fade-enter,
+.default-table .fade-leave-to
 
 /* .fade-leave-active in <2.1.8 */
     {
     opacity: 0;
 }
 
-.q-table--grid.fullscreen {
+.default-table .q-table--grid.fullscreen {
     background: #fff;
 }
 
-.dragging-column {
+.default-table .dragging-column {
     border-left: 2px solid #babaca;
     border-right: 2px solid #babaca;
     /* Estilo da borda para a coluna sendo arrastada */
 }
 
-.no-drag {
+.default-table .no-drag {
     cursor: not-allowed;
 }
 
 
-.q-table {
+.default-table .q-table {
     padding-top: 38px !important;
 }
 
-.header-filter-container {
+.default-table .header-filter-container {
     position: absolute;
     background: #fff;
     top: -36px;
@@ -907,43 +906,39 @@ tbody td:first-child {
 
 }
 
-.header-filter-container {
+.default-table .header-filter-container {
     display: none !important;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding: 5px;
 }
 
-.header-filter-container.show {
+.default-table .header-filter-container.show {
     display: flex !important;
 }
 
 /*
-.header-filter-container input:focus,
-.header-filter-container input.show,
-.header-filter-container i.show {
+.default-table .header-filter-container input:focus,
+.default-table .header-filter-container input.show,
+.default-table .header-filter-container i.show {
     display: inline-block !important;    
 }
 */
 
-.header-filter-container input {
+.default-table .header-filter-container input {
     max-width: 150px;
 }
 
-.header-filter-container i {
+.default-table .header-filter-container i {
     position: relative;
     margin-left: 5px;
     margin-right: 5px;
 }
 
-.default-table .q-table__control {
+.default-table .default-table .q-table__control {
     display: contents !important;
 }
 
-
-
-
-
-.q-table__bottom {
+.default-table .q-table__bottom {
     width: 100vw !important;
     z-index: 2;
     bottom: 0;
@@ -952,44 +947,43 @@ tbody td:first-child {
     padding-right: 10vw;
 }
 
-.q-table__top {
+.default-table .q-table__top {
     background: #fff;
 }
 
-.q-table thead,
-.row-filters,
-.q-table__top {
+.default-table .q-table thead,
+.default-table .row-filters,
+.default-table .q-table__top {
     position: sticky;
     -webkit-position: sticky;
     z-index: 2;
     opacity: 1;
 }
 
-.q-table__middle.scroll {
+.default-table .q-table__middle.scroll {
     overflow: visible !important;
 }
 
-
-.q-table thead tr {
+.default-table .q-table thead tr {
     background-color: var(--q-secondary) !important;
     color: #fff !important;
 }
 
-.q-table tr:nth-child(even) {
+.default-table .q-table tr:nth-child(even) {
     background-color: #dfdfdf;
 }
 
-.q-table tr:nth-child(odd) {
+.default-table .q-table tr:nth-child(odd) {
     background-color: #fff;
 }
 
-.q-panel .q-table thead {
+.default-table .q-panel .q-table thead {
     top: 0px;
 }
 
-.q-table thead tr:first-child th:first-child,
-.q-table td:first-child,
-.tr-sum {
+.default-table .q-table thead tr:first-child th:first-child,
+.default-table .q-table td:first-child,
+.default-table .tr-sum {
     position: sticky;
     -webkit-position: sticky;
     left: 0;
@@ -999,54 +993,48 @@ tbody td:first-child {
 
 @media only screen and (max-width: 1024px) {
 
-    .q-table thead {
+    .default-table .q-table thead {
         top: 64px;
     }
 
     /* Paginação da Tabela  */
-    .q-table__bottom {
+    .default-table .q-table__bottom {
         position: fixed !important;
         width: 100vw !important;
     }
 
-    .q-table {
+    .default-table .q-table {
         padding-bottom: 100px;
     }
 }
 
 @media only screen and (min-width: 1024px) {
-    .q-table__top {
+    .default-table .q-table__top {
         top: 57px;
     }
 
-    .q-table thead {
+    .default-table .q-table thead {
         top: 108px;
     }
 
     /* Paginação da Tabela  */
-    .q-table__bottom {
+    .default-table .q-table__bottom {
         position: fixed !important;
     }
 
-    .tr-sum {
+    .default-table .tr-sum {
         bottom: 30px !important;
     }
 }
 
-.q-table {
+.default-table .q-table {
     padding-bottom: 35px;
 }
 
-
-
-.q-body--fullscreen-mixin {
-    .q-table__top {
-        top: 0px !important;
-    }
-
-    .q-table thead {
-        top: 50px !important;
-    }
-
+.default-table .q-body--fullscreen-mixin .q-table__top {
+    top: 0px !important;
 }
-</style>
+
+.default-table .q-body--fullscreen-mixin .q-table thead {
+    top: 50px !important;
+}</style>
