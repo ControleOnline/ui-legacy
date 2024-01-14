@@ -1,5 +1,5 @@
 <template>
-    <div class="row q-pt-xs q-pa-md" v-if="filterNumber > 0">
+    <div class="row q-pt-xs q-pa-md row-filters" v-if="filterNumber > 0">
         <q-card class="full-width">
             <q-card-section class="row col-12 q-pa-sm q-pl-lg">
                 <q-title class="">{{ translate( 'filters', 'title') }}</q-title>
