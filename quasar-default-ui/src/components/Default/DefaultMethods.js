@@ -149,10 +149,10 @@ export function getNameFromList(column, row, editing) {
         i &&
         i.value &&
         i.value.toString().trim() ==
-          (row[column.key || column.name] instanceof Object &&
+        (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-            ? row[column.key || column.name]["@id"].split("/").pop().trim()
-            : row[column.key || column.name].trim())
+          ? row[column.key || column.name]["@id"].split("/").pop().trim()
+          : row[column.key || column.name].trim())
       );
     });
     return name instanceof Object && !editing
@@ -168,7 +168,7 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
       return (
         item["@id"].split("/").pop() ==
         (row[column.key || column.name] instanceof Object &&
-        row[column.key || column.name]
+          row[column.key || column.name]
           ? row[column.key || column.name]["@id"].split("/").pop()
           : row[column.key || column.name])
       );
@@ -179,7 +179,7 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
   return x instanceof Object && !editing ? x.label : x;
 }
 export function translate(value, type) {
-  if (this.configs && this.$te(value))
+  if (this.configs && this.$te(this.configs.store + "." + value))
     return this.$t(this.configs.store + "." + value);
   else return this.$t("default." + type + "." + value);
 }
@@ -256,14 +256,14 @@ export function searchList(input, update, abort) {
           return (
             column,
             !input ||
-              this.formatList(column, item)
-                .value.toString()
-                .toLowerCase()
-                .includes(input.toLowerCase()) ||
-              this.formatList(column, item)
-                .label.toString()
-                .toLowerCase()
-                .includes(input.toLowerCase())
+            this.formatList(column, item)
+              .value.toString()
+              .toLowerCase()
+              .includes(input.toLowerCase()) ||
+            this.formatList(column, item)
+              .label.toString()
+              .toLowerCase()
+              .includes(input.toLowerCase())
           );
         })
         .map((item) => {
