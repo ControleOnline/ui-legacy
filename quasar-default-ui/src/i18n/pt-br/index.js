@@ -4,6 +4,7 @@
 export const translate = {
   default: {
     btn: {
+      apply: "Aplicar",
       filter: "Filtrar",
       save: "Salvar",
       cancel: "Cancelar",
