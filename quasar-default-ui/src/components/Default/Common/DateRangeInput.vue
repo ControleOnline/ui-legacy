@@ -10,7 +10,7 @@
                 dense v-model="to" mask="##/##/####"></q-input>
         </div>
         <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xg-1 col-xs-1 q-pa-sm  flex flex-end justify-end items-center">
-            <q-icon :clickable="true" @click="dateModel = { from: null, to: null }" name="event"
+            <q-icon :clickable="true" @click="dateModel = { from: null, to: null }; setinputDate()" name="event"
                 class="vertical-middle cursor-pointer text-primary" size="sm">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                     <q-date v-model="dateModel" range mask="DD/MM/YYYY">
@@ -51,7 +51,7 @@ export default {
     },
     data() {
         return {
-            listObject:{},
+            listObject: {},
             from: null,
             to: null,
             dateModel: {},
