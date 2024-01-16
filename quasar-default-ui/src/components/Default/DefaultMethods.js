@@ -1,3 +1,8 @@
+import {
+  buildAmericanDate,
+  formatDateYmdTodmY,
+} from "@controleonline/quasar-common-ui/src/utils/formatter";
+
 export function copyObject(obj) {
   if (obj === null || !(obj instanceof Object)) {
     return obj;
@@ -22,6 +27,70 @@ export function copyObject(obj) {
   return newObj || {};
 }
 
+export function rangeDate(range) {
+  let filters = this.copyObject(range);
+  let initialDate = {};
+  initialDate.from = formatDateYmdTodmY(filters?.before);
+  initialDate.to = formatDateYmdTodmY(filters?.after);
+  return initialDate;
+}
+
+export function filterColumn(colName) {
+  const column = this.columns.find((col) => {
+    return col.name === colName || col.key === colName;
+  });
+
+  let filters = this.copyObject(this.filters || []) || [];
+  if (!this.colFilter[colName]) {
+    delete filters[colName];
+  } else if (this.colFilter[colName] instanceof Array) {
+    filters[colName] = [];
+    this.colFilter[colName].forEach((item) => {
+      filters[colName].push(item);
+    });
+  } else {
+    filters[colName] = this.formatFilter(column, this.colFilter[colName]);
+  }
+
+  this.applyFilters(filters);
+  this.showInput = { [colName]: false };
+  this.forceShowInput = { [colName]: false };
+}
+export function applyFilters(filters) {
+  let f = this.copyObject(filters);
+  let pf = this.copyObject(this.filters);
+  if (f != pf) this.$store.commit(this.configs.store + "/SET_FILTERS", f);
+}
+export function onSearch() {
+  let filters = this.copyObject(this.filters);
+  if (this.search != "") filters["search"] = this.search;
+  else delete filters["search"];
+  this.applyFilters(filters);
+  this.sendFilter();
+}
+export function clearFilters() {
+  let filters = this.copyObject(this.filters);
+
+  this.columns.forEach((column) => {
+    if ((column.key || column.name) in filters) {
+      delete filters[column.key || column.name];
+    }
+  });
+  delete filters.search;
+  this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
+  this.sendFilter();
+}
+export function sendFilter() {
+  this.$emit("loadData");
+}
+export function clearFilter(colName) {
+  this.colFilter[colName] = undefined; // Limpa o filtro para a coluna correspondente
+  this.filterColumn(colName);
+}
+export function setForceShowInput(colName) {
+  this.showInput = { [colName]: true };
+  this.forceShowInput = { [colName]: true };
+}
 export function mask(column) {
   if (column.mask instanceof Function) return column.mask();
 }
@@ -77,12 +146,13 @@ export function getNameFromList(column, row, editing) {
       else i = this.format(column, item);
 
       return (
+        i &&
         i.value &&
         i.value.toString().trim() ==
-          (row[column.key || column.name] instanceof Object &&
+        (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-            ? row[column.key || column.name]["@id"].split("/").pop().trim()
-            : row[column.key || column.name].trim())
+          ? row[column.key || column.name]["@id"].split("/").pop().trim()
+          : row[column.key || column.name].trim())
       );
     });
     return name instanceof Object && !editing
@@ -98,7 +168,7 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
       return (
         item["@id"].split("/").pop() ==
         (row[column.key || column.name] instanceof Object &&
-        row[column.key || column.name]
+          row[column.key || column.name]
           ? row[column.key || column.name]["@id"].split("/").pop()
           : row[column.key || column.name])
       );
@@ -107,6 +177,14 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
   let x = this.formatList(column, name);
 
   return x instanceof Object && !editing ? x.label : x;
+}
+export function translate(value, type) {
+  if (this.configs && this.$te(this.configs.store + "." + type + "." + value))
+    return this.$t(this.configs.store + "." + type + "." + value);
+  else if (this.$te("default." + type + "." + value))
+    return this.$t("default." + type + "." + value);
+  else
+    return this.$t(this.configs.store + "." + type + "." + value);
 }
 
 export function formatFilter(column, value) {
@@ -145,8 +223,12 @@ export function searchList(input, update, abort) {
     columnName
   ) {
     let s = column.searchParam || "search";
-    let params = this.copyObject(this.filters);
-    params[s] = input;
+    let configColumns = this.configs?.columns;
+    let filters = configColumns
+      ? configColumns[column.key || column.name]?.filters || {}
+      : {};
+    let params = this.copyObject(filters || {});
+    if (input.length > 0) params[s] = input;
 
     if (this.configs.list[column.list] instanceof Function) {
       this.$store.commit(this.configs.store + "/SET_ISLOADINGLIST", true);
@@ -177,14 +259,14 @@ export function searchList(input, update, abort) {
           return (
             column,
             !input ||
-              this.formatList(column, item)
-                .value.toString()
-                .toLowerCase()
-                .includes(input.toLowerCase()) ||
-              this.formatList(column, item)
-                .label.toString()
-                .toLowerCase()
-                .includes(input.toLowerCase())
+            this.formatList(column, item)
+              .value.toString()
+              .toLowerCase()
+              .includes(input.toLowerCase()) ||
+            this.formatList(column, item)
+              .label.toString()
+              .toLowerCase()
+              .includes(input.toLowerCase())
           );
         })
         .map((item) => {

@@ -5,9 +5,12 @@
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
 import { mapActions, mapGetters } from "vuex";
 import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
+import Button from "@controleonline/quasar-common-ui/src/components/Categories/Button";
+
 export default {
     components: {
         DefaultTable,
+        Button
     },
     props: {
         context: {
@@ -21,14 +24,39 @@ export default {
         }),
         configs() {
             return {
-                store: 'invoice',
+                filters: true,
+                store: this.context,
                 add: true,
                 selection: false,
-                search: false,
+                search: {
+
+                },
+                columns: {
+                    category: {
+                        filters: {
+                            context: this.context,
+                            company: '/people/' + this.myCompany.id
+                        }
+                    },
+                    status: {
+                        filters: {
+                            context: 'invoice'
+                        }
+                    }
+                },
                 list: {
+                    status: this.status,
                     categories: this.categories,
                     company: this.companies
                 },
+                components: {
+                    headerActions: {
+                        component: Button,
+                        pops: {
+                            context: this.context
+                        }
+                    }
+                }
             };
         }
     },
@@ -38,15 +66,11 @@ export default {
         };
     },
     created() {
-        let filters = {
-            context: this.context,
-            company: '/people/' + this.myCompany.id
-        };
-        this.$store.commit('categories' + '/SET_FILTERS', filters);
     },
     methods: {
         ...mapActions({
-            categories: 'categories/getItems'
+            categories: 'categories/getItems',
+            status: 'status/getItems'
         })
     },
 };

@@ -7,7 +7,7 @@ const persistentFilter = new Filters();
 export default {
   namespaced: true,
   state: {
-    resourceEndpoint: "categories",
+    resourceEndpoint: "statuses",
     isLoading: false,
     error: "",
     violations: null,
@@ -27,34 +27,16 @@ export default {
         },
       },
       {
+        externalFilter: true,
         sortable: true,
-        name: "name",
+        name: "status",
         align: "left",
-        label: "name",
+        label: "status",
         sum: false,
         format: function (value) {
           return value;
         },
       },
-      //{
-      //  sortable: true,
-      //  list: "company",
-      //  name: "company",
-      //  align: "left",
-      //  label: "company",
-      //  formatList: function (value) {
-      //    return {
-      //      label: value?.alias,
-      //      value: value?.id,
-      //    };
-      //  },
-      //  format: function (value) {
-      //    return value;
-      //  },
-      //  saveFormat: function (company) {
-      //    return "/people/" + company;
-      //  },
-      //},
       {
         sortable: true,
         name: "color",
@@ -66,36 +48,13 @@ export default {
       },
       {
         sortable: true,
-        name: "icon",
+        name: "realStatus",
         align: "left",
-        label: "icon",
+        label: "realStatus",
         format: function (value) {
           return value;
         },
-      },
-      {
-        sortable: true,
-        name: "parent",
-        align: "left",
-        label: "parent",
-        list: "categories",
-        searchParam: "name",
-        format: function (value) {
-          return value?.name;
-        },
-        saveFormat: function (value) {
-         
-          return value  ?"/categories/" + value:null;
-        },
-        formatList: function (value) {
-          return value 
-            ? {
-                label: value?.name,
-                value: value?.id,
-              }
-            : null;
-        },
-      },
+      }
     ],
   },
   actions: actions,

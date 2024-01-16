@@ -6,7 +6,7 @@ export const routes = [
       {
         name: 'CustomerServices',
         path: '',
-        component: () =>  import ('@controleonline/quasar-customers-ui/src/pages/Customer/Index.vue')
+        component: () =>  import ('../pages/CRM/Index')
       },
       {
         name: 'RelationshipDetails',

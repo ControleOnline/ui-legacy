@@ -12,7 +12,7 @@ export default {
 
   data() {
     return {
-      context:this.$route.params.context
+      context:'expense'
     };
   },
   created() { },

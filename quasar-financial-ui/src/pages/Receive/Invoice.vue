@@ -1,5 +1,5 @@
 <template>
-  <Invoice :context="context" v-if="context"/>
+  <Invoice :context="context" v-if="context" />
 </template>
 
 <script>
@@ -12,10 +12,10 @@ export default {
 
   data() {
     return {
-      context: this.$route.params.context
+      context: 'receive'
     };
   },
   created() {
-   },
+  },
 };
 </script>

@@ -112,7 +112,6 @@ import OriginInputs from "./OriginInputs";
 import ProductInputs from "./ProductInputs";
 
 import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
-import { productName } from "../../../../../package.json";
 import { DOMAIN } from "../../../../../src/config/domain";
 
 export default {
@@ -290,7 +289,7 @@ export default {
         };
       }
       return {
-        app: productName,
+        app: '',
         routeType: "multiple",
         groupTable: this.product.groupTable,
         myCompany: this.myCompany ? this.myCompany.id : null,

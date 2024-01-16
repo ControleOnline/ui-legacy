@@ -1,17 +1,18 @@
 <template>
-    <div class="full-width">
+    <div class="full-width default-table">
+        <div class="q-gutter-sm" v-if="this.configs.filters">
+            <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
+        </div>
         <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" :loading="isloading"
             v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions" :key="tableKey"
             :grid="this.$q.screen.gt.sm == false" binary-state-sort>
             <template v-slot:body="props">
-
                 <q-tr :props="props.row">
-                    <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name"
-                        :sum="sum(column, getNameFromList(column, props.row, column.key || column.name))" :class="[
-                            'text-' + column.align,
-                            { 'dragging-column': isDraggingCollumn[index] },
-                            { 'hidden': column.visible != true }
-                        ]">
+                    <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name" :class="[
+                        'text-' + column.align,
+                        { 'dragging-column': isDraggingCollumn[index] },
+                        { 'hidden': column.visible != true }
+                    ]">
 
                         <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[items.indexOf(props.row)]"
                             v-bind:value="false" />
@@ -40,7 +41,7 @@
                             <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
                                 use-input hide-selected map-options fill-input options-cover transition-show="flip-down"
                                 transition-hide="flip-up" @filter="searchList" input-debounce="700" :loading="isLoadingList"
-                                :options="listAutocomplete[column.list]" :label="$t(configs.store + '.' + column.label)"
+                                :options="listAutocomplete[column.list]" :label="translate(column.label, 'input')"
                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
                                 v-model="editedValue"
                                 @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)">
@@ -59,16 +60,16 @@
 
                         </template>
                     </q-td>
-                    <q-td class="text-right q-gutter-sm">
+                    <q-td class="q-gutter-sm">
                         <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white" color="primary"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem(props.row)">
-                            <q-tooltip> {{ $t(configs.store + '.edit') }} </q-tooltip>
+                            <q-tooltip> {{ translate('edit', 'tooltip') }} </q-tooltip>
                         </q-btn>
                         <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="openConfirm(props.row)">
-                            <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
+                            <q-tooltip> {{ translate('delete', 'tooltip') }} </q-tooltip>
                         </q-btn>
                         <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
                             :componentProps="tableActionsProps()" :row="props.row" @loadData="loadData" />
@@ -90,43 +91,21 @@
                         class="header-column" @mouseover="setShowInput(column.key || column.name)"
                         @mouseout="hideInput(column.key || column.name)">
 
-                        <div :class="[
+                        <div v-if="this.configs.filters" :class="[
                             'row',
                             'col-12',
                             'header-filter-container',
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
                         ]" @click="stopPropagation">
-                            <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                use-input use-chips map-options fill-input options-cover transition-show="flip-down"
-                                transition-hide="flip-up" @filter="searchList" :options="listAutocomplete[column.list]"
-                                label-color="black" input-debounce="700" :loading="isLoadingList" multiple
-                                :label="$t(configs.store + '.' + column.label)"
-                                v-model="colFilter[column.key || column.name]"
-                                @blur="filterColumn(column.key || column.name, column, props.row)"
-                                @focus="setForceShowInput(column.key || column.name)">
-                                <template v-slot:no-option v-if="!isLoadingList">
-                                    <q-item>
-                                        <q-item-section class="text-grey">
-                                            No results
-                                        </q-item-section>
-                                    </q-item>
-                                </template>
-                            </q-select>
-                            <input v-else :id="'input-' + (column.key || column.name)"
-                                :class="[{ show: showInput[column.key || column.name] }]"
-                                @click.stop="setForceShowInput(column.key || column.name)"
-                                v-model="colFilter[column.key || column.name]"
-                                @focus="setForceShowInput(column.key || column.name)"
-                                @blur="filterColumn(column.key || column.name)"
-                                @keydown.enter="filterColumn(column.key || column.name)" />
 
+                            <FiltersInput :onChange="true" :column='column' :configs='configs' @loadData="loadData"
+                                :class="[{ show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }]">
+                            </FiltersInput>
                             <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
                                 size="2em" />
-                            <q-icon :class="[{
-                                show: showInput[column.key || column.name]
-                            }]
-                                " name="close" @click.stop="clearFilter(column.key || column.name)"
+                            <q-icon name="close" @click.stop="clearFilter(column.key || column.name)"
                                 v-else-if="colFilter[column.key || column.name]" />
+
                         </div>
 
                         <div class="row col-12">
@@ -135,7 +114,7 @@
 
                             <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
                                 v-model="selectAll" />
-                            {{ $t(configs.store + '.' + column.label) }}
+                            {{ translate(column.label, 'input') }}
                             <q-icon v-if="column.sortable"
                                 :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
                                 color="grey-8" size="14px" />
@@ -148,34 +127,26 @@
                 </q-tr>
             </template>
 
+            <template v-slot:top-left="props">
+                <div class="q-gutter-sm">
+                    <DefaultSearch :configs="configs" @loadData="loadData"></DefaultSearch>
+                </div>
+            </template>
             <template v-slot:top-right="props">
-                <div class="text-right q-gutter-sm">
+                <div class="q-gutter-sm">
                     <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
                         v-if="$q.screen.gt.sm == false && configs.selection" />
 
-                    <q-input class="q-pa-xs" v-if="configs.search != false" borderless dense debounce="300" v-model="filter"
-                        :placeholder="$t('Search')">
-                        <template v-slot:append>
-                            <q-icon name="search"></q-icon>
-                        </template>
-                    </q-input>
-
-
-
+                    <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
+                        :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
                     <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
                         color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                         @click="editItem({})">
-                        <q-tooltip> {{ $t(configs.store + '.add') }} </q-tooltip>
+                        <q-tooltip> {{ translate('add', 'tooltip') }} </q-tooltip>
                     </q-btn>
-
-
-                    <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
-                        :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
-
-
-
+                    <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData"></DefaultFilters>
                     <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
-                        <q-tooltip> {{ $t(configs.store + '.config_columns') }} </q-tooltip>
+                        <q-tooltip> {{ translate('config_columns', 'tooltip') }} </q-tooltip>
                         <!-- Menu de configuração de colunas -->
                         <q-menu v-model="showColumnMenu">
                             <q-list>
@@ -189,17 +160,13 @@
                             <q-btn slot="bottom" label="Fechar" @click="toggleShowColumnMenu" />
                         </q-menu>
                     </q-btn>
-
                     <q-btn class="q-pa-xs" label="" dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
                         @click="props.toggleFullscreen">
-                        <q-tooltip> {{ $t(configs.store + (props.inFullscreen ? '.minimize' : '.maximize')) }} </q-tooltip>
+                        <q-tooltip> {{ translate((props.inFullscreen ? 'minimize' : 'maximize'), 'tooltip') }} </q-tooltip>
                     </q-btn>
-
-
                     <q-btn color="primary" icon-right="archive" dense class="q-pa-xs" label="" @click="exportTable"
                         v-if="configs.export">
-                        <q-tooltip> {{ $t(configs.store + '.export') }} </q-tooltip>
-
+                        <q-tooltip> {{ translate('export', 'tooltip') }} </q-tooltip>
                     </q-btn>
                 </div>
             </template>
@@ -237,7 +204,7 @@
                             <template v-for="(column, index) in columns" :key="column.key || column.name">
                                 <q-item v-if="!column.isIdentity">
                                     <q-item-section>
-                                        <q-item-label>{{ $t(configs.store + '.' + column.label) }}</q-item-label>
+                                        <q-item-label>{{ translate(column.label, 'input') }}</q-item-label>
                                     </q-item-section>
                                     <q-item-section side>
                                         <q-btn v-if="column.to" @click="verifyClick(column, props.row)"
@@ -263,7 +230,7 @@
                                                 transition-show="flip-down" transition-hide="flip-up" @filter="searchList"
                                                 input-debounce="700" :loading="isLoadingList"
                                                 :options="listAutocomplete[column.list]"
-                                                :label="$t(configs.store + '.' + column.label)"
+                                                :label="translate(column.label, 'input')"
                                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)"
                                                 label-color="black" v-model="editedValue"
                                                 @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)">
@@ -292,12 +259,12 @@
                                         color="primary"
                                         :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="editItem(props.row)">
-                                        <q-tooltip> {{ $t(configs.store + '.edit') }} </q-tooltip>
+                                        <q-tooltip> {{ translate('edit', 'tooltip') }} </q-tooltip>
                                     </q-btn>
                                     <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                                         :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="openConfirm(props.row)">
-                                        <q-tooltip> {{ $t(configs.store + '.delete') }} </q-tooltip>
+                                        <q-tooltip> {{ translate('delete', 'tooltip') }} </q-tooltip>
                                     </q-btn>
                                     <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
                                         :componentProps="tableActionsProps()" :row="props.row" @loadData="loadData" />
@@ -307,10 +274,8 @@
                     </q-card>
                 </div>
             </template>
-
-
             <template v-slot:bottom-row>
-                <q-tr>
+                <q-tr class="tr-sum">
                     <q-td v-for="(column, index)  in columns" :class="[
                         'text-' + column.align,
                         { 'hidden': column.visible != true }]">
@@ -338,7 +303,7 @@
         <q-dialog v-model="addModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ $t(configs.store + (this.item ? '.edit' : '.add')) }}</label>
+                    <label class="text-h5">{{ translate((this.item ? 'edit' : 'add'), 'title') }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -351,7 +316,7 @@
         <q-dialog v-model="deleteModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ $t(configs.store + '.msg_delete') }}</label>
+                    <label class="text-h5">{{ translate('msg_delete', 'title') }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -359,11 +324,11 @@
                 <q-card-section>
                     <div class="flex q-pt-md">
                         <q-btn class="q-py-sm q-px-md text-capitalize" outline color="secondary"
-                            :label="$t(configs.store + '.cancel')" v-close-popup>
+                            :label="translate('cancel', 'btn')" v-close-popup>
                         </q-btn>
                         <q-space></q-space>
                         <q-btn class="q-py-sm q-px-md text-capitalize" color="secondary"
-                            :label="$t(configs.store + '.confirm')" @click="confirmDelete" :loading="isSaving">
+                            :label="translate('confirm', 'btn')" @click="confirmDelete" :loading="isSaving">
                         </q-btn>
                     </div>
                 </q-card-section>
@@ -374,8 +339,13 @@
   
 <script>
 import DefaultForm from "@controleonline/quasar-default-ui/src/components/Default/DefaultForm";
-import * as DefaultMethods from './DefaultMethods.js';
+import DefaultExternalFilters from "@controleonline/quasar-default-ui/src/components/Default/DefaultExternalFilters";
+import DefaultSearch from "@controleonline/quasar-default-ui/src/components/Default/DefaultSearch";
+import DefaultFilters from "@controleonline/quasar-default-ui/src/components/Default/DefaultFilters";
 
+import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Common/FiltersInput";
+import * as DefaultMethods from './DefaultMethods.js';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
 
@@ -394,12 +364,15 @@ export default {
     },
 
     components: {
-        DefaultForm
+        DefaultForm,
+        DefaultExternalFilters,
+        FiltersInput,
+        DefaultSearch,
+        DefaultFilters
     },
 
     data() {
         return {
-            listObject: {},
             listAutocomplete: [],
             showColumnMenu: false,
             forceShowInput: [],
@@ -422,6 +395,7 @@ export default {
             editing: [],
             sumColumn: [],
             colFilter: {},
+            listObject: {},
             items: [],
             item: {},
             selectedRows: new Array(this.rowsOptions.pop()).fill(false),
@@ -447,12 +421,17 @@ export default {
                 this.columns.forEach((column, columnIndex) => {
                     this.toogleVisibleColumns[column.key || column.name] = column.visible != false ? true : false;
                 });
+
             this.saveVisibleColumns();
+            this.search = this.colFilter['search'];
             this.loadData();
         });
     },
 
     computed: {
+        ...mapGetters({
+            myCompany: 'people/currentCompany',
+        }),
         isloading() {
             return this.$store.getters[this.configs.store + '/isLoading']
         },
@@ -460,7 +439,7 @@ export default {
             return this.$store.getters[this.configs.store + '/isSaving']
         },
         filters() {
-            return this.$store.getters[this.configs.store + '/filters']
+            return this.$store.getters[this.configs.store + '/filters'] || {}
         },
         columns() {
             return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
@@ -476,7 +455,19 @@ export default {
         }
     },
     watch: {
-
+        myCompany: {
+            handler: function () {
+                this.loadData();
+            },
+            deep: true,
+        },
+        filters: {
+            handler: function () {
+                this.colFilter = this.copyObject(this.filters);
+                this.search = this.colFilter?.search;
+            },
+            deep: true,
+        },
         selectedRows: {
             handler: function (selectedRows) {
                 this.$store.commit(this.configs.store + '/SET_SELECTED', this.copyObject(selectedRows));
@@ -508,38 +499,8 @@ export default {
         toggleShowColumnMenu() {
             this.showColumnMenu = this.showColumnMenu ? false : true;
         },
-        filterColumn(colName) {
-
-            const column = this.columns.find((col) => {
-                return col.name === colName || col.key === colName
-            });
-
-            let filters = this.copyObject(this.filters || []) || [];
-            if (!this.colFilter[colName]) {
-                delete filters[colName];
-
-            } else if (this.colFilter[colName] instanceof Array) {
-                filters[colName] = [];
-                this.colFilter[colName].forEach((item) => {
-                    filters[colName].push(item)
-                })
-            } else {
-                filters[colName] = this.formatFilter(column, this.colFilter[colName]);
-            }
 
 
-
-
-            this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
-            this.showInput = { [colName]: false };
-            this.forceShowInput = { [colName]: false };
-            this.loadData();
-        },
-        clearFilter(colName) {
-
-            this.colFilter[colName] = undefined; // Limpa o filtro para a coluna correspondente
-            this.filterColumn(colName);
-        },
         stopPropagation(event) {
             event.stopPropagation();
         },
@@ -547,14 +508,8 @@ export default {
         setShowInput(colName) {
             this.showInput = { [colName]: true };
         },
-        setForceShowInput(colName) {
-            this.showInput = { [colName]: true };
-            this.forceShowInput = { [colName]: true };
-        },
+
         hideInput(colName) {
-
-
-
             if (this.forceShowInput[colName] != true)
                 this.showInput = { [colName]: false };
         },
@@ -657,22 +612,17 @@ export default {
                     delete filters.order;
                 else
                     filters.order = this.sortedColumn + ';' + this.sortDirection;
-                this.$store.commit(this.configs.store + '/SET_FILTERS', filters);
-
-
-
-                if (this.pagination.rowsPerPage && this.totalItems > this.pagination.rowsPerPage) {
-                    this.loadData();
-                } else {
+                if (!this.pagination.rowsPerPage && this.totalItems <= this.pagination.rowsPerPage) {
                     this.reorderTableData();
                 }
+                this.applyFilters(filters);
+
             }
         },
         reorderTableData() {
             if (!this.sortedColumn || !this.sortDirection) {
                 return; // Não fazer nada se não houver ordenação
             }
-            // Clone os dados originais para evitar a mutação direta
             const clonedData = this.copyObject(this.items);
 
             clonedData.sort((a, b) => {
@@ -700,16 +650,10 @@ export default {
                 this.editedValue = this.formatList(col, this.items[index][col.key || col.name])
             else
                 this.editedValue = this.format(col, value);
-
-
-
-
             this.editing[index] = { [col.key || col.name]: true };
             this.showEdit[index] = { [col.key || col.name]: false };
 
         },
-
-
 
         stopEditing(index, col, row) {
             let editing = this.copyObject(this.editing);
@@ -739,7 +683,10 @@ export default {
                     } else if (this.filters[item.name] instanceof Object) {
                         let obj = [];
                         Object.entries(this.filters[item.name]).forEach(([chave, valor]) => {
-                            obj.push(valor.value || valor);
+                            if (valor?.value)
+                                obj.push({ chave: valor.value });
+                            else
+                                obj = this.filters[item.name];
                         });
                         params[item.key || item.name] = obj;
                     } else {
@@ -747,12 +694,20 @@ export default {
                     }
                 }
             });
-            return params;
+
+            let filteredParams = Object.entries(params).reduce((acc, [key, value]) => {
+                if (value !== '' && value != null) {
+                    acc[key] = value;
+                }
+                return acc;
+            }, {});
+
+            return filteredParams;
         },
 
         sum(column, value) {
-            if (!isNaN(value) && value && column.sum != false) {
-                this.sumColumn[column.key || column.name] = this.sumColumn[column.key || column.name] ? parseFloat(this.sumColumn[column.key || column.name]) + parseFloat(value) : 0;
+            if (column.sum == true) {
+                this.sumColumn[column.key || column.name] = this.sumColumn[column.key || column.name] ? parseFloat(this.sumColumn[column.key || column.name]) + parseFloat(value) : parseFloat(value);
             }
 
         },
@@ -784,13 +739,13 @@ export default {
                 if (data) {
                     this.loadData();
                     this.$q.notify({
-                        message: this.$t("Success!"),
+                        message: this.translate("success", 'message'),
                         position: "bottom",
                         type: "positive",
                     });
                 } else {
                     this.$q.notify({
-                        message: this.$t("Unable to save data!"),
+                        message: this.translate("error", 'message'),
                         position: "bottom",
                         type: "negative",
                     });
@@ -803,9 +758,12 @@ export default {
             });
         },
         loadData(props) {
+            if (this.isLoading)
+                return;
+
             if (props) {
                 this.pagination = props.pagination;
-                this.$store.commit(this.configs.store + '/SET_FILTERS', Object.assign(this.filters, props.filters));
+                this.applyFilters(Object.assign(this.filters, props.filters));
             }
 
             let params = Object.assign(this.copyObject(this.filters), this.copyObject(this.pagination));
@@ -815,10 +773,23 @@ export default {
             delete params.rowsPerPage;
             params = this.getFilterParams(params);
             params.itemsPerPage = params.rowsPerPage || this.rowsOptions[0];
-
+            params.company = '/people/' + this.myCompany.id;
+            this.sumColumn = {};
+            this.items = [];
             this.$store.dispatch(this.configs.store + '/getItems', params
             ).then((data) => {
                 this.pagination.rowsNumber = this.totalItems;
+                data.forEach(d => {
+                    for (const key in d) {
+                        if (d.hasOwnProperty(key)) {
+                            const value = d[key];
+                            const column = this.columns.filter(column => column.id === key || column.name === key);
+                            if (column.length > 0 && column[0].sum) {
+                                this.sum(column[0], value);
+                            }
+                        }
+                    }
+                });
                 this.items = data;
                 this.selectedRows = structuredClone(new Array(data.length).fill(false));
             }).catch(() => {
@@ -867,15 +838,15 @@ export default {
 }
 
 
-.sortable-header {
+.default-table .sortable-header {
     cursor: pointer;
 }
 
-.asc .sortable-header {
+.default-table .asc .sortable-header {
     position: relative;
 }
 
-.asc .sortable-header::before {
+.default-table .asc .sortable-header::before {
     content: '\\25B2';
     /* Setinha para cima */
     position: absolute;
@@ -883,7 +854,7 @@ export default {
     right: 0;
 }
 
-.desc .sortable-header::before {
+.default-table .desc .sortable-header::before {
     content: '\\25BC';
     /* Setinha para baixo */
     position: absolute;
@@ -891,30 +862,30 @@ export default {
     right: 0;
 }
 
-.fade-enter-active,
-.fade-leave-active {
+.default-table .fade-enter-active,
+.default-table .fade-leave-active {
     transition: opacity 0.5s;
 }
 
-.fade-enter,
-.fade-leave-to
+.default-table .fade-enter,
+.default-table .fade-leave-to
 
 /* .fade-leave-active in <2.1.8 */
     {
     opacity: 0;
 }
 
-.q-table--grid.fullscreen {
+.default-table .q-table--grid.fullscreen {
     background: #fff;
 }
 
-.dragging-column {
+.default-table .dragging-column {
     border-left: 2px solid #babaca;
     border-right: 2px solid #babaca;
     /* Estilo da borda para a coluna sendo arrastada */
 }
 
-.no-drag {
+.default-table .no-drag {
     cursor: not-allowed;
 }
 
@@ -923,7 +894,7 @@ export default {
     padding-top: 38px !important;
 }
 
-.header-filter-container {
+.default-table .header-filter-container {
     position: absolute;
     background: #fff;
     top: -36px;
@@ -935,35 +906,135 @@ export default {
 
 }
 
-.header-filter-container {
+.default-table .header-filter-container {
     display: none !important;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding: 5px;
 }
 
-.header-filter-container.show {
+.default-table .header-filter-container.show {
     display: flex !important;
 }
 
 /*
-.header-filter-container input:focus,
-.header-filter-container input.show,
-.header-filter-container i.show {
+.default-table .header-filter-container input:focus,
+.default-table .header-filter-container input.show,
+.default-table .header-filter-container i.show {
     display: inline-block !important;    
 }
 */
 
-.header-filter-container input {
+.default-table .header-filter-container input {
     max-width: 150px;
 }
 
-.header-filter-container i {
+.default-table .header-filter-container i {
     position: relative;
     margin-left: 5px;
     margin-right: 5px;
 }
 
-.default-table .q-table__control {
+.default-table .default-table .q-table__control {
     display: contents !important;
 }
-</style>
+
+.default-table .q-table__bottom {
+    width: 100vw !important;
+    z-index: 2;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    padding-right: 10vw;
+}
+
+.default-table .q-table__top {
+    background: #fff;
+}
+
+.default-table .q-table thead,
+.default-table .row-filters,
+.default-table .q-table__top {
+    position: sticky;
+    -webkit-position: sticky;
+    z-index: 2;
+    opacity: 1;
+}
+
+.default-table .q-table__middle.scroll {
+    overflow: visible !important;
+}
+
+.default-table .q-table thead tr {
+    background-color: var(--q-secondary) !important;
+    color: #fff !important;
+}
+
+.default-table .q-table tr:nth-child(even) {
+    background-color: #dfdfdf;
+}
+
+.default-table .q-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.default-table .q-panel .q-table thead {
+    top: 0px;
+}
+
+.default-table .q-table thead tr:first-child th:first-child,
+.default-table .q-table td:first-child,
+.default-table .tr-sum {
+    position: sticky;
+    -webkit-position: sticky;
+    left: 0;
+    z-index: 1;
+    opacity: 1;
+}
+
+@media only screen and (max-width: 1024px) {
+
+    .default-table .q-table thead {
+        top: 64px;
+    }
+
+    /* Paginação da Tabela  */
+    .default-table .q-table__bottom {
+        position: fixed !important;
+        width: 100vw !important;
+    }
+
+    .default-table .q-table {
+        padding-bottom: 100px;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .default-table .q-table__top {
+        top: 57px;
+    }
+
+    .default-table .q-table thead {
+        top: 108px;
+    }
+
+    /* Paginação da Tabela  */
+    .default-table .q-table__bottom {
+        position: fixed !important;
+    }
+
+    .default-table .tr-sum {
+        bottom: 30px !important;
+    }
+}
+
+.default-table .q-table {
+    padding-bottom: 35px;
+}
+
+.default-table .q-body--fullscreen-mixin .q-table__top {
+    top: 0px !important;
+}
+
+.default-table .q-body--fullscreen-mixin .q-table thead {
+    top: 50px !important;
+}</style>

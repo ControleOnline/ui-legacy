@@ -7,7 +7,7 @@ const persistentFilter = new Filters();
 export default {
   namespaced: true,
   state: {
-    resourceEndpoint: "categories",
+    resourceEndpoint: "finance/pay",
     isLoading: false,
     error: "",
     violations: null,
@@ -27,40 +27,11 @@ export default {
         },
       },
       {
-        externalFilter: true,
         sortable: true,
-        name: "name",
+        name: "category",
         align: "left",
-        label: "name",
+        label: "category",
         sum: false,
-        format: function (value) {
-          return value;
-        },
-      },
-      {
-        sortable: true,
-        name: "color",
-        align: "left",
-        label: "color",
-        format: function (value) {
-          return value;
-        },
-      },
-      {
-        sortable: true,
-        name: "icon",
-        align: "left",
-        label: "icon",
-        format: function (value) {
-          return value;
-        },
-      },
-      {
-        externalFilter: true,
-        sortable: true,
-        name: "parent",
-        align: "left",
-        label: "parent",
         list: "categories",
         searchParam: "name",
         format: function (value) {
@@ -77,6 +48,44 @@ export default {
               }
             : null;
         },
+      },
+
+      {
+        sortable: true,
+        name: "description",
+        align: "left",
+        label: "description",
+        format: function (value) {
+          return value;
+        },
+      },
+      {
+        inputType: "date-range",
+        sortable: true,
+        name: "dueDate",
+        align: "left",
+        label: "dueDate",
+        format: function (value) {
+          return value;
+        },
+      },
+      {
+        sortable: true,
+        name: "paymentMode",
+        align: "left",
+        label: "paymentMode",
+      },
+      {
+        sortable: true,
+        name: "price",
+        align: "left",
+        label: "price",
+      },
+      {
+        sortable: true,
+        name: "status",
+        align: "left",
+        label: "status",
       },
     ],
   },

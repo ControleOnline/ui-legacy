@@ -17,7 +17,9 @@ export default {
       return {
         store: 'products',
         selection: false,
-        search: false,
+        search: {
+          
+        },
         components: {
           /*
           tableActions: {

@@ -1,59 +1,19 @@
 <template>
   <!-- eslint-disable -->
   <div>
-    <q-btn-dropdown
-      split
-      outline
-      v-if="isMultipleCompanies() == true && !dialog /*&& !this.$q.screen.gt.sm*/"
-      color="primary"
-      :label="currentCompany !== null ? currentCompany.name : 'Loading...'"
-      class="ellipsis full-width company-swich"
-    >
+    <q-btn-dropdown split outline v-if="isMultipleCompanies() == true && !dialog /*&& !this.$q.screen.gt.sm*/"
+      color="primary" :label="myCompany !== null ? myCompany.name : 'Loading...'"
+      class="ellipsis full-width company-swich">
       <q-list>
-        <q-item
-          clickable
-          v-close-popup
-          dense
-          v-for="(company, index) in myCompanies"
-          :disable="
-            company.enabled && company.user.employee_enabled ? false : true
-          "
-          :key="index"
-          @click="onCompanySelection(company)"
-        >
+        <q-item clickable v-close-popup dense v-for="(company, index) in myCompanies" :disable="company.enabled && company.user.employee_enabled ? false : true
+          " :key="index" @click="onCompanySelection(company)">
           <q-item-section>
-            <q-item-label lines="1">{{ company.name }}</q-item-label>
+            <q-item-label lines="1">
+              {{ company.alias }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
     </q-btn-dropdown>
-    <!--
-    <q-btn-dropdown
-      outline
-      v-if="isMultipleCompanies() == true && !dialog && this.$q.screen.gt.sm"
-      color="primary"
-      :label="currentCompany !== null ? currentCompany.name : 'Loading...'"
-      class="ellipsis full-width company-swich"
-    >
-      <q-list>
-        <q-item
-          clickable
-          v-close-popup
-          dense
-          v-for="(company, index) in myCompanies"
-          :disable="
-            company.enabled && company.user.employee_enabled ? false : true
-          "
-          :key="index"
-          @click="onCompanySelection(company)"
-        >
-          <q-item-section>
-            <q-item-label lines="1">{{ company.name }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-btn-dropdown>
-    -->
 
     <q-dialog v-else v-model="dialog" persistent>
       <q-card style="width: 700px; max-width: 80vw">
@@ -62,13 +22,7 @@
           <q-space />
         </q-card-section>
         <q-card-section>
-          <FormCompany
-            @saved="onSaved"
-            :person="false"
-            :companyFields="companyFields"
-            address="bycep"
-            saveBtn="Salvar"
-          />
+          <FormCompany @saved="onSaved" :person="false" :companyFields="companyFields" address="bycep" saveBtn="Salvar" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -79,30 +33,25 @@
 /* eslint-disable */
 import FormCompany from "@controleonline/quasar-login-ui/src/components/user/signup/Company";
 import { mapActions, mapGetters } from "vuex";
+import { LocalStorage } from "quasar";
 
 export default {
   components: {
     FormCompany,
   },
   props: {
-    selected: {
-      type: Number,
-      required: false,
-      default: -1,
-    },
+
   },
 
   data() {
     return {
       dialog: false,
-      myCompanies: [],
-      currentCompany: null,
-      menuOpen: false,
+      myCompanies: []
     };
   },
 
   created() {
-    this.getMyCompanies();
+    this.setCompanies(this.companies);
   },
 
   computed: {
@@ -118,9 +67,6 @@ export default {
   },
 
   watch: {
-    myCompany(company) {
-      this.$emit("selected", company);
-    },
     companies(companies) {
       this.dialog = companies.length > 0 ? false : true;
       this.setCompanies(companies);
@@ -129,7 +75,6 @@ export default {
 
   methods: {
     ...mapActions({
-      getCompanies: "people/myCompanies",
       setCompany: "people/currentCompany",
       save: "people/company",
     }),
@@ -141,58 +86,35 @@ export default {
       }
     },
     isMultipleCompanies() {
-      return this.myCompanies.length > 1 ? true : false;
+      return this.companies.length > 1 ? true : false;
     },
     setCompanies(companies) {
-      let data = [];
+      let session = LocalStorage.has("session") ? LocalStorage.getItem("session") : {};
+      let selected = session.mycompany;
+      let currentCompany;
 
       for (let index in companies) {
         let item = companies[index];
-        let logo = null;
-
-        if (item.logo !== null) {
-          logo = "https://" + item.logo.domain + item.logo.url;
-        }
-        data.push({
-          id: item.id,
-          enabled: item.enabled,
-          name: item.alias,
-          logo: logo || null,
-          commission: item.commission,
-          alias: item.alias,
-          configs: item.configs,
-          document: item.document,
-          domains: item.domains,
-          permission: item.permission,
-          user: item.user,
-        });
+        this.myCompanies.push(item);
+        if (item.enabled && !selected)
+          selected = item;
       }
 
-      this.myCompanies = data;
+      if (selected != -1) {
+        currentCompany = this.companies.find((companies) => companies.id === selected);
+      } else currentCompany = selected;
 
-      this.$emit("setMyCompanies", this.myCompanies);
-
-      if (this.selected != -1) {
-        let _company = data.find((companies) => companies.id === this.selected);
-
-        this.currentCompany =
-          _company !== undefined ? _company : data.length > 0 ? data[0] : null;
-      } else this.currentCompany = data.length > 0 ? data[0] : null;
-
-      if (this.currentCompany !== null) this.setCompany(this.currentCompany);
+      if (currentCompany) {
+        this.setCompany(currentCompany);
+      }
     },
 
-    getMyCompanies() {
-      this.getCompanies().then((response) => {
-        if (response.success === true && response.data.length) {
-          this.setCompanies(response.data);
-        }
-      });
-    },
 
     onCompanySelection(company) {
-      this.currentCompany = company;
       this.setCompany(company);
+      let session = LocalStorage.has("session") ? LocalStorage.getItem("session") : {};
+      session.mycompany = company.id;
+      LocalStorage.set("session", session);
     },
   },
 };

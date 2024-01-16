@@ -1,39 +1,39 @@
+import { date } from "quasar";
 
 export const formatDocument = (value) => {
   if (/^([0-9]{11})$/.test(value))
-    return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3\-\$4");
+    return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
 
   if (/^([0-9]{14})$/.test(value))
-    return value
-      .replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "\$1.\$2.\$3\/\$4\-\$5");
+    return value.replace(
+      /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g,
+      "$1.$2.$3/$4-$5"
+    );
 
   return value;
 };
 
 export const formatPhone = (value) => {
   if (/^([0-9]{10})$/.test(value))
-    return value.replace(/(\d{2})(\d{4})(\d{4})/g, "(\$1) \$2\-\$3");
+    return value.replace(/(\d{2})(\d{4})(\d{4})/g, "($1) $2-$3");
 
   if (/^([0-9]{11})$/.test(value))
-    return value.replace(/(\d{2})(\d{1})(\d{4})(\d{4})/g, "(\$1) \$2 \$3\-\$4");
+    return value.replace(/(\d{2})(\d{1})(\d{4})(\d{4})/g, "($1) $2 $3-$4");
 
   return value;
 };
 
 export const formatCEP = (value) => {
-  if (value.length == 7)
-    value = `0${value}`;
+  if (value.length == 7) value = `0${value}`;
 
-  return value
-    .replace(/(\d{5})(\d{3})/g, "\$1\-\$2");
+  return value.replace(/(\d{5})(\d{3})/g, "$1-$2");
 };
 
 export const formatMoney = (value, currency, locale) => {
-  let formatter = new Intl.NumberFormat(locale, {
+  let formatter = new Intl.NumberFormat(locale || 'pt-br', {
     style: 'currency',
-    currency: currency,
+    currency: currency || 'BRL',
   });
-
   if (typeof value == 'string')
     value = value.replace(',', '.');
 
@@ -43,11 +43,29 @@ export const formatMoney = (value, currency, locale) => {
   return formatter.format(value);
 };
 
+export const buildAmericanDate = (dateString) => {
+  let formatedDate;
+
+  if (!dateString) {
+    return dateString;
+  }
+  dateString = dateString.replaceAll("/", "-");
+  if (dateString) {
+    formatedDate = date.formatDate(
+      date.extractDate(dateString, "DD-MM-YYYY"),
+      "YYYY-MM-DD"
+    );
+  } else {
+    return null;
+  }
+  return formatedDate;
+};
+
 export const formatDateYmdTodmY = (value, withTime = false) => {
+  if (!value) return;
   let result = value.match(/^(\d{4})\-(\d{2})\-(\d{2})\s*([\w:]*)/);
 
-  if (result === null)
-    return value;
+  if (result === null) return value;
 
   if (withTime === true && result[4]) {
     let time = result[4].match(/(\d{2})\:(\d{2})\:(\d{2})/);
