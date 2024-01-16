@@ -2,6 +2,38 @@
 // so you can safely delete all default props below
 
 export const translate = {
+  logistics:{
+    Vistoria: 'Vistoria',
+    Id: 'Id',
+    IdPedido: 'Id Pedido',
+    IdContrato: 'Id Contrato',
+    IdFatura: 'Id Fatura',
+    IdFatura: 'Id Fatura',
+    Status: 'Status',
+    originType: 'Tipo Origem',
+    originRegion: 'Região Origem',
+    originState: 'Estado Origem',
+    originCity: 'Cidade Origem',
+    originAddress: 'Endereço Origem',
+    originLocator: 'Localizador Origem',
+    provider: 'Fornecedor',
+    destinationType: 'Tipo Destino',
+    destinationRegion: 'Região Destino',
+    destinationState: 'Estado Destino',
+    destinationCity: 'Cidade Destino',
+    destinationAddress: 'Endereço Destino',
+    destinationLocator: 'Localizador Destino',
+    destinationProvider: 'Fornecedor Destino',
+    price: 'Valor',
+    amountPaid: 'Valor Pago',
+    balance: 'Saldo',
+    estimatedShippingDate: 'Previsão Data Embarque',
+    shippingDate: 'Data Embarque',
+    estimatedArrivalDate: 'Previsão Data Chegada',
+    arrivalDate: 'Data Chegada',
+    lastModified: 'Modificado Em',
+    inCharge: 'Responsável',
+  },
   order: {
     warning: {
       rural: 'Pedido sujeito a cobrança de taxas adicionais devido a possibilidade de classificação como ÁREA RURAL pelo transportador',
@@ -45,7 +77,7 @@ export const translate = {
       'boarding pending' : 'Pendente de embarque',
       're-embark' : 'Reembarque',
       'withdrawn' : 'Retirado',
-      'finished' : 'Finalizado',      
+      'finished' : 'Finalizado',
       'waiting survey': "Aguardando Vistoria"
     },
     types: {

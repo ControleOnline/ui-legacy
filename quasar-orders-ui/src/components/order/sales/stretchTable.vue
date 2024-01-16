@@ -1,12 +1,7 @@
 <template>
   <div class="q-gutter-y-md q-mx-sm q-mt-md">
     <div class="flex flex-center" v-if="isLoading">
-      <q-circular-progress
-        :indeterminate="isLoading"
-        size="sm"
-        color="primary"
-        class="q-ma-md"
-      />
+      <q-circular-progress :indeterminate="isLoading" size="sm" color="primary" class="q-ma-md" />
       Carregando...
     </div>
 
@@ -17,85 +12,38 @@
           <div v-if="!hasOrderId" class="row col-12 q-col-gutter-sm">
 
             <div class="col-xs-12 col-sm-4 col-md-4 q-pb-sm">
-              <q-input
-                dense
-                outlined
-                stack-label
-                label="Pedido"
-                v-model="filters.order"
-              ></q-input>
+              <q-input dense outlined stack-label label="Pedido" v-model="filters.order"></q-input>
             </div>
 
             <div class="col-xs-12 col-sm-4 col-md-4 q-pb-sm">
-              <q-input
-                dense
-                outlined
-                stack-label
-                label="Contrato"
-                v-model="filters.contract"
-              ></q-input>
+              <q-input dense outlined stack-label label="Contrato" v-model="filters.contract"></q-input>
             </div>
 
             <div class="col-xs-12 col-sm-4 col-md-4 q-pb-sm">
-              <q-input
-                dense
-                outlined
-                stack-label
-                label="Cliente"
-                v-model="filters.clientName"
-              ></q-input>
+              <q-input dense outlined stack-label label="Cliente" v-model="filters.clientName"></q-input>
             </div>
 
             <div class="col-xs-12 col-sm-4 col-md-4 q-pb-sm">
-              <q-input
-                dense
-                outlined
-                stack-label
-                label="Placa do Veiculo"
-                v-model="filters.vehiclePlate"
-              ></q-input>
+              <q-input dense outlined stack-label label="Placa do Veiculo" v-model="filters.vehiclePlate"></q-input>
             </div>
 
             <div class="col-xs-12 col-sm-4 col-md-4 q-pb-sm">
-              <q-input
-                dense
-                outlined
-                stack-label
-                label="Veículo"
-                v-model="filters.vehicleType"
-              ></q-input>
+              <q-input dense outlined stack-label label="Veículo" v-model="filters.vehicleType"></q-input>
             </div>
 
             <div class="col-xs-12 col-sm-3 col-md-4">
-              <ListAutocomplete
-                ref="originAddress"
-                :source="getGeoPlaces"
-                :isLoading="originAddressFilterLoading"
-                label="Origem"
-                @selected="onSelectOriginFilter"
-                placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-              />
+              <ListAutocomplete ref="originAddress" :source="getGeoPlaces" :isLoading="originAddressFilterLoading"
+                label="Origem" @selected="onSelectOriginFilter"
+                placeholder="Digite o endereço completo (rua, número, bairro, CEP)" />
             </div>
             <div class="col-xs-12 col-sm-3 col-md-4">
-              <ListAutocomplete
-                ref="destinationAddress"
-                :source="getGeoPlaces"
-                :isLoading="destinationAddressFilterLoading"
-                label="Destino"
-                @selected="onSelectDestinationFilter"
-                placeholder="Digite o endereço completo (rua, número, bairro, CEP)"
-              />
+              <ListAutocomplete ref="destinationAddress" :source="getGeoPlaces"
+                :isLoading="destinationAddressFilterLoading" label="Destino" @selected="onSelectDestinationFilter"
+                placeholder="Digite o endereço completo (rua, número, bairro, CEP)" />
             </div>
             <div class="col-xs-12 col-sm-3 col-md-2 q-pb-sm">
-              <q-select
-                dense
-                outlined
-                stack-label
-                label="Status"
-                v-model="filters.status"
-                :options="filterStatusOptions"
-                :loading="loadingStatuses"
-              >
+              <q-select dense outlined stack-label label="Status" v-model="filters.status" :options="filterStatusOptions"
+                :loading="loadingStatuses">
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey"> Sem resultados </q-item-section>
@@ -104,46 +52,22 @@
               </q-select>
             </div>
             <div class="col-xs-12 col-sm-2 col-md-3">
-              <PeopleAutocomplete
-                ref="originProvider"
-                :source="searchPeople"
-                :isLoading="originProviderFilterLoading"
-                label="Fornecedor de origem"
-                @selected="onSelectOriginPeopleFilter"
-                placeholder="Pesquisar..."
-              />
+              <PeopleAutocomplete ref="originProvider" :source="searchPeople" :isLoading="originProviderFilterLoading"
+                label="Fornecedor de origem" @selected="onSelectOriginPeopleFilter" placeholder="Pesquisar..." />
             </div>
             <div class="col-xs-12 col-sm-2 col-md-3">
-              <PeopleAutocomplete
-                ref="destinationProvider"
-                :source="searchPeople"
-                :isLoading="destinationProviderFilterLoading"
-                label="Fornecedor de destino"
-                @selected="onSelectDestinationPeopleFilter"
-                placeholder="Pesquisar..."
-              />
+              <PeopleAutocomplete ref="destinationProvider" :source="searchPeople"
+                :isLoading="destinationProviderFilterLoading" label="Fornecedor de destino"
+                @selected="onSelectDestinationPeopleFilter" placeholder="Pesquisar..." />
             </div>
             <div class="col-xs-12 col-sm-7 col-md-6 q-pb-sm">
-              <DataFilter
-                ref="myDataFilter"
-                class="data-filter"
-                style="justify-content: flex-start"
-                :labels="['Embarque', 'Chegada']"
-                :fromDate="filters.from"
-                :toDate="filters.to"
-                :showButton="false"
-                @dateChanged="dateChanged"
-              />
+              <DataFilter ref="myDataFilter" class="data-filter" style="justify-content: flex-start"
+                :labels="['Embarque', 'Chegada']" :fromDate="filters.from" :toDate="filters.to" :showButton="false"
+                @dateChanged="dateChanged" />
             </div>
             <div class="col-xs-12 col-sm-4 col-md-3 q-pb-sm">
-              <q-select
-                dense
-                outlined
-                stack-label
-                label="Pendentes"
-                v-model="filters.pendings"
-                :options="[{label: 'Sim', value: true}, {label: 'Não', value: false},{label: 'Todos', value: 'Todos'}]"
-              />
+              <q-select dense outlined stack-label label="Pendentes" v-model="filters.pendings"
+                :options="[{ label: 'Sim', value: true }, { label: 'Não', value: false }, { label: 'Todos', value: 'Todos' }]" />
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 flex justify-end q-gutter-x-md">
@@ -157,18 +81,12 @@
     <!-- Filtros Fim -->
 
     <div class="flex justify-end col-12 q-ma-sm">
-      <q-btn
-        v-if="hasOrderId"
-        class=""
-        label="Novo Trecho"
-        color="primary"
-        :disabled="isLoading"
-        @click="openModal = true"
-      ></q-btn>
+      <q-btn v-if="hasOrderId" class="" label="Novo Trecho" color="primary" :disabled="isLoading"
+        @click="openModal = true"></q-btn>
     </div>
 
     <!-- Tabela-->
-    <div class="q-mt-none">
+    <div class="table-container q-mt-none">
       <q-table
         ref="myTable"
         flat
@@ -356,20 +274,21 @@
           </q-tr>
         </template>
       </q-table>
+
+      <DefaultTable :configs="tableSettings" v-if="tableSettings"></DefaultTable>
     </div>
 
     <q-dialog persistent v-model="openModal">
-        <div style="max-width: 90vw">
-          <StrechModal 
-            :orderId="orderId" :myCompany="myCompany" :vehicle="car" :collectionAddress="collectionAddress"
-            :destinationAddress="destinationAddress" :invoiceTotal="invoiceTotal"
-            :statusOptions="statusOptions" :stretchValueOptions="stretchValueOptions"
-            :stretchToEdit="stretchToEdit" @close="() => { openModal = false; stretchToEdit = {}}" @loadLogistics="openModal = false; stretchToEdit = {}; getValuesToLoad()"
-            >
-          </StrechModal>
+      <div style="max-width: 90vw">
+        <StrechModal :orderId="orderId" :myCompany="myCompany" :vehicle="car" :collectionAddress="collectionAddress"
+          :destinationAddress="destinationAddress" :invoiceTotal="invoiceTotal" :statusOptions="statusOptions"
+          :stretchValueOptions="stretchValueOptions" :stretchToEdit="stretchToEdit"
+          @close="() => { openModal = false; stretchToEdit = {} }"
+          @loadLogistics="openModal = false; stretchToEdit = {}; getValuesToLoad()">
+        </StrechModal>
 
-        </div>
-      </q-dialog>
+      </div>
+    </q-dialog>
 
     <!-- Modal Add new  -->
     <!-- <div>
@@ -443,8 +362,8 @@
                   hide-bottom-space
                 ></q-select>
               <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <div class="row q-col-gutter-sm">      
-                  <label class="col-12">Origem</label>                                                     
+                <div class="row q-col-gutter-sm">
+                  <label class="col-12">Origem</label>
                   <q-select
                     class="col-12"
                     dense
@@ -465,7 +384,7 @@
                     @selected="onSelectOriginPeople"
                     placeholder="Pesquisar..."
                     :input="stretch.provider"
-                  />                    
+                  />
                   <div v-if="stretch.originType == 'Base'" class="col-12">
                   <q-select
                     v-if="originProviderHasAddress"
@@ -541,7 +460,7 @@
               </div>
               <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 <div class="row q-col-gutter-sm">
-                  <label class="col-12">Destino</label>                     
+                  <label class="col-12">Destino</label>
                   <q-select
                     class="col-12"
                     dense
@@ -607,17 +526,17 @@
                   <div class="row q-col-gutter-sm">
                       <q-select  class="col-3" dense outlined stack-label label="Taxa"
                       :options="stretchValueOptions" v-model="stretchValueSelected"></q-select>
-                              
+
                       <q-input class="col-3" dense type="number" outlined stack-label
                       label="Valor" v-model="stretch.price" :rules="[(val) => val != null]"
                       hide-bottom-space></q-input>
-          
+
                       <q-input class="col-3" dense type="number" outlined stack-label
                       label="Valor Pago" v-model="stretch.amountPaid"></q-input>
-                  
+
                       <q-input class="col-3" dense type="number" outlined readonly stack-label
                       label="Saldo" v-model="stretch.balance"></q-input>
-                  </div>                            
+                  </div>
               </div>
               <div class="col-12">
                   <div class="row q-col-gutter-sm">
@@ -627,7 +546,7 @@
 
                       <q-input class="col-3" dense type="date" outlined stack-label
                           label="Embarque" v-model="stretch.shippingDate"></q-input>
-                                      
+
                       <q-input class="col-3" dense type="date" outlined stack-label
                           label="Previsão de Chegada" v-model="stretch.estimatedArrivalDate"
                           :rules="[(val) => val != null]" hide-bottom-space></q-input>
@@ -672,9 +591,11 @@ import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/
 // import StrechModal from "@controleonline/quasar-orders-ui/src/components/order/sales/";
 import StrechModal from "./stretchAddEdit.vue";
 import * as DefaultMethods from '../../../../../quasar-default-ui/src/components/Default/DefaultMethods';
+import DefaultTable from '@controleonline/quasar-default-ui/src/components/Default/DefaultTable.vue';
+import DefaultCustomActions from '@controleonline/quasar-default-ui/src/components/Default/DefaultCustomActions.vue';
 import {
-formatDateYmdTodmY,
-formatMoney,
+  formatDateYmdTodmY,
+  formatMoney,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
@@ -693,6 +614,7 @@ export default {
 
   components: {
     DataFilter,
+    DefaultTable,
     ListAutocomplete,
     PeopleAutocomplete,
     StrechModal,
@@ -719,7 +641,7 @@ export default {
     }
   },
 
-  beforeDestroy() {},
+  beforeDestroy() { },
 
   data() {
     return {
@@ -787,6 +709,7 @@ export default {
       //   inCharge: null,
       // },
       openModal: false,
+      test: false,
       editModal: false,
       peopleOptions: ["Fornecedor 1", "Fornecedor 2", "Fornecedor 3"],
       peopleStatusOptions: ["Liberado para base", "Aguardando cliente", "Pátio"],
@@ -845,7 +768,7 @@ export default {
           value: 46,
           label: "Aberto",
         },
-        pendings: {label: 'Todos', value: 'Todos'},
+        pendings: { label: 'Todos', value: 'Todos' },
         from: "",
         to: "",
       },
@@ -1086,6 +1009,37 @@ export default {
     destinationProviderLabel() {
       if (this.stretch.destinationProvider) return this.stretch.destinationProvider.label;
       return "";
+    },
+
+    tableSettings() {
+      return {
+        store: 'logistics',
+        add: true,
+        editable: false,
+        delete: false,
+        selection: false,
+        search: false,
+
+        list: {
+        },
+        components:{
+          tableActions: {
+            component: DefaultCustomActions,
+            pops:{
+              btnTitle: '',
+              btnIcon: 'settings',
+              btnFlat: true,
+              btnDense: true,
+              items: [
+                {title:'Editar', icon:'edit', action: this.openEditModal},
+                {title:'Finalizar', icon:'check', action: this.finish},
+                {title:'Vistoria', icon:'checklist', action: this.addSurvey},
+                {title:'Excluir', icon:'delete', action: this.deleteTrecho},
+              ]
+            }
+          }
+        }
+      };
     },
   },
 
@@ -1486,7 +1440,7 @@ export default {
 
       let options = {
         method: "POST",
-        
+
         body: (values),
       };
 
@@ -1546,7 +1500,7 @@ export default {
               taxes.push.apply(taxes, res);
             }
           }
-          
+
           this.stretchValueOptions = [];
           for (let index in taxes) {
             this.stretchValueOptions.push({
@@ -1828,7 +1782,7 @@ export default {
       this.filters.status = "Todos";
       this.filters.from = "";
       this.filters.to = "";
-      this.filters.pendings = {label: 'Todos', value: 'Todos'};
+      this.filters.pendings = { label: 'Todos', value: 'Todos' };
       this.$refs.myDataFilter.$data.date["from"] = "";
       this.$refs.myDataFilter.$data.date["to"] = "";
       this.$refs.originAddress.model = null;
@@ -2010,7 +1964,7 @@ export default {
 
       let options = {
         method: this.stretch.id ? "PUT" : "POST",
-        
+
         body: (stretch),
       };
       api.fetch(endpoint, options)
@@ -2083,15 +2037,15 @@ export default {
 
         if (this.filters.clientName != null) {
           params["order.client.name"] = this.filters.clientName;
-        } 
+        }
 
         if (this.filters.vehiclePlate != null) {
           params["order.otherInformations"] = this.filters.vehiclePlate;
-        } 
-        
+        }
+
         if (this.filters.vehicleType != null) {
           params["order.productType"] = this.filters.vehicleType;
-        } 
+        }
 
         if (this.filters.origin != null && this.filters.origin.length > 0) {
           params["originCity"] = this.filters.origin;
@@ -2182,9 +2136,9 @@ export default {
                   data.members[index].provider == null
                     ? null
                     : {
-                        label: data.members[index].provider.name,
-                        value: data.members[index].provider.id,
-                      },
+                      label: data.members[index].provider.name,
+                      value: data.members[index].provider.id,
+                    },
                 destinationType: destinationType,
                 destinationRegion: data.members[index].destinationRegion,
                 destinationState: data.members[index].destinationState,
@@ -2195,9 +2149,9 @@ export default {
                   data.members[index].destinationProvider == null
                     ? null
                     : {
-                        label: data.members[index].destinationProvider.name,
-                        value: data.members[index].destinationProvider.id,
-                      },
+                      label: data.members[index].destinationProvider.name,
+                      value: data.members[index].destinationProvider.id,
+                    },
                 price: data.members[index].price,
                 amountPaid: data.members[index].amountPaid,
                 balance: data.members[index].balance,
