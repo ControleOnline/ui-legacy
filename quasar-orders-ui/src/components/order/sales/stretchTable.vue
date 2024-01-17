@@ -87,17 +87,8 @@
 
     <!-- Tabela-->
     <div class="table-container q-mt-none">
-      <q-table
-        ref="myTable"
-        flat
-        :loading="isLoading"
-        :rows="data"
-        :columns="columns"
-        :pagination.sync="pagination"
-        @request="onRequest"
-        row-key="Id"
-        :rows-per-page-options="[0]"
-      >
+      <q-table ref="myTable" flat :loading="isLoading" :rows="data" :columns="columns" :pagination.sync="pagination"
+        @request="onRequest" row-key="Id" :rows-per-page-options="[0]">
         <!-- <template v-slot:header-selection="scope"></template> -->
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -113,22 +104,14 @@
                     </q-item>
                     <q-separator></q-separator>
 
-                    <q-item
-                      clickable
-                      @click="finish(props)"
-                      v-if="props.row.status.label != 'Finalizado'"
-                    >
+                    <q-item clickable @click="finish(props)" v-if="props.row.status.label != 'Finalizado'">
                       <q-item-section side>
                         <q-icon name="check"></q-icon>
                       </q-item-section>
                       <q-item-section> Finalizar </q-item-section>
                     </q-item>
                     <q-separator></q-separator>
-                    <q-item
-                      clickable
-                      @click="addSurvey(props)"
-                      v-if="!props.row.surveyId"
-                    >
+                    <q-item clickable @click="addSurvey(props)" v-if="!props.row.surveyId">
                       <q-item-section side>
                         <q-icon name="checklist"></q-icon>
                       </q-item-section>
@@ -146,29 +129,17 @@
               </q-btn>
             </q-td>
             <q-td :props="props" key="Vistoria">
-              <q-btn
-                v-if="props.row.surveyId"
-                outline
-                dense
-                :to="{
-                  name: 'ChecklistDetails',
-                  params: { id: props.row.surveyId, token_url: props.row.surveyToken },
-                }"
-                label="Vistoria Id"
-                class="full-width"
-              />
+              <q-btn v-if="props.row.surveyId" outline dense :to="{
+                name: 'ChecklistDetails',
+                params: { id: props.row.surveyId, token_url: props.row.surveyToken },
+              }" label="Vistoria Id" class="full-width" />
             </q-td>
             <q-td :props="props" key="Id">
               {{ props.row.id }}
             </q-td>
             <q-td :props="props" key="IdPedido">
-              <q-btn
-                outline
-                dense
-                :to="{ name: 'OrderDetails', params: { id: props.row.order } }"
-                :label="props.row.order"
-                class="full-width"
-              />
+              <q-btn outline dense :to="{ name: 'OrderDetails', params: { id: props.row.order } }"
+                :label="props.row.order" class="full-width" />
             </q-td>
             <q-td :props="props" key="IdContrato">
               {{ props.row.contract }}
@@ -183,21 +154,12 @@
               <div v-else>-</div> -->
             </q-td>
             <q-td :props="props" key="IdFatura">
-              <q-btn
-                v-if="props.row.orderInvoice"
-                outline
-                dense
-                :to="{ name: 'PayDetails', params: { id: props.row.orderInvoice } }"
-                :label="props.row.orderInvoice"
-                class="full-width"
-              />
+              <q-btn v-if="props.row.orderInvoice" outline dense
+                :to="{ name: 'PayDetails', params: { id: props.row.orderInvoice } }" :label="props.row.orderInvoice"
+                class="full-width" />
               <div v-else>-</div>
             </q-td>
-            <q-td
-              key="stretchstatus"
-              :props="props"
-              :style="{ color: getStatusColor(props.row.status.label) }"
-            >
+            <q-td key="stretchstatus" :props="props" :style="{ color: getStatusColor(props.row.status.label) }">
               {{ props.row.status.label }}
             </q-td>
             <q-td :props="props" key="OrigemTipo">
@@ -590,7 +552,8 @@ import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Co
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 // import StrechModal from "@controleonline/quasar-orders-ui/src/components/order/sales/";
 import StrechModal from "./stretchAddEdit.vue";
-import * as DefaultMethods from '../../../../../quasar-default-ui/src/components/Default/DefaultMethods';
+import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
+import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods';
 import DefaultTable from '@controleonline/quasar-default-ui/src/components/Default/DefaultTable.vue';
 import DefaultCustomActions from '@controleonline/quasar-default-ui/src/components/Default/DefaultCustomActions.vue';
 import {
@@ -1022,19 +985,19 @@ export default {
 
         list: {
         },
-        components:{
+        components: {
           tableActions: {
             component: DefaultCustomActions,
-            pops:{
+            pops: {
               btnTitle: '',
               btnIcon: 'settings',
               btnFlat: true,
               btnDense: true,
               items: [
-                {title:'Editar', icon:'edit', action: this.openEditModal},
-                {title:'Finalizar', icon:'check', action: this.finish},
-                {title:'Vistoria', icon:'checklist', action: this.addSurvey},
-                {title:'Excluir', icon:'delete', action: this.deleteTrecho},
+                { title: 'Editar', icon: 'edit', action: this.openEditModal },
+                { title: 'Finalizar', icon: 'check', action: this.finish },
+                { title: 'Vistoria', icon: 'checklist', action: this.addSurvey },
+                { title: 'Excluir', icon: 'delete', action: this.deleteTrecho },
               ]
             }
           }
@@ -1196,9 +1159,8 @@ export default {
       geoplace: "gmaps/geoplace",
       search: "salesOrder/getProviders",
     }),
-
+    ...DefaultFiltersMethods,
     ...DefaultMethods,
-
     hideOrderIdColumn() {
       return this.orderId ? true : false;
     },

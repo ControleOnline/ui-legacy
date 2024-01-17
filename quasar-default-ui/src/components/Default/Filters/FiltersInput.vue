@@ -5,6 +5,8 @@
     <DateRangeInput :initialRange="colFilter[column.key || column.name]" @changedDateInput="changedDateInput"
         :labelType="labelType" v-if="column.inputType == 'date-range'" :column="column" :configs="configs" />
 
+
+
     <q-select v-else-if="column.list" dense outlined :stack-label="labelType" lazy-rules use-input use-chips map-options
         options-cover transition-show="flip-down" transition-hide="flip-up" @filter="searchList"
         :options="listAutocomplete[column.list]" label-color="black" input-debounce="700" :loading="isLoadingList" multiple
@@ -30,8 +32,11 @@
     </q-input>
 </template>
 <script>
-import * as DefaultMethods from '../DefaultMethods.js';
-import DateRangeInput from './DateRangeInput';
+import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
+import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
+import DateRangeInput from '../Common/DateRangeInput';
+import DefaultSelect from '../Common/DefaultSelect';
+
 import { buildAmericanDate, formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 export default {
@@ -94,6 +99,7 @@ export default {
         },
     },
     methods: {
+        ...DefaultFiltersMethods,
         ...DefaultMethods,
         sendFilterColumn() {
             this.filterColumn(this.column.key || this.column.name);

@@ -116,17 +116,7 @@
 
       <q-tab-panels v-model="currentTab" class="q-mt-sm bg-transparent">
         <q-tab-panel name="oportunities" class="q-pa-xs">
-          <TasksSearching
-            v-if="provider"
-            :provider="provider.id"
-            :task_type="context"
-            :registeredBy="user.people"
-            :taskFor="user.people"
-            :key="key"
-            :fromDate="dateFrom"
-            :toDate="dateTo"
-            :searchBy="searchBy"
-          />
+ Tasks
         </q-tab-panel>
         <q-tab-panel name="leads" class="q-pa-xs">
           <TableAllPeoples
@@ -237,7 +227,6 @@ export default {
   },
   components: {
     TableAllPeoples,
-    TasksSearching,
    
   },
 
@@ -245,7 +234,7 @@ export default {
 
   data() {
     return {
-      key: null,
+
       context: "relationship",
       currentTab: this.people_type == "customers" ? "allPeoples" : "allPeoples",
       dateFrom: date.formatDate(

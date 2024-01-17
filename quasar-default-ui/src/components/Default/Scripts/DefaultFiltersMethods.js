@@ -178,14 +178,7 @@ export async function getNameFromSearchList(column, row, editing, search = {}) {
 
   return x instanceof Object && !editing ? x.label : x;
 }
-export function translate(value, type) {
-  if (this.configs && this.$te(this.configs.store + "." + type + "." + value))
-    return this.$t(this.configs.store + "." + type + "." + value);
-  else if (this.$te("default." + type + "." + value))
-    return this.$t("default." + type + "." + value);
-  else
-    return this.$t(this.configs.store + "." + type + "." + value);
-}
+
 
 export function formatFilter(column, value) {
   if (column && column.formatFilter instanceof Function)

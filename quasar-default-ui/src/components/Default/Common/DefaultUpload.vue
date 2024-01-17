@@ -51,8 +51,9 @@
 </template>
 
 <script>
-import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
-import * as DefaultMethods from './DefaultMethods.js';
+import { ENTRYPOINT } from 'src/config/entrypoint';
+import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
+import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 
 export default {
   props: {
@@ -110,7 +111,7 @@ export default {
   },
   methods: {
     ...DefaultMethods,
-
+    ...DefaultFiltersMethods,
     getFields() {
       return this.extraData;
     },

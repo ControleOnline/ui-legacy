@@ -3,11 +3,11 @@
         <q-tooltip v-if="countFilters > 0">{{ countFilters }}
 
             {{
-                translate( 'applyed', 'tooltip')
+                translate('applyed', 'tooltip')
             }}
         </q-tooltip>
         <q-tooltip v-else> {{
-            translate( 'filters', 'tooltip')
+            translate('filters', 'tooltip')
         }}</q-tooltip>
         <q-badge color="orange" v-if="countFilters > 0" floating>{{ countFilters }}</q-badge>
     </q-btn>
@@ -16,7 +16,7 @@
             <q-card-section class="row col-12 q-pa-sm">
                 <q-toolbar class="">
                     <q-toolbar-title class="">{{
-                        translate( 'filters', 'title')
+                        translate('filters', 'title')
                     }}</q-toolbar-title>
                     <q-btn no-caps flat v-close-popup round dense icon="close" />
                 </q-toolbar>
@@ -33,15 +33,15 @@
                     <q-btn class="float-right q-pa-sm" dense icon-right="filter_alt_off" color="primary" outline
                         @click="() => { clearFilters(); openFilters = false; }">
                         <q-tooltip> {{
-                            translate( 'clear', 'title')
+                            translate('clear', 'title')
                         }} </q-tooltip>
                     </q-btn>
                     <q-btn class="float-right q-pa-sm q-mr-md" style="width:calc(100% - 56px)" color="primary"
-                        :label="translate( 'filter', 'btn')" dense outline icon-right="search" @click="() => {
-                                    applyFilters(filters);
-                                    sendFilter();
-                                    openFilters = false;
-                                }"></q-btn>
+                        :label="translate('filter', 'btn')" dense outline icon-right="search" @click="() => {
+                            applyFilters(filters);
+                            sendFilter();
+                            openFilters = false;
+                        }"></q-btn>
 
                 </div>
             </q-card-section>
@@ -49,8 +49,9 @@
     </q-dialog>
 </template>
 <script>
-import * as DefaultMethods from './DefaultMethods.js';
-import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Common/FiltersInput";
+import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
+import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
+import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Filters/FiltersInput";
 
 export default {
     props: {
@@ -76,7 +77,7 @@ export default {
     },
     data() {
         return {
-            listObject:{},
+            listObject: {},
             countFilters: 0,
             openFilters: false,
         }
@@ -91,6 +92,7 @@ export default {
         },
     },
     methods: {
+        ...DefaultFiltersMethods,
         ...DefaultMethods,
         count() {
             let count = this.getUsedFilters();

@@ -338,13 +338,13 @@
 </template>
   
 <script>
-import DefaultForm from "@controleonline/quasar-default-ui/src/components/Default/DefaultForm";
-import DefaultExternalFilters from "@controleonline/quasar-default-ui/src/components/Default/DefaultExternalFilters";
-import DefaultSearch from "@controleonline/quasar-default-ui/src/components/Default/DefaultSearch";
-import DefaultFilters from "@controleonline/quasar-default-ui/src/components/Default/DefaultFilters";
-
-import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Common/FiltersInput";
-import * as DefaultMethods from './DefaultMethods.js';
+import DefaultForm from "@controleonline/quasar-default-ui/src/components/Default/Common/DefaultForm";
+import DefaultExternalFilters from "@controleonline/quasar-default-ui/src/components/Default/Filters/DefaultExternalFilters";
+import DefaultSearch from "@controleonline/quasar-default-ui/src/components/Default/Filters/DefaultSearch";
+import DefaultFilters from "@controleonline/quasar-default-ui/src/components/Default/Filters/DefaultFilters";
+import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Filters/FiltersInput";
+import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
+import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -478,6 +478,7 @@ export default {
         },
     },
     methods: {
+        ...DefaultFiltersMethods,
         ...DefaultMethods,
         saveVisibleColumns() {
             let columns = this.copyObject(this.columns);

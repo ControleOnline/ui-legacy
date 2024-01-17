@@ -77,7 +77,11 @@
           </q-item>
         </template>
       </q-select>
-
+ ff
+  <DefaultSelect labelType="stack-label" :label="$t(task_type + '.category')" :searchAction="function(){
+    return statuses
+  }"/>
+ff
       <q-select
         dense
         outlined
@@ -325,10 +329,12 @@ import { date } from "quasar";
 
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import FormTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/FormTasks.vue";
+import DefaultSelect from "@controleonline/quasar-default-ui/src/components/Default/Common/DefaultSelect.vue";
+
 
 export default {
   components: {
-   
+    DefaultSelect,
     FormTasks,
   },
 
@@ -672,7 +678,7 @@ export default {
         .fetch("/tasks/people", { params })
 
         .then((result) => {
-          return result.response.data;
+          return result?.response?.data;
         });
     },
     requestTaskFor() {

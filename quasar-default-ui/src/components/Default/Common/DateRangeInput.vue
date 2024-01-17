@@ -24,7 +24,8 @@
     </div>
 </template>   
 <script>
-import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/DefaultMethods.js';
+import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
+import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 
 export default {
     props: {
@@ -69,6 +70,7 @@ export default {
     watch: {
     },
     methods: {
+        ...DefaultFiltersMethods,
         ...DefaultMethods,
         apply() {
             let dateModel = {};

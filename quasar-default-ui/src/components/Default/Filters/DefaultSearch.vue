@@ -9,7 +9,9 @@
     </q-input>
 </template>
 <script>
-import * as DefaultMethods from './DefaultMethods.js';
+import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
+
+import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 
 export default {
     props: {
@@ -44,6 +46,7 @@ export default {
         }
     },
     methods: {
+        ...DefaultFiltersMethods,
         ...DefaultMethods,
     }
 }

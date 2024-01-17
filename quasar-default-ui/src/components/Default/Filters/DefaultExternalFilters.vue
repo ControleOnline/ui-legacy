@@ -31,8 +31,9 @@
     </div>
 </template>
 <script>
-import * as DefaultMethods from './DefaultMethods.js';
-import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Common/FiltersInput";
+import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
+import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
+import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Filters/FiltersInput";
 
 export default {
     props: {
@@ -75,6 +76,7 @@ export default {
         this.getFilterNumber();
     },
     methods: {
+        ...DefaultFiltersMethods,
         ...DefaultMethods,
         getFilterNumber() {
 

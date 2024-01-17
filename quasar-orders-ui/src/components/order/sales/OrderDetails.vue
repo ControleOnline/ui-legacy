@@ -649,7 +649,7 @@ import OrderDetailTracking from "./details/OrderTracking";
 import ContractDocument from "@controleonline/quasar-contracts-ui/src/components/ContractDocument.vue";
 import Contract from "@controleonline/quasar-contracts-ui/src/entity/Contract.js";
 
- import SurveysCollection from "@controleonline/quasar-tasks-ui/src/components/Tasks/SurveysCollection";
+ import SurveysCollection from "@controleonline/quasar-orders-ui/src/components/Surveys/SurveysCollection";
 
 export default {
   components: {
