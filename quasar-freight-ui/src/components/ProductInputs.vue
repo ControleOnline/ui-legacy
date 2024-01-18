@@ -3,99 +3,39 @@
     <div class="col-12">
       <div class="row q-col-gutter-xs">
         <div v-if="domainType() !== 'simple'" class="col-xs-12 col-md-3 q-mb-sm">
-          <ListAutocomplete
-            v-if="isCeg()"
-            :source="getCarItens"
-            :isLoading="carItensLoading"
-            label="Automóvel"
-            @selected="onCarSelect"
-            placeholder="Gol, Corsa, Uno..."
-            :acceptInput="true"
-          />
-          <q-select
-            dense
-            outlined
-            v-else
-            :options="productCategory"
-            :isLoading="false"
-            v-model="values.type"
-            label="Categoria do produto"
-            placeholder="Selecione uma categoria"
-          />
+          <ListAutocomplete v-if="isCeg()" :source="getCarItens" :isLoading="carItensLoading" label="Automóvel"
+            @selected="onCarSelect" placeholder="Gol, Corsa, Uno..." :acceptInput="true" />
+          <q-select dense outlined v-else :options="productCategory" :isLoading="false" v-model="values.type"
+            label="Categoria do produto" placeholder="Selecione uma categoria" />
         </div>
 
         <div v-if="!isCeg()" class="col-xs-12 col-md-3 q-mb-sm">
-          <q-input
-            dense
-            outlined
-            stack-label
-            lazy-rules
-            v-model="values.product"
-            type="text"
-            :label="$t('form.labels.type')"
-            placeholder="Digite o tipo do produto"
-          />
+          <q-input dense outlined stack-label lazy-rules v-model="values.product" type="text"
+            :label="$t('form.labels.type')" placeholder="Digite o tipo do produto" />
         </div>
 
-        <div
-          v-if="isCeg()"
-          :class="
-            'col-xs-12 ' +
-            (domainType() === 'simple' ? 'col-md-6' : 'col-md-3') +
-            ' q-mb-sm'
-          "
-        >
-          <q-select
-            dense
-            outlined
-            v-if="isCeg()"
-            :options="groupTables"
-            :isLoading="false"
-            @update:model-value="onGroupSelect"
-            v-model="gTable"
-            label="Tipo de Veículo"
-            placeholder="Selecione uma opção"
-          />
-          <q-input
-            dense
-            outlined
-            v-else
-            stack-label
-            lazy-rules
-            v-model="values.type"
-            type="text"
-            :label="$t('form.labels.type')"
-            placeholder="Digite o tipo do produto"
-          />
+        <div v-if="isCeg()" :class="'col-xs-12 ' +
+          (domainType() === 'simple' ? 'col-md-6' : 'col-md-3') +
+          ' q-mb-sm'
+          ">
+          <q-select dense outlined v-if="isCeg()" :options="groupTables" :isLoading="false"
+            @update:model-value="onGroupSelect" v-model="gTable" label="Tipo de Veículo"
+            placeholder="Selecione uma opção" />
+          <q-input dense outlined v-else stack-label lazy-rules v-model="values.type" type="text"
+            :label="$t('form.labels.type')" placeholder="Digite o tipo do produto" />
         </div>
         <div class="col-xs-12 col-md-6 q-mb-sm">
-          <q-input
-            dense
-            outlined
-            stack-label
-            lazy-rules
-            reverse-fill-mask
-            prefix="R$"
-            v-model="values.totalPrice"
-            type="text"
-            :label="
-              $t(
-                domainType() === 'simple'
-                  ? 'form.labels.product_price'
-                  : 'form.labels.price'
-              )
-            "
-            mask="#,##"
-            fill-mask="0"
-          />
+          <q-input dense outlined stack-label lazy-rules reverse-fill-mask prefix="R$" v-model="values.totalPrice"
+            type="text" :label="$t(
+              domainType() === 'simple'
+                ? 'form.labels.product_price'
+                : 'form.labels.price'
+            )
+              " mask="#,##" fill-mask="0" />
         </div>
       </div>
 
-      <div
-        v-show="!isCeg()"
-        class="row justify-center q-pa-md"
-        style="border: 1px solid #cccccc"
-      >
+      <div v-show="!isCeg()" class="row justify-center q-pa-md" style="border: 1px solid #cccccc">
         <div class="col-12 text-subtitle2 text-center q-pb-md">
           {{ $t("form.section01") }}
         </div>
@@ -105,143 +45,53 @@
             <div class="col-xs-12 col-sm-11">
               <div class="row justify-between">
                 <div class="col-xs-12 col-sm-2">
-                  <q-input
-                    dense
-                    outlined
-                    stack-label
-                    lazy-rules
-                    reverse-fill-mask
-                    v-model="myPackage.qtd"
-                    type="text"
-                    :label="$t('form.labels.qtty')"
-                    mask="#"
-                    fill-mask="0"
-                    @change="getTotalCubageAndWeight"
-                  />
+                  <q-input dense outlined stack-label lazy-rules reverse-fill-mask v-model="myPackage.qtd" type="text"
+                    :label="$t('form.labels.qtty')" mask="#" fill-mask="0" @change="getTotalCubageAndWeight" />
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                  <q-input
-                    dense
-                    outlined
-                    stack-label
-                    lazy-rules
-                    reverse-fill-mask
-                    suffix="kg"
-                    v-model="myPackage.weight"
-                    type="text"
-                    :label="$t('form.labels.weight')"
-                    @change="getTotalCubageAndWeight"
-                    mask="#,###"
-                    fill-mask="0"
-                  />
+                  <q-input dense outlined stack-label lazy-rules reverse-fill-mask suffix="kg" v-model="myPackage.weight"
+                    type="text" :label="$t('form.labels.weight')" @change="getTotalCubageAndWeight" mask="#,###"
+                    fill-mask="0" />
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                  <q-input
-                    dense
-                    outlined
-                    stack-label
-                    lazy-rules
-                    reverse-fill-mask
-                    suffix="m"
-                    v-model="myPackage.height"
-                    type="text"
-                    :label="$t('form.labels.height')"
-                    @change="getTotalCubageAndWeight"
-                    mask="#,##"
-                    fill-mask="0"
-                  />
+                  <q-input dense outlined stack-label lazy-rules reverse-fill-mask suffix="m" v-model="myPackage.height"
+                    type="text" :label="$t('form.labels.height')" @change="getTotalCubageAndWeight" mask="#,##"
+                    fill-mask="0" />
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                  <q-input
-                    dense
-                    outlined
-                    stack-label
-                    lazy-rules
-                    reverse-fill-mask
-                    suffix="m"
-                    v-model="myPackage.width"
-                    type="text"
-                    :label="$t('form.labels.width')"
-                    @change="getTotalCubageAndWeight"
-                    mask="#,##"
-                    fill-mask="0"
-                  />
+                  <q-input dense outlined stack-label lazy-rules reverse-fill-mask suffix="m" v-model="myPackage.width"
+                    type="text" :label="$t('form.labels.width')" @change="getTotalCubageAndWeight" mask="#,##"
+                    fill-mask="0" />
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                  <q-input
-                    dense
-                    outlined
-                    stack-label
-                    lazy-rules
-                    reverse-fill-mask
-                    suffix="m"
-                    v-model="myPackage.depth"
-                    type="text"
-                    :label="$t('form.labels.depth')"
-                    @change="getTotalCubageAndWeight"
-                    mask="#,##"
-                    fill-mask="0"
-                  />
+                  <q-input dense outlined stack-label lazy-rules reverse-fill-mask suffix="m" v-model="myPackage.depth"
+                    type="text" :label="$t('form.labels.depth')" @change="getTotalCubageAndWeight" mask="#,##"
+                    fill-mask="0" />
                 </div>
               </div>
             </div>
             <div class="col-xs-12 col-sm-1 q-pb-md">
               <div class="row justify-end">
                 <div class="col-xs-12 col-sm-5 text-center">
-                  <q-btn
-                    flat
-                    round
-                    v-if="index == 0"
-                    icon="delete"
-                    color="red"
-                    :disabled="true"
-                  />
-                  <q-btn
-                    flat
-                    round
-                    v-else
-                    icon="delete"
-                    color="red"
-                    @click="removeProduct(index)"
-                  />
+                  <q-btn flat round v-if="index == 0" icon="delete" color="red" :disabled="true" />
+                  <q-btn flat round v-else icon="delete" color="red" @click="removeProduct(index)" />
                 </div>
                 <div class="col-xs-12 col-sm-5 text-center">
-                  <q-btn
-                    flat
-                    round
-                    v-if="index == values.packages.length - 1"
-                    icon="add_circle"
-                    size="md"
-                    color="green"
-                    @click="addProduct"
-                  />
+                  <q-btn flat round v-if="index == values.packages.length - 1" icon="add_circle" size="md" color="green"
+                    @click="addProduct" />
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div
-          v-show="!isCeg() && totalCubage == 0 && cubage == 0"
-          class="col-xs-12 q-pt-sm"
-        >
+        <div v-show="!isCeg() && totalCubage == 0 && cubage == 0" class="col-xs-12 q-pt-sm">
           <div class="text-subtitle2 text-center">{{ $t("Ou") }}</div>
         </div>
 
         <div v-show="!isCeg() && totalCubage == 0" class="col-xs-6 col-md-3 q-pa-sm">
-          <q-input
-            dense
-            outlined
-            stack-label
-            lazy-rules
-            reverse-fill-mask
-            suffix="kg"
-            v-model="values.cubage"
-            type="text"
-            :label="$t('Total cubagem')"
-            mask="#,##"
-            fill-mask="0"
-          />
+          <q-input dense outlined stack-label lazy-rules reverse-fill-mask suffix="kg" v-model="values.cubage" type="text"
+            :label="$t('Total cubagem')" mask="#,##" fill-mask="0" />
         </div>
 
         <div v-if="!isCeg()" class="col-12">
@@ -266,72 +116,32 @@
               </div>
             </q-card>
 
-            <transition
-              appear
-              enter-active-class="animated fadeIn"
-              leave-active-class="animated fadeOut"
-            >
-              <q-card
-                v-if="delivery.motoboy"
-                class="my-card hidden"
-                style="background: #004aa9"
-              >
+            <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+              <q-card v-if="delivery.motoboy" class="my-card hidden" style="background: #004aa9">
                 <img src="./../assets/delivery_icons_D.png" />
               </q-card>
             </transition>
 
-            <transition
-              appear
-              enter-active-class="animated fadeIn"
-              leave-active-class="animated fadeOut"
-            >
-              <q-card
-                v-if="delivery.postal"
-                class="my-card hidden"
-                style="background: #00e7c3"
-              >
+            <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+              <q-card v-if="delivery.postal" class="my-card hidden" style="background: #00e7c3">
                 <img src="./../assets/delivery_icons_C.png" />
               </q-card>
             </transition>
 
-            <transition
-              appear
-              enter-active-class="animated fadeIn"
-              leave-active-class="animated fadeOut"
-            >
-              <q-card
-                v-if="delivery.aereo"
-                class="my-card hidden"
-                style="background: #00a4ff"
-              >
+            <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+              <q-card v-if="delivery.aereo" class="my-card hidden" style="background: #00a4ff">
                 <img src="./../assets/delivery_icons_B.png" />
               </q-card>
             </transition>
 
-            <transition
-              appear
-              enter-active-class="animated fadeIn"
-              leave-active-class="animated fadeOut"
-            >
-              <q-card
-                v-if="delivery.fracion"
-                class="my-card hidden"
-                style="background: #ffcb05"
-              >
+            <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+              <q-card v-if="delivery.fracion" class="my-card hidden" style="background: #ffcb05">
                 <img src="./../assets/delivery_icons_A.png" />
               </q-card>
             </transition>
 
-            <transition
-              appear
-              enter-active-class="animated fadeIn"
-              leave-active-class="animated fadeOut"
-            >
-              <q-card
-                v-if="delivery.lotacao"
-                class="my-card hidden"
-                style="background: #cccb05"
-              >
+            <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+              <q-card v-if="delivery.lotacao" class="my-card hidden" style="background: #cccb05">
                 <img src="./../assets/delivery_icons_E.png" />
               </q-card>
             </transition>
@@ -487,7 +297,7 @@ export default {
 
       if (data) {
         this.values.type = data.label;
-        this.values.totalPrice = data.price.replace(".", ",");
+        this.values.totalPrice = (data?.price).toString().replace(".", ",");
       } else {
         this.values.type = text;
       }

@@ -240,7 +240,7 @@ export const getClientContact = ({ commit }, document) => {
 };
 
 export const getCloseProfessionals = ({ commit }, values) => {
-  return api.fetch(encodeURI(RESOURCE_ENDPOINT + '/professionals/close/' + values.lat.toString().replace('.', ',') + '/' + values.lng.toString().replace('.', ',')))
+  return api.fetch(encodeURI(RESOURCE_ENDPOINT + '/professionals/close/' + values?.lat?.toString().replace('.', ',') + '/' + values?.lng?.toString().replace('.', ',')))
     
     .then(data => {
       if (data.response) {
