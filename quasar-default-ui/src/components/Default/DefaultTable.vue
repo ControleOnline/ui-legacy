@@ -16,9 +16,12 @@
 
                         <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[items.indexOf(props.row)]"
                             v-bind:value="false" />
-
-
-                        <q-btn v-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
+                        <template v-if="configs.components?.customColumns[column.key ||
+                            column.name]">
+                            <component :componentProps="configs.components?.customColumns[column.key ||
+                                column.name].props" :row="props.row" @loadData="loadData" />
+                        </template>
+                        <q-btn v-else-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
                             this.format(column, getNameFromList(column, props.row, column.key ||
                                 column.name)) }}
                         </q-btn>
@@ -182,7 +185,12 @@
                                 <template v-for="(column, index) in columns" :key="column.key || column.name">
                                     <q-item-section v-if="column.isIdentity"
                                         :class="[{ 'hidden': column.visible != true }]">
-                                        <q-btn v-if="column.to" @click="verifyClick(column, props.row)"
+                                        <template v-if="configs.components?.customColumns[column.key ||
+                                            column.name]">
+                                            <component :componentProps="configs.components?.customColumns[column.key ||
+                                                column.name].props" :row="props.row" @loadData="loadData" />
+                                        </template>
+                                        <q-btn v-else-if="column.to" @click="verifyClick(column, props.row)"
                                             :icon:="column.icon">
                                             {{ this.format(column, getNameFromList(column, props.row, column.key ||
                                                 column.name)) }}
@@ -207,7 +215,12 @@
                                         <q-item-label>{{ translate(column.label, 'input') }}</q-item-label>
                                     </q-item-section>
                                     <q-item-section side>
-                                        <q-btn v-if="column.to" @click="verifyClick(column, props.row)"
+                                        <template v-if="configs.components?.customColumns[column.key ||
+                                            column.name]">
+                                            <component :componentProps="configs.components?.customColumns[column.key ||
+                                                column.name].props" :row="props.row" @loadData="loadData" />
+                                        </template>
+                                        <q-btn v-else-if="column.to" @click="verifyClick(column, props.row)"
                                             :icon:="column.icon">{{
                                                 this.format(column, getNameFromList(column, props.row, column.key ||
                                                     column.name)) }}
@@ -1038,4 +1051,5 @@ export default {
 
 .default-table .q-body--fullscreen-mixin .q-table thead {
     top: 50px !important;
-}</style>
+}
+</style>
