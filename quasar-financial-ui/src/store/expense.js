@@ -34,6 +34,27 @@ export default {
       },
       {
         sortable: true,
+        name: "receiver_id",
+        align: "left",
+        label: "receiver",
+        list: "people",
+        externalFilter: true,
+        format: function (value) {
+          return value?.alias;
+        },
+        formatList: function (value) {
+          if (value)
+            return {
+              value: value["@id"].split("/").pop(),
+              label: value.alias,
+            };
+        },
+        saveFormat: function (value) {
+          return value ? "/people/" + value : null;
+        },
+      },
+      {
+        sortable: true,
         name: "category",
         align: "left",
         label: "category",
@@ -93,6 +114,7 @@ export default {
           return formatMoney(value);
         },
       },
+
       {
         sortable: true,
         name: "status",

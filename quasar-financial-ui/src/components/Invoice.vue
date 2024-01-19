@@ -45,6 +45,7 @@ export default {
                     }
                 },
                 list: {
+                    people:this.people,
                     status: this.status,
                     categories: this.categories,
                     company: this.companies
@@ -70,7 +71,8 @@ export default {
     methods: {
         ...mapActions({
             categories: 'categories/getItems',
-            status: 'status/getItems'
+            status: 'status/getItems',
+            people:'people/getItems'
         })
     },
 };

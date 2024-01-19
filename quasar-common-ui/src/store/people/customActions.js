@@ -1,6 +1,7 @@
 import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
-import * as types from './mutation_types';
+import * as customTypes from './mutation_types';
+import * as types from "@controleonline/quasar-default-ui/src/store/default/mutation_types";
 
 import { DOMAIN } from '../../../../../../src/config/domain';
 
@@ -25,7 +26,7 @@ export const company = ({ commit }, values) => {
     .then(data => {
       if (data.response && data.response.success) {
         if (data.response.data)
-          commit(types.SET_COMPANY, {
+          commit(customTypes.SET_COMPANY, {
             id: data.response.data.people.id
           });
 
@@ -134,7 +135,7 @@ export const myCompanies = ({ commit, dispatch }) => {
       commit(types.SET_ISLOADING, false);
 
       if (data.response) {
-        commit(types.SET_COMPANIES, data.response.data);
+        commit(customTypes.SET_COMPANIES, data.response.data);
       }
 
       return data.response;
@@ -166,7 +167,7 @@ export const mySaleCompanies = ({ commit }) => {
       commit(types.SET_ISLOADING, false);
 
       if (data.response) {
-        commit(types.SET_COMPANIES, data.response.data);
+        commit(customTypes.SET_COMPANIES, data.response.data);
       }
 
       return data.response;
@@ -190,7 +191,7 @@ export const defaultCompany = ({ commit, dispatch }) => {
 
   return api.fetch(`${RESOURCE_ENDPOINT}/company/default?app-domain=` + DOMAIN)
     .then(data => {
-      commit(types.SET_DEFAULT_COMPANY, data.response.data);
+      commit(customTypes.SET_DEFAULT_COMPANY, data.response.data);
       return data.response;
     })
     .catch(e => {
@@ -213,7 +214,7 @@ export const defaultCompany = ({ commit, dispatch }) => {
 
 export const currentCompany = ({ commit }, company) => {
   if (company) {
-    commit(types.SET_CURRENT_COMPANY, company);
+    commit(customTypes.SET_CURRENT_COMPANY, company);
   }
 };
 
