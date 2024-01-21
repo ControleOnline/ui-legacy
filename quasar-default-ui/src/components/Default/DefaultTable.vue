@@ -25,54 +25,49 @@
                             this.format(column, getNameFromList(column, props.row, column.key ||
                                 column.name)) }}
                         </q-btn>
-                        <span
-                            @mouseenter="showEdit[items.indexOf(props.row)] = column.editable == false ? false : { [column.key || column.name]: true }"
-                            @mouseleave="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: false }"
-                            v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
-                                formatData(column, props.row, true))">
-                            {{ formatData(column, props.row) }}
-                            <q-icon v-if="column.editable != false &&
-                                !isSaving &&
-                                showEdit[items.indexOf(props.row)] &&
-                                showEdit[items.indexOf(props.row)][column.key || column.name] == true
-                                " size="0.8em" name="edit" />
-                            <q-icon v-else size="0.8em" name="" />
-                            <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)" color="primary"
-                                size="2em" />
-                        </span>
+                        <template v-else-if="editingInit(items.indexOf(props.row), column) != true">
+
+                            <span
+                                @mouseenter="showEdit[items.indexOf(props.row)] = column.editable == false ? false : { [column.key || column.name]: true }"
+                                @mouseleave="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: false }"
+                                @click="startEditing(items.indexOf(props.row), column,
+                                    formatData(column, props.row, true))">
+                                {{ column.prefix }} {{ formatData(column, props.row) }} {{ column.sufix }}
+                                <q-icon v-if="column.editable != false &&
+                                    !isSaving &&
+                                    showEdit[items.indexOf(props.row)] &&
+                                    showEdit[items.indexOf(props.row)][column.key || column.name] == true
+                                    " size="0.8em" name="edit" />
+                                <q-icon v-else size="0.8em" name="" />
+                                <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)"
+                                    color="primary" size="2em" />
+                            </span>
+                        </template>
                         <template v-else>
-                            <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules
-                                use-input hide-selected map-options fill-input options-cover transition-show="flip-down"
-                                transition-hide="flip-up" @filter="searchList" input-debounce="700" :loading="isLoadingList"
-                                :options="listAutocomplete[column.list]" :label="translate(column.label, 'input')"
-                                @blur="stopEditing(items.indexOf(props.row), column, props.row)" label-color="black"
-                                v-model="editedValue"
-                                @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)">
-                                <template v-slot:no-option v-if="!isLoadingList">
-                                    <q-item>
-                                        <q-item-section class="text-grey">
-                                            No results
-                                        </q-item-section>
-                                    </q-item>
-                                </template>
-                            </q-select>
-
-                            <q-input v-else v-model="editedValue" dense autofocus
+                            <FormInputs :prefix="column.prefix" :sufix="column.sufix" :editable="column.editable"
+                                :inputType="column.list ? 'list' : column.inputType" :store="configs.store"
+                                :mask="mask(column)" :rules="[isInvalid()]" :labelType="'stack-label'" :label="column.label"
+                                :filters="getSearchFilters(column)" :initialValue="editedValue"
+                                :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
+                                :searchAction="configs.list[column.list]"
+                                @focus="editingInit(items.indexOf(props.row), column)" @changed="(value) => {
+                                    editedValue = value;
+                                }" @apply="stopEditing(items.indexOf(props.row), column, props.row)"
                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)"
+                                @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)"
                                 @keydown.enter="stopEditing(items.indexOf(props.row), column, props.row)" />
-
                         </template>
                     </q-td>
                     <q-td class="q-gutter-sm">
                         <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white" color="primary"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem(props.row)">
-                            <q-tooltip> {{ translate('edit', 'tooltip') }} </q-tooltip>
+                            <q-tooltip> {{ translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
                         </q-btn>
                         <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="openConfirm(props.row)">
-                            <q-tooltip> {{ translate('delete', 'tooltip') }} </q-tooltip>
+                            <q-tooltip> {{ translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
                         </q-btn>
                         <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
                             :componentProps="tableActionsProps()" :row="props.row" @loadData="loadData" />
@@ -101,9 +96,9 @@
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
                         ]" @click="stopPropagation">
 
-                            <FiltersInput :onChange="true" :column='column' :configs='configs' @loadData="loadData"
+                            <FilterInputs :onChange="true" :column='column' :configs='configs' @loadData="loadData"
                                 :class="[{ show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }]">
-                            </FiltersInput>
+                            </FilterInputs>
                             <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
                                 size="2em" />
                             <q-icon name="close" @click.stop="clearFilter(column.key || column.name)"
@@ -117,7 +112,7 @@
 
                             <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
                                 v-model="selectAll" />
-                            {{ translate(column.label, 'input') }}
+                            {{ translate(configs.store, column.label, 'input') }}
                             <q-icon v-if="column.sortable"
                                 :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
                                 color="grey-8" size="14px" />
@@ -145,11 +140,11 @@
                     <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
                         color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                         @click="editItem({})">
-                        <q-tooltip> {{ translate('add', 'tooltip') }} </q-tooltip>
+                        <q-tooltip> {{ translate(configs.store, 'add', 'tooltip') }} </q-tooltip>
                     </q-btn>
                     <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData"></DefaultFilters>
                     <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
-                        <q-tooltip> {{ translate('config_columns', 'tooltip') }} </q-tooltip>
+                        <q-tooltip> {{ translate(configs.store, 'config_columns', 'tooltip') }} </q-tooltip>
                         <!-- Menu de configuração de colunas -->
                         <q-menu v-model="showColumnMenu">
                             <q-list>
@@ -165,11 +160,13 @@
                     </q-btn>
                     <q-btn class="q-pa-xs" label="" dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
                         @click="props.toggleFullscreen">
-                        <q-tooltip> {{ translate((props.inFullscreen ? 'minimize' : 'maximize'), 'tooltip') }} </q-tooltip>
+                        <q-tooltip> {{ translate(configs.store, (props.inFullscreen ? 'minimize' : 'maximize'), 'tooltip')
+                        }}
+                        </q-tooltip>
                     </q-btn>
                     <q-btn color="primary" icon-right="archive" dense class="q-pa-xs" label="" @click="exportTable"
                         v-if="configs.export">
-                        <q-tooltip> {{ translate('export', 'tooltip') }} </q-tooltip>
+                        <q-tooltip> {{ translate(configs.store, 'export', 'tooltip') }} </q-tooltip>
                     </q-btn>
                 </div>
             </template>
@@ -213,7 +210,7 @@
                             <template v-for="(column, index) in columns" :key="column.key || column.name">
                                 <q-item v-if="!column.isIdentity">
                                     <q-item-section>
-                                        <q-item-label>{{ translate(column.label, 'input') }}</q-item-label>
+                                        <q-item-label>{{ translate(configs.store, column.label, 'input') }}</q-item-label>
                                     </q-item-section>
                                     <q-item-section side>
                                         <template v-if="tableColumnComponent(column.key || column.name)">
@@ -227,38 +224,33 @@
                                                 this.format(column, getNameFromList(column, props.row, column.key ||
                                                     column.name)) }}
                                         </q-btn>
-                                        <span v-else-if="editingInit(items.indexOf(props.row), column) != true" @click="startEditing(items.indexOf(props.row), column,
-                                            formatData(column, props.row, true)
-                                        )">
+                                        <template v-else-if="editingInit(items.indexOf(props.row), column) != true">
+                                            <span @click="startEditing(items.indexOf(props.row), column,
+                                                formatData(column, props.row, true)
+                                            )">
+                                                {{ column.prefix }} {{ formatData(column, props.row) }}
+                                                <q-icon v-if="column.editable != false && !isSaving" size="0.8em"
+                                                    name="edit" />
+                                                <q-icon v-else size="0.8em" name="" />
 
-
-                                            {{ formatData(column, props.row) }}
-                                            <q-icon v-if="column.editable != false && !isSaving" size="0.8em" name="edit" />
-                                            <q-icon v-else size="0.8em" name="" />
-
-                                            <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)"
-                                                color="primary" size="2em" />
-                                        </span>
+                                                <q-spinner-ios
+                                                    v-if="isSaving && isEditing(items.indexOf(props.row), column)"
+                                                    color="primary" size="2em" />
+                                            </span>
+                                        </template>
                                         <template v-else>
-                                            <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label
-                                                lazy-rules use-input hide-selected map-options fill-input options-cover
-                                                transition-show="flip-down" transition-hide="flip-up" @filter="searchList"
-                                                input-debounce="700" :loading="isLoadingList"
-                                                :options="listAutocomplete[column.list]"
-                                                :label="translate(column.label, 'input')"
-                                                @blur="stopEditing(items.indexOf(props.row), column, props.row)"
-                                                label-color="black" v-model="editedValue"
-                                                @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)">
-                                                <template v-slot:no-option v-if="!isLoadingList">
-                                                    <q-item>
-                                                        <q-item-section class="text-grey">
-                                                            No results
-                                                        </q-item-section>
-                                                    </q-item>
-                                                </template>
-                                            </q-select>
-                                            <q-input v-else v-model="editedValue" dense autofocus
-                                                @blur="stopEditing(items.indexOf(props.row), column, props.row)"
+                                            <FormInputs :editable="column.editable" :prefix="column.prefix"
+                                                :sufix="column.sufix" :inputType="column.list ? 'list' : column.inputType"
+                                                :store="configs.store" :mask="mask(column)" :rules="[isInvalid()]"
+                                                :labelType="'stack-label'" :label="column.label"
+                                                :filters="getSearchFilters(column)" :initialValue="editedValue"
+                                                :searchParam="column.searchParam || 'search'"
+                                                :formatOptions="column.formatList" :searchAction="configs.list[column.list]"
+                                                @focus="editingInit(items.indexOf(props.row), column)" @changed="(value) => {
+                                                    editedValue = value;
+                                                }" @blur="stopEditing(items.indexOf(props.row), column, props.row)"
+                                                @apply="stopEditing(items.indexOf(props.row), column, props.row)"
+                                                @update:modelValue="stopEditing(items.indexOf(props.row), column, props.row)"
                                                 @keydown.enter="stopEditing(items.indexOf(props.row), column, props.row)" />
                                         </template>
                                     </q-item-section>
@@ -274,12 +266,12 @@
                                         color="primary"
                                         :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="editItem(props.row)">
-                                        <q-tooltip> {{ translate('edit', 'tooltip') }} </q-tooltip>
+                                        <q-tooltip> {{ translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
                                     </q-btn>
                                     <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                                         :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="openConfirm(props.row)">
-                                        <q-tooltip> {{ translate('delete', 'tooltip') }} </q-tooltip>
+                                        <q-tooltip> {{ translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
                                     </q-btn>
                                     <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
                                         :componentProps="tableActionsProps()" :row="props.row" @loadData="loadData" />
@@ -294,8 +286,8 @@
                     <q-td v-for="(column, index)  in columns" :class="[
                         'text-' + column.align,
                         { 'hidden': column.visible != true }]">
-                        <span v-if="sumColumn[column.key || column.name]"
-                            v-html="format(column, sumColumn[column.key || column.name])"></span>
+                        <span v-if="sumColumn[column.key || column.name]" v-html="(column.prefix || '') +
+                            format(column, sumColumn[column.key || column.name]) + (column.sufix || '')"></span>
                     </q-td>
                     <q-td v-if="tableActionsComponent() || configs.delete != false">
                     </q-td>
@@ -318,7 +310,7 @@
         <q-dialog v-model="addModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ translate((this.item ? 'edit' : 'add'), 'title') }}</label>
+                    <label class="text-h5">{{ translate(configs.store, (this.item ? 'edit' : 'add'), 'title') }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -331,7 +323,7 @@
         <q-dialog v-model="deleteModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ translate('msg_delete', 'title') }}</label>
+                    <label class="text-h5">{{ translate(configs.store, 'msg_delete', 'title') }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -339,11 +331,11 @@
                 <q-card-section>
                     <div class="flex q-pt-md">
                         <q-btn class="q-py-sm q-px-md text-capitalize" outline color="secondary"
-                            :label="translate('cancel', 'btn')" v-close-popup>
+                            :label="translate(configs.store, 'cancel', 'btn')" v-close-popup>
                         </q-btn>
                         <q-space></q-space>
                         <q-btn class="q-py-sm q-px-md text-capitalize" color="secondary"
-                            :label="translate('confirm', 'btn')" @click="confirmDelete" :loading="isSaving">
+                            :label="translate(configs.store, 'confirm', 'btn')" @click="confirmDelete" :loading="isSaving">
                         </q-btn>
                     </div>
                 </q-card-section>
@@ -357,7 +349,9 @@ import DefaultForm from "@controleonline/quasar-default-ui/src/components/Defaul
 import DefaultExternalFilters from "@controleonline/quasar-default-ui/src/components/Default/Filters/DefaultExternalFilters";
 import DefaultSearch from "@controleonline/quasar-default-ui/src/components/Default/Filters/DefaultSearch";
 import DefaultFilters from "@controleonline/quasar-default-ui/src/components/Default/Filters/DefaultFilters";
-import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Filters/FiltersInput";
+import FilterInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FilterInputs";
+import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FormInputs";
+
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
 import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 import { mapActions, mapGetters } from "vuex";
@@ -381,7 +375,8 @@ export default {
     components: {
         DefaultForm,
         DefaultExternalFilters,
-        FiltersInput,
+        FilterInputs,
+        FormInputs,
         DefaultSearch,
         DefaultFilters
     },
@@ -761,13 +756,13 @@ export default {
                 if (data) {
                     this.loadData();
                     this.$q.notify({
-                        message: this.translate("success", 'message'),
+                        message: this.translate(this.configs.store, "success", 'message'),
                         position: "bottom",
                         type: "positive",
                     });
                 } else {
                     this.$q.notify({
-                        message: this.translate("error", 'message'),
+                        message: this.translate(this.configs.store, "error", 'message'),
                         position: "bottom",
                         type: "negative",
                     });

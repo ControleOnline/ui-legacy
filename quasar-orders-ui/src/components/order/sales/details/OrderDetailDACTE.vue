@@ -139,7 +139,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import UploadFileForm from "@controleonline/quasar-default-ui/src/components/Default/Common/DefaultUpload.vue";
+import UploadFileForm from "@controleonline/quasar-default-ui/src/components/Default/Common/Inputs/UploadInput.vue";
 import { mapActions, mapGetters } from "vuex";
 import { ENTRYPOINT } from "../../../../../../../../src/config/entrypoint";
 

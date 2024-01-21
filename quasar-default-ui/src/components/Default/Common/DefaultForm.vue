@@ -5,49 +5,21 @@
                 <template v-for="(column, index)  in columns">
                     <div v-if="column.isIdentity != true"
                         :class="column.formClass || 'col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 q-pa-xs'">
-
-                        <q-select v-if="column.list" class="col-12 q-pa-xs" dense outlined stack-label lazy-rules use-input
-                            map-options hide-selected fill-input options-cover @filter="searchList" input-debounce="700"
-                            :loading="isLoadingList" :options="listAutocomplete[column.list]" @focus="editingInit(column)"
-                            :label="
-                             translate( column.label, 'input') 
-                            " v-model="item[column.key || column.name]">
-                            <template v-slot:no-option v-if="!isLoadingList">
-                                <q-item>
-                                    <q-item-section class="text-grey">
-                                        No results
-                                    </q-item-section>
-                                </q-item>
-                            </template>
-                        </q-select>
-
-                        <q-input v-else :disable="column.editable == false" dense outlined stack-label lazy-rules
-                            v-model="item[column.key || column.name]" type="text" :mask="mask(column)"
-                            :label="translate( column.label, 'input') " :rules="[isInvalid()]" />
+                        <FormInputs :editable="column.editable" :prefix="column.prefix" :sufix="column.sufix"
+                            :inputType="column.list ? 'list' : column.inputType" :store="configs.store" :mask="mask(column)"
+                            :rules="[isInvalid()]" :labelType="'stack-label'" :label="column.label"
+                            :filters="getSearchFilters(column)" :initialValue="item[column.key || column.name]"
+                            :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
+                            :searchAction="configs.list[column.list]" @focus="editingInit(column)" @changed="(value) => {
+                                item[column.key || column.name] = value;
+                            }" />
                     </div>
                 </template>
-                <!--
-                <div class="col-xs-12 col-sm-6">
-                    <q-input dense outlined stack-label 
-                    v-model="periodo" 
-                    mask="##/####" :label="translate( column.label, 'input') ">
-                        <template v-slot:append>
-                            <q-icon name="event" class="cursor-pointer">
-                                <q-popup-proxy ref="qDateProxy1" transition-show="scale" transition-hide="scale">
-                                    <q-date v-model="periodo" mask="MM/YYYY" @input="() => $refs.qDateProxy1.hide()" />
-                                </q-popup-proxy>
-                            </q-icon>
-                        </template>
-                    </q-input>
-                </div>
-                -->
             </div>
 
             <div class="row justify-end">
-                <q-btn :loading="isSaving" icon="save" type="submit" :label="
-                translate( 'save', 'btn') 
-                " size="md"
-                    color="primary" class="q-mt-md" />
+                <q-btn :loading="isSaving" icon="save" type="submit" :label="translate(configs.store, 'save', 'btn')
+                    " size="md" color="primary" class="q-mt-md" />
             </div>
         </q-form>
     </q-card>
@@ -56,6 +28,7 @@
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
 import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
+import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FormInputs";
 
 export default {
     props: {
@@ -72,6 +45,7 @@ export default {
         },
     },
     components: {
+        FormInputs
     },
     data() {
         return {
@@ -146,7 +120,7 @@ export default {
             this.$store.dispatch(this.configs.store + '/save', p
             ).then((item) => {
                 this.$q.notify({
-                    message: this.translate( 'success', 'message'),
+                    message: this.translate(this.configs.store, 'success', 'message'),
                     position: "bottom",
                     type: "positive",
                 });
@@ -154,7 +128,7 @@ export default {
             }).catch((error) => {
                 this.$emit("error", error);
                 this.$q.notify({
-                    message: this.translate( 'error', 'message'),
+                    message: this.translate(this.configs.store, 'error', 'message'),
                     position: "bottom",
                     type: "negative",
                 });

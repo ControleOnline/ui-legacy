@@ -2,11 +2,11 @@
     <div class="row outlined-div">
         <div class="col-11 col-sm-11col-md-11 col-lg-11 col-xg-11 col-xs-11 flex">
             <div class="label-range-date row" v-if="labelType == 'stack-label'">
-                {{ translate(column.label, 'input') }}
+                {{ translate(configs.store,column.label, 'input') }}
             </div>
-            <q-input borderless stack-label readonly :label="translate('dateFrom', 'input')" class="q-pa-none custom-input"
+            <q-input borderless stack-label readonly :label="translate(configs.store,'dateFrom', 'input')" class="q-pa-none custom-input"
                 dense v-model="from" mask="##/##/####"></q-input>
-            <q-input borderless stack-label readonly :label="translate('dateTo', 'input')" class="q-pa-none custom-input"
+            <q-input borderless stack-label readonly :label="translate(configs.store,'dateTo', 'input')" class="q-pa-none custom-input"
                 dense v-model="to" mask="##/##/####"></q-input>
         </div>
         <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xg-1 col-xs-1 q-pa-sm  flex flex-end justify-end items-center">
@@ -15,7 +15,7 @@
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                     <q-date v-model="dateModel" range mask="DD/MM/YYYY">
                         <div class="row items-center justify-end">
-                            <q-btn v-close-popup @click="apply" :label="translate('apply', 'btn')" color="primary" flat />
+                            <q-btn v-close-popup @click="apply" :label="translate(configs.store,'apply', 'btn')" color="primary" flat />
                         </div>
                     </q-date>
                 </q-popup-proxy>

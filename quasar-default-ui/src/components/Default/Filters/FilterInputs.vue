@@ -1,28 +1,19 @@
 <template>
     <label v-if="labelType != 'stack-label'">
-        {{ translate(column.label, 'input') }}
+        {{ translate(configs.store, column.label, 'input') }}
     </label>
     <DateRangeInput :initialRange="colFilter[column.key || column.name]" @changedDateInput="changedDateInput"
         :labelType="labelType" v-if="column.inputType == 'date-range'" :column="column" :configs="configs" />
 
+    <SelectInput v-else-if="column.list" :store="configs.store" :labelType="labelType" :label="column.label"
+        :multiple="true" :searchAction="configs.list[column.list]" :filters="getSearchFilters(column)"
+        :initialValue="colFilter[column.key || column.name]" :formatOptions="column.formatList"
+        :searchParam="column.searchParam || 'search'" @selected="(value) => {
+            colFilter[column.key || column.name] = copyObject(value);
+        }" @blur="sendFilterColumn(column.key || column.name)" @focus="setForceShowInput(column.key || column.name)" />
 
-
-    <q-select v-else-if="column.list" dense outlined :stack-label="labelType" lazy-rules use-input use-chips map-options
-        options-cover transition-show="flip-down" transition-hide="flip-up" @filter="searchList"
-        :options="listAutocomplete[column.list]" label-color="black" input-debounce="700" :loading="isLoadingList" multiple
-        :label="labelType != 'stack-label' ? '' : translate(column.label, 'input')"
-        v-model="colFilter[column.key || column.name]" @blur="sendFilterColumn(column.key || column.name)"
-        @focus="setForceShowInput(column.key || column.name)">
-        <template v-slot:no-option v-if="!isLoadingList">
-            <q-item>
-                <q-item-section class="text-grey">
-                    No results
-                </q-item-section>
-            </q-item>
-        </template>
-    </q-select>
-    <q-input v-else dense outlined :stack-label="labelType"
-        :label="labelType != 'stack-label' ? '' : translate(column.label, 'input')"
+    <q-input v-else dense outlined :stack-label="labelType" :type:="inputType" :prefix="prefix" :sufix="sufix"
+        :label="labelType != 'stack-label' ? '' : translate(configs.store, column.label, 'input')"
         @click.stop="setForceShowInput(column.key || column.name)" v-model="colFilter[column.key || column.name]"
         @focus="setForceShowInput(column.key || column.name)" @blur="sendFilterColumn(column.key || column.name)"
         @keydown.enter="sendFilterColumn(column.key || column.name); sendFilter()">
@@ -34,16 +25,23 @@
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
 import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
-import DateRangeInput from '../Common/DateRangeInput';
-import DefaultSelect from '../Common/DefaultSelect';
+import DateRangeInput from '../Common/Inputs/DateRangeInput';
+import SelectInput from '../Common/Inputs/SelectInput';
 
 import { buildAmericanDate, formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
 
 export default {
     components: {
-        DateRangeInput
+        DateRangeInput,
+        SelectInput
     },
     props: {
+        prefix: {
+
+        },
+        sufix: {
+
+        },
         labelType: {
             type: String,
             required: false,
@@ -107,7 +105,7 @@ export default {
                 this.sendFilter();
         },
         changedDateInput(dateModel) {
-            
+
             let filters = this.copyObject(this.filters);
             let filter = filters[this.column.key || this.column.name] || {};
             if (dateModel.from)

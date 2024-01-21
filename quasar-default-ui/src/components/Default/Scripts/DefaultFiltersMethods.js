@@ -187,7 +187,18 @@ export function formatFilter(column, value) {
   return value;
 }
 
-export function searchList(input, update, abort) {
+
+export function getSearchFilters(column) {
+  let configColumns = this.configs?.columns;
+  let filters = configColumns
+    ? configColumns[column.key || column.name]?.filters || {}
+    : {};
+  let params = this.copyObject(filters || {});
+  
+  return params;
+}
+
+export function getColumnByEditing() {
   let columnName = null;
 
   if (Object.keys(this.showInput || {}).length > 0) {
@@ -205,6 +216,11 @@ export function searchList(input, update, abort) {
   const column = this.columns.find((col) => {
     return col.name === columnName || col.key === columnName;
   });
+  return column;
+}
+
+export function searchList(input, update, abort) {
+  const column = this.getColumnByEditing();
 
   if (
     (input.length >= 3 ||
@@ -213,19 +229,18 @@ export function searchList(input, update, abort) {
         ((this.listAutocomplete[column.list] &&
           this.listAutocomplete[column.list].length == 0) ||
           !this.listAutocomplete[column.list]))) &&
-    columnName
+          column
   ) {
-    let s = column.searchParam || "search";
-    let configColumns = this.configs?.columns;
-    let filters = configColumns
-      ? configColumns[column.key || column.name]?.filters || {}
-      : {};
-    let params = this.copyObject(filters || {});
-    if (input.length > 0) params[s] = input;
 
+    
     if (this.configs.list[column.list] instanceof Function) {
       this.$store.commit(this.configs.store + "/SET_ISLOADINGLIST", true);
       this.listAutocomplete[column.list] = [];
+
+
+      let params = this.getSearchFilters(column);
+      let s = column.searchParam || "search";
+      if (input.length > 0) params[s] = input;
 
       this.configs.list[column.list](params)
         .then((result) => {

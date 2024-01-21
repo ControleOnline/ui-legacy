@@ -3,6 +3,7 @@ import * as getters from "@controleonline/quasar-default-ui/src/store/default/ge
 import mutations from "@controleonline/quasar-default-ui/src/store/default/mutations";
 import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 import {
+  buildAmericanDate,
   formatMoney,
   formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
@@ -34,7 +35,7 @@ export default {
       },
       {
         sortable: true,
-        name: "receiver_id",
+        name: "receiver",
         align: "left",
         label: "receiver",
         list: "people",
@@ -50,7 +51,7 @@ export default {
             };
         },
         saveFormat: function (value) {
-          return value ? "/people/" + value : null;
+          return value ? "/people/" + (value.value || value) : null;
         },
       },
       {
@@ -66,7 +67,7 @@ export default {
           return value?.name;
         },
         saveFormat: function (value) {
-          return value ? "/categories/" + value : null;
+          return value ? "/categories/" + (value.value || value) : null;
         },
         formatList: function (value) {
           return value
@@ -94,22 +95,23 @@ export default {
         align: "left",
         label: "dueDate",
         externalFilter: true,
+        saveFormat: function (value) {
+          return buildAmericanDate(value);
+        },
         format: function (value) {
           return formatDateYmdTodmY(value);
         },
       },
       {
-        sortable: true,
-        name: "paymentMode",
-        align: "left",
-        label: "paymentMode",
-      },
-      {
+        inputType: 'float',
+        prefix: "R$ ",
         sortable: true,
         name: "price",
         align: "left",
         label: "price",
         sum: true,
+        saveformat() {},
+
         format(value) {
           return formatMoney(value);
         },
@@ -134,7 +136,7 @@ export default {
             };
         },
         saveFormat: function (value) {
-          return value ? "/statuses/" + value : null;
+          return value ? "/statuses/" + (value.value || value) : null;
         },
       },
     ],

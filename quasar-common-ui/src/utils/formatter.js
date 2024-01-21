@@ -31,11 +31,12 @@ export const formatCEP = (value) => {
 
 export const formatMoney = (value, currency, locale) => {
   let formatter = new Intl.NumberFormat(locale || 'pt-br', {
-    style: 'currency',
-    currency: currency || 'BRL',
+    style: 'decimal',  
+    minimumFractionDigits: 2,  
+    maximumFractionDigits: 2,  
   });
   if (typeof value == 'string')
-    value = value.replace(',', '.');
+    value = value.replace('.', '').replace(',', '.');
 
   if (!value)
     return 0;

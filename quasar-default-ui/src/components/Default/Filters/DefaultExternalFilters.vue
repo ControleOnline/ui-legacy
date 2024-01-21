@@ -2,16 +2,18 @@
     <div class="row q-pt-xs q-pa-md row-filters" v-if="filterNumber > 0">
         <q-card class="full-width">
             <q-card-section class="row col-12 q-pa-sm q-pl-lg">
-                <q-title class="">{{ translate( 'filters', 'title') }}</q-title>
+                <q-title class="">{{ translate(configs.store, 'filters', 'title') }}</q-title>
             </q-card-section>
             <q-card-section class="row col-12 q-pa-sm">
 
                 <div class="row col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
                     <template v-for="(column, index)  in  filteredColumns ">
                         <div v-if="index < filterNumber" class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2 q-pa-sm">
-                            <FiltersInput :key="key" :labelType="'upper'" :column="column" :configs="configs"
+                            <FilterInputs 
+                            :prefix="column.prefix" :sufix="column.sufix"
+                            :key="key" :labelType="'upper'" :column="column" :configs="configs"
                                 @loadData="sendFilter">
-                            </FiltersInput>
+                            </FilterInputs>
                         </div>
                     </template>
                 </div>
@@ -19,11 +21,11 @@
                     (this.$q.screen.sm ? 'justify-end' : 'justify-center')
                     ">
                     <q-btn v-if="filteredColumns.length > 0" class="q-pa-sm q-mr-md" color="primary"
-                        :label="translate( 'filter', 'btn')" dense icon-right="search"
+                        :label="translate(configs.store, 'filter', 'btn')" dense icon-right="search"
                         @click="sendFilter"></q-btn>
                     <q-btn class="q-pa-sm" dense icon-right="filter_alt_off" color="primary" outline
                         @click="() => { clearFilters(); openFilters = false; }">
-                        <q-tooltip> {{ translate( 'clear', 'tooltip') }} </q-tooltip>
+                        <q-tooltip> {{ translate(configs.store, 'clear', 'tooltip') }} </q-tooltip>
                     </q-btn>
                 </div>
             </q-card-section>
@@ -33,7 +35,7 @@
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
 import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
-import FiltersInput from "@controleonline/quasar-default-ui/src/components/Default/Filters/FiltersInput";
+import FilterInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FilterInputs";
 
 export default {
     props: {
@@ -43,7 +45,7 @@ export default {
         },
     },
     components: {
-        FiltersInput,
+        FilterInputs,
     },
     computed: {
         columns() {

@@ -78,7 +78,7 @@
         </template>
       </q-select>
  ff
-  <DefaultSelect labelType="stack-label" :label="$t(task_type + '.category')" :searchAction="function(){
+  <SelectInput labelType="stack-label" :label="$t(task_type + '.category')" :searchAction="function(){
     return statuses
   }"/>
 ff
@@ -329,12 +329,12 @@ import { date } from "quasar";
 
 import { formatDateYmdTodmY } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import FormTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/FormTasks.vue";
-import DefaultSelect from "@controleonline/quasar-default-ui/src/components/Default/Common/DefaultSelect.vue";
+import SelectInput from "@controleonline/quasar-default-ui/src/components/Default/Common/Inputs/SelectInput.vue";
 
 
 export default {
   components: {
-    DefaultSelect,
+    SelectInput,
     FormTasks,
   },
 
