@@ -229,11 +229,11 @@ export const sendProposta = ({ commit }, { id, params }) => {
     method: 'GET',
     params: {
       ...params,
-      domain: DOMAIN
+      'app-domain': DOMAIN
     }
   };
 
-  return api.fetch('/quotations/' + id + '/get-pdf/', options)
+  return api.fetch('/quotations/' + id + '/get-pdf', options)
     
     .then(response => {
 
