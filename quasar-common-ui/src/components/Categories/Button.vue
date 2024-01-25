@@ -2,7 +2,7 @@
     <q-btn class="q-pa-xs" dense icon="settings" color="primary" @click="openModal = true">
         <q-tooltip>
             {{
-                $t('default.btn.categories_' + componentProps.context)
+                $t(componentProps.context + '.btn.categories_' + componentProps.context)
             }}
         </q-tooltip>
     </q-btn>
@@ -11,7 +11,7 @@
             <q-card-section class="row col-12 q-pa-sm">
                 <q-toolbar class="">
                     <q-toolbar-title class="">{{
-                        $t('default.title.categories_' + componentProps.context)
+                        $t(componentProps.context +'.title.categories_' + componentProps.context)
                     }}</q-toolbar-title>
                     <q-btn no-caps flat v-close-popup round dense icon="close" />
                 </q-toolbar>

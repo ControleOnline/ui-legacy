@@ -29,17 +29,23 @@ export const formatCEP = (value) => {
   return value.replace(/(\d{5})(\d{3})/g, "$1-$2");
 };
 
-export const formatMoney = (value, currency, locale) => {
-  let formatter = new Intl.NumberFormat(locale || 'pt-br', {
-    style: 'decimal',  
-    minimumFractionDigits: 2,  
-    maximumFractionDigits: 2,  
-  });
-  if (typeof value == 'string')
-    value = value.replace('.', '').replace(',', '.');
+export const formatFloat = (value) => {
+  let formatedValue = parseFloat(
+    value.toString().replace(".", "").replace(",", ".")
+  );
+  return formatedValue;
+};
 
-  if (!value)
-    return 0;
+export const formatMoney = (value, currency, locale) => {
+  let formatter = new Intl.NumberFormat(locale || "pt-br", {
+    style: "decimal",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  if (typeof value == "string")
+    value = value.replace(".", "").replace(",", ".");
+
+  if (!value) return 0;
 
   return formatter.format(value);
 };

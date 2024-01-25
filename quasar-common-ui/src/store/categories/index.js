@@ -67,7 +67,7 @@ export default {
           return value?.name;
         },
         saveFormat: function (value) {
-          return value ? "/categories/" + value : null;
+          return value ? "/categories/" + (value.value || value) : null;
         },
         formatList: function (value) {
           return value

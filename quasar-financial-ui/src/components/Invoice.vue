@@ -24,6 +24,7 @@ export default {
         }),
         configs() {
             return {
+                companyParam: 'payer',
                 filters: true,
                 store: this.context,
                 add: true,

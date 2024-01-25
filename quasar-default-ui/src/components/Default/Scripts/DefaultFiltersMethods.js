@@ -1,40 +1,3 @@
-import {
-  buildAmericanDate,
-  formatDateYmdTodmY,
-} from "@controleonline/quasar-common-ui/src/utils/formatter";
-
-export function copyObject(obj) {
-  if (obj === null || !(obj instanceof Object)) {
-    return obj;
-  }
-
-  if (Array.isArray(obj)) {
-    const newArray = obj.map((item) => this.copyObject(item));
-    return newArray;
-  }
-
-  if (obj instanceof Function) {
-    return obj;
-  }
-
-  const newObj = {};
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      newObj[key] = this.copyObject(obj[key]);
-    }
-  }
-
-  return newObj || {};
-}
-
-export function rangeDate(range) {
-  let filters = this.copyObject(range);
-  let initialDate = {};
-  initialDate.from = formatDateYmdTodmY(filters?.before);
-  initialDate.to = formatDateYmdTodmY(filters?.after);
-  return initialDate;
-}
-
 export function filterColumn(colName) {
   const column = this.columns.find((col) => {
     return col.name === colName || col.key === colName;
@@ -93,6 +56,7 @@ export function setForceShowInput(colName) {
 }
 export function mask(column) {
   if (column.mask instanceof Function) return column.mask();
+  else return column.mask;
 }
 
 export function isEmptyProxy(obj) {
@@ -149,34 +113,16 @@ export function getNameFromList(column, row, editing) {
         i &&
         i.value &&
         i.value.toString().trim() ==
-        (row[column.key || column.name] instanceof Object &&
+          (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-          ? row[column.key || column.name]["@id"].split("/").pop().trim()
-          : row[column.key || column.name].trim())
+            ? row[column.key || column.name]["@id"].split("/").pop().trim()
+            : row[column.key || column.name].trim())
       );
     });
     return name instanceof Object && !editing
       ? this.formatList(column, name).label
       : this.formatList(column, name);
   }
-}
-
-export async function getNameFromSearchList(column, row, editing, search = {}) {
-  let name = null;
-  let result = await this.configs.list[column.list](search).then((result) => {
-    name = result.find((item) => {
-      return (
-        item["@id"].split("/").pop() ==
-        (row[column.key || column.name] instanceof Object &&
-          row[column.key || column.name]
-          ? row[column.key || column.name]["@id"].split("/").pop()
-          : row[column.key || column.name])
-      );
-    });
-  });
-  let x = this.formatList(column, name);
-
-  return x instanceof Object && !editing ? x.label : x;
 }
 
 
@@ -187,107 +133,16 @@ export function formatFilter(column, value) {
   return value;
 }
 
-
 export function getSearchFilters(column) {
   let configColumns = this.configs?.columns;
   let filters = configColumns
     ? configColumns[column.key || column.name]?.filters || {}
     : {};
   let params = this.copyObject(filters || {});
-  
+
   return params;
 }
 
-export function getColumnByEditing() {
-  let columnName = null;
-
-  if (Object.keys(this.showInput || {}).length > 0) {
-    let i = Object.keys(this.showInput);
-    if (i) columnName = i[0];
-  }
-
-  if (Object.keys(this.editing || {}).length > 0) {
-    this.editing.forEach((item) => {
-      let i = Object.keys(item);
-      if (i) columnName = i[0];
-    });
-  }
-
-  const column = this.columns.find((col) => {
-    return col.name === columnName || col.key === columnName;
-  });
-  return column;
-}
-
-export function searchList(input, update, abort) {
-  const column = this.getColumnByEditing();
-
-  if (
-    (input.length >= 3 ||
-      (!this.isLoadingList &&
-        input.length == 0 &&
-        ((this.listAutocomplete[column.list] &&
-          this.listAutocomplete[column.list].length == 0) ||
-          !this.listAutocomplete[column.list]))) &&
-          column
-  ) {
-
-    
-    if (this.configs.list[column.list] instanceof Function) {
-      this.$store.commit(this.configs.store + "/SET_ISLOADINGLIST", true);
-      this.listAutocomplete[column.list] = [];
-
-
-      let params = this.getSearchFilters(column);
-      let s = column.searchParam || "search";
-      if (input.length > 0) params[s] = input;
-
-      this.configs.list[column.list](params)
-        .then((result) => {
-          this.listAutocomplete[column.list].push(null);
-
-          result.forEach((item) => {
-            this.listObject[columnName] = item["@id"]
-              .split("/")
-              .slice(0, -1)
-              .join("/");
-
-            this.listAutocomplete[column.list].push(
-              this.formatList(column, item)
-            );
-          });
-          update();
-        })
-        .finally(() => {
-          this.$store.commit(this.configs.store + "/SET_ISLOADINGLIST", false);
-        });
-    } else {
-      this.listAutocomplete[column.list] = this.configs.list[column.list]
-        .filter((item) => {
-          return (
-            column,
-            !input ||
-            this.formatList(column, item)
-              .value.toString()
-              .toLowerCase()
-              .includes(input.toLowerCase()) ||
-            this.formatList(column, item)
-              .label.toString()
-              .toLowerCase()
-              .includes(input.toLowerCase())
-          );
-        })
-        .map((item) => {
-          return this.formatList(column, item);
-        });
-      update();
-    }
-  }
-  update();
-  //this.editedValue = [];
-  //abort();
-  //return;
-}
 
 export function formatList(column, value) {
   if (column && column.formatList instanceof Function)
@@ -297,8 +152,10 @@ export function formatList(column, value) {
 }
 
 export function format(column, value, editing) {
-  if (column && column.format instanceof Function)
-    return column.format(value, column);
+  if (editing && column && column.editFormat instanceof Function)
+    return column.editFormat(value, column, editing);
+  else if (column && column.format instanceof Function)
+    return column.format(value, column, editing);
 
   return value instanceof Object && !editing ? value.label : value;
 }

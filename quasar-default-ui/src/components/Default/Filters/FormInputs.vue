@@ -25,7 +25,8 @@
         }" />
     <q-input v-else :disable="editable == false" dense outlined stack-label lazy-rules v-model="data" :type:="inputType"
         @keydown="this.$emit('keydown', $event)" :prefix="prefix" :sufix="sufix" @blur="this.$emit('blur', $event)"
-        type="text" :mask="mask" :label="label" :rules="rules" @input="limitarCasasDecimais">
+        type="text" :label="label" :rules="rules" :reverse-fill-mask="inputType == 'float'"
+        :mask="mask || inputType == 'float' ? '#,##' : mask" :fill-mask="inputType == 'float' ? 0 : ''">
         <template v-slot:before v-if="icon">
             <q-icon name="icon" />
         </template>
@@ -101,9 +102,7 @@ export default {
         isLoadingList() {
             return this.$store.getters[this.store + '/isLoadingList']
         },
-        filters() {
-            return this.$store.getters[this.store + '/filters'] || {}
-        },
+
     },
     data() {
         return {
@@ -124,22 +123,7 @@ export default {
     },
     methods: {
 
-        limitarCasasDecimais(event) {
-            if (this.inputType != 'float') return;
 
-            // Permite somente valores numéricos e controla as casas decimais
-            let valor = event.target.value;
-            valor = valor.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
-
-            if (valor.indexOf('.') > -1) {
-                const partes = valor.split('.');
-                if (partes[1].length > 2) {
-                    valor = partes[0] + '.' + partes[1].substr(0, 2);
-                }
-            }
-
-            this.data = valor;
-        },
 
         formatDateToBR(dateISO) {
             console.log(dateISO);

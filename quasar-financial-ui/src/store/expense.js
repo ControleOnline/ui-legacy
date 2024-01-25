@@ -5,8 +5,11 @@ import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 import {
   buildAmericanDate,
   formatMoney,
+  formatFloat,
   formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
+
+import { translate } from "@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js";
 
 const persistentFilter = new Filters();
 
@@ -27,7 +30,6 @@ export default {
         name: "id",
         align: "left",
         label: "id",
-
         externalFilter: true,
         format: function (value) {
           return "#" + value;
@@ -59,7 +61,6 @@ export default {
         name: "category",
         align: "left",
         label: "category",
-
         list: "categories",
         searchParam: "name",
         externalFilter: true,
@@ -78,17 +79,30 @@ export default {
             : null;
         },
       },
-
       {
         sortable: true,
-        name: "description",
+        name: "status",
         align: "left",
-        label: "description",
+        label: "status",
+        list: "status",
+        searchParam: "status",
+        externalFilter: true,
         format: function (value) {
-          return value;
+          return translate("invoice", value?.status, "statuses");
+        },
+        formatList: function (value) {
+          if (value)
+            return {
+              value: value["@id"].split("/").pop(),
+              label: translate("invoice", value.status, "statuses"),
+            };
+        },
+        saveFormat: function (value) {
+          return value ? "/statuses/" + (value.value || value) : null;
         },
       },
       {
+        externalFilter: true,
         inputType: "date-range",
         sortable: true,
         name: "dueDate",
@@ -103,40 +117,22 @@ export default {
         },
       },
       {
-        inputType: 'float',
+        inputType: "float",
         prefix: "R$ ",
+        filters: false,
         sortable: true,
         name: "price",
         align: "left",
         label: "price",
         sum: true,
-        saveformat() {},
-
-        format(value) {
+        editFormat(value) {
           return formatMoney(value);
         },
-      },
-
-      {
-        sortable: true,
-        name: "status",
-        align: "left",
-        label: "status",
-        list: "status",
-        searchParam: "status",
-        externalFilter: true,
-        format: function (value) {
-          return value?.status;
+        saveFormat(value) {
+          return formatFloat(value);
         },
-        formatList: function (value) {
-          if (value)
-            return {
-              value: value["@id"].split("/").pop(),
-              label: value.status,
-            };
-        },
-        saveFormat: function (value) {
-          return value ? "/statuses/" + (value.value || value) : null;
+        format(value) {
+          return formatMoney(value);
         },
       },
     ],

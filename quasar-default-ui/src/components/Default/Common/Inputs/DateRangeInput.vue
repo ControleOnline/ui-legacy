@@ -2,12 +2,12 @@
     <div class="row outlined-div">
         <div class="col-11 col-sm-11col-md-11 col-lg-11 col-xg-11 col-xs-11 flex">
             <div class="label-range-date row" v-if="labelType == 'stack-label'">
-                {{ translate(configs.store,column.label, 'input') }}
+                {{ translate(configs.store, column.label, 'input') }}
             </div>
-            <q-input borderless stack-label readonly :label="translate(configs.store,'dateFrom', 'input')" class="q-pa-none custom-input"
-                dense v-model="from" mask="##/##/####"></q-input>
-            <q-input borderless stack-label readonly :label="translate(configs.store,'dateTo', 'input')" class="q-pa-none custom-input"
-                dense v-model="to" mask="##/##/####"></q-input>
+            <q-input borderless stack-label readonly :label="translate(configs.store, 'dateFrom', 'input')"
+                class="q-pa-none custom-input" dense v-model="from" mask="##/##/####"></q-input>
+            <q-input borderless stack-label readonly :label="translate(configs.store, 'dateTo', 'input')"
+                class="q-pa-none custom-input" dense v-model="to" mask="##/##/####"></q-input>
         </div>
         <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xg-1 col-xs-1 q-pa-sm  flex flex-end justify-end items-center">
             <q-icon :clickable="true" @click="dateModel = { from: null, to: null }; setinputDate()" name="event"
@@ -15,7 +15,8 @@
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                     <q-date v-model="dateModel" range mask="DD/MM/YYYY">
                         <div class="row items-center justify-end">
-                            <q-btn v-close-popup @click="apply" :label="translate(configs.store,'apply', 'btn')" color="primary" flat />
+                            <q-btn v-close-popup @click="apply" :label="translate(configs.store, 'apply', 'btn')"
+                                color="primary" flat />
                         </div>
                     </q-date>
                 </q-popup-proxy>
@@ -26,6 +27,10 @@
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
 import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
+import {
+  buildAmericanDate,
+  formatDateYmdTodmY,
+} from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 export default {
     props: {
@@ -81,6 +86,13 @@ export default {
                 dateModel = { from: this.dateModel, to: this.dateModel }
 
             this.$emit('changedDateInput', dateModel);
+        },
+        rangeDate(range) {
+            let filters = this.copyObject(range);
+            let initialDate = {};
+            initialDate.from = formatDateYmdTodmY(filters?.before);
+            initialDate.to = formatDateYmdTodmY(filters?.after);
+            return initialDate;
         },
         setinputDate() {
             if (typeof this.dateModel === 'object') {

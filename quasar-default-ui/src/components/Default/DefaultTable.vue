@@ -131,43 +131,55 @@
                 </div>
             </template>
             <template v-slot:top-right="props">
-                <div class="q-gutter-sm">
-                    <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
-                        v-if="$q.screen.gt.sm == false && configs.selection" />
+                <div class="table-toolbar">
+                    <q-toolbar class="q-gutter-sm">
+                        <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
+                            color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                            @click="editItem({})">
+                            <q-tooltip> {{ translate(configs.store, 'add', 'tooltip') }} </q-tooltip>
+                        </q-btn>
+                        <q-space></q-space>
 
-                    <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
-                        :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
-                    <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
-                        color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
-                        @click="editItem({})">
-                        <q-tooltip> {{ translate(configs.store, 'add', 'tooltip') }} </q-tooltip>
-                    </q-btn>
-                    <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData"></DefaultFilters>
-                    <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
-                        <q-tooltip> {{ translate(configs.store, 'config_columns', 'tooltip') }} </q-tooltip>
-                        <!-- Menu de configuração de colunas -->
-                        <q-menu v-model="showColumnMenu">
-                            <q-list>
-                                <q-item v-for="column in columns" :key="column.key || column.name">
-                                    <q-item-section>
-                                        <q-toggle v-model="toogleVisibleColumns[column.key || column.name]"
-                                            :label="column.name" @click="saveVisibleColumns" />
-                                    </q-item-section>
-                                </q-item>
-                            </q-list>
-                            <q-btn slot="bottom" label="Fechar" @click="toggleShowColumnMenu" />
-                        </q-menu>
-                    </q-btn>
-                    <q-btn class="q-pa-xs" label="" dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                        @click="props.toggleFullscreen">
-                        <q-tooltip> {{ translate(configs.store, (props.inFullscreen ? 'minimize' : 'maximize'), 'tooltip')
-                        }}
-                        </q-tooltip>
-                    </q-btn>
-                    <q-btn color="primary" icon-right="archive" dense class="q-pa-xs" label="" @click="exportTable"
-                        v-if="configs.export">
-                        <q-tooltip> {{ translate(configs.store, 'export', 'tooltip') }} </q-tooltip>
-                    </q-btn>
+                        <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
+                            v-if="$q.screen.gt.sm == false && configs.selection" />
+                        <q-space v-if="$q.screen.gt.sm == false && configs.selection"></q-space>
+                        <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
+                            :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
+
+                        <q-space v-if="headerActionsComponent()"></q-space>
+
+                        <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData">
+                        </DefaultFilters>
+                        <q-space></q-space>
+
+                        <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
+                            <q-tooltip> {{ translate(configs.store, 'config_columns', 'tooltip') }} </q-tooltip>
+                            <!-- Menu de configuração de colunas -->
+                            <q-menu v-model="showColumnMenu">
+                                <q-list>
+                                    <q-item v-for="column in columns" :key="column.key || column.name">
+                                        <q-item-section>
+                                            <q-toggle v-model="toogleVisibleColumns[column.key || column.name]"
+                                                :label="column.name" @click="saveVisibleColumns" />
+                                        </q-item-section>
+                                    </q-item>
+                                </q-list>
+                                <q-btn slot="bottom" label="Fechar" @click="toggleShowColumnMenu" />
+                            </q-menu>
+                        </q-btn>
+                        <q-btn class="q-pa-xs" label="" dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+                            @click="props.toggleFullscreen">
+                            <q-tooltip> {{ translate(configs.store, (props.inFullscreen ? 'minimize' : 'maximize'),
+                                'tooltip')
+                            }}
+                            </q-tooltip>
+                        </q-btn>
+                        <q-btn color="primary" icon-right="archive" dense class="q-pa-xs" label="" @click="exportTable"
+                            v-if="configs.export">
+                            <q-tooltip> {{ translate(configs.store, 'export', 'tooltip') }} </q-tooltip>
+                        </q-btn>
+                    </q-toolbar>
+
                 </div>
             </template>
 
@@ -310,7 +322,7 @@
         <q-dialog v-model="addModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ translate(configs.store, (this.item ? 'edit' : 'add'), 'title') }}</label>
+                    <label class="text-h5">{{ translate(configs.store, (this.item?.id ? 'edit' : 'add'), 'title') }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -749,8 +761,8 @@ export default {
             if (row['@id'])
                 params['id'] = row['@id'].split('/').pop();
 
-            params[col.key || col.name] = this.saveFormat(col.key || col.name, value) || (col.list ? null : '');
-
+            params[col.key || col.name] = this.saveFormat(col.key || col.name, value) || (col.list ? null : (col.inputType == 'float' ? 0 : ''));
+            params[this.configs.companyParam || 'company'] = '/people/' + this.myCompany.id;
 
             this.$store.dispatch(this.configs.store + '/save', params).then((data) => {
                 if (data) {
@@ -790,7 +802,7 @@ export default {
             delete params.rowsPerPage;
             params = this.getFilterParams(params);
             params.itemsPerPage = params.rowsPerPage || this.rowsOptions[0];
-            params.company = '/people/' + this.myCompany.id;
+            params[this.configs.companyParam || 'company'] = '/people/' + this.myCompany.id;
             this.sumColumn = {};
             this.items = [];
             this.$store.dispatch(this.configs.store + '/getItems', params
@@ -1054,5 +1066,21 @@ export default {
 
 .default-table .q-body--fullscreen-mixin .q-table thead {
     top: 50px !important;
+}
+
+
+.default-table .table-toolbar {
+    background: #f0f0f7;
+    padding-left: 8px;
+}
+
+.default-table .table-toolbar .q-toolbar {
+    padding: 0;
+}
+
+.default-table .table-toolbar .q-space {
+    background: #fff;
+    width: 5px;
+    height: 50px;
 }
 </style>
