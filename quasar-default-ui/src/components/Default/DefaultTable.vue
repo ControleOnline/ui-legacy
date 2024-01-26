@@ -296,13 +296,14 @@
                     </q-card>
                 </div>
             </template>
-            <template v-slot:bottom-row>
+            <template v-slot:bottom-row:item="props">
                 <q-tr class="tr-sum">
                     <q-td v-for="(column, index)  in columns" :class="[
                         'text-' + column.align,
                         { 'hidden': column.visible != true }]">
-                        <span v-if="sumColumn[column.key || column.name]" v-html="(column.prefix || '') +
-                            format(column, sumColumn[column.key || column.name]) + (column.sufix || '')"></span>
+                        <span v-if="sumColumn[column.key || column.name]"
+                            v-html="(column.prefix || '') +
+                                format(column, props.row, sumColumn[column.key || column.name]) + (column.sufix || '')"></span>
                     </q-td>
                     <q-td v-if="tableActionsComponent() || configs.delete != false">
                     </q-td>

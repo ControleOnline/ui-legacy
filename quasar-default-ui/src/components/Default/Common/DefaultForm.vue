@@ -70,7 +70,7 @@ export default {
                 data[column.key || column.name] =
                     column.list ?
                         this.formatList(column, this.data[column.key || column.name], true) :
-                        this.format(column, this.data[column.key || column.name]);
+                        this.format(column, item, this.data[column.key || column.name]);
 
                 if (column.isIdentity) {
                     this.id = this.data[column.key || column.name];

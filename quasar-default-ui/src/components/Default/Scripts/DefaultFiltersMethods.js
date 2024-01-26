@@ -107,7 +107,7 @@ export function getNameFromList(column, row, editing) {
     name = this.configs.list[column.list].find((item) => {
       let i;
       if (item instanceof Object) i = this.formatList(column, item);
-      else i = this.format(column, item);
+      else i = this.format(column, row, item);
 
       return (
         i &&
