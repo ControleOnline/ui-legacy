@@ -161,7 +161,8 @@
                                     <q-item v-for="column in columns" :key="column.key || column.name">
                                         <q-item-section>
                                             <q-toggle v-model="toogleVisibleColumns[column.key || column.name]"
-                                                :label="translate(configs.store, column.name, 'input')" @click="saveVisibleColumns" />
+                                                :label="translate(configs.store, column.name, 'input')"
+                                                @click="saveVisibleColumns" />
                                         </q-item-section>
                                     </q-item>
                                 </q-list>
@@ -586,7 +587,7 @@ export default {
             return this.configs.components?.headerActions?.component
         },
         headerActionsProps() {
-            return this.configs.components?.headerActions?.pops
+            return this.configs.components?.headerActions?.props
         },
 
         tableColumnComponent(name) {
@@ -598,7 +599,7 @@ export default {
             return this.configs.components?.tableActions?.component
         },
         tableActionsProps() {
-            return this.configs.components?.tableActions?.pops
+            return this.configs.components?.tableActions?.props
         },
         error(error) {
             this.$emit('error', error);
