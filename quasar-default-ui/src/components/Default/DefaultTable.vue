@@ -161,7 +161,7 @@
                                     <q-item v-for="column in columns" :key="column.key || column.name">
                                         <q-item-section>
                                             <q-toggle v-model="toogleVisibleColumns[column.key || column.name]"
-                                                :label="column.name" @click="saveVisibleColumns" />
+                                                :label="translate(configs.store, column.name, 'input')" @click="saveVisibleColumns" />
                                         </q-item-section>
                                     </q-item>
                                 </q-list>
