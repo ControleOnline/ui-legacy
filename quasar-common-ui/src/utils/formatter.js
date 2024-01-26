@@ -30,10 +30,12 @@ export const formatCEP = (value) => {
 };
 
 export const formatFloat = (value) => {
-  let formatedValue = parseFloat(
-    value.toString().replace(".", "").replace(",", ".")
-  );
-  return formatedValue;
+  let formatedValue = [value || 0]
+    .toString()
+    .replace(/[^0-9.,]/g, "")
+    .replace(".", "")
+    .replace(",", ".");
+  return parseFloat(formatedValue);
 };
 
 export const formatMoney = (value, currency, locale) => {
@@ -45,9 +47,14 @@ export const formatMoney = (value, currency, locale) => {
   if (typeof value == "string")
     value = value.replace(".", "").replace(",", ".");
 
-  if (!value) return 0;
+  if (!value) return "0,00";
 
-  return formatter.format(value);
+  let formattedValue = formatter.format(value);
+  if (!formattedValue.includes(",")) {
+    formattedValue += ",00";
+  }
+
+  return formattedValue;
 };
 
 export const buildAmericanDate = (dateString) => {

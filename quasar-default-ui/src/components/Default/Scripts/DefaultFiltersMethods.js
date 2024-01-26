@@ -113,10 +113,10 @@ export function getNameFromList(column, row, editing) {
         i &&
         i.value &&
         i.value.toString().trim() ==
-        (row[column.key || column.name] instanceof Object &&
+          (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-          ? row[column.key || column.name]["@id"].split("/").pop().trim()
-          : row[column.key || column.name].trim())
+            ? row[column.key || column.name]["@id"].split("/").pop().trim()
+            : row[column.key || column.name].trim())
       );
     });
     return name instanceof Object && !editing
@@ -124,7 +124,6 @@ export function getNameFromList(column, row, editing) {
       : this.formatList(column, name);
   }
 }
-
 
 export function formatFilter(column, value) {
   if (column && column.formatFilter instanceof Function)
@@ -142,7 +141,6 @@ export function getSearchFilters(column) {
 
   return params;
 }
-
 
 export function formatList(column, value) {
   if (column && column.formatList instanceof Function)
@@ -167,7 +165,7 @@ export function saveFormat(columnName, value) {
   if (!column) return value;
 
   if (column.saveFormat instanceof Function)
-    return column.saveFormat(column, value);
+    return column.saveFormat(value, column);
   else if (value instanceof Object)
     return !isNaN(value.value) ? parseFloat(value.value) : value.value;
 

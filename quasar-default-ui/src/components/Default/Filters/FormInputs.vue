@@ -35,7 +35,6 @@
 <script>
 import SelectInput from '../Common/Inputs/SelectInput';
 
-
 export default {
     components: {
         SelectInput
@@ -122,11 +121,7 @@ export default {
         }
     },
     methods: {
-
-
-
         formatDateToBR(dateISO) {
-            console.log(dateISO);
             if (!dateISO) return '';
             const [year, month, day] = dateISO.split('/');
             return `${day}/${month}/${year}`;
@@ -134,7 +129,7 @@ export default {
         validateBRDate(value) {
             if (!value) return true; // considera válido se estiver vazio, ajuste conforme necessário
 
-            value = this.formatDateToBR(value);
+            value = formatDateToBR(value);
             const regex = /^\d{2}\/\d{2}\/\d{4}$/;
             if (!regex.test(value)) return 'Data inválida. Formato esperado: DD/MM/YYYY';
 
