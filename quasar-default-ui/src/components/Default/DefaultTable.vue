@@ -22,7 +22,7 @@
                                 @loadData="loadData" />
                         </template>
                         <q-btn v-else-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
-                            this.format(column, getNameFromList(column, props.row, column.key ||
+                            this.format(column, props.row, getNameFromList(column, props.row, column.key ||
                                 column.name)) }}
                         </q-btn>
                         <template v-else-if="editingInit(items.indexOf(props.row), column) != true">
@@ -31,6 +31,7 @@
                                 @mouseenter="showEdit[items.indexOf(props.row)] = column.editable == false ? false : { [column.key || column.name]: true }"
                                 @mouseleave="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: false }"
                                 @click="startEditing(items.indexOf(props.row), column,
+                                    props.row,
                                     formatData(column, props.row, true))">
                                 {{ column.prefix }} {{ formatData(column, props.row) }} {{ column.sufix }}
                                 <q-icon v-if="column.editable != false &&
@@ -202,11 +203,13 @@
                                         </template>
                                         <q-btn v-else-if="column.to" @click="verifyClick(column, props.row)"
                                             :icon:="column.icon">
-                                            {{ this.format(column, getNameFromList(column, props.row, column.key ||
+                                            {{ this.format(column, props.row, getNameFromList(column, props.row, column.key
+                                                ||
                                                 column.name)) }}
                                         </q-btn>
                                         <span v-else :icon:="column.icon">
-                                            {{ this.format(column, getNameFromList(column, props.row, column.key ||
+                                            {{ this.format(column, props.row, getNameFromList(column, props.row, column.key
+                                                ||
                                                 column.name)) }}
                                         </span>
                                     </q-item-section>
@@ -233,11 +236,11 @@
                                         </template>
                                         <q-btn v-else-if="column.to" @click="verifyClick(column, props.row)"
                                             :icon:="column.icon">{{
-                                                this.format(column, getNameFromList(column, props.row, column.key ||
+                                                this.format(column, props.row, getNameFromList(column, props.row, column.key ||
                                                     column.name)) }}
                                         </q-btn>
                                         <template v-else-if="editingInit(items.indexOf(props.row), column) != true">
-                                            <span @click="startEditing(items.indexOf(props.row), column,
+                                            <span @click="startEditing(items.indexOf(props.row), column, props.row,
                                                 formatData(column, props.row, true)
                                             )">
                                                 {{ column.prefix }} {{ formatData(column, props.row) }}
@@ -670,7 +673,7 @@ export default {
         editingInit(index, col) {
             return this.editing[index] && this.editing[index][col.key || col.name] ? true : false;
         },
-        startEditing(index, col, value) {
+        startEditing(index, col, row, value) {
             if (col.editable == false || (col.key && col.key.indexOf(".") != -1))
                 return;
 
@@ -678,7 +681,7 @@ export default {
             if (col.list)
                 this.editedValue = this.formatList(col, this.items[index][col.key || col.name])
             else
-                this.editedValue = this.format(col, value);
+                this.editedValue = this.format(col, row, value);
             this.editing[index] = { [col.key || col.name]: true };
             this.showEdit[index] = { [col.key || col.name]: false };
 
@@ -749,7 +752,7 @@ export default {
         },
         save(index, row, col, value) {
 
-            let c = col.list ? (this.formatList(col, row[col.key || col.name])?.value) : this.format(col, row[col.key || col.name]);
+            let c = col.list ? (this.formatList(col, row[col.key || col.name])?.value) : this.format(col, row, row[col.key || col.name]);
             if (c == value) {
                 this.editing = [];
                 this.saveEditing[index] = {
