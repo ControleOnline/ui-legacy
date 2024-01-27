@@ -988,7 +988,7 @@ export default {
         components: {
           tableActions: {
             component: DefaultCustomActions,
-            pops: {
+            props: {
               btnTitle: '',
               btnIcon: 'settings',
               btnFlat: true,

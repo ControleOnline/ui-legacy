@@ -54,7 +54,7 @@ export default {
                 components: {
                     headerActions: {
                         component: Button,
-                        pops: {
+                        props: {
                             context: this.context
                         }
                     }
