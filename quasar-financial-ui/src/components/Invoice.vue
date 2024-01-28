@@ -24,9 +24,9 @@ export default {
         }),
         configs() {
             return {
-                companyParam: 'payer',
+                companyParam: this.context == 'expense' ? 'payer' : 'receiver',
                 filters: true,
-                store: this.context,
+                store: 'invoice',
                 add: true,
                 selection: false,
                 search: {
@@ -46,7 +46,7 @@ export default {
                     }
                 },
                 list: {
-                    people:this.people,
+                    people: this.people,
                     status: this.status,
                     categories: this.categories,
                     company: this.companies
@@ -73,7 +73,7 @@ export default {
         ...mapActions({
             categories: 'categories/getItems',
             status: 'status/getItems',
-            people:'people/getItems'
+            people: 'people/getItems'
         })
     },
 };

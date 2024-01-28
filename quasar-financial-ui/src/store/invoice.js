@@ -16,7 +16,7 @@ const persistentFilter = new Filters();
 export default {
   namespaced: true,
   state: {
-    resourceEndpoint: "finance/pay",
+    resourceEndpoint: "invoice",
     isLoading: false,
     error: "",
     violations: null,

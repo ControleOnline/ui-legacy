@@ -2,9 +2,9 @@
 // so you can safely delete all default props below
 
 export const translate = {
-  expense: {
-    btn:{
-      categories_expense: "Centros de Custo",
+  invoice: {
+    btn: {
+      categories_invoice: "Centros de Custo",
     },
     input: {
       receiver: "Fornecedor",
@@ -13,11 +13,11 @@ export const translate = {
       dueDate: "Data de Vencimento",
       parent: "Centro de Custo Pai",
     },
-  },
-  title: {
-    categories_expense: "Centros de Custo",
-  },
-  invoice: {
+
+    title: {
+      categories_invoice: "Centros de Custo",
+    },
+
     statuses: {
       "waiting payment": "Aguardando pagamento",
       paid: "Pago",
