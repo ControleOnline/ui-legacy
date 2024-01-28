@@ -3,15 +3,18 @@
 </template>
 
 <script>
-import StrechModal from "./stretchAddEdit.vue";
+import stretchAddEdit from "./stretchAddEdit.vue";
 import DefaultTable from '@controleonline/quasar-default-ui/src/components/Default/DefaultTable.vue';
 import DefaultCustomActions from '@controleonline/quasar-default-ui/src/components/Default/DefaultCustomActions.vue';
 import {
   formatDateYmdTodmY,
   formatMoney,
+  buildAmericanDate,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
+import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
+import { api } from "@controleonline/../../src/boot/api";
 
 export default {
   props: {
@@ -27,21 +30,23 @@ export default {
 
   components: {
     DefaultTable,
-    StrechModal,
+    stretchAddEdit,
   },
   created() {
   },
   data() {
     return {
+
+      stretchToEdit: {},
     }
   },
   computed: {
     tableSettings() {
       return {
         store: 'logistics',
-        add: true,
+        add: false,
         filters: true,
-        editable: true,
+        editable: false,
         delete: false,
         selection: false,
         search: true,
@@ -56,7 +61,7 @@ export default {
               btnFlat: true,
               btnDense: true,
               items: [
-                { title: 'Editar', icon: 'edit', action: this.openEditModal },
+                { title: 'Editar', icon: 'edit', component: stretchAddEdit },
                 { title: 'Finalizar', icon: 'check', action: this.finish },
                 { title: 'Vistoria', icon: 'checklist', action: this.addSurvey },
                 { title: 'Excluir', icon: 'delete', action: this.deleteTrecho },
@@ -69,6 +74,11 @@ export default {
   },
 
   methods: {
+    ...DefaultMethods,
+    openEditModal(props) {
+      this.stretchToEdit = props.row;
+
+    },
 
   }
 

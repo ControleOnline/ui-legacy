@@ -50,8 +50,7 @@
                                 :mask="mask(column)" :rules="[isInvalid()]" :labelType="'stack-label'" :label="column.label"
                                 :filters="getSearchFilters(column)" :initialValue="editedValue"
                                 :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
-                                :searchAction="column.list"
-                                @focus="editingInit(items.indexOf(props.row), column)" @changed="(value) => {
+                                :searchAction="column.list" @focus="editingInit(items.indexOf(props.row), column)" @changed="(value) => {
                                     editedValue = value;
                                 }" @apply="stopEditing(items.indexOf(props.row), column, props.row)"
                                 @blur="stopEditing(items.indexOf(props.row), column, props.row)"

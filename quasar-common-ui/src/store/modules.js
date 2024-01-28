@@ -17,7 +17,7 @@ import auth from "@controleonline/quasar-login-ui/src/store/modules/auth";
 import comissionOrder from "@controleonline/quasar-orders-ui/src/store/modules/order/comission";
 import purchasingOrder from "@controleonline/quasar-orders-ui/src/store/modules/order/purchasing";
 import salesOrder from "@controleonline/quasar-orders-ui/src/store/modules/order/sales";
-import quote from "@controleonline/quasar-quote-ui/src/store/modules/quote";
+import quote from "@controleonline/quasar-logistic-ui/src/store/modules/quote";
 import shop from '@controleonline/quasar-shop-ui/src/store/modules/shop';
 import support from "@controleonline/quasar-support-ui/src/store/support";
 

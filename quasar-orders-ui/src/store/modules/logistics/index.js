@@ -21,6 +21,7 @@ export default {
     columns: [
 
       {
+        isIdentity:true,
         name: "id",
         label: "Id",
         align: "center",
@@ -29,7 +30,6 @@ export default {
         name: "SalesOrder",
         label: "IdPedido",
         align: "center",
-
       },
       {
         name: "order",

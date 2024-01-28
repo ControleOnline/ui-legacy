@@ -22,7 +22,7 @@ diretorios=(
     "quasar-professionals-ui"
     "quasar-providers-ui"
     "quasar-queues-ui"
-    "quasar-quote-ui"
+    "quasar-logistic-ui"
     "quasar-shop-ui"
     "quasar-support-ui"
     "quasar-tasks-ui"

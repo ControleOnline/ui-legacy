@@ -148,50 +148,37 @@ import { mapActions, mapGetters } from "vuex";
 export default {
     props: {
         orderId: {
-            type: [Number, String],
+            type: Number,
             required: false,
         },
-        myCompany: {
-            type: Object,
-            required: true,
-        },
-        vehicle: {
-            type: String,
-            required: false,
-        },
-        collectionAddress: {
-            type: String,
-            required: false,
-        },
-        destinationAddress: {
-            type: String,
-            required: false,
-        },
-        invoiceTotal: {
-            type: String,
-            required: false,
-        },
-        statusOptions: {
-            type: Array,
-            required: false,
-        },
-        stretchValueOptions: {
-            type: Array,
-            required: false,
-        },
-        stretchToEdit: {
+        row: {
             type: Object,
             required: false,
+            default: {},
         },
     },
     components: {
         ListAutocomplete,
         PeopleAutocomplete,
     },
-
+    data() {
+        return {
+            stretchValueOptions: [],
+            statusOptions: {},
+            invoiceTotal: 0,
+            destinationAddress: {},
+            collectionAddress: {},
+            vehicle: '',
+            editAdress: false,
+            editProvider: false,
+            editDestinationAdress: false,
+            editDestinationProvider: false,
+        }
+    },
     created() {
-        if (Object.keys(this.stretchToEdit).length) {
-            this.stretch = this.stretchToEdit;
+        console.log(orderId,row);
+        if (Object.keys(this.row || {}).length) {
+            this.stretch = this.row;
             this.stretch.estimatedShippingDate = this.stretch.estimatedShippingDate ?
                 date.formatDate((new Date(this.stretch.estimatedShippingDate)).getTime(), 'YYYY-MM-DD') :
                 null;
@@ -212,7 +199,11 @@ export default {
     beforeUnmount() {
         this.onReset();
     },
-
+    computed: {
+        ...mapGetters({
+            myCompany: "people/currentCompany",
+        }),
+    },
     methods: {
         ...mapActions({
             geoplace: "gmaps/geoplace",
@@ -222,7 +213,48 @@ export default {
             orderLogistics: "salesOrder/getOrderLogistics",
             saveOrderLogistics: "salesOrder/saveOrderLogistic",
         }),
+        getquotationId(orderId) {
+            return api.fetch(`/sales/orders/${orderId}/detail/summary`, {}).then((result) => {
+                if (result?.response?.data?.quotations?.length) {
+                    // condicionar com length
+                    let quotations = result.response.data.quotations;
+                    // let quotationId = 29236;
+                    for (let index in quotations) {
+                        let quotationId = quotations[index].id;
+                        this.getQuotationValues(quotationId);
+                    }
+                } else {
+                    this.stretchValueSelected = "SEM COTAÇÃO";
+                }
+            });
+        },
+        getQuotationValues(quotationId) {
+            return api.fetch(`/quote_detail/${quotationId}`, {}).then((result) => {
+                if (result?.response?.data?.taxes?.length) {
+                    let taxesFilter = ["TRECHO", "VALOR", "ACRÉSCIMO", "BASE", "GUINCHO"];
+                    let allTaxes = result.response.data.taxes;
+                    let taxes = [];
 
+                    for (let index in taxesFilter) {
+                        let res = allTaxes.filter((allTaxes) =>
+                            allTaxes.name.includes(taxesFilter[index])
+                        );
+                        if (res.length) {
+                            taxes.push.apply(taxes, res);
+                        }
+                    }
+
+                    this.stretchValueOptions = [];
+                    for (let index in taxes) {
+                        this.stretchValueOptions.push({
+                            label: taxes[index].name,
+                            id: taxes[index].id,
+                            price: taxes[index].total,
+                        });
+                    }
+                }
+            });
+        },
         searchPeople(input) {
             this.isSearching = true;
 
@@ -286,6 +318,7 @@ export default {
         },
 
         requestPreviewStretch() {
+            if (!this.orderId) return;
             let params = {};
             params['order.id'] = this.orderId;
             this.orderLogistics(params).then((result) => {
@@ -737,7 +770,7 @@ export default {
                         }
                     } else {
                         this.destinationProviderHasAddress = false;
-                        if (!Object.keys(this.stretchToEdit).length) {
+                        if (!Object.keys(this.row).length) {
                             this.$refs.destinationAddress['model'] = null;
                         }
                     }
