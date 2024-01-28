@@ -40,7 +40,7 @@ export default {
         name: "receiver",
         align: "left",
         label: "receiver",
-        list: "people",
+        list: "people/getItems",
         externalFilter: true,
         format: function (value) {
           return value?.alias;
@@ -61,7 +61,7 @@ export default {
         name: "category",
         align: "left",
         label: "category",
-        list: "categories",
+        list: "categories/getItems",
         searchParam: "name",
         externalFilter: true,
         format: function (value) {
@@ -84,7 +84,7 @@ export default {
         name: "status",
         align: "left",
         label: "status",
-        list: "status",
+        list: "status/getItems",
         searchParam: "status",
         externalFilter: true,
         format: function (value) {

@@ -17,7 +17,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      companies: 'people/companies',
       myCompany: 'people/currentCompany',
     }),
     configs() {
@@ -37,11 +36,6 @@ export default {
         search: {
 
         },
-        list: {
-          //parentCategories: this.hardwareType,
-          categories: this.categories,
-          company: this.companies
-        },
       };
     }
   },
@@ -60,7 +54,6 @@ export default {
   },
   methods: {
     ...mapActions({
-      categories: 'categories/getItems'
     })
   },
 };

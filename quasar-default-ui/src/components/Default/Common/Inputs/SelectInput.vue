@@ -1,7 +1,7 @@
 <template>
-    <q-select dense outlined :stack-label="labelType" lazy-rules use-input :use-chips="multiple == true"
-        map-options options-cover transition-show="flip-down" transition-hide="flip-up" @filter="searchList"
-        :options="options" label-color="black" input-debounce="700" :loading="isLoadingList" :multiple="multiple == true"
+    <q-select dense outlined :stack-label="labelType" lazy-rules use-input :use-chips="multiple == true" map-options
+        options-cover transition-show="flip-down" transition-hide="flip-up" @filter="searchList" :options="options"
+        label-color="black" input-debounce="700" :loading="isLoadingList" :multiple="multiple == true"
         :label="labelType != 'stack-label' ? '' : translate(store, label, 'input')" v-model="data"
         @blur="this.$emit('blur', $event)" @focus="this.$emit('focus', $event)">
         <template v-slot:no-option v-if="!isLoadingList">
@@ -87,9 +87,9 @@ export default {
         searchList(input, update, abort) {
             let params = this.filters;
             if (input.length > 0) params[this.searchParam] = input;
-            if (this.searchAction instanceof Function) {
+            if (typeof this.searchAction == "string") {
                 this.$store.commit(this.store + "/SET_ISLOADINGLIST", true);
-                this.searchAction(params)
+                this.$store.dispatch(this.searchAction, params)
                     .then((result) => {
                         this.options = [];
                         this.options.push(null);

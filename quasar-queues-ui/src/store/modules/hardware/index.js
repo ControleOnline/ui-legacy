@@ -43,7 +43,11 @@ export default {
         },
       },
       {
-        list: "hardwareType",
+        list: [
+          { label: "hardwareType.production", value: "production" },
+          { label: "hardwareType.delivery", value: "delivery" },
+          { label: "hardwareType.display", value: "display" },
+        ],
         sortable: true,
         name: "hardwareType",
         align: "left",
@@ -54,7 +58,9 @@ export default {
       },
       {
         sortable: true,
-        list: "company",
+        list: function () {
+          return this.$store.getters["people/companies"];
+        },
         name: "company",
         align: "left",
         label: "company",

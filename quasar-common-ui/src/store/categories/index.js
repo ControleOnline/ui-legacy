@@ -61,7 +61,7 @@ export default {
         name: "parent",
         align: "left",
         label: "parent",
-        list: "categories",
+        list: "categories/getItems",
         searchParam: "name",
         format: function (value) {
           return value?.name;

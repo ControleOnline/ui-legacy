@@ -20,7 +20,6 @@ export default {
     },
     computed: {
         ...mapGetters({
-            companies: 'people/companies',
             myCompany: 'people/currentCompany',
             columns: 'invoice/columns',
         }),
@@ -47,12 +46,6 @@ export default {
                             context: 'invoice'
                         }
                     }
-                },
-                list: {
-                    people: this.people,
-                    status: this.status,
-                    categories: this.categories,
-                    company: this.companies
                 },
                 components: {
                     headerActions: {
@@ -95,12 +88,7 @@ export default {
 
     },
     methods: {
-        ...DefaultMethods,
-        ...mapActions({
-            categories: 'categories/getItems',
-            status: 'status/getItems',
-            people: 'people/getItems'
-        })
+        ...DefaultMethods
     },
 };
 </script>

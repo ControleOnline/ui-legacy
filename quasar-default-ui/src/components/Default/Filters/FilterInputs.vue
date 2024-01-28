@@ -6,7 +6,7 @@
         :labelType="labelType" v-if="column.inputType == 'date-range'" :column="column" :configs="configs" />
 
     <SelectInput v-else-if="column.list" :store="configs.store" :labelType="labelType" :label="column.label"
-        :multiple="true" :searchAction="configs.list[column.list]" :filters="getSearchFilters(column)"
+        :multiple="true" :searchAction="column.list" :filters="getSearchFilters(column)"
         :initialValue="colFilter[column.key || column.name]" :formatOptions="column.formatList"
         :searchParam="column.searchParam || 'search'" @selected="(value) => {
             colFilter[column.key || column.name] = copyObject(value);

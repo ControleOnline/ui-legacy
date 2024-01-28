@@ -2,6 +2,22 @@
 // so you can safely delete all default props below
 
 export const translate = {
+  expense:{
+    title: {
+      categories_expense: "Centros de Custo",
+    },
+    btn: {
+      categories_expense: "Centros de Custo",
+    },
+  },
+  receive:{
+    title: {
+      categories_receive: "Centros de Custo",
+    },
+    btn: {
+      categories_receive: "Centros de Custo",
+    },
+  },
   invoice: {
     btn: {
       categories_invoice: "Centros de Custo",

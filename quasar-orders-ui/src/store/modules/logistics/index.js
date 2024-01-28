@@ -11,43 +11,30 @@ const persistentFilter = new Filters();
 
 export default {
   namespaced: true,
-  isLoading: false,
-  error: "",
-  violations: null,
-  totalItems: 0,
-  filters: {...persistentFilter.getFilters(), status:46},
   state: {
     resourceEndpoint: "order_logistics",
     isLoading: false,
     error: "",
     violations: null,
     totalItems: 0,
-    filters: {...persistentFilter.getFilters(), status:46},
+    filters: persistentFilter.getFilters(),
     columns: [
-      {
-        name: "orderLogisticSurvey",
-        label: "Vistoria",
-        align: "center",
-        format: (val) => val ? `${val.id}` : '',
-      },
+
       {
         name: "id",
         label: "Id",
         align: "center",
       },
       {
-        name: "order",
+        name: "SalesOrder",
         label: "IdPedido",
         align: "center",
-        classes: "hidden",
-        headerClasses: "hidden",
-        format: (val) => `${val.id}`,
+
       },
       {
         name: "order",
         label: "IdContrato",
         align: "center",
-        format: (val) => val.contract ? `${val.contract.id}` : '',
       },
       {
         name: "IdFatura",
@@ -58,7 +45,6 @@ export default {
         name: "status",
         label: "Status",
         align: "center",
-        format: (val) => `${val.status}`,
       },
       {
         name: "originType",
@@ -66,17 +52,17 @@ export default {
         align: "center",
         format: (val) => {
           switch (val) {
-            case 'b':
-              return 'Base';
+            case "b":
+              return "Base";
               break;
-            case 'c':
-              return 'Coleta';
+            case "c":
+              return "Coleta";
               break;
-            case 'p':
-              return 'Ponto de encontro';
+            case "p":
+              return "Ponto de encontro";
               break;
             default:
-              return ''
+              return "";
           }
         },
       },
@@ -109,7 +95,7 @@ export default {
         name: "provider",
         label: "provider",
         align: "left",
-        format: (val) => val ? `${val.name}` : '',
+        format: (val) => (val ? `${val.name}` : ""),
       },
       {
         name: "destinationType",
@@ -117,17 +103,17 @@ export default {
         align: "center",
         format: (val) => {
           switch (val) {
-            case 'b':
-              return 'Base';
+            case "b":
+              return "Base";
               break;
-            case 'e':
-              return 'Entrega';
+            case "e":
+              return "Entrega";
               break;
-            case 'p':
-              return 'Ponto de encontro';
+            case "p":
+              return "Ponto de encontro";
               break;
             default:
-              return ''
+              return "";
           }
         },
       },
@@ -160,61 +146,63 @@ export default {
         name: "destinationProvider",
         label: "destinationProvider",
         align: "center",
-        format: (val) => val ? `${val.name}` : '',
+        format: (val) => (val ? `${val.name}` : ""),
       },
       {
         name: "price",
         label: "price",
         align: "center",
-        format: (val) => formatMoney(val, "BRL", "pt-br")
+        format: (val) => formatMoney(val, "BRL", "pt-br"),
       },
       {
         name: "amountPaid",
         label: "amountPaid",
         align: "center",
-        format: (val) => formatMoney(val, "BRL", "pt-br")
+        format: (val) => formatMoney(val, "BRL", "pt-br"),
       },
       {
         name: "balance",
         label: "balance",
         align: "center",
-        format: (val) => formatMoney(val, "BRL", "pt-br")
+        format: (val) => formatMoney(val, "BRL", "pt-br"),
       },
       {
+        externalFilter: true,
+        inputType: "date-range",
         name: "estimatedShippingDate",
         label: "estimatedShippingDate",
         align: "right",
-        format: (val) => val ? formatDateYmdTodmY(val) : ''
+        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
         name: "shippingDate",
         label: "shippingDate",
         align: "right",
-        format: (val) => val ? formatDateYmdTodmY(val) : ''
+        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
         name: "estimatedArrivalDate",
         label: "estimatedArrivalDate",
         align: "right",
-        format: (val) => val ? formatDateYmdTodmY(val) : ''
+        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
         name: "arrivalDate",
         label: "arrivalDate",
         align: "right",
-        format: (val) => val ? formatDateYmdTodmY(val) : ''
+        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
         name: "lastModified",
         label: "lastModified",
         align: "center",
-        format: (val) => val ? formatDateYmdTodmY(val, true) : ''
+        format: (val) => (val ? formatDateYmdTodmY(val, true) : ""),
       },
       {
         name: "inCharge",
         label: "inCharge",
         align: "right",
-        format: (val) => val ? `${val.name}` : '',
+        format: (val) => (val ? `${val.name}` : ""),
       },
     ],
   },

@@ -1,9 +1,11 @@
 <template>
     <div class="row q-pt-xs q-pa-md row-filters" v-if="filteredColumns.length > 0">
         <q-card class="full-width">
+            <!--
             <q-card-section class="row col-12 q-pa-sm q-pl-lg">
                 <q-title class="">{{ translate(configs.store, 'filters', 'title') }}</q-title>
             </q-card-section>
+            -->
             <q-card-section class="row col-12 q-pa-sm">
                 <template v-for="(column, index)  in  filteredColumns ">
                     <div :class="getFilterSize() + ' q-pa-sm '">
@@ -76,7 +78,7 @@ export default {
             let size = 0;
             let number = this.filteredColumns.length;
             if (number > 0)
-                size = Math.floor(12 / number);
+                size = Math.floor(12 / (number + 1));
 
             if (size < 2)
                 size = 2;

@@ -98,13 +98,10 @@ export function formatData(column, row, editing) {
 
 export function getNameFromList(column, row, editing) {
   let name = null;
-  if (
-    this.configs.list[column.list] instanceof Function ||
-    this.configs.list[column.list] == undefined
-  ) {
+  if (column.list == undefined || typeof column.list == "string") {
     return row[column.key || column.name];
   } else {
-    name = this.configs.list[column.list].find((item) => {
+    name = column.list.find((item) => {
       let i;
       if (item instanceof Object) i = this.formatList(column, item);
       else i = this.format(column, row, item);

@@ -11,7 +11,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      companies: "people/companies",
 
     }),
     configs() {
@@ -20,11 +19,6 @@ export default {
         add: true,
         selection: false,
         search: {
-
-        },
-        list: {
-          hardwareType: this.hardwareType,
-          company: this.companies,
         },
       };
     }
@@ -32,14 +26,7 @@ export default {
   data() {
     return {
 
-      hardwareType: [
-        { label: this.$t('hardwareType.production'), value: 'production' },
-        { label: this.$t('hardwareType.delivery'), value: 'delivery' },
-        { label: this.$t('hardwareType.display'), value: 'display' }
-      ],
-      companies: [
 
-      ],
 
     };
   },

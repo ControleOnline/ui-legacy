@@ -10,7 +10,7 @@
                             :rules="[isInvalid()]" :labelType="'stack-label'" :label="column.label"
                             :filters="getSearchFilters(column)" :initialValue="item[column.key || column.name]"
                             :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
-                            :searchAction="configs.list[column.list]" @focus="editingInit(column)" @changed="(value) => {
+                            :searchAction="column.list" @focus="editingInit(column)" @changed="(value) => {
                                 item[column.key || column.name] = value;
                             }" />
                     </div>
