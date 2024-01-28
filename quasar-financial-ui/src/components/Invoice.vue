@@ -6,6 +6,7 @@ import DefaultTable from "@controleonline/quasar-default-ui/src/components/Defau
 import { mapActions, mapGetters } from "vuex";
 import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 import Button from "@controleonline/quasar-common-ui/src/components/Categories/Button";
+import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 
 export default {
     components: {
@@ -21,6 +22,7 @@ export default {
         ...mapGetters({
             companies: 'people/companies',
             myCompany: 'people/currentCompany',
+            columns: 'invoice/columns',
         }),
         configs() {
             return {
@@ -28,7 +30,8 @@ export default {
                 filters: true,
                 store: 'invoice',
                 add: true,
-                selection: false,
+                delete: false,
+                selection: true,
                 search: {
 
                 },
@@ -68,8 +71,31 @@ export default {
         };
     },
     created() {
+        const columns = this.copyObject(this.columns);
+        const columnIndex = columns.findIndex(c => c.name === 'receiver' || c.name === 'payer');
+        if (columnIndex !== -1) {
+            columns[columnIndex].name = this.context === 'expense' ? 'receiver' : 'payer';
+            columns[columnIndex].label = this.context === 'expense' ? 'receiver' : 'payer';
+        };
+
+        const columnIdIndex = columns.findIndex(c => c.name === 'id');
+        if (columnIdIndex !== -1) {
+            columns[columnIdIndex].to = (value) => {
+                let route = this.context === 'expense' ? 'receiver' : 'payer';
+                return {
+                    name: "FinanceExpenseCategories",
+                    params: {
+                        id: value
+                    }
+                };
+            };
+        }
+
+        this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
+
     },
     methods: {
+        ...DefaultMethods,
         ...mapActions({
             categories: 'categories/getItems',
             status: 'status/getItems',

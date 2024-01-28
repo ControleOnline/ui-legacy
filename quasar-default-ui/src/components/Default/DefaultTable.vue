@@ -3,9 +3,9 @@
         <div class="q-gutter-sm" v-if="this.configs.filters">
             <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
         </div>
-        <q-table class="default-table" dense :rows="items" :row-key="columns[0].name" :loading="isloading"
-            v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions" :key="tableKey"
-            :grid="this.$q.screen.gt.sm == false" binary-state-sort>
+        <q-table :grid="isTableView" class="default-table" dense :rows="items" :row-key="columns[0].name"
+            :loading="isloading" v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions"
+            :key="tableKey" binary-state-sort>
             <template v-slot:body="props">
                 <q-tr :props="props.row">
                     <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name" :class="[
@@ -120,7 +120,7 @@
                             <q-icon name="filter_list" v-if="colFilter[column.key || column.name]" />
                         </div>
                     </q-th>
-                    <q-th v-if="tableActionsComponent() || configs.delete != false">
+                    <q-th v-if="tableActionsComponent() || configs.delete != false || configs.edit != false">
 
                     </q-th>
                 </q-tr>
@@ -152,7 +152,12 @@
                         <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData">
                         </DefaultFilters>
                         <q-space></q-space>
-
+                        <q-btn @click="toggleView" class="q-pa-xs" label="" dense
+                            :icon="isTableView ? 'table' : 'team_dashboard'">
+                            <q-tooltip>
+                                {{ translate(configs.store, (isTableView ? 'table' : 'cards'), 'tooltip') }}
+                            </q-tooltip>
+                        </q-btn>
                         <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
                             <q-tooltip> {{ translate(configs.store, 'config_columns', 'tooltip') }} </q-tooltip>
                             <!-- Menu de configuração de colunas -->
@@ -169,6 +174,7 @@
                                 <q-btn slot="bottom" label="Fechar" @click="toggleShowColumnMenu" />
                             </q-menu>
                         </q-btn>
+
                         <q-btn class="q-pa-xs" label="" dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
                             @click="props.toggleFullscreen">
                             <q-tooltip> {{ translate(configs.store, (props.inFullscreen ? 'minimize' : 'maximize'),
@@ -306,13 +312,15 @@
                             v-html="(column.prefix || '') +
                                 format(column, {}, sumColumn[column.key || column.name]) + (column.sufix || '')"></span>
                     </q-td>
-                    <q-td v-if="tableActionsComponent() || configs.delete != false">
+                    <q-td v-if="tableActionsComponent() || configs.delete != false || configs.edit != false">
                     </q-td>
                 </q-tr>
             </template>
+            <!--
             <template v-slot:loading>
                 <q-inner-loading showing color="primary" />
             </template>
+            -->
             <template v-slot:no-data="{ icon, message, filter }">
                 <div class="full-width row flex-center text-accent q-gutter-sm">
                     <q-icon size="2em" name="sentiment_dissatisfied" />
@@ -400,6 +408,7 @@ export default {
 
     data() {
         return {
+            isTableView: this.$q.screen.gt.sm == false,
             listAutocomplete: [],
             showColumnMenu: false,
             forceShowInput: [],
@@ -507,6 +516,9 @@ export default {
     methods: {
         ...DefaultFiltersMethods,
         ...DefaultMethods,
+        toggleView() {
+            this.isTableView = !this.isTableView;
+        },
         saveVisibleColumns() {
             let columns = this.copyObject(this.columns);
             let persistVisibleColumns = {};

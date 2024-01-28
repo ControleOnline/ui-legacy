@@ -29,6 +29,7 @@
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
 import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FormInputs";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     props: {
@@ -90,6 +91,10 @@ export default {
     },
 
     computed: {
+        ...mapGetters({
+            myCompany: 'people/currentCompany',
+        }),
+
         isSaving() {
             return this.$store.getters[this.configs.store + '/isSaving']
         },
@@ -117,6 +122,9 @@ export default {
             }
             if (this.id)
                 p.id = this.id;
+
+            p[this.configs.companyParam || 'company'] = '/people/' + this.myCompany.id;
+
             this.$store.dispatch(this.configs.store + '/save', p
             ).then((item) => {
                 this.$q.notify({

@@ -11,7 +11,6 @@ export const translate = {
       confirm: "Confirmar",
     },
     input: {
-      
       name: "Nome",
       price: "Valor",
       dateFrom: "De: ",
@@ -24,6 +23,8 @@ export const translate = {
       parent: "Categoria Pai",
     },
     tooltip: {
+      table: 'Exibir em Tabela',
+      cards: 'Exibir em Cards',
       applyed: "Filtro(s) Aplicado(s)",
       maximize: "Maximizar",
       minimize: "Minimizar",
