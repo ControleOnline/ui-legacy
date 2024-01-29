@@ -151,9 +151,9 @@
                         <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData">
                         </DefaultFilters>
                         <q-space></q-space>
-                        <q-btn v-if="isTableView" @click="toggleView" class="q-pa-xs" label="" dense icon="table">
+                        <q-btn v-if="isTableView" @click="toggleView" class="q-pa-xs" label="" dense icon="menu">
                             <q-tooltip>
-                                {{ translate(configs.store, 'menu', 'tooltip') }}
+                                {{ translate(configs.store, 'table', 'tooltip') }}
                             </q-tooltip>
                         </q-btn>
                         <q-btn v-else @click="toggleView" class="q-pa-xs" label="" dense icon="dashboard">
