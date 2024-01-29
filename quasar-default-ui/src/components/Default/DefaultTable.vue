@@ -153,7 +153,7 @@
                         <q-space></q-space>
                         <q-btn v-if="isTableView" @click="toggleView" class="q-pa-xs" label="" dense icon="table">
                             <q-tooltip>
-                                {{ translate(configs.store, 'table', 'tooltip') }}
+                                {{ translate(configs.store, 'menu', 'tooltip') }}
                             </q-tooltip>
                         </q-btn>
                         <q-btn v-else @click="toggleView" class="q-pa-xs" label="" dense icon="dashboard">
