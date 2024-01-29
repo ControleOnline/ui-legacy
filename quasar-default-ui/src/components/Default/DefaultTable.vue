@@ -1035,17 +1035,23 @@ export default {
     opacity: 1;
 }
 
+.full-width.default-table {
+    width: 100vh !important;
+    overflow: auto !important;
+}
+
 @media only screen and (max-width: 1024px) {
 
     .default-table .q-table thead {
         top: 64px;
     }
 
-    /* Paginação da Tabela  */
-    .default-table .q-table__bottom {
+
+    .full-width.default-table .q-table__bottom {
         position: fixed !important;
         width: 100vw !important;
     }
+
 
     .default-table .q-table {
         padding-bottom: 100px;
@@ -1061,8 +1067,8 @@ export default {
         top: 108px;
     }
 
-    /* Paginação da Tabela  */
-    .default-table .q-table__bottom {
+
+    .full-width.default-table .q-table__bottom {
         position: fixed !important;
     }
 
