@@ -947,6 +947,20 @@ export default {
     align-items: center;
 }
 
+.default-table .q-table__grid-content {
+    background: #fff;
+    margin-top: -3px;
+}
+
+.default-table .q-table__grid-content .q-list .q-item .column {
+    width: 50%;
+}
+
+.default-table .q-table__grid-content .q-list .q-item {
+    padding: 2px 16px;
+    border-bottom: 1px #e0e0e0 solid;
+}
+
 .default-table .header-filter-container {
     display: none;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
