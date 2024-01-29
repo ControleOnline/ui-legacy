@@ -641,7 +641,7 @@ formatMoney,
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import OrderDetailDACTE from "./details/OrderDetailDACTE";
 import OrderDetailInvoice from "./details/OrderDetailInvoice";
-import OrderDetailLogistics from "./details/OrderDetailLogistics";
+import OrderDetailLogistics from "@controleonline/quasar-logistic-ui/src/components/Logistic/OrderDetailLogistics";
 import OrderDetailNotaFiscal from "./details/OrderDetailNotaFiscal";
 import OrderDetailQuotation from "./details/OrderDetailQuotation";
 import OrderDetailTag from "./details/OrderDetailTag";

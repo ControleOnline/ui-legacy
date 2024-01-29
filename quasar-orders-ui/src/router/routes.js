@@ -14,12 +14,7 @@ export const routes = [
         path: "order/id/:id",
         component: () => import("../pages/Orders/Sales/Order.vue"),
       },
-      {
-        name: "StretchSearching",
-        path: "stretchSearching",
-        component: () =>
-          import("../pages/Orders/Sales/OrderLogisticSearching.vue"),
-      },
+
     ],
   },
   {
@@ -56,16 +51,5 @@ export const routes = [
       },
     ],
   },
-  {
-    path: "/task/",
-    component: () =>
-      import("@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue"),
-    children: [
-      {
-        name: "ChecklistDetails",
-        path: "checklist/id/:id/:token_url",
-        component: () => import("../pages/Surveys/ChecklistDetails.vue"),
-      },
-    ],
-  },
+
 ];

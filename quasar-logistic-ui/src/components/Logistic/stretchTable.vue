@@ -43,7 +43,7 @@ export default {
   computed: {
     tableSettings() {
       return {
-        store: 'logistics',
+        store: 'logistic',
         add: false,
         filters: true,
         editable: false,
@@ -51,6 +51,13 @@ export default {
         selection: false,
         search: true,
         list: {
+        },
+        columns: {
+          status: {
+            filters: {
+              context: 'logistic'
+            }
+          }
         },
         components: {
           tableActions: {

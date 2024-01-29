@@ -6,6 +6,7 @@ import {
   formatDateYmdTodmY,
   formatMoney,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
+import { translate } from "@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js";
 
 const persistentFilter = new Filters();
 
@@ -19,32 +20,81 @@ export default {
     totalItems: 0,
     filters: persistentFilter.getFilters(),
     columns: [
-
       {
-        isIdentity:true,
+        isIdentity: true,
         name: "id",
         label: "Id",
         align: "center",
+        format(value) {
+          return "#" + value;
+        },
       },
       {
+        externalFilter: true,
         name: "SalesOrder",
-        label: "IdPedido",
+        label: "order",
         align: "center",
+        list: "salesOrder/getItems",
+        searchParam: "id",
+        formatList(value) {
+          return {
+            label: "#" + value.id,
+            value: value.id,
+          };
+        },
+        format(value) {
+          return value ? "#" + value.id : "";
+        },
+        to(value) {
+          return {
+            name: "OrderDetails",
+            params: {
+              id: value.id,
+            },
+          };
+        },
       },
       {
-        name: "order",
-        label: "IdContrato",
+        name: "SalesOrder.contract",
+        label: "contract",
         align: "center",
+        format(value, column, row) {
+          return row.SalesOrder?.contract
+            ? "#" + row.SalesOrder?.contract?.id
+            : "";
+        },
+        to(value, column, row) {
+          return row.SalesOrder?.contract?.id
+            ? {
+                name: "ContractDetails",
+                params: {
+                  id: row.SalesOrder?.contract?.id,
+                },
+              }
+            : "#";
+        },
       },
       {
-        name: "IdFatura",
-        label: "IdFatura",
-        align: "center",
-      },
-      {
+        sortable: true,
         name: "status",
-        label: "Status",
-        align: "center",
+        align: "left",
+        label: "status",
+        list: "status/getItems",
+        searchParam: "status",
+        externalFilter: true,
+        format: function (value) {
+          return translate("logistic", value?.status, "statuses");
+        },
+        formatList: function (value) {
+          if (value)
+            return {
+              value: value["@id"].split("/").pop(),
+              label: translate("logistic", value.status, "statuses"),
+            };
+        },
+        saveFormat: function (value) {
+          return value ? "/statuses/" + (value.value || value) : null;
+        },
       },
       {
         name: "originType",

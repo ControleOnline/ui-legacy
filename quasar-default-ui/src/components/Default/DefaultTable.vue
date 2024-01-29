@@ -756,10 +756,9 @@ export default {
             }
 
         },
-        verifyClick(column, value) {
+        verifyClick(column, row) {
             if (column && typeof column.to == 'function') {
-
-                this.$router.push(column.to(value));
+                this.$router.push(column.to(row[column.key || column.name], column, row));
             }
             return;
         },

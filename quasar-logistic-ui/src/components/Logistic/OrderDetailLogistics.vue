@@ -8,7 +8,7 @@
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
 import PeopleAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/PeopleAutocomplete";
 import { mapActions } from "vuex";
-import StretchTable from "../stretchTable.vue";
+import StretchTable from "./stretchTable.vue";
 
 export default {
   components: {
