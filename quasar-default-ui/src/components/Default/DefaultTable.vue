@@ -1052,7 +1052,7 @@ export default {
 @media only screen and (max-width: 1024px) {
 
     .default-table .q-table thead {
-        top: 64px;
+        top: -2px;
     }
 
     .default-table .q-table__bottom {
@@ -1073,7 +1073,7 @@ export default {
     }
 
     .default-table .q-table thead {
-        top: 0px;
+        top: -2px;
     }
 
 
