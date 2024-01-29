@@ -854,7 +854,6 @@ export default {
     min-height: 100%;
     width: 100%;
     max-width: 100vw;
-    overflow: auto;
 }
 
 .default-table thead tr {
