@@ -956,6 +956,10 @@ export default {
     width: 50%;
 }
 
+.default-table .q-table__grid-content .q-card__section:nth-child(1) {
+    background: var(--q-primary);
+}
+
 .default-table .q-table__grid-content .q-list .q-item {
     padding: 2px 16px;
     border-bottom: 1px #e0e0e0 solid;
