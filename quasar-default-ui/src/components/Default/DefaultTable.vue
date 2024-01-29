@@ -849,6 +849,7 @@ export default {
 .default-table {
     min-height: 100%;
     width: 100%;
+    overflow: auto;
 }
 
 .default-table thead tr {
@@ -912,10 +913,7 @@ export default {
 }
 
 .default-table .fade-enter,
-.default-table .fade-leave-to
-
-/* .fade-leave-active in <2.1.8 */
-    {
+.default-table .fade-leave-to {
     opacity: 0;
 }
 
@@ -935,7 +933,7 @@ export default {
 
 
 .default-table .q-table {
-    padding-top: 38px !important;
+    padding-top: 38px;
 }
 
 .default-table .header-filter-container {
@@ -951,20 +949,23 @@ export default {
 }
 
 .default-table .header-filter-container {
-    display: none !important;
+    display: none;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding: 5px;
 }
 
 .default-table .header-filter-container.show {
-    display: flex !important;
+    display: flex;
 }
 
 /*
+.default-table .q-table__middle.scroll {
+    overflow: visible ;
+}
 .default-table .header-filter-container input:focus,
 .default-table .header-filter-container input.show,
 .default-table .header-filter-container i.show {
-    display: inline-block !important;    
+    display: inline-block ;    
 }
 */
 
@@ -979,11 +980,11 @@ export default {
 }
 
 .default-table .default-table .q-table__control {
-    display: contents !important;
+    display: contents;
 }
 
 .default-table .q-table__bottom {
-    width: 100vw !important;
+    width: 100vw;
     z-index: 2;
     bottom: 0;
     left: 0;
@@ -1004,13 +1005,11 @@ export default {
     opacity: 1;
 }
 
-.default-table .q-table__middle.scroll {
-    overflow: visible !important;
-}
+
 
 .default-table .q-table thead tr {
-    background-color: var(--q-secondary) !important;
-    color: #fff !important;
+    background-color: var(--q-secondary);
+    color: #fff;
 }
 
 .default-table .q-table tr:nth-child(even) {
@@ -1036,8 +1035,7 @@ export default {
 }
 
 .full-width.default-table {
-    width: 100vh !important;
-    overflow: auto !important;
+    width: 100vh;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -1046,12 +1044,12 @@ export default {
         top: 64px;
     }
 
-
-    .full-width.default-table .q-table__bottom {
-        position: fixed !important;
-        width: 100vw !important;
+    .default-table .q-table__bottom {
+        bottom: 0;
+        position: sticky;
+        width: 100vw;
+        z-index: 1;
     }
-
 
     .default-table .q-table {
         padding-bottom: 100px;
@@ -1060,21 +1058,21 @@ export default {
 
 @media only screen and (min-width: 1024px) {
     .default-table .q-table__top {
-        top: 57px;
+        top: 0px;
     }
 
     .default-table .q-table thead {
-        top: 108px;
+        top: 0px;
     }
 
 
-    .full-width.default-table .q-table__bottom {
-        position: fixed !important;
+    .default-table .q-table__bottom {
+        bottom: 0;
+        position: sticky;
+        z-index: 1;
     }
 
-    .default-table .tr-sum {
-        bottom: 30px !important;
-    }
+
 }
 
 .default-table .q-table {
@@ -1082,11 +1080,11 @@ export default {
 }
 
 .default-table .q-body--fullscreen-mixin .q-table__top {
-    top: 0px !important;
+    top: 0px;
 }
 
 .default-table .q-body--fullscreen-mixin .q-table thead {
-    top: 50px !important;
+    top: 50px;
 }
 
 
