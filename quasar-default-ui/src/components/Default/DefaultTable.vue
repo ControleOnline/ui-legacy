@@ -151,10 +151,14 @@
                         <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData">
                         </DefaultFilters>
                         <q-space></q-space>
-                        <q-btn @click="toggleView" class="q-pa-xs" label="" dense
-                            :icon="isTableView ? 'table' : 'team_dashboard'">
+                        <q-btn v-if="isTableView" @click="toggleView" class="q-pa-xs" label="" dense icon="table">
                             <q-tooltip>
-                                {{ translate(configs.store, (isTableView ? 'table' : 'cards'), 'tooltip') }}
+                                {{ translate(configs.store, 'table', 'tooltip') }}
+                            </q-tooltip>
+                        </q-btn>
+                        <q-btn v-else @click="toggleView" class="q-pa-xs" label="" dense icon="dashboard">
+                            <q-tooltip>
+                                {{ translate(configs.store, 'cards', 'tooltip') }}
                             </q-tooltip>
                         </q-btn>
                         <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
