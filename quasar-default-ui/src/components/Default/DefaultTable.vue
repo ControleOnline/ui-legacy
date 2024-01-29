@@ -937,21 +937,14 @@ export default {
     cursor: not-allowed;
 }
 
-
-.default-table .q-table {
-    padding-top: 38px;
-}
-
 .default-table .header-filter-container {
-    position: absolute;
+    margin-top: -70px;
+    position: fixed;
     background: #fff;
-    top: -36px;
     z-index: 999;
     min-height: 28px;
     display: flex;
     align-items: center;
-    /* Centralizar verticalmente */
-
 }
 
 .default-table .header-filter-container {
@@ -1101,7 +1094,7 @@ export default {
 }
 
 
-.default-table .table-toolbar {    
+.default-table .table-toolbar {
     padding-left: 8px;
 }
 
