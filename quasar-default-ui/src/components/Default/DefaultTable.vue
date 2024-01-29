@@ -958,6 +958,7 @@ export default {
 
 .default-table .q-table__grid-content .q-card__section:nth-child(1) {
     background: var(--q-primary);
+    color: #fff;
 }
 
 .default-table .q-table__grid-content .q-list .q-item {
