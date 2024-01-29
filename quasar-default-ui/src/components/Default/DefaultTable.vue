@@ -862,7 +862,7 @@ export default {
 .default-table tbody tr:last-child {
     font-weight: bold;
     position: sticky;
-    bottom: 0;
+    bottom: -1px;
     z-index: 1;
 }
 
@@ -1003,6 +1003,13 @@ export default {
     -webkit-position: sticky;
     z-index: 2;
     opacity: 1;
+    left: 0;
+}
+
+.q-table__middle.scroll {
+    position: sticky;
+    left: 0;
+    z-index: 2;
 }
 
 
