@@ -1101,8 +1101,7 @@ export default {
 }
 
 
-.default-table .table-toolbar {
-    background: #f0f0f7;
+.default-table .table-toolbar {    
     padding-left: 8px;
 }
 
