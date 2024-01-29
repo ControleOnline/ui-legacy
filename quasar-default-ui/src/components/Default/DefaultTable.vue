@@ -781,7 +781,8 @@ export default {
                 params['id'] = row['@id'].split('/').pop();
 
             params[col.key || col.name] = this.saveFormat(col.key || col.name, value) || (col.list ? null : (col.inputType == 'float' ? 0 : ''));
-            params[this.configs.companyParam || 'company'] = '/people/' + this.myCompany.id;
+            if (this.myCompany)
+                params[this.configs.companyParam || 'company'] = '/people/' + this.myCompany?.id;
 
             this.$store.dispatch(this.configs.store + '/save', params).then((data) => {
                 if (data) {
@@ -821,7 +822,8 @@ export default {
             delete params.rowsPerPage;
             params = this.getFilterParams(params);
             params.itemsPerPage = params.rowsPerPage || this.rowsOptions[0];
-            params[this.configs.companyParam || 'company'] = '/people/' + this.myCompany.id;
+            if (this.myCompany)
+                params[this.configs.companyParam || 'company'] = '/people/' + this.myCompany?.id;
             this.sumColumn = {};
             this.items = [];
             this.$store.dispatch(this.configs.store + '/getItems', params

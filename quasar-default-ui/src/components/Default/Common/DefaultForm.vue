@@ -123,7 +123,8 @@ export default {
             if (this.id)
                 p.id = this.id;
 
-            p[this.configs.companyParam || 'company'] = '/people/' + this.myCompany.id;
+            if (this.myCompany)
+                p[this.configs.companyParam || 'company'] = '/people/' + this.myCompany.id;
 
             this.$store.dispatch(this.configs.store + '/save', p
             ).then((item) => {
