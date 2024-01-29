@@ -853,6 +853,7 @@ export default {
 .default-table {
     min-height: 100%;
     width: 100%;
+    max-width: 100vw;
     overflow: auto;
 }
 
@@ -1046,7 +1047,7 @@ export default {
 }
 
 .full-width.default-table {
-    width: 100vh;
+    width: 100vw;
 }
 
 @media only screen and (max-width: 1024px) {
