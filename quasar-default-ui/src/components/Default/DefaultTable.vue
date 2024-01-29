@@ -965,6 +965,10 @@ export default {
     padding: 2px 16px;
     border-bottom: 1px #e0e0e0 solid;
 }
+.default-table.q-table__container{
+    position: sticky;
+
+}
 
 .default-table .header-filter-container {
     display: none;
