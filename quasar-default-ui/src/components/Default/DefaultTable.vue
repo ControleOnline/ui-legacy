@@ -984,7 +984,7 @@ export default {
 }
 
 .default-table .q-table__bottom {
-    width: 100vw;
+    width: 100%;
     z-index: 2;
     bottom: 0;
     left: 0;
