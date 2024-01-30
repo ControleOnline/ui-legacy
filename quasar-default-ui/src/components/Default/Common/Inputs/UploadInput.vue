@@ -7,10 +7,10 @@
         <q-spinner v-if="scope.isUploading" color="primary" class="q-uploader__spinner" />
         <q-btn flat dense rounded v-if="scope.canAddFiles" type="a" icon="add_box" color="primary">
           <q-uploader-add-trigger />
-          <q-tooltip>{{translate(configs.store, 'select','tooltip')}}</q-tooltip>
+          <q-tooltip>{{ translate(store, 'select', 'tooltip') }}</q-tooltip>
         </q-btn>
         <q-btn v-if="scope.isUploading" round dense flat icon="clear" color="red" @click="scope.abort">
-          <q-tooltip>{{translate(configs.store, 'cancel','tooltip')}}</q-tooltip>
+          <q-tooltip>{{ translate(store, 'cancel', 'tooltip') }}</q-tooltip>
         </q-btn>
       </div>
     </template>
@@ -18,8 +18,8 @@
     <template v-slot:list="scope">
       <div class="row items-center" style="min-height: 100%">
         <div v-if="scope.files.length == 0" class="text-center text-camelcase" style="min-width: 100%; min-height: 100%">
-          <span class="text-bold text-uppercase">{{translate(configs.store, 'upload_area','tooltip')}}</span>
-          <br>{{translate(configs.store, 'upload_description','tooltip')}}
+          <span class="text-bold text-uppercase">{{ translate(store, 'upload_area', 'tooltip') }}</span>
+          <br>{{ translate(store, 'upload_description', 'tooltip') }}
         </div>
 
         <q-list separator v-if="scope.files.length > 0" style="min-width: 100%">
@@ -30,7 +30,7 @@
               </q-item-label>
 
               <q-item-label caption>
-                {{translate(configs.store, 'status','tooltip')}}
+                {{ translate(store, 'status', 'tooltip') }}
                 : {{ file.__status }}
               </q-item-label>
 
@@ -92,6 +92,10 @@ export default {
       required: false,
       default: true,
     },
+    store: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -129,7 +133,7 @@ export default {
 
       if (this.showError) {
         this.$q.notify({
-          message:  translate(configs.store,response.error, 'message'),
+          message: translate(store, response.error, 'message'),
           position: 'bottom',
           type: 'negative',
         });
