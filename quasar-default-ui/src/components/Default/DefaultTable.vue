@@ -7,8 +7,8 @@
             :loading="isloading" v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions"
             :key="tableKey" binary-state-sort>
             <template v-slot:body="props">
-                <q-tr :props="props.row">
-                    <q-td @click="this.$emit('click', props.row, $event)" :style="column.style"
+                <q-tr :props="props.row"  @click="rowClick(props.row, $event)">
+                    <q-td :style="column.style"
                         v-for="(column, index) in columns" :key="column.key || column.name" :class="[
                             'text-' + column.align,
                             { 'dragging-column': isDraggingCollumn[index] },
@@ -197,7 +197,9 @@
 
 
             <template v-slot:item="props">
-                <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+                <div 
+                @click="rowClick(props.row, $event)"
+                class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
                     :style="selectedRows[items.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
                     <q-card bordered flat
                         :class="selectedRows[items.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
@@ -522,6 +524,9 @@ export default {
         ...DefaultMethods,
         toggleView() {
             this.isTableView = !this.isTableView;
+        },
+        rowClick(row, event) {            
+            this.$emit('rowClick', row, event);
         },
         saveVisibleColumns() {
             let columns = this.copyObject(this.columns);
