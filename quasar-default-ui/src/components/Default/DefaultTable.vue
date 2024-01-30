@@ -90,7 +90,7 @@
                         class="header-column" @mouseover="setShowInput(column.key || column.name)"
                         @mouseout="hideInput(column.key || column.name)">
 
-                        <div v-if="this.configs.filters" :class="[
+                        <div v-if="this.configs.filters && column.filter != false" :class="[
                             'row',
                             'col-12',
                             'header-filter-container',

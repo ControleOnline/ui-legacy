@@ -28,7 +28,7 @@
             <q-card-section class="row items-center no-wrap">
                 <div class="row col-12">
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 q-py-sm" v-for="(column, index)  in columns">
-                        <FilterInputs :prefix="column.prefix" :sufix="column.sufix" :column='column' :configs='configs'
+                        <FilterInputs v-if="column.filter != false" :prefix="column.prefix" :sufix="column.sufix" :column='column' :configs='configs'
                             @loadData="sendFilter" />
                     </div>
                 </div>
