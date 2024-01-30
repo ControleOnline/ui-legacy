@@ -8,11 +8,12 @@
             :key="tableKey" binary-state-sort>
             <template v-slot:body="props">
                 <q-tr :props="props.row">
-                    <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name" :class="[
-                        'text-' + column.align,
-                        { 'dragging-column': isDraggingCollumn[index] },
-                        { 'hidden': column.visible != true }
-                    ]">
+                    <q-td @click="this.$emit('click', props.row, $event)" :style="column.style"
+                        v-for="(column, index) in columns" :key="column.key || column.name" :class="[
+                            'text-' + column.align,
+                            { 'dragging-column': isDraggingCollumn[index] },
+                            { 'hidden': column.visible != true }
+                        ]">
 
                         <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[items.indexOf(props.row)]"
                             v-bind:value="false" />
@@ -965,7 +966,8 @@ export default {
     padding: 2px 16px;
     border-bottom: 1px #e0e0e0 solid;
 }
-.default-table.q-table__container{
+
+.default-table.q-table__container {
     position: sticky;
 
 }
