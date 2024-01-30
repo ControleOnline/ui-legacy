@@ -105,7 +105,7 @@ export default {
                 this.options = this.searchAction
                     .filter((item) => {
                         return (
-                            column,
+                            item,
                             !input ||
                             this.formatOptions(item)
                                 .value.toString()
@@ -118,7 +118,10 @@ export default {
                         );
                     })
                     .map((item) => {
-                        return this.formatOptions(item);
+                        if (typeof this.formatOptions == "function")
+                            return this.formatOptions(item);
+                        else
+                            return item;
                     });
                 update();
             }
