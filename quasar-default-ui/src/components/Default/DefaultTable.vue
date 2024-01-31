@@ -860,7 +860,7 @@ export default {
                 elements = this.$el.querySelectorAll('.default-table .q-table__middle');
                 elements.forEach(element => {
                     if (element) {
-                        element.style.maxHeight = '';
+                        element.style.height = '';
                     }
                 });
             }
@@ -1152,6 +1152,10 @@ export default {
 .q-body--fullscreen-mixin .default-table .q-table__bottom {
     width: 100vw;
     position: fixed;
+}
+
+.q-body--fullscreen-mixin .default-table .q-table--grid .q-table__middle {
+    display: none;
 }
 
 
