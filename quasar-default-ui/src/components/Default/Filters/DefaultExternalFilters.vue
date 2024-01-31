@@ -1,5 +1,5 @@
 <template>
-    <div class="row q-pt-xs q-pa-md row-filters" v-if="filteredColumns.length > 0">
+    <div class="row q-pt-xs q-py-lg row-filters" v-if="filteredColumns.length > 0">
         <q-card class="full-width">
             <!--
             <q-card-section class="row col-12 q-pa-sm q-pl-lg">

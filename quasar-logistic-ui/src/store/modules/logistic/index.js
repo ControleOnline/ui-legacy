@@ -23,7 +23,7 @@ export default {
       {
         isIdentity: true,
         name: "id",
-        label: "Id",
+        label: "id",
         align: "center",
         format(value) {
           return "#" + value;
@@ -243,6 +243,8 @@ export default {
         format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
+        edit: false,
+        type: "range-date",
         name: "lastModified",
         label: "lastModified",
         align: "center",

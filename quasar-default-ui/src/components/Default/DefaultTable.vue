@@ -1,5 +1,5 @@
 <template>
-    <div class="full-width default-table">
+    <div :class="(configs['full-height'] == false ? '' : 'full-height') + ' full-width default-table'">
         <div class="q-gutter-sm" v-if="this.configs.filters">
             <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
         </div>
@@ -7,13 +7,12 @@
             :loading="isloading" v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions"
             :key="tableKey" binary-state-sort>
             <template v-slot:body="props">
-                <q-tr :props="props.row"  @click="rowClick(props.row, $event)">
-                    <q-td :style="column.style"
-                        v-for="(column, index) in columns" :key="column.key || column.name" :class="[
-                            'text-' + column.align,
-                            { 'dragging-column': isDraggingCollumn[index] },
-                            { 'hidden': column.visible != true }
-                        ]">
+                <q-tr :props="props.row" @click="rowClick(props.row, $event)">
+                    <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name" :class="[
+                        'text-' + column.align,
+                        { 'dragging-column': isDraggingCollumn[index] },
+                        { 'hidden': column.visible != true }
+                    ]">
 
                         <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[items.indexOf(props.row)]"
                             v-bind:value="false" />
@@ -180,7 +179,7 @@
                         </q-btn>
 
                         <q-btn class="q-pa-xs" label="" dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                            @click="props.toggleFullscreen">
+                            @click="toggleMaximize(props)">
                             <q-tooltip> {{ translate(configs.store, (props.inFullscreen ? 'minimize' : 'maximize'),
                                 'tooltip')
                             }}
@@ -197,9 +196,8 @@
 
 
             <template v-slot:item="props">
-                <div 
-                @click="rowClick(props.row, $event)"
-                class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+                <div @click="rowClick(props.row, $event)"
+                    class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
                     :style="selectedRows[items.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
                     <q-card bordered flat
                         :class="selectedRows[items.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
@@ -525,7 +523,14 @@ export default {
         toggleView() {
             this.isTableView = !this.isTableView;
         },
-        rowClick(row, event) {            
+        toggleMaximize(props) {
+            props.toggleFullscreen();
+            setTimeout(() => {
+                this.adjustElementHeight(props.inFullscreen);
+            }, 500);
+        }
+        ,
+        rowClick(row, event) {
             this.$emit('rowClick', row, event);
         },
         saveVisibleColumns() {
@@ -812,7 +817,49 @@ export default {
                 };
             });
         },
+        scrollToTop(callback) {
+            const top = 0;
+            const currentPosition = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (currentPosition > top) {
+                window.scrollTo({ top: top, behavior: 'smooth' });
+
+                const checkIfDone = () => {
+                    const newPosition = window.pageYOffset || document.documentElement.scrollTop;
+                    if (newPosition === top || newPosition === 0) {
+                        callback();
+                    } else {
+                        window.requestAnimationFrame(checkIfDone);
+                    }
+                };
+
+                window.requestAnimationFrame(checkIfDone);
+            } else {
+                callback();
+            }
+        },
+        adjustElementHeight(full) {
+            this.scrollToTop((full) => {
+
+                const e = document.querySelectorAll('.q-body--fullscreen-mixin').length;
+                let elements;
+                if (e > 0 || full)
+                    elements = document.querySelectorAll('.fullscreen .q-table__middle');
+                else
+                    elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
+
+                elements.forEach(element => {
+                    if (element) {
+                        let position = e > 0 ? 30 : element.getBoundingClientRect().top + 30;
+                        element.style.maxHeight = `calc(100vh - ${position}px)`;
+                    }
+                });
+            });
+
+        },
+
         loadData(props) {
+
             if (this.isLoading)
                 return;
 
@@ -848,9 +895,12 @@ export default {
                 });
                 this.items = data;
                 this.selectedRows = structuredClone(new Array(data.length).fill(false));
+
             }).catch(() => {
                 this.items = [];
-            });
+            }).finally(() => {
+                this.adjustElementHeight();
+            })
         },
     },
 };
@@ -859,7 +909,6 @@ export default {
 
 <style>
 .default-table {
-    min-height: 100%;
     width: 100%;
     max-width: 100vw;
 }
@@ -867,7 +916,7 @@ export default {
 .default-table thead tr {
     font-weight: bold;
     position: sticky;
-    top: 0;
+    top: -2px;
     z-index: 1;
 }
 
@@ -894,6 +943,9 @@ export default {
     z-index: 1;
 }
 
+.default-table .q-table__progress .q-linear-progress {
+    width: 100vw;
+}
 
 .default-table .sortable-header {
     cursor: pointer;
@@ -972,11 +1024,6 @@ export default {
     border-bottom: 1px #e0e0e0 solid;
 }
 
-.default-table.q-table__container {
-    position: sticky;
-
-}
-
 .default-table .header-filter-container {
     display: none;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -1035,17 +1082,9 @@ export default {
     left: 0;
 }
 
-.q-table__middle.scroll {
-    position: sticky;
-    left: 0;
-    z-index: 2;
-}
-
-
-
 .default-table .q-table thead tr {
-    background-color: var(--q-secondary);
-    color: #fff;
+    background-color: var(--q-secondary) !important;
+    color: #fff !important;
 }
 
 .default-table .q-table tr:nth-child(even) {
@@ -1056,9 +1095,7 @@ export default {
     background-color: #fff;
 }
 
-.default-table .q-panel .q-table thead {
-    top: 0px;
-}
+
 
 .default-table .q-table thead tr:first-child th:first-child,
 .default-table .q-table td:first-child,
@@ -1076,6 +1113,13 @@ export default {
 
 @media only screen and (max-width: 1024px) {
 
+    .default-table.full-height .q-table__bottom {
+        position: fixed !important;
+        background-color: #fff;
+        z-index: 9;
+        width: 100vw;
+    }
+
     .default-table .q-table thead {
         top: -2px;
     }
@@ -1087,32 +1131,40 @@ export default {
         z-index: 1;
     }
 
-    .default-table .q-table {
-        padding-bottom: 100px;
-    }
+
+}
+
+.q-body--fullscreen-mixin .fixed-top {
+    position: sticky;
+}
+
+.default-table .q-table--grid .q-table__top {
+    top: 63px;
+}
+
+.default-table .q-table__card .q-table__top,
+.fullscreen .q-table__top {
+    top: 0px;
 }
 
 @media only screen and (min-width: 1024px) {
-    .default-table .q-table__top {
-        top: 0px;
+    .default-table.full-height .q-table__bottom {
+        position: fixed !important;
+        background-color: #fff;
+        z-index: 9;
+        width: 100vw;
     }
+
 
     .default-table .q-table thead {
         top: -2px;
     }
-
 
     .default-table .q-table__bottom {
         bottom: 0;
         position: sticky;
         z-index: 1;
     }
-
-
-}
-
-.default-table .q-table {
-    padding-bottom: 35px;
 }
 
 .default-table .q-body--fullscreen-mixin .q-table__top {
@@ -1122,7 +1174,6 @@ export default {
 .default-table .q-body--fullscreen-mixin .q-table thead {
     top: 50px;
 }
-
 
 .default-table .table-toolbar {
     padding-left: 8px;
@@ -1136,5 +1187,22 @@ export default {
     background: #fff;
     width: 5px;
     height: 50px;
+}
+
+.default-table .q-table__middle.scroll::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.default-table .q-table__middle.scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.default-table .q-table__middle.scroll::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 </style>

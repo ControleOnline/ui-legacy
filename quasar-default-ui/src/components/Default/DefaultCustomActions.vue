@@ -1,5 +1,5 @@
 <template>
-  <q-btn :dense="btnDense" :color="btnColor ? btnColor : 'primary'" :label="btnTitle" :icon="btnIcon" :flat="btnFlat">
+  <q-btn :dense="btnDense" :color="componentProps.btnColor ? componentProps.btnColor : 'primary'" :label="componentProps.btnTitle" :icon="componentProps.btnIcon" :flat="componentProps.btnFlat">
     <q-menu>
       <q-list>
         <template v-for="(itm, idx) in items" :key="idx">
@@ -28,7 +28,7 @@
 <script>
 export default {
   name: 'DefaultCustomActionsComponent',
-
+  emits: ['loadData'],
   props: {
     componentProps: Object,
     row: Object
