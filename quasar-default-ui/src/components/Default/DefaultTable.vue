@@ -856,7 +856,7 @@ export default {
             elements.forEach(element => {
                 if (element) {
                     let position = e > 0 ? 30 : element.getBoundingClientRect().top + 30;
-                    element.style.maxHeight = `calc(100vh - ${position}px)`;
+                    element.style.height = `calc(100vh - ${position}px)`;
                 }
             });
         },
@@ -1136,6 +1136,12 @@ export default {
 
 
 }
+
+.q-body--fullscreen-mixin .default-table .q-table__bottom{
+    width: 100vw;
+    position: fixed;
+}
+
 
 .q-body--fullscreen-mixin .fixed-top {
     position: sticky;
