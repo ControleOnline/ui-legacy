@@ -7,7 +7,7 @@
                         :class="column.formClass || 'col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 q-pa-xs'">
                         <FormInputs :editable="column.editable" :prefix="column.prefix" :sufix="column.sufix"
                             :inputType="column.list ? 'list' : column.inputType" :store="configs.store" :mask="mask(column)"
-                            :rules="[isInvalid()]" :labelType="'stack-label'" :label="column.label"
+                            :rules="column.rules" :labelType="'stack-label'" :label="column.label"
                             :filters="getSearchFilters(column)" :initialValue="item[column.key || column.name]"
                             :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
                             :searchAction="column.list" @focus="editingInit(column)" @changed="(value) => {

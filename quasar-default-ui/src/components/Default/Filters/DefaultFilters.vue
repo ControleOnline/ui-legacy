@@ -28,8 +28,14 @@
             <q-card-section class="row items-center no-wrap">
                 <div class="row col-12">
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 q-py-sm" v-for="(column, index)  in columns">
-                        <FilterInputs v-if="column.filter != false" :prefix="column.prefix" :sufix="column.sufix" :column='column' :configs='configs'
-                            @loadData="sendFilter" />
+                        <FilterInputs v-if="column.filter != false" :prefix="column.prefix" :sufix="column.sufix"
+                            :column='column' :configs='configs' @loadData="sendFilter" />
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 q-py-sm"
+                        v-for="(customFilter, index)  in tableFilterComponent()">
+                        <component :componentProps="customFilter.props" :is="customFilter.component"
+                            :prefix="customFilter.prefix" :sufix="customFilter.sufix" :key="key" :labelType="'upper'"
+                            :configs="configs" @loadData="sendFilter" />
                     </div>
                 </div>
             </q-card-section>
@@ -70,6 +76,10 @@ export default {
         FilterInputs
     },
     computed: {
+
+        tableFilterComponent() {
+            return this.configs.components?.customFilters || [];
+        },
         columns() {
             return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
         },

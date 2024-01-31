@@ -81,10 +81,6 @@ export function isProxyEmpty(proxy) {
   return true;
 }
 
-export function isInvalid(key) {
-  return true;
-}
-
 export function formatData(column, row, editing) {
   let data = this.format(
     column,
