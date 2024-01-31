@@ -107,16 +107,17 @@
                         </div>
 
                         <div class="row col-12">
-                            <q-icon v-if="isDragging && index === draggedColumnIndex"
-                                :name="(draggedColumnPosition === 'before' ? 'keyboard_arrow_left' : 'keyboard_arrow_right')" />
-
-                            <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
-                                v-model="selectAll" />
-                            {{ translate(configs.store, column.label, 'input') }}
-                            <q-icon v-if="column.sortable"
-                                :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
-                                color="grey-8" size="14px" />
-                            <q-icon name="filter_list" v-if="colFilter[column.key || column.name]" />
+                            <span class="custom-icon-text">
+                                <q-icon v-if="isDragging && index === draggedColumnIndex"
+                                    :name="(draggedColumnPosition === 'before' ? 'keyboard_arrow_left' : 'keyboard_arrow_right')" />
+                                <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
+                                    v-model="selectAll" />
+                                {{ translate(configs.store, column.label, 'input') }}
+                                <q-icon v-if="column.sortable"
+                                    :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
+                                    color="grey-8" size="14px" />
+                                <q-icon name="filter_list" v-if="colFilter[column.key || column.name]" />
+                            </span>
                         </div>
                     </q-th>
                     <q-th v-if="tableActionsComponent() || configs.delete != false || configs.edit != false">
