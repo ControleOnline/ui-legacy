@@ -1,28 +1,14 @@
 <template>
   <q-card class="q-pa-sm">
-    <q-table
-      :rows="items"
-      row-key="id"
-      :loading="isLoading"
-      hide-header
-      style="min-height: 90vh;"
-      @request="onRequest"
-      dense grid 
-    >
+    <q-table :rows="items" row-key="id" :loading="isLoading" hide-header style="min-height: 90vh;" @request="onRequest"
+      dense grid>
       <template v-slot:top>
         <div class="col-3 q-mb-md text-h6">
           Minhas empresas
         </div>
         <div class="col-9 q-mb-md">
           <div class="row justify-end">
-            <q-btn
-              label ="Adicionar"
-              icon  ="add"
-              size  ="md"
-              color ="primary"
-              class ="q-ml-sm"
-              @click="dialog = !dialog"
-            />
+            <q-btn label="Adicionar" icon="add" size="md" color="primary" class="q-ml-sm" @click="dialog = !dialog" />
           </div>
         </div>
       </template>
@@ -49,16 +35,12 @@
             </q-card-section>
             <q-separator />
             <q-card-actions align="around">
-              <q-btn flat round dense
-                color   ="primary"
-                icon    ="edit"
-                :to     ="{
-                  name  : `CompanyDetailsPage`,
-                  params: {
-                    id: props.row.id
-                  }
-                }"
-              >
+              <q-btn flat round dense color="primary" icon="edit" :to="{
+                name: `CompanyDetailsPage`,
+                params: {
+                  id: props.row.id
+                }
+              }">
                 <q-tooltip>Editar</q-tooltip>
               </q-btn>
             </q-card-actions>
@@ -75,13 +57,7 @@
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-card-section>
-          <FormCompany
-            @saved  ="onSaved"
-            :person ="false"
-            :companyFields="companyFields"
-            address ="bycep"
-            saveBtn ="Salvar"
-          />
+          <FormCompany @saved="onSaved" :person="false" :companyFields="companyFields" address="bycep" saveBtn="Salvar" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -103,9 +79,9 @@ export default {
 
   data() {
     return {
-      items    : [],
-      dialog   : false,
-      saving   : false,
+      items: [],
+      dialog: false,
+      saving: false,
       isLoading: false,
     };
   },
@@ -136,7 +112,7 @@ export default {
   methods: {
     ...mapActions({
       getItems: 'people/myCompanies',
-      save    : 'people/company'    ,
+      save: 'people/company',
     }),
 
     onSaved(hasErrors) {
@@ -150,7 +126,7 @@ export default {
       let _companies = [];
 
       for (let index in companies) {
-        _companies.push(companies);
+        _companies.push(companies[index]);
       }
 
       this.items = _companies;
