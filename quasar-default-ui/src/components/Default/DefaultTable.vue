@@ -46,12 +46,11 @@
                         </template>
                         <template v-else>
                             <FormInputs :prefix="column.prefix" :sufix="column.sufix" :editable="column.editable"
-                                :inputType="getList(configs,column) ? 'list' : column.inputType"
-                                :store="configs.store" :mask="mask(column)" :rules="[isInvalid()]"
-                                :labelType="'stack-label'" :label="column.label" :filters="getSearchFilters(column)"
-                                :initialValue="editedValue" :searchParam="column.searchParam || 'search'"
-                                :formatOptions="column.formatList"
-                                :searchAction="getList(configs,column)"
+                                :inputType="getList(configs, column) ? 'list' : column.inputType" :store="configs.store"
+                                :mask="mask(column)" :rules="[isInvalid()]" :labelType="'stack-label'" :label="column.label"
+                                :filters="getSearchFilters(column)" :initialValue="editedValue"
+                                :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
+                                :searchAction="getList(configs, column)"
                                 @focus="editingInit(items.indexOf(props.row), column)" @changed="(value) => {
                                     editedValue = value;
                                 }" @apply="stopEditing(items.indexOf(props.row), column, props.row)"
@@ -270,13 +269,12 @@
                                         <template v-else>
                                             <FormInputs :editable="column.editable" :prefix="column.prefix"
                                                 :sufix="column.sufix"
-                                                :inputType="getList(configs,column) ? 'list' : column.inputType"
+                                                :inputType="getList(configs, column) ? 'list' : column.inputType"
                                                 :store="configs.store" :mask="mask(column)" :rules="[isInvalid()]"
                                                 :labelType="'stack-label'" :label="column.label"
                                                 :filters="getSearchFilters(column)" :initialValue="editedValue"
                                                 :searchParam="column.searchParam || 'search'"
-                                                :formatOptions="column.formatList"
-                                                :searchAction="getList(configs,column)"
+                                                :formatOptions="column.formatList" :searchAction="getList(configs, column)"
                                                 @focus="editingInit(items.indexOf(props.row), column)" @changed="(value) => {
                                                     editedValue = value;
                                                 }" @blur="stopEditing(items.indexOf(props.row), column, props.row)"
@@ -862,7 +860,7 @@ export default {
                 elements = this.$el.querySelectorAll('.default-table .q-table__middle');
                 elements.forEach(element => {
                     if (element) {
-                        element.style.height = '';
+                        element.style.maxHeight = '';
                     }
                 });
             }
