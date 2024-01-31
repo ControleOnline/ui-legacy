@@ -840,7 +840,7 @@ export default {
         },
         adjustElementHeight(full) {
 
-            if (configs['full-height'] == false)
+            if (this.configs['full-height'] == false)
                 return;
 
             this.scrollToTop((full) => {
