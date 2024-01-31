@@ -831,16 +831,19 @@ export default {
                 const checkIfDone = () => {
                     const newPosition = window.pageYOffset || document.documentElement.scrollTop;
                     if (newPosition === top || newPosition === 0) {
-                        callback();
+                        if (typeof callback == 'function')
+                            callback();
+
                     } else {
                         window.requestAnimationFrame(checkIfDone);
                     }
                 };
 
                 window.requestAnimationFrame(checkIfDone);
-            } else {
+            } else if (typeof callback == 'function') {
                 callback();
             }
+
         },
         adjustElementHeight(full) {
             const e = document.querySelectorAll('.q-body--fullscreen-mixin').length;
