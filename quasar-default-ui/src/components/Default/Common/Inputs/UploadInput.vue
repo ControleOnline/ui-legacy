@@ -133,7 +133,7 @@ export default {
 
       if (this.showError) {
         this.$q.notify({
-          message: this.translate(store, response.error, 'message'),
+          message: this.translate(this.store, response.error, 'message'),
           position: 'bottom',
           type: 'negative',
         });

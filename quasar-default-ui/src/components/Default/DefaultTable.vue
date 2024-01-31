@@ -839,6 +839,10 @@ export default {
             }
         },
         adjustElementHeight(full) {
+
+            if (configs['full-height'] == false)
+                return;
+
             this.scrollToTop((full) => {
 
                 const e = document.querySelectorAll('.q-body--fullscreen-mixin').length;
