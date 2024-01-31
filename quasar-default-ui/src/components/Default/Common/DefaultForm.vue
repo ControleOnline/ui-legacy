@@ -6,11 +6,11 @@
                     <div v-if="column.isIdentity != true"
                         :class="column.formClass || 'col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 q-pa-xs'">
                         <FormInputs :editable="column.editable" :prefix="column.prefix" :sufix="column.sufix"
-                            :inputType="column.list ? 'list' : column.inputType" :store="configs.store" :mask="mask(column)"
+                            :inputType="getList(configs,column) ? 'list' : column.inputType" :store="configs.store" :mask="mask(column)"
                             :rules="column.rules" :labelType="'stack-label'" :label="column.label"
                             :filters="getSearchFilters(column)" :initialValue="item[column.key || column.name]"
                             :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
-                            :searchAction="column.list" @focus="editingInit(column)" @changed="(value) => {
+                            :searchAction="getList(configs,column)" @focus="editingInit(column)" @changed="(value) => {
                                 item[column.key || column.name] = value;
                             }" />
                     </div>
@@ -69,7 +69,8 @@ export default {
 
             if (column) {
                 data[column.key || column.name] =
-                    column.list ?
+                    
+                this.getList(this.configs,column) ?
                         this.formatList(column, this.data[column.key || column.name], true) :
                         this.format(column, item, this.data[column.key || column.name]);
 

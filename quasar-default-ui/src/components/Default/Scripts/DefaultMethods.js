@@ -9,6 +9,13 @@ export function translate(store, value, type) {
   else return i18n.global.t(store + "." + type + "." + value);
 }
 
+export function getList(configs, column) {
+  if (configs?.list && configs?.list[column.key || column.name])
+    return configs?.list[column.key || column.name];
+  else
+    return column.list;
+}
+
 export function copyObject(obj) {
   if (obj === null || !(obj instanceof Object)) {
     return obj;
