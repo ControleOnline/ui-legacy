@@ -14,6 +14,13 @@
                         </FilterInputs>
                     </div>
                 </template>
+                <template v-for="(customFilter, index)  in  tableFilterComponent() ">
+                    <div :class="getFilterSize() + ' q-pa-sm '">
+                        <component :componentProps="customFilter.props" :is="customFilter.component"
+                            :prefix="customFilter.prefix" :sufix="customFilter.sufix" :key="key" :labelType="'upper'"
+                            :configs="configs" @loadData="sendFilter" />
+                    </div>
+                </template>
                 <div :class="'q-pa-sm flex col items-end justify-end'">
                     <q-btn class="q-pa-sm q-mr-md btn-search" color="primary"
                         :label="translate(configs.store, 'filter', 'btn')" dense icon-right="search"
@@ -74,11 +81,19 @@ export default {
     methods: {
         ...DefaultFiltersMethods,
         ...DefaultMethods,
+
+
+        tableFilterComponent() {
+            return this.configs.components?.customFilters || [];
+        },
+
         getFilterSize() {
             let size = 0;
             let number = this.filteredColumns.length;
+            let customFilters = this.tableFilterComponent();
+
             if (number > 0)
-                size = Math.floor(12 / (number + 1));
+                size = Math.floor(12 / (number + 1 + customFilters.length));
 
             if (size < 2)
                 size = 2;
