@@ -526,7 +526,11 @@ export default {
         toggleMaximize(props) {
             props.toggleFullscreen();
             setTimeout(() => {
-                this.adjustElementHeight(props.inFullscreen);
+
+                if (this.configs['full-height'] == false && !props.inFullscreen)
+                    this.scrollToTop(this.adjustElementHeight(props.inFullscreen));
+                else
+                    this.adjustElementHeight(props.inFullscreen)
             }, 500);
         }
         ,
@@ -839,27 +843,19 @@ export default {
             }
         },
         adjustElementHeight(full) {
+            const e = document.querySelectorAll('.q-body--fullscreen-mixin').length;
+            let elements;
+            if (e > 0 || full)
+                elements = document.querySelectorAll('.fullscreen .q-table__middle');
+            else
+                elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
 
-            if (this.configs['full-height'] == false)
-                return;
-
-            this.scrollToTop((full) => {
-
-                const e = document.querySelectorAll('.q-body--fullscreen-mixin').length;
-                let elements;
-                if (e > 0 || full)
-                    elements = document.querySelectorAll('.fullscreen .q-table__middle');
-                else
-                    elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
-
-                elements.forEach(element => {
-                    if (element) {
-                        let position = e > 0 ? 30 : element.getBoundingClientRect().top + 30;
-                        element.style.maxHeight = `calc(100vh - ${position}px)`;
-                    }
-                });
+            elements.forEach(element => {
+                if (element) {
+                    let position = e > 0 ? 30 : element.getBoundingClientRect().top + 30;
+                    element.style.maxHeight = `calc(100vh - ${position}px)`;
+                }
             });
-
         },
 
         loadData(props) {
