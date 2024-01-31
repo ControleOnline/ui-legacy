@@ -853,12 +853,21 @@ export default {
             else
                 elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
 
-            elements.forEach(element => {
-                if (element) {
-                    let position = e > 0 ? 30 : element.getBoundingClientRect().top + 30;
-                    element.style.height = `calc(100vh - ${position}px)`;
-                }
-            });
+            if (elements.length == 0) {
+                elements = this.$el.querySelectorAll('.default-table .q-table__middle');
+                elements.forEach(element => {
+                    if (element) {
+                        element.style.height = '';
+                    }
+                });
+            }
+            else
+                elements.forEach(element => {
+                    if (element) {
+                        let position = e > 0 ? 30 : element.getBoundingClientRect().top + 30;
+                        element.style.height = `calc(100vh - ${position}px)`;
+                    }
+                });
         },
 
         loadData(props) {
@@ -1137,7 +1146,7 @@ export default {
 
 }
 
-.q-body--fullscreen-mixin .default-table .q-table__bottom{
+.q-body--fullscreen-mixin .default-table .q-table__bottom {
     width: 100vw;
     position: fixed;
 }
