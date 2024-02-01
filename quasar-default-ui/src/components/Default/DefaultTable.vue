@@ -3,15 +3,15 @@
         <div class="q-gutter-sm" v-if="this.configs.filters">
             <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
         </div>
-        <q-table :grid="isTableView" class="default-table" dense :rows="items" :row-key="columns[0].name"
-            :loading="isloading" v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions"
-            :key="tableKey" binary-state-sort>
+        <q-table :grid="isTableView" class="default-table" dense :rows="items" :loading="isloading"
+            :row-key="columns[0].name" v-model:pagination="pagination" @request="loadData"
+            :rows-per-page-options="rowsOptions" :key="tableKey" binary-state-sort>
             <template v-slot:body="props">
                 <q-tr :props="props.row" @click="rowClick(props.row, $event)">
                     <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name" :class="[
                         'text-' + column.align,
                         { 'dragging-column': isDraggingCollumn[index] },
-                        { 'hidden': !getVisible(column) }
+                        { 'hidden': !shouldIncludeColumn(column) }
                     ]">
 
                         <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[items.indexOf(props.row)]"
@@ -85,7 +85,7 @@
                             { 'asc': column.sortable && (sortedColumn === (column.key || column.name)) && sortDirection === 'ASC' },
                             { 'desc': column.sortable && (sortedColumn === (column.key || column.name)) && sortDirection === 'DESC' },
                             { 'dragging-column': isDraggingCollumn[index] },
-                            { 'hidden': !getVisible(column) }
+                            { 'hidden': !shouldIncludeColumn(column) }
                         ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)"
                         class="header-column" @mouseover="setShowInput(column.key || column.name)"
                         @mouseout="hideInput(column.key || column.name)">
@@ -206,7 +206,8 @@
                         <q-card-section>
                             <q-item>
                                 <template v-for="(column, index) in columns" :key="column.key || column.name">
-                                    <q-item-section v-if="column.isIdentity" :class="[{ 'hidden': !getVisible(column) }]">
+                                    <q-item-section v-if="column.isIdentity"
+                                        :class="[{ 'hidden': !shouldIncludeColumn(column) }]">
                                         <template v-if="tableColumnComponent(column.key || column.name)">
                                             <component
                                                 :componentProps="tableColumnComponent(column.key || column.name).props"
@@ -313,7 +314,7 @@
                 <q-tr class="tr-sum">
                     <q-td v-for="(column, index)  in columns" :class="[
                         'text-' + column.align,
-                        { 'hidden': !getVisible(column) }]">
+                        { 'hidden': !shouldIncludeColumn(column) }]">
                         <span v-if="sumColumn[column.key || column.name]"
                             v-html="(column.prefix || '') +
                                 format(column, {}, sumColumn[column.key || column.name]) + (column.sufix || '')"></span>
@@ -414,6 +415,7 @@ export default {
 
     data() {
         return {
+            columns: [],
             isTableView: this.$q.screen.gt.sm == false,
             listAutocomplete: [],
             showColumnMenu: false,
@@ -452,19 +454,11 @@ export default {
     },
 
     created() {
-
+        this.removeHiddenColumns();
     },
     mounted() {
         this.$nextTick(() => {
             this.colFilter = this.copyObject(this.filters);
-            if (this.visibleColumns && !this.isEmptyProxy(this.visibleColumns))
-                this.toogleVisibleColumns = this.copyObject(this.visibleColumns);
-            else
-                this.columns.forEach((column, columnIndex) => {
-                    this.toogleVisibleColumns[column.key || column.name] = !this.getVisible(column);
-                });
-
-            this.saveVisibleColumns();
             this.search = this.colFilter['search'];
             this.loadData();
         });
@@ -482,9 +476,6 @@ export default {
         },
         filters() {
             return this.$store.getters[this.configs.store + '/filters'] || {}
-        },
-        columns() {
-            return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
         totalItems() {
             return this.$store.getters[this.configs.store + '/totalItems']
@@ -525,13 +516,10 @@ export default {
         toggleView() {
             this.isTableView = !this.isTableView;
         },
-        getVisible(column) {
-            return this.shouldIncludeColumn(column);
-        },
+
         toggleMaximize(props) {
             props.toggleFullscreen();
             setTimeout(() => {
-
                 if (this.configs['full-height'] == false && !props.inFullscreen)
                     this.scrollToTop(this.adjustElementHeight(props.inFullscreen));
                 else
@@ -542,21 +530,39 @@ export default {
         rowClick(row, event) {
             this.$emit('rowClick', row, event);
         },
+        removeHiddenColumns() {
+            let columns = this.copyObject(this.$store.getters[this.configs.store + '/columns']);
+            columns.forEach((column, columnIndex) => {
+                if (!this.shouldIncludeColumn(column))
+                    delete columns[columnIndex]
+            });
+            this.columns = this.recriarIndices(columns);
+            this.$store.commit(this.configs.store + '/SET_COLUMNS', this.columns);
+            this.toogleVisibleColumns = this.copyObject(this.visibleColumns || this.columns);
+            this.saveVisibleColumns();
+        },
+
+        recriarIndices(arrayOriginal) {
+
+            return Object.values(arrayOriginal.reduce((obj, valor, indice) => {
+                obj[indice] = valor;
+                return obj;
+            }, {}));
+        },
+
+
         saveVisibleColumns() {
             let columns = this.copyObject(this.columns);
-            let persistVisibleColumns = {};
-            this.columns.forEach((column, columnIndex) => {
+            columns.forEach((column, columnIndex) => {
                 if (this.toogleVisibleColumns[column.key || column.name] != false) {
                     columns[columnIndex].visible = true;
-                    persistVisibleColumns[column.key || column.name] = true;
-                }
-                else {
-                    delete columns[columnIndex].visible;
-                    persistVisibleColumns[column.key || column.name] = false;
+                    this.toogleVisibleColumns[column.key || column.name] = true;
+                } else {
+                    columns[columnIndex].visible = false;
                 }
             });
 
-            this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', persistVisibleColumns);
+            this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', this.toogleVisibleColumns);
             this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
         },
         toggleShowColumnMenu() {
