@@ -54,7 +54,7 @@ export default {
             return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
         filteredColumns() {
-            return this.columns.filter(column => this.shouldIncludeColumn(column));
+            return this.columns.filter(column => this.shouldIncludeColumn(column) && column.externalFilter == true)
         },
         filters() {
             return this.$store.getters[this.configs.store + '/filters'] || {}

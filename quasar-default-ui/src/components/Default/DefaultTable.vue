@@ -1156,10 +1156,9 @@ export default {
     position: fixed;
 }
 
-.q-body--fullscreen-mixin .default-table .q-table--grid .q-table__middle {
+.default-table .q-table--grid .q-table__middle {
     display: none;
 }
-
 
 .q-body--fullscreen-mixin .fixed-top {
     position: sticky;
