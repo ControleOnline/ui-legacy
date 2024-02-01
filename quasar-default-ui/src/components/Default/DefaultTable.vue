@@ -537,7 +537,7 @@ export default {
                     delete columns[columnIndex]
             });
             this.columns = this.recriarIndices(columns);
-            this.$store.commit(this.configs.store + '/SET_COLUMNS', this.columns);
+            this.$store.commit(this.configs.store + '/SET_COLUMNS', this.copyObject(this.columns));
             this.toogleVisibleColumns = this.copyObject(this.visibleColumns || this.columns);
             this.saveVisibleColumns();
         },
@@ -562,7 +562,7 @@ export default {
                 }
             });
 
-            this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', this.toogleVisibleColumns);
+            this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', this.copyObject(this.toogleVisibleColumns));
             this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
         },
         toggleShowColumnMenu() {
