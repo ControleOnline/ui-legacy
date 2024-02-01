@@ -415,7 +415,6 @@ export default {
 
     data() {
         return {
-            columns: [],
             isTableView: this.$q.screen.gt.sm == false,
             listAutocomplete: [],
             showColumnMenu: false,
@@ -460,6 +459,7 @@ export default {
         this.$nextTick(() => {
             this.colFilter = this.copyObject(this.filters);
             this.search = this.colFilter['search'];
+            this.saveVisibleColumns();
             this.loadData();
         });
     },
@@ -468,6 +468,9 @@ export default {
         ...mapGetters({
             myCompany: 'people/currentCompany',
         }),
+        columns() {
+            return this.$store.getters[this.configs.store + '/columns']
+        },
         isloading() {
             return this.$store.getters[this.configs.store + '/isLoading']
         },
@@ -531,17 +534,17 @@ export default {
             this.$emit('rowClick', row, event);
         },
         removeHiddenColumns() {
-            let columns = this.copyObject(this.$store.getters[this.configs.store + '/columns']);
+            let columns = this.copyObject(this.columns);
             columns.forEach((column, columnIndex) => {
                 if (!this.shouldIncludeColumn(column))
                     delete columns[columnIndex]
+                else
+                    columns[columnIndex].visible = true;
             });
-            this.columns = this.recriarIndices(columns);
-            this.$store.commit(this.configs.store + '/SET_COLUMNS', this.copyObject(this.columns));
-            this.toogleVisibleColumns = this.copyObject(this.visibleColumns || this.columns);
-            this.saveVisibleColumns();
-        },
+            this.$store.commit(this.configs.store + '/SET_COLUMNS', this.recriarIndices(columns));
+            this.toogleVisibleColumns = this.copyObject(this.visibleColumns || columns);
 
+        },
         recriarIndices(arrayOriginal) {
 
             return Object.values(arrayOriginal.reduce((obj, valor, indice) => {
@@ -549,8 +552,6 @@ export default {
                 return obj;
             }, {}));
         },
-
-
         saveVisibleColumns() {
             let columns = this.copyObject(this.columns);
             columns.forEach((column, columnIndex) => {
