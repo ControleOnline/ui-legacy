@@ -91,7 +91,18 @@ export function formatData(column, row, editing) {
 
   return data;
 }
+export function shouldIncludeColumn(column) {
+  const isVisibleFunction = this.configs.columns && this.configs.columns[column.key || column.name]?.visible;
+  const isExternalFilter = column.externalFilter === true;
 
+  if (isExternalFilter) {
+    if (typeof isVisibleFunction === 'function') {
+      return isVisibleFunction(column);
+    }
+    return column.visible !== false;
+  }
+  return false;
+}
 export function getNameFromList(column, row, editing) {
   let name = null;
   if (column.list == undefined || typeof column.list == "string") {
@@ -106,10 +117,10 @@ export function getNameFromList(column, row, editing) {
         i &&
         i.value &&
         i.value.toString().trim() ==
-          (row[column.key || column.name] instanceof Object &&
+        (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-            ? row[column.key || column.name]["@id"].split("/").pop().trim()
-            : row[column.key || column.name].trim())
+          ? row[column.key || column.name]["@id"].split("/").pop().trim()
+          : row[column.key || column.name].trim())
       );
     });
     return name instanceof Object && !editing

@@ -11,7 +11,7 @@
                     <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name" :class="[
                         'text-' + column.align,
                         { 'dragging-column': isDraggingCollumn[index] },
-                        { 'hidden': column.visible != true }
+                        { 'hidden': !getVisible(column) }
                     ]">
 
                         <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[items.indexOf(props.row)]"
@@ -85,7 +85,7 @@
                             { 'asc': column.sortable && (sortedColumn === (column.key || column.name)) && sortDirection === 'ASC' },
                             { 'desc': column.sortable && (sortedColumn === (column.key || column.name)) && sortDirection === 'DESC' },
                             { 'dragging-column': isDraggingCollumn[index] },
-                            { 'hidden': column.visible != true }
+                            { 'hidden': !getVisible(column) }
                         ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)"
                         class="header-column" @mouseover="setShowInput(column.key || column.name)"
                         @mouseout="hideInput(column.key || column.name)">
@@ -206,8 +206,7 @@
                         <q-card-section>
                             <q-item>
                                 <template v-for="(column, index) in columns" :key="column.key || column.name">
-                                    <q-item-section v-if="column.isIdentity"
-                                        :class="[{ 'hidden': column.visible != true }]">
+                                    <q-item-section v-if="column.isIdentity" :class="[{ 'hidden': !getVisible(column) }]">
                                         <template v-if="tableColumnComponent(column.key || column.name)">
                                             <component
                                                 :componentProps="tableColumnComponent(column.key || column.name).props"
@@ -314,7 +313,7 @@
                 <q-tr class="tr-sum">
                     <q-td v-for="(column, index)  in columns" :class="[
                         'text-' + column.align,
-                        { 'hidden': column.visible != true }]">
+                        { 'hidden': !getVisible(column) }]">
                         <span v-if="sumColumn[column.key || column.name]"
                             v-html="(column.prefix || '') +
                                 format(column, {}, sumColumn[column.key || column.name]) + (column.sufix || '')"></span>
@@ -462,7 +461,7 @@ export default {
                 this.toogleVisibleColumns = this.copyObject(this.visibleColumns);
             else
                 this.columns.forEach((column, columnIndex) => {
-                    this.toogleVisibleColumns[column.key || column.name] = column.visible != false ? true : false;
+                    this.toogleVisibleColumns[column.key || column.name] = !this.getVisible(column);
                 });
 
             this.saveVisibleColumns();
@@ -525,6 +524,9 @@ export default {
         ...DefaultMethods,
         toggleView() {
             this.isTableView = !this.isTableView;
+        },
+        getVisible(column) {
+            return this.shouldIncludeColumn(column);
         },
         toggleMaximize(props) {
             props.toggleFullscreen();
