@@ -92,6 +92,13 @@ export function formatData(column, row, editing) {
   return data;
 }
 
+export function getList(configs, column) {
+  if (configs?.list && configs?.list[column.key || column.name])
+    return configs?.list[column.key || column.name];
+  else
+    return column.list;
+}
+
 export function shouldIncludeColumn(column) {
   const isVisibleFunction = this.configs.columns && this.configs.columns[column.key || column.name]?.visible;
   if (typeof isVisibleFunction === 'function')
