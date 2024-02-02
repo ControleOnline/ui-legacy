@@ -4,20 +4,21 @@
     <q-menu>
       <q-list>
         <template v-for="(itm, idx) in componentProps.items" :key="idx">
-          <q-item clickable v-close-popup @click="fire" v-if="getPermission(itm)">
+          <q-item clickable v-close-popup @click="handleItemClick(itm)" v-if="getPermission(itm)">
             <q-item-section v-if="itm.icon" side>
               <q-icon size="sm" :name="itm.icon"></q-icon>
             </q-item-section>
             <q-item-section>
               {{ itm.title }}
             </q-item-section>
-            <component :is="itm.component" :componentProps="componentProps" :row="row" @loadData="loadData"
-              :fire="fired" />
           </q-item>
         </template>
       </q-list>
     </q-menu>
   </q-btn>
+
+  <component :is="selectedComponent" :componentProps="componentProps" :row="row" @loadData="loadData"
+    @closeComponent="closeComponent" v-if="selectedComponent" />
 </template>
 
 <script>
@@ -31,8 +32,7 @@ export default {
 
   data() {
     return {
-      fired: false,
-      key: 0
+      selectedComponent: null,
     }
   },
   created() {
@@ -44,15 +44,14 @@ export default {
 
       return itm.permission != false;
     },
-    fire() {
-      this.fired = true;
-      this.key++;
-      setTimeout(() => {
-        this.fired = false;
-      }, 200);
+    handleItemClick(itm) {
+      this.selectedComponent = itm.component;
     },
     loadData() {
       this.$emit('loadData')
+    },
+    closeComponent() {
+      this.selectedComponent = null;
     }
   }
 }
