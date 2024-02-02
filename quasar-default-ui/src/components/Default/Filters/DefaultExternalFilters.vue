@@ -3,7 +3,7 @@
         <q-card class="full-width">
             <!--
             <q-card-section class="row col-12 q-pa-sm q-pl-lg">
-                <q-title class="">{{ translate(configs.store, 'filters', 'title') }}</q-title>
+                <q-title class="">{{ $translate(configs.store, 'filters', 'title') }}</q-title>
             </q-card-section>
             -->
             <q-card-section class="row col-12 q-pa-sm">
@@ -23,11 +23,11 @@
                 </template>
                 <div :class="'q-pa-sm flex col items-end justify-end'">
                     <q-btn class="q-pa-sm q-mr-md btn-search" color="primary"
-                        :label="translate(configs.store, 'filter', 'btn')" dense icon-right="search"
+                        :label="$translate(configs.store, 'filter', 'btn')" dense icon-right="search"
                         @click="sendFilter"></q-btn>
                     <q-btn class="q-pa-sm btn-clear" dense icon-right="filter_alt_off" color="primary" outline
                         @click="() => { clearFilters(); openFilters = false; }">
-                        <q-tooltip> {{ translate(configs.store, 'clear', 'tooltip') }} </q-tooltip>
+                        <q-tooltip> {{ $translate(configs.store, 'clear', 'tooltip') }} </q-tooltip>
                     </q-btn>
                 </div>
             </q-card-section>
@@ -36,7 +36,6 @@
 </template>
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
-import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 import FilterInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FilterInputs";
 
 export default {
@@ -51,7 +50,7 @@ export default {
     },
     computed: {
         columns() {
-            return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
+            return this.$copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
         filteredColumns() {
             return this.columns.filter(column => this.shouldIncludeColumn(column) && column.externalFilter == true)
@@ -80,9 +79,6 @@ export default {
     },
     methods: {
         ...DefaultFiltersMethods,
-        ...DefaultMethods,
-
-
         tableFilterComponent() {
             return this.configs.components?.customFilters || [];
         },

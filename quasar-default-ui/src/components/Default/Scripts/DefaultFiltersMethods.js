@@ -3,7 +3,7 @@ export function filterColumn(colName) {
     return col.name === colName || col.key === colName;
   });
 
-  let filters = this.copyObject(this.filters || []) || [];
+  let filters = this.$copyObject(this.filters || []) || [];
   if (!this.colFilter[colName]) {
     delete filters[colName];
   } else if (this.colFilter[colName] instanceof Array) {
@@ -20,19 +20,19 @@ export function filterColumn(colName) {
   this.forceShowInput = { [colName]: false };
 }
 export function applyFilters(filters) {
-  let f = this.copyObject(filters);
-  let pf = this.copyObject(this.filters);
+  let f = this.$copyObject(filters);
+  let pf = this.$copyObject(this.filters);
   if (f != pf) this.$store.commit(this.configs.store + "/SET_FILTERS", f);
 }
 export function onSearch() {
-  let filters = this.copyObject(this.filters);
+  let filters = this.$copyObject(this.filters);
   if (this.search != "") filters["search"] = this.search;
   else delete filters["search"];
   this.applyFilters(filters);
   this.sendFilter();
 }
 export function clearFilters() {
-  let filters = this.copyObject(this.filters);
+  let filters = this.$copyObject(this.filters);
 
   this.columns.forEach((column) => {
     if ((column.key || column.name) in filters) {
@@ -137,7 +137,7 @@ export function getSearchFilters(column) {
   let filters = configColumns
     ? configColumns[column.key || column.name]?.filters || {}
     : {};
-  let params = this.copyObject(filters || {});
+  let params = this.$copyObject(filters || {});
 
   return params;
 }

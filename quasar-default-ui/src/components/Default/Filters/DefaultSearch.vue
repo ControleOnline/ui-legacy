@@ -1,7 +1,7 @@
 <template>
     <q-input class="q-pa-xs" v-if="configs.search != false" borderless dense @keyup.enter="onSearch" v-model="search"
         :placeholder="
-        translate(configs.store, 'search', 'input')
+        $translate(configs.store, 'search', 'input')
         ">
         <template v-slot:append>
             <q-btn flat icon="search" @click="onSearch"></q-btn>
@@ -10,8 +10,6 @@
 </template>
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
-
-import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 
 export default {
     props: {
@@ -22,20 +20,20 @@ export default {
     },
     computed: {
         columns() {
-            return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
+            return this.$copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
         filters() {
             return this.$store.getters[this.configs.store + '/filters'] || {}
         },
     },
     created() {
-        this.search = this.copyObject(this.filters).search;
+        this.search = this.$copyObject(this.filters).search;
     },
 
     watch: {
         filters: {
             handler: function (dateModel) {
-                this.search = this.copyObject(this.filters).search;
+                this.search = this.$copyObject(this.filters).search;
             },
             deep: true,
         },
@@ -47,7 +45,6 @@ export default {
     },
     methods: {
         ...DefaultFiltersMethods,
-        ...DefaultMethods,
     }
 }
 

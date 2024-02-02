@@ -2,7 +2,7 @@
     <q-select dense outlined :stack-label="labelType" lazy-rules use-input :use-chips="multiple == true" map-options
         options-cover transition-show="flip-down" transition-hide="flip-up" @filter="searchList" :options="options"
         label-color="black" input-debounce="700" :loading="isLoadingList" :multiple="multiple == true"
-        :label="labelType != 'stack-label' ? '' : translate(store, label, 'input')" v-model="data"
+        :label="labelType != 'stack-label' ? '' : $translate(store, label, 'input')" v-model="data"
         @blur="this.$emit('blur', $event)" @focus="this.$emit('focus', $event)">
         <template v-slot:no-option v-if="!isLoadingList">
             <q-item>
@@ -17,7 +17,6 @@
 
 <script>
 
-import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 
 export default {
     props: {
@@ -83,7 +82,6 @@ export default {
         }
     },
     methods: {
-        ...DefaultMethods,
         searchList(input, update, abort) {
             let params = this.filters;
             if (input.length > 0) params[this.searchParam] = input;

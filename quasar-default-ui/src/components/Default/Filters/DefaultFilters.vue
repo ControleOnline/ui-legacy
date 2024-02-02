@@ -3,24 +3,24 @@
         <q-tooltip v-if="countFilters > 0">{{ countFilters }}
 
             {{
-                translate(configs.store, 'applyed', 'tooltip')
+                $translate(configs.store, 'applyed', 'tooltip')
             }}
         </q-tooltip>
         <q-tooltip v-else> {{
-            translate(configs.store, 'filters', 'tooltip')
+            $translate(configs.store, 'filters', 'tooltip')
         }}</q-tooltip>
         <q-badge color="orange" v-if="countFilters > 0" floating>{{ countFilters }}</q-badge>
     </q-btn>
     <q-btn class="q-pa-xs" dense icon-right="filter_alt_off" color="primary" outline
         @click="() => { clearFilters(); openFilters = false; }">
-        <q-tooltip> {{ translate(configs.store, 'clear', 'tooltip') }} </q-tooltip>
+        <q-tooltip> {{ $translate(configs.store, 'clear', 'tooltip') }} </q-tooltip>
     </q-btn>
     <q-dialog v-model="openFilters" :class="{ 'full-height': isFullHeight() }" :position="position">
         <q-card class="">
             <q-card-section class="row col-12 q-pa-sm">
                 <q-toolbar class="">
                     <q-toolbar-title class="">{{
-                        translate(configs.store, 'filters', 'title')
+                        $translate(configs.store, 'filters', 'title')
                     }}</q-toolbar-title>
                     <q-btn no-caps flat v-close-popup round dense icon="close" />
                 </q-toolbar>
@@ -44,11 +44,11 @@
                     <q-btn class="float-right q-pa-sm" dense icon-right="filter_alt_off" color="primary" outline
                         @click="() => { clearFilters(); openFilters = false; }">
                         <q-tooltip> {{
-                            translate(configs.store, 'clear', 'title')
+                            $translate(configs.store, 'clear', 'title')
                         }} </q-tooltip>
                     </q-btn>
                     <q-btn class="float-right q-pa-sm q-mr-md" style="width:calc(100% - 56px)" color="primary"
-                        :label="translate(configs.store, 'filter', 'btn')" dense outline icon-right="search" @click="() => {
+                        :label="$translate(configs.store, 'filter', 'btn')" dense outline icon-right="search" @click="() => {
                             applyFilters(filters);
                             sendFilter();
                             openFilters = false;
@@ -61,7 +61,6 @@
 </template>
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
-import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 import FilterInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FilterInputs";
 
 export default {
@@ -83,7 +82,7 @@ export default {
             return this.configs.components?.customFilters || [];
         },
         columns() {
-            return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
+            return this.$copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
         filters() {
             return this.$store.getters[this.configs.store + '/filters'] || {}
@@ -112,7 +111,6 @@ export default {
     },
     methods: {
         ...DefaultFiltersMethods,
-        ...DefaultMethods,
         getPosition() {
             this.position = this.configs.filterPosition;
         },
@@ -124,7 +122,7 @@ export default {
             this.countFilters = count.length;
         },
         getUsedFilters() {
-            let filters = Object.keys(this.copyObject(this.filters) || {});
+            let filters = Object.keys(this.$copyObject(this.filters) || {});
             return Object.keys(this.columns.filter(column => {
                 return Object.values(filters).includes(column.name);
             }) || {});

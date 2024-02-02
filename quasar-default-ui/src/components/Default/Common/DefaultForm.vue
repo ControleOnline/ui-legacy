@@ -18,7 +18,7 @@
             </div>
 
             <div class="row justify-end">
-                <q-btn :loading="isSaving" icon="save" type="submit" :label="translate(configs.store, 'save', 'btn')
+                <q-btn :loading="isSaving" icon="save" type="submit" :label="$translate(configs.store, 'save', 'btn')
                     " size="md" color="primary" class="q-mt-md" />
             </div>
         </q-form>
@@ -27,7 +27,6 @@
   
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
-import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FormInputs";
 import { mapActions, mapGetters } from "vuex";
 
@@ -112,9 +111,8 @@ export default {
 
     methods: {
         ...DefaultFiltersMethods,
-        ...DefaultMethods,
         save(params) {
-            let p = this.copyObject(this.filters);
+            let p = this.$copyObject(this.filters);
             for (const name in params) {
                 if (this.listObject[name])
                     p[name] = this.listObject[name] + '/' + params[name].value;
@@ -130,7 +128,7 @@ export default {
             this.$store.dispatch(this.configs.store + '/save', p
             ).then((item) => {
                 this.$q.notify({
-                    message: this.translate(this.configs.store, 'success', 'message'),
+                    message: this.$translate(this.configs.store, 'success', 'message'),
                     position: "bottom",
                     type: "positive",
                 });
@@ -138,7 +136,7 @@ export default {
             }).catch((error) => {
                 this.$emit("error", error);
                 this.$q.notify({
-                    message: this.translate(this.configs.store, 'error', 'message'),
+                    message: this.$translate(this.configs.store, 'error', 'message'),
                     position: "bottom",
                     type: "negative",
                 });

@@ -1,6 +1,6 @@
 <template>
     <label v-if="labelType != 'stack-label'">
-        {{ translate(configs.store, label, 'input') }}
+        {{ $translate(configs.store, label, 'input') }}
     </label>
     <q-input v-if="inputType == 'date-range'" filled v-model="data" mask="##/##/####" :rules="['validateBRDate']"
         @keydown="this.$emit('keydown', $event)">
