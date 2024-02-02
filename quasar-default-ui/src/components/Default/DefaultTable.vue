@@ -1,5 +1,5 @@
 <template>
-    <div :class="(configs['full-height'] == false ? '' : 'full-height') + ' full-width default-table'">
+    <div v-if="configsLoaded" :class="(configs['full-height'] == false ? '' : 'full-height') + ' full-width default-table'">
         <div class="q-gutter-sm" v-if="this.configs.filters">
             <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
         </div>
@@ -415,6 +415,7 @@ export default {
 
     data() {
         return {
+            configsLoaded: false,
             isTableView: this.$q.screen.gt.sm == false,
             listAutocomplete: [],
             showColumnMenu: false,
@@ -460,7 +461,8 @@ export default {
             this.colFilter = this.copyObject(this.filters);
             this.search = this.colFilter['search'];
             this.saveVisibleColumns();
-            this.loadData();
+            if (this.myCompany)
+                this.loadData();
         });
     },
 
@@ -565,6 +567,7 @@ export default {
 
             this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', this.copyObject(this.toogleVisibleColumns));
             this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
+            this.configsLoaded = true;
         },
         toggleShowColumnMenu() {
             this.showColumnMenu = this.showColumnMenu ? false : true;
@@ -658,8 +661,8 @@ export default {
         editItem(item) {
             this.item = this.copyObject(item);
             this.addModal = true;
-        }
-        , confirmDelete() {
+        },
+        confirmDelete() {
             this.$store.dispatch(this.configs.store + '/remove', this.deleteItem['@id'].split('/').pop()
             ).then((data) => {
 
