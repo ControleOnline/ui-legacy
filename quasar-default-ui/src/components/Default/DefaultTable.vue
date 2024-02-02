@@ -494,8 +494,9 @@ export default {
     },
     watch: {
         myCompany: {
-            handler: function () {
-                this.loadData();
+            handler: function (current, preview) {
+                if (current?.id != preview?.id)
+                    this.loadData();
             },
             deep: true,
         },
