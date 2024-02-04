@@ -21,9 +21,10 @@
                                 :is="tableColumnComponent(column.key ||column.name).component" :row="props.row"
                                 @loadData="loadData" />
                         </template>
-                        <q-btn v-else-if="column.to" @click="verifyClick(column, props.row)" :icon:="column.icon">{{
-                            this.format(column, props.row, getNameFromList(column, props.row, column.key ||
-                                column.name)) }}
+                        <q-btn v-else-if="column.to && row[column.key || column.name]"
+                            @click="verifyClick(column, props.row)" :icon:="column.icon">{{
+                                this.format(column, props.row, getNameFromList(column, props.row, column.key ||
+                                    column.name)) }}
                         </q-btn>
                         <template v-else-if="editingInit(items.indexOf(props.row), column) != true">
 
@@ -214,8 +215,8 @@
                                                 :is="tableColumnComponent(column.key ||column.name).component"
                                                 :row="props.row" @loadData="loadData" />
                                         </template>
-                                        <q-btn v-else-if="column.to" @click="verifyClick(column, props.row)"
-                                            :icon:="column.icon">
+                                        <q-btn v-else-if="column.to && row[column.key || column.name]"
+                                            @click="verifyClick(column, props.row)" :icon:="column.icon">
                                             {{ this.format(column, props.row, getNameFromList(column, props.row, column.key
                                                 ||
                                                 column.name)) }}
@@ -247,8 +248,8 @@
                                                 :is="tableColumnComponent(column.key ||column.name).component"
                                                 :row="props.row" @loadData="loadData" />
                                         </template>
-                                        <q-btn v-else-if="column.to" @click="verifyClick(column, props.row)"
-                                            :icon:="column.icon">{{
+                                        <q-btn v-else-if="column.to && row[column.key || column.name]"
+                                            @click="verifyClick(column, props.row)" :icon:="column.icon">{{
                                                 this.format(column, props.row, getNameFromList(column, props.row, column.key ||
                                                     column.name)) }}
                                         </q-btn>
@@ -342,7 +343,8 @@
         <q-dialog v-model="addModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ $translate(configs.store, (this.item?.id ? 'edit' : 'add'), 'title') }}</label>
+                    <label class="text-h5">{{ $translate(configs.store, (this.item?.id ? 'edit' : 'add'), 'title')
+                    }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>

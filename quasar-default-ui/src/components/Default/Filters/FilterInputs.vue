@@ -5,8 +5,8 @@
     <DateRangeInput :initialRange="colFilter[column.key || column.name]" @changedDateInput="changedDateInput"
         :labelType="labelType" v-if="column.inputType == 'date-range'" :column="column" :configs="configs" />
 
-    <SelectInput v-else-if="getList(configs,column)" :store="configs.store" :labelType="labelType" :label="column.label"
-        :multiple="true" :searchAction="getList(configs,column)" :filters="getSearchFilters(column)"
+    <SelectInput v-else-if="getList(configs, column)" :store="configs.store" :labelType="labelType" :label="column.label"
+        :multiple="true" :searchAction="getList(configs, column)" :filters="getSearchFilters(column)"
         :initialValue="colFilter[column.key || column.name]" :formatOptions="column.formatList"
         :searchParam="column.searchParam || 'search'" @selected="(value) => {
             colFilter[column.key || column.name] = $copyObject(value);
@@ -107,9 +107,13 @@ export default {
             let filters = this.$copyObject(this.filters);
             let filter = filters[this.column.key || this.column.name] || {};
             if (dateModel.from)
-                filter.before = buildAmericanDate(dateModel.from);
+                filter.after = buildAmericanDate(dateModel.from);
+            else
+                delete filter.after
             if (dateModel.to)
-                filter.after = buildAmericanDate(dateModel.to);
+                filter.before = buildAmericanDate(dateModel.to);
+            else
+                delete filter.before
 
             filters[this.column.key || this.column.name] = filter;
             this.applyFilters(filters);

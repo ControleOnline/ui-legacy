@@ -10,11 +10,14 @@
                 class="q-pa-none custom-input" dense v-model="to" mask="##/##/####"></q-input>
         </div>
         <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xg-1 col-xs-1 q-pa-sm  flex flex-end justify-end items-center">
-            <q-icon :clickable="true" @click="dateModel = { from: null, to: null }; setinputDate()" name="event"
-                class="vertical-middle cursor-pointer text-primary" size="sm">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+            <q-icon :clickable="true" @click="clear" name="event" class="vertical-middle cursor-pointer text-primary"
+                size="sm">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale" @close="apply">
                     <q-date v-model="dateModel" range mask="DD/MM/YYYY">
                         <div class="row items-center justify-end">
+                            <q-btn v-close-popup @click="clear(); apply()"
+                                :label="$translate(configs.store, 'clear', 'btn')" color="primary" flat />
+
                             <q-btn v-close-popup @click="apply" :label="$translate(configs.store, 'apply', 'btn')"
                                 color="primary" flat />
                         </div>
@@ -27,8 +30,8 @@
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
 import {
-  buildAmericanDate,
-  formatDateYmdTodmY,
+    buildAmericanDate,
+    formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
 
 export default {
@@ -76,20 +79,17 @@ export default {
     methods: {
         ...DefaultFiltersMethods,
         apply() {
-            let dateModel = {};
             this.setinputDate();
-            if (typeof this.dateModel === 'object')
-                dateModel = this.dateModel
-            else
-                dateModel = { from: this.dateModel, to: this.dateModel }
-
-            this.$emit('changedDateInput', dateModel);
+            this.$emit('changedDateInput', this.dateModel);
+        },
+        clear() {
+            this.dateModel = { from: null, to: null };
         },
         rangeDate(range) {
             let filters = this.$copyObject(range);
             let initialDate = {};
-            initialDate.from = formatDateYmdTodmY(filters?.before);
-            initialDate.to = formatDateYmdTodmY(filters?.after);
+            initialDate.from = formatDateYmdTodmY(filters?.after);
+            initialDate.to = formatDateYmdTodmY(filters?.before);
             return initialDate;
         },
         setinputDate() {
