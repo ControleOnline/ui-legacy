@@ -1,14 +1,15 @@
 <template>
-  <q-btn :dense="btnDense" :color="componentProps.btnColor ? componentProps.btnColor : 'primary'" :label="componentProps.btnTitle" :icon="componentProps.btnIcon" :flat="componentProps.btnFlat">
+  <q-btn :dense="btnDense" :color="componentProps.btnColor ? componentProps.btnColor : 'primary'"
+    :label="componentProps.btnTitle" :icon="componentProps.btnIcon" :flat="componentProps.btnFlat">
     <q-menu>
       <q-list>
-        <template v-for="(itm, idx) in items" :key="idx">
-          <q-item clickable v-close-popup @click="open(idx, itm)">
+        <template v-for="(itm, idx) in componentProps.items" :key="idx">
+          <q-item clickable v-close-popup @click="handleItemClick(itm)" v-if="getPermission(itm)">
             <q-item-section v-if="itm.icon" side>
               <q-icon size="sm" :name="itm.icon"></q-icon>
             </q-item-section>
             <q-item-section>
-              {{ itm.title }}
+              {{ $translate(store, itm.title, 'menu') }}
             </q-item-section>
           </q-item>
         </template>
@@ -16,13 +17,8 @@
     </q-menu>
   </q-btn>
 
-  <template v-for="(itm, idx) in items" :key="idx">
-    <q-dialog v-if="component" persistent v-model="openModal[idx]">
-      <div style="max-width: 90vw">
-        <component :is="component" :row="row" @loadData="loadData" />
-      </div>
-    </q-dialog>
-  </template>
+  <component :is="selectedComponent" :componentProps="componentProps" :row="row" @loadData="loadData"
+    @closeComponent="closeComponent" v-if="selectedComponent" />
 </template>
 
 <script>
@@ -31,31 +27,32 @@ export default {
   emits: ['loadData'],
   props: {
     componentProps: Object,
-    row: Object
+    row: Object,
+    store: String
   },
 
   data() {
     return {
-      openModal: [],
-      component: false,
+      selectedComponent: null,
     }
   },
-
   created() {
-    if (!this.componentProps.items) this.items = [];
-
-    for (let k in this.componentProps) {
-      this[k] = this.componentProps[k];
-    }
   },
   methods: {
-    open(idx, itm) {
-      this.openModal = [];
-      this.component = itm.component;
-      this.openModal[idx] = true;
+    getPermission(itm) {
+      if (typeof itm.permission == 'function')
+        return itm.permission(this.row);
+
+      return itm.permission != false;
+    },
+    handleItemClick(itm) {
+      this.selectedComponent = itm.component;
     },
     loadData() {
       this.$emit('loadData')
+    },
+    closeComponent() {
+      this.selectedComponent = null;
     }
   }
 }

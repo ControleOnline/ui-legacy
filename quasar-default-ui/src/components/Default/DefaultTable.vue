@@ -1,17 +1,17 @@
 <template>
-    <div :class="(configs['full-height'] == false ? '' : 'full-height') + ' full-width default-table'">
+    <div v-if="configsLoaded" :class="(configs['full-height'] == false ? '' : 'full-height') + ' full-width default-table'">
         <div class="q-gutter-sm" v-if="this.configs.filters">
             <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
         </div>
-        <q-table :grid="isTableView" class="default-table" dense :rows="items" :row-key="columns[0].name"
-            :loading="isloading" v-model:pagination="pagination" @request="loadData" :rows-per-page-options="rowsOptions"
-            :key="tableKey" binary-state-sort>
+        <q-table :grid="isTableView" class="default-table" dense :rows="items" :loading="isloading"
+            :row-key="columns[0].name" v-model:pagination="pagination" @request="loadData"
+            :rows-per-page-options="rowsOptions" :key="tableKey" binary-state-sort>
             <template v-slot:body="props">
                 <q-tr :props="props.row" @click="rowClick(props.row, $event)">
                     <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name" :class="[
                         'text-' + column.align,
                         { 'dragging-column': isDraggingCollumn[index] },
-                        { 'hidden': column.visible != true }
+                        { 'hidden': !shouldIncludeColumn(column) }
                     ]">
 
                         <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[items.indexOf(props.row)]"
@@ -63,12 +63,12 @@
                         <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white" color="primary"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem(props.row)">
-                            <q-tooltip> {{ translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
+                            <q-tooltip> {{ $translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
                         </q-btn>
                         <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="openConfirm(props.row)">
-                            <q-tooltip> {{ translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
+                            <q-tooltip> {{ $translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
                         </q-btn>
                         <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
                             :componentProps="tableActionsProps()" :row="props.row" @loadData="loadData" />
@@ -85,7 +85,7 @@
                             { 'asc': column.sortable && (sortedColumn === (column.key || column.name)) && sortDirection === 'ASC' },
                             { 'desc': column.sortable && (sortedColumn === (column.key || column.name)) && sortDirection === 'DESC' },
                             { 'dragging-column': isDraggingCollumn[index] },
-                            { 'hidden': column.visible != true }
+                            { 'hidden': !shouldIncludeColumn(column) }
                         ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)"
                         class="header-column" @mouseover="setShowInput(column.key || column.name)"
                         @mouseout="hideInput(column.key || column.name)">
@@ -113,7 +113,7 @@
                                     :name="(draggedColumnPosition === 'before' ? 'keyboard_arrow_left' : 'keyboard_arrow_right')" />
                                 <q-checkbox v-if="index == 0 && configs.selection" v-on:click.native="toggleSelectAll"
                                     v-model="selectAll" />
-                                {{ translate(configs.store, column.label, 'input') }}
+                                {{ $translate(configs.store, column.label, 'input') }}
                                 <q-icon v-if="column.sortable"
                                     :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
                                     color="grey-8" size="14px" />
@@ -138,7 +138,7 @@
                         <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
                             color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem({})">
-                            <q-tooltip> {{ translate(configs.store, 'add', 'tooltip') }} </q-tooltip>
+                            <q-tooltip> {{ $translate(configs.store, 'add', 'tooltip') }} </q-tooltip>
                         </q-btn>
                         <q-space></q-space>
 
@@ -155,23 +155,23 @@
                         <q-space></q-space>
                         <q-btn v-if="isTableView" @click="toggleView" class="q-pa-xs" label="" dense icon="menu">
                             <q-tooltip>
-                                {{ translate(configs.store, 'table', 'tooltip') }}
+                                {{ $translate(configs.store, 'table', 'tooltip') }}
                             </q-tooltip>
                         </q-btn>
                         <q-btn v-else @click="toggleView" class="q-pa-xs" label="" dense icon="dashboard">
                             <q-tooltip>
-                                {{ translate(configs.store, 'cards', 'tooltip') }}
+                                {{ $translate(configs.store, 'cards', 'tooltip') }}
                             </q-tooltip>
                         </q-btn>
                         <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
-                            <q-tooltip> {{ translate(configs.store, 'config_columns', 'tooltip') }} </q-tooltip>
+                            <q-tooltip> {{ $translate(configs.store, 'config_columns', 'tooltip') }} </q-tooltip>
                             <!-- Menu de configuração de colunas -->
                             <q-menu v-model="showColumnMenu">
                                 <q-list>
                                     <q-item v-for="column in columns" :key="column.key || column.name">
                                         <q-item-section>
                                             <q-toggle v-model="toogleVisibleColumns[column.key || column.name]"
-                                                :label="translate(configs.store, column.name, 'input')"
+                                                :label="$translate(configs.store, column.name, 'input')"
                                                 @click="saveVisibleColumns" />
                                         </q-item-section>
                                     </q-item>
@@ -182,14 +182,14 @@
 
                         <q-btn class="q-pa-xs" label="" dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
                             @click="toggleMaximize(props)">
-                            <q-tooltip> {{ translate(configs.store, (props.inFullscreen ? 'minimize' : 'maximize'),
+                            <q-tooltip> {{ $translate(configs.store, (props.inFullscreen ? 'minimize' : 'maximize'),
                                 'tooltip')
                             }}
                             </q-tooltip>
                         </q-btn>
                         <q-btn color="primary" icon-right="archive" dense class="q-pa-xs" label="" @click="exportTable"
                             v-if="configs.export">
-                            <q-tooltip> {{ translate(configs.store, 'export', 'tooltip') }} </q-tooltip>
+                            <q-tooltip> {{ $translate(configs.store, 'export', 'tooltip') }} </q-tooltip>
                         </q-btn>
                     </q-toolbar>
 
@@ -207,7 +207,7 @@
                             <q-item>
                                 <template v-for="(column, index) in columns" :key="column.key || column.name">
                                     <q-item-section v-if="column.isIdentity"
-                                        :class="[{ 'hidden': column.visible != true }]">
+                                        :class="[{ 'hidden': !shouldIncludeColumn(column) }]">
                                         <template v-if="tableColumnComponent(column.key || column.name)">
                                             <component
                                                 :componentProps="tableColumnComponent(column.key || column.name).props"
@@ -238,7 +238,7 @@
                             <template v-for="(column, index) in columns" :key="column.key || column.name">
                                 <q-item v-if="!column.isIdentity">
                                     <q-item-section>
-                                        <q-item-label>{{ translate(configs.store, column.label, 'input') }}</q-item-label>
+                                        <q-item-label>{{ $translate(configs.store, column.label, 'input') }}</q-item-label>
                                     </q-item-section>
                                     <q-item-section side>
                                         <template v-if="tableColumnComponent(column.key || column.name)">
@@ -295,12 +295,12 @@
                                         color="primary"
                                         :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="editItem(props.row)">
-                                        <q-tooltip> {{ translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
+                                        <q-tooltip> {{ $translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
                                     </q-btn>
                                     <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                                         :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="openConfirm(props.row)">
-                                        <q-tooltip> {{ translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
+                                        <q-tooltip> {{ $translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
                                     </q-btn>
                                     <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
                                         :componentProps="tableActionsProps()" :row="props.row" @loadData="loadData" />
@@ -314,7 +314,7 @@
                 <q-tr class="tr-sum">
                     <q-td v-for="(column, index)  in columns" :class="[
                         'text-' + column.align,
-                        { 'hidden': column.visible != true }]">
+                        { 'hidden': !shouldIncludeColumn(column) }]">
                         <span v-if="sumColumn[column.key || column.name]"
                             v-html="(column.prefix || '') +
                                 format(column, {}, sumColumn[column.key || column.name]) + (column.sufix || '')"></span>
@@ -342,7 +342,7 @@
         <q-dialog v-model="addModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ translate(configs.store, (this.item?.id ? 'edit' : 'add'), 'title') }}</label>
+                    <label class="text-h5">{{ $translate(configs.store, (this.item?.id ? 'edit' : 'add'), 'title') }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -355,7 +355,7 @@
         <q-dialog v-model="deleteModal">
             <q-card class="q-pa-md full-width">
                 <q-card-section class="row items-center">
-                    <label class="text-h5">{{ translate(configs.store, 'msg_delete', 'title') }}</label>
+                    <label class="text-h5">{{ $translate(configs.store, 'msg_delete', 'title') }}</label>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -363,11 +363,11 @@
                 <q-card-section>
                     <div class="flex q-pt-md">
                         <q-btn class="q-py-sm q-px-md text-capitalize" outline color="secondary"
-                            :label="translate(configs.store, 'cancel', 'btn')" v-close-popup>
+                            :label="$translate(configs.store, 'cancel', 'btn')" v-close-popup>
                         </q-btn>
                         <q-space></q-space>
                         <q-btn class="q-py-sm q-px-md text-capitalize" color="secondary"
-                            :label="translate(configs.store, 'confirm', 'btn')" @click="confirmDelete" :loading="isSaving">
+                            :label="$translate(configs.store, 'confirm', 'btn')" @click="confirmDelete" :loading="isSaving">
                         </q-btn>
                     </div>
                 </q-card-section>
@@ -385,7 +385,6 @@ import FilterInputs from "@controleonline/quasar-default-ui/src/components/Defau
 import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FormInputs";
 
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
-import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -415,6 +414,7 @@ export default {
 
     data() {
         return {
+            configsLoaded: false,
             isTableView: this.$q.screen.gt.sm == false,
             listAutocomplete: [],
             showColumnMenu: false,
@@ -453,21 +453,15 @@ export default {
     },
 
     created() {
-
+        this.removeHiddenColumns();
     },
     mounted() {
         this.$nextTick(() => {
-            this.colFilter = this.copyObject(this.filters);
-            if (this.visibleColumns && !this.isEmptyProxy(this.visibleColumns))
-                this.toogleVisibleColumns = this.copyObject(this.visibleColumns);
-            else
-                this.columns.forEach((column, columnIndex) => {
-                    this.toogleVisibleColumns[column.key || column.name] = column.visible != false ? true : false;
-                });
-
-            this.saveVisibleColumns();
+            this.colFilter = this.$copyObject(this.filters);
             this.search = this.colFilter['search'];
-            this.loadData();
+            this.saveVisibleColumns();
+            if (this.myCompany)
+                this.loadData();
         });
     },
 
@@ -475,6 +469,9 @@ export default {
         ...mapGetters({
             myCompany: 'people/currentCompany',
         }),
+        columns() {
+            return this.$store.getters[this.configs.store + '/columns']
+        },
         isloading() {
             return this.$store.getters[this.configs.store + '/isLoading']
         },
@@ -483,9 +480,6 @@ export default {
         },
         filters() {
             return this.$store.getters[this.configs.store + '/filters'] || {}
-        },
-        columns() {
-            return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
         totalItems() {
             return this.$store.getters[this.configs.store + '/totalItems']
@@ -499,37 +493,37 @@ export default {
     },
     watch: {
         myCompany: {
-            handler: function () {
-                this.loadData();
+            handler: function (current, preview) {
+                if (current?.id != preview?.id)
+                    this.loadData();
             },
             deep: true,
         },
         filters: {
             handler: function () {
-                this.colFilter = this.copyObject(this.filters);
+                this.colFilter = this.$copyObject(this.filters);
                 this.search = this.colFilter?.search;
             },
             deep: true,
         },
         selectedRows: {
             handler: function (selectedRows) {
-                this.$store.commit(this.configs.store + '/SET_SELECTED', this.copyObject(selectedRows));
+                this.$store.commit(this.configs.store + '/SET_SELECTED', this.$copyObject(selectedRows));
                 const selected = this.items.filter((objeto, indice) => selectedRows[indice]);
-                this.$emit('selected', this.copyObject(selected));
+                this.$emit('selected', this.$copyObject(selected));
             },
             deep: true,
         },
     },
     methods: {
         ...DefaultFiltersMethods,
-        ...DefaultMethods,
         toggleView() {
             this.isTableView = !this.isTableView;
         },
+
         toggleMaximize(props) {
             props.toggleFullscreen();
             setTimeout(() => {
-
                 if (this.configs['full-height'] == false && !props.inFullscreen)
                     this.scrollToTop(this.adjustElementHeight(props.inFullscreen));
                 else
@@ -540,22 +534,39 @@ export default {
         rowClick(row, event) {
             this.$emit('rowClick', row, event);
         },
+        removeHiddenColumns() {
+            let columns = this.$copyObject(this.columns);
+            columns.forEach((column, columnIndex) => {
+                if (!this.shouldIncludeColumn(column))
+                    delete columns[columnIndex]
+                else
+                    columns[columnIndex].visible = true;
+            });
+            this.$store.commit(this.configs.store + '/SET_COLUMNS', this.recriarIndices(columns));
+            this.toogleVisibleColumns = this.$copyObject(this.visibleColumns || columns);
+
+        },
+        recriarIndices(arrayOriginal) {
+
+            return Object.values(arrayOriginal.reduce((obj, valor, indice) => {
+                obj[indice] = valor;
+                return obj;
+            }, {}));
+        },
         saveVisibleColumns() {
-            let columns = this.copyObject(this.columns);
-            let persistVisibleColumns = {};
-            this.columns.forEach((column, columnIndex) => {
+            let columns = this.$copyObject(this.columns);
+            columns.forEach((column, columnIndex) => {
                 if (this.toogleVisibleColumns[column.key || column.name] != false) {
                     columns[columnIndex].visible = true;
-                    persistVisibleColumns[column.key || column.name] = true;
-                }
-                else {
-                    delete columns[columnIndex].visible;
-                    persistVisibleColumns[column.key || column.name] = false;
+                    this.toogleVisibleColumns[column.key || column.name] = true;
+                } else {
+                    columns[columnIndex].visible = false;
                 }
             });
 
-            this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', persistVisibleColumns);
+            this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', this.$copyObject(this.toogleVisibleColumns));
             this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
+            this.configsLoaded = true;
         },
         toggleShowColumnMenu() {
             this.showColumnMenu = this.showColumnMenu ? false : true;
@@ -647,10 +658,10 @@ export default {
             this.deleteModal = true;
         },
         editItem(item) {
-            this.item = this.copyObject(item);
+            this.item = this.$copyObject(item);
             this.addModal = true;
-        }
-        , confirmDelete() {
+        },
+        confirmDelete() {
             this.$store.dispatch(this.configs.store + '/remove', this.deleteItem['@id'].split('/').pop()
             ).then((data) => {
 
@@ -674,7 +685,7 @@ export default {
                     this.sortDirection = 'ASC';
                 }
 
-                let filters = this.copyObject(this.filters);
+                let filters = this.$copyObject(this.filters);
                 if (!this.sortedColumn)
                     delete filters.order;
                 else
@@ -690,7 +701,7 @@ export default {
             if (!this.sortedColumn || !this.sortDirection) {
                 return; // Não fazer nada se não houver ordenação
             }
-            const clonedData = this.copyObject(this.items);
+            const clonedData = this.$copyObject(this.items);
 
             clonedData.sort((a, b) => {
                 const aValue = a[this.sortedColumn];
@@ -723,7 +734,7 @@ export default {
         },
 
         stopEditing(index, col, row) {
-            let editing = this.copyObject(this.editing);
+            let editing = this.$copyObject(this.editing);
             editing[index] = {
                 [col.key || col.name]: false
             };
@@ -806,13 +817,13 @@ export default {
                 if (data) {
                     this.loadData();
                     this.$q.notify({
-                        message: this.translate(this.configs.store, "success", 'message'),
+                        message: this.$translate(this.configs.store, "success", 'message'),
                         position: "bottom",
                         type: "positive",
                     });
                 } else {
                     this.$q.notify({
-                        message: this.translate(this.configs.store, "error", 'message'),
+                        message: this.$translate(this.configs.store, "error", 'message'),
                         position: "bottom",
                         type: "negative",
                     });
@@ -883,7 +894,7 @@ export default {
                 this.applyFilters(Object.assign(this.filters, props.filters));
             }
 
-            let params = Object.assign(this.copyObject(this.filters), this.copyObject(this.pagination));
+            let params = Object.assign(this.$copyObject(this.filters), this.$copyObject(this.pagination));
             delete params.rowsNumber;
             delete params.sortBy;
             delete params.descending;
@@ -1154,10 +1165,9 @@ export default {
     position: fixed;
 }
 
-.q-body--fullscreen-mixin .default-table .q-table--grid .q-table__middle {
+.default-table .q-table--grid .q-table__middle {
     display: none;
 }
-
 
 .q-body--fullscreen-mixin .fixed-top {
     position: sticky;

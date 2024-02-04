@@ -1,6 +1,6 @@
 <template>
     <label v-if="labelType != 'stack-label'">
-        {{ translate(configs.store, column.label, 'input') }}
+        {{ $translate(configs.store, column.label, 'input') }}
     </label>
     <DateRangeInput :initialRange="colFilter[column.key || column.name]" @changedDateInput="changedDateInput"
         :labelType="labelType" v-if="column.inputType == 'date-range'" :column="column" :configs="configs" />
@@ -9,11 +9,11 @@
         :multiple="true" :searchAction="getList(configs,column)" :filters="getSearchFilters(column)"
         :initialValue="colFilter[column.key || column.name]" :formatOptions="column.formatList"
         :searchParam="column.searchParam || 'search'" @selected="(value) => {
-            colFilter[column.key || column.name] = copyObject(value);
+            colFilter[column.key || column.name] = $copyObject(value);
         }" @blur="sendFilterColumn(column.key || column.name)" @focus="setForceShowInput(column.key || column.name)" />
 
     <q-input v-else dense outlined :stack-label="labelType" :type:="inputType" :prefix="prefix" :sufix="sufix"
-        :label="labelType != 'stack-label' ? '' : translate(configs.store, column.label, 'input')"
+        :label="labelType != 'stack-label' ? '' : $translate(configs.store, column.label, 'input')"
         @click.stop="setForceShowInput(column.key || column.name)" v-model="colFilter[column.key || column.name]"
         @focus="setForceShowInput(column.key || column.name)" @blur="sendFilterColumn(column.key || column.name)"
         @keydown.enter="sendFilterColumn(column.key || column.name); sendFilter()">
@@ -24,7 +24,6 @@
 </template>
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
-import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 import DateRangeInput from '../Common/Inputs/DateRangeInput';
 import SelectInput from '../Common/Inputs/SelectInput';
 
@@ -72,7 +71,7 @@ export default {
             return this.$store.getters[this.configs.store + '/filters'] || {}
         },
         columns() {
-            return this.copyObject(this.$store.getters[this.configs.store + '/columns'])
+            return this.$copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
     },
     data() {
@@ -84,7 +83,7 @@ export default {
         }
     },
     created() {
-        this.colFilter = this.copyObject(this.filters);
+        this.colFilter = this.$copyObject(this.filters);
     },
 
     watch: {
@@ -98,7 +97,6 @@ export default {
     },
     methods: {
         ...DefaultFiltersMethods,
-        ...DefaultMethods,
         sendFilterColumn() {
             this.filterColumn(this.column.key || this.column.name);
             if (this.onChange)
@@ -106,7 +104,7 @@ export default {
         },
         changedDateInput(dateModel) {
 
-            let filters = this.copyObject(this.filters);
+            let filters = this.$copyObject(this.filters);
             let filter = filters[this.column.key || this.column.name] || {};
             if (dateModel.from)
                 filter.before = buildAmericanDate(dateModel.from);

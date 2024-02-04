@@ -3,7 +3,7 @@ export function filterColumn(colName) {
     return col.name === colName || col.key === colName;
   });
 
-  let filters = this.copyObject(this.filters || []) || [];
+  let filters = this.$copyObject(this.filters || []) || [];
   if (!this.colFilter[colName]) {
     delete filters[colName];
   } else if (this.colFilter[colName] instanceof Array) {
@@ -20,19 +20,19 @@ export function filterColumn(colName) {
   this.forceShowInput = { [colName]: false };
 }
 export function applyFilters(filters) {
-  let f = this.copyObject(filters);
-  let pf = this.copyObject(this.filters);
+  let f = this.$copyObject(filters);
+  let pf = this.$copyObject(this.filters);
   if (f != pf) this.$store.commit(this.configs.store + "/SET_FILTERS", f);
 }
 export function onSearch() {
-  let filters = this.copyObject(this.filters);
+  let filters = this.$copyObject(this.filters);
   if (this.search != "") filters["search"] = this.search;
   else delete filters["search"];
   this.applyFilters(filters);
   this.sendFilter();
 }
 export function clearFilters() {
-  let filters = this.copyObject(this.filters);
+  let filters = this.$copyObject(this.filters);
 
   this.columns.forEach((column) => {
     if ((column.key || column.name) in filters) {
@@ -92,6 +92,20 @@ export function formatData(column, row, editing) {
   return data;
 }
 
+export function getList(configs, column) {
+  if (configs?.list && configs?.list[column.key || column.name])
+    return configs?.list[column.key || column.name];
+  else
+    return column.list;
+}
+
+export function shouldIncludeColumn(column) {
+  const isVisibleFunction = this.configs.columns && this.configs.columns[column.key || column.name]?.visible;
+  if (typeof isVisibleFunction === 'function')
+    return isVisibleFunction(column) !== false && column.visible !== false;
+  return isVisibleFunction !== false && column.visible !== false;
+}
+
 export function getNameFromList(column, row, editing) {
   let name = null;
   if (column.list == undefined || typeof column.list == "string") {
@@ -106,10 +120,10 @@ export function getNameFromList(column, row, editing) {
         i &&
         i.value &&
         i.value.toString().trim() ==
-          (row[column.key || column.name] instanceof Object &&
+        (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-            ? row[column.key || column.name]["@id"].split("/").pop().trim()
-            : row[column.key || column.name].trim())
+          ? row[column.key || column.name]["@id"].split("/").pop().trim()
+          : row[column.key || column.name].trim())
       );
     });
     return name instanceof Object && !editing
@@ -130,7 +144,7 @@ export function getSearchFilters(column) {
   let filters = configColumns
     ? configColumns[column.key || column.name]?.filters || {}
     : {};
-  let params = this.copyObject(filters || {});
+  let params = this.$copyObject(filters || {});
 
   return params;
 }
