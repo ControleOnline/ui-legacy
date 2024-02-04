@@ -148,7 +148,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      let endpoint = `${this.people_type}/${this.id}/billing`;
+      let endpoint = `peoples/${this.id}/billing`;
       return api.fetch
         (endpoint)
         
@@ -165,7 +165,7 @@ export default {
         body: (values),
       };
 
-      let endpoint = `${this.people_type}/${this.id}/billing`;
+      let endpoint = `peoples/${this.id}/billing`;
       return api.fetch
         (endpoint, options)
         

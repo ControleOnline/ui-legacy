@@ -137,7 +137,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      let endpoint = `${this.people_type}/${this.id}/emails`;
+      let endpoint = `peoples/${this.id}/emails`;
       return api.fetch
         (endpoint)
         
@@ -154,7 +154,7 @@ export default {
         body: (values),
       };
 
-      let endpoint = `${this.people_type}/${this.id}/emails`;
+      let endpoint = `peoples/${this.id}/emails`;
       return api.fetch
         (endpoint, options)
         
@@ -177,7 +177,7 @@ export default {
         body: ({ id }),
       };
 
-      let endpoint = `${this.people_type}/${this.id}/emails`;
+      let endpoint = `peoples/${this.id}/emails`;
       return api.fetch
         (endpoint, options)
         

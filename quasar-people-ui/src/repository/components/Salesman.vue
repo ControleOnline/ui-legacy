@@ -173,7 +173,7 @@ export default {
         }
       };
 
-      return api.fetch(`${this.people_type}/${this.id}/salesman`, options)
+      return api.fetch(`peoples/${this.id}/salesman`, options)
         
         .then(data => {
           if (data.response) {
@@ -195,7 +195,7 @@ export default {
         body: ({ id }),
       };
 
-      return api.fetch(`${this.people_type}/${this.id}/salesman`, options)
+      return api.fetch(`peoples/${this.id}/salesman`, options)
         
         .then(data => {
           if (data.response) {
@@ -212,7 +212,7 @@ export default {
     // store method
     getSalesman(id) {
 
-      return api.fetch(`${this.people_type}/search-salesman`, { params: { document: id } })
+      return api.fetch(`peoples/search-salesman`, { params: { document: id } })
         
         .then(data => {
           if (data.response) {
