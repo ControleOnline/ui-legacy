@@ -1,6 +1,6 @@
 export const routes = [
   {
-    path: '/providers/',
+    path: '/peoples/',
     component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
     children: [
       {

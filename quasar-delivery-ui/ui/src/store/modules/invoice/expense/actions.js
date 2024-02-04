@@ -10,7 +10,7 @@ export function getProviders({ commit }, data) {
     params: data.params ? data.params : {}
   };
 
-  return api.fetch('/providers', options)
+  return api.fetch('/peoples', options)
     
     .then(response => {
       return response['hydra:member'];
@@ -45,7 +45,7 @@ export const createProvider = ({ commit }, data) => {
     params: data.params ? data.params : {}
   };
 
-  return api.fetch('/providers', options)
+  return api.fetch('/peoples', options)
     
     .then(response => {
       return response;

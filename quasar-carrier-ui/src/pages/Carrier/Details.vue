@@ -20,7 +20,7 @@
           <div class="col-12 q-pa-md text-center">
             <PersonAvatar
               :url="carrier.avatar"
-              :upload="`${baseUrl}/carriers/${this.$route.params.id}/upload-logo`"
+              :upload="`${baseUrl}/peoples/${this.$route.params.id}/upload-logo`"
               @uploaded="
                 (data) => {
                   if (data.url) {
