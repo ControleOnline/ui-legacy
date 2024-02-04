@@ -240,7 +240,7 @@ export default {
           format: (value) => {
             if (value === null || !value) return null;
 
-            return `https://${value}`;
+            return `//${value}`;
           },
           label: "Carrier Image",
         },

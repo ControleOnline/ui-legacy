@@ -149,7 +149,7 @@ export default {
         if (company) {
           this.company.name = company.alias;
           if (company.image && company.image.url) {
-            this.company.image = `https://${ENTRYPOINT}${company.image.url}`;
+            this.company.image = `//${ENTRYPOINT}${company.image.url}`;
           } else {
             this.company.image = null;
           }

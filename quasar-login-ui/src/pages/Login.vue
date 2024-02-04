@@ -1,28 +1,13 @@
 <template>
   <q-page class="row justify-center">
     <!-- LOGIN FORM -->
-    <LoginPage
-      :signinDialogStatus="dialogs.signup.visible"
-      @logged="onLogged"
-      @signup="onSignUp"
-    />
+    <LoginPage :signinDialogStatus="dialogs.signup.visible" @logged="onLogged" @signup="onSignUp" />
 
     <!-- SIGNUP STEP TO STEP -->
-    <q-dialog
-      maximized
-      no-backdrop-dismiss
-      v-model="dialogs.signup.visible"
-      transition-show="slide-left"
-      transition-hide="slide-right"
-    >
-      <SignUpPage
-        @created="onCreated"
-        @company="onCompany"
-        @registered="onRegistered"
-        @signIn="dialogs.signup.visible = false"
-        :signUpFields="signUpFields"
-        :defaultCompany="defaultCompany"
-      />
+    <q-dialog maximized no-backdrop-dismiss v-model="dialogs.signup.visible" transition-show="slide-left"
+      transition-hide="slide-right">
+      <SignUpPage @created="onCreated" @company="onCompany" @registered="onRegistered"
+        @signIn="dialogs.signup.visible = false" :signUpFields="signUpFields" :defaultCompany="defaultCompany" />
     </q-dialog>
   </q-page>
 </template>
@@ -32,6 +17,7 @@ import { LocalStorage } from "quasar";
 import { mapActions, mapGetters } from "vuex";
 import LoginPage from "../components/user/login/Index.vue";
 import SignUpPage from "../components/user/signup/Index.vue";
+import { DOMAIN } from 'src/config/domain.js'
 
 export default {
   name: "PageIndex",
@@ -48,7 +34,6 @@ export default {
           visible: false,
         },
       },
-      defaultCompany: {},
     };
   },
 
@@ -56,6 +41,7 @@ export default {
     ...mapGetters({
       indexRoute: "auth/indexRoute",
       signUpFields: "auth/signUpFields",
+      defaultCompany: "people/defaultCompany",
     }),
 
 
@@ -73,16 +59,12 @@ export default {
         this.goToIndexRoute();
       }
     }
-
-    this.discoveryDefaultCompany();
   },
 
   methods: {
-    ...mapActions({
-      peopleDefaultCompany: "people/defaultCompany",
-    }),
+
     isLogged() {
-      return         this.$store.getters["auth/user"] !== null && this.$store.getters["auth/user"].username      ;
+      return this.$store.getters["auth/user"] !== null && this.$store.getters["auth/user"].username;
     },
     goToIndexRoute() {
       this.$router.push({ name: 'HomeIndex' });
@@ -173,34 +155,7 @@ export default {
       }, time);
     },
 
-    discoveryDefaultCompany() {
-      this.peopleDefaultCompany().then((response) => {
-        let data = [];
-        if (response.success === true && response.data.length) {
-          for (let index in response.data) {
-            let item = response.data[index];
-            let logo = null;
-            let background = null;
 
-            const protocol = location.protocol;
-
-            if (item.logo !== null) {
-              logo = protocol + "//" + item.logo.domain + item.logo.url;
-            }
-            if (item.background !== null) {
-              background = protocol + "//" + item.background.domain + item.background.url;
-            }
-            data.push({
-              id: item.id,
-              name: item.alias,
-              logo: logo || null,
-              background: background || null,
-            });
-          }
-        }
-        this.defaultCompany = data[0];
-      });
-    },
   },
 };
 </script>

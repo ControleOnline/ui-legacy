@@ -183,7 +183,7 @@ export default {
 
 
   created() {
-    this.discoveryDefaultCompany();
+    this.discoveryMyCompanyies();
     if (this.defaultCompany) {
       this.pageLoading = false;
     }
@@ -233,7 +233,6 @@ export default {
 
   methods: {
     ...mapActions({
-      peopleDefaultCompany: "people/defaultCompany",
       getCompanies: 'people/myCompanies',
     }),
     onClickmenu(item) {
@@ -251,19 +250,19 @@ export default {
       this.discoveryIfEnabled();
     },
     verifyPermissions() {
-        this.defaultCompany?.permissions?.forEach((item) => {
-          if (this.permissions.indexOf(item) === -1) {
-            this.permissions.push(item);
-            if (item.indexOf("franchisee") !== -1 ||
-              item.indexOf("salesman") !== -1 ||
-              item.indexOf("super") !== -1 ||
-              item.indexOf("admin") !== -1
-            ) {
-              this.isAdmin = true;
-            }
-
+      this.defaultCompany?.permissions?.forEach((item) => {
+        if (this.permissions.indexOf(item) === -1) {
+          this.permissions.push(item);
+          if (item.indexOf("franchisee") !== -1 ||
+            item.indexOf("salesman") !== -1 ||
+            item.indexOf("super") !== -1 ||
+            item.indexOf("admin") !== -1
+          ) {
+            this.isAdmin = true;
           }
-        });
+
+        }
+      });
     },
     discoveryIfEnabled() {
       if (this.companies) {
@@ -283,11 +282,9 @@ export default {
         this.disabled = user_disabled || disabled;
       }
     },
-    discoveryDefaultCompany() {
-      this.peopleDefaultCompany().then((response) => {
-        this.getCompanies().then((response) => {
-          this.setMyCompanies(response.data)
-        });
+    discoveryMyCompanyies() {
+      this.getCompanies().then((response) => {
+        this.setMyCompanies(response.data)
       });
     },
     onLogout() {

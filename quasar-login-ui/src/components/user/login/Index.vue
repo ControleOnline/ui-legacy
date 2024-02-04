@@ -1,9 +1,9 @@
 <template>
   <div class="container text-center q-gutter-y-md">
     <!-- <div class="login-logo-conteiner"> -->
-      <q-avatar size="260px">
-        <q-img   :src="defaultLogo" class="" />
-      </q-avatar>
+    <q-avatar size="260px">
+      <q-img v-if="defaultCompany.logo" :src="'//' + defaultCompany.logo.domain + defaultCompany.logo.url" class="" />
+    </q-avatar>
     <!-- </div> -->
     <q-card class="q-mb-lg">
       <q-card-section class="q-pt-md">
@@ -71,61 +71,26 @@ export default {
   data() {
     return {
       recovery: false,
-      defaultCompany: {},
-      defaultLogo: '',
     };
   },
 
   methods: {
-    ...mapActions({
-      peopleDefaultCompany: "people/defaultCompany",
-    }),
-
     onAuthenticated(user) {
       this.$emit("logged", user);
     },
-
     onSignUp() {
       this.$emit("signup");
-    },
-
-    discoveryDefaultCompany() {
-      this.peopleDefaultCompany().then((response) => {
-        let data = [];
-
-        if (response.success === true && response.data) {
-          let item = response.data;
-          let logo = null;
-
-          if (item.logo !== null) {
-            logo =
-              "https://" +
-              item.logo.domain +
-              item.logo.url;
-          }
-
-          data.push({
-            id: item.id,
-            name: item.alias,
-            logo: logo || null,
-          });
-
-          this.defaultLogo = logo;
-        }
-        this.defaultCompany = data;
-      });
     },
   },
 
   computed: {
     ...mapGetters({
-      getPeopleDefaultCompany: "people/defaultCompany",
+      defaultCompany: "people/defaultCompany",
     }),
   },
 
   created() {
-    this.discoveryDefaultCompany();
-    if (this.getPeopleDefaultCompany) {
+    if (this.defaultCompany) {
       this.pageLoading = false;
     }
   },

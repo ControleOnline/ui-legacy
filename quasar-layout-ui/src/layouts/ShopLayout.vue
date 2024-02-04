@@ -68,51 +68,23 @@ export default {
   components: {},
 
   methods: {
-    ...mapActions({
-      peopleDefaultCompany: "people/defaultCompany",
-    }),
-
     style() {
       if (this.defaultCompany && this.defaultCompany.background) {
-        return "background-image: url('" + this.defaultCompany.background + "')";
+        return "background-image: url('//" + this.defaultCompany.background.domain +this.defaultCompany.background.url+ "')";
       }
-    },
-
-    discoveryDefaultCompany() {
-      this.peopleDefaultCompany().then((response) => {
-        let data = [];
-        if (response.success === true && response.data) {
-          for (let index in response.data) {
-            let item = response.data;
-            let logo = null;
-            let background = null;
-
-            if (item.logo !== null) {
-              logo = "https://" + item.logo.domain + item.logo.url;
-            }
-            if (item.background !== null) {
-              background = "https://" + item.background.domain + item.background.url;
-            }
-            data.push({
-              id: item.id,
-              name: item.alias,
-              logo: logo || null,
-              background: background || null
-            });
-          }
-        }
-        this.defaultCompany = data[0];
-      });
     },
   },
 
   mounted() {
-    this.discoveryDefaultCompany();
   },
-
+  computed: {
+    ...mapGetters({
+      defaultCompany: "people/defaultCompany",
+      isLoading: "people/isLoading",
+    })
+  },
   data() {
     return {
-      defaultCompany: [],
     };
   },
 };
