@@ -32,7 +32,7 @@
                             :column='column' :configs='configs' @loadData="sendFilter" />
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 q-py-sm"
-                        v-for="(customFilter, index)  in tableFilterComponent()">
+                        v-for="(customFilter, index)  in tableFilterComponent">
                         <component :componentProps="customFilter.props" :is="customFilter.component"
                             :prefix="customFilter.prefix" :sufix="customFilter.sufix" :key="key" :labelType="'upper'"
                             :configs="configs" @loadData="sendFilter" />
@@ -79,7 +79,7 @@ export default {
             return this.columns.filter(column => this.shouldIncludeColumn(column));
         },
         tableFilterComponent() {
-            return this.configs.components?.customFilters || [];
+            return this.configs?.components?.customFilters || [];
         },
         columns() {
             return this.$copyObject(this.$store.getters[this.configs.store + '/columns'])

@@ -14,7 +14,7 @@
                         </FilterInputs>
                     </div>
                 </template>
-                <template v-for="(customFilter, index)  in  tableFilterComponent() ">
+                <template v-for="(customFilter, index)  in  tableFilterComponent">
                     <div :class="getFilterSize() + ' q-pa-sm '">
                         <component :componentProps="customFilter.props" :is="customFilter.component"
                             :prefix="customFilter.prefix" :sufix="customFilter.sufix" :key="key" :labelType="'upper'"
@@ -52,6 +52,9 @@ export default {
         columns() {
             return this.$copyObject(this.$store.getters[this.configs.store + '/columns'])
         },
+        tableFilterComponent() {
+            return this.configs?.components?.customFilters || [];
+        },
         filteredColumns() {
             return this.columns.filter(column => this.shouldIncludeColumn(column) && column.externalFilter == true)
         },
@@ -79,14 +82,12 @@ export default {
     },
     methods: {
         ...DefaultFiltersMethods,
-        tableFilterComponent() {
-            return this.configs.components?.customFilters || [];
-        },
+
 
         getFilterSize() {
             let size = 0;
             let number = this.filteredColumns.length;
-            let customFilters = this.tableFilterComponent();
+            let customFilters = this.tableFilterComponent;
 
             if (number > 0)
                 size = Math.floor(12 / (number + 1 + customFilters.length));
