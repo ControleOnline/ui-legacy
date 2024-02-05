@@ -444,7 +444,7 @@ export default {
             listObject: {},
             items: [],
             item: {},
-            selectedItems:[],
+            selectedItems: [],
             selectedRows: new Array(this.rowsOptions.pop()).fill(false),
             dialog: false,
             toogleVisibleColumns: [],
@@ -1109,8 +1109,11 @@ export default {
     background: #fff;
 }
 
+.default-table .row-filters {
+    padding: 20px;
+}
+
 .default-table .q-table thead,
-.default-table .row-filters,
 .default-table .q-table__top {
     position: sticky;
     -webkit-position: sticky;
