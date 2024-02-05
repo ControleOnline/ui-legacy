@@ -123,7 +123,7 @@ export function getNameFromList(column, row, editing) {
         (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
           ? row[column.key || column.name]["@id"].split("/").pop().toString().trim()
-          : row[column.key || column.name].toString().trim())
+          : (row[column.key || column.name] ? row[column.key || column.name].toString().trim() : null))
       );
     });
     return name instanceof Object && !editing

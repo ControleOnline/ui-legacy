@@ -1,6 +1,6 @@
 <template>
     <div v-if="configsLoaded" :class="(configs['full-height'] == false ? '' : 'full-height') + ' full-width default-table'">
-        <div class="q-gutter-sm" v-if="this.configs.filters">
+        <div class="q-gutter-sm" v-if="$q.screen.gt.sm && this.configs.filters">
             <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
         </div>
         <q-table :grid="isTableView" class="default-table" dense :rows="items" :loading="isloading"
