@@ -10,11 +10,10 @@
                 class="q-pa-none custom-input" dense v-model="to" mask="##/##/####"></q-input>
         </div>
         <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xg-1 col-xs-1 q-pa-sm  flex flex-end justify-end items-center">
-            <q-icon :clickable="true" @click="clear" name="event" class="vertical-middle cursor-pointer text-primary"
-                size="sm">
+            <q-icon :clickable="true" name="event" class="vertical-middle cursor-pointer text-primary" size="sm">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale" @close="apply">
                     <q-date v-model="dateModel" range mask="DD/MM/YYYY">
-                        <div class="row items-center justify-end">
+                        <div class="row justify-center items-center">
                             <q-btn v-close-popup @click="clear(); apply()"
                                 :label="$translate(configs.store, 'clear', 'btn')" color="primary" flat />
 
@@ -93,13 +92,16 @@ export default {
             return initialDate;
         },
         setinputDate() {
-            if (typeof this.dateModel === 'object') {
-                this.from = this.dateModel.from;
-                this.to = this.dateModel.to;
-            } else {
-                this.from = this.dateModel;
-                this.to = this.dateModel;
+            let dateModel = {};
+            if (typeof this.dateModel !== 'object') {
+                dateModel = {
+                    from: this.dateModel,
+                    to: this.dateModel,
+                }
+                this.dateModel = dateModel;
             }
+            this.from = this.dateModel.from;
+            this.to = this.dateModel.to;
         }
     }
 }

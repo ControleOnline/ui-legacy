@@ -4,6 +4,7 @@
 export const translate = {
   default: {
     btn: {
+      clear: "Limpar",
       apply: "Aplicar",
       filter: "Filtrar",
       save: "Salvar",
@@ -23,8 +24,8 @@ export const translate = {
       parent: "Categoria Pai",
     },
     tooltip: {
-      table: 'Exibir em Tabela',
-      cards: 'Exibir em Cards',
+      table: "Exibir em Tabela",
+      cards: "Exibir em Cards",
       applyed: "Filtro(s) Aplicado(s)",
       maximize: "Maximizar",
       minimize: "Minimizar",

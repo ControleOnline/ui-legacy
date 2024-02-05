@@ -21,7 +21,7 @@
                                 :is="tableColumnComponent(column.key ||column.name).component" :row="props.row"
                                 @loadData="loadData" />
                         </template>
-                        <q-btn v-else-if="column.to && row[column.key || column.name]"
+                        <q-btn v-else-if="column.to && props.row[column.key || column.name]"
                             @click="verifyClick(column, props.row)" :icon:="column.icon">{{
                                 this.format(column, props.row, getNameFromList(column, props.row, column.key ||
                                     column.name)) }}
@@ -215,7 +215,7 @@
                                                 :is="tableColumnComponent(column.key ||column.name).component"
                                                 :row="props.row" @loadData="loadData" />
                                         </template>
-                                        <q-btn v-else-if="column.to && row[column.key || column.name]"
+                                        <q-btn v-else-if="column.to && props.row[column.key || column.name]"
                                             @click="verifyClick(column, props.row)" :icon:="column.icon">
                                             {{ this.format(column, props.row, getNameFromList(column, props.row, column.key
                                                 ||
@@ -248,7 +248,7 @@
                                                 :is="tableColumnComponent(column.key ||column.name).component"
                                                 :row="props.row" @loadData="loadData" />
                                         </template>
-                                        <q-btn v-else-if="column.to && row[column.key || column.name]"
+                                        <q-btn v-else-if="column.to && props.row[column.key || column.name]"
                                             @click="verifyClick(column, props.row)" :icon:="column.icon">{{
                                                 this.format(column, props.row, getNameFromList(column, props.row, column.key ||
                                                     column.name)) }}
@@ -676,9 +676,11 @@ export default {
             this.selectedRows = this.selectedRows.map(() => this.selectAll);
         },
         sortTable(columnName) {
+
             const column = this.columns.find((col) => {
                 return col.name === columnName || col.key === columnName
             });
+
             if (column && column.sortable) {
                 if (this.sortedColumn === columnName) {
                     this.sortDirection = this.sortDirection === 'ASC' ? "DESC" : "ASC";
@@ -692,11 +694,15 @@ export default {
                     delete filters.order;
                 else
                     filters.order = this.sortedColumn + ';' + this.sortDirection;
-                if (!this.pagination.rowsPerPage && this.totalItems <= this.pagination.rowsPerPage) {
-                    this.reorderTableData();
-                }
+
+
                 this.applyFilters(filters);
 
+                if (!this.pagination.rowsPerPage || this.totalItems <= this.pagination.rowsPerPage) {
+                    this.reorderTableData();
+                } else {
+                    this.loadData();
+                }
             }
         },
         reorderTableData() {
