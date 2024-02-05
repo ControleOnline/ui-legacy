@@ -1,7 +1,5 @@
 export function filterColumn(colName) {
-  const column = this.columns.find((col) => {
-    return col.name === colName || col.key === colName;
-  });
+  const column = this.getColumnByName(colName);
 
   let filters = this.$copyObject(this.filters || []) || [];
   if (!this.colFilter[colName]) {
@@ -164,11 +162,16 @@ export function format(column, row, value, editing) {
 
   return value instanceof Object && !editing ? value.label : value;
 }
-export function saveFormat(columnName, value) {
-  const column = this.columns.find((col) => {
+
+export function getColumnByName(columnName) {
+  return this.columns.find((col) => {
     return col.name === columnName || col.key === columnName;
   });
 
+}
+
+export function saveFormat(columnName, value) {
+  const column = this.getColumnByName(columnName);
   if (!column) return value;
 
   if (column.saveFormat instanceof Function)

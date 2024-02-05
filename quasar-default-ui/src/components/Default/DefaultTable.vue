@@ -763,6 +763,7 @@ export default {
         getFilterParams(params) {
             this.columns.forEach((item, i) => {
                 if (item.name && this.filters && this.filters[item.key || item.name]) {
+
                     if (this.filters[item.key || item.name] instanceof Array) {
                         let obj = [];
                         this.filters[item.key || item.name].forEach((valor) => {
@@ -781,6 +782,11 @@ export default {
                     } else {
                         params[item.filterName || item.key || item.name] = this.filters[item.name];
                     }
+
+
+                    if (item.filterName)
+                        delete params[item.key || item.name]
+
                 }
             });
 
