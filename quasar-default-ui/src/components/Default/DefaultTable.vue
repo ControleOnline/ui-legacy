@@ -768,7 +768,7 @@ export default {
                         this.filters[item.key || item.name].forEach((valor) => {
                             obj.push(valor.value || valor);
                         });
-                        params[item.key || item.name] = obj;
+                        params[item.filterName || item.key || item.name] = obj;
                     } else if (this.filters[item.name] instanceof Object) {
                         let obj = [];
                         Object.entries(this.filters[item.name]).forEach(([chave, valor]) => {
@@ -777,9 +777,9 @@ export default {
                             else
                                 obj = this.filters[item.name];
                         });
-                        params[item.key || item.name] = obj;
+                        params[item.filterName || item.key || item.name] = obj;
                     } else {
-                        params[item.key || item.name] = this.filters[item.name];
+                        params[item.filterName || item.key || item.name] = this.filters[item.name];
                     }
                 }
             });
