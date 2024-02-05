@@ -147,7 +147,8 @@
                             v-if="$q.screen.gt.sm == false && configs.selection" />
                         <q-space v-if="$q.screen.gt.sm == false && configs.selection"></q-space>
                         <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
-                            :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
+                            :componentProps="headerActionsProps()" :selected="selectedItems" :row="props.row" @saved="saved"
+                            @loadData="loadData" />
 
                         <q-space v-if="headerActionsComponent()"></q-space>
 
@@ -443,6 +444,7 @@ export default {
             listObject: {},
             items: [],
             item: {},
+            selectedItems:[],
             selectedRows: new Array(this.rowsOptions.pop()).fill(false),
             dialog: false,
             toogleVisibleColumns: [],
@@ -512,6 +514,7 @@ export default {
             handler: function (selectedRows) {
                 this.$store.commit(this.configs.store + '/SET_SELECTED', this.$copyObject(selectedRows));
                 const selected = this.items.filter((objeto, indice) => selectedRows[indice]);
+                this.selectedItems = selected;
                 this.$emit('selected', this.$copyObject(selected));
             },
             deep: true,
