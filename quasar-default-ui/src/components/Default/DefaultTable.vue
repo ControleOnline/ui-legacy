@@ -698,7 +698,7 @@ export default {
                 if (!this.sortedColumn)
                     delete filters.order;
                 else
-                    filters.order = this.sortedColumn + ';' + this.sortDirection;
+                    filters.order[this.sortedColumn] = this.sortDirection;
 
 
                 this.applyFilters(filters);
