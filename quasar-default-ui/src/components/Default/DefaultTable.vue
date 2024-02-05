@@ -108,7 +108,7 @@
 
                         </div>
 
-                        <div class="row col-12">
+                        <div class="">
                             <span class="custom-icon-text">
                                 <q-icon v-if="isDragging && index === draggedColumnIndex"
                                     :name="(draggedColumnPosition === 'before' ? 'keyboard_arrow_left' : 'keyboard_arrow_right')" />
@@ -317,9 +317,11 @@
                     <q-td v-for="(column, index)  in columns" :class="[
                         'text-' + column.align,
                         { 'hidden': !shouldIncludeColumn(column) }]">
-                        <span v-if="sumColumn[column.key || column.name]"
-                            v-html="(column.prefix || '') +
-                                format(column, {}, sumColumn[column.key || column.name]) + (column.sufix || '')"></span>
+                        <span v-if="sumColumn[column.key || column.name]">
+                            {{ (column.prefix || '') +
+                                format(column, {}, sumColumn[column.key || column.name]) + (column.sufix || '') }}
+                            <q-icon size="0.8em" name="" />
+                        </span>
                     </q-td>
                     <q-td v-if="tableActionsComponent() || configs.delete != false || configs.edit != false">
                     </q-td>
