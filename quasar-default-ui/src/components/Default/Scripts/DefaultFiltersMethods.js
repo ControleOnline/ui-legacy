@@ -122,8 +122,8 @@ export function getNameFromList(column, row, editing) {
         i.value.toString().trim() ==
         (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-          ? row[column.key || column.name]["@id"].split("/").pop().trim()
-          : row[column.key || column.name].trim())
+          ? row[column.key || column.name]["@id"].split("/").pop().toString().trim()
+          : row[column.key || column.name].toString().trim())
       );
     });
     return name instanceof Object && !editing

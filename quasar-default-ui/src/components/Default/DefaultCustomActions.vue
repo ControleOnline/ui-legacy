@@ -9,7 +9,7 @@
               <q-icon size="sm" :name="itm.icon"></q-icon>
             </q-item-section>
             <q-item-section>
-              {{ $translate(store, itm.title, 'menu') }}
+              {{ $translate(itm.store, itm.title, 'menu') }}
             </q-item-section>
           </q-item>
         </template>
@@ -27,8 +27,7 @@ export default {
   emits: ['loadData'],
   props: {
     componentProps: Object,
-    row: Object,
-    store: String
+    row: Object
   },
 
   data() {
