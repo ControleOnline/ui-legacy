@@ -67,11 +67,13 @@ export default {
     },
     data() {
         return {
-            data: this.initialValue,
+            data: null,
             options: [],
         }
     },
     created() {
+        this.data = this.initialValue;        
+        console.log(this.data);
     },
     watch: {
         data: {

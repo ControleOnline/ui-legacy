@@ -64,8 +64,7 @@ export default {
     },
     data() {
         return {
-            listObject: {},
-
+            listObject: {},            
             key: 0
         }
     },

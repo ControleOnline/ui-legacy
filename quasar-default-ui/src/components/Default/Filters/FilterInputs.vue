@@ -10,12 +10,13 @@
         :initialValue="colFilter[column.key || column.name]" :formatOptions="column.formatList"
         :searchParam="column.searchParam || 'search'" @selected="(value) => {
             colFilter[column.key || column.name] = $copyObject(value);
-        }" @blur="sendFilterColumn(column.key || column.name)" @focus="setForceShowInput(column.key || column.name)" />
+        }" @blur="sendFilterColumn(column.key || column.name); this.$emit('blur', $event)"
+        @focus="this.$emit('focus', $event)" />
 
     <q-input v-else dense outlined :stack-label="labelType" :type:="inputType" :prefix="prefix" :sufix="sufix"
         :label="labelType != 'stack-label' ? '' : $translate(configs.store, column.label, 'input')"
-        @click.stop="setForceShowInput(column.key || column.name)" v-model="colFilter[column.key || column.name]"
-        @focus="setForceShowInput(column.key || column.name)" @blur="sendFilterColumn(column.key || column.name)"
+        v-model="colFilter[column.key || column.name]" @focus="this.$emit('focus', $event)"
+        @blur="sendFilterColumn(column.key || column.name); this.$emit('blur', $event)"
         @keydown.enter="sendFilterColumn(column.key || column.name); sendFilter()">
         <template v-slot:append v-if="colFilter[column.key || column.name] && colFilter[column.key || column.name] != ''">
             <q-icon name="close" @click="colFilter[column.key || column.name] = ''" class="cursor-pointer" />
@@ -53,12 +54,7 @@ export default {
         configs: {
             type: Object,
             required: true,
-        },
-        onChange: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
+        }
     },
     computed: {
         isloading() {
@@ -83,25 +79,20 @@ export default {
         }
     },
     created() {
-        this.colFilter = this.$copyObject(this.filters);
+        this.colFilter = this.$copyObject(this.filters);        
     },
 
     watch: {
         filters: {
-            handler: function (filters) {
-                let filter = this.filters[this.column.key || this.column.name];
-                this.colFilter[this.column.key || this.column.name] = filter;
+            handler: function (filters) {                
+                this.colFilter = this.$copyObject(this.filters);                
             },
             deep: true,
         },
     },
     methods: {
         ...DefaultFiltersMethods,
-        sendFilterColumn() {
-            this.filterColumn(this.column.key || this.column.name);
-            if (this.onChange)
-                this.sendFilter();
-        },
+
         changedDateInput(dateModel) {
 
             let filters = this.$copyObject(this.filters);
@@ -117,8 +108,7 @@ export default {
 
             filters[this.column.key || this.column.name] = filter;
             this.applyFilters(filters);
-            if (this.onChange)
-                this.sendFilter();
+
 
         }
     }

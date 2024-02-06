@@ -1,6 +1,5 @@
-export function filterColumn(colName) {
+export function sendFilterColumn(colName) {
   const column = this.getColumnByName(colName);
-
   let filters = this.$copyObject(this.filters || []) || [];
   if (!this.colFilter[colName]) {
     delete filters[colName];
@@ -12,10 +11,7 @@ export function filterColumn(colName) {
   } else {
     filters[colName] = this.formatFilter(column, this.colFilter[colName]);
   }
-
   this.applyFilters(filters);
-  this.showInput = { [colName]: false };
-  this.forceShowInput = { [colName]: false };
 }
 export function applyFilters(filters) {
   let f = this.$copyObject(filters);
@@ -41,17 +37,26 @@ export function clearFilters() {
   this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
   this.sendFilter();
 }
+
+
 export function sendFilter() {
   this.$emit("loadData");
 }
 export function clearFilter(colName) {
   this.colFilter[colName] = undefined; // Limpa o filtro para a coluna correspondente
-  this.filterColumn(colName);
+  this.sendFilterColumn(colName);
 }
+
+export function clearForceShowInput(colName) {
+  this.showInput = { [colName]: false };
+  this.forceShowInput = { [colName]: false };
+}
+
 export function setForceShowInput(colName) {
   this.showInput = { [colName]: true };
   this.forceShowInput = { [colName]: true };
 }
+
 export function mask(column) {
   if (column.mask instanceof Function) return column.mask();
   else return column.mask;

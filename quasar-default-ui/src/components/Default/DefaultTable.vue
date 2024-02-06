@@ -97,13 +97,14 @@
                             'header-filter-container',
                             { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
                         ]" @click="stopPropagation">
-
-                            <FilterInputs :onChange="true" :column='column' :configs='configs' @loadData="loadData"
+                            <FilterInputs :key="filterKey" :column='column' :configs='configs' @loadData="loadData"
+                                @focus="setForceShowInput(column.key || column.name)"
+                                @blur="clearForceShowInput(colName); loadData()"
                                 :class="[{ show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }]">
                             </FilterInputs>
                             <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
                                 size="2em" />
-                            <q-icon name="close" @click.stop="clearFilter(column.key || column.name)"
+                            <q-icon name="close" @click.stop="clearFilter(column.key || column.name); loadData()"
                                 v-else-if="colFilter[column.key || column.name]" />
 
                         </div>
@@ -419,6 +420,7 @@ export default {
 
     data() {
         return {
+            filterKey: 0,
             configsLoaded: false,
             isTableView: this.$q.screen.gt.sm == false,
             listAutocomplete: [],
@@ -509,6 +511,7 @@ export default {
             handler: function () {
                 this.colFilter = this.$copyObject(this.filters);
                 this.search = this.colFilter?.search;
+                this.filterKey++;
             },
             deep: true,
         },
