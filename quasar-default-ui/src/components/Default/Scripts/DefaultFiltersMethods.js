@@ -47,14 +47,13 @@ export function clearFilter(colName) {
   this.sendFilterColumn(colName);
 }
 
-export function clearForceShowInput(colName) {
-  this.showInput = { [colName]: false };
-  this.forceShowInput = { [colName]: false };
+export function setShowInput(colName) {
+  if (this.forceShowInput == false)
+    this.showInput = { [colName]: true };
 }
 
-export function setForceShowInput(colName) {
-  this.showInput = { [colName]: true };
-  this.forceShowInput = { [colName]: true };
+export function hideInput(colName) {
+  this.showInput = { [colName]: false };
 }
 
 export function mask(column) {

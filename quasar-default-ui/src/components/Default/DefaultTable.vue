@@ -88,27 +88,30 @@
                             { 'dragging-column': isDraggingCollumn[index] },
                             { 'hidden': !shouldIncludeColumn(column) }
                         ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)"
-                        class="header-column" @mouseover="setShowInput(column.key || column.name)"
-                        @mouseout="hideInput(column.key || column.name)">
+                        class="header-column" @mouseover="setShowInput(column.key || column.name)">
 
-                        <div v-if="this.configs.filters && column.filter != false" :class="[
-                            'row',
-                            'col-12',
-                            'header-filter-container',
-                            { show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }
-                        ]" @click="stopPropagation">
-                            <FilterInputs :key="filterKey" :column='column' :configs='configs' @loadData="loadData"
-                                @focus="setForceShowInput(column.key || column.name)"
-                                @blur="clearForceShowInput(colName); loadData()"
-                                :class="[{ show: showInput[column.key || column.name] || forceShowInput[column.key || column.name] }]">
-                            </FilterInputs>
-                            <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]" color="primary"
-                                size="2em" />
-                            <q-icon name="close" @click.stop="clearFilter(column.key || column.name); loadData()"
-                                v-else-if="colFilter[column.key || column.name]" />
+                        <div v-if="this.configs.filters && column.filter != false" @click="stopPropagation">
+                            <q-menu @input="concole.log('eee')" v-model="showInput[column.key || column.name]" upward
+                                persistent>
+                                <q-list style="min-width: 100px">
+                                    <q-item>
+                                        <q-item-section>
+                                            <FilterInputs :key="filterKey" :column='column' :configs='configs'
+                                                @loadData="loadData"
+                                                @focus="forceShowInput = true; showInput[column.key || column.name]"
+                                                @blur="loadData(); forceShowInput = false;">
+                                            </FilterInputs>
+                                            <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]"
+                                                color="primary" size="2em" />
+                                            <q-icon name="close"
+                                                @click.stop="clearFilter(column.key || column.name); loadData()"
+                                                v-else-if="colFilter[column.key || column.name]" />
 
+                                        </q-item-section>
+                                    </q-item>
+                                </q-list>
+                            </q-menu>
                         </div>
-
                         <div class="">
                             <span class="custom-icon-text">
                                 <q-icon v-if="isDragging && index === draggedColumnIndex"
@@ -420,13 +423,13 @@ export default {
 
     data() {
         return {
+            forceShowInput: false,
+            showInput: {},
             filterKey: 0,
             configsLoaded: false,
             isTableView: this.$q.screen.gt.sm == false,
             listAutocomplete: [],
             showColumnMenu: false,
-            forceShowInput: [],
-            showInput: [],
             nodrag: false,
             timeoutId: null,
             isDraggingCollumn: [],
@@ -500,6 +503,10 @@ export default {
         }
     },
     watch: {
+
+
+
+
         myCompany: {
             handler: function (current, preview) {
                 if (current?.id != preview?.id)
@@ -587,14 +594,7 @@ export default {
             event.stopPropagation();
         },
 
-        setShowInput(colName) {
-            this.showInput = { [colName]: true };
-        },
 
-        hideInput(colName) {
-            if (this.forceShowInput[colName] != true)
-                this.showInput = { [colName]: false };
-        },
 
         startDrag(index) {
             if (index !== 0) {
@@ -911,7 +911,7 @@ export default {
         },
 
         loadData(props) {
-
+            this.showInput = {};
             if (this.isLoading)
                 return;
 
@@ -1049,7 +1049,7 @@ export default {
 
 .default-table .header-filter-container {
     margin-top: -70px;
-    position: fixed;
+    position: absolute;
     background: #fff;
     z-index: 999;
     min-height: 28px;

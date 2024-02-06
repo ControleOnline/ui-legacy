@@ -10,12 +10,15 @@
         :initialValue="colFilter[column.key || column.name]" :formatOptions="column.formatList"
         :searchParam="column.searchParam || 'search'" @selected="(value) => {
             colFilter[column.key || column.name] = $copyObject(value);
-        }" @blur="sendFilterColumn(column.key || column.name); this.$emit('blur', $event)"
+        }" 
+        @mouseleave="this.$emit('mouseleave', $event)"
+        @blur="sendFilterColumn(column.key || column.name); this.$emit('blur', $event)"
         @focus="this.$emit('focus', $event)" />
 
     <q-input v-else dense outlined :stack-label="labelType" :type:="inputType" :prefix="prefix" :sufix="sufix"
         :label="labelType != 'stack-label' ? '' : $translate(configs.store, column.label, 'input')"
         v-model="colFilter[column.key || column.name]" @focus="this.$emit('focus', $event)"
+        @mouseleave="this.$emit('mouseleave', $event)"
         @blur="sendFilterColumn(column.key || column.name); this.$emit('blur', $event)"
         @keydown.enter="sendFilterColumn(column.key || column.name); sendFilter()">
         <template v-slot:append v-if="colFilter[column.key || column.name] && colFilter[column.key || column.name] != ''">

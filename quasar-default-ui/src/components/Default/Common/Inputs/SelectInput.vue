@@ -72,8 +72,7 @@ export default {
         }
     },
     created() {
-        this.data = this.initialValue;        
-        console.log(this.data);
+        this.data = this.initialValue;                
     },
     watch: {
         data: {
