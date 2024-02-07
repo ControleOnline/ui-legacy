@@ -93,7 +93,7 @@ export default {
         ...DefaultFiltersMethods,
         fireBlur($event) {
             if (!this.blurLoop) {
-                sendFilterColumn(column.key || column.name); this.$emit('blur', $event)
+                this.sendFilterColumn(column.key || column.name); this.$emit('blur', $event)
             }
             this.blurLoop = true;
             setTimeout(() => {

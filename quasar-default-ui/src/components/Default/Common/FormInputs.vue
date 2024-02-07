@@ -1,6 +1,6 @@
 <template>
     <label v-if="labelType != 'stack-label'">
-        {{ $translate(configs.store, label, 'input') }}
+        {{ $translate(store, label, 'input') }}
     </label>
     <q-input v-if="inputType == 'date-range'" filled v-model="data" mask="##/##/####" :rules="['validateBRDate']"
         @keydown="this.$emit('keydown', $event)">
@@ -23,10 +23,11 @@
         @update="this.$emit('update', $event)" @selected="(value) => {
             this.data = value;
         }" />
-    <q-input v-else :disable="editable == false" dense outlined stack-label lazy-rules v-model="data" :type:="inputType"
-        @keydown="this.$emit('keydown', $event)" :prefix="prefix" :sufix="sufix" @blur="this.$emit('blur', $event)"
-        type="text" :label="label" :rules="rules" :reverse-fill-mask="inputType == 'float'"
-        :mask="mask || inputType == 'float' ? '#,##' : mask" :fill-mask="inputType == 'float' ? 0 : ''">
+    <q-input v-else :disable="editable == false" dense outlined :stack-label="labelType == 'stack-label'" lazy-rules
+        v-model="data" :type:="inputType" @keydown="this.$emit('keydown', $event)" :prefix="prefix" :sufix="sufix"
+        @blur="this.$emit('blur', $event)" type="text" :label="labelType == 'stack-label' ? label : ''" :rules="rules"
+        :reverse-fill-mask="inputType == 'float'" :mask="mask || inputType == 'float' ? '#,##' : mask"
+        :fill-mask="inputType == 'float' ? 0 : ''">
         <template v-slot:before v-if="icon">
             <q-icon name="icon" />
         </template>

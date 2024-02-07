@@ -347,19 +347,12 @@
             </template>
         </q-table>
 
-        <q-dialog v-model="addModal">
-            <q-card class="q-pa-md full-width">
-                <q-card-section class="row items-center">
-                    <label class="text-h5">{{ $translate(configs.store, (this.item?.id ? 'edit' : 'add'), 'title')
-                    }}</label>
-                    <q-space />
-                    <q-btn icon="close" flat round dense v-close-popup />
-                </q-card-section>
-                <q-separator></q-separator>
-                <q-card-section>
+        <q-dialog v-model="addModal" 
+        :full-width="columns.length >= 16"
+            >
+
                     <DefaultForm :configs="configs" @saved="saved" @error="error" :data="item" />
-                </q-card-section>
-            </q-card>
+
         </q-dialog>
         <q-dialog v-model="deleteModal">
             <q-card class="q-pa-md full-width">
@@ -391,7 +384,7 @@ import DefaultExternalFilters from "@controleonline/quasar-default-ui/src/compon
 import DefaultSearch from "@controleonline/quasar-default-ui/src/components/Default/Filters/DefaultSearch";
 import DefaultFilters from "@controleonline/quasar-default-ui/src/components/Default/Filters/DefaultFilters";
 import FilterInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FilterInputs";
-import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FormInputs";
+import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Common/FormInputs";
 
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
 import { mapActions, mapGetters } from "vuex";
@@ -504,10 +497,6 @@ export default {
         }
     },
     watch: {
-
-
-
-
         myCompany: {
             handler: function (current, preview) {
                 if (current?.id != preview?.id)

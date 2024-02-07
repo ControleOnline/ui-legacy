@@ -1,33 +1,42 @@
 <template>
-    <q-card class="full-width  q-pa-md">
-        <q-form ref="myForm" @submit="onSubmit">
-            <div class="row q-col-gutter-xs q-pb-xs">
-                <template v-for="(column, index)  in columns">
-                    <div v-if="column.isIdentity != true"
-                        :class="column.formClass || 'col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 q-pa-xs'">
-                        <FormInputs :editable="column.editable" :prefix="column.prefix" :sufix="column.sufix"
-                            :inputType="getList(configs,column) ? 'list' : column.inputType" :store="configs.store" :mask="mask(column)"
-                            :rules="column.rules" :labelType="'stack-label'" :label="column.label"
-                            :filters="getSearchFilters(column)" :initialValue="item[column.key || column.name]"
-                            :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
-                            :searchAction="getList(configs,column)" @focus="editingInit(column)" @changed="(value) => {
-                                item[column.key || column.name] = value;
-                            }" />
-                    </div>
-                </template>
-            </div>
+    <q-card class="q-pa-md full-width default-form">
+        <q-card-section class="row items-center">
+            <label class="text-h5">{{ $translate(configs.store, (item?.id ? 'edit' : 'add'), 'title')
+            }}</label>
+            <q-space />
+            <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-separator></q-separator>
+        <q-card-section>
+            <q-form ref="myForm" @submit="onSubmit">
+                <div class="row q-col-gutter-xs q-pb-xs">
+                    <template v-for="(column, index)  in columns">
+                        <div v-if="column.isIdentity != true && showFormColumn[column.key || column.name]"
+                            :class="(column.formClass || getFilterSize()) + ' q-pa-xs'">
+                            <FormInputs :editable="column.editable" :prefix="column.prefix" :sufix="column.sufix"
+                                :inputType="getList(configs, column) ? 'list' : column.inputType" :store="configs.store"
+                                :mask="mask(column)" :rules="column.rules" :labelType="'outer-label'" :label="column.label"
+                                :filters="getSearchFilters(column)" :initialValue="item[column.key || column.name]"
+                                :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
+                                :searchAction="getList(configs, column)" @focus="editingInit(column)" @changed="(value) => {
+                                    item[column.key || column.name] = value;
+                                }" />
+                        </div>
+                    </template>
+                </div>
 
-            <div class="row justify-end">
-                <q-btn :loading="isSaving" icon="save" type="submit" :label="$translate(configs.store, 'save', 'btn')
-                    " size="md" color="primary" class="q-mt-md" />
-            </div>
-        </q-form>
+                <div class="row justify-end">
+                    <q-btn :loading="isSaving" icon="save" type="submit" :label="$translate(configs.store, 'save', 'btn')
+                        " size="md" color="primary" class="q-mt-md" />
+                </div>
+            </q-form>
+        </q-card-section>
     </q-card>
 </template>
   
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
-import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FormInputs";
+import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Common/FormInputs";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -49,6 +58,7 @@ export default {
     },
     data() {
         return {
+            showFormColumn: {},
             showInput: {},
             listObject: {},
             listAutocomplete: [],
@@ -60,6 +70,8 @@ export default {
     },
     created() {
 
+        this.getFilteredColumns();
+
         let data = {};
         Object.keys(this.data).forEach((item, i) => {
             let column = this.columns.find((c) => {
@@ -68,8 +80,8 @@ export default {
 
             if (column) {
                 data[column.key || column.name] =
-                    
-                this.getList(this.configs,column) ?
+
+                    this.getList(this.configs, column) ?
                         this.formatList(column, this.data[column.key || column.name], true) :
                         this.format(column, item, this.data[column.key || column.name]);
 
@@ -94,7 +106,6 @@ export default {
         ...mapGetters({
             myCompany: 'people/currentCompany',
         }),
-
         isSaving() {
             return this.$store.getters[this.configs.store + '/isSaving']
         },
@@ -106,11 +117,54 @@ export default {
         },
         isLoadingList() {
             return this.$store.getters[this.configs.store + '/isLoadingList']
-        }
+        },
     },
-
+    watch: {
+        item: {
+            handler: function (current, preview) {                
+                this.getFilteredColumns();
+            },
+            deep: true,
+        },
+    },
     methods: {
         ...DefaultFiltersMethods,
+
+        getFilteredColumns() {
+            let columns = {};
+            Object.values(this.columns).forEach((c, key) => {
+                if (!this.configs.columns)
+                    columns[c.key || c.name] = true;
+                let cc = this.configs.columns[c.key || c.name];
+                if (cc?.visibleForm && typeof cc.visibleForm === 'function') {
+                    columns[c.key || c.name] = cc.visibleForm(this.item, c);
+                } else {
+                    columns[c.key || c.name] = true;
+                }
+            });
+            this.showFormColumn = columns;
+        },
+
+        getFilterSize() {
+            let size = 0;
+            let number = this.columns.length;
+
+            if (number > 0)
+                size = Math.floor(12 / (number + 1));
+
+
+            if (this.$q.screen.gt.sm) {
+                if (size < 4)
+                    size = 4;
+            } else {
+                if (size < 6)
+                    size = 6;
+            }
+
+
+            return 'col-xs-12 col-sm-4 col-md-' + size + ' col-lg-' + size + ' col-xl-' + size;
+        },
+
         save(params) {
             let p = this.$copyObject(this.filters);
             for (const name in params) {
@@ -159,3 +213,9 @@ export default {
     }
 };
 </script>  
+
+<style>
+.default-form {
+    max-width: 1024px !important
+}
+</style>
