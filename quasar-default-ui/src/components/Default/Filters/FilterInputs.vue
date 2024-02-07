@@ -10,15 +10,7 @@
         :initialValue="colFilter[column.key || column.name]" :formatOptions="column.formatList"
         :searchParam="column.searchParam || 'search'" @selected="(value) => {
             colFilter[column.key || column.name] = $copyObject(value);
-        }" @focus="this.$emit('focus', $event)" @blur="        
-        if (!this.blurLoop) {
-    sendFilterColumn(column.key || column.name); this.$emit('blur', $event)
-}
-    this.blurLoop = true;
-    setTimeout(() => {
-        this.blurLoop = false;
-    }, 200);
-    " />
+        }" @focus="this.$emit('focus', $event)" @blur="fireBlur" />
 
     <q-input v-else dense outlined :stack-label="labelType" :type:="inputType" :prefix="prefix" :sufix="sufix"
         :label="labelType != 'stack-label' ? '' : $translate(configs.store, column.label, 'input')"
@@ -99,9 +91,16 @@ export default {
     },
     methods: {
         ...DefaultFiltersMethods,
-
+        fireBlur($event) {
+            if (!this.blurLoop) {
+                sendFilterColumn(column.key || column.name); this.$emit('blur', $event)
+            }
+            this.blurLoop = true;
+            setTimeout(() => {
+                this.blurLoop = false;
+            }, 200)
+        },
         changedDateInput(dateModel) {
-
             let filters = this.$copyObject(this.filters);
             let filter = filters[this.column.key || this.column.name] || {};
             if (dateModel.from)
@@ -115,8 +114,6 @@ export default {
 
             filters[this.column.key || this.column.name] = filter;
             this.applyFilters(filters);
-
-
         }
     }
 }
