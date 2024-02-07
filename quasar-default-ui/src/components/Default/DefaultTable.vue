@@ -91,7 +91,8 @@
                         class="header-column" @mouseover="setShowInput(column.key || column.name)">
 
                         <div v-if="this.configs.filters && column.filter != false" @click="stopPropagation">
-                            <q-menu @input="concole.log('eee')" v-model="showInput[column.key || column.name]" upward
+                            <q-menu transition-show="flip-right" transition-hide="flip-left"
+                                v-model="showInput[column.key || column.name]" anchor="top middle" self="bottom middle"
                                 persistent>
                                 <q-list style="min-width: 100px">
                                     <q-item>
@@ -106,7 +107,6 @@
                                             <q-icon name="close"
                                                 @click.stop="clearFilter(column.key || column.name); loadData()"
                                                 v-else-if="colFilter[column.key || column.name]" />
-
                                         </q-item-section>
                                     </q-item>
                                 </q-list>
@@ -424,6 +424,7 @@ export default {
     data() {
         return {
             forceShowInput: false,
+            hideFilterTimeout: false,
             showInput: {},
             filterKey: 0,
             configsLoaded: false,
@@ -911,9 +912,7 @@ export default {
         },
 
         loadData(props) {
-            this.showInput = {};
-            if (this.isLoading)
-                return;
+            if (this.isLoading) return;
 
             if (props) {
                 this.pagination = props.pagination;

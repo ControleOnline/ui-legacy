@@ -10,15 +10,19 @@
         :initialValue="colFilter[column.key || column.name]" :formatOptions="column.formatList"
         :searchParam="column.searchParam || 'search'" @selected="(value) => {
             colFilter[column.key || column.name] = $copyObject(value);
-        }" 
-        @mouseleave="this.$emit('mouseleave', $event)"
-        @blur="sendFilterColumn(column.key || column.name); this.$emit('blur', $event)"
-        @focus="this.$emit('focus', $event)" />
+        }" @focus="this.$emit('focus', $event)" @blur="        
+        if (!this.blurLoop) {
+    sendFilterColumn(column.key || column.name); this.$emit('blur', $event)
+}
+    this.blurLoop = true;
+    setTimeout(() => {
+        this.blurLoop = false;
+    }, 200);
+    " />
 
     <q-input v-else dense outlined :stack-label="labelType" :type:="inputType" :prefix="prefix" :sufix="sufix"
         :label="labelType != 'stack-label' ? '' : $translate(configs.store, column.label, 'input')"
         v-model="colFilter[column.key || column.name]" @focus="this.$emit('focus', $event)"
-        @mouseleave="this.$emit('mouseleave', $event)"
         @blur="sendFilterColumn(column.key || column.name); this.$emit('blur', $event)"
         @keydown.enter="sendFilterColumn(column.key || column.name); sendFilter()">
         <template v-slot:append v-if="colFilter[column.key || column.name] && colFilter[column.key || column.name] != ''">
@@ -82,13 +86,13 @@ export default {
         }
     },
     created() {
-        this.colFilter = this.$copyObject(this.filters);        
+        this.colFilter = this.$copyObject(this.filters);
     },
 
     watch: {
         filters: {
-            handler: function (filters) {                
-                this.colFilter = this.$copyObject(this.filters);                
+            handler: function () {
+                this.colFilter = this.$copyObject(this.filters);
             },
             deep: true,
         },

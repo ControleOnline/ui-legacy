@@ -48,8 +48,14 @@ export function clearFilter(colName) {
 }
 
 export function setShowInput(colName) {
-  if (this.forceShowInput == false)
+  if (this.forceShowInput == false) {
     this.showInput = { [colName]: true };
+    clearInterval(this.hideFilterTimeout);
+    this.hideFilterTimeout = setTimeout(() => {
+      if (this.forceShowInput == false)
+        this.hideInput(colName)
+    }, 3000);
+  }
 }
 
 export function hideInput(colName) {
