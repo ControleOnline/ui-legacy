@@ -285,28 +285,7 @@ export default {
 
         this.showDialog("quote");
 
-        // request rates from external services
 
-        this.remote({
-          values: {
-            orderId: response.data.order.id,
-            origin: this.origin.postalCode,
-            destination: this.destination.postalCode,
-          },
-        })
-          .then((response2) => {
-            if (response2.success && response2.data) {
-              if (response2.data.order.id == response.data.order.id) {
-                this.order.quotes = this.orderQuotes([
-                  ...response.data.order.quotes,
-                  ...response2.data.order.quotes,
-                ]);
-              }
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
       } else if (response.error) {
         this.$q.notify({
           message: this.$t(response.error),
@@ -325,7 +304,6 @@ export default {
 
   methods: {
     ...mapActions({
-      remote: "quote/quoteRemote",
       createContract: "contracts/saveContract",
       getClose: "people/getCloseProfessionals",
     }),
@@ -585,8 +563,8 @@ export default {
     },
 
     async getCloseProfessionals(lat, lng, callback) {
-      var result = await this.getClose({ lat, lng });
-      callback(result.data);
+      //var result = await this.getClose({ lat, lng });
+      //callback(result.data);
     },
 
     addOriginMarkers(data) {

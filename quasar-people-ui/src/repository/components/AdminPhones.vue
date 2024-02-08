@@ -115,7 +115,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      let endpoint = `peoples/${this.id}/phones`;
+      let endpoint = `customers/${this.id}/phones`;
       return api.fetch(endpoint)
         
         .then(result => {
@@ -131,7 +131,7 @@ export default {
         body: (values),
       };
 
-      let endpoint = `peoples/${this.id}/phones`;
+      let endpoint = `customers/${this.id}/phones`;
       return api.fetch(endpoint, options)
         
         .then(data => {
@@ -154,7 +154,7 @@ export default {
         body: ({ id }),
       };
 
-      let endpoint = `peoples/${this.id}/phones`;
+      let endpoint = `customers/${this.id}/phones`;
       return api.fetch(endpoint, options)
         
         .then(data => {

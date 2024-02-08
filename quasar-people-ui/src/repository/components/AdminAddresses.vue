@@ -262,7 +262,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      let endpoint = `peoples/${this.id}/addresses`;
+      let endpoint = `customers/${this.id}/addresses`;
       return api.fetch(endpoint)
         .then(result => { 
           return result.response.data;
@@ -277,7 +277,7 @@ export default {
         body: (values),
       };
 
-      let endpoint = `peoples/${this.id}/addresses`;
+      let endpoint = `customers/${this.id}/addresses`;
       return api.fetch(endpoint, options)
         .then(data => { 
           if (data.response) {
@@ -299,7 +299,7 @@ export default {
         body: ({ id }),
       };
 
-      let endpoint = `peoples/${this.id}/addresses`;
+      let endpoint = `customers/${this.id}/addresses`;
       return api.fetch(endpoint, options)
         .then(data => { 
           if (data.response) {

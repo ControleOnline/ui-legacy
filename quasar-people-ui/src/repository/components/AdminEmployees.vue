@@ -211,7 +211,7 @@ export default {
   methods: {
     // store method
     getItems() {
-      let endpoint = `peoples/${this.id}/employees`;
+      let endpoint = `customers/${this.id}/employees`;
       return api.fetch
         (endpoint)
 
@@ -229,7 +229,7 @@ export default {
         params: { company: this.theCompany.id },
       };
 
-      let endpoint = `peoples/${this.id}/employees`;
+      let endpoint = `customers/${this.id}/employees`;
       return api.fetch
         (endpoint, options)
 
@@ -252,7 +252,7 @@ export default {
         body: ({ id }),
       };
 
-      let endpoint = `peoples/${this.id}/employees`;
+      let endpoint = `customers/${this.id}/employees`;
       return api.fetch
         (endpoint, options)
 

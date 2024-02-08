@@ -173,7 +173,7 @@ export default {
         }
       };
 
-      return api.fetch(`peoples/${this.id}/salesman`, options)
+      return api.fetch(`customers/${this.id}/salesman`, options)
         
         .then(data => {
           if (data.response) {
@@ -195,7 +195,7 @@ export default {
         body: ({ id }),
       };
 
-      return api.fetch(`peoples/${this.id}/salesman`, options)
+      return api.fetch(`customers/${this.id}/salesman`, options)
         
         .then(data => {
           if (data.response) {

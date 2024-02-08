@@ -241,7 +241,7 @@ export default {
     // store method
     getSummary() {
       return api.fetch
-        (`peoples/${this.id}/summary`)
+        (`customers/${this.id}/summary`)
         
         .then((result) => {
           return result.response.data;
@@ -256,7 +256,7 @@ export default {
         body: (values),
       };
 
-      let endpoint = `peoples/${this.id}/summary`;
+      let endpoint = `customers/${this.id}/summary`;
       return api.fetch
         (endpoint, options)
         

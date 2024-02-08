@@ -153,7 +153,7 @@ export default {
         body: ({ id }),
       };
 
-      let endpoint = `peoples/${this.id}/employees`;
+      let endpoint = `customers/${this.id}/employees`;
       return api.fetch
         (endpoint, options)
         
@@ -217,7 +217,7 @@ export default {
     },
     getItems() {
       return api.fetch
-        (`peoples/${this.id}/companies`)
+        (`customers/${this.id}/companies`)
         
         .then((result) => {
           return result.response;

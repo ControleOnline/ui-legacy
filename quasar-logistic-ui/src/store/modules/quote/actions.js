@@ -208,21 +208,7 @@ export const choose_quote = ({ commit }, { id, values, query = null }) => {
     });
 };
 
-export const quoteRemote = ({ commit }, { values, params }) => {
-  const options = {
-    method: 'POST',
-    body  : (values),
-    params: params
-  };
 
-  return api.fetch('/quotes/remote', options)
-    
-    .then(response => {
-
-      return response.response;
-
-    });
-};
 
 export const sendProposta = ({ commit }, { id, params }) => {
   const options = {

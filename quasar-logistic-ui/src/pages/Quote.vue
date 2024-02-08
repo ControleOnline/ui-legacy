@@ -8,114 +8,46 @@
       </div>
     </div>
 
-    <CegPageContainer
-      v-else-if="isCeg()"
-      :contact="contact"
-      :product="product"
-      :origin="origin"
-      :destination="destination"
-      :productTypeLabel="productTypeLabel"
-      :invoiceTaxLabel="invoiceTaxLabel"
-      @addressChanged="addressChanged"
-    />
+    <CegPageContainer v-else-if="isCeg()" :contact="contact" :product="product" :origin="origin"
+      :destination="destination" :productTypeLabel="productTypeLabel" :invoiceTaxLabel="invoiceTaxLabel"
+      @addressChanged="addressChanged" />
 
-    <PageContainer
-      v-else
-      :contact="contact"
-      :product="product"
-      :origin="origin"
-      :destination="destination"
-      :productTypeLabel="productTypeLabel"
-      :invoiceTaxLabel="invoiceTaxLabel"
-    />
+    <PageContainer v-else :contact="contact" :product="product" :origin="origin" :destination="destination"
+      :productTypeLabel="productTypeLabel" :invoiceTaxLabel="invoiceTaxLabel" />
 
     <!-- QUOTE TABLE RESULTS -->
-    <q-dialog
-      v-if="!pageLoading"
-      maximized
-      v-model="dialogs.quote.visible"
-      transition-show="scale"
-      transition-hide="scale"
-    >
-      <CegQuoteTable
-        v-if="isCeg()"
-        :order="order"
-        :origin="origin"
-        :destination="destination"
-        @choose="onChoose"
-        @load="onViewQuotes"
-      />
+    <q-dialog v-if="!pageLoading" maximized v-model="dialogs.quote.visible" transition-show="scale"
+      transition-hide="scale">
+      <CegQuoteTable v-if="isCeg()" :order="order" :origin="origin" :destination="destination" @choose="onChoose"
+        @load="onViewQuotes" />
 
-      <QuoteTable
-        v-else
-        :order="order"
-        :origin="origin"
-        :destination="destination"
-        @choose="onChoose"
-        @load="onViewQuotes"
-      />
+      <QuoteTable v-else :order="order" :origin="origin" :destination="destination" @choose="onChoose"
+        @load="onViewQuotes" />
     </q-dialog>
 
     <!-- LOGIN FORM -->
-    <q-dialog
-      maximized
-      no-backdrop-dismiss
-      v-model="dialogs.login.visible"
-      transition-show="slide-left"
-      transition-hide="slide-right"
-    >
+    <q-dialog maximized no-backdrop-dismiss v-model="dialogs.login.visible" transition-show="slide-left"
+      transition-hide="slide-right">
       <LoginPage @logged="onLogged" @signup="onSignUp" />
     </q-dialog>
 
     <!-- SIGNUP STEP TO STEP -->
-    <q-dialog
-      maximized
-      no-backdrop-dismiss
-      v-model="dialogs.signup.visible"
-      transition-show="slide-left"
-      transition-hide="slide-right"
-    >
-      <SignUpPage
-        :order="order"
-        @created="onCreated"
-        @company="onCompany"
-        @registered="onRegistered"
-      />
+    <q-dialog maximized no-backdrop-dismiss v-model="dialogs.signup.visible" transition-show="slide-left"
+      transition-hide="slide-right">
+      <SignUpPage :order="order" @created="onCreated" @company="onCompany" @registered="onRegistered" />
     </q-dialog>
 
     <!-- ORDER STEP TO STEP -->
-    <q-dialog
-      maximized
-      no-backdrop-dismiss
-      v-model="dialogs.order.visible"
-      transition-show="slide-left"
-      transition-hide="slide-right"
-    >
-      <CheckoutPage
-        :order="order"
-        :quoteContact="contact"
-        @finished="onFinished"
-        @load="onCheckOut"
-      />
+    <q-dialog maximized no-backdrop-dismiss v-model="dialogs.order.visible" transition-show="slide-left"
+      transition-hide="slide-right">
+      <CheckoutPage :order="order" :quoteContact="contact" @finished="onFinished" @load="onCheckOut" />
     </q-dialog>
 
-    <q-dialog
-      v-if="selectedMarker"
-      v-model="dialogs.details.visible"
-      transition-show="slide-left"
-      transition-hide="slide-right"
-    >
+    <q-dialog v-if="selectedMarker" v-model="dialogs.details.visible" transition-show="slide-left"
+      transition-hide="slide-right">
       <div class="details-dialog-container">
         <h3 class="title-details-dialog">{{ selectedMarker.name }}</h3>
-        <q-btn
-          icon="close"
-          color="black"
-          class="close-details-dialog"
-          flat
-          round
-          dense
-          v-close-popup
-        />
+        <q-btn icon="close" color="black" class="close-details-dialog" flat round dense v-close-popup />
         <div class="details-dialog-content">
           <strong>Nome: </strong> {{ selectedMarker.name }}
           {{ selectedMarker.alias }}<br />
@@ -134,11 +66,8 @@
           <strong>CEP: </strong> {{ selectedMarker.cep }}
         </div>
         <div class="row q-pa-md justify-center items-center">
-          <q-btn
-            :label="isMarkerSelected() ? 'Remover' : 'Selecionar'"
-            :color="isMarkerSelected() ? 'red' : 'primary'"
-            @click="onSelectMarkerClick"
-          />
+          <q-btn :label="isMarkerSelected() ? 'Remover' : 'Selecionar'" :color="isMarkerSelected() ? 'red' : 'primary'"
+            @click="onSelectMarkerClick" />
         </div>
       </div>
     </q-dialog>
@@ -148,11 +77,11 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
- import Analytics from "@controleonline/quasar-common-ui/src/utils/analytics";
+import Analytics from "@controleonline/quasar-common-ui/src/utils/analytics";
 import LoginPage from "@controleonline/quasar-login-ui/src/components/user/login/Index.vue";
 import SignUpPage from "@controleonline/quasar-login-ui/src/components/user/signup/Index";
 
- import CegPageContainer from "../components/CegPageContainer";
+import CegPageContainer from "../components/CegPageContainer";
 import CegQuoteTable from "../components/CegQuoteTable";
 import PageContainer from "../components/PageContainer";
 import QuoteTable from "../components/QuoteTable";
@@ -311,31 +240,7 @@ export default {
 
         this.showDialog("quote");
 
-        // request rates from external services
 
-        this.remote({
-          values: {
-            orderId: response.data.order.id,
-            origin: this.origin.postalCode,
-            destination: this.destination.postalCode,
-          },
-          params: {
-            myCompany: this.myCompany ? this.myCompany.id : null,
-          },
-        })
-          .then((response2) => {
-            if (response2.success && response2.data) {
-              if (response2.data.order.id == response.data.order.id) {
-                this.order.quotes = this.orderQuotes([
-                  ...response.data.order.quotes,
-                  ...response2.data.order.quotes,
-                ]);
-              }
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
       } else if (response.error) {
         this.$q.notify({
           message: this.$t(response.error),
@@ -354,7 +259,6 @@ export default {
 
   methods: {
     ...mapActions({
-      remote: "quote/quoteRemote",
       createContract: "contracts/saveContract",
       getClose: "people/getCloseProfessionals",
     }),
@@ -406,8 +310,8 @@ export default {
 
       if (this.order.id && this.order.choose) {
         let quote = this.order.quotes.find(
-            (_quote) => _quote.id == this.order.choose
-          ),
+          (_quote) => _quote.id == this.order.choose
+        ),
           item = {
             id: quote.id,
             brand: quote.carrier.name,
@@ -545,8 +449,8 @@ export default {
       // log analytics event
 
       let quote = this.order.quotes.find(
-          (_quote) => _quote.id == this.order.choose
-        ),
+        (_quote) => _quote.id == this.order.choose
+      ),
         item = {
           id: quote.id,
           brand: quote.carrier.name,
@@ -620,8 +524,8 @@ export default {
     },
 
     async getCloseProfessionals(lat, lng, callback) {
-      var result = await this.getClose({ lat, lng });
-      callback(result.data);
+      //var result = await this.getClose({ lat, lng });
+      //callback(result.data);
     },
 
     addOriginMarkers(data) {
@@ -959,11 +863,13 @@ export default {
   .q-table__control {
     color: #00519b !important;
   }
+
   .q-field,
   .q-field__native {
     color: #00519b !important;
   }
 }
+
 .pageloader {
   text-align: center;
   margin-top: 200px;

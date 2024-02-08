@@ -347,11 +347,9 @@
             </template>
         </q-table>
 
-        <q-dialog v-model="addModal" 
-        :full-width="columns.length >= 16"
-            >
+        <q-dialog v-model="addModal" :full-width="columns.length >= 16">
 
-                    <DefaultForm :configs="configs" @saved="saved" @error="error" :data="item" />
+            <DefaultForm :configs="configs" @saved="saved" @error="error" :data="item" />
 
         </q-dialog>
         <q-dialog v-model="deleteModal">
@@ -798,7 +796,9 @@ export default {
 
             return filteredParams;
         },
-
+        isInvalid() {
+            return true;
+        },
         sum(column, value) {
             if (column.sum == true) {
                 this.sumColumn[column.key || column.name] = this.sumColumn[column.key || column.name] ? parseFloat(this.sumColumn[column.key || column.name]) + parseFloat(value) : parseFloat(value);
