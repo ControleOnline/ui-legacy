@@ -1258,7 +1258,7 @@ export default {
     background: #555;
 }
 
-.default-table {
+.default-table span {
     white-space: pre-line;
 }
 </style>
