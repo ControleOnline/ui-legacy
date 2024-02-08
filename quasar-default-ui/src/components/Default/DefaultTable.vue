@@ -1257,4 +1257,8 @@ export default {
 .default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+.default-table {
+    white-space: pre-line;
+}
 </style>
