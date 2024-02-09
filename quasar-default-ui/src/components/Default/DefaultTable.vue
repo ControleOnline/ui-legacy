@@ -907,12 +907,12 @@ export default {
             }
 
             let params = Object.assign(this.$copyObject(this.filters), this.$copyObject(this.pagination));
+            params.itemsPerPage = this.pagination.rowsPerPage || this.rowsOptions[0] || 50;
             delete params.rowsNumber;
             delete params.sortBy;
             delete params.descending;
             delete params.rowsPerPage;
             params = this.getFilterParams(params);
-            params.itemsPerPage = params.rowsPerPage || this.rowsOptions[0];
             if (this.myCompany)
                 params[this.configs.companyParam || 'company'] = '/people/' + this.myCompany?.id;
             this.sumColumn = {};
