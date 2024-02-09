@@ -121,7 +121,7 @@ export default {
     },
     watch: {
         item: {
-            handler: function (current, preview) {                
+            handler: function (current, preview) {
                 this.getFilteredColumns();
             },
             deep: true,
@@ -133,13 +133,15 @@ export default {
         getFilteredColumns() {
             let columns = {};
             Object.values(this.columns).forEach((c, key) => {
-                if (!this.configs.columns)
+                if (!this.configs?.columns) {
                     columns[c.key || c.name] = true;
-                let cc = this.configs.columns[c.key || c.name];
-                if (cc?.visibleForm && typeof cc.visibleForm === 'function') {
-                    columns[c.key || c.name] = cc.visibleForm(this.item, c);
                 } else {
-                    columns[c.key || c.name] = true;
+                    let cc = this.configs?.columns[c.key || c.name];
+                    if (cc?.visibleForm && typeof cc.visibleForm === 'function') {
+                        columns[c.key || c.name] = cc.visibleForm(this.item, c);
+                    } else {
+                        columns[c.key || c.name] = true;
+                    }
                 }
             });
             this.showFormColumn = columns;

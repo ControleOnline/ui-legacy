@@ -127,7 +127,7 @@ export function getList(configs, column) {
 }
 
 export function shouldIncludeColumn(column) {
-  const isVisibleFunction = this.configs.columns && this.configs.columns[column.key || column.name]?.visible;
+  const isVisibleFunction = this.configs?.columns && this.configs?.columns[column.key || column.name]?.visible;
   if (typeof isVisibleFunction === 'function')
     return isVisibleFunction(column) !== false && column.visible !== false;
   return isVisibleFunction !== false && column.visible !== false;
