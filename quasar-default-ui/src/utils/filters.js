@@ -2,7 +2,7 @@ import { LocalStorage } from "quasar";
 
 export default class Filters {
 
-  constructor(route, store) {    
+  constructor(route, store) {
     this.route = route;
     this.store = store;
   }
@@ -11,7 +11,7 @@ export default class Filters {
     if (!this.getRoute() || !this.store) return {};
 
     let storedUser = this.getAllFilters();
-    return storedUser
+    return storedUser && storedUser[this.getRoute()]
       ? storedUser[this.getRoute()][this.store] || {}
       : {};
   }
@@ -21,8 +21,6 @@ export default class Filters {
     let storedUser = this.getAllFilters();
     if (!storedUser[this.getRoute()])
       storedUser[this.getRoute()] = {};
-
-
     storedUser[this.getRoute()][this.store] = data;
     LocalStorage.set("DefaultFilters", storedUser);
   }
@@ -30,7 +28,7 @@ export default class Filters {
   getVisibleColumns() {
     if (!this.getRoute() || !this.store) return {};
     let storedUser = this.getAllVisibleColumns();
-    return storedUser
+    return storedUser && storedUser[this.getRoute()]
       ? storedUser[this.getRoute()][this.store] || {}
       : {};
   }
@@ -40,7 +38,6 @@ export default class Filters {
     let storedUser = this.getAllVisibleColumns();
     if (!storedUser[this.getRoute()])
       storedUser[this.getRoute()] = {};
-
     storedUser[this.getRoute()][this.store] = visibleColumns;
     LocalStorage.set("DefaultVisibleColumns", storedUser);
 
