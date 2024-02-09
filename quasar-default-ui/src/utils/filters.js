@@ -2,13 +2,13 @@ import { LocalStorage } from "quasar";
 
 export default class Filters {
 
-  constructor(router, store) {
-    this.router = router;
+  constructor(route, store) {    
+    this.route = route;
     this.store = store;
   }
 
   getFilters() {
-    if (!this.getRoute() || this.store) return {};
+    if (!this.getRoute() || !this.store) return {};
 
     let storedUser = this.getAllFilters();
     return storedUser
@@ -17,14 +17,18 @@ export default class Filters {
   }
 
   setFilters(data) {
-    if (!this.getRoute() || this.store) return;
+    if (!this.getRoute() || !this.store) return;
     let storedUser = this.getAllFilters();
+    if (!storedUser[this.getRoute()])
+      storedUser[this.getRoute()] = {};
+
+
     storedUser[this.getRoute()][this.store] = data;
-    LocalStorage.set("filters", storedUser);
+    LocalStorage.set("DefaultFilters", storedUser);
   }
 
   getVisibleColumns() {
-    if (!this.getRoute() || this.store) return {};
+    if (!this.getRoute() || !this.store) return {};
     let storedUser = this.getAllVisibleColumns();
     return storedUser
       ? storedUser[this.getRoute()][this.store] || {}
@@ -32,23 +36,26 @@ export default class Filters {
   }
 
   setVisibleColumns(visibleColumns) {
-    if (!this.getRoute() || this.store) return;
+    if (!this.getRoute() || !this.store) return;
     let storedUser = this.getAllVisibleColumns();
+    if (!storedUser[this.getRoute()])
+      storedUser[this.getRoute()] = {};
+
     storedUser[this.getRoute()][this.store] = visibleColumns;
-    LocalStorage.set("VisibleColumns", storedUser);
+    LocalStorage.set("DefaultVisibleColumns", storedUser);
 
   }
 
   getAllFilters() {
-    return LocalStorage.getItem("filters") || {};
+    return LocalStorage.getItem("DefaultFilters") || {};
   }
 
   getRoute() {
-    return this.router?.name;
+    return this.route;
   }
 
   getAllVisibleColumns() {
-    return LocalStorage.getItem("VisibleColumns") || {};
+    return LocalStorage.getItem("DefaultVisibleColumns") || {};
   }
 
 }

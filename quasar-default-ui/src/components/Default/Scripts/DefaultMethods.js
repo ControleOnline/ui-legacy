@@ -1,6 +1,5 @@
 import { i18n } from "boot/i18n";
 
-
 export function translate(store, value, type) {
   if (i18n.global.te(store + "." + type + "." + value))
     return i18n.global.t(store + "." + type + "." + value);

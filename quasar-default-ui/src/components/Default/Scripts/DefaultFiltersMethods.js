@@ -1,3 +1,5 @@
+import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
+
 export function sendFilterColumn(colName) {
   const column = this.getColumnByName(colName);
   let filters = this.$copyObject(this.filters || []) || [];
@@ -13,6 +15,23 @@ export function sendFilterColumn(colName) {
   }
   this.applyFilters(filters);
 }
+
+export function loadPersistentFilters() {
+  const persistentFilter = new Filters(this.$route.name,
+    this.$store.getters[this.configs.store + '/resourceEndpoint']
+  );
+  let filters = persistentFilter.getFilters();
+  let visibleColumns = persistentFilter.getVisibleColumns();
+  this.applyVisibleColumns(visibleColumns);
+  this.applyFilters(filters);
+}
+
+export function applyVisibleColumns(visibleColumns) {
+  let f = this.$copyObject(visibleColumns);
+  let pf = this.$copyObject(this.visibleColumns);
+  if (f != pf) this.$store.commit(this.configs.store + "/SET_VISIBLECOLUMNS", f);
+}
+
 export function applyFilters(filters) {
   let f = this.$copyObject(filters);
   let pf = this.$copyObject(this.filters);

@@ -383,7 +383,7 @@ import DefaultSearch from "@controleonline/quasar-default-ui/src/components/Defa
 import DefaultFilters from "@controleonline/quasar-default-ui/src/components/Default/Filters/DefaultFilters";
 import FilterInputs from "@controleonline/quasar-default-ui/src/components/Default/Filters/FilterInputs";
 import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Common/FormInputs";
-
+import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
 import { mapActions, mapGetters } from "vuex";
 
@@ -463,8 +463,10 @@ export default {
             this.colFilter = this.$copyObject(this.filters);
             this.search = this.colFilter['search'];
             this.saveVisibleColumns();
-            if (this.myCompany)
+            if (this.myCompany) {
+                this.loadPersistentFilters();
                 this.loadData();
+            }
         });
     },
 
@@ -472,6 +474,9 @@ export default {
         ...mapGetters({
             myCompany: 'people/currentCompany',
         }),
+        resourceEndpoint() {
+            return this.$store.getters[this.configs.store + '/resourceEndpoint']
+        },
         columns() {
             return this.$store.getters[this.configs.store + '/columns']
         },
@@ -497,8 +502,10 @@ export default {
     watch: {
         myCompany: {
             handler: function (current, preview) {
-                if (current?.id != preview?.id)
+                if (current?.id != preview?.id) {
+                    this.loadPersistentFilters();
                     this.loadData();
+                }
             },
             deep: true,
         },
@@ -569,21 +576,16 @@ export default {
                 }
             });
 
-            this.$store.commit(this.configs.store + '/SET_VISIBLECOLUMNS', this.$copyObject(this.toogleVisibleColumns));
+            this.applyVisibleColumns(this.toogleVisibleColumns);
             this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
             this.configsLoaded = true;
         },
         toggleShowColumnMenu() {
             this.showColumnMenu = this.showColumnMenu ? false : true;
         },
-
-
         stopPropagation(event) {
             event.stopPropagation();
         },
-
-
-
         startDrag(index) {
             if (index !== 0) {
                 this.columns.forEach((column, columnIndex) => {
@@ -692,9 +694,6 @@ export default {
                     filters.order = {
                         [this.sortedColumn]: this.sortDirection
                     };
-
-
-
 
                 this.applyFilters(filters);
 
@@ -902,7 +901,6 @@ export default {
 
         loadData(props) {
             if (this.isLoading) return;
-
             if (props) {
                 this.pagination = props.pagination;
                 this.applyFilters(Object.assign(this.filters, props.filters));
@@ -1257,6 +1255,7 @@ export default {
 .default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
 /*
 .default-table tbody span {
     white-space: pre-line;

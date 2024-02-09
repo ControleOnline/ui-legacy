@@ -1,9 +1,8 @@
 import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from "@controleonline/quasar-default-ui/src/error/SubmissionError";
 import * as types from "@controleonline/quasar-default-ui/src/store/default/mutation_types";
-import { resourceEndpoint } from './getters'; 
 
-export const getItems = ({ commit ,getters }, params = {}) => {
+export const getItems = ({ commit, getters }, params = {}) => {
   commit(types.SET_ISLOADING, true);
   return api
     .fetch(getters.resourceEndpoint, { params: params })
@@ -26,10 +25,8 @@ export const getItems = ({ commit ,getters }, params = {}) => {
     });
 };
 
-
-
-export const get = ({ commit,getters  }, id) => {
-  commit(types.SET_ISLOADING, true);      
+export const get = ({ commit, getters }, id) => {
+  commit(types.SET_ISLOADING, true);
   return api
     .fetch(getters.resourceEndpoint + "/" + id, {})
 
@@ -52,7 +49,7 @@ export const get = ({ commit,getters  }, id) => {
 };
 
 
-export const save = ({ commit,getters  }, params) => {
+export const save = ({ commit, getters }, params) => {
   let id = params.id;
   delete params.id;
 
@@ -80,14 +77,14 @@ export const save = ({ commit,getters  }, params) => {
     });
 };
 
-export const remove = ({ commit,getters  }, id) => {
+export const remove = ({ commit, getters }, id) => {
   let options = {
     method: "DELETE",
   };
   commit(types.SET_ISSAVING, true);
 
   return api
-    .fetch(getters.resourceEndpoint +"/" + id , options)
+    .fetch(getters.resourceEndpoint + "/" + id, options)
     .then((data) => {
       return data;
     })
