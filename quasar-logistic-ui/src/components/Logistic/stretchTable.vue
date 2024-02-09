@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import stretchAddEdit from "./stretchAddEdit.vue";
 import DefaultTable from '@controleonline/quasar-default-ui/src/components/Default/DefaultTable.vue';
 import DefaultCustomActions from '@controleonline/quasar-default-ui/src/components/Default/DefaultCustomActions.vue';
 import {
@@ -30,24 +29,22 @@ export default {
 
   components: {
     DefaultTable,
-    stretchAddEdit,
   },
   created() {
   },
   data() {
     return {
 
-      stretchToEdit: {},
     }
   },
   computed: {
     tableSettings() {
       return {
         store: 'logistic',
-        add: false,
+        add: true,
         filters: true,
-        editable: false,
-        delete: false,
+        editable: true,
+        delete: true,
         selection: false,
         search: true,
         list: {
@@ -59,35 +56,13 @@ export default {
             }
           }
         },
-        components: {
-          tableActions: {
-            component: DefaultCustomActions,
-            props: {
-              btnTitle: '',
-              btnIcon: 'settings',
-              btnFlat: true,
-              btnDense: true,
-              items: [
-                { title: 'Editar', icon: 'edit', component: stretchAddEdit },
-                { title: 'Finalizar', icon: 'check', action: this.finish },
-                { title: 'Vistoria', icon: 'checklist', action: this.addSurvey },
-                { title: 'Excluir', icon: 'delete', action: this.deleteTrecho },
-              ]
-            }
-          }
-        }
+
       };
     },
   },
 
   methods: {
     ...DefaultMethods,
-    openEditModal(props) {
-      this.stretchToEdit = props.row;
-
-    },
-
   }
-
 };
 </script>

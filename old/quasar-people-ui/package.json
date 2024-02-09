@@ -1,8 +1,8 @@
 {
-  "name": "@controleonline/quasar-providers-ui",
-  "version": "1.0.24",
+  "name": "@controleonline/old/quasar-people-ui",
+  "version": "1.0.84",
   "author": "ControleOnline",
-  "description": "ControleOnline providers Quasar UI Component",
+  "description": "ControleOnline people Quasar UI Component",
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {},

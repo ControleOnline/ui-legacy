@@ -1,6 +1,6 @@
 <template>
   <!-- QUOTE FORM -->
-  <q-card :class="isPublic ? 'quote-form' : ''">
+  <q-card :class="(isPublic ? 'quote-form' : '') + ' quote-card'">
     <!-- TITLE HEADER -->
     <q-card-section v-if="isPublic" class="q-pt-xl">
       <div class="text-h5 text-center text-uppercase text-primary">
@@ -10,24 +10,93 @@
         {{ $t("form.subtitle") }}
       </div>
     </q-card-section>
-
     <q-card-section v-else class="q-pb-sm text-h6">
       Cotação de frete
     </q-card-section>
 
     <q-card-section>
-      <q-form ref="form" @submit="onSubmit" autocorrect="off" autocomplete="off" spellcheck="false">
-        <ContactInputs v-if="!logged || logged || showContacts" :values="contact" />
+      <q-form
+        ref="form"
+        @submit="onSubmit"
+        autocorrect="off"
+        autocomplete="off"
+        spellcheck="false"
+      >
+        <!-- USER LOGGED INFO -->
+        <ContactInputs v-if="!isLogged || showContacts" :values="contact" />
 
         <div class="row q-col-gutter-xs q-pb-xs">
-          <OriginInputs :values="origin" />
-          <DestinationInputs :values="destination" />
+          <OriginInputs
+            v-if="!origin.professionalId"
+            :values="origin"
+            @selected="$emit('addressChanged', 'origin')"
+          />
+          <div v-else class="origin-destination-container col-xs-12 col-sm-6">
+            <q-input
+      dense
+      outlined 
+              stack-label
+              lazy-rules
+              v-model="origin.street"
+              type="text"
+              :disable="true"
+              :label="$t('form.section02')"
+              :placeholder="$t('form.section02')"
+            />
+            <q-btn
+              icon="close"
+              color="black"
+              @click="onRemoveProfPointClick('origin')"
+              class="origin-destination-remove"
+              flat
+              round
+              dense
+            />
+          </div>
+          <DestinationInputs
+            v-if="!destination.professionalId"
+            :values="destination"
+            @selected="$emit('addressChanged', 'destination')"
+          />
+          <div v-else class="origin-destination-container col-xs-12 col-sm-6">
+            <q-input
+      dense
+      outlined 
+              stack-label
+              lazy-rules
+              v-model="destination.street"
+              type="text"
+              :disable="true"
+              :label="$t('form.section03')"
+              :placeholder="$t('form.section03')"
+            />
+            <q-btn
+              icon="close"
+              color="black"
+              @click="onRemoveProfPointClick('destination')"
+              class="origin-destination-remove"
+              flat
+              round
+              dense
+            />
+          </div>
         </div>
 
-        <ProductInputs :values="product" :groupTable="groupTable" />
+        <ProductInputs :defaultCompany="defaultCompany" :values="product" />
 
         <div class="row q-pa-md justify-center items-center">
-          <q-btn :loading="isLoading" :label="$t('form.labels.submit')" type="submit" color="primary" />
+          <q-btn
+            :loading="isLoading"
+            :label="
+              $t(
+                defaultCompany.domainType === 'simple'
+                  ? 'form.labels.minimumQuotation'
+                  : 'form.labels.submit'
+              )
+            "
+            type="submit"
+            color="primary"
+          />
         </div>
       </q-form>
     </q-card-section>
@@ -37,17 +106,16 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import ContactInputs from "./ContactInputs";
+ import ContactInputs from "./ContactInputs";
 import DestinationInputs from "./DestinationInputs";
 import OriginInputs from "./OriginInputs";
 import ProductInputs from "./ProductInputs";
 
-import { formatPhone } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
-import { DOMAIN } from "../../../../../src/config/domain";
+import { DOMAIN } from "src/config/domain";
 
 export default {
-  name: "PageContainer",
+  name: "CegPageContainer",
 
   components: {
     ContactInputs,
@@ -82,14 +150,11 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
-      groupTable: "",
       showContacts: true,
     };
   },
-
   computed: {
     ...mapGetters({
       isLoading: "quote/isLoading",
@@ -104,16 +169,6 @@ export default {
       );
     },
 
-    logged() {
-      let logged = this.$store.getters["auth/user"];
-      if (logged && logged.email) {
-        this.contact.name = logged.username || logged.user;
-        this.contact.email = logged.email;
-        this.contact.phone = logged.phone;
-      }
-      return logged;
-    },
-
     isPublic() {
       return this.$route.name == "QuoteIndex";
     },
@@ -123,18 +178,6 @@ export default {
     ...mapActions({
       quote: "quote/quote",
     }),
-
-    formatPhone(phone) {
-      return formatPhone(phone);
-    },
-
-    logout() {
-      if (this.isPublic) {
-        this.$store.dispatch("auth/logOut");
-      } else {
-        this.showContacts = true;
-      }
-    },
 
     validate() {
       let isValid = true;
@@ -181,13 +224,6 @@ export default {
       }
 
       // product type
-      else if (!this.product.product.length) {
-        const label = this.productTypeLabel.toUpperCase();
-        message = "O campo " + label + " não é válido";
-        isValid = false;
-      }
-
-      // product type
       else if (!this.product.type.length) {
         const label = this.productTypeLabel.toUpperCase();
         message = "O campo " + label + " não é válido";
@@ -206,36 +242,6 @@ export default {
         if (!this.product.packages.length) {
           message = "Os dados dos produtos não foram informados";
           isValid = false;
-        } else {
-          let row = 0;
-
-          for (let index in this.product.packages) {
-            MyPackage._package = this.product.packages[index];
-
-            row = parseInt(index) + 1;
-
-            if (!(MyPackage.quantity() > 0)) {
-              message = `O campo QUANTIDADE da fila ${row} não é válido`;
-              isValid = false;
-              break;
-            } else if (!(MyPackage.weight() > 0)) {
-              message = `O campo PESO da fila ${row} não é válido`;
-              isValid = false;
-              break;
-            } else if (!(MyPackage.height() > 0)) {
-              message = `O campo ALTURA da fila ${row} não é válido`;
-              isValid = false;
-              break;
-            } else if (!(MyPackage.width() > 0)) {
-              message = `O campo LARGURA da fila ${row} não é válido`;
-              isValid = false;
-              break;
-            } else if (!(MyPackage.depth() > 0)) {
-              message = `O campo PROFUNDIDADE da fila ${row} não é válido`;
-              isValid = false;
-              break;
-            }
-          }
         }
       }
 
@@ -251,6 +257,7 @@ export default {
 
     payload() {
       let packages = null;
+      this.product.cubage = "1";
       let cubage = parseFloat(this.product.cubage.replace(",", "."));
 
       if (cubage > 0) packages = cubage;
@@ -271,9 +278,9 @@ export default {
           }
         }
       }
-
       // if user is logged, contact can be null
       let contact = [];
+
       if (this.contact) {
         contact = {
           name: this.contact.name,
@@ -281,10 +288,10 @@ export default {
           phone: this.contact.phone,
         };
       }
-
       return {
         app: '',
-        groupTable: this.groupTable,
+        routeType: "multiple",
+        groupTable: this.product.groupTable,
         myCompany: this.myCompany ? this.myCompany.id : null,
         domain:
           this.myCompany && this.myCompany.domains
@@ -296,7 +303,7 @@ export default {
           this.product.totalPrice.toString().replace(",", ".")
         ),
         packages: packages,
-        productType: this.product.type + "," + this.product.product,
+        productType: this.product.type,
         contact: contact,
       };
     },
@@ -337,12 +344,104 @@ export default {
         values: this.payload(),
       };
 
-      if (this.myCompany !== null)
-        payload.query = {
-          myCompany: this.myCompany.id,
-        };
-      this.quote(payload);
+      if (payload.values) {
+        if (this.myCompany !== null) {
+          payload.query = {
+            myCompany: this.myCompany.id,
+          };
+        }
+
+        this.quote(payload);
+      }
     },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.quote-form {
+  width: 85%;
+  margin: 40px auto;
+}
+
+.q-table__bottom {
+  .q-table__control {
+    color: #00519b !important;
+  }
+  .q-field,
+  .q-field__native {
+    color: #00519b !important;
+  }
+}
+.pageloader {
+  text-align: center;
+  margin-top: 200px;
+}
+
+.quote-page {
+  position: relative;
+}
+
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../assets/fundomapa.png");
+  background-position: center center;
+  background-size: cover;
+}
+
+.quote-card {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  border-radius: 5px !important;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+.origin-destination-container {
+  position: relative;
+
+  .origin-destination-remove {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+  }
+}
+
+.details-dialog-container {
+  position: relative;
+  background-color: white;
+  max-height: 320px;
+  max-width: 600px;
+  height: 50%;
+  width: 90%;
+
+  .close-details-dialog {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+  }
+
+  .title-details-dialog {
+    font-size: 18px;
+    margin: 0px 10px;
+    padding: 10px 0px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    line-height: inherit;
+    display: inline-block;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+    width: calc(100% - 20px);
+  }
+
+  .details-dialog-content {
+    padding: 10px;
+  }
+}
+</style>

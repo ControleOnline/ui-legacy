@@ -6,48 +6,18 @@
       <div class="text-h5 text-center text-uppercase text-primary">
         {{ $t("form.title") }}
       </div>
-      <div v-if="isCompany || logged" class="text-caption text-center">
+      <div class="text-caption text-center">
         {{ $t("form.subtitle") }}
       </div>
     </q-card-section>
-    <q-card-section>
-      <div
-        v-if="!isCompany && !logged"
-        class="row q-pa-md justify-center items-center"
-      >
-        <b>Haverá emissão de NOTA FISCAL para o transporte da mercadoria?</b>
-      </div>
-      <div
-        v-if="!isCompany && !logged"
-        class="row q-pa-md justify-center items-center"
-      >
-        <q-btn-toggle
-          flat
-          no-caps
-          v-model="isCompany"
-          toggle-color="primary"
-          :options="[
-            {
-              label: 'Sim',
-              value: true,
-            },
-            {
-              label: 'Não',
-              value: false,
-            },
-          ]"
-        />
-      </div>
 
-      <q-form
-        v-if="isCompany || logged"
-        ref="form"
-        @submit="onSubmit"
-        autocorrect="off"
-        autocomplete="off"
-        spellcheck="false"
-      >
-        <ContactInputs v-if="!logged" :values="contact" />
+    <q-card-section v-else class="q-pb-sm text-h6">
+      Cotação de frete
+    </q-card-section>
+
+    <q-card-section>
+      <q-form ref="form" @submit="onSubmit" autocorrect="off" autocomplete="off" spellcheck="false">
+        <ContactInputs v-if="!logged || logged || showContacts" :values="contact" />
 
         <div class="row q-col-gutter-xs q-pb-xs">
           <OriginInputs :values="origin" />
@@ -57,26 +27,9 @@
         <ProductInputs :values="product" :groupTable="groupTable" />
 
         <div class="row q-pa-md justify-center items-center">
-          <q-btn
-            :loading="isLoading"
-            :label="$t('form.labels.submit')"
-            type="submit"
-            color="primary"
-          />
+          <q-btn :loading="isLoading" :label="$t('form.labels.submit')" type="submit" color="primary" />
         </div>
       </q-form>
-      <div v-else-if="isCompany === false" class="text-caption">
-        <h6 class="text-center">O que nossos parceiros não transportam:</h6>
-        <ul class="ul-info">
-          <li>Mercadorias com declaração</li>
-          <li>Mercadorias sem nota fiscal</li>
-          <li>Pessoa física para pessoa física</li>
-        </ul>
-        <h6 class="text-center">
-          Em caso de dúvidas, entre em contato com a nossa Central de
-          Relacionamento
-        </h6>
-      </div>
     </q-card-section>
   </q-card>
 </template>
@@ -84,14 +37,14 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
- import ContactInputs from "./ContactInputs";
+import ContactInputs from "./ContactInputs";
 import DestinationInputs from "./DestinationInputs";
 import OriginInputs from "./OriginInputs";
 import ProductInputs from "./ProductInputs";
 
 import { formatPhone } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
-import { DOMAIN } from "../../../../../src/config/domain";
+import { DOMAIN } from "src/config/domain";
 
 export default {
   name: "PageContainer",
@@ -133,8 +86,7 @@ export default {
   data() {
     return {
       groupTable: "",
-      isCompany: null,
-      //showContacts: true,
+      showContacts: true,
     };
   },
 
@@ -145,14 +97,25 @@ export default {
       defaultCompany: "people/defaultCompany",
     }),
 
+    isLogged() {
+      return (
+        this.$store.getters["auth/user"] !== null &&
+        this.$store.getters["auth/user"].user
+      );
+    },
+
     logged() {
-      let logged = this.getLoggedUser();
+      let logged = this.$store.getters["auth/user"];
       if (logged && logged.email) {
         this.contact.name = logged.username || logged.user;
         this.contact.email = logged.email;
         this.contact.phone = logged.phone;
       }
-      return this.isLogged();
+      return logged;
+    },
+
+    isPublic() {
+      return this.$route.name == "QuoteIndex";
     },
   },
 
@@ -160,15 +123,7 @@ export default {
     ...mapActions({
       quote: "quote/quote",
     }),
-    isLogged() {
-      return this.getLoggedUser() !== null && this.getLoggedUser().user;
-    },
-    getLoggedUser() {
-      return this.$store.getters["auth/user"];
-    },
-    isPublic() {
-      return this.$route.name == "QuoteIndex";
-    },
+
     formatPhone(phone) {
       return formatPhone(phone);
     },
@@ -177,7 +132,7 @@ export default {
       if (this.isPublic) {
         this.$store.dispatch("auth/logOut");
       } else {
-        //this.showContacts = true;
+        this.showContacts = true;
       }
     },
 
@@ -185,7 +140,7 @@ export default {
       let isValid = true;
       let message = "";
 
-      if (!this.logged) {
+      if (!this.isLogged) {
         // name
         if (!this.contact.name.length) {
           message = "O campo NOME não é válido";
@@ -224,12 +179,14 @@ export default {
         message = "O campo DESTINO não é válido";
         isValid = false;
       }
+
       // product type
       else if (!this.product.product.length) {
         const label = this.productTypeLabel.toUpperCase();
         message = "O campo " + label + " não é válido";
         isValid = false;
       }
+
       // product type
       else if (!this.product.type.length) {
         const label = this.productTypeLabel.toUpperCase();
@@ -328,7 +285,7 @@ export default {
       return {
         app: '',
         groupTable: this.groupTable,
-        selectedCompany: this.myCompany ? this.myCompany.id : null,
+        myCompany: this.myCompany ? this.myCompany.id : null,
         domain:
           this.myCompany && this.myCompany.domains
             ? this.myCompany.domains[0]?.domain
@@ -382,18 +339,10 @@ export default {
 
       if (this.myCompany !== null)
         payload.query = {
-          selectedCompany: this.myCompany.id,
+          myCompany: this.myCompany.id,
         };
-
       this.quote(payload);
     },
   },
 };
 </script>
-<style>
-.ul-info {
-  margin: auto;
-  max-width: 300px;
-  font-size: 16px;
-}
-</style>

@@ -355,7 +355,7 @@ import PersonAvatar from "@controleonline/quasar-common-ui/src/components/Common
 import PeopleOrders from "@controleonline/quasar-orders-ui/src/components/order/sales/OrderSearching.vue";
 import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import { mapGetters } from "vuex";
-import { ENTRYPOINT } from "../../../../../../../src/config/entrypoint";
+import { ENTRYPOINT } from "src/config/entrypoint";
 import PeopleAdminAddresses from "../../components/AdminAddresses.vue";
 import PeopleAdminBilling from "../../components/AdminBilling.vue";
 import PeopleAdminDocuments from "../../components/AdminDocuments.vue";

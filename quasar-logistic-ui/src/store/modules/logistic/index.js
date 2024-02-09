@@ -3,8 +3,10 @@ import * as getters from "@controleonline/quasar-default-ui/src/store/default/ge
 import mutations from "@controleonline/quasar-default-ui/src/store/default/mutations";
 import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 import {
-  formatDateYmdTodmY,
+  buildAmericanDate,
   formatMoney,
+  formatFloat,
+  formatDateYmdTodmY,
 } from "@controleonline/quasar-common-ui/src/utils/formatter";
 import { translate } from "@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js";
 
@@ -142,10 +144,20 @@ export default {
         align: "center",
       },
       {
+        externalFilter: true,
         name: "provider",
         label: "provider",
         align: "left",
-        format: (val) => (val ? `${val.name}` : ""),
+        searchParam: "name",
+        list: "people/getItems",
+        formatList(value, column) {
+          if (value)
+            return {
+              value: value["@id"].split("/").pop(),
+              label: value.name + " - " + value.alias,
+            };
+        },
+        format: (val) => (val ? `${val.name} - ${val.alias}` : ""),
       },
       {
         name: "destinationType",
@@ -193,28 +205,72 @@ export default {
         align: "center",
       },
       {
+        externalFilter: true,
         name: "destinationProvider",
         label: "destinationProvider",
         align: "center",
-        format: (val) => (val ? `${val.name}` : ""),
+        searchParam: "name",
+        list: "people/getItems",
+        formatList(value, column) {
+          if (value)
+            return {
+              value: value["@id"].split("/").pop(),
+              label: value.name + " - " + value.alias,
+            };
+        },
+        format: (val) => (val ? `${val.name} - ${val.alias}` : ""),
       },
       {
+        prefix: "R$ ",
+        filter: false,
         name: "price",
         label: "price",
-        align: "center",
-        format: (val) => formatMoney(val, "BRL", "pt-br"),
+        align: "right",
+        sum: true,
+        editFormat(value) {
+          return formatMoney(value);
+        },
+        saveFormat(value) {
+          return formatFloat(value);
+        },
+        format(value) {
+          return formatMoney(value);
+        },
       },
       {
+        prefix: "R$ ",
+        filter: false,
         name: "amountPaid",
         label: "amountPaid",
-        align: "center",
-        format: (val) => formatMoney(val, "BRL", "pt-br"),
+        align: "right",
+        sum: true,
+        editFormat(value) {
+          return formatMoney(value);
+        },
+        saveFormat(value) {
+          return formatFloat(value);
+        },
+        format(value) {
+          return formatMoney(value);
+        },
       },
       {
+        prefix: "R$ ",
+        edit: false,
+        filter: false,
         name: "balance",
         label: "balance",
-        align: "center",
-        format: (val) => formatMoney(val, "BRL", "pt-br"),
+        align: "right",
+        sum: true,
+        editFormat(value) {
+          return formatMoney(value);
+        },
+        saveFormat(value) {
+          return formatFloat(value);
+        },
+        format(value) {
+          return formatMoney(value);
+        },
       },
       {
         externalFilter: true,
@@ -225,18 +281,24 @@ export default {
         format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
+        externalFilter: true,
+        inputType: "date-range",
         name: "shippingDate",
         label: "shippingDate",
         align: "right",
         format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
+        externalFilter: true,
+        inputType: "date-range",
         name: "estimatedArrivalDate",
         label: "estimatedArrivalDate",
         align: "right",
         format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
+        externalFilter: true,
+        inputType: "date-range",
         name: "arrivalDate",
         label: "arrivalDate",
         align: "right",

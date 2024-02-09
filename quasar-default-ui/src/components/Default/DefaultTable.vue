@@ -1257,8 +1257,9 @@ export default {
 .default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
-
-.default-table span {
+/*
+.default-table tbody span {
     white-space: pre-line;
 }
+*/
 </style>

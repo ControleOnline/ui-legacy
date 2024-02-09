@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import PeoplesPage from "@controleonline/quasar-people-ui/src/repository/pages/PageAdmin/Index.vue";
+import PeoplesPage from "@controleonline/old/quasar-people-ui/src/repository/pages/PageAdmin/Index.vue";
 import { mapGetters } from "vuex";
 import { ENTRYPOINT } from "../../../../../../src/config/entrypoint";
 

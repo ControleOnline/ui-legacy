@@ -49,8 +49,8 @@
 
 <script>
 import { formatMoney } from '@controleonline/quasar-common-ui/src/utils/formatter';
-import QuoteTable from '@controleonline/quasar-logistic-ui/src/components/ClientQuoteTable';
-import ContractPage from '@controleonline/quasar-logistic-ui/src/components/checkout/Index';
+import QuoteTable from '@controleonline/old/quasar-logistic-ui/src/components/ClientQuoteTable';
+import ContractPage from '@controleonline/old/quasar-logistic-ui/src/components/checkout/Index';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {

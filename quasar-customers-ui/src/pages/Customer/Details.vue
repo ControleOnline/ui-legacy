@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import PeoplePage from '@controleonline/quasar-people-ui/src/repository/pages/PageUpDate/Index.vue';
+import PeoplePage from '@controleonline/old/quasar-people-ui/src/repository/pages/PageUpDate/Index.vue';
 import { mapGetters } from 'vuex';
 
 import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';

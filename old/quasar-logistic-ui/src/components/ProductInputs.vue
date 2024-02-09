@@ -157,7 +157,7 @@ import { api } from "@controleonline/../../src/boot/api";
 import ListAutocomplete from "@controleonline/quasar-common-ui/src/components/Common/ListAutocomplete";
 import { MyPackage } from "@controleonline/quasar-common-ui/src/utils/mypackage";
 import { mapGetters } from "vuex";
-import { DOMAIN } from "../../../../../src/config/domain";
+import { DOMAIN } from "src/config/domain";
 
 export default {
   created() {

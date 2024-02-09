@@ -17,7 +17,7 @@ diretorios=(
     "quasar-layout-ui"
     "quasar-login-ui"
     "quasar-orders-ui"
-    "quasar-people-ui"
+    "old/quasar-people-ui"
     "quasar-products-ui"
     "quasar-professionals-ui"
     "quasar-providers-ui"

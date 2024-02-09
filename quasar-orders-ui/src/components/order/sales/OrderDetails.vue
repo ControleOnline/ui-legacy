@@ -77,14 +77,14 @@
                 </tr>
                 <tr v-if="this.purchasingOrderId">
                   <td :class="this.price - this.purchasingPrice < this.correctValue
-                      ? 'red text-left text-bold'
-                      : 'green text-left text-bold'
+                    ? 'red text-left text-bold'
+                    : 'green text-left text-bold'
                     ">
                     Valor do ticket
                   </td>
                   <td :class="this.price - this.purchasingPrice < this.correctValue
-                      ? 'red text-left text-bold'
-                      : 'green text-left text-bold'
+                    ? 'red text-left text-bold'
+                    : 'green text-left text-bold'
                     ">
                     {{ formatMoney(this.price - this.purchasingPrice) }}
                     ({{ parseFloat(this.realPecentage).toFixed(2) }}
@@ -383,8 +383,7 @@
             </q-tab-panel> -->
 
             <q-tab-panel name="logistica" class="q-pa-none">
-              <OrderDetailLogistics :total_packages="total_packages" :orderId="orderId" :orderPrice="price"
-                :status="status" :integrationType="integrationType" />
+              <StretchTable :orderId="orderId" :orderPrice="orderPrice"></StretchTable>
             </q-tab-panel>
             <q-tab-panel name="vistorias" class="q-pa-none">
               <SurveysCollection :orderId="orderId" />
@@ -417,7 +416,7 @@ import {
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import OrderDetailDACTE from "./details/OrderDetailDACTE";
 import OrderDetailInvoice from "./details/OrderDetailInvoice";
-import OrderDetailLogistics from "@controleonline/quasar-logistic-ui/src/components/Logistic/OrderDetailLogistics";
+import StretchTable from "@controleonline/quasar-logistic-ui/src/components/Logistic/stretchTable";
 import OrderDetailNotaFiscal from "./details/OrderDetailNotaFiscal";
 import OrderDetailQuotation from "./details/OrderDetailQuotation";
 import OrderDetailTag from "./details/OrderDetailTag";
@@ -429,7 +428,7 @@ import SurveysCollection from "@controleonline/quasar-logistic-ui/src/components
 export default {
   components: {
     OrderDetailSummary,
-    OrderDetailLogistics,
+    StretchTable,
     OrderDetailQuotation,
     OrderDetailNotaFiscal,
     OrderDetailInvoice,
