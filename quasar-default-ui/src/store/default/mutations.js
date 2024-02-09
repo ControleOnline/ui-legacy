@@ -1,7 +1,7 @@
 import { LocalStorage } from "quasar";
 import * as types from "./mutation_types";
 import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
-const persistentFilter = new Filters();
+
 
 export default {
   [types.SET_ERROR](state, error) {
@@ -37,6 +37,7 @@ export default {
   },
 
   [types.SET_FILTERS](state, filters) {
+    const persistentFilter = new Filters(this.$router);
     persistentFilter.setFilter(filters);
     Object.assign(state, { filters });
   },
@@ -50,6 +51,8 @@ export default {
   },
 
   [types.SET_VISIBLECOLUMNS](state, visibleColumns) {
+    const persistentFilter = new Filters(this.$router);
+
     persistentFilter.setVisibleColumns(visibleColumns);
     Object.assign(state, { visibleColumns });
   },

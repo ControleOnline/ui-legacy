@@ -1,45 +1,54 @@
 import { LocalStorage } from "quasar";
 
 export default class Filters {
+
+  constructor(router, store) {
+    this.router = router;
+    this.store = store;
+  }
+
   getFilters() {
-    let storedUser = this.getAllFilters();
-    return storedUser && this.getRoute()
-      ? storedUser[this.getRoute()] || {}
-      : {};
-  }
-  getAllFilters() {
-    return LocalStorage.getItem("filters") || {};
-  }
-  setFilter(data) {
-    if (!this.getRoute()) return;
+    if (!this.getRoute() || this.store) return {};
 
     let storedUser = this.getAllFilters();
-    storedUser[this.getRoute()] = data;
+    return storedUser
+      ? storedUser[this.getRoute()][this.store] || {}
+      : {};
+  }
+
+  setFilters(data) {
+    if (!this.getRoute() || this.store) return;
+    let storedUser = this.getAllFilters();
+    storedUser[this.getRoute()][this.store] = data;
     LocalStorage.set("filters", storedUser);
   }
 
-  getRoute() {
-    let storedUser = LocalStorage.getItem("session");
-    return storedUser ? storedUser["route"] : null;
+  getVisibleColumns() {
+    if (!this.getRoute() || this.store) return {};
+    let storedUser = this.getAllVisibleColumns();
+    return storedUser
+      ? storedUser[this.getRoute()][this.store] || {}
+      : {};
   }
-  
+
+  setVisibleColumns(visibleColumns) {
+    if (!this.getRoute() || this.store) return;
+    let storedUser = this.getAllVisibleColumns();
+    storedUser[this.getRoute()][this.store] = visibleColumns;
+    LocalStorage.set("VisibleColumns", storedUser);
+
+  }
+
+  getAllFilters() {
+    return LocalStorage.getItem("filters") || {};
+  }
+
+  getRoute() {
+    return this.router?.name;
+  }
+
   getAllVisibleColumns() {
     return LocalStorage.getItem("VisibleColumns") || {};
   }
 
-  getVisibleColumns() {
-    let storedUser = this.getAllVisibleColumns();
-    return storedUser && this.getRoute()
-      ? storedUser[this.getRoute()] || {}
-      : {};
-  }
-  
-  setVisibleColumns(visibleColumns) {
-    if (!this.getRoute()) return;            
-
-    let storedUser = this.getAllVisibleColumns();
-    storedUser[this.getRoute()] = visibleColumns;
-    LocalStorage.set("VisibleColumns", storedUser);
-
-  }
 }

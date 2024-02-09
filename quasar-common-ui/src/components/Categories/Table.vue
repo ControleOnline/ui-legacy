@@ -4,7 +4,6 @@
 <script>
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
 import { mapActions, mapGetters } from "vuex";
-import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 export default {
   components: {
     DefaultTable,
@@ -41,7 +40,6 @@ export default {
   },
   data() {
     return {
-      filters: new Filters()
     };
   },
   created() {
