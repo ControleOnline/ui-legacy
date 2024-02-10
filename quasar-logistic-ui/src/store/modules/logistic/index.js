@@ -96,26 +96,33 @@ export default {
           return value ? "/statuses/" + (value.value || value) : null;
         },
       },
+
+
       {
+        sortable: true,
         name: "originType",
+        align: "left",
         label: "originType",
-        align: "center",
-        format: (val) => {
-          switch (val) {
-            case "b":
-              return "Base";
-              break;
-            case "c":
-              return "Coleta";
-              break;
-            case "p":
-              return "Ponto de encontro";
-              break;
-            default:
-              return "";
-          }
+        list: "categories/getItems",
+        searchParam: "name",
+        externalFilter: true,
+        format: function (value) {
+          return value?.name;
+        },
+        saveFormat: function (value) {
+          return value ? "/categories/" + (value.value || value) : null;
+        },
+        formatList: function (value) {
+          return value
+            ? {
+              label: value?.name,
+              value: value?.id,
+            }
+            : null;
         },
       },
+
+      
       {
         name: "originRegion",
         label: "originRegion",
@@ -158,23 +165,26 @@ export default {
         format: (val) => (val ? `${val.name} - ${val.alias}` : ""),
       },
       {
-        name: "destinationType",
-        label: "destinationType",
-        align: "center",
-        format: (val) => {
-          switch (val) {
-            case "b":
-              return "Base";
-              break;
-            case "e":
-              return "Entrega";
-              break;
-            case "p":
-              return "Ponto de encontro";
-              break;
-            default:
-              return "";
-          }
+        sortable: true,
+        name: "destintionType",
+        align: "left",
+        label: "destintionType",
+        list: "categories/getItems",
+        searchParam: "name",
+        externalFilter: true,
+        format: function (value) {
+          return value?.name;
+        },
+        saveFormat: function (value) {
+          return value ? "/categories/" + (value.value || value) : null;
+        },
+        formatList: function (value) {
+          return value
+            ? {
+              label: value?.name,
+              value: value?.id,
+            }
+            : null;
         },
       },
       {

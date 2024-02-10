@@ -9,18 +9,14 @@
 </template>
 
 <script>
- import StretchSearching from '@controleonline/quasar-logistic-ui/src/components/Logistic/stretchTable.vue';
+ import StretchSearching from '@controleonline/quasar-logistic-ui/src/components/Logistic';
 
 export default {
-  name      : 'OrderIndexPage',
-
   components: {
     StretchSearching,
   },
-
   data () {
     return {
-
     }
   }
 }

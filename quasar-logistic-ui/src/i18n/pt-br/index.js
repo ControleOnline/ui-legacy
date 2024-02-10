@@ -15,9 +15,12 @@ export const translate = {
       "boarding pending": "Embarque Pendente",
       "collection pending": "Coleta Pendente",
     },
+    btn: {
+      categories_logistic: "Cadastro de Tipos",
+    },
     input: {
       id: "ID",
-      originType: "Tipo",
+      originType: "Tipo de Origem",
       originRegion: "Região de Origem",
       originState: "Estado de Origem",
       originCity: "Cidade de Origem",
@@ -26,7 +29,7 @@ export const translate = {
       provider: "Fornecedor da Origem",
       amountPaid: "Valor Pago",
       balance: "Saldo",
-      destinationType: "Tipo",
+      destinationType: "Tipo de Destino",
       destinationRegion: "Região de Destino",
       destinationState: "Estado de Destino",
       destinationCity: "Cidade de Destino",
@@ -46,5 +49,4 @@ export const translate = {
       invoice: "Fatura",
     },
   },
-
 };

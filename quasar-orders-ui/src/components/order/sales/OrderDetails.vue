@@ -416,14 +416,14 @@ import {
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
 import OrderDetailDACTE from "./details/OrderDetailDACTE";
 import OrderDetailInvoice from "./details/OrderDetailInvoice";
-import StretchTable from "@controleonline/quasar-logistic-ui/src/components/Logistic/stretchTable";
+import StretchTable from "@controleonline/quasar-logistic-ui/src/components/Logistic";
 import OrderDetailNotaFiscal from "./details/OrderDetailNotaFiscal";
 import OrderDetailQuotation from "./details/OrderDetailQuotation";
 import OrderDetailTag from "./details/OrderDetailTag";
 import OrderDetailTracking from "./details/OrderTracking";
 import ContractDocument from "@controleonline/quasar-contracts-ui/src/components/ContractDocument.vue";
 import Contract from "@controleonline/quasar-contracts-ui/src/entity/Contract.js";
-import SurveysCollection from "@controleonline/quasar-logistic-ui/src/components/Surveys/SurveysCollection";
+import SurveysCollection from "@controleonline/quasar-logistic-ui/src/components/Surveys";
 
 export default {
   components: {

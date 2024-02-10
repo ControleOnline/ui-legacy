@@ -5,7 +5,6 @@
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
 import { mapActions, mapGetters } from "vuex";
 import Button from "@controleonline/quasar-common-ui/src/components/Categories/Button";
-import * as DefaultMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js';
 
 export default {
     components: {
@@ -30,9 +29,7 @@ export default {
                 add: true,
                 delete: false,
                 selection: true,
-                search: {
-
-                },
+                search: true,
                 columns: {
                     category: {
                         filters: {
@@ -62,7 +59,7 @@ export default {
         };
     },
     created() {
-        const columns = this.copyObject(this.columns);
+        const columns = this.$copyObject(this.columns);
         const columnIndex = columns.findIndex(c => c.name === 'receiver' || c.name === 'payer');
         if (columnIndex !== -1) {
             columns[columnIndex].name = this.context === 'expense' ? 'receiver' : 'payer';
@@ -86,7 +83,6 @@ export default {
 
     },
     methods: {
-        ...DefaultMethods
     },
 };
 </script>

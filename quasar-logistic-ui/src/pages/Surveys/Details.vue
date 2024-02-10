@@ -15,7 +15,6 @@
     </q-card>
   </q-page>
 </template>
-
 <script>
 
 export default {

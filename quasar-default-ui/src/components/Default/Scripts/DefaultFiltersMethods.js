@@ -16,9 +16,17 @@ export function sendFilterColumn(colName) {
   this.applyFilters(filters);
 }
 
+export function addFilter(key, value) {
+  this.loadPersistentFilters();
+  let filters = this.$copyObject(this.filters);
+  filters[key] = value;
+  this.applyFilters(filters);
+}
+
 export function loadPersistentFilters() {
-  const persistentFilter = new Filters(this.$route.name,
-    this.$store.getters[this.configs.store + '/resourceEndpoint']
+  const persistentFilter = new Filters(
+    this.$route.name,
+    this.$store.getters[this.configs.store + "/resourceEndpoint"]
   );
   let filters = persistentFilter.getFilters();
   let visibleColumns = persistentFilter.getVisibleColumns();
@@ -29,7 +37,8 @@ export function loadPersistentFilters() {
 export function applyVisibleColumns(visibleColumns) {
   let f = this.$copyObject(visibleColumns);
   let pf = this.$copyObject(this.visibleColumns);
-  if (f != pf) this.$store.commit(this.configs.store + "/SET_VISIBLECOLUMNS", f);
+  if (f != pf)
+    this.$store.commit(this.configs.store + "/SET_VISIBLECOLUMNS", f);
 }
 
 export function applyFilters(filters) {
@@ -57,7 +66,6 @@ export function clearFilters() {
   this.sendFilter();
 }
 
-
 export function sendFilter() {
   this.$emit("loadData");
 }
@@ -71,8 +79,7 @@ export function setShowInput(colName) {
     this.showInput = { [colName]: true };
     clearInterval(this.hideFilterTimeout);
     this.hideFilterTimeout = setTimeout(() => {
-      if (this.forceShowInput == false)
-        this.hideInput(colName)
+      if (this.forceShowInput == false) this.hideInput(colName);
     }, 3000);
   }
 }
@@ -122,13 +129,14 @@ export function formatData(column, row, editing) {
 export function getList(configs, column) {
   if (configs?.list && configs?.list[column.key || column.name])
     return configs?.list[column.key || column.name];
-  else
-    return column.list;
+  else return column.list;
 }
 
 export function shouldIncludeColumn(column) {
-  const isVisibleFunction = this.configs?.columns && this.configs?.columns[column.key || column.name]?.visible;
-  if (typeof isVisibleFunction === 'function')
+  const isVisibleFunction =
+    this.configs?.columns &&
+    this.configs?.columns[column.key || column.name]?.visible;
+  if (typeof isVisibleFunction === "function")
     return isVisibleFunction(column) !== false && column.visible !== false;
   return isVisibleFunction !== false && column.visible !== false;
 }
@@ -147,10 +155,16 @@ export function getNameFromList(column, row, editing) {
         i &&
         i.value &&
         i.value.toString().trim() ==
-        (row[column.key || column.name] instanceof Object &&
+          (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-          ? row[column.key || column.name]["@id"].split("/").pop().toString().trim()
-          : (row[column.key || column.name] ? row[column.key || column.name].toString().trim() : null))
+            ? row[column.key || column.name]["@id"]
+                .split("/")
+                .pop()
+                .toString()
+                .trim()
+            : row[column.key || column.name]
+            ? row[column.key || column.name].toString().trim()
+            : null)
       );
     });
     return name instanceof Object && !editing
@@ -196,7 +210,6 @@ export function getColumnByName(columnName) {
   return this.columns.find((col) => {
     return col.name === columnName || col.key === columnName;
   });
-
 }
 
 export function saveFormat(columnName, value) {

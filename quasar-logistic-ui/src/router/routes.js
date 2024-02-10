@@ -7,12 +7,12 @@ export const routes = [
       {
         name: "ChecklistDetails",
         path: "checklist/id/:id/:token_url",
-        component: () => import("../pages/Surveys/ChecklistDetails.vue"),
+        component: () => import("../pages/Surveys/Details.vue"),
       },
       {
         name: "StretchSearching",
         path: "",
-        component: () => import("../pages/Logistic/OrderLogisticSearching.vue"),
+        component: () => import("../pages/Logistic/Index.vue"),
       },
     ],
   },
