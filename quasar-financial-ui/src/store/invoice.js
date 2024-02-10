@@ -6,7 +6,7 @@ import {
   formatMoney,
   formatFloat,
   formatDateYmdTodmY,
-} from "@controleonline/quasar-common-ui/src/utils/formatter";
+} from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 
 import { translate } from "@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js";
 

@@ -31,7 +31,7 @@ import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/co
 import {
     buildAmericanDate,
     formatDateYmdTodmY,
-} from "@controleonline/quasar-common-ui/src/utils/formatter";
+} from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 
 export default {
     props: {

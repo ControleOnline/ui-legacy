@@ -70,7 +70,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import Config from "@controleonline/quasar-common-ui/src/utils/config";
+import Config from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/config";
 
 
 

@@ -45,7 +45,7 @@ export default {
         selection: false,
         search: true,
         columns: {
-          destintionType: {
+          destinationType: {
             filters: {
               context: this.context,
               company: '/people/' + this.myCompany.id

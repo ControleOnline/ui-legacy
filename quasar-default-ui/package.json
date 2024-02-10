@@ -16,6 +16,6 @@
     "last 1 version, not dead, ie >= 11"
   ],
   "dependencies": {
-    "@controleonline/quasar-common-ui": "^1.2.51"
+    "@controleonline/quasar-legacy-ui/quasar-common-ui": "^1.2.51"
   }
 }

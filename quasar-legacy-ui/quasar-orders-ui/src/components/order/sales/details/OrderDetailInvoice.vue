@@ -1,0 +1,44 @@
+<template>
+  <div class="row q-pa-md">
+    <div class="col-12">
+      <OrderInvoiceButton
+        :order="{
+          '@id': `/sales/orders/${orderId}`
+        }"
+        @created="$refs.invoicesRef.reload()"
+      />
+    </div>
+    <div class="col-12">
+      <InvoiceSearching
+        ref     ="invoicesRef"
+        :search ="false"
+        :orderId="orderId"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+ import OrderInvoiceButton from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/NewOrderInvoiceButton';
+import InvoiceSearching from './InvoiceSearching';
+
+export default {
+  props: {
+    orderId: {
+      type    : String,
+      required: true,
+    }
+  },
+
+  components: {
+    InvoiceSearching  ,
+    OrderInvoiceButton,
+  },
+
+  data() {
+    return {
+
+    };
+  },
+};
+</script>

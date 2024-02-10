@@ -27,7 +27,7 @@ import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/co
 import DateRangeInput from '../Common/Inputs/DateRangeInput';
 import SelectInput from '../Common/Inputs/SelectInput';
 
-import { buildAmericanDate, formatDateYmdTodmY } from '@controleonline/quasar-common-ui/src/utils/formatter';
+import { buildAmericanDate, formatDateYmdTodmY } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 
 export default {
     components: {

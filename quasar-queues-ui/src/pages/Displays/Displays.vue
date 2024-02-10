@@ -44,7 +44,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { ENTRYPOINT } from '../../../../../../src/config/entrypoint';
+import { ENTRYPOINT } from 'src/config/entrypoint';
 
 export default {
   data() {

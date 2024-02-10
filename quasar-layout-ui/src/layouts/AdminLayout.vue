@@ -146,12 +146,12 @@
 </template>
 
 <script>
-import Menu from "@controleonline/quasar-common-ui/src/components/Common/Menu";
-import MyCompanies from "@controleonline/quasar-common-ui/src/components/Common/MyCompanies";
-import Notifications from "@controleonline/quasar-common-ui/src/components/Common/Notifications.vue";
-import DarkMode from "@controleonline/quasar-common-ui/src/components/DarkMode/darkModeToggle.vue";
-import Language from "@controleonline/quasar-common-ui/src/components/Language/languageToogle.vue";
-import acl from "@controleonline/quasar-common-ui/src/utils/acl";
+import Menu from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/Menu";
+import MyCompanies from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/MyCompanies";
+import Notifications from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/Notifications.vue";
+import DarkMode from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/DarkMode/darkModeToggle.vue";
+import Language from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Language/languageToogle.vue";
+import acl from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/acl";
 import md5 from "md5";
 import { LocalStorage } from "quasar";
 import { mapActions, mapGetters } from "vuex";
