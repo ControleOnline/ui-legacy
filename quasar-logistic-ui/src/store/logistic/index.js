@@ -151,8 +151,8 @@ export default {
       },
       {
         externalFilter: true,
-        name: "provider",
-        label: "provider",
+        name: "originProvider",
+        label: "originProvider",
         align: "left",
         searchParam: "name",
         list: "people/getItems",
