@@ -14,7 +14,7 @@ import { translate } from "@controleonline/quasar-default-ui/src/components/Defa
 export default {
   namespaced: true,
   state: {
-    resourceEndpoint: "finance/pay",
+    resourceEndpoint: "invoices",
     isLoading: false,
     error: "",
     violations: null,

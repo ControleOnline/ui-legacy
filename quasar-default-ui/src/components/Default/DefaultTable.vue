@@ -39,8 +39,8 @@
                                     !isSaving &&
                                     showEdit[items.indexOf(props.row)] &&
                                     showEdit[items.indexOf(props.row)][column.key || column.name] == true
-                                    " size="0.8em" name="edit" />
-                                <q-icon v-else size="0.8em" name="" />
+                                    " size="1.0em" name="edit" />
+                                <q-icon v-else size="1.0em" name="" />
                                 <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)"
                                     color="primary" size="2em" />
                             </span>
@@ -263,9 +263,9 @@
                                                 formatData(column, props.row, true)
                                             )">
                                                 {{ column.prefix }} {{ formatData(column, props.row) }}
-                                                <q-icon v-if="column.editable != false && !isSaving" size="0.8em"
+                                                <q-icon v-if="column.editable != false && !isSaving" size="1.0em"
                                                     name="edit" />
-                                                <q-icon v-else size="0.8em" name="" />
+                                                <q-icon v-else size="1.0em" name="" />
 
                                                 <q-spinner-ios
                                                     v-if="isSaving && isEditing(items.indexOf(props.row), column)"
@@ -321,10 +321,10 @@
                     <q-td v-for="(column, index)  in columns" :class="[
                         'text-' + column.align,
                         { 'hidden': !shouldIncludeColumn(column) }]">
-                        <span v-if="sumColumn[column.key || column.name]">
+                        <span v-if="sumColumn[column.key || column.name] != false && sumColumn[column.key || column.name] != undefined">
                             {{ (column.prefix || '') +
                                 format(column, {}, sumColumn[column.key || column.name]) + (column.sufix || '') }}
-                            <q-icon size="0.8em" name="" />
+                            <q-icon size="1.0em" name="" />
                         </span>
                     </q-td>
                     <q-td v-if="tableActionsComponent() || configs.delete != false || configs.edit != false">

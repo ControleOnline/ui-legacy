@@ -18,6 +18,9 @@ export const translate = {
     btn: {
       categories_logistic: "Cadastro de Tipos",
     },
+    title: {
+      categories_logistic: "Cadastro de Tipos",
+    },
     input: {
       id: "ID",
       originType: "Tipo de Origem",
@@ -41,7 +44,7 @@ export const translate = {
       estimatedArrivalDate: "Data de Chegada Estimada",
       arrivalDate: "Data de Chegada",
       lastModified: "Última Modificação",
-      inCharge: "Responsável",
+      created_by: "Responsável",
       status: "Status",
       id: "ID",
       order: "Pedido",

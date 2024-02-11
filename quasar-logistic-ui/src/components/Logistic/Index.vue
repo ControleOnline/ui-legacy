@@ -22,9 +22,17 @@ export default {
     Button
   },
   created() {
-    if (this.orderId)
-      this.addFilter('orderId', orderId);
+    if (this.orderId) {
+      let columns = this.columns.map(column => {
+        if (column.name === "order") {
+          return { ...column, filter: false, externalFilter: false };
+        }
+        return { ...column, externalFilter: false };
+      });
+      this.addFilter('order', this.orderId);
 
+      this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
+    }
   },
   data() {
     return {
@@ -35,6 +43,12 @@ export default {
     ...mapGetters({
       myCompany: 'people/currentCompany',
     }),
+    filters() {
+      return this.$copyObject(this.$store.getters[this.configs.store + '/filters'])
+    },
+    columns() {
+      return this.$copyObject(this.$store.getters[this.configs.store + '/columns'])
+    },
     configs() {
       return {
         store: 'logistic',
@@ -43,7 +57,7 @@ export default {
         editable: true,
         delete: true,
         selection: false,
-        search: true,
+        search: false,
         columns: {
           destinationType: {
             filters: {

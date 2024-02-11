@@ -30,7 +30,7 @@ export default {
       },
       {
         externalFilter: true,
-        name: "SalesOrder",
+        name: "order",
         label: "order",
         align: "center",
         list: "salesOrder/getItems",
@@ -54,20 +54,22 @@ export default {
         },
       },
       {
-        name: "SalesOrder.contract",
+        externalFilter: true,
+        editable: false,
+        name: "order.contract.id",
         label: "contract",
         align: "center",
         format(value, column, row) {
-          return row.SalesOrder?.contract
-            ? "#" + row.SalesOrder?.contract?.id
+          return row.order?.contract
+            ? "#" + row.order?.contract?.id
             : "";
         },
         to(value, column, row) {
-          return row.SalesOrder?.contract?.id
+          return row.order?.contract?.id
             ? {
                 name: "ContractDetails",
                 params: {
-                  id: row.SalesOrder?.contract?.id,
+                  id: row.order?.contract?.id,
                 },
               }
             : "#";
@@ -268,7 +270,7 @@ export default {
       },
       {
         prefix: "R$ ",
-        edit: false,
+        editable: false,
         filter: false,
         name: "balance",
         label: "balance",
@@ -290,6 +292,9 @@ export default {
         name: "estimatedShippingDate",
         label: "estimatedShippingDate",
         align: "right",
+        saveFormat: function (value) {
+          return buildAmericanDate(value);
+        },
         format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
@@ -298,6 +303,9 @@ export default {
         name: "shippingDate",
         label: "shippingDate",
         align: "right",
+        saveFormat: function (value) {
+          return buildAmericanDate(value);
+        },
         format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
@@ -306,6 +314,9 @@ export default {
         name: "estimatedArrivalDate",
         label: "estimatedArrivalDate",
         align: "right",
+        saveFormat: function (value) {
+          return buildAmericanDate(value);
+        },
         format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
@@ -314,10 +325,13 @@ export default {
         name: "arrivalDate",
         label: "arrivalDate",
         align: "right",
+        saveFormat: function (value) {
+          return buildAmericanDate(value);
+        },
         format: (val) => (val ? formatDateYmdTodmY(val) : ""),
       },
       {
-        edit: false,
+        editable: false,
         type: "range-date",
         name: "lastModified",
         label: "lastModified",
@@ -325,6 +339,7 @@ export default {
         format: (val) => (val ? formatDateYmdTodmY(val, true) : ""),
       },
       {
+        editable: false,
         name: "created_by",
         label: "created_by",
         align: "right",
