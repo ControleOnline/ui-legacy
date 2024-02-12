@@ -349,7 +349,7 @@
 
         <q-dialog v-model="addModal" :full-width="columns.length >= 16">
 
-            <DefaultForm :configs="configs" @saved="saved" @error="error" :data="item" />
+            <DefaultForm :configs="configs" @saved="saved" @error="error" :data="item" :index="editIndex" />
 
         </q-dialog>
         <q-dialog v-model="deleteModal">
@@ -414,6 +414,7 @@ export default {
 
     data() {
         return {
+            editIndex: false,
             forceShowInput: false,
             hideFilterTimeout: false,
             showInput: {},
@@ -648,26 +649,42 @@ export default {
         error(error) {
             this.$emit('error', error);
         },
-        saved(data) {
-            this.addModal = false;
-            this.loadData();
-            this.$emit('saved', data);
+        saved(data, editIndex) {
+            this.addModal = false;            
+            let items = this.$copyObject(this.items);
+            if (editIndex >= 0)
+                items[editIndex] = data;
+            else
+                items.push(data);            
+
+            this.$store.commit(this.configs.store + '/SET_ITEMS', items);            
+            this.items = items;
+            this.tableKey++;
+            this.$emit('saved', data, editIndex);
         },
         openConfirm(data) {
             this.deleteItem = data;
             this.deleteModal = true;
         },
         editItem(item) {
+            const index = this.items.findIndex(i => i["@id"] === item["@id"]);            
             this.item = this.$copyObject(item);
             this.addModal = true;
+            this.editIndex = index;
         },
         confirmDelete() {
             this.$store.dispatch(this.configs.store + '/remove', this.deleteItem['@id'].split('/').pop()
             ).then((data) => {
-
+                let items = this.$copyObject(this.items);
+                const index = items.findIndex(i => i["@id"] === this.deleteItem["@id"]) - 1;
+                if (index >= 0 && index < items.length) {
+                    items = items.slice(0, index)
+                    this.$store.commit(this.configs.store + '/SET_ITEMS', items);
+                    this.items = items;
+                    this.tableKey++;
+                }
             }).finally(() => {
                 this.deleteModal = false;
-                this.loadData();
             });
         },
         toggleSelectAll() {
@@ -830,7 +847,16 @@ export default {
 
             this.$store.dispatch(this.configs.store + '/save', params).then((data) => {
                 if (data) {
-                    this.loadData();
+
+                    let items = this.$copyObject(this.items);
+                    
+                    if (index)
+                        items[index] = data;
+                    else
+                        items.push(data);
+                    this.$store.commit(this.configs.store + '/SET_ITEMS', items);
+                    this.items = items;
+                    this.tableKey++;
                     this.$q.notify({
                         message: this.$translate(this.configs.store, "success", 'message'),
                         position: "bottom",
