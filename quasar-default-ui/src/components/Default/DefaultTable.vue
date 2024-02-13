@@ -902,28 +902,34 @@ export default {
 
         },
         adjustElementHeight(full) {
-            const e = document.querySelectorAll('.q-body--fullscreen-mixin').length;
-            let elements;
-            if (e > 0 || full)
-                elements = document.querySelectorAll('.fullscreen .q-table__middle');
-            else
-                elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
+            setTimeout(() => {
+                const e = document.querySelectorAll('.q-body--fullscreen-mixin').length;
+                let elements;
+                if (e > 0 || full)
+                    elements = document.querySelectorAll('.fullscreen .q-table__middle');
+                else
+                    elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
 
-            if (elements.length == 0) {
-                elements = this.$el.querySelectorAll('.default-table .q-table__middle');
-                elements.forEach(element => {
-                    if (element) {
-                        element.style.height = '';
-                    }
-                });
-            }
-            else
-                elements.forEach(element => {
-                    if (element) {
-                        let position = e > 0 ? 30 : element.getBoundingClientRect().top + 30;
-                        element.style.height = `calc(100vh - ${position}px)`;
-                    }
-                });
+                if (elements.length == 0) {
+                    elements = this.$el.querySelectorAll('.default-table .q-table__middle');
+                    elements.forEach(element => {
+                        if (element) {
+                            element.style.height = '';
+                        }
+                    });
+                }
+                else
+                    elements.forEach(element => {
+                        if (element) {
+                            let elementTop = element.getBoundingClientRect().top || 0
+                            let screenHeight = (window.innerHeight
+                                //* (100 / 65)
+                            ) - (elementTop);
+                            let position = 30;//e > 0 ? 30 : elementTop + 30;
+                            element.style.height = `calc(${screenHeight}px - ${position}px)`;
+                        }
+                    });
+            }, 500);
         },
 
         loadData(props) {
@@ -1100,6 +1106,8 @@ export default {
 .default-table .header-filter-container.show {
     display: flex;
 }
+
+
 
 /*
 .default-table .q-table__middle.scroll {
