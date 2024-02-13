@@ -924,7 +924,7 @@ export default {
                             let position = 30;
                             let elementTop = element.getBoundingClientRect().top || 0
                             let screenHeight = (window.innerHeight
-                                * (100 / ((process.env.zoom || 0.80) * 100))
+                                * (100 / ((process.env.zoom || 0.70) * 100))
                             ) - (elementTop);
                             element.style.height = `calc(${screenHeight}px - ${position}px)`;
                         }
