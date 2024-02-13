@@ -321,7 +321,8 @@
                     <q-td v-for="(column, index)  in columns" :class="[
                         'text-' + column.align,
                         { 'hidden': !shouldIncludeColumn(column) }]">
-                        <span v-if="sumColumn[column.key || column.name] != false && sumColumn[column.key || column.name] != undefined">
+                        <span
+                            v-if="sumColumn[column.key || column.name] != false && sumColumn[column.key || column.name] != undefined">
                             {{ (column.prefix || '') +
                                 format(column, {}, sumColumn[column.key || column.name]) + (column.sufix || '') }}
                             <q-icon size="1.0em" name="" />
@@ -650,14 +651,14 @@ export default {
             this.$emit('error', error);
         },
         saved(data, editIndex) {
-            this.addModal = false;            
+            this.addModal = false;
             let items = this.$copyObject(this.items);
             if (editIndex >= 0)
                 items[editIndex] = data;
             else
-                items.push(data);            
+                items.push(data);
 
-            this.$store.commit(this.configs.store + '/SET_ITEMS', items);            
+            this.$store.commit(this.configs.store + '/SET_ITEMS', items);
             this.items = items;
             this.tableKey++;
             this.$emit('saved', data, editIndex);
@@ -667,7 +668,7 @@ export default {
             this.deleteModal = true;
         },
         editItem(item) {
-            const index = this.items.findIndex(i => i["@id"] === item["@id"]);            
+            const index = this.items.findIndex(i => i["@id"] === item["@id"]);
             this.item = this.$copyObject(item);
             this.addModal = true;
             this.editIndex = index;
@@ -849,7 +850,7 @@ export default {
                 if (data) {
 
                     let items = this.$copyObject(this.items);
-                    
+
                     if (index)
                         items[index] = data;
                     else
@@ -974,7 +975,7 @@ export default {
 <style>
 .default-table {
     width: 100%;
-    max-width: 100vw;
+    /*max-width: 100vw;*/
 }
 
 .default-table thead tr {
@@ -1007,9 +1008,11 @@ export default {
     z-index: 1;
 }
 
+
 .default-table .q-table__progress .q-linear-progress {
-    width: 100vw;
+    /*width: 100vw;*/
 }
+
 
 .default-table .sortable-header {
     cursor: pointer;
@@ -1175,8 +1178,9 @@ export default {
 }
 
 .full-width.default-table {
-    width: 100vw;
+    /*width: 100vw;*/
 }
+
 
 @media only screen and (max-width: 1024px) {
 
@@ -1184,7 +1188,7 @@ export default {
         position: fixed !important;
         background-color: #fff;
         z-index: 9;
-        width: 100vw;
+        /*width: 100vw;*/
     }
 
     .default-table .q-table thead {
@@ -1194,7 +1198,7 @@ export default {
     .default-table .q-table__bottom {
         bottom: 0;
         position: sticky;
-        width: 100vw;
+        /*width: 100vw;*/
         z-index: 1;
     }
 
@@ -1202,7 +1206,7 @@ export default {
 }
 
 .q-body--fullscreen-mixin .default-table .q-table__bottom {
-    width: 100vw;
+    /*width: 100vw;*/
     position: fixed;
 }
 
@@ -1228,7 +1232,7 @@ export default {
         position: fixed !important;
         background-color: #fff;
         z-index: 9;
-        width: 100vw;
+        /*width: 100vw;*/
     }
 
 
