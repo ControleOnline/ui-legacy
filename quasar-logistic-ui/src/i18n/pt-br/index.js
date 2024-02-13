@@ -29,7 +29,7 @@ export const translate = {
       originCity: "Cidade de Origem",
       originAddress: "Endereço de Origem",
       originLocator: "Localizador da Origem",
-      originprovider: "Fornecedor da Origem",
+      originProvider: "Fornecedor da Origem",
       amountPaid: "Valor Pago",
       balance: "Saldo",
       destinationType: "Tipo de Destino",
