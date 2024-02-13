@@ -921,11 +921,11 @@ export default {
                 else
                     elements.forEach(element => {
                         if (element) {
+                            let position = 30;
                             let elementTop = element.getBoundingClientRect().top || 0
                             let screenHeight = (window.innerHeight
-                                //* (100 / 65)
+                                * (100 / ((process.env.zoom || 0.65) * 100))
                             ) - (elementTop);
-                            let position = 30;//e > 0 ? 30 : elementTop + 30;
                             element.style.height = `calc(${screenHeight}px - ${position}px)`;
                         }
                     });
