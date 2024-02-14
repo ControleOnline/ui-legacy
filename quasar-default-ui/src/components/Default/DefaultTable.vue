@@ -829,6 +829,7 @@ export default {
             return;
         },
         save(index, row, col, value) {
+            this.$store.commit(this.configs.store + '/SET_ITEM', row);
 
             let c = col.list ? (this.formatList(col, row[col.key || col.name])?.value) : this.format(col, row, row[col.key || col.name]);
             if (c == value) {

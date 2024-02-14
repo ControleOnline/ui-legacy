@@ -31,6 +31,10 @@ export default {
     Object.assign(state, { items });
   },
 
+  [types.SET_ITEM](state, item) {
+    Object.assign(state, { item });
+  },
+
   [types.SET_COLUMNS](state, columns) {
     Object.assign(state, { columns });
   },
