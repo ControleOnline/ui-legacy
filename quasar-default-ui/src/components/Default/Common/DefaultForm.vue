@@ -174,10 +174,14 @@ export default {
         save(params) {
             let p = this.$copyObject(this.filters);
             for (const name in params) {
-                if (this.listObject[name])
-                    p[name] = this.listObject[name] + '/' + params[name].value;
-                else
-                    p[name] = this.saveFormat(name, params[name]);
+                if (this.showFormColumn[name]) {
+                    if (this.listObject[name])
+                        p[name] = this.listObject[name] + '/' + params[name].value;
+                    else
+                        p[name] = this.saveFormat(name, params[name]);
+                } else {
+                    p[name] = null
+                }
             }
             if (this.id)
                 p.id = this.id;

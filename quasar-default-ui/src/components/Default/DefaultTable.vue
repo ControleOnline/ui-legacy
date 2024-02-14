@@ -533,6 +533,7 @@ export default {
         ...DefaultFiltersMethods,
         toggleView() {
             this.isTableView = !this.isTableView;
+            this.adjustElementHeight();
         },
 
         toggleMaximize(props) {
@@ -982,7 +983,6 @@ export default {
 <style>
 .default-table {
     width: 100%;
-    /*max-width: 100vw;*/
 }
 
 .default-table thead tr {
@@ -1016,10 +1016,15 @@ export default {
 }
 
 
-.default-table .q-table__progress .q-linear-progress {
-    /*width: 100vw;*/
+.default-table {
+    overflow-x: auto;
+    max-width: var(--zoom-width);
 }
 
+.default-table .q-table__progress .q-linear-progress {
+    width: var(--zoom-width);
+    max-width: var(--zoom-width);
+}
 
 .default-table .sortable-header {
     cursor: pointer;
@@ -1186,18 +1191,12 @@ export default {
     opacity: 1;
 }
 
-.full-width.default-table {
-    /*width: 100vw;*/
-}
-
-
 @media only screen and (max-width: 1024px) {
 
     .default-table.full-height .q-table__bottom {
         position: fixed !important;
         background-color: #fff;
         z-index: 9;
-        /*width: 100vw;*/
     }
 
     .default-table .q-table thead {
@@ -1207,7 +1206,6 @@ export default {
     .default-table .q-table__bottom {
         bottom: 0;
         position: sticky;
-        /*width: 100vw;*/
         z-index: 1;
     }
 
@@ -1215,7 +1213,6 @@ export default {
 }
 
 .q-body--fullscreen-mixin .default-table .q-table__bottom {
-    /*width: 100vw;*/
     position: fixed;
 }
 
@@ -1241,7 +1238,6 @@ export default {
         position: fixed !important;
         background-color: #fff;
         z-index: 9;
-        /*width: 100vw;*/
     }
 
 
