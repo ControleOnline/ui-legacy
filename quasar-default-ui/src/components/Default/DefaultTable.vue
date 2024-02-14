@@ -680,7 +680,7 @@ export default {
                 let items = this.$copyObject(this.items);
                 const index = items.findIndex(i => i["@id"] === this.deleteItem["@id"]) - 1;
                 if (index >= 0 && index < items.length) {
-                    items = items.slice(0, index)
+                    items = items.slice(0, index).concat(items.slice(index + 1));
                     this.$store.commit(this.configs.store + '/SET_ITEMS', items);
                     this.items = items;
                     this.tableKey++;
