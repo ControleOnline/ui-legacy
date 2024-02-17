@@ -208,7 +208,7 @@
                     class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
                     :style="selectedRows[items.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
                     <q-card bordered flat
-                        :class="selectedRows[items.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
+                        :class="selectedRows[items.indexOf(props.row)] ?  'bg-grey-2' : ''">
                         <q-card-section>
                             <q-item>
                                 <template v-for="(column, index) in columns" :key="column.key || column.name">

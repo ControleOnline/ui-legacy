@@ -10,7 +10,6 @@ import {
 
 import { translate } from "@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js";
 
-
 export default {
   namespaced: true,
   state: {
@@ -66,14 +65,14 @@ export default {
           return value?.name;
         },
         saveFormat: function (value) {
-          return value ? "/categories/" + (value.value || value) : null;
+          return value ? parseInt(value.value || value) : null;
         },
         formatList: function (value) {
           return value
             ? {
-              label: value?.name,
-              value: value?.id,
-            }
+                label: value?.name,
+                value: value?.id,
+              }
             : null;
         },
       },

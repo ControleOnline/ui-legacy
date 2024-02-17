@@ -173,9 +173,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bg-primary {
-  background-color: #182840 !important;
-}
+
 
 .shadow-button {
   box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.15);

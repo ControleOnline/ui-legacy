@@ -1,5 +1,5 @@
 <template>
-  <div :class="'signup-page' + (background() !== null ? '' : ' bg-white')" :style="style()">
+  <div :class="'signup-page' + (background() !== null ? '' : ' ')" :style="style()">
     <div class="signup-container">
       <div class="text-right full-width">
         <h5 class="signup-app-name">{{ $t("app.name") }}</h5>
@@ -187,7 +187,7 @@ export default {
 
     background() {
       if (this.signUpCustomBg === true) {
-        return '//' + this.defaultCompany.background.domain + this.defaultCompany.background.url
+        return '//' + this.defaultCompany.theme.background.domain + this.defaultCompany.theme.background.url
       } else if (typeof this.signUpCustomBg === "string") {
         return this.signUpCustomBg;
       }

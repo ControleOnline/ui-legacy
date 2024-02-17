@@ -28,7 +28,7 @@
             :horizontal="$q.screen.gt.xs"
             align      ="justify"
             v-model    ="currentTab"
-            class      ="bg-white text-primary"
+            class      =" text-primary"
           >
             <q-tab v-if="employee.type === 'J'"
               name ="employees"

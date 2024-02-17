@@ -5,7 +5,7 @@
         <q-btn
           icon="arrow_back"
           no-caps
-          class="bg-white q-py-sm"
+          class=" q-py-sm"
           round
           color="secondary"
           flat
@@ -17,7 +17,7 @@
           <q-btn
             icon="share"
             no-caps
-            class="bg-white"
+            class=""
             round
             color="secondary"
             flat
@@ -26,7 +26,7 @@
           <q-btn
             icon="favorite"
             no-caps
-            class="bg-white"
+            class=""
             round
             color="secondary"
             flat

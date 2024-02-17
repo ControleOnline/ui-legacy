@@ -271,7 +271,7 @@
             <q-icon name="fmd_bad" size="30px" /> {{ $t(`order.warning.dificult`) }}
           </h6>
         </div>
-        <div class="row items-center justify-center buttons-container bg-primary">
+        <div class="row items-center justify-center buttons-container ">
           <div class="col-xs-12 col-sm-4">
             <center>
               <q-btn v-if="status.status == 'analysis'" color="positive" label="Aprovar Pedido" @click="approveOrder"
@@ -299,7 +299,7 @@
             <q-list padding bordered class="rounded-borders">
               <q-expansion-item dense dense-toggle expand-separator icon="receipt" header-class="text-white"
                 label="Novos pedidos">
-                <q-card class="bg-primary">
+                <q-card class="">
                   <q-card-section>
                     <center>
                       <q-btn v-if="status.realStatus != 'canceled'" color="positive" label="Gerar Reentrega"
@@ -327,7 +327,7 @@
 
       <div v-if="status !== null" class="row" key="order_tabs">
         <div class="col-12">
-          <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class="bg-white text-primary">
+          <q-tabs :horizontal="$q.screen.gt.xs" align="justify" v-model="currentTab" class=" text-primary">
             <q-tab name="resumo" label="Resumo" />
             <q-tab name="contract" label="Contrato" />
             <q-tab name="quotation" label="Cotação" />

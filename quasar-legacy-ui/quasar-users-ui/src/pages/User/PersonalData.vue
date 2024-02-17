@@ -444,7 +444,7 @@
             <q-btn
               icon="add"
               no-caps
-              class="bg-white q-ml-sm text-secondary add-button"
+              class=" q-ml-sm text-secondary add-button"
               round
               flat
               @click="openProblemDialog = true"
@@ -481,7 +481,7 @@
             <q-btn
               icon="add"
               no-caps
-              class="bg-white q-ml-sm text-secondary add-button"
+              class=" q-ml-sm text-secondary add-button"
               round
               flat
               @click="openUserAllergyDialog = true"

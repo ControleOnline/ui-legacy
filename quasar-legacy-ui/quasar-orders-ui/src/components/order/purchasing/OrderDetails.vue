@@ -198,7 +198,7 @@
             :horizontal="$q.screen.gt.xs"
             align="justify"
             v-model="currentTab"
-            class="bg-white text-primary"
+            class=" text-primary"
           >
             <q-tab name="resumo" label="Resumo" />
             <!-- <q-tab name="quotation" label="Cotação" /> -->

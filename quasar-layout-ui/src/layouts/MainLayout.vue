@@ -20,14 +20,14 @@ export default {
     }),
 
     style() {
-      if (this.defaultCompany && this.defaultCompany.background) {
-        return "background-image: url('//" + this.defaultCompany.background.domain +this.defaultCompany.background.url+ "')";
+      if (this.defaultCompany && this.defaultCompany.theme.background) {
+        return "background-image: url('//" + this.defaultCompany.theme.background.domain + this.defaultCompany.theme.background.url + "')";
       }
     },
   },
 
   mounted() {
-   
+
   },
   computed: {
     ...mapGetters({
@@ -49,7 +49,7 @@ export default {
   },
 };
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 .pageloader
   position: relative
   text-align: center
@@ -64,6 +64,7 @@ export default {
   min-height: 50px
   height: 50px
   max-height: 100%
+  max-width: 140px
 .logo-container a
   margin: auto
 .main-logo

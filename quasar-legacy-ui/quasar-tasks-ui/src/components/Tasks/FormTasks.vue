@@ -2,7 +2,7 @@
   <q-form @submit="onSubmit" ref="myForm">
     <div class="row q-col-gutter-sm">
       <div v-if="editTask == true && item.order" class="col-12">
-        <q-btn flat class="bg-primary q-py-sm" color="white" @click="goOrder()">
+        <q-btn flat class=" q-py-sm" color="white" @click="goOrder()">
           # {{ item.order }}
         </q-btn>
       </div>
@@ -158,7 +158,7 @@
           <div class="col-auto q-pl-sm">
             <q-btn
               flat
-              class="bg-primary q-py-sm full-height"
+              class=" q-py-sm full-height"
               color="white"
               icon="edit"
               @click="taskData.taskFor = {}"
@@ -197,7 +197,7 @@
           <div class="col-auto q-pl-none">
             <q-btn
               flat
-              class="bg-primary q-py-sm"
+              class=" q-py-sm"
               color="white"
               icon="north_west"
               @click="goContract()"

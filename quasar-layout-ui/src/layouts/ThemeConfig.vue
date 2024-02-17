@@ -9,42 +9,21 @@ export default {
   components: {},
   methods: {
     setTheme() {
-
-      if (!this.peopleDefaultCompany || this.themeLoaded)
+      if (!this.defaultCompany || this.themeLoaded)
         return;
 
-      const themeConfig = {
-        productName: this.peopleDefaultCompany.alias,
-        productDescription: 'CRM',
-        iconPath: '/images/favicon.ico',
-        colors: {
-          primary: '#19AFBD',
-          secondary: '#2e3092',
-        }
-      };
-
-      this.setTitle(themeConfig);
-      this.setIcon(themeConfig);
-      this.setColors(themeConfig);
+      this.setTitle();
+      this.setColors();
       this.themeLoaded = true;
     },
-    setColors(themeConfig) {
-      Object.keys(themeConfig.colors).forEach((key) => {
-        document.documentElement.style.setProperty(`--${key}`, themeConfig.colors[key]);
+    setTitle() {
+      document.title = this.defaultCompany.alias;
+    },
+    setColors() {
+      const themeColors = this.defaultCompany.theme.colors || {};
+      Object.keys(themeColors).forEach(key => {
+        document.documentElement.style.setProperty(`--${key}`, themeColors[key]);
       });
-    },
-    setIcon(themeConfig) {
-      const faviconLink = document.querySelector('link[rel="icon"]');
-      if (faviconLink && themeConfig.iconPath) {
-        faviconLink.href = themeConfig.iconPath;
-      }
-    },
-    setTitle(themeConfig) {
-      document.title = themeConfig.productName;
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.content = themeConfig.productDescription;
-      }
     }
   },
 
@@ -52,13 +31,13 @@ export default {
     this.setTheme();
   },
   watch: {
-    peopleDefaultCompany() {
+    defaultCompany() {
       this.setTheme();
     }
   },
   computed: {
     ...mapGetters({
-      peopleDefaultCompany: "people/defaultCompany",
+      defaultCompany: "people/defaultCompany",
     }),
   },
   data() {

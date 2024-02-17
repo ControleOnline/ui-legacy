@@ -63,7 +63,7 @@
               icon="close"
               no-caps
               size="10px"
-              class="bg-white q-mb-md q-ml-xs text-secondary close-button"
+              class=" q-mb-md q-ml-xs text-secondary close-button"
               round
               flat
               @click="deleteLang(lang)"
@@ -75,7 +75,7 @@
             <q-btn
               icon="add"
               no-caps
-              class="bg-white q-ml-sm text-secondary add-button"
+              class=" q-ml-sm text-secondary add-button"
               round
               flat
               @click="openDialog('lang')"
@@ -150,7 +150,7 @@
                 icon="close"
                 no-caps
                 size="10px"
-                class="bg-white q-mb-md q-ml-xs text-secondary close-button"
+                class=" q-mb-md q-ml-xs text-secondary close-button"
                 round
                 flat
                 @click="deleteAct(act)"
@@ -162,7 +162,7 @@
               <q-btn
                 icon="add"
                 no-caps
-                class="bg-white q-ml-sm text-secondary add-button"
+                class=" q-ml-sm text-secondary add-button"
                 round
                 flat
                 @click="openDialog('act')"
@@ -227,7 +227,7 @@
                   icon="close"
                   no-caps
                   size="10px"
-                  class="bg-white q-ml-xs text-secondary close-button"
+                  class=" q-ml-xs text-secondary close-button"
                   round
                   flat
                 >
@@ -245,7 +245,7 @@
             <q-btn
               icon="add"
               no-caps
-              class="bg-white q-ml-sm text-secondary add-button"
+              class=" q-ml-sm text-secondary add-button"
               round
               flat
               @click="openDialog('upload')"
@@ -277,7 +277,7 @@
                   icon="close"
                   no-caps
                   size="10px"
-                  class="bg-white q-ml-xs text-secondary close-button"
+                  class=" q-ml-xs text-secondary close-button"
                   round
                   flat>
                 </q-btn>
@@ -294,7 +294,7 @@
             <q-btn
               icon="add"
               no-caps
-              class="bg-white q-ml-sm text-secondary add-button"
+              class=" q-ml-sm text-secondary add-button"
               round
               flat
               @click="openDialog('upload')"

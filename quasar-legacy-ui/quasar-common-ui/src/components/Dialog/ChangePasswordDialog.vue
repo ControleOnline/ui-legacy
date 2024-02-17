@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-dialog v-if="!openConfirmChangeDialog">
-      <div class="bg-white full-width" style="max-height: 75%;">
+      <div class=" full-width" style="max-height: 75%;">
         <q-item class="column q-pa-lg">
           <q-item-section class="text-bold q-gutter-y-md">
             <q-item-label>{{ $t('old_password') }}</q-item-label>
@@ -74,7 +74,7 @@
       </div>
     </q-dialog>
     <q-dialog v-else>
-      <div class="bg-white full-width" style="max-height: 75%;">
+      <div class=" full-width" style="max-height: 75%;">
         <q-item class="column q-pa-lg">
           <q-item-section class="q-py-xl items-center">
             <q-icon name="o_lock" size="4rem" color="secondary"></q-icon>

@@ -1,10 +1,8 @@
 <template>
   <div class="container text-center q-gutter-y-md">
-    <!-- <div class="login-logo-conteiner"> -->
-    <q-avatar size="260px">
+    <div class="login-logo-conteiner q-pa-lg">
       <q-img v-if="defaultCompany.logo" :src="'//' + defaultCompany.logo.domain + defaultCompany.logo.url" class="" />
-    </q-avatar>
-    <!-- </div> -->
+    </div>
     <q-card class="q-mb-lg">
       <q-card-section class="q-pt-md">
         <div class="text-h6">
@@ -97,7 +95,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
 .container {
   width: 408px;
   align-self: center;
@@ -142,7 +140,16 @@ export default {
   margin-left: .5em;
 }
 
-.login-logo-conteiner {
-  /* max-height: 70px;*/
+.login-logo-conteiner img {
+  max-height: 80px;
+  width: revert-layer;
+}
+
+.login-logo-conteiner>div>div:nth-child(1) {
+  display: none;
+}
+
+.login-logo-conteiner .q-img__container {
+  position: relative;
 }
 </style>
