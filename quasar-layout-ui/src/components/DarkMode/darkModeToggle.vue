@@ -1,9 +1,9 @@
 <template>
-  <!-- <q-toggle size="lg" v-model="darkMode" unchecked-icon="light_mode" icon="nightlight" /> -->
+  <q-toggle size="lg" v-model="darkMode" unchecked-icon="light_mode" icon="nightlight" />
 </template>
 
 <script>
- import Config from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/config";
+import Config from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/config";
 
 export default {
   components: {

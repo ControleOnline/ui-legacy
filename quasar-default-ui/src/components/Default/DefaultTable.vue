@@ -42,7 +42,7 @@
                                     " size="1.0em" name="edit" />
                                 <q-icon v-else size="1.0em" name="" />
                                 <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)"
-                                    color="primary" size="2em" />
+                                    class="loading-primary" size="2em" />
                             </span>
                         </template>
                         <template v-else>
@@ -61,12 +61,12 @@
                         </template>
                     </q-td>
                     <q-td class="q-gutter-sm">
-                        <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white" color="primary"
+                        <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-secondary"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem(props.row)">
                             <q-tooltip> {{ $translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
                         </q-btn>
-                        <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
+                        <q-btn v-if="configs.delete != false" dense icon="delete" class="btn-danger"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="openConfirm(props.row)">
                             <q-tooltip> {{ $translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
@@ -102,8 +102,8 @@
                                                 @focus="forceShowInput = true; showInput[column.key || column.name]"
                                                 @blur="loadData(); forceShowInput = false;">
                                             </FilterInputs>
-                                            <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]"
-                                                color="primary" size="2em" />
+                                            <q-spinner-ios class="loading-primary"
+                                                v-if="isLoading && colFilter[column.key || column.name]" size="2em" />
                                             <q-icon name="close"
                                                 @click.stop="clearFilter(column.key || column.name); loadData()"
                                                 v-else-if="colFilter[column.key || column.name]" />
@@ -121,7 +121,7 @@
                                 {{ $translate(configs.store, column.label, 'input') }}
                                 <q-icon v-if="column.sortable"
                                     :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
-                                    color="grey-8" size="14px" />
+                                     size="14px" />
                                 <q-icon name="filter_list" v-if="colFilter[column.key || column.name]" />
                             </span>
                         </div>
@@ -140,9 +140,8 @@
             <template v-slot:top-right="props">
                 <div class="table-toolbar">
                     <q-toolbar class="q-gutter-sm">
-                        <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
-                            color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
-                            @click="editItem({})">
+                        <q-btn v-if="configs.add != false" class="q-pa-xs btn-positive" dense label="" icon="add"
+                            :disabled="isLoading || addModal || deleteModal || editing.length > 0" @click="editItem({})">
                             <q-tooltip> {{ $translate(configs.store, 'add', 'tooltip') }} </q-tooltip>
                         </q-btn>
                         <q-space></q-space>
@@ -169,7 +168,7 @@
                                 {{ $translate(configs.store, 'cards', 'tooltip') }}
                             </q-tooltip>
                         </q-btn>
-                        <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
+                        <q-btn class="q-pa-xs btn-secondary" label="" dense icon="view_week">
                             <q-tooltip> {{ $translate(configs.store, 'config_columns', 'tooltip') }} </q-tooltip>
                             <!-- Menu de configuração de colunas -->
                             <q-menu v-model="showColumnMenu">
@@ -193,7 +192,7 @@
                             }}
                             </q-tooltip>
                         </q-btn>
-                        <q-btn color="primary" icon-right="archive" dense class="q-pa-xs" label="" @click="exportTable"
+                        <q-btn icon-right="archive" dense class="q-pa-xs btn-secondary" label="" @click="exportTable"
                             v-if="configs.export">
                             <q-tooltip> {{ $translate(configs.store, 'export', 'tooltip') }} </q-tooltip>
                         </q-btn>
@@ -207,8 +206,7 @@
                 <div @click="rowClick(props.row, $event)"
                     class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
                     :style="selectedRows[items.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
-                    <q-card bordered flat
-                        :class="selectedRows[items.indexOf(props.row)] ?  'bg-grey-2' : ''">
+                    <q-card bordered flat :class="selectedRows[items.indexOf(props.row)] ? 'selected-card' : ''">
                         <q-card-section>
                             <q-item>
                                 <template v-for="(column, index) in columns" :key="column.key || column.name">
@@ -269,7 +267,7 @@
 
                                                 <q-spinner-ios
                                                     v-if="isSaving && isEditing(items.indexOf(props.row), column)"
-                                                    color="primary" size="2em" />
+                                                    class="loading-primary" size="2em" />
                                             </span>
                                         </template>
                                         <template v-else>
@@ -297,13 +295,12 @@
                         <q-card-section>
                             <q-item-section side class="">
                                 <div class="row justify-end q-gutter-sm">
-                                    <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white"
-                                        color="primary"
+                                    <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-secondary"
                                         :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="editItem(props.row)">
                                         <q-tooltip> {{ $translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
                                     </q-btn>
-                                    <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
+                                    <q-btn v-if="configs.delete != false" dense icon="delete" class="btn-danger"
                                         :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="openConfirm(props.row)">
                                         <q-tooltip> {{ $translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
@@ -332,11 +329,11 @@
                     </q-td>
                 </q-tr>
             </template>
-            <!--
+
             <template v-slot:loading>
-                <q-inner-loading showing color="primary" />
+                <q-inner-loading showing class="loading-primary" />
             </template>
-            -->
+
             <template v-slot:no-data="{ icon, message, filter }">
                 <div class="full-width row flex-center text-accent q-gutter-sm">
                     <q-icon size="2em" name="sentiment_dissatisfied" />
@@ -363,11 +360,11 @@
                 <q-separator></q-separator>
                 <q-card-section>
                     <div class="flex q-pt-md">
-                        <q-btn class="q-py-sm q-px-md text-capitalize" outline color="secondary"
+                        <q-btn class="q-py-sm q-px-md text-capitalize btn-secondary" outline
                             :label="$translate(configs.store, 'cancel', 'btn')" v-close-popup>
                         </q-btn>
                         <q-space></q-space>
-                        <q-btn class="q-py-sm q-px-md text-capitalize" color="secondary"
+                        <q-btn class="q-py-sm q-px-md text-capitalize btn-secondary"
                             :label="$translate(configs.store, 'confirm', 'btn')" @click="confirmDelete" :loading="isSaving">
                         </q-btn>
                     </div>
@@ -1060,15 +1057,7 @@ export default {
     opacity: 0;
 }
 
-.default-table .q-table--grid.fullscreen {
-    background: #fff;
-}
 
-.default-table .dragging-column {
-    border-left: 2px solid #babaca;
-    border-right: 2px solid #babaca;
-    /* Estilo da borda para a coluna sendo arrastada */
-}
 
 .default-table .no-drag {
     cursor: not-allowed;
@@ -1077,7 +1066,6 @@ export default {
 .default-table .header-filter-container {
     margin-top: -70px;
     position: absolute;
-    background: #fff;
     z-index: 999;
     min-height: 28px;
     display: flex;
@@ -1085,7 +1073,6 @@ export default {
 }
 
 .default-table .q-table__grid-content {
-    background: #fff;
     margin-top: -3px;
 }
 
@@ -1093,19 +1080,14 @@ export default {
     width: 50%;
 }
 
-.default-table .q-table__grid-content .q-card__section:nth-child(1) {
-    background: var(--q-primary);
-    color: #fff;
-}
+
 
 .default-table .q-table__grid-content .q-list .q-item {
     padding: 2px 16px;
-    border-bottom: 1px #e0e0e0 solid;
 }
 
 .default-table .header-filter-container {
     display: none;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding: 5px;
 }
 
@@ -1145,13 +1127,10 @@ export default {
     z-index: 2;
     bottom: 0;
     left: 0;
-    background-color: #fff;
     padding-right: 10vw;
 }
 
-.default-table .q-table__top {
-    background: #fff;
-}
+
 
 .default-table .row-filters {
     padding: 20px;
@@ -1166,18 +1145,7 @@ export default {
     left: 0;
 }
 
-.default-table .q-table thead tr {
-    background-color: var(--q-secondary) !important;
-    color: #fff !important;
-}
 
-.default-table .q-table tr:nth-child(even) {
-    background-color: #dfdfdf;
-}
-
-.default-table .q-table tr:nth-child(odd) {
-    background-color: #fff;
-}
 
 
 
@@ -1195,7 +1163,6 @@ export default {
 
     .default-table.full-height .q-table__bottom {
         position: fixed !important;
-        background-color: #fff;
         z-index: 9;
     }
 
@@ -1236,7 +1203,6 @@ export default {
 @media only screen and (min-width: 1024px) {
     .default-table.full-height .q-table__bottom {
         position: fixed !important;
-        background-color: #fff;
         z-index: 9;
     }
 
@@ -1269,7 +1235,6 @@ export default {
 }
 
 .default-table .table-toolbar .q-space {
-    background: #fff;
     width: 5px;
     height: 50px;
 }
@@ -1279,17 +1244,6 @@ export default {
     height: 10px;
 }
 
-.default-table .q-table__middle.scroll::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-.default-table .q-table__middle.scroll::-webkit-scrollbar-thumb {
-    background: #888;
-}
-
-.default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
 
 /*
 .default-table tbody span {
