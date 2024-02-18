@@ -29,7 +29,7 @@ export default {
                 store: 'orders',
                 add: true,
                 delete: false,
-                selection: true,
+                selection: false,
                 search: false,
                 columns: {
                     category: {
