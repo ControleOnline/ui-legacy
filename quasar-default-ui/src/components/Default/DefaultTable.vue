@@ -60,7 +60,7 @@
                                 @keydown.enter="stopEditing(items.indexOf(props.row), column, props.row)" />
                         </template>
                     </q-td>
-                    <q-td class="q-gutter-sm">
+                    <q-td class="q-gutter-sm text-right">
                         <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-secondary"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem(props.row)">

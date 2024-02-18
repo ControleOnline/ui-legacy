@@ -19,6 +19,10 @@ export default {
       document.title = this.defaultCompany.alias;
     },
     setColors() {
+
+      const themeColors = this.defaultCompany?.theme?.colors || {};
+      this.$store.commit('theme' + '/SET_COLORS', themeColors);
+
       Object.keys(this.colors).forEach(key => {
         document.documentElement.style.setProperty(`--${key}`, this.colors[key]);
       });

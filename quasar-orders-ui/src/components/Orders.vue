@@ -4,12 +4,13 @@
 <script>
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
 import { mapActions, mapGetters } from "vuex";
-import Button from "@controleonline/quasar-common-ui/src/components/Categories/Button";
-
+import Status from "@controleonline/quasar-common-ui/src/components/Status/Button";
+import OtherInformations from "./OtherInformations/Button";
 export default {
     components: {
         DefaultTable,
-        Button
+        Status,
+        OtherInformations
     },
     props: {
         context: {
@@ -29,7 +30,7 @@ export default {
                 add: true,
                 delete: false,
                 selection: true,
-                search: true,
+                search: false,
                 columns: {
                     category: {
                         filters: {
@@ -44,8 +45,14 @@ export default {
                     }
                 },
                 components: {
+                    tableActions: {
+                        component: OtherInformations,
+                        props: {
+                            context: this.context
+                        }
+                    },
                     headerActions: {
-                        component: Button,
+                        component: Status,
                         props: {
                             context: this.context
                         }

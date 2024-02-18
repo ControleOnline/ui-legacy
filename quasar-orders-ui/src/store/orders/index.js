@@ -28,7 +28,14 @@ export default {
           return "#" + value;
         },
       },
-
+      {
+        name: "app",
+        label: "app",
+        align: "left",
+        format(value) {
+          return value;
+        },
+      },
       {
         sortable: true,
         name: "status",
@@ -57,15 +64,15 @@ export default {
         align: "left",
         label: "client",
         list: "people/getItems",
-        externalFilter: true,
+        externalFilter: false,
         format: function (value) {
-          return value.name + " - " + value.alias;
+          return value ? value?.name + " - " + value?.alias : " - ";
         },
         formatList: function (value) {
           if (value)
             return {
               value: value["@id"].split("/").pop(),
-              label: value.name + " - " + value.alias,
+              label: value?.name + " - " + value?.alias,
             };
         },
         saveFormat: function (value) {
@@ -77,7 +84,7 @@ export default {
         inputType: "date-range",
         sortable: true,
         name: "orderDate",
-        align: "left",
+        align: "center",
         label: "orderDate",
         externalFilter: true,
         saveFormat: function (value) {
@@ -93,7 +100,7 @@ export default {
         type: "range-date",
         name: "alterDate",
         label: "alterDate",
-        align: "center",
+        align: "left",
         format: (val) => (val ? formatDateYmdTodmY(val, true) : ""),
       },
     ],
