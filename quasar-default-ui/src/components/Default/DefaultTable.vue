@@ -1191,10 +1191,6 @@ export default {
     position: sticky;
 }
 
-.default-table .q-table--grid .q-table__top {
-    top: 63px;
-}
-
 .default-table .q-table__card .q-table__top,
 .fullscreen .q-table__top {
     top: 0px;

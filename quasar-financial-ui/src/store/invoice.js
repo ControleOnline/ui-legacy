@@ -40,13 +40,13 @@ export default {
         list: "people/getItems",
         externalFilter: true,
         format: function (value) {
-          return value?.alias;
+          return value?.name + " - " + value?.alias;
         },
         formatList: function (value) {
           if (value)
             return {
               value: value["@id"].split("/").pop(),
-              label: value.alias,
+              label: value.name + " - " + value.alias,
             };
         },
         saveFormat: function (value) {
@@ -85,13 +85,13 @@ export default {
         searchParam: "status",
         externalFilter: true,
         format: function (value) {
-          return translate("invoice", value?.status, "statuses");
+          return value?.status;
         },
         formatList: function (value) {
           if (value)
             return {
               value: value["@id"].split("/").pop(),
-              label: translate("invoice", value.status, "statuses"),
+              label: value?.status,
             };
         },
         saveFormat: function (value) {

@@ -19,13 +19,13 @@ export default {
     computed: {
         ...mapGetters({
             myCompany: 'people/currentCompany',
-            columns: 'invoice/columns',
+            columns: 'orders/columns',
         }),
         configs() {
             return {
-                companyParam: this.context == 'expense' ? 'payer' : 'receiver',
+                companyParam: this.context == 'sales' ? 'provider' : 'client',
                 filters: true,
-                store: 'invoice',
+                store: 'orders',
                 add: true,
                 delete: false,
                 selection: true,
@@ -39,7 +39,7 @@ export default {
                     },
                     status: {
                         filters: {
-                            context: 'invoice'
+                            context: 'order'
                         }
                     }
                 },
@@ -60,18 +60,18 @@ export default {
     },
     created() {
         const columns = this.$copyObject(this.columns);
-        const columnIndex = columns.findIndex(c => c.name === 'receiver' || c.name === 'payer');
+        const columnIndex = columns.findIndex(c => c.name === 'provider' || c.name === 'client');
         if (columnIndex !== -1) {
-            columns[columnIndex].name = this.context === 'expense' ? 'receiver' : 'payer';
-            columns[columnIndex].label = this.context === 'expense' ? 'receiver' : 'payer';
+            columns[columnIndex].name = this.context === 'sales' ? 'client' : 'provider';
+            columns[columnIndex].label = this.context === 'sales' ? 'client' : 'provider';
         };
 
         const columnIdIndex = columns.findIndex(c => c.name === 'id');
         if (columnIdIndex !== -1) {
             columns[columnIdIndex].to = (value) => {
-                let route = this.context === 'expense' ? 'receiver' : 'payer';
+                let route = this.context === 'sales' ? 'OrderDetails' : 'PurchasingOrderDetails';
                 return {
-                    name: "FinanceExpenseCategories",
+                    name: route,
                     params: {
                         id: value
                     }

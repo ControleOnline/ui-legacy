@@ -19,90 +19,16 @@ export default {
     totalItems: 0,
     filters: {},
     columns: [
-
-/*      
-      alterDate,
-      app,
-      client,
-      comments,
-      contract,
-      cubage,
-      deliveryPeople,
-      discountCoupon,
-      estimatedParkingDate,
-      id,
-      invoice,
-      invoiceTax,
-      invoiceTotal,
-      mainOrder,
-      mainOrderId,
-      orderDate,
-      orderQueue,
-      otherInformations,
-      parkingDate,
-      payer,
-      price,
-      productType,
-      provider,
-      quote,
-      retrievePeople,
-      status,
-      task,
-*/
       {
         isIdentity: true,
         name: "id",
         label: "id",
-        align: "center",
+        align: "left",
         format(value) {
           return "#" + value;
         },
       },
-      {
-        externalFilter: true,
-        name: "order",
-        label: "order",
-        align: "center",
-        list: "salesOrder/getItems",
-        searchParam: "id",
-        formatList(value) {
-          return {
-            label: "#" + value.id,
-            value: value.id,
-          };
-        },
-        format(value) {
-          return value ? "#" + value.id : "";
-        },
-        to(value) {
-          return {
-            name: "OrderDetails",
-            params: {
-              id: value.id,
-            },
-          };
-        },
-      },
-      {
-        externalFilter: true,
-        editable: false,
-        name: "order.contract.id",
-        label: "contract",
-        align: "center",
-        format(value, column, row) {
-          return row.order?.contract ? "#" + row.order?.contract?.id : "";
-        },
-        to(value, column, row) {
-          return row.order?.contract?.id
-            ? {
-                name: "ContractDetails",
-                params: {
-                  id: row.order?.contract?.id,
-                },
-              }
-            : "#";
-        },
-      },
+
       {
         sortable: true,
         name: "status",
@@ -112,266 +38,70 @@ export default {
         searchParam: "status",
         externalFilter: true,
         format: function (value) {
-          return translate("logistic", value?.status, "statuses");
+          return value?.status;
         },
         formatList: function (value) {
           if (value)
             return {
               value: value["@id"].split("/").pop(),
-              label: translate("logistic", value.status, "statuses"),
+              label: value?.status,
             };
         },
         saveFormat: function (value) {
           return value ? "/statuses/" + (value.value || value) : null;
         },
       },
-
       {
         sortable: true,
-        name: "originType",
+        name: "client",
         align: "left",
-        label: "originType",
-        list: "categories/getItems",
-        searchParam: "name",
-        externalFilter: true,
-        format: function (value) {
-          return value?.name;
-        },
-        saveFormat: function (value) {
-          return value ? "/categories/" + (value.value || value) : null;
-        },
-        formatList: function (value) {
-          return value
-            ? {
-                label: value?.name,
-                value: value?.id,
-              }
-            : null;
-        },
-      },
-      {
-        sortable: true,
-        name: "originCity",
-        align: "left",
-        label: "originCity",
-        list: "city/getItems",
-        searchParam: "city",
-        externalFilter: true,
-        format: function (value) {
-          return value?.city + "/" + value?.state?.uf;
-        },
-        saveFormat: function (value) {
-          return value ? "/cities/" + (value.value || value) : null;
-        },
-        formatList: function (value) {
-          return value
-            ? {
-                label: value?.city + "/" + value?.state?.uf,
-                value: value?.id,
-              }
-            : null;
-        },
-      },
-      {
-        name: "originAddress",
-        label: "originAddress",
-        align: "center",
-      },
-      {
-        externalFilter: true,
-        name: "originProvider",
-        label: "originProvider",
-        align: "left",
-        searchParam: "name",
+        label: "client",
         list: "people/getItems",
-        formatList(value, column) {
+        externalFilter: true,
+        format: function (value) {
+          return value.name + " - " + value.alias;
+        },
+        formatList: function (value) {
           if (value)
             return {
               value: value["@id"].split("/").pop(),
               label: value.name + " - " + value.alias,
             };
         },
-        format: (val) => (val ? `${val.name} - ${val.alias}` : ""),
-      },
-      {
-        sortable: true,
-        name: "destinationType",
-        align: "left",
-        label: "destinationType",
-        list: "categories/getItems",
-        searchParam: "name",
-        externalFilter: true,
-        format: function (value) {
-          return value?.name;
-        },
         saveFormat: function (value) {
-          return value ? "/categories/" + (value.value || value) : null;
-        },
-        formatList: function (value) {
-          return value
-            ? {
-                label: value?.name,
-                value: value?.id,
-              }
-            : null;
+          return value ? "/people/" + (value.value || value) : null;
         },
       },
       {
-        sortable: true,
-        name: "destinationCity",
-        align: "left",
-        label: "destinationCity",
-        list: "city/getItems",
-        searchParam: "city",
         externalFilter: true,
-        format: function (value) {
-          return value?.city + "/" + value?.state?.uf;
-        },
+        inputType: "date-range",
+        sortable: true,
+        name: "orderDate",
+        align: "left",
+        label: "orderDate",
+        externalFilter: true,
         saveFormat: function (value) {
-          return value ? "/cities/" + (value.value || value) : null;
+          return buildAmericanDate(value);
         },
-        formatList: function (value) {
-          return value
-            ? {
-                label: value?.city + "/" + value?.state?.uf,
-                value: value?.id,
-              }
-            : null;
+        format: function (value) {
+          return formatDateYmdTodmY(value);
         },
       },
 
       {
-        name: "destinationAdress",
-        label: "destinationAdress",
-        align: "center",
-      },
-
-      {
-        externalFilter: true,
-        name: "destinationProvider",
-        label: "destinationProvider",
-        align: "center",
-        searchParam: "name",
-        list: "people/getItems",
-        formatList(value, column) {
-          if (value)
-            return {
-              value: value["@id"].split("/").pop(),
-              label: value.name + " - " + value.alias,
-            };
-        },
-        format: (val) => (val ? `${val.name} - ${val.alias}` : ""),
-      },
-      {
-        prefix: "R$ ",
-        filter: false,
-        name: "price",
-        label: "price",
-        align: "right",
-        sum: true,
-        editFormat(value) {
-          return formatMoney(value);
-        },
-        saveFormat(value) {
-          return formatFloat(value);
-        },
-        format(value) {
-          return formatMoney(value);
-        },
-      },
-      {
-        prefix: "R$ ",
-        filter: false,
-        name: "amountPaid",
-        label: "amountPaid",
-        align: "right",
-        sum: true,
-        editFormat(value) {
-          return formatMoney(value);
-        },
-        saveFormat(value) {
-          return formatFloat(value);
-        },
-        format(value) {
-          return formatMoney(value);
-        },
-      },
-      {
-        prefix: "R$ ",
-        editable: false,
-        filter: false,
-        name: "balance",
-        label: "balance",
-        align: "right",
-        sum: true,
-        editFormat(value) {
-          return formatMoney(value);
-        },
-        saveFormat(value) {
-          return formatFloat(value);
-        },
-        format(value) {
-          return formatMoney(value);
-        },
-      },
-      {
         externalFilter: true,
         inputType: "date-range",
-        name: "estimatedShippingDate",
-        label: "estimatedShippingDate",
-        align: "right",
+        sortable: true,
+        name: "alterDate",
+        align: "left",
+        label: "alterDate",
+        externalFilter: true,
         saveFormat: function (value) {
           return buildAmericanDate(value);
         },
-        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
-      },
-      {
-        externalFilter: true,
-        inputType: "date-range",
-        name: "shippingDate",
-        label: "shippingDate",
-        align: "right",
-        saveFormat: function (value) {
-          return buildAmericanDate(value);
+        format: function (value) {
+          return formatDateYmdTodmY(value);
         },
-        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
-      },
-      {
-        externalFilter: true,
-        inputType: "date-range",
-        name: "estimatedArrivalDate",
-        label: "estimatedArrivalDate",
-        align: "right",
-        saveFormat: function (value) {
-          return buildAmericanDate(value);
-        },
-        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
-      },
-      {
-        externalFilter: true,
-        inputType: "date-range",
-        name: "arrivalDate",
-        label: "arrivalDate",
-        align: "right",
-        saveFormat: function (value) {
-          return buildAmericanDate(value);
-        },
-        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
-      },
-      {
-        editable: false,
-        type: "range-date",
-        name: "lastModified",
-        label: "lastModified",
-        align: "center",
-        format: (val) => (val ? formatDateYmdTodmY(val, true) : ""),
-      },
-      {
-        editable: false,
-        name: "created_by",
-        label: "created_by",
-        align: "right",
-        format: (val) => (val ? `${val.name}` : ""),
       },
     ],
   },
