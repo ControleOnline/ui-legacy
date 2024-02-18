@@ -89,19 +89,12 @@ export default {
       },
 
       {
-        externalFilter: true,
-        inputType: "date-range",
-        sortable: true,
+        editable: false,
+        type: "range-date",
         name: "alterDate",
-        align: "left",
         label: "alterDate",
-        externalFilter: true,
-        saveFormat: function (value) {
-          return buildAmericanDate(value);
-        },
-        format: function (value) {
-          return formatDateYmdTodmY(value);
-        },
+        align: "center",
+        format: (val) => (val ? formatDateYmdTodmY(val, true) : ""),
       },
     ],
   },
