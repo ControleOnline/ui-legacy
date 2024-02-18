@@ -1,6 +1,5 @@
 
 <script>
-import { DOMAIN } from 'src/config/domain';
 import { mapActions, mapGetters } from "vuex";
 
 
@@ -20,9 +19,8 @@ export default {
       document.title = this.defaultCompany.alias;
     },
     setColors() {
-      const themeColors = this.defaultCompany.theme.colors || {};
-      Object.keys(themeColors).forEach(key => {
-        document.documentElement.style.setProperty(`--${key}`, themeColors[key]);
+      Object.keys(this.colors).forEach(key => {
+        document.documentElement.style.setProperty(`--${key}`, this.colors[key]);
       });
     }
   },
@@ -39,6 +37,9 @@ export default {
     ...mapGetters({
       defaultCompany: "people/defaultCompany",
     }),
+    colors() {
+      return this.$store.state.theme.colors;
+    }
   },
   data() {
     return {
@@ -47,3 +48,10 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+:root {
+  @each $key, $value in v-bind(colors) {
+    --#{$key}: #{$value};
+  }
+}
+</style>
