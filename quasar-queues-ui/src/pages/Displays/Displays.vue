@@ -10,10 +10,10 @@
             <span v-else> {{ hardware.company.alias }}</span>
           </div>
           <div class="col-auto justify-end icon-absolute-right">
-            <q-btn v-if="hardware.hardwareType == 'delivery'" fab color="primary" icon="place"
+            <q-btn v-if="hardware.hardwareType == 'delivery'" fab class="btn-primary" icon="place"
               @click="openHardware(hardware)" />
-            <q-btn v-if="hardware.hardwareType == 'hardware'" fab color="green" icon="done" @click="openHardware(hardware)" />
-            <q-btn v-if="hardware.hardwareType == 'production'" fab color="primary" icon="receipt_long"
+            <q-btn v-if="hardware.hardwareType == 'hardware'" fab class="btn-positive" icon="done" @click="openHardware(hardware)" />
+            <q-btn v-if="hardware.hardwareType == 'production'" fab class="btn-primary" icon="receipt_long"
               @click="openHardware(hardware)" />
 
           </div>

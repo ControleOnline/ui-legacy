@@ -27,7 +27,7 @@
 
                 <div class="row justify-end">
                     <q-btn :loading="isSaving" icon="save" type="submit" :label="$translate(configs.store, 'save', 'btn')
-                        " size="md" color="primary" class="q-mt-md" />
+                        " size="md" class="q-mt-md btn-primary" />
                 </div>
             </q-form>
         </q-card-section>

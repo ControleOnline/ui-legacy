@@ -37,7 +37,7 @@
     :origin="origin"
     :destination="destination"/>         
 </GmapMap>
-<q-btn color="blue" class="btn-locate" @click="getLocation()">
+<q-btn  class="btn-locate btn-primary" @click="getLocation()">
     Localizar
   </q-btn>
   </q-page>

@@ -1,5 +1,5 @@
 <template>
-    <q-select dense outlined :stack-label="labelType" lazy-rules use-input :use-chips="multiple == true" map-options
+    <q-select outlined dense  :stack-label="labelType" lazy-rules use-input :use-chips="multiple == true" map-options
         options-cover transition-show="flip-down" transition-hide="flip-up" @filter="searchList" :options="options"
         label-color="black" input-debounce="700" :loading="isLoadingList" :multiple="multiple == true"
         :label="labelType != 'stack-label' ? '' : $translate(store, label, 'input')" v-model="data"

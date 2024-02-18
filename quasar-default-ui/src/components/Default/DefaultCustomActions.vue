@@ -1,5 +1,5 @@
 <template>
-  <q-btn :dense="btnDense" :color="componentProps.btnColor ? componentProps.btnColor : 'primary'"
+  <q-btn :dense="btnDense" :class="componentProps.btnColor ? componentProps.btnColor : 'btn-primary'"
     :label="componentProps.btnTitle" :icon="componentProps.btnIcon" :flat="componentProps.btnFlat">
     <q-menu>
       <q-list>

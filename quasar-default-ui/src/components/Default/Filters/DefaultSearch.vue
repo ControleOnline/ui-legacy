@@ -1,5 +1,5 @@
 <template>
-    <q-input class="q-pa-xs" v-if="configs.search != false" borderless dense @keyup.enter="onSearch" v-model="search"
+    <q-input outlined class="q-pa-xs" v-if="configs.search != false" borderless dense @keyup.enter="onSearch" v-model="search"
         :placeholder="
         $translate(configs.store, 'search', 'input')
         ">

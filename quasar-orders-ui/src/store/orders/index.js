@@ -21,6 +21,7 @@ export default {
     columns: [
       {
         isIdentity: true,
+        sortable: true,
         name: "id",
         label: "id",
         align: "left",
@@ -29,10 +30,22 @@ export default {
         },
       },
       {
+        sortable: true,
         name: "app",
+        editable: false,
         label: "app",
         align: "left",
-        format(value) {
+        format(value, column, row) {
+          return value;
+        },
+      },
+      {
+        sortable: true,
+        name: "orderType",
+        editable: false,
+        label: "orderType",
+        align: "left",
+        format(value, column, row) {
           return value;
         },
       },
@@ -44,6 +57,9 @@ export default {
         list: "status/getItems",
         searchParam: "status",
         externalFilter: true,
+        style: function (row) {
+          return { color: row.status.color };
+        },
         format: function (value) {
           return value?.status;
         },
@@ -83,12 +99,13 @@ export default {
         externalFilter: true,
         inputType: "date-range",
         sortable: true,
+        editable: false,
         name: "orderDate",
         align: "center",
         label: "orderDate",
         externalFilter: true,
         saveFormat: function (value) {
-          return buildAmericanDate(value);
+          return undefined;
         },
         format: function (value) {
           return formatDateYmdTodmY(value);
@@ -97,10 +114,14 @@ export default {
 
       {
         editable: false,
+        sortable: true,
         type: "range-date",
         name: "alterDate",
         label: "alterDate",
         align: "left",
+        saveFormat: function (value) {
+          return undefined;
+        },
         format: (val) => (val ? formatDateYmdTodmY(val, true) : ""),
       },
     ],

@@ -47,7 +47,7 @@
               :href="'task/checklist/id/' + props.row.id + '/' + props.row.token_url"
               target="_blank"
               icon-right="visibility"
-              class="q-mr-sm"
+              class="q-mr-sm btn-primary"
             />
             #{{ props.row.id }}
           </q-td>
@@ -63,7 +63,7 @@
             >
               {{ props.cols[5].value }}
               <q-btn
-                class="mypersonalized"
+                class="mypersonalized btn-primary"
                 size="8px"
                 rounded
                 flat
@@ -80,7 +80,7 @@
               class="row q-gutter-xs items-center justify-center"
             >
               <q-btn
-                color="red"
+                class="btn-danger"
                 label="Cancelar"
                 size="sm"
                 @click="cancelConfirm(props.row.id)"
@@ -98,6 +98,7 @@
           <div class="text-h6 q-ml-md">Cancelar Registro de Vistoria</div>
           <q-space />
           <q-btn
+          class="btn-danger"
             icon="close"
             @click="setClassRow(idRowToDelete, false)"
             flat
@@ -111,6 +112,7 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn
+          class="btn-danger"
             flat
             label="Desistir"
             color="primary"
@@ -120,7 +122,7 @@
           <q-btn
             flat
             label="Sim"
-            color="primary"
+            class="btn-primary"
             @click="changeStatusSurvey(idRowToDelete, 'canceled', 'dialogDelete')"
             v-close-popup
           />
@@ -136,6 +138,7 @@
           </div>
           <q-space />
           <q-btn
+          class="btn-primary"
             icon="close"
             @click="setClassRow(idRowToDelete, false)"
             flat
@@ -156,10 +159,10 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn
+          class="btn-primary"
             icon="save"
             label="Salvar"
             size="md"
-            color="primary"
             :loading="editDialog.saveButtonIsLoading"
             @click="
               changeStatusSurvey(

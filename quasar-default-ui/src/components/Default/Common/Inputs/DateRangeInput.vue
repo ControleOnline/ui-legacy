@@ -10,15 +10,15 @@
                 class="q-pa-none custom-input" dense v-model="to" mask="##/##/####"></q-input>
         </div>
         <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xg-1 col-xs-1 q-pa-sm  flex flex-end justify-end items-center">
-            <q-icon :clickable="true" name="event" class="vertical-middle cursor-pointer text-primary" size="sm">
+            <q-icon :clickable="true" name="event" class="vertical-middle cursor-pointer" size="sm">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale" @close="apply">
                     <q-date v-model="dateModel" range mask="DD/MM/YYYY">
                         <div class="row justify-center items-center">
                             <q-btn v-close-popup @click="clear(); apply()"
-                                :label="$translate(configs.store, 'clear', 'btn')" color="primary" flat />
+                                :label="$translate(configs.store, 'clear', 'btn')" class="btn-primary" flat />
 
                             <q-btn v-close-popup @click="apply" :label="$translate(configs.store, 'apply', 'btn')"
-                                color="primary" flat />
+                                class="btn-primary" flat />
                         </div>
                     </q-date>
                 </q-popup-proxy>

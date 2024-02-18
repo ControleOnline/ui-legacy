@@ -526,8 +526,7 @@
             icon="save"
             label="Salvar"
             size="md"
-            color="primary"
-            class="q-mt-md full-width"
+            class="q-mt-md full-width btn-primary"
             :loading="loading.btn_save"
             :disable="generalLock.readOnly"
           />

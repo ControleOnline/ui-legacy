@@ -3,7 +3,7 @@
 
     <div class="col-md-7 col-sm-12 q-pa-sm">
       <div class="details-image">
-        <img src="https://cdn.quasar.dev/img/mountains.jpg"/>
+        <img src="https://cdn.quasar.dev/img/mountains.jpg" />
       </div>
     </div>
 
@@ -23,12 +23,8 @@
 
 
       <div class="product-quantity">
-        <q-input
-          dense
-          outlined
-          type="number"
-        />
-        <q-btn color="primary" class="full-width q-pa-xs" label="Comprar" />
+        <q-input dense outlined type="number" />
+        <q-btn class="full-width q-pa-xs btn-primary" label="Comprar" />
       </div>
 
     </div>
@@ -58,30 +54,30 @@ export default {
       getProductDetails: "shop/getProductDetails",
     }),
 
-    categorias(){
+    categorias() {
 
       let payload = {
         id: 2,
       }
 
       this.getProductDetails(payload)
-      .then((response) => {
+        .then((response) => {
 
           console.log(response);
 
           this.productDetails = response;
           console.log(this.productDetails);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
     },
   },
 
-  data(){
-    return{
-        productDetails: []
+  data() {
+    return {
+      productDetails: []
     }
   }
 
@@ -89,16 +85,18 @@ export default {
 </script>
 
 <style>
-.details-title h1{
+.details-title h1 {
   font-size: 28px;
   font-weight: 700;
 }
-.price-container h2{
+
+.price-container h2 {
   font-size: 28px;
   font-weight: 700;
   text-transform: uppercase;
 }
-.details-image img{
+
+.details-image img {
   width: 100%;
 }
 </style>

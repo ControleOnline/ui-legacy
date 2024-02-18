@@ -8,7 +8,7 @@
                     </q-card-section>
                     <q-card-section>
                         <q-list bordered>
-                            <q-item-label header>Receitas (Agrupadas por Cagtegoria) <q-btn label="Detalhes" @click="showDetails(month)" /></q-item-label>
+                            <q-item-label header>Receitas (Agrupadas por Cagtegoria) <q-btn class="btn-primary" label="Detalhes" @click="showDetails(month)" /></q-item-label>
                             
                             <q-item v-for="income in month.incomes" :key="income.description">
                                 <q-item-section>{{ income.description }} (Isso é a categoria): {{ income.amount
@@ -18,7 +18,7 @@
                     </q-card-section>
                     <q-card-section>
                         <q-list bordered>
-                            <q-item-label header>Despesas (Agrupadas por Cagtegoria) <q-btn label="Detalhes" @click="showDetails(month)" /></q-item-label>
+                            <q-item-label header>Despesas (Agrupadas por Cagtegoria) <q-btn  class="btn-primary" label="Detalhes" @click="showDetails(month)" /></q-item-label>
                             <q-item v-for="expense in month.expenses" :key="expense.description">
                                 <q-item-section>{{ expense.description }} (Isso é a categoria): {{ expense.amount
                                 }}</q-item-section>

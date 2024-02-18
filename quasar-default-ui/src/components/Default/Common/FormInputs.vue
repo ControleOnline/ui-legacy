@@ -2,14 +2,14 @@
     <label v-if="labelType != 'stack-label'">
         {{ $translate(store, label, 'input') }}
     </label>
-    <q-input v-if="inputType == 'date-range'" filled v-model="data" mask="##/##/####" :rules="['validateBRDate']"
+    <q-input outlined v-if="inputType == 'date-range'" filled v-model="data" mask="##/##/####" :rules="['validateBRDate']"
         @keydown="this.$emit('keydown', $event)">
         <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                     <q-date v-model="tempDate" @update:modelValue="val => data = formatDateToBR(val)">
                         <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" @click="this.$emit('apply')" color="primary" flat />
+                            <q-btn v-close-popup label="Close" @click="this.$emit('apply')" class="btn-primary" flat />
                         </div>
                     </q-date>
                 </q-popup-proxy>
@@ -23,7 +23,7 @@
         @update="this.$emit('update', $event)" @selected="(value) => {
             this.data = value;
         }" />
-    <q-input v-else :disable="editable == false" dense outlined :stack-label="labelType == 'stack-label'" lazy-rules
+    <q-input outlined v-else :disable="editable == false" dense  :stack-label="labelType == 'stack-label'" lazy-rules
         v-model="data" :type:="inputType" @keydown="this.$emit('keydown', $event)" :prefix="prefix" :sufix="sufix"
         @blur="this.$emit('blur', $event)" type="text" :label="labelType == 'stack-label' ? label : ''" :rules="rules"
         :reverse-fill-mask="inputType == 'float'" :mask="mask || inputType == 'float' ? '#,##' : mask"

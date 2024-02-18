@@ -46,13 +46,13 @@ export default {
                 },
                 components: {
                     tableActions: {
-                        component: OtherInformations,
+                        //component: OtherInformations,
                         props: {
                             context: this.context
                         }
                     },
                     headerActions: {
-                        component: Status,
+                        //component: Status,
                         props: {
                             context: this.context
                         }

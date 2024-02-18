@@ -4,11 +4,13 @@
 export const translate = {
   orders: {
     input: {
-      id: "id",
+      id: "ID",
+      app: "Origem",
       status: "Status",
       client: "Cliente",
       orderDate: "Data do Pedido",
       alterDate: "Última Alteração",
+      orderType: "Tipo de Pedido",
     },
   },
 };

@@ -22,10 +22,10 @@
                     </div>
                 </template>
                 <div :class="'q-pa-sm flex col items-end justify-end'">
-                    <q-btn class="q-pa-sm q-mr-md btn-search" color="primary"
+                    <q-btn class="q-pa-sm q-mr-md btn-search btn-primary" 
                         :label="$translate(configs.store, 'filter', 'btn')" dense icon-right="search"
                         @click="sendFilter"></q-btn>
-                    <q-btn class="q-pa-sm btn-clear" dense icon-right="filter_alt_off" color="primary" outline
+                    <q-btn class="q-pa-sm btn-clear btn-primary" dense icon-right="filter_alt_off"  
                         @click="() => { clearFilters(); openFilters = false; }">
                         <q-tooltip> {{ $translate(configs.store, 'clear', 'tooltip') }} </q-tooltip>
                     </q-btn>

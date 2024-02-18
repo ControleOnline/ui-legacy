@@ -4,12 +4,12 @@
     :multiple="multiple" :class="myClass" :auto-upload="autoupd" :form-fields="getFields">
     <template v-slot:header="scope">
       <div class="row no-wrap items-center justify-end q-pa-sm q-gutter-xs">
-        <q-spinner v-if="scope.isUploading" color="primary" class="q-uploader__spinner" />
-        <q-btn flat dense rounded v-if="scope.canAddFiles" type="a" icon="add_box" color="primary">
+        <q-spinner v-if="scope.isUploading"  class="q-uploader__spinner loading-primary" />
+        <q-btn flat dense rounded v-if="scope.canAddFiles" type="a" icon="add_box" class="btn-primary">
           <q-uploader-add-trigger />
           <q-tooltip>{{ $translate(store, 'select', 'tooltip') }}</q-tooltip>
         </q-btn>
-        <q-btn v-if="scope.isUploading" round dense flat icon="clear" color="red" @click="scope.abort">
+        <q-btn v-if="scope.isUploading" round dense flat icon="clear" color="negative" @click="scope.abort">
           <q-tooltip>{{ $translate(store, 'cancel', 'tooltip') }}</q-tooltip>
         </q-btn>
       </div>
@@ -40,7 +40,7 @@
             </q-item-section>
 
             <q-item-section top side>
-              <q-btn flat dense round class="gt-xs" size="12px" icon="clear" color="red"
+              <q-btn flat dense round class="gt-xs" size="12px" icon="clear" color="negative"
                 @click="scope.removeFile(file)" />
             </q-item-section>
           </q-item>

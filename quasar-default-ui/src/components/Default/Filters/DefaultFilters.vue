@@ -1,5 +1,5 @@
 <template>
-    <q-btn class="q-pa-xs" dense icon="filter_alt" color="primary" @click="openFilters = true">
+    <q-btn class="q-pa-xs btn-primary" dense icon="filter_alt" @click="openFilters = true">
         <q-tooltip v-if="countFilters > 0">{{ countFilters }}
 
             {{
@@ -9,9 +9,9 @@
         <q-tooltip v-else> {{
             $translate(configs.store, 'filters', 'tooltip')
         }}</q-tooltip>
-        <q-badge color="orange" v-if="countFilters > 0" floating>{{ countFilters }}</q-badge>
+        <q-badge color="negative" v-if="countFilters > 0" floating>{{ countFilters }}</q-badge>
     </q-btn>
-    <q-btn class="q-pa-xs" dense icon-right="filter_alt_off" color="primary" outline
+    <q-btn class="q-pa-xs btn-primary" dense icon-right="filter_alt_off" 
         @click="() => { clearFilters(); openFilters = false; }">
         <q-tooltip> {{ $translate(configs.store, 'clear', 'tooltip') }} </q-tooltip>
     </q-btn>
@@ -41,14 +41,14 @@
             </q-card-section>
             <q-card-section class="row q-pa-md">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 q-py-sm">
-                    <q-btn class="float-right q-pa-sm" dense icon-right="filter_alt_off" color="primary" outline
+                    <q-btn class="float-right q-pa-sm btn-primary" dense icon-right="filter_alt_off" 
                         @click="() => { clearFilters(); openFilters = false; }">
                         <q-tooltip> {{
                             $translate(configs.store, 'clear', 'title')
                         }} </q-tooltip>
                     </q-btn>
-                    <q-btn class="float-right q-pa-sm q-mr-md" style="width:calc(100% - 56px)" color="primary"
-                        :label="$translate(configs.store, 'filter', 'btn')" dense outline icon-right="search" @click="() => {
+                    <q-btn class="float-right q-pa-sm q-mr-md btn-primary" style="width:calc(100% - 56px)" 
+                        :label="$translate(configs.store, 'filter', 'btn')" dense  icon-right="search" @click="() => {
                             applyFilters(filters);
                             sendFilter();
                             openFilters = false;

@@ -8,11 +8,12 @@
             :rows-per-page-options="rowsOptions" :key="tableKey" binary-state-sort>
             <template v-slot:body="props">
                 <q-tr :props="props.row" @click="rowClick(props.row, $event)">
-                    <q-td :style="column.style" v-for="(column, index) in columns" :key="column.key || column.name" :class="[
-                        'text-' + column.align,
-                        { 'dragging-column': isDraggingCollumn[index] },
-                        { 'hidden': !shouldIncludeColumn(column) }
-                    ]">
+                    <q-td :style="styleColumn(column, props.row)" v-for="(column, index) in columns"
+                        :key="column.key || column.name" :class="[
+                            'text-' + column.align,
+                            { 'dragging-column': isDraggingCollumn[index] },
+                            { 'hidden': !shouldIncludeColumn(column) }
+                        ]">
 
                         <q-checkbox v-if="index == 0 && configs.selection" v-model="selectedRows[items.indexOf(props.row)]"
                             v-bind:value="false" />
@@ -21,7 +22,7 @@
                                 :is="tableColumnComponent(column.key ||column.name).component" :row="props.row"
                                 @loadData="loadData" />
                         </template>
-                        <q-btn v-else-if="column.to && props.row[column.key || column.name]"
+                        <q-btn class="btn-primary" v-else-if="column.to && props.row[column.key || column.name]"
                             @click="verifyClick(column, props.row)" :icon:="column.icon">{{
                                 this.format(column, props.row, getNameFromList(column, props.row, column.key ||
                                     column.name)) }}
@@ -61,7 +62,7 @@
                         </template>
                     </q-td>
                     <q-td class="q-gutter-sm text-right">
-                        <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-secondary"
+                        <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-primary"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem(props.row)">
                             <q-tooltip> {{ $translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
@@ -121,7 +122,7 @@
                                 {{ $translate(configs.store, column.label, 'input') }}
                                 <q-icon v-if="column.sortable"
                                     :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
-                                     size="14px" />
+                                    size="14px" />
                                 <q-icon name="filter_list" v-if="colFilter[column.key || column.name]" />
                             </span>
                         </div>
@@ -158,17 +159,18 @@
                         <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData">
                         </DefaultFilters>
                         <q-space></q-space>
-                        <q-btn v-if="isTableView" @click="toggleView" class="q-pa-xs" label="" dense icon="menu">
+                        <q-btn v-if="isTableView" @click="toggleView" class="q-pa-xs btn-primary" label="" dense
+                            icon="menu">
                             <q-tooltip>
                                 {{ $translate(configs.store, 'table', 'tooltip') }}
                             </q-tooltip>
                         </q-btn>
-                        <q-btn v-else @click="toggleView" class="q-pa-xs" label="" dense icon="dashboard">
+                        <q-btn v-else @click="toggleView" class="q-pa-xs btn-primary" label="" dense icon="dashboard">
                             <q-tooltip>
                                 {{ $translate(configs.store, 'cards', 'tooltip') }}
                             </q-tooltip>
                         </q-btn>
-                        <q-btn class="q-pa-xs btn-secondary" label="" dense icon="view_week">
+                        <q-btn class="q-pa-xs btn-primary" label="" dense icon="view_week">
                             <q-tooltip> {{ $translate(configs.store, 'config_columns', 'tooltip') }} </q-tooltip>
                             <!-- Menu de configuração de colunas -->
                             <q-menu v-model="showColumnMenu">
@@ -181,19 +183,19 @@
                                         </q-item-section>
                                     </q-item>
                                 </q-list>
-                                <q-btn slot="bottom" label="Fechar" @click="toggleShowColumnMenu" />
+                                <q-btn slot="bottom" class="btn-primary" label="Fechar" @click="toggleShowColumnMenu" />
                             </q-menu>
                         </q-btn>
 
-                        <q-btn class="q-pa-xs" label="" dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                            @click="toggleMaximize(props)">
+                        <q-btn class="q-pa-xs btn-primary" label="" dense
+                            :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="toggleMaximize(props)">
                             <q-tooltip> {{ $translate(configs.store, (props.inFullscreen ? 'minimize' : 'maximize'),
                                 'tooltip')
                             }}
                             </q-tooltip>
                         </q-btn>
-                        <q-btn icon-right="archive" dense class="q-pa-xs btn-secondary" label="" @click="exportTable"
-                            v-if="configs.export">
+                        <q-btn icon-right="archive btn-primary" dense class="q-pa-xs btn-primary" label=""
+                            @click="exportTable" v-if="configs.export">
                             <q-tooltip> {{ $translate(configs.store, 'export', 'tooltip') }} </q-tooltip>
                         </q-btn>
                     </q-toolbar>
@@ -218,7 +220,8 @@
                                                 :is="tableColumnComponent(column.key ||column.name).component"
                                                 :row="props.row" @loadData="loadData" />
                                         </template>
-                                        <q-btn v-else-if="column.to && props.row[column.key || column.name]"
+                                        <q-btn class="btn-primary"
+                                            v-else-if="column.to && props.row[column.key || column.name]"
                                             @click="verifyClick(column, props.row)" :icon:="column.icon">
                                             {{ this.format(column, props.row, getNameFromList(column, props.row, column.key
                                                 ||
@@ -251,7 +254,8 @@
                                                 :is="tableColumnComponent(column.key ||column.name).component"
                                                 :row="props.row" @loadData="loadData" />
                                         </template>
-                                        <q-btn v-else-if="column.to && props.row[column.key || column.name]"
+                                        <q-btn class="btn-primary"
+                                            v-else-if="column.to && props.row[column.key || column.name]"
                                             @click="verifyClick(column, props.row)" :icon:="column.icon">{{
                                                 this.format(column, props.row, getNameFromList(column, props.row, column.key ||
                                                     column.name)) }}
@@ -295,7 +299,7 @@
                         <q-card-section>
                             <q-item-section side class="">
                                 <div class="row justify-end q-gutter-sm">
-                                    <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-secondary"
+                                    <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-primary"
                                         :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="editItem(props.row)">
                                         <q-tooltip> {{ $translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
@@ -360,11 +364,11 @@
                 <q-separator></q-separator>
                 <q-card-section>
                     <div class="flex q-pt-md">
-                        <q-btn class="q-py-sm q-px-md text-capitalize btn-secondary" outline
+                        <q-btn class="q-py-sm q-px-md text-capitalize btn-primary"
                             :label="$translate(configs.store, 'cancel', 'btn')" v-close-popup>
                         </q-btn>
                         <q-space></q-space>
-                        <q-btn class="q-py-sm q-px-md text-capitalize btn-secondary"
+                        <q-btn class="q-py-sm q-px-md text-capitalize btn-primary"
                             :label="$translate(configs.store, 'confirm', 'btn')" @click="confirmDelete" :loading="isSaving">
                         </q-btn>
                     </div>
@@ -528,6 +532,11 @@ export default {
     },
     methods: {
         ...DefaultFiltersMethods,
+        styleColumn(column, row) {
+            if (typeof column.style == 'function')
+                return column.style(row);
+            return '';
+        },
         toggleView() {
             this.isTableView = !this.isTableView;
             this.adjustElementHeight();
@@ -850,7 +859,7 @@ export default {
 
                     let items = this.$copyObject(this.items);
 
-                    if (index)
+                    if (index >= 0)
                         items[index] = data;
                     else
                         items.push(data);

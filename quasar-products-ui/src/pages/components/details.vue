@@ -57,8 +57,8 @@
         </label>
       </div>
       <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-end q-pa-sm q-gutter-sm">
-        <q-btn color="primary" label="Primary" />
-        <q-btn color="primary" label="Primary" icon="save" @click="save(product)" />
+        <q-btn class="btn-primary" label="Primary" />
+        <q-btn class="btn-primary" label="Primary" icon="save" @click="save(product)" />
       </div>
     </div>
   </div>

@@ -5,14 +5,14 @@
     <DateRangeInput :initialRange="colFilter[column.key || column.name]" @changedDateInput="changedDateInput"
         :labelType="labelType" v-if="column.inputType == 'date-range'" :column="column" :configs="configs" />
 
-    <SelectInput v-else-if="getList(configs, column)" :store="configs.store" :labelType="labelType" :label="column.label"
+    <SelectInput outlined v-else-if="getList(configs, column)" :store="configs.store" :labelType="labelType" :label="column.label"
         :multiple="true" :searchAction="getList(configs, column)" :filters="getSearchFilters(column)"
         :initialValue="colFilter[column.key || column.name]" :formatOptions="column.formatList"
         :searchParam="column.searchParam || 'search'" @selected="(value) => {
             colFilter[column.key || column.name] = $copyObject(value);
         }" @focus="this.$emit('focus', $event)" @blur="fireBlur" />
 
-    <q-input v-else dense outlined :stack-label="labelType" :type:="inputType" :prefix="prefix" :sufix="sufix"
+    <q-input outlined v-else dense  :stack-label="labelType" :type:="inputType" :prefix="prefix" :sufix="sufix"
         :label="labelType != 'stack-label' ? '' : $translate(configs.store, column.label, 'input')"
         v-model="colFilter[column.key || column.name]" @focus="this.$emit('focus', $event)"
         @blur="sendFilterColumn(column.key || column.name); this.$emit('blur', $event)"
