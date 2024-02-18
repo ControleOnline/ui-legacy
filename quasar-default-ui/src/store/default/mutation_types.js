@@ -4,7 +4,6 @@ export const SET_ISSAVING = "SET_ISSAVING";
 export const SET_VIOLATIONS = "SET_VIOLATIONS";
 export const SET_TOTALITEMS = "SET_TOTALITEMS";
 export const SET_ITEMS = "SET_ITEMS";
-export const SET_ITEM = "SET_ITEM";
 export const SET_COLUMNS = "SET_COLUMNS";
 export const SET_FILTERS = "SET_FILTERS";
 export const SET_REROURCE_ENDPOINT = "SET_REROURCE_ENDPOINT";

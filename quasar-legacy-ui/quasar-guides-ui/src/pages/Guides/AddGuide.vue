@@ -194,7 +194,7 @@
           <q-btn
             icon="add"
             no-caps
-            class=" q-ml-sm text-secondary add-button"
+            class="bg-white q-ml-sm text-secondary add-button"
             round
             flat
             @click="openUploadDialog = true"
@@ -257,7 +257,7 @@
           <q-btn
             icon="add"
             no-caps
-            class=" q-ml-sm text-secondary add-button"
+            class="bg-white q-ml-sm text-secondary add-button"
             round
             flat
             @click="openIcludediesDialog = true"
@@ -364,7 +364,7 @@
           <q-btn
             icon="add"
             no-caps
-            class=" q-ml-sm text-secondary add-button"
+            class="bg-white q-ml-sm text-secondary add-button"
             round
             flat
             @click="openAdditionalDialog = true"
@@ -473,7 +473,7 @@
           <q-btn
             icon="add"
             no-caps
-            class=" q-ml-sm text-secondary add-button"
+            class="bg-white q-ml-sm text-secondary add-button"
             round
             flat
             @click="openRecomendationsDialog = true"

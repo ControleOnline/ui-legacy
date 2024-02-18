@@ -55,7 +55,7 @@
                   flat
                   dense
                   round
-                  class=" text-center"
+                  class="bg-white text-center"
                   @click.stop="favoriteItem"
                   :color="!favorite ? 'secondary' : 'orange-5'"
                   icon="favorite"
@@ -65,7 +65,7 @@
                   flat
                   dense
                   color="secondary"
-                  class=" text-center"
+                  class="bg-white text-center"
                   icon="o_edit"
                   @click.stop="editGuide"
                 />

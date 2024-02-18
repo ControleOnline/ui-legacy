@@ -1,7 +1,7 @@
 <template>
-  <q-list>
+  <q-list :class="$q.dark.isActive ? 'text-white' : 'text-white'">
     <q-expansion-item :content-inset-level="0.3" :icon="mItem.icon" :label="mItem.label" v-for="mItem in menu"
-      :key="mItem.id">
+      :key="mItem.id" :expand-icon-class="$q.dark.isActive ? 'text-white' : 'text-white'">
       <q-item v-ripple clickable v-for="item in mItem.menus" :key="item.id" @click="click(item)">
         <q-item-section avatar>
           <q-icon :name="item.icon" />

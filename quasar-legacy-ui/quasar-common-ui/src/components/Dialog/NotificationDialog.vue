@@ -1,6 +1,6 @@
 <template>
   <q-dialog ref="NotificationDialog">
-    <div class=" full-width" style="max-height: max-content;">
+    <div class="bg-white full-width" style="max-height: max-content;">
       <q-item class="column q-px-lg">
         <q-btn
           icon="close"

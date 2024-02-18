@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-dialog v-if="!openConfirmCancellationDialog">
-      <div class=" full-width" style="max-height: 70%">
+      <div class="bg-white full-width" style="max-height: 70%">
         <q-item class="column q-px-lg">
           <q-btn
             icon="close"
@@ -89,7 +89,7 @@
       </div>
     </q-dialog>
     <q-dialog v-else>
-      <div class=" full-width text-center column" style="max-height: 70%">
+      <div class="bg-white full-width text-center column" style="max-height: 70%">
         <q-btn
           icon="close"
           size="1rem"

@@ -5,12 +5,12 @@
     </div>
   </div>
   <q-layout v-else-if="isSuperAdmin && !disabled" view="lHh Lpr fff" class="bg-image">
-    <q-header elevated height-hint="64">
+    <q-header elevated class="bg-white text-grey-8" height-hint="64">
       <q-toolbar class="GPL__toolbar" style="height: 64px">
         <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" icon="menu"
           class="q-mx-md menu-button" />
         <div class="q-gutter-sm items-center row logo-container">
-          <router-link v-if="this.$q.screen.gt.sm && myCompany && myCompany.logo" v-bind:to="'/'" tag="a">
+          <router-link v-if="this.$q.screen.gt.sm && myCompany && myCompany.logo" v-bind:to="'/'" tag="a" class="primary">
             <img :src="'//' + myCompany.logo.domain + myCompany.logo.url" class="current-logo" />
           </router-link>
           <img v-else-if="myCompany && myCompany.logo" :src="'//' + myCompany.logo.domain + myCompany.logo.url"
@@ -84,11 +84,11 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" :width="270">
+    <q-drawer v-model="leftDrawerOpen" :width="270" :class="$q.dark.isActive ? 'bg-grey-10' : 'bg-primary'">
       <q-scroll-area class="fit">
         <q-toolbar class="q-pa-md">
           <q-toolbar-title class="text-center">
-            <q-avatar size="100px" class="vertical-middle menu-avatar">
+            <q-avatar size="100px" class="vertical-middle" color="white">
               <router-link v-bind:to="'/'" tag="a" class="primary">
                 <img v-if="defaultCompany.logo" :src="'//' + defaultCompany.logo.domain + defaultCompany.logo.url"
                   class="q-pa-sm  main-logo" />
@@ -98,7 +98,7 @@
         </q-toolbar>
 
         <div class="q-pt-md q-px-sm column">
-          <q-list padding>
+          <q-list padding :class="$q.dark.isActive ? 'text-white' : 'text-white'">
             <q-item v-if="isSimple() == false" v-ripple clickable class="GNL__drawer-item"
               @click="leftDrawerOpen != leftDrawerOpen" :to="{ name: 'DashboardIndex' }">
               <q-item-section avatar>
@@ -149,7 +149,7 @@
 import Menu from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/Menu";
 import MyCompanies from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/MyCompanies";
 import Notifications from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/Notifications.vue";
-import DarkMode from "@controleonline/quasar-layout-ui/src/components/DarkMode/darkModeToggle.vue";
+import DarkMode from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/DarkMode/darkModeToggle.vue";
 import Language from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Language/languageToogle.vue";
 import acl from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/acl";
 import md5 from "md5";
@@ -295,13 +295,14 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 .pageloader
   position: relative
   text-align: center
   margin-top: 300px
 .logo-container
   width: 100%
+
 .current-logo
   display: block
   margin: auto
@@ -309,7 +310,6 @@ export default {
   min-height: 50px
   height: 50px
   max-height: 100%
-  max-width: 140px
 .logo-container a
   margin: auto
 .main-logo

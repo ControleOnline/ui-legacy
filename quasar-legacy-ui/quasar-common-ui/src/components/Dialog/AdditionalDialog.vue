@@ -1,6 +1,6 @@
 <template>
   <q-dialog>
-    <div class=" full-width" style="max-height: 70%">
+    <div class="bg-white full-width" style="max-height: 70%">
       <q-item class="bg-secondary items-center">
         <q-item-label class="text-bold text-white">
           {{ $t("additional_services_dialog") }}

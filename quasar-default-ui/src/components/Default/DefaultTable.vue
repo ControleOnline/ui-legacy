@@ -42,7 +42,7 @@
                                     " size="1.0em" name="edit" />
                                 <q-icon v-else size="1.0em" name="" />
                                 <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)"
-                                    class="loading-primary" size="2em" />
+                                    color="primary" size="2em" />
                             </span>
                         </template>
                         <template v-else>
@@ -61,12 +61,12 @@
                         </template>
                     </q-td>
                     <q-td class="q-gutter-sm">
-                        <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-secondary"
+                        <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white" color="primary"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem(props.row)">
                             <q-tooltip> {{ $translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
                         </q-btn>
-                        <q-btn v-if="configs.delete != false" dense icon="delete" class="btn-danger"
+                        <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                             :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="openConfirm(props.row)">
                             <q-tooltip> {{ $translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
@@ -102,8 +102,8 @@
                                                 @focus="forceShowInput = true; showInput[column.key || column.name]"
                                                 @blur="loadData(); forceShowInput = false;">
                                             </FilterInputs>
-                                            <q-spinner-ios class="loading-primary"
-                                                v-if="isLoading && colFilter[column.key || column.name]" size="2em" />
+                                            <q-spinner-ios v-if="isLoading && colFilter[column.key || column.name]"
+                                                color="primary" size="2em" />
                                             <q-icon name="close"
                                                 @click.stop="clearFilter(column.key || column.name); loadData()"
                                                 v-else-if="colFilter[column.key || column.name]" />
@@ -121,7 +121,7 @@
                                 {{ $translate(configs.store, column.label, 'input') }}
                                 <q-icon v-if="column.sortable"
                                     :name="(sortedColumn === column.name || sortedColumn === column.key) ? (sortDirection === 'ASC' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more'"
-                                     size="14px" />
+                                    color="grey-8" size="14px" />
                                 <q-icon name="filter_list" v-if="colFilter[column.key || column.name]" />
                             </span>
                         </div>
@@ -140,8 +140,9 @@
             <template v-slot:top-right="props">
                 <div class="table-toolbar">
                     <q-toolbar class="q-gutter-sm">
-                        <q-btn v-if="configs.add != false" class="q-pa-xs btn-positive" dense label="" icon="add"
-                            :disabled="isLoading || addModal || deleteModal || editing.length > 0" @click="editItem({})">
+                        <q-btn v-if="configs.add != false" class="q-pa-xs" dense label="" text-color="white" icon="add"
+                            color="green" :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                            @click="editItem({})">
                             <q-tooltip> {{ $translate(configs.store, 'add', 'tooltip') }} </q-tooltip>
                         </q-btn>
                         <q-space></q-space>
@@ -168,7 +169,7 @@
                                 {{ $translate(configs.store, 'cards', 'tooltip') }}
                             </q-tooltip>
                         </q-btn>
-                        <q-btn class="q-pa-xs btn-secondary" label="" dense icon="view_week">
+                        <q-btn class="q-pa-xs" label="" dense text-color="primary" icon="view_week" color="white">
                             <q-tooltip> {{ $translate(configs.store, 'config_columns', 'tooltip') }} </q-tooltip>
                             <!-- Menu de configuração de colunas -->
                             <q-menu v-model="showColumnMenu">
@@ -192,7 +193,7 @@
                             }}
                             </q-tooltip>
                         </q-btn>
-                        <q-btn icon-right="archive" dense class="q-pa-xs btn-secondary" label="" @click="exportTable"
+                        <q-btn color="primary" icon-right="archive" dense class="q-pa-xs" label="" @click="exportTable"
                             v-if="configs.export">
                             <q-tooltip> {{ $translate(configs.store, 'export', 'tooltip') }} </q-tooltip>
                         </q-btn>
@@ -206,7 +207,8 @@
                 <div @click="rowClick(props.row, $event)"
                     class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
                     :style="selectedRows[items.indexOf(props.row)] ? 'transform: scale(0.95);' : ''">
-                    <q-card bordered flat :class="selectedRows[items.indexOf(props.row)] ? 'selected-card' : ''">
+                    <q-card bordered flat
+                        :class="selectedRows[items.indexOf(props.row)] ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
                         <q-card-section>
                             <q-item>
                                 <template v-for="(column, index) in columns" :key="column.key || column.name">
@@ -267,7 +269,7 @@
 
                                                 <q-spinner-ios
                                                     v-if="isSaving && isEditing(items.indexOf(props.row), column)"
-                                                    class="loading-primary" size="2em" />
+                                                    color="primary" size="2em" />
                                             </span>
                                         </template>
                                         <template v-else>
@@ -295,12 +297,13 @@
                         <q-card-section>
                             <q-item-section side class="">
                                 <div class="row justify-end q-gutter-sm">
-                                    <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-secondary"
+                                    <q-btn v-if="configs.editable != false" dense icon="edit" text-color="white"
+                                        color="primary"
                                         :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="editItem(props.row)">
                                         <q-tooltip> {{ $translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
                                     </q-btn>
-                                    <q-btn v-if="configs.delete != false" dense icon="delete" class="btn-danger"
+                                    <q-btn v-if="configs.delete != false" dense icon="delete" text-color="white" color="red"
                                         :disabled="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="openConfirm(props.row)">
                                         <q-tooltip> {{ $translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
@@ -318,8 +321,7 @@
                     <q-td v-for="(column, index)  in columns" :class="[
                         'text-' + column.align,
                         { 'hidden': !shouldIncludeColumn(column) }]">
-                        <span
-                            v-if="sumColumn[column.key || column.name] != false && sumColumn[column.key || column.name] != undefined">
+                        <span v-if="sumColumn[column.key || column.name] != false && sumColumn[column.key || column.name] != undefined">
                             {{ (column.prefix || '') +
                                 format(column, {}, sumColumn[column.key || column.name]) + (column.sufix || '') }}
                             <q-icon size="1.0em" name="" />
@@ -329,11 +331,11 @@
                     </q-td>
                 </q-tr>
             </template>
-
+            <!--
             <template v-slot:loading>
-                <q-inner-loading showing class="loading-primary" />
+                <q-inner-loading showing color="primary" />
             </template>
-
+            -->
             <template v-slot:no-data="{ icon, message, filter }">
                 <div class="full-width row flex-center text-accent q-gutter-sm">
                     <q-icon size="2em" name="sentiment_dissatisfied" />
@@ -347,7 +349,7 @@
 
         <q-dialog v-model="addModal" :full-width="columns.length >= 16">
 
-            <DefaultForm :configs="configs" @saved="saved" @error="error" :data="item" :index="editIndex" />
+            <DefaultForm :configs="configs" @saved="saved" @error="error" :data="item" />
 
         </q-dialog>
         <q-dialog v-model="deleteModal">
@@ -360,11 +362,11 @@
                 <q-separator></q-separator>
                 <q-card-section>
                     <div class="flex q-pt-md">
-                        <q-btn class="q-py-sm q-px-md text-capitalize btn-secondary" outline
+                        <q-btn class="q-py-sm q-px-md text-capitalize" outline color="secondary"
                             :label="$translate(configs.store, 'cancel', 'btn')" v-close-popup>
                         </q-btn>
                         <q-space></q-space>
-                        <q-btn class="q-py-sm q-px-md text-capitalize btn-secondary"
+                        <q-btn class="q-py-sm q-px-md text-capitalize" color="secondary"
                             :label="$translate(configs.store, 'confirm', 'btn')" @click="confirmDelete" :loading="isSaving">
                         </q-btn>
                     </div>
@@ -412,7 +414,6 @@ export default {
 
     data() {
         return {
-            editIndex: false,
             forceShowInput: false,
             hideFilterTimeout: false,
             showInput: {},
@@ -530,7 +531,6 @@ export default {
         ...DefaultFiltersMethods,
         toggleView() {
             this.isTableView = !this.isTableView;
-            this.adjustElementHeight();
         },
 
         toggleMaximize(props) {
@@ -648,42 +648,26 @@ export default {
         error(error) {
             this.$emit('error', error);
         },
-        saved(data, editIndex) {
+        saved(data) {
             this.addModal = false;
-            let items = this.$copyObject(this.items);
-            if (editIndex >= 0)
-                items[editIndex] = data;
-            else
-                items.push(data);
-
-            this.$store.commit(this.configs.store + '/SET_ITEMS', items);
-            this.items = items;
-            this.tableKey++;
-            this.$emit('saved', data, editIndex);
+            this.loadData();
+            this.$emit('saved', data);
         },
         openConfirm(data) {
             this.deleteItem = data;
             this.deleteModal = true;
         },
         editItem(item) {
-            const index = this.items.findIndex(i => i["@id"] === item["@id"]);
             this.item = this.$copyObject(item);
             this.addModal = true;
-            this.editIndex = index;
         },
         confirmDelete() {
             this.$store.dispatch(this.configs.store + '/remove', this.deleteItem['@id'].split('/').pop()
             ).then((data) => {
-                let items = this.$copyObject(this.items);
-                const index = items.findIndex(i => i["@id"] === this.deleteItem["@id"]) - 1;
-                if (index >= 0 && index < items.length) {
-                    items = items.slice(0, index).concat(items.slice(index + 1));
-                    this.$store.commit(this.configs.store + '/SET_ITEMS', items);
-                    this.items = items;
-                    this.tableKey++;
-                }
+
             }).finally(() => {
                 this.deleteModal = false;
+                this.loadData();
             });
         },
         toggleSelectAll() {
@@ -827,7 +811,6 @@ export default {
             return;
         },
         save(index, row, col, value) {
-            this.$store.commit(this.configs.store + '/SET_ITEM', row);
 
             let c = col.list ? (this.formatList(col, row[col.key || col.name])?.value) : this.format(col, row, row[col.key || col.name]);
             if (c == value) {
@@ -847,16 +830,7 @@ export default {
 
             this.$store.dispatch(this.configs.store + '/save', params).then((data) => {
                 if (data) {
-
-                    let items = this.$copyObject(this.items);
-
-                    if (index)
-                        items[index] = data;
-                    else
-                        items.push(data);
-                    this.$store.commit(this.configs.store + '/SET_ITEMS', items);
-                    this.items = items;
-                    this.tableKey++;
+                    this.loadData();
                     this.$q.notify({
                         message: this.$translate(this.configs.store, "success", 'message'),
                         position: "bottom",
@@ -901,34 +875,28 @@ export default {
 
         },
         adjustElementHeight(full) {
-            setTimeout(() => {
-                const e = document.querySelectorAll('.q-body--fullscreen-mixin').length;
-                let elements;
-                if (e > 0 || full)
-                    elements = document.querySelectorAll('.fullscreen .q-table__middle');
-                else
-                    elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
+            const e = document.querySelectorAll('.q-body--fullscreen-mixin').length;
+            let elements;
+            if (e > 0 || full)
+                elements = document.querySelectorAll('.fullscreen .q-table__middle');
+            else
+                elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
 
-                if (elements.length == 0) {
-                    elements = this.$el.querySelectorAll('.default-table .q-table__middle');
-                    elements.forEach(element => {
-                        if (element) {
-                            element.style.height = '';
-                        }
-                    });
-                }
-                else
-                    elements.forEach(element => {
-                        if (element) {
-                            let position = 30;
-                            let elementTop = element.getBoundingClientRect().top || 0
-                            let screenHeight = (window.innerHeight
-                                * (100 / ((process.env.zoom || 0.70) * 100))
-                            ) - (elementTop);
-                            element.style.height = `calc(${screenHeight}px - ${position}px)`;
-                        }
-                    });
-            }, 500);
+            if (elements.length == 0) {
+                elements = this.$el.querySelectorAll('.default-table .q-table__middle');
+                elements.forEach(element => {
+                    if (element) {
+                        element.style.height = '';
+                    }
+                });
+            }
+            else
+                elements.forEach(element => {
+                    if (element) {
+                        let position = e > 0 ? 30 : element.getBoundingClientRect().top + 30;
+                        element.style.height = `calc(100vh - ${position}px)`;
+                    }
+                });
         },
 
         loadData(props) {
@@ -980,6 +948,7 @@ export default {
 <style>
 .default-table {
     width: 100%;
+    max-width: 100vw;
 }
 
 .default-table thead tr {
@@ -1012,15 +981,8 @@ export default {
     z-index: 1;
 }
 
-
-.default-table {
-    overflow-x: auto;
-    max-width: var(--zoom-width);
-}
-
 .default-table .q-table__progress .q-linear-progress {
-    width: var(--zoom-width);
-    max-width: var(--zoom-width);
+    width: 100vw;
 }
 
 .default-table .sortable-header {
@@ -1057,7 +1019,15 @@ export default {
     opacity: 0;
 }
 
+.default-table .q-table--grid.fullscreen {
+    background: #fff;
+}
 
+.default-table .dragging-column {
+    border-left: 2px solid #babaca;
+    border-right: 2px solid #babaca;
+    /* Estilo da borda para a coluna sendo arrastada */
+}
 
 .default-table .no-drag {
     cursor: not-allowed;
@@ -1066,6 +1036,7 @@ export default {
 .default-table .header-filter-container {
     margin-top: -70px;
     position: absolute;
+    background: #fff;
     z-index: 999;
     min-height: 28px;
     display: flex;
@@ -1073,6 +1044,7 @@ export default {
 }
 
 .default-table .q-table__grid-content {
+    background: #fff;
     margin-top: -3px;
 }
 
@@ -1080,22 +1052,25 @@ export default {
     width: 50%;
 }
 
-
+.default-table .q-table__grid-content .q-card__section:nth-child(1) {
+    background: var(--q-primary);
+    color: #fff;
+}
 
 .default-table .q-table__grid-content .q-list .q-item {
     padding: 2px 16px;
+    border-bottom: 1px #e0e0e0 solid;
 }
 
 .default-table .header-filter-container {
     display: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding: 5px;
 }
 
 .default-table .header-filter-container.show {
     display: flex;
 }
-
-
 
 /*
 .default-table .q-table__middle.scroll {
@@ -1127,10 +1102,13 @@ export default {
     z-index: 2;
     bottom: 0;
     left: 0;
+    background-color: #fff;
     padding-right: 10vw;
 }
 
-
+.default-table .q-table__top {
+    background: #fff;
+}
 
 .default-table .row-filters {
     padding: 20px;
@@ -1145,7 +1123,18 @@ export default {
     left: 0;
 }
 
+.default-table .q-table thead tr {
+    background-color: var(--q-secondary) !important;
+    color: #fff !important;
+}
 
+.default-table .q-table tr:nth-child(even) {
+    background-color: #dfdfdf;
+}
+
+.default-table .q-table tr:nth-child(odd) {
+    background-color: #fff;
+}
 
 
 
@@ -1159,11 +1148,17 @@ export default {
     opacity: 1;
 }
 
+.full-width.default-table {
+    width: 100vw;
+}
+
 @media only screen and (max-width: 1024px) {
 
     .default-table.full-height .q-table__bottom {
         position: fixed !important;
+        background-color: #fff;
         z-index: 9;
+        width: 100vw;
     }
 
     .default-table .q-table thead {
@@ -1173,6 +1168,7 @@ export default {
     .default-table .q-table__bottom {
         bottom: 0;
         position: sticky;
+        width: 100vw;
         z-index: 1;
     }
 
@@ -1180,6 +1176,7 @@ export default {
 }
 
 .q-body--fullscreen-mixin .default-table .q-table__bottom {
+    width: 100vw;
     position: fixed;
 }
 
@@ -1191,6 +1188,10 @@ export default {
     position: sticky;
 }
 
+.default-table .q-table--grid .q-table__top {
+    top: 63px;
+}
+
 .default-table .q-table__card .q-table__top,
 .fullscreen .q-table__top {
     top: 0px;
@@ -1199,7 +1200,9 @@ export default {
 @media only screen and (min-width: 1024px) {
     .default-table.full-height .q-table__bottom {
         position: fixed !important;
+        background-color: #fff;
         z-index: 9;
+        width: 100vw;
     }
 
 
@@ -1231,6 +1234,7 @@ export default {
 }
 
 .default-table .table-toolbar .q-space {
+    background: #fff;
     width: 5px;
     height: 50px;
 }
@@ -1240,6 +1244,17 @@ export default {
     height: 10px;
 }
 
+.default-table .q-table__middle.scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.default-table .q-table__middle.scroll::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 
 /*
 .default-table tbody span {

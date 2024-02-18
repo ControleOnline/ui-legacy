@@ -8,7 +8,7 @@
         </q-card-section>
         <q-card-section v-if="idProduct">
           <div class="q-card q-pa-sm" style="max-width: calc(100vw - 30px)">
-            <q-tabs inline-label no-caps outside-arrows mobile-arrows align="left" class=" text-white shadow-2"
+            <q-tabs inline-label no-caps outside-arrows mobile-arrows align="left" class="bg-primary text-white shadow-2"
               v-model="tab">
               <q-tab name="group" icon="tab" :label="$t('Group')" />
               <q-tab name="categories" icon="tab" :label="$t('Categories')" />

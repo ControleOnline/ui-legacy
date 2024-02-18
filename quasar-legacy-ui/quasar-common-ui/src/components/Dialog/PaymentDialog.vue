@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-dialog v-if="!openSaveDataCard">
-      <div class=" full-width" style="max-height: 70%;">
+      <div class="bg-white full-width" style="max-height: 70%;">
         <div class="flex items-center full-width">
           <q-item class="q-px-md q-py-sm column full-width">
             <q-btn
@@ -93,7 +93,7 @@
     </q-dialog>
 
     <q-dialog v-else>
-      <div class=" full-width column" style="max-height: 70%;">
+      <div class="bg-white full-width column" style="max-height: 70%;">
         <q-btn
           icon="close"
           size="1rem"

@@ -10,6 +10,7 @@ import {
 
 import { translate } from "@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js";
 
+
 export default {
   namespaced: true,
   state: {
@@ -40,13 +41,13 @@ export default {
         list: "people/getItems",
         externalFilter: true,
         format: function (value) {
-          return value?.name + " - " + value?.alias;
+          return value?.alias;
         },
         formatList: function (value) {
           if (value)
             return {
               value: value["@id"].split("/").pop(),
-              label: value.name + " - " + value.alias,
+              label: value.alias,
             };
         },
         saveFormat: function (value) {
@@ -65,14 +66,14 @@ export default {
           return value?.name;
         },
         saveFormat: function (value) {
-          return value ? parseInt(value.value || value) : null;
+          return value ? "/categories/" + (value.value || value) : null;
         },
         formatList: function (value) {
           return value
             ? {
-                label: value?.name,
-                value: value?.id,
-              }
+              label: value?.name,
+              value: value?.id,
+            }
             : null;
         },
       },
@@ -85,13 +86,13 @@ export default {
         searchParam: "status",
         externalFilter: true,
         format: function (value) {
-          return value?.status;
+          return translate("invoice", value?.status, "statuses");
         },
         formatList: function (value) {
           if (value)
             return {
               value: value["@id"].split("/").pop(),
-              label: value?.status,
+              label: translate("invoice", value.status, "statuses"),
             };
         },
         saveFormat: function (value) {

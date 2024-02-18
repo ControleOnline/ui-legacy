@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-tabs no-caps align="justify" v-model="currentTab" class=" text-primary">
+    <q-tabs no-caps align="justify" v-model="currentTab" class="bg-white text-primary">
       <q-tab name="mercado_livre" label="Mercado Livre" />
       <q-tab name="clicksign" label="Clicksign" />
     </q-tabs>

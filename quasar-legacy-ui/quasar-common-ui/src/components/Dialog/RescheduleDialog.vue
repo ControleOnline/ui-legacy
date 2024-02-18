@@ -1,6 +1,6 @@
 <template>
   <q-dialog>
-    <div class=" full-width column" style="max-height: 70%;">
+    <div class="bg-white full-width column" style="max-height: 70%;">
       <q-btn
         icon="close"
         size="1rem"

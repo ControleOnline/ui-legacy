@@ -12,7 +12,7 @@ export const routes = [
       {
         name: "StretchSearching",
         path: "",
-        component: () => import("../pages/Logistic/Index.vue"),
+        component: () => import("../pages/Logistic"),
       },
     ],
   },

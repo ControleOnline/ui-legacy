@@ -2,7 +2,7 @@
   <!-- eslint-disable -->
   <div>
     <q-btn-dropdown split outline v-if="isMultipleCompanies() == true && !dialog /*&& !this.$q.screen.gt.sm*/"
-      :label="myCompany !== null ? myCompany.name : 'Loading...'"
+      color="primary" :label="myCompany !== null ? myCompany.name : 'Loading...'"
       class="ellipsis full-width company-swich">
       <q-list>
         <q-item clickable v-close-popup dense v-for="(company, index) in myCompanies" :disable="company.enabled && company.user.employee_enabled ? false : true
@@ -93,7 +93,6 @@ export default {
       let selected = session.mycompany;
       let currentCompany;
 
-      this.myCompanies = [];
       for (let index in companies) {
         let item = companies[index];
         this.myCompanies.push(item);

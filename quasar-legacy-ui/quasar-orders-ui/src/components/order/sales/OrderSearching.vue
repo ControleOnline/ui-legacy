@@ -1,17 +1,43 @@
 <template>
-  <q-table :loading="isLoading" :rows="data" :columns="settings.columns" v-model:pagination="pagination"
-    @request="onRequest" row-key="id" :visible-columns="settings.visibleColumns" style="min-height: 90vh">
+  <q-table
+    :loading="isLoading"
+    :rows="data"
+    :columns="settings.columns"
+    v-model:pagination="pagination"
+    @request="onRequest"
+    row-key="id"
+    :visible-columns="settings.visibleColumns"
+    style="min-height: 90vh"
+  >
     <template v-slot:top v-if="search === true">
       <div class="col-xs-12 q-pb-md text-h6">Pedidos de venda</div>
       <div class="col-sm-3 col-xs-12 q-pa-md">
-        <q-input stack-label label="Buscar por pedido" debounce="1000" v-model="filters.text" class="full-width" />
+        <q-input
+          stack-label
+          label="Buscar por pedido"
+          debounce="1000"
+          v-model="filters.text"
+          class="full-width"
+        />
       </div>
       <div class="col-sm-3 col-xs-12 q-pa-md">
-        <q-input stack-label label="Buscar por contrato" debounce="1000" v-model="filters.contract" class="full-width" />
+        <q-input
+          stack-label
+          label="Buscar por contrato"
+          debounce="1000"
+          v-model="filters.contract"
+          class="full-width"
+        />
       </div>
       <div class="col-sm-6 col-xs-12 q-pa-md">
-        <q-select stack-label label="Status do pedido" v-model="filters.status" :options="statuses" class="full-width"
-          :loading="loadingStatuses">
+        <q-select
+          stack-label
+          label="Status do pedido"
+          v-model="filters.status"
+          :options="statuses"
+          class="full-width"
+          :loading="loadingStatuses"
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">
@@ -26,28 +52,70 @@
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="id" :props="props">
-          <q-btn outline dense :to="{ name: 'OrderDetails', params: { id: props.cols[0].value } }"
-            :label="`#${props.cols[0].value}`" :style="{ color: props.row.color_status }" class="full-width" />
+          <q-btn
+            outline
+            dense
+            :to="{ name: 'OrderDetails', params: { id: props.cols[0].value } }"
+            :label="`#${props.cols[0].value}`"
+            :style="{ color: props.row.color_status }"
+            class="full-width"
+          />
 
-          <q-icon v-if="props.row.app == 'app' ||
-            props.row.app == 'Cota Fácil' ||
-            props.row.app == 'Gestor'
-            " name="touch_app" color="blue" />
+          <q-icon
+            v-if="
+              props.row.app == 'app' ||
+              props.row.app == 'Cota Fácil' ||
+              props.row.app == 'Gestor'
+            "
+            name="touch_app"
+            color="blue"
+          />
           <q-icon v-else name="electrical_services" color="green" />
 
-          <q-icon v-if="hasSchedule(props.row.other_informations) == true" name="schedule" color="blue" />
-          <q-icon v-if="hasRural(props.row.other_informations) == true" name="agriculture" color="red" />
-          <q-icon v-if="hasDificult(props.row.other_informations) == true" name="fmd_bad" color="red" />
-          <q-icon v-if="hasClosedTasks(props.row.task) == true" name="priority_high" color="green" />
-          <q-icon v-if="hasPendingTasks(props.row.task) == true" name="priority_high" color="yellow" />
-          <q-icon v-if="hasOpenedTasks(props.row.task) == true" name="priority_high" color="red" />
+          <q-icon
+            v-if="hasSchedule(props.row.other_informations) == true"
+            name="schedule"
+            color="blue"
+          />
+          <q-icon
+            v-if="hasRural(props.row.other_informations) == true"
+            name="agriculture"
+            color="red"
+          />
+          <q-icon
+            v-if="hasDificult(props.row.other_informations) == true"
+            name="fmd_bad"
+            color="red"
+          />
+          <q-icon
+            v-if="hasClosedTasks(props.row.task) == true"
+            name="priority_high"
+            color="green"
+          />
+          <q-icon
+            v-if="hasPendingTasks(props.row.task) == true"
+            name="priority_high"
+            color="yellow"
+          />
+          <q-icon
+            v-if="hasOpenedTasks(props.row.task) == true"
+            name="priority_high"
+            color="red"
+          />
         </q-td>
         <q-td key="contrato" :props="props">
-          <q-btn v-if="props.cols[1].value" flat dense :to="{
-            name: 'ContractDetails',
-            params: { id: props.cols[1].value },
-          }" :label="props.cols[1].value || '-'" class="full-width" />
-          <div v-else> - </div>
+          <q-btn
+            v-if="props.cols[1].value"
+            flat
+            dense
+            :to="{
+              name: 'ContractDetails',
+              params: { id: props.cols[1].value },
+            }"
+            :label="props.cols[1].value || '-'"
+            class="full-width"
+          />
+          <div v-else>-</div>
         </q-td>
         <q-td key="notaFiscal" :props="props">{{ props.cols[2].value }}</q-td>
         <q-td key="dataPedido" :props="props">{{ props.cols[3].value }}</q-td>
@@ -55,7 +123,11 @@
         <q-td key="ultimaModificacao" :props="props">{{
           props.cols[5].value
         }}</q-td>
-        <q-td key="status" :props="props" :style="{ color: props.row.color_status }">
+        <q-td
+          key="status"
+          :props="props"
+          :style="{ color: props.row.color_status }"
+        >
           {{ $t(`order.statuses.${props.cols[6].value}`) }}
         </q-td>
         <q-td key="coleta" :props="props">
@@ -68,7 +140,56 @@
           {{ props.cols[9].value }}
         </q-td>
         <q-td key="preco" :props="props">{{ props.cols[10].value }}</q-td>
+
+        <q-td key="acao" :props="props">
+          <q-btn
+            v-if="props.cols[11].value"
+            class="q-btn"
+            color="green"
+            dense
+            @click="dialog = !dialog"
+          >
+            {{ props.cols[11].value }}
+          </q-btn></q-td
+        >
       </q-tr>
+      <!--- pay dialog
+  with select to choose the payment method && installments
+  -->
+      <q-dialog v-model="dialog">
+        <q-card style="width: 700px; max-width: 80vw">
+          <q-card-section class="row items-center">
+            <div class="text-h6">
+              <!-- payment method-->
+              {{ "Escolha a forma de pagamento" }}
+            </div>
+            <q-space />
+            <q-btn icon="close" flat round dense v-close-popup />
+          </q-card-section>
+
+          <q-card-section class="row items-center">
+            <FormPayment
+              :Data="{
+                clientID: props.row.registeredBy
+                  ? props.row.registeredBy.id
+                  : null,
+                email: props.row.fornecedor ? props.row.fornecedor : null,
+                items: [
+                  {
+                    name: 'Geral',
+                    quantity: 1,
+                    sku: '10',
+                    unitOfMeasure: 'unidade',
+                    unitPrice: props.cols[10].value,
+                  },
+                ],
+                value: props.cols[10].value,
+              }"
+              ref="myForm"
+            ></FormPayment>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </template>
   </q-table>
 </template>
@@ -76,6 +197,8 @@
 <script>
 import DataFilter from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/DataFilter.vue";
 import { formatMoney } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
+import { payLio } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
+import FormPayment from "@controleonline/quasar-legacy-ui/quasar-orders-ui/src/components/order/sales/details/FormPayment.vue";
 import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
 
@@ -92,6 +215,7 @@ const SETTINGS = {
     "entrega",
     "transportadora",
     "preco",
+    "acao",
   ],
   columns: [
     {
@@ -193,6 +317,13 @@ const SETTINGS = {
       },
       label: "Preço",
     },
+    {
+      name: "acao",
+      field: "acao",
+      align: "left",
+
+      label: "Ação",
+    },
   ],
 };
 
@@ -201,6 +332,7 @@ Object.freeze(SETTINGS);
 export default {
   components: {
     DataFilter,
+    FormPayment,
   },
   props: {
     client_id: {
@@ -240,6 +372,7 @@ export default {
     ];
 
     return {
+      dialog: false,
       settings: SETTINGS,
       data: [],
       statuses: statuses,
@@ -340,6 +473,7 @@ export default {
               : "",
           transportadora: item.quote !== null ? item.quote.carrier.name : "",
           preco: item.price,
+          acao: item.status.status === "waiting payment" ? "Pagar" : null,
         });
       }
 
@@ -410,7 +544,7 @@ export default {
       this.getStatuses({
         visibility: "public",
         realStatus: ["open", "pending", "closed", "canceled"],
-        context: 'order'
+        context: "order",
       }).then((statuses) => {
         if (statuses.length) {
           for (let index in statuses) {
@@ -430,7 +564,7 @@ export default {
     hasPendingTasks(tasks) {
       let has = false;
       tasks.forEach((task) => {
-        if (task.taskStatus.status == 'pending') {
+        if (task.taskStatus.status == "pending") {
           has = true;
         }
       });
@@ -439,7 +573,7 @@ export default {
     hasOpenedTasks(tasks) {
       let has = false;
       tasks.forEach((task) => {
-        if (task.taskStatus.status == 'open') {
+        if (task.taskStatus.status == "open") {
           has = true;
         }
       });
@@ -448,14 +582,14 @@ export default {
     hasClosedTasks(tasks) {
       let has = false;
       tasks.forEach((task) => {
-        if (task.taskStatus.status == 'closed') {
+        if (task.taskStatus.status == "closed") {
           has = true;
         }
       });
       return has;
     },
     hasSchedule(o_i) {
-      let other_informations = typeof o_i == 'object' ? o_i : (o_i);
+      let other_informations = typeof o_i == "object" ? o_i : o_i;
       let has = false;
       if (
         other_informations &&
@@ -468,26 +602,20 @@ export default {
     },
 
     hasDificult(o_i) {
-      let other_informations = typeof o_i == 'object' ? o_i : (o_i);
+      let other_informations = typeof o_i == "object" ? o_i : o_i;
 
       let has = false;
-      if (
-        other_informations &&
-        other_informations.dificult
-      ) {
+      if (other_informations && other_informations.dificult) {
         has = true;
       }
       return has;
     },
 
     hasRural(o_i) {
-      let other_informations = typeof o_i == 'object' ? o_i : (o_i);
+      let other_informations = typeof o_i == "object" ? o_i : o_i;
 
       let has = false;
-      if (
-        other_informations &&
-        other_informations.rural
-      ) {
+      if (other_informations && other_informations.rural) {
         has = true;
       }
       return has;
@@ -509,12 +637,11 @@ export default {
 
         params["contract"] = this.filters.contract;
       }
-      
 
       if (this.filters.status != null && this.filters.status.value == -1) {
         params["status.realStatus"] =
           this.defaultCompany.configs &&
-            typeof this.defaultCompany.configs.salesOrdersStartRealStatus !=
+          typeof this.defaultCompany.configs.salesOrdersStartRealStatus !=
             "undefined"
             ? JSON.parse(this.defaultCompany.configs.salesOrdersStartRealStatus)
             : ["pending"];

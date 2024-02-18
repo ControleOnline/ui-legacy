@@ -45,10 +45,6 @@ export default {
             type: Object,
             required: true,
         },
-        index: {
-            type: Number,
-            required: false,
-        },
         data: {
             type: Object,
             required: false,
@@ -174,14 +170,10 @@ export default {
         save(params) {
             let p = this.$copyObject(this.filters);
             for (const name in params) {
-                if (this.showFormColumn[name]) {
-                    if (this.listObject[name])
-                        p[name] = this.listObject[name] + '/' + params[name].value;
-                    else
-                        p[name] = this.saveFormat(name, params[name]);
-                } else {
-                    p[name] = null
-                }
+                if (this.listObject[name])
+                    p[name] = this.listObject[name] + '/' + params[name].value;
+                else
+                    p[name] = this.saveFormat(name, params[name]);
             }
             if (this.id)
                 p.id = this.id;
@@ -196,7 +188,7 @@ export default {
                     position: "bottom",
                     type: "positive",
                 });
-                this.$emit("saved", item, this.index);
+                this.$emit("saved", item);
             }).catch((error) => {
                 this.$emit("error", error);
                 this.$q.notify({

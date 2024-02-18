@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md  contracting-page">
+  <div class="q-pa-md bg-white contracting-page">
     <div class="row">
       <div class="text-h5 text-center text-primary">
         Siga os passos para a conclusão

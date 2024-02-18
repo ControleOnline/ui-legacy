@@ -7,7 +7,7 @@
       <q-btn
         icon="arrow_back"
         no-caps
-        class=""
+        class="bg-white"
         round
         color="secondary"
         flat
