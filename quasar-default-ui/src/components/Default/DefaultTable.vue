@@ -919,8 +919,7 @@ export default {
                 if (e > 0 || full)
                     elements = document.querySelectorAll('.fullscreen .q-table__middle');
                 else
-                    elements = this.$el.querySelectorAll('.default-table .q-table__middle');
-                //elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
+                    elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
 
                 // if (elements.length == 0) {
                 //     elements = this.$el.querySelectorAll('.default-table .q-table__middle');
