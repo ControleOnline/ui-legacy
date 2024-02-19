@@ -1258,15 +1258,30 @@ export default {
     white-space: pre-line;
 }
 */
-.default-table .q-table__middle.scroll::-webkit-scrollbar-track {
-    background: var(--scrollbar-track);
-}
+.body--light {
+    .default-table .q-table__middle.scroll::-webkit-scrollbar-track {
+        background: var(--scrollbar-track-light);
+    }
 
-.default-table .q-table__middle.scroll::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-}
+    .default-table .q-table__middle.scroll::-webkit-scrollbar-thumb {
+        background: var(--scrollbar-thumb-light);
+    }
 
-.default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb-hover);
+    .default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
+        background: var(--scrollbar-thumb-hover-light);
+    }
+}
+.body--dark {
+    .default-table .q-table__middle.scroll::-webkit-scrollbar-track {
+        background: var(--scrollbar-track-dark);
+    }
+
+    .default-table .q-table__middle.scroll::-webkit-scrollbar-thumb {
+        background: var(--scrollbar-thumb-dark);
+    }
+
+    .default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
+        background: var(--scrollbar-thumb-hover-dark);
+    }
 }
 </style>
