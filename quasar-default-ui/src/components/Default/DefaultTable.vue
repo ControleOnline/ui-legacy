@@ -1271,6 +1271,7 @@ export default {
         background: var(--scrollbar-thumb-hover-light);
     }
 }
+
 .body--dark {
     .default-table .q-table__middle.scroll::-webkit-scrollbar-track {
         background: var(--scrollbar-track-dark);
@@ -1283,5 +1284,59 @@ export default {
     .default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
         background: var(--scrollbar-thumb-hover-dark);
     }
+}
+
+
+
+
+/*
+.default-table .table-toolbar .q-space {
+  background: #fff;
+}
+*/
+.default-table .q-table--grid.fullscreen {
+    background: #fff;
+}
+
+.default-table .dragging-column {
+    border-left: 2px solid #babaca;
+    border-right: 2px solid #babaca;
+}
+
+.default-table .header-filter-container {
+    background: #fff;
+}
+
+.default-table .q-table__grid-content {
+    background: #fff;
+}
+
+.default-table .q-table__grid-content .q-card__section:nth-child(1) {
+    background: var(--primary);
+    color: #fff;
+}
+
+.default-table .q-table__grid-content .q-list .q-item {
+    border-bottom: 1px #e0e0e0 solid;
+}
+
+.default-table .header-filter-container {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.default-table .q-table__bottom {
+    background-color: #fff;
+}
+
+.default-table .selected-card {
+    background: #f1f1f1;
+}
+
+.default-table .q-table__grid-content .q-card__section:nth-child(1) {
+    background: var(--primary);
+}
+
+.default-table.full-height .q-table__bottom {
+    background-color: #fff;
 }
 </style>
