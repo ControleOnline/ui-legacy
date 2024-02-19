@@ -1255,4 +1255,18 @@ export default {
     white-space: pre-line;
 }
 */
+
+    
+
+.default-table .q-table__middle.scroll::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+.default-table .q-table__middle.scroll::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+}
+
+.default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
 </style>
