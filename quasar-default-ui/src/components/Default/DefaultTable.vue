@@ -29,8 +29,9 @@
                         </q-btn>
                         <template v-else-if="editingInit(items.indexOf(props.row), column) != true">
 
-                            <span
-                                @mouseenter="showEdit[items.indexOf(props.row)] = column.editable == false ? false : { [column.key || column.name]: true }"
+                            <span @mouseenter="
+                                showEdit[items.indexOf(props.row)] = column.editable == false ? false : { [column.key || column.name]: true }
+                                "
                                 @mouseleave="showEdit[items.indexOf(props.row)] = { [column.key || column.name]: false }"
                                 @click="startEditing(items.indexOf(props.row), column,
                                     props.row,
@@ -89,7 +90,9 @@
                             { 'dragging-column': isDraggingCollumn[index] },
                             { 'hidden': !shouldIncludeColumn(column) }
                         ]" v-for="(column, index)  in columns" @click="sortTable(column.key || column.name)"
-                        class="header-column" @mouseover="setShowInput(column.key || column.name)">
+                        class="header-column" @mousedisabled="
+                            setShowInput(column.key || column.name)
+                            ">
 
                         <div v-if="this.configs.filters && column.filter != false" @click="stopPropagation">
                             <q-menu transition-show="flip-right" transition-hide="flip-left"
@@ -1255,9 +1258,6 @@ export default {
     white-space: pre-line;
 }
 */
-
-    
-
 .default-table .q-table__middle.scroll::-webkit-scrollbar-track {
     background: var(--scrollbar-track);
 }
