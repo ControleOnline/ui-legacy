@@ -1,7 +1,6 @@
 .default-table {
     width: 100%;
     overflow-x: auto;
-    max-width: var(--zoom-width);
 }
 
 .default-table thead tr {
@@ -79,7 +78,8 @@
 }
 
 .default-table.fullscreen {
-    max-height: var(--zoom-height);
+    max-height: calc(var(--zoom-height) +1);
+    max-width: calc(var(--zoom-width) +1);
 }
 
 .default-table .no-drag {
