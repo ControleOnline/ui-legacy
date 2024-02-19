@@ -919,31 +919,33 @@ export default {
                 if (e > 0 || full)
                     elements = document.querySelectorAll('.fullscreen .q-table__middle');
                 else
-                    elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
-
-                if (elements.length == 0) {
                     elements = this.$el.querySelectorAll('.default-table .q-table__middle');
-                    elements.forEach(element => {
-                        if (element) {
-                            element.style.height = '';
-                        }
-                    });
-                }
-                else
-                    elements.forEach(element => {
-                        if (element) {
-                            let position = 30;
-                            let elementTop = element.getBoundingClientRect().top || 0
-                            let screenHeight = (window.innerHeight
-                                * (100 / ((process.env.zoom || 0.70) * 100))
-                            ) - (elementTop);
-                            element.style.height = `calc(${screenHeight}px - ${position}px)`;
-                        }
-                    });
+                //elements = this.$el.querySelectorAll('.default-table.full-height .q-table__middle');
+
+                // if (elements.length == 0) {
+                //     elements = this.$el.querySelectorAll('.default-table .q-table__middle');
+                //     elements.forEach(element => {
+                //         if (element) {
+                //             element.style.height = '';
+                //         }
+                //     });
+                // }
+                // else
+                elements.forEach(element => {
+                    if (element) {
+                        let position = 30;
+                        let elementTop = element.getBoundingClientRect().top || 0
+                        let screenHeight = (window.innerHeight
+                            * (100 / ((0.85) * 100))
+                        ) - (elementTop);
+                        element.style.height = `calc(${screenHeight}px - ${position}px)`;
+                    }
+                });
             }, 500);
         },
 
         loadData(props) {
+            this.adjustElementHeight();
             if (this.isLoading) return;
             if (props) {
                 this.pagination = props.pagination;
