@@ -1,0 +1,33 @@
+.default-table .q-table--grid.fullscreen {
+    background: #fff;
+}
+
+.default-table .dragging-column {
+    border-left: 2px solid #babaca;
+    border-right: 2px solid #babaca;
+}
+
+.default-table .q-table__grid-content {
+    background: #fff;
+}
+
+.default-table .q-table__grid-content .q-card__section:nth-child(1) {
+    background: var(--primary);
+    color: #fff;
+}
+
+.default-table .q-table__grid-content .q-list .q-item {
+    border-bottom: 1px #e0e0e0 solid;
+}
+
+.default-table .q-table__bottom {
+    background-color: #fff;
+}
+
+.default-table .selected-card {
+    background: #f1f1f1;
+}
+
+.default-table .q-table__grid-content .q-card__section:nth-child(1) {
+    background: var(--primary);
+}

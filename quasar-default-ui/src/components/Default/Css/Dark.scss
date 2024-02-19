@@ -1,0 +1,16 @@
+.body--dark .default-table.full-height .q-table__bottom {
+    background-color: #000;
+    color: #fff;
+}
+
+.body--dark .default-table .q-table__middle.scroll::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-dark);
+}
+
+.body--dark .default-table .q-table__middle.scroll::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-dark);
+}
+
+.body--dark .default-table .q-table__middle.scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-dark);
+}
