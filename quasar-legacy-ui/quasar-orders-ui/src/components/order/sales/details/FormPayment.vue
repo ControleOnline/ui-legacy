@@ -118,7 +118,10 @@ export default {
       //redirect to lio
       console.log("data:", data);
       const cieloUrl = `lio://payment?request=${base64data}&urlCallback=order://response`;
-      if (window.cordova && window.cordova.InAppBrowser) {
+      const $q = useQuasar();
+      if ($q.platform.is.mobile) {
+        window.open(cieloUrl, "_system");
+      } else if (window.cordova && window.cordova.InAppBrowser) {
         window.cordova.InAppBrowser.open(cieloUrl, "_system");
       } else {
         console.error("Cordova InAppBrowser plugin not available.");
