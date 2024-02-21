@@ -78,8 +78,8 @@
 }
 
 .default-table.fullscreen {
-    max-height: calc(var(--zoom-height) + 1);
-    max-width: calc(var(--zoom-width) + 1);
+    max-height: calc(var(--zoom-height));
+    max-width: calc(var(--zoom-width));
 }
 
 .default-table .no-drag {
