@@ -11,7 +11,7 @@
         }}</q-tooltip>
         <q-badge color="negative" v-if="countFilters > 0" floating>{{ countFilters }}</q-badge>
     </q-btn>
-    <q-btn class="q-pa-xs btn-primary" dense icon-right="filter_alt_off" 
+    <q-btn class="q-pa-xs btn-primary" dense icon-right="filter_alt_off"
         @click="() => { clearFilters(); openFilters = false; }">
         <q-tooltip> {{ $translate(configs.store, 'clear', 'tooltip') }} </q-tooltip>
     </q-btn>
@@ -27,28 +27,31 @@
             </q-card-section>
             <q-card-section class="row items-center no-wrap">
                 <div class="row col-12">
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 q-py-sm" v-for="(column, index)  in filteredColumns">
-                        <FilterInputs v-if="column.filter != false" :prefix="column.prefix" :sufix="column.sufix"
-                            :column='column' :configs='configs' @loadData="sendFilter" />
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 q-py-sm"
-                        v-for="(customFilter, index)  in tableFilterComponent">
-                        <component :componentProps="customFilter.props" :is="customFilter.component"
-                            :prefix="customFilter.prefix" :sufix="customFilter.sufix" :key="key" :labelType="'upper'"
-                            :configs="configs" @loadData="sendFilter" />
-                    </div>
+                    <template v-for="(column, index)  in filteredColumns">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 q-py-sm" v-if="column.filter != false">
+                            <FilterInputs :prefix="column.prefix" :sufix="column.sufix" :column='column' :configs='configs'
+                                @loadData="sendFilter" />
+                        </div>
+                    </template>
+                    <template v-for="(customFilter, index)  in tableFilterComponent">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 q-py-sm">
+                            <component :componentProps="customFilter.props" :is="customFilter.component"
+                                :prefix="customFilter.prefix" :sufix="customFilter.sufix" :key="key" :labelType="'upper'"
+                                :configs="configs" @loadData="sendFilter" />
+                        </div>
+                    </template>
                 </div>
             </q-card-section>
             <q-card-section class="row q-pa-md">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 q-py-sm">
-                    <q-btn class="float-right q-pa-sm btn-primary" dense icon-right="filter_alt_off" 
+                    <q-btn class="float-right q-pa-sm btn-primary" dense icon-right="filter_alt_off"
                         @click="() => { clearFilters(); openFilters = false; }">
                         <q-tooltip> {{
                             $translate(configs.store, 'clear', 'title')
                         }} </q-tooltip>
                     </q-btn>
-                    <q-btn class="float-right q-pa-sm q-mr-md btn-primary" style="width:calc(100% - 56px)" 
-                        :label="$translate(configs.store, 'filter', 'btn')" dense  icon-right="search" @click="() => {
+                    <q-btn class="float-right q-pa-sm q-mr-md btn-primary" style="width:calc(100% - 56px)"
+                        :label="$translate(configs.store, 'filter', 'btn')" dense icon-right="search" @click="() => {
                             applyFilters(filters);
                             sendFilter();
                             openFilters = false;
