@@ -508,7 +508,7 @@ import CustomerCompany from "@controleonline/quasar-legacy-ui/quasar-people-ui/s
 import CustomerContracts from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/Contracts.vue";
 import CustomerSalesman from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/Salesman.vue";
 import CustomerSummary from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/Summary.vue";
-import OrderTasks from "@controleonline/quasar-legacy-ui/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 import { mapGetters } from "vuex";
 import { ENTRYPOINT } from "src/config/entrypoint";
 import CarrierIntegration from "../../components/carrier/CarrierIntegration";

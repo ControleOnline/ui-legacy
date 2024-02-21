@@ -413,7 +413,7 @@ import {
   formatDateYmdTodmY,
   formatMoney,
 } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
-import OrderTasks from "@controleonline/quasar-legacy-ui/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 import OrderDetailDACTE from "./details/OrderDetailDACTE";
 import OrderDetailInvoice from "./details/OrderDetailInvoice";
 import StretchTable from "@controleonline/quasar-logistic-ui/src/components/Logistic";

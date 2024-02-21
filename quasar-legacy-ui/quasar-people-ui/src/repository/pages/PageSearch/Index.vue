@@ -201,7 +201,7 @@
 </template>
 
 <script>
-import TasksSearching from "@controleonline/quasar-legacy-ui/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 import { date } from "quasar";
 import { mapGetters } from "vuex";
 import TableAllPeoples from "./components/TableAllPeoples.vue";

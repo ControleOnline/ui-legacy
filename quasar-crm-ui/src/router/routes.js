@@ -6,12 +6,12 @@ export const routes = [
       {
         name: 'CustomerServices',
         path: '',
-        component: () =>  import ('../pages/CRM/Index')
+        component: () =>  import ('../pages/CRM')
       },
       {
         name: 'RelationshipDetails',
         path: 'id/:id',
-        component: () =>  import ('../pages/CRM/Details.vue')
+        component: () =>  import ('../pages/CRM/details.vue')
       }
     ]
   }

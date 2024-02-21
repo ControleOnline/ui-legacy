@@ -5,7 +5,7 @@ diretorios=(
     "quasar-legacy-ui/quasar-config-ui"
     "quasar-legacy-ui/quasar-contracts-ui"
     "quasar-legacy-ui/quasar-coupon-ui"
-    "quasar-legacy-ui/quasar-crm-ui"
+    "quasar-crm-ui"
     "quasar-legacy-ui/quasar-customers-ui"
     "quasar-legacy-ui/quasar-dashboard-ui"
     "quasar-legacy-ui/quasar-delivery-ui"
@@ -25,7 +25,7 @@ diretorios=(
     "quasar-logistic-ui"
     "quasar-shop-ui"
     "quasar-legacy-ui/quasar-support-ui"
-    "quasar-legacy-ui/quasar-tasks-ui"
+    "quasar-tasks-ui"
     "quasar-legacy-ui/quasar-users-ui"
 )
 

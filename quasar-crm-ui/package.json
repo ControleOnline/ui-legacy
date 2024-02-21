@@ -1,6 +1,6 @@
 {
-  "name": "@controleonline/quasar-legacy-ui/quasar-crm-ui",
-  "version": "1.0.25",
+  "name": "@controleonline/quasar-crm-ui",
+  "version": "1.0.26",
   "author": "ControleOnline",
   "description": "ControleOnline CRM Quasar UI Component",
   "license": "MIT",

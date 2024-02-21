@@ -7,12 +7,12 @@ export const routes = [
       {
         name: "SupportIndex",
         path: "",
-        component: () => import("../pages/Tasks/Index.vue"),
+        component: () => import("../pages/Tasks"),
       },
       {
         name: "SupportDetails",
         path: "id/:id",
-        component: () => import("../pages/Tasks/Details.vue"),
+        component: () => import("../pages/Tasks/details.vue"),
       },
     ],
   }

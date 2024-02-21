@@ -1,16 +1,21 @@
 <template>
     <DefaultTable :configs="configs" v-if="configs" />
+
 </template>
 <script>
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
 import { mapActions, mapGetters } from "vuex";
 import Status from "@controleonline/quasar-common-ui/src/components/Status/Button";
 import OtherInformations from "./OtherInformations/Button";
+import FormPayment from "@controleonline/quasar-orders-ui/src/components/Cielo/FormPayment.vue";
+
+
 export default {
     components: {
         DefaultTable,
         Status,
-        OtherInformations
+        OtherInformations,
+        FormPayment
     },
     props: {
         context: {
@@ -47,6 +52,7 @@ export default {
                 components: {
                     tableActions: {
                         //component: OtherInformations,
+                        component: FormPayment,
                         props: {
                             context: this.context
                         }

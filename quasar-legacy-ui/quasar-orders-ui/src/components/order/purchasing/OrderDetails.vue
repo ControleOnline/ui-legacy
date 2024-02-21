@@ -264,7 +264,7 @@
 
 <script>
 import { formatMoney } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
-import OrderTasks from "@controleonline/quasar-legacy-ui/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
 import OrderDetailDACTE from "./details/OrderDetailDACTE";

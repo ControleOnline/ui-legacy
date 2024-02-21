@@ -349,11 +349,11 @@ Tasks
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import OrderTasks from "@controleonline/quasar-legacy-ui/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 
 import PersonAvatar from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/PersonAvatar";
 import PeopleOrders from "@controleonline/quasar-legacy-ui/quasar-orders-ui/src/components/order/sales/OrderSearching.vue";
-import TasksSearching from "@controleonline/quasar-legacy-ui/quasar-tasks-ui/src/components/Tasks/TasksSearchingAll";
+import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 import { mapGetters } from "vuex";
 import { ENTRYPOINT } from "src/config/entrypoint";
 import PeopleAdminAddresses from "../../components/AdminAddresses.vue";
