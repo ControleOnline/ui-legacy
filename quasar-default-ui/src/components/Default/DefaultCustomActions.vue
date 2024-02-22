@@ -23,7 +23,6 @@
 
 <script>
 export default {
-  name: 'DefaultCustomActionsComponent',
   emits: ['loadData'],
   props: {
     componentProps: Object,
