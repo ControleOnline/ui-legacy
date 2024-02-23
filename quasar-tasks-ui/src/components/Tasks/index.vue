@@ -14,6 +14,10 @@ export default {
         context: {
             required: true
         },
+        store: {
+            required: true,
+            default: 'tasks'
+        }
     },
     computed: {
         ...mapGetters({
@@ -28,7 +32,7 @@ export default {
             return {
                 companyParam: 'provider_id',
                 filters: true,
-                store: 'tasks',
+                store: this.store,
                 add: true,
                 delete: false,
                 selection: false,

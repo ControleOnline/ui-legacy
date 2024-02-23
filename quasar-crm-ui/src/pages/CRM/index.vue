@@ -1,5 +1,5 @@
 <template>
-  <Tasks :context="context" />
+  <Tasks :context="context" store="crm" />
 </template>
 
 <script>
