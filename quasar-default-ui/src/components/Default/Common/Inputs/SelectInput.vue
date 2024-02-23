@@ -1,5 +1,5 @@
 <template>
-    <q-select outlined dense  :stack-label="labelType" lazy-rules use-input :use-chips="multiple == true" map-options
+    <q-select outlined dense :stack-label="labelType" lazy-rules use-input :use-chips="multiple == true" map-options
         options-cover transition-show="flip-down" transition-hide="flip-up" @filter="searchList" :options="options"
         label-color="black" input-debounce="700" :loading="isLoadingList" :multiple="multiple == true"
         :label="labelType != 'stack-label' ? '' : $translate(store, label, 'input')" v-model="data"
@@ -44,7 +44,7 @@ export default {
         initialValue: {
             type: Object,
             required: false,
-            default: null
+            default: []
         },
         searchParam: {
             type: String,
@@ -67,12 +67,12 @@ export default {
     },
     data() {
         return {
-            data: null,
+            data: [],
             options: [],
         }
     },
     created() {
-        this.data = this.initialValue;                
+        this.data = this.$copyObject(this.initialValue);
     },
     watch: {
         data: {
@@ -88,18 +88,27 @@ export default {
             if (input.length > 0) params[this.searchParam] = input;
             if (typeof this.searchAction == "string") {
                 this.$store.commit(this.store + "/SET_ISLOADINGLIST", true);
-                this.$store.dispatch(this.searchAction, params)
-                    .then((result) => {
-                        this.options = [];
-                        this.options.push(null);
-                        result.forEach((item) => {
-                            this.options.push(this.formatOptions(item));
-                        });
-                        update();
-                    })
-                    .finally(() => {
-                        this.$store.commit(this.store + "/SET_ISLOADINGLIST", false);
+                this.options = [];
+                if (this.$store.getters[this.searchAction]) {
+                    this.$store.getters[this.searchAction].forEach((item) => {
+                        this.options.push(this.formatOptions(item));
                     });
+                    update();
+                    this.$store.commit(this.store + "/SET_ISLOADINGLIST", false);
+                } else {
+                    this.$store.dispatch(this.searchAction, params)
+                        .then((result) => {
+                            this.options.push(null);
+                            result.forEach((item) => {
+                                this.options.push(this.formatOptions(item));
+                            });
+                            update();
+                        })
+                        .finally(() => {
+                            this.$store.commit(this.store + "/SET_ISLOADINGLIST", false);
+                        });
+                }
+
             } else {
                 this.options = this.searchAction
                     .filter((item) => {
