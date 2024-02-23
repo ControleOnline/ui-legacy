@@ -1,4 +1,3 @@
-export const jsLoader = {
 
   url : (url) => {
     return new Promise((resolve, reject) => {

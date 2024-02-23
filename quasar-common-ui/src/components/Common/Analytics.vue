@@ -1,6 +1,6 @@
 <script>
 import { BrowserAgent } from '@newrelic/browser-agent/src/loaders/browser-agent';
-import Analytics from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/analytics";
+import Analytics from "@controleonline/quasar-common-ui/src/utils/analytics";
 
 import { mapActions, mapGetters } from "vuex";
 

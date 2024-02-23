@@ -21,7 +21,7 @@ export default {
     let mediaQueryObj = window.matchMedia("(prefers-color-scheme: dark)");
     let isDarkMode = mediaQueryObj.matches;
     let darkMode = this.config.getConfig("darkMode");
-    this.darkMode = false;//darkMode == undefined ? isDarkMode : darkMode;
+    this.darkMode = darkMode == undefined ? isDarkMode : darkMode;
   },
 
   watch: {

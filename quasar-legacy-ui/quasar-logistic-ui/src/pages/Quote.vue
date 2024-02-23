@@ -77,7 +77,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import Analytics from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/analytics";
+import Analytics from "@controleonline/quasar-common-ui/src/utils/analytics";
 import LoginPage from "@controleonline/quasar-legacy-ui/quasar-login-ui/src/components/user/login/Index.vue";
 import SignUpPage from "@controleonline/quasar-legacy-ui/quasar-login-ui/src/components/user/signup/Index";
 
