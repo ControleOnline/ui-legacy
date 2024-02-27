@@ -9,7 +9,7 @@
           v-model="product"
           :label="$t('contracts.product')"
           :options="products"
-          :loading="isloadingProds"
+          :loading="isLoadingProds"
           @update:model-value="price = (parseFloat(product.price) + 0.001).toFixed(2)"
           :rules="[(val) => val !== null || $t('messages.select_an_option')]"
         >
@@ -66,7 +66,7 @@
               (val !== null && product !== null && product.type == 'Registration') ||
               'Selecione um pagador',
           ]"
-          :loading="isloadingPayers"
+          :loading="isLoadingPayers"
         />
       </div>
     </div>
@@ -110,9 +110,9 @@ export default {
       quantity: null,
       payer: null,
       products: [],
-      isloadingProds: false,
+      isLoadingProds: false,
       payers: [],
-      isloadingPayers: false,
+      isLoadingPayers: false,
     };
   },
 
@@ -151,9 +151,9 @@ export default {
     },
 
     loadingProducts() {
-      if (this.isloadingProds) return;
+      if (this.isLoadingProds) return;
 
-      this.isloadingProds = true;
+      this.isLoadingProds = true;
 
       this.Api.Products.GetAll()
         .then((products) => {
@@ -174,14 +174,14 @@ export default {
         })
         .catch((error) => {})
         .finally(() => {
-          this.isloadingProds = false;
+          this.isLoadingProds = false;
         });
     },
 
     loadPayers() {
-      if (this.isloadingPayers) return;
+      if (this.isLoadingPayers) return;
 
-      this.isloadingPayers = true;
+      this.isLoadingPayers = true;
 
       this.Api.Contracts.GetParticipants({
         query: {
@@ -204,7 +204,7 @@ export default {
           this.payers = payers;
         })
         .finally(() => {
-          this.isloadingPayers = false;
+          this.isLoadingPayers = false;
         });
     },
   },

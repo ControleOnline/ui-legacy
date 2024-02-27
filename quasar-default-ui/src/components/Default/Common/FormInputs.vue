@@ -96,7 +96,7 @@ export default {
         },
     },
     computed: {
-        isloading() {
+        isLoading() {
             return this.$store.getters[this.store + '/isLoading']
         },
         isLoadingList() {

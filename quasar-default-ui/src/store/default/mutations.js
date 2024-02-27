@@ -52,7 +52,9 @@ export default {
   [types.SET_SELECTED](state, selected) {
     Object.assign(state, { selected });
   },
-
+  [types.SET_RELOAD](state, reload) {
+    Object.assign(state, { reload });
+  },
   [types.SET_VISIBLECOLUMNS](state, visibleColumns) {
     const persistentFilter = new Filters(this.$router.currentRoute.value.name, state.resourceEndpoint);
     persistentFilter.setVisibleColumns(visibleColumns);

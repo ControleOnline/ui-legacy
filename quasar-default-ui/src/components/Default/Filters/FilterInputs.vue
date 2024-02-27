@@ -56,7 +56,7 @@ export default {
         }
     },
     computed: {
-        isloading() {
+        isLoading() {
             return this.$store.getters[this.configs.store + '/isLoading']
         },
         isLoadingList() {

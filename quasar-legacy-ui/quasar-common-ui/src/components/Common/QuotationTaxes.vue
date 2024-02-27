@@ -38,7 +38,7 @@
         v-model="newTax"
         label="Taxa"
         :options="deliveryTaxes"
-        :loading="isloadingTaxes"
+        :loading="isLoadingTaxes"
         @update:model-value="onSelect"
       >
       </q-select>
@@ -58,7 +58,7 @@
         mask="#,##"
         fill-mask="0"
         placeholder="Digite um valor"
-        :loading="isloadingTaxes"
+        :loading="isLoadingTaxes"
       />
 
       <q-checkbox
@@ -116,7 +116,7 @@ export default {
       showValues: false,
       showTaxes: false,
       quoteTaxes: this.quote.taxes,
-      isloadingTaxes: false,
+      isLoadingTaxes: false,
       deliveryTaxes: [],
       newTax: null,
     };
@@ -169,9 +169,9 @@ export default {
     },
 
     loadDeliveryTaxes() {
-      if (this.isloadingTaxes) return;
+      if (this.isLoadingTaxes) return;
 
-      this.isloadingTaxes = true;
+      this.isLoadingTaxes = true;
 
       this.getDeliveryTaxes()
         .then((taxes) => {
@@ -187,7 +187,7 @@ export default {
           }
         })
         .finally(() => {
-          this.isloadingTaxes = false;
+          this.isLoadingTaxes = false;
         });
     },
 

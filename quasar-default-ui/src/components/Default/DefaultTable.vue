@@ -3,7 +3,7 @@
         <div class="q-gutter-sm" v-if="$q.screen.gt.sm && this.configs.filters">
             <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
         </div>
-        <q-table :grid="isTableView" class="default-table" dense :rows="items" :loading="isloading"
+        <q-table :grid="isTableView" class="default-table" dense :rows="items" :loading="isLoading"
             :row-key="columns[0].name" v-model:pagination="pagination" @request="loadData"
             :rows-per-page-options="rowsOptions" :key="tableKey" binary-state-sort>
             <template v-slot:body="props">
@@ -486,7 +486,7 @@ export default {
         columns() {
             return this.$store.getters[this.configs.store + '/columns']
         },
-        isloading() {
+        isLoading() {
             return this.$store.getters[this.configs.store + '/isLoading']
         },
         isSaving() {
@@ -503,6 +503,9 @@ export default {
         },
         isLoadingList() {
             return this.$store.getters[this.configs.store + '/isLoadingList']
+        },
+        reload() {
+            return this.$store.getters[this.configs.store + '/reload']
         }
     },
     watch: {
@@ -514,6 +517,12 @@ export default {
                 }
             },
             deep: true,
+        },
+        reload(reload) {
+            if (reload == true) {
+                this.$store.commit(this.configs.store + '/SET_RELOAD', false);
+                this.loadData();
+            }
         },
         filters: {
             handler: function () {
@@ -983,6 +992,7 @@ export default {
                 this.items = [];
             }).finally(() => {
                 this.adjustElementHeight();
+                this.$store.commit(this.configs.store + '/SET_RELOAD', false);
             })
         },
     },
