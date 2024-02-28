@@ -271,6 +271,7 @@ export default {
         this.companies.forEach((company) => {
           user_disabled = !company.user.enabled;
           if (company.enabled && company.user.employee_enabled && !user_disabled) {
+            this.$store.dispatch("people/setCurrentCompany", company);
             disabled = false;
           }
           company.permission.forEach((item) => {
