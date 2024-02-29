@@ -534,10 +534,9 @@ export default {
         },
         selectedRows: {
             handler: function (selectedRows) {
-                this.$store.commit(this.configs.store + '/SET_SELECTED', this.$copyObject(selectedRows));
-                const selected = this.items.filter((objeto, indice) => selectedRows[indice]);
-                this.selectedItems = selected;
-                this.$emit('selected', this.$copyObject(selected));
+                this.selectedItems = this.items.filter((objeto, indice) => selectedRows[indice]);
+                this.$store.commit(this.configs.store + '/SET_SELECTED', this.$copyObject(this.selectedItems));
+                this.$emit('selected', this.$copyObject(this.selectedItems));
             },
             deep: true,
         },
