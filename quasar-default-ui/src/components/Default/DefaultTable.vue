@@ -462,6 +462,7 @@ export default {
     },
 
     created() {
+        this.$store.commit(this.configs.store + '/SET_ISLOADING', false);
         this.removeHiddenColumns();
     },
     mounted() {
