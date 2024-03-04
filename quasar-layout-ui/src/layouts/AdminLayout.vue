@@ -100,7 +100,7 @@
         <div class="q-pt-md q-px-sm column">
           <q-list padding>
             <q-item v-if="isSimple() == false" v-ripple clickable class="GNL__drawer-item"
-              @click="leftDrawerOpen != leftDrawerOpen" :to="{ name: 'DashboardIndex' }">
+              @click="leftDrawerOpen != leftDrawerOpen" :to="{ name: 'HomeIndex' }">
               <q-item-section avatar>
                 <q-icon name="home" />
               </q-item-section>
@@ -146,8 +146,8 @@
 </template>
 
 <script>
-import Menu from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/Menu";
-import MyCompanies from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/MyCompanies";
+import Menu from "@controleonline/quasar-common-ui/src/components/Common/Menu";
+import MyCompanies from "@controleonline/quasar-common-ui/src/components/Common/MyCompanies";
 import Notifications from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/Notifications.vue";
 import DarkMode from "@controleonline/quasar-layout-ui/src/components/DarkMode/darkModeToggle.vue";
 import Language from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Language/languageToogle.vue";
@@ -235,9 +235,8 @@ export default {
     ...mapActions({
       getCompanies: 'people/myCompanies',
     }),
-    onClickmenu(item) {
+    onClickmenu() {
       this.leftDrawerOpen = !this.leftDrawerOpen;
-      this.$router.push({ name: item.route });
     },
     onScroll(info) {
       if (info.position > 0) this.leftDrawerOpen = false;
@@ -271,7 +270,8 @@ export default {
         this.companies.forEach((company) => {
           user_disabled = !company.user.enabled;
           if (company.enabled && company.user.employee_enabled && !user_disabled) {
-            this.$store.dispatch("people/setCurrentCompany", company);
+            if (!this.myCompany)
+              this.$store.dispatch("people/currentCompany", company);
             disabled = false;
           }
           company.permission.forEach((item) => {

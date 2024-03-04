@@ -90,11 +90,13 @@ export default {
           });
 
           this.menu = modules;
+          this.$store.commit('theme/SET_MENUS', this.menu);
         });
     },
 
     click(route) {
       this.$emit("clickmenu", route);
+      this.$router.push({ name: route.route });
     },
   },
 };
