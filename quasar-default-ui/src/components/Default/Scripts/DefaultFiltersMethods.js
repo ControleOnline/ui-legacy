@@ -37,7 +37,7 @@ export function loadPersistentFilters() {
 export function applyVisibleColumns(visibleColumns) {
   let f = this.$copyObject(visibleColumns);
   let pf = this.$copyObject(this.visibleColumns);
-  if (f != pf)
+  if (JSON.stringify(f) != JSON.stringify(pf))
     this.$store.commit(this.configs.store + "/SET_VISIBLECOLUMNS", f);
 }
 

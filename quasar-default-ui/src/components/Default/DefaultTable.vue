@@ -554,17 +554,18 @@ export default {
             deep: true,
         },
         selectedRows: {
-            handler: function (selectedRows) {
-                this.selectedItems = this.items.filter((objeto, indice) => selectedRows[indice]);
-                this.$store.commit(this.configs.store + '/SET_SELECTED', this.$copyObject(this.selectedItems));
-                this.$emit('selected', this.$copyObject(this.selectedItems));
+            handler: function (selectedRows, oldSelectedRows) {
+                if (JSON.stringify(selectedRows) != JSON.stringify(oldSelectedRows)) {
+                    this.selectedItems = this.items.filter((objeto, indice) => selectedRows[indice]);
+                    this.$store.commit(this.configs.store + '/SET_SELECTED', this.$copyObject(this.selectedItems));
+                    this.$emit('selected', this.$copyObject(this.selectedItems));
+                }
             },
             deep: true,
         },
         selected: {
             handler: function () {
-                if (this.$copyObject(this.selectedRows) != this.$copyObject(this.selected))
-                    this.selectedRows = this.$copyObject(this.selected);
+                this.discoverySelected();
             },
             deep: true,
         },
@@ -575,6 +576,17 @@ export default {
             if (typeof column.style == 'function')
                 return column.style(row);
             return '';
+        },
+        discoverySelected() {
+            let selectedRows = [];
+            this.items.forEach((element, index) => {
+                selectedRows[index] = false;
+                this.selected.forEach((e) => {
+                    if (JSON.stringify(e) == JSON.stringify(element))
+                        selectedRows[index] = true;
+                });
+            });
+            this.selectedRows = selectedRows;
         },
         toggleView() {
             this.isTableView = !this.isTableView;
@@ -1016,7 +1028,7 @@ export default {
                     }
                 });
                 this.items = data;
-                this.selectedRows = this.$copyObject(this.selected) || structuredClone(new Array(data.length).fill(false));
+                this.discoverySelected();
 
             }).catch(() => {
                 this.items = [];
