@@ -524,6 +524,9 @@ export default {
         },
         reload() {
             return this.$store.getters[this.configs.store + '/reload']
+        },
+        selected() {
+            return this.$store.getters[this.configs.store + '/selected']
         }
     },
     watch: {
@@ -555,6 +558,13 @@ export default {
                 this.selectedItems = this.items.filter((objeto, indice) => selectedRows[indice]);
                 this.$store.commit(this.configs.store + '/SET_SELECTED', this.$copyObject(this.selectedItems));
                 this.$emit('selected', this.$copyObject(this.selectedItems));
+            },
+            deep: true,
+        },
+        selected: {
+            handler: function () {
+                if (this.$copyObject(this.selectedRows) != this.$copyObject(this.selected))
+                    this.selectedRows = this.$copyObject(this.selected);
             },
             deep: true,
         },
@@ -1006,7 +1016,7 @@ export default {
                     }
                 });
                 this.items = data;
-                this.selectedRows = structuredClone(new Array(data.length).fill(false));
+                this.selectedRows = this.$copyObject(this.selected) || structuredClone(new Array(data.length).fill(false));
 
             }).catch(() => {
                 this.items = [];
