@@ -155,14 +155,14 @@ export function getNameFromList(column, row, editing) {
         i &&
         i.value &&
         i.value.toString().trim() ==
-          (row[column.key || column.name] instanceof Object &&
+        (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-            ? row[column.key || column.name]["@id"]
-                .split("/")
-                .pop()
-                .toString()
-                .trim()
-            : row[column.key || column.name]
+          ? row[column.key || column.name]["@id"]
+            .split("/")
+            .pop()
+            .toString()
+            .trim()
+          : row[column.key || column.name]
             ? row[column.key || column.name].toString().trim()
             : null)
       );
@@ -195,6 +195,13 @@ export function formatList(column, value) {
     return column.formatList(value, column);
 
   return value;
+}
+
+export function selectionDisabled(row, configs) {
+  let disabled = null;
+  if (configs.selectionDisabled && typeof configs.selectionDisabled instanceof Function)
+    disabled = configs.selectionDisabled(row);
+  return disabled || null;
 }
 
 export function format(column, row, value, editing) {
