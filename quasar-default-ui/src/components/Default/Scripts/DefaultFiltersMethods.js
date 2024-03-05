@@ -199,7 +199,7 @@ export function formatList(column, value) {
 
 export function selectionDisabled(row, configs) {
   let disabled = null;
-  if (configs.selectionDisabled && configs.selectionDisabled instanceof Function)
+  if (configs?.selectionDisabled && configs?.selectionDisabled instanceof Function)
     disabled = configs.selectionDisabled(row);
   return disabled || null;
 }
