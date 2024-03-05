@@ -1023,6 +1023,7 @@ export default {
             }).finally(() => {
                 this.adjustElementHeight();
                 this.$store.commit(this.configs.store + '/SET_RELOAD', false);
+                this.$emit('loaded');
             })
         },
     },
