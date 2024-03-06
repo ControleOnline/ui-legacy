@@ -73,7 +73,7 @@
             <div class="col-xs-12 col-sm-1 q-pb-md">
               <div class="row justify-end">
                 <div class="col-xs-12 col-sm-5 text-center">
-                  <q-btn flat round v-if="index == 0" icon="delete" color="red" :disabled="true" />
+                  <q-btn flat round v-if="index == 0" icon="delete" color="red" :disable="true" />
                   <q-btn flat round v-else icon="delete" color="red" @click="removeProduct(index)" />
                 </div>
                 <div class="col-xs-12 col-sm-5 text-center">

@@ -18,7 +18,7 @@
 
                         <q-checkbox v-if="index == 0 && configs.selection"
                             v-model="selectedRows[items.indexOf(props.row)]" v-bind:value="false"
-                            :disabled="selectionDisabled(props.row, configs)" />
+                            :disable="selectionDisabled(props.row, configs)" />
                         <template v-if="tableColumnComponent(column.key || column.name)">
                             <component :componentProps="tableColumnComponent(column.key || column.name).props"
                                 :is="tableColumnComponent(column.key ||column.name).component" :row="props.row"
@@ -66,12 +66,12 @@
                     </q-td>
                     <q-td class="q-gutter-sm text-right">
                         <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-primary"
-                            :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                            :disable="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="editItem(props.row)">
                             <q-tooltip> {{ $translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
                         </q-btn>
                         <q-btn v-if="configs.delete != false" dense icon="delete" class="btn-danger"
-                            :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                            :disable="isLoading || addModal || deleteModal || editing.length > 0"
                             @click="openConfirm(props.row)">
                             <q-tooltip> {{ $translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
                         </q-btn>
@@ -149,8 +149,7 @@
                 <div class="table-toolbar">
                     <q-toolbar class="q-gutter-sm">
                         <q-btn v-if="configs.add != false" class="q-pa-xs btn-positive" dense label="" icon="add"
-                            :disabled="isLoading || addModal || deleteModal || editing.length > 0"
-                            @click="editItem({})">
+                            :disable="isLoading || addModal || deleteModal || editing.length > 0" @click="editItem({})">
                             <q-tooltip> {{ $translate(configs.store, 'add', 'tooltip') }} </q-tooltip>
                         </q-btn>
                         <q-space></q-space>
@@ -248,7 +247,7 @@
                                 <q-item-section side>
                                     <q-checkbox v-if="configs.selection" dense
                                         v-model="selectedRows[items.indexOf(props.row)]" v-bind:value="false"
-                                        :disabled="selectionDisabled(props.row, configs)" />
+                                        :disable="selectionDisabled(props.row, configs)" />
                                 </q-item-section>
                             </q-item>
                         </q-card-section>
@@ -312,18 +311,17 @@
                                 </q-item>
                             </template>
                         </q-list>
-
                         <q-separator />
                         <q-card-section>
                             <q-item-section side class="">
                                 <div class="row justify-end q-gutter-sm">
                                     <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-primary"
-                                        :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                                        :disable="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="editItem(props.row)">
                                         <q-tooltip> {{ $translate(configs.store, 'edit', 'tooltip') }} </q-tooltip>
                                     </q-btn>
                                     <q-btn v-if="configs.delete != false" dense icon="delete" class="btn-danger"
-                                        :disabled="isLoading || addModal || deleteModal || editing.length > 0"
+                                        :disable="isLoading || addModal || deleteModal || editing.length > 0"
                                         @click="openConfirm(props.row)">
                                         <q-tooltip> {{ $translate(configs.store, 'delete', 'tooltip') }} </q-tooltip>
                                     </q-btn>

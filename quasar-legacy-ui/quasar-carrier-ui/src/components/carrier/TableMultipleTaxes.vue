@@ -120,7 +120,7 @@
               v-if="index == 0"
               icon="delete"
               color="red"
-              :disabled="true"
+              :disable="true"
               :loading="tax._saving"
             />
             <q-btn
