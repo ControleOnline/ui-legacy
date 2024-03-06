@@ -246,7 +246,7 @@
                                     </q-item-section>
                                 </template>
                                 <q-item-section side>
-                                    <q-checkbox v-if="1 == 1 || configs.selection" dense
+                                    <q-checkbox v-if="configs.selection" dense
                                         v-model="selectedRows[items.indexOf(props.row)]" v-bind:value="false"
                                         :disabled="selectionDisabled(props.row, configs)" />
                                 </q-item-section>
@@ -527,7 +527,7 @@ export default {
             return this.$store.getters[this.configs.store + '/reload']
         },
         selected() {
-            return this.$store.getters[this.configs.store + '/selected']
+            return this.$store.getters[this.configs.store + '/selected'] || []
         }
     },
     watch: {
@@ -579,12 +579,14 @@ export default {
             return '';
         },
         discoverySelected() {
+            if (!this.configs.selection) return;
             let selectedRows = [];
             this.items.forEach((element, index) => {
                 selectedRows[index] = false;
                 this.selected.forEach((e) => {
-                    if (JSON.stringify(e) == JSON.stringify(element))
+                    if (isEqual(this.$copyObject(e), this.$copyObject(element))) {
                         selectedRows[index] = true;
+                    }
                 });
             });
             this.selectedRows = selectedRows;
