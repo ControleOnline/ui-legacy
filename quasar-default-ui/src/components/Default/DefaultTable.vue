@@ -739,6 +739,7 @@ export default {
                 if (index >= 0 && index < items.length) {
                     items = items.slice(0, index).concat(items.slice(index + 1));
                     this.$store.commit(this.configs.store + '/SET_ITEMS', items);
+                    this.$emit('deleted', this.deleteItem);
                     this.items = items;
                     this.tableKey++;
                 }
@@ -749,7 +750,7 @@ export default {
         toggleSelectAll() {
             this.selectedRows = this.selectedRows.map((item, index) => {
                 if (this.selectionDisabled(this.items[index]))
-                    return false;
+                    return this.selectedRows[index];
                 return this.selectAll
             });
         },

@@ -138,7 +138,7 @@ export function shouldIncludeColumn(column) {
     this.configs?.columns &&
     this.configs?.columns[column.key || column.name]?.visible;
   if (typeof isVisibleFunction === "function")
-    return isVisibleFunction(column) !== false && column.visible !== false;
+    return isVisibleFunction() !== false && column.visible !== false;
   return isVisibleFunction !== false && column.visible !== false;
 }
 
@@ -199,10 +199,10 @@ export function formatList(column, value) {
 }
 
 export function selectionDisabled(row, configs) {
-  let disabled = null;
+  let disabled;
   if (configs?.selectionDisabled && configs?.selectionDisabled instanceof Function)
     disabled = configs.selectionDisabled(row);
-  return disabled || null;
+  return disabled;
 }
 
 export function format(column, row, value, editing) {
