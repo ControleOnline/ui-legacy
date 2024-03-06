@@ -749,7 +749,7 @@ export default {
         },
         toggleSelectAll() {
             this.selectedRows = this.selectedRows.map((item, index) => {
-                if (this.selectionDisabled(this.items[index]))
+                if (this.selectionDisabled(this.items[index], this.configs))
                     return this.selectedRows[index];
                 return this.selectAll
             });
