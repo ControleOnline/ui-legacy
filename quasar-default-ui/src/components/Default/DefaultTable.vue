@@ -408,6 +408,7 @@ import FormInputs from "@controleonline/quasar-default-ui/src/components/Default
 import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
 import { mapActions, mapGetters } from "vuex";
+import isEqual from 'lodash/isEqual';
 
 export default {
 
@@ -554,9 +555,9 @@ export default {
             deep: true,
         },
         selectedRows: {
-            handler: function (selectedRows, oldSelectedRows) {
-                if (JSON.stringify(selectedRows) != JSON.stringify(oldSelectedRows)) {
-                    this.selectedItems = this.items.filter((objeto, indice) => selectedRows[indice]);
+            handler: function (selectedRows) {
+                this.selectedItems = this.items.filter((objeto, indice) => selectedRows[indice]);
+                if (!isEqual(this.$copyObject(this.selected), this.$copyObject(this.selectedItems))) {
                     this.$store.commit(this.configs.store + '/SET_SELECTED', this.$copyObject(this.selectedItems));
                     this.$emit('selected', this.$copyObject(this.selectedItems));
                 }

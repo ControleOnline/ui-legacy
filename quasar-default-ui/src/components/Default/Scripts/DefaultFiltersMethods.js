@@ -1,4 +1,5 @@
 import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
+import isEqual from 'lodash/isEqual';
 
 export function sendFilterColumn(colName) {
   const column = this.getColumnByName(colName);
@@ -37,7 +38,7 @@ export function loadPersistentFilters() {
 export function applyVisibleColumns(visibleColumns) {
   let f = this.$copyObject(visibleColumns);
   let pf = this.$copyObject(this.visibleColumns);
-  if (JSON.stringify(f) != JSON.stringify(pf))
+  if (!isEqual(f, pf))
     this.$store.commit(this.configs.store + "/SET_VISIBLECOLUMNS", f);
 }
 
