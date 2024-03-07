@@ -735,14 +735,15 @@ export default {
             this.$store.dispatch(this.configs.store + '/remove', this.deleteItem['@id'].split('/').pop()
             ).then((data) => {
                 let items = this.$copyObject(this.items);
-                const index = items.findIndex(i => i["@id"] === this.deleteItem["@id"]) - 1;
-                if (index >= 0 && index < items.length) {
-                    items = items.slice(0, index).concat(items.slice(index + 1));
-                    this.$store.commit(this.configs.store + '/SET_ITEMS', items);
-                    this.$emit('deleted', this.deleteItem);
-                    this.items = items;
-                    this.tableKey++;
-                }
+                //const index = items.findIndex(i => i["@id"] === this.deleteItem["@id"]);
+                //if (index >= 0 && index < items.length) {
+                //items = items.slice(0, index).concat(items.slice(index + 1));
+                items = items.filter((i) => i['@id'] != this.deleteItem["@id"]);
+                this.$store.commit(this.configs.store + '/SET_ITEMS', items);
+                this.$emit('deleted', this.deleteItem);
+                this.items = items;
+                this.tableKey++;
+                //}
             }).finally(() => {
                 this.deleteModal = false;
             });
