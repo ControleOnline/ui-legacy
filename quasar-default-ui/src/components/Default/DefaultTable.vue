@@ -1041,11 +1041,7 @@ export default {
 };
 </script>
 
-
 <style lang="scss" src="./Css/DefaultTable.scss" />
-
 <style lang="scss" src="./Css/Colors.scss" />
-
 <style lang="scss" src="./Css/Light.scss" />
-
 <style lang="scss" src="./Css/Dark.scss" />
