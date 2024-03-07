@@ -181,12 +181,14 @@ export function formatFilter(column, value) {
   return value;
 }
 
-export function getSearchFilters(column) {
+export function getSearchFilters(column, row) {
+
   let configColumns = this.configs?.columns;
-  let filters = configColumns
-    ? configColumns[column.key || column.name]?.filters || {}
-    : {};
-  let params = this.$copyObject(filters || {});
+  let filters = configColumns ? configColumns[column.key || column.name]?.filters : {};
+  let params = this.$copyObject(filters);
+
+  if (column.filters instanceof Function)
+    params = Object.assign(params, column.filters(row));
 
   return params;
 }
@@ -203,7 +205,7 @@ export function selectionDisabled(row, configs) {
   let disabled;
 
   if (configs.selectionDisabled instanceof Function)
-    disabled = configs.selectionDisabled(row);  
+    disabled = configs.selectionDisabled(row);
   return disabled;
 }
 

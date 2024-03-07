@@ -53,9 +53,9 @@
                             <FormInputs :prefix="column.prefix" :sufix="column.sufix" :editable="column.editable"
                                 :inputType="getList(configs, column) ? 'list' : column.inputType" :store="configs.store"
                                 :mask="mask(column)" :rules="[isInvalid()]" :labelType="'stack-label'"
-                                :label="column.label" :filters="getSearchFilters(column)" :initialValue="editedValue"
-                                :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
-                                :searchAction="getList(configs, column)"
+                                :label="column.label" :filters="getSearchFilters(column, props.row)"
+                                :initialValue="editedValue" :searchParam="column.searchParam || 'search'"
+                                :formatOptions="column.formatList" :searchAction="getList(configs, column)"
                                 @focus="editingInit(items.indexOf(props.row), column)" @changed="(value) => {
         editedValue = value;
     }" @apply="stopEditing(items.indexOf(props.row), column, props.row)"
@@ -296,7 +296,8 @@
                                                 :inputType="getList(configs, column) ? 'list' : column.inputType"
                                                 :store="configs.store" :mask="mask(column)" :rules="[isInvalid()]"
                                                 :labelType="'stack-label'" :label="column.label"
-                                                :filters="getSearchFilters(column)" :initialValue="editedValue"
+                                                :filters="getSearchFilters(column, props.row)"
+                                                :initialValue="editedValue"
                                                 :searchParam="column.searchParam || 'search'"
                                                 :formatOptions="column.formatList"
                                                 :searchAction="getList(configs, column)"
