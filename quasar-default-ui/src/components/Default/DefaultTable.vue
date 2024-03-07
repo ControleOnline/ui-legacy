@@ -732,8 +732,7 @@ export default {
             this.editIndex = index;
         },
         confirmDelete() {
-            this.$store.dispatch(this.configs.store + '/remove', this.deleteItem['@id'].split('/').pop()
-            ).then((data) => {
+            this.$store.dispatch(this.configs.store + '/remove', this.deleteItem['@id'].split('/').pop()).then((data) => {
                 let items = this.$copyObject(this.items);
                 items = items.filter((i) => i['@id'] != this.deleteItem["@id"]);
                 this.$store.commit(this.configs.store + '/SET_ITEMS', items);
