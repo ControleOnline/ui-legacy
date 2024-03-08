@@ -30,8 +30,7 @@ export const get = ({ commit, getters }, id) => {
   return api
     .fetch(getters.resourceEndpoint + "/" + id, {})
     .then((data) => {
-      commit(types.SET_ITEM, data["hydra:member"]);
-      commit(types.SET_TOTALITEMS, data["hydra:totalItems"]);
+      commit(types.SET_ITEM, data);
       return data;
     })
     .catch((e) => {
