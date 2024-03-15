@@ -903,7 +903,7 @@ export default {
             if (row['@id'])
                 params['id'] = row['@id'].split('/').pop();
 
-            params[col.key || col.name] = this.saveFormat(col.key || col.name, value) || (col.list ? null : (col.inputType == 'float' ? 0 : ''));
+            params[col.key || col.name] = this.saveFormat(col.key || col.name, value,row) || (col.list ? null : (col.inputType == 'float' ? 0 : ''));
             if (this.myCompany)
                 params[this.configs.companyParam || 'company'] = '/people/' + this.myCompany?.id;
 

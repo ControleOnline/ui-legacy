@@ -136,7 +136,7 @@
                 <tr v-if="this.retrieve.address && this.retrieve.address.postal_code">
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
-                    {{ this.formatCEP(this.retrieve.address.postal_code) }}
+                    {{ this.this.$formatter.formatCEP(this.retrieve.address.postal_code) }}
                   </td>
                 </tr>
 
@@ -200,7 +200,7 @@
                 <tr v-if="this.retrieve.contact.phone">
                   <td class="text-left text-bold">Telefone</td>
                   <td class="text-left">
-                    {{ this.formatPhone(this.retrieve.contact.phone) }}
+                    {{ this.this.$formatter.formatPhone(this.retrieve.contact.phone) }}
                   </td>
                 </tr>
                 <tr v-if="this.retrieve.document">
@@ -248,7 +248,7 @@
                 <tr v-if="this.delivery.address && this.delivery.address.postal_code">
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
-                    {{ this.formatCEP(this.delivery.address.postal_code) }}
+                    {{ this.this.$formatter.formatCEP(this.delivery.address.postal_code) }}
                   </td>
                 </tr>
 
@@ -313,7 +313,7 @@
                 <tr v-if="this.delivery.contact.phone">
                   <td class="text-left text-bold">Telefone</td>
                   <td class="text-left">
-                    {{ this.formatPhone(this.delivery.contact.phone) }}
+                    {{ this.this.$formatter.formatPhone(this.delivery.contact.phone) }}
                   </td>
                 </tr>
                 <tr v-if="this.delivery.document">
@@ -421,7 +421,7 @@
                   <td class="text-center">
                     <div class="flex justify-center items-center q-gutter-x-xs">
                       <div v-if="!editTotalPrice">
-                        {{ formatMoney(this.product.totalPrice) }}
+                        {{ this.$formatter.formatMoney(this.product.totalPrice) }}
                       </div>
                       <q-input
                         v-if="editTotalPrice"
@@ -679,12 +679,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import {
-formatCEP,
-formatDocument,
-formatMoney,
-formatPhone,
-} from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
 
  import ContactForm from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/ContactForm.vue";
@@ -1293,17 +1287,15 @@ export default {
       }
     },
     formatPhone(document) {
-      return formatPhone(document);
-    },
-    formatCEP(document) {
-      return formatCEP(document);
-    },
-    formatDoc(document) {
-      return formatDocument(document);
+      return this.$formatter.formatPhone(document);
     },
 
-    formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+    formatDoc(document) {
+      return this.$formatter.formatDocument(document);
+    },
+
+   formatMoney(value) {
+      return this.$formatter.formatMoney(value, "BRL", "pt-br");
     },
     createNewContract() {
       if (this.summary.contractId) {
@@ -1567,10 +1559,10 @@ export default {
     },
 
     formatDoc(document) {
-      return formatDocument(document);
+      return this.$formatter.formatDocument(document);
     },
-    formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+   formatMoney(value) {
+      return this.$formatter.formatMoney(value, "BRL", "pt-br");
     },
 
     btEditRem() {
@@ -1601,12 +1593,12 @@ export default {
     seeDetails(data, type) {
       this.dialogs.details.data.name = data.contact.name;
       this.dialogs.details.data.email = data.contact.email;
-      this.dialogs.details.data.phone = formatPhone(data.contact.phone);
+      this.dialogs.details.data.phone = this.$formatter.formatPhone(data.contact.phone);
       this.dialogs.details.data.state = data.address.state;
       this.dialogs.details.data.city = data.address.city;
       this.dialogs.details.data.district = data.address.district;
 
-      this.dialogs.details.data.postal_code = formatCEP(data.address.postal_code);
+      this.dialogs.details.data.postal_code = this.$formatter.formatCEP(data.address.postal_code);
 
       this.dialogs.details.data.street = data.address.street;
       this.dialogs.details.data.number = data.address.number;

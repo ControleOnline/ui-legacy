@@ -23,7 +23,6 @@
 
 <script>
 import Contract from './../entity/Contract';
-import { formatBRMoney } from './../library/formatter';
 import configurable from './../mixins/configurable';
 
 export default {

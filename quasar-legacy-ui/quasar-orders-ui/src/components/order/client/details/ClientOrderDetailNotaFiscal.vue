@@ -97,7 +97,6 @@
 
 <script>
 import UploadFileForm from '@controleonline/quasar-default-ui/src/components/Default/Common/Inputs/UploadInput.vue';
-import { formatCEP, formatDocument } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 import { mapActions, mapGetters } from 'vuex';
 import { ENTRYPOINT } from 'src/config/entrypoint';
 
@@ -222,16 +221,16 @@ export default {
               this.incomplete = true;
             else {
               this.carrier.name               = order.carrier.name;
-              this.carrier.document           = order.carrier.document !== null ? formatDocument(order.carrier.document) : '';
+              this.carrier.document           = order.carrier.document !== null ? this.$formatter.formatDocument(order.carrier.document) : '';
               this.carrier.address.street     = order.carrier.address !== null ? order.carrier.address.street : '';
               this.carrier.address.number     = order.carrier.address !== null ? order.carrier.address.number : '';
-              this.carrier.address.postalCode = order.carrier.address !== null ? formatCEP(order.carrier.address.postalCode) : '';
+              this.carrier.address.postalCode = order.carrier.address !== null ? this.$formatter.formatCEP(order.carrier.address.postalCode) : '';
               this.carrier.address.district   = order.carrier.address !== null ? order.carrier.address.district : '';
               this.carrier.address.city       = order.carrier.address !== null ? order.carrier.address.city : '';
               this.carrier.address.state      = order.carrier.address !== null ? order.carrier.address.state : '';
   
               this.provider.name              = order.provider.name;
-              this.provider.document          = order.provider.document ? formatDocument(order.provider.document) : '';
+              this.provider.document          = order.provider.document ? this.$formatter.formatDocument(order.provider.document) : '';
 
               this.invoiceTax                 = order.invoiceTax.length == 0 ? null : order.invoiceTax[0];
 

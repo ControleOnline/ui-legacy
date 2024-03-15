@@ -74,7 +74,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { formatDateYmdTodmY } from './../library/formatter';
+
 import configurable from './../mixins/configurable';
 
 export default {
@@ -116,7 +116,7 @@ export default {
         align : 'left',
         label : this.$t('contracts.columns.data_inicio'),
         format: (val) => {
-          return formatDateYmdTodmY(val);
+          return this.$formatter.formatDateYmdTodmY(val);
         }
       },
       {
@@ -125,7 +125,7 @@ export default {
         align : 'left',
         label: this.$t('contracts.columns.data_fim'),
         format: (val) => {
-          return formatDateYmdTodmY(val);
+          return this.$formatter.formatDateYmdTodmY(val);
         }
       },
       {

@@ -97,10 +97,6 @@
 </template>
 
 <script>
-import {
-formatDateYmdTodmY,
-formatMoney,
-} from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
 
 const SETTINGS = {
@@ -133,7 +129,7 @@ const SETTINGS = {
       field: "dataVencimento",
       align: "left",
       format: (val, row) => {
-        return formatDateYmdTodmY(val);
+        return this.$formatter.formatDateYmdTodmY(val);
       },
       label: "Data vencimento",
     },
@@ -154,7 +150,7 @@ const SETTINGS = {
       field: "preco",
       align: "left",
       format: (val, row) => {
-        return formatMoney(val, "BRL", "pt-br");
+        return this.$formatter. formatMoney(val, "BRL", "pt-br");
       },
       label: "Preço",
     },

@@ -1,15 +1,10 @@
-import {
-  formatDateYmdTodmY,
-  formatBRMoney,
-} from './../library/formatter';
-
 export default {
   filters: {
     formatToDmy(date) {
-      return formatDateYmdTodmY(date)
+      return Formatter.formatDateYmdTodmY(date);
     },
     formatMoney(value) {
-      return formatBRMoney(value)
-    }
+      return formatBRMoney(value);
+    },
   },
-}
+};

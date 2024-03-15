@@ -111,7 +111,6 @@
 <script>
 import { api } from "@controleonline/../../src/boot/api";
 import Contract from "./../entity/Contract";
-import { formatBRDocument } from "./../library/formatter";
 import configurable from "./../mixins/configurable";
 import validation from "./../mixins/validation";
 import SearchCustomer from "./SearchCustomer";
@@ -158,7 +157,7 @@ export default {
       this.name = customer.name;
       this.alias = customer.alias;
       this.paymentDay = customer.paymentDay;
-      this.document = formatBRDocument(
+      this.document = this.$formatter.formatBRDocument(
         customer.isPerson() ? customer.cpf : customer.cnpj
       );
       this.email = customer.email;

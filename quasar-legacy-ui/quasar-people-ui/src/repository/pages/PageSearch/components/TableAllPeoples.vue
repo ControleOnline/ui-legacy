@@ -82,7 +82,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import { formatDocument, formatPhone } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 import { date } from 'quasar';
 
 import { mapGetters } from 'vuex';
@@ -117,7 +116,7 @@ const SETTINGS = {
       field: 'cnpj',
       align: 'left',
       format: (val, row) => {
-        return formatDocument(val);
+        return this.$formatter.formatDocument(val);
       },
       label: 'CNPJ'
     },
@@ -144,7 +143,7 @@ const SETTINGS = {
       field: 'phone',
       align: 'left',
       format: (val, row) => {
-        return formatPhone(val);
+        return this.$formatter.formatPhone(val);
       },
       label: 'Telefone'
     },
@@ -364,12 +363,12 @@ export default {
 
             people = {
               'id': item.id,
-              'cnpj': formatDocument(item.document),
+              'cnpj': this.$formatter.formatDocument(item.document),
               'alias': item.alias,
               'name': item.name,
               'email': item.email,
               'people_people_id': item.people_client_id || item.people_carrier_id || item.people_provider_id,
-              'phone': formatPhone(item.phone),
+              'phone': this.$formatter.formatPhone(item.phone),
               'enable': item.enable,
               'people_type': item.people_type,
               'register_date': date.formatDate(item.register_date, "DD/MM/YYYY H:m:s")

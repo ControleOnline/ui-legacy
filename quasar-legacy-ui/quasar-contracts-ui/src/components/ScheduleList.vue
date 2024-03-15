@@ -23,7 +23,6 @@
 
 <script>
 import Contract from './../entity/Contract';
-import { formatAsTime } from './../library/formatter';
 import configurable from './../mixins/configurable';
 
 export default {
@@ -165,8 +164,8 @@ export default {
                       return `${peopleTeam.people.name} ${peopleTeam.people.alias}`;
                     }),
                   'weekDay'  : this.allDays[item.weekDay],
-                  'startTime': formatAsTime(item.startTime),
-                  'endTime'  : formatAsTime(item.endTime  ),
+                  'startTime': this.$formatter.formatBRPostalCode(item.startTime),
+                  'endTime'  : this.$formatter.formatBRPostalCode(item.endTime  ),
                   'trainer'  : `${item.peopleTrainer.trainer.name} ${item.peopleTrainer.trainer.alias}`,
                   'local'    : this.classType[item.team.type] || '-',
                   '_bussy'   : false,

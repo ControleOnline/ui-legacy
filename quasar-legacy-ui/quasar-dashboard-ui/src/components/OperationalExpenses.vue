@@ -14,7 +14,7 @@
           %)
         </div>
         <div class="col-6 text-right text-red-14 text-h6">
-          {{ (purchasing_order_totals || 0) | formatMoney }}
+          {{ (purchasing_order_totals || 0) |this.$formatter. formatMoney }}
         </div>
       </div>
     </div>

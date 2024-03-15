@@ -149,7 +149,7 @@
 import { api } from "@controleonline/../../src/boot/api";
 import { ENTRYPOINT } from 'src/config/entrypoint';
 import { mapGetters } from "vuex";
-import { formatBRDocument, formatBRPostalCode } from "./../library/formatter";
+
 import configurable from "./../mixins/configurable";
 import { date } from 'quasar';
 
@@ -344,14 +344,14 @@ export default {
               info += ` Com sede na`;
               info += ` ${participant.people.address.street}`;
               info += ` nº ${participant.people.address.number}`;
-              info += ` - CEP ${formatBRPostalCode(participant.people.address.postalCode)}`;
+              info += ` - CEP ${this.$formatter.formatBRPostalCode(participant.people.address.postalCode)}`;
               info += ` - ${participant.people.address.district}`;
               info += ` - ${participant.people.address.city}`;
               info += ` - ${participant.people.address.state}`;
             }
 
             if (participant.people.document !== null) {
-              let document = formatBRDocument(participant.people.document.id);
+              let document = this.$formatter.formatBRDocument(participant.people.document.id);
 
               if (participant.people.document.type == "CNPJ")
                 info += `, inscrita no CNPJ sob nº ${document}.`;

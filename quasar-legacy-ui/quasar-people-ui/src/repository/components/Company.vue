@@ -88,7 +88,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import { formatDocument } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
 import FormCreatePeople from "./FormCreate.vue";
 
@@ -207,7 +206,7 @@ export default {
             ? `https://${companies[index].logo.domain}${companies[index].logo.url}`
             : null,
           document: companies[index].document
-            ? formatDocument(companies[index].document)
+            ? this.$formatter.formatDocument(companies[index].document)
             : null,
           _bussy: false,
         });

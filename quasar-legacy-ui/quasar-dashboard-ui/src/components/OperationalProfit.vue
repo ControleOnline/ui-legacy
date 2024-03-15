@@ -14,7 +14,7 @@
           %)
         </div>
         <div class="col-6 text-right text-green-14 text-h6">
-          {{ (operational_profit || 0) | formatMoney }}
+          {{ (operational_profit || 0) |this.$formatter. formatMoney }}
         </div>
       </div>
     </div>

@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { formatDateYmdTodmY, formatDocument } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 import { mapGetters } from 'vuex';
 
 const SETTINGS = {
@@ -121,11 +120,11 @@ export default {
 
   filters: {
     formatDoc(value) {
-      return formatDocument(value);
+      return this.$formatter.formatDocument(value);
     },
 
     formatDate(value) {
-      return formatDateYmdTodmY(value);
+      return this.$formatter.formatDateYmdTodmY(value);
     },
   },
 };

@@ -111,7 +111,6 @@
 <script>
 
 import { api } from "@controleonline/../../src/boot/api";
-import { formatDocument } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 import md5 from 'md5';
 import { mapGetters } from 'vuex';
 
@@ -334,7 +333,7 @@ export default {
                 name: data.members[index].type == 'J' ? data.members[index].name : `${data.members[index].name} ${data.members[index].alias}`,
                 image: image,
                 email: data.members[index].email,
-                document: formatDocument(data.members[index].document),
+                document: this.$formatter.formatDocument(data.members[index].document),
                 isProvider: data.members[index].is_provider,
                 _bussy: false,
               });

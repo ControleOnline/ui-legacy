@@ -173,7 +173,7 @@
 <script>
 import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/error/SubmissionError';
-import { formatMoney } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
+
 
 const SETTINGS = {
   columns       : [
@@ -215,7 +215,7 @@ const SETTINGS = {
       field : 'price',
       align : 'left',
       format: (val, row) => {
-        return formatMoney(val, 'BRL', 'pt-br');
+        return this.$formatter. formatMoney(val, 'BRL', 'pt-br');
       },
       label: 'Preço/KG'
     },
@@ -224,7 +224,7 @@ const SETTINGS = {
       field : 'minimumPrice',
       align : 'left',
       format: (val, row) => {
-        return formatMoney(val, 'BRL', 'pt-br');
+        return this.$formatter. formatMoney(val, 'BRL', 'pt-br');
       },
       label: 'Taxa mínima'
     },

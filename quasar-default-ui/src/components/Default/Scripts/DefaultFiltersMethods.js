@@ -1,5 +1,5 @@
 import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
-import isEqual from 'lodash/isEqual';
+import isEqual from "lodash/isEqual";
 
 export function sendFilterColumn(colName) {
   const column = this.getColumnByName(colName);
@@ -156,14 +156,14 @@ export function getNameFromList(column, row, editing) {
         i &&
         i.value &&
         i.value.toString().trim() ==
-        (row[column.key || column.name] instanceof Object &&
+          (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-          ? row[column.key || column.name]["@id"]
-            .split("/")
-            .pop()
-            .toString()
-            .trim()
-          : row[column.key || column.name]
+            ? row[column.key || column.name]["@id"]
+                .split("/")
+                .pop()
+                .toString()
+                .trim()
+            : row[column.key || column.name]
             ? row[column.key || column.name].toString().trim()
             : null)
       );
@@ -182,9 +182,10 @@ export function formatFilter(column, value) {
 }
 
 export function getSearchFilters(column, row) {
-
   let configColumns = this.configs?.columns;
-  let filters = configColumns ? configColumns[column.key || column.name]?.filters : {};
+  let filters = configColumns
+    ? configColumns[column.key || column.name]?.filters
+    : {};
   let params = this.$copyObject(filters);
 
   if (column.filters instanceof Function)
@@ -224,12 +225,12 @@ export function getColumnByName(columnName) {
   });
 }
 
-export function saveFormat(columnName, value) {
+export function saveFormat(columnName, value, row) {
   const column = this.getColumnByName(columnName);
   if (!column) return value;
 
   if (column.saveFormat instanceof Function)
-    return column.saveFormat(value, column);
+    return column.saveFormat(value, column, row);
   else if (value instanceof Object)
     return !isNaN(value.value) ? parseFloat(value.value) : value.value;
 

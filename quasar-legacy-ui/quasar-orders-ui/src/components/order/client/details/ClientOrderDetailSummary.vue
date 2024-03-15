@@ -1,12 +1,7 @@
 <template>
   <div class="row items-center justify-center">
     <div class="flex flex-center" v-if="isLoading">
-      <q-circular-progress
-        :indeterminate="isLoading"
-        size="sm"
-        color="primary"
-        class="q-ma-md"
-      />
+      <q-circular-progress :indeterminate="isLoading" size="sm" color="primary" class="q-ma-md" />
       Carregando...
     </div>
 
@@ -18,22 +13,11 @@
           Quem pagará pelo frete?
         </div>
         <div class="col-xs-12 text-center q-mb-md">
-          <q-btn-toggle
-            no-caps
-            v-model="payer"
-            toggle-color="primary"
-            :options="options"
-            :disable="!editable"
-          />
+          <q-btn-toggle no-caps v-model="payer" toggle-color="primary" :options="options" :disable="!editable" />
         </div>
       </div>
 
-      <ContactForm
-        v-if="payer === null"
-        :itemData="payerContact"
-        :withSave="false"
-        :canEdit="editable"
-      />
+      <ContactForm v-if="payer === null" :itemData="payerContact" :withSave="false" :canEdit="editable" />
 
       <q-separator />
 
@@ -42,11 +26,7 @@
 
         <div class="row justify-center items-stretch q-mt-lg">
           <div class="col-xs-12 col-sm-5">
-            <q-markup-table
-              flat
-              separator="none"
-              class="bg-grey-2 q-mb-md full-height"
-            >
+            <q-markup-table flat separator="none" class="bg-grey-2 q-mb-md full-height">
               <thead>
                 <tr>
                   <th colspan="2">
@@ -70,7 +50,7 @@
                 <tr v-if="this.retrieve.contact.phone">
                   <td class="text-left text-bold">Telefone</td>
                   <td class="text-left">
-                    {{ this.formatPhone(this.retrieve.contact.phone) }}
+                    {{ this.this.$formatter.formatPhone(this.retrieve.contact.phone) }}
                   </td>
                 </tr>
                 <tr v-if="this.retrieve.document">
@@ -83,7 +63,7 @@
                 <tr v-if="this.retrieve.address.postal_code">
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
-                    {{ this.formatCEP(this.retrieve.address.postal_code) }}
+                    {{ this.this.$formatter.formatCEP(this.retrieve.address.postal_code) }}
                   </td>
                 </tr>
 
@@ -91,8 +71,9 @@
                   <td class="text-left text-bold">Endereço</td>
                   <td class="text-left">
                     {{
-                      `${this.retrieve.address.street}, ${this.retrieve.address.number} ${this.retrieve.address.complement}`
-                    }}
+      `${this.retrieve.address.street}, ${this.retrieve.address.number}
+                    ${this.retrieve.address.complement}`
+    }}
                   </td>
                 </tr>
                 <tr v-if="this.retrieve.address.district">
@@ -105,8 +86,8 @@
                   <td class="text-left text-bold">Cidade</td>
                   <td class="text-left">
                     {{
-                      `${this.retrieve.address.city} / ${this.retrieve.address.state}`
-                    }}
+      `${this.retrieve.address.city} / ${this.retrieve.address.state}`
+    }}
                   </td>
                 </tr>
               </tbody>
@@ -114,19 +95,11 @@
           </div>
           <div class="col-xs-12 col-sm-2 gt-xs">
             <div class="row justify-center items-center full-height">
-              <q-icon
-                name="local_shipping"
-                class="text-primary"
-                style="font-size: 3em"
-              />
+              <q-icon name="local_shipping" class="text-primary" style="font-size: 3em" />
             </div>
           </div>
           <div class="col-xs-12 col-sm-5">
-            <q-markup-table
-              flat
-              separator="none"
-              class="bg-grey-2 q-mb-md full-height"
-            >
+            <q-markup-table flat separator="none" class="bg-grey-2 q-mb-md full-height">
               <thead>
                 <tr>
                   <th colspan="2">
@@ -150,7 +123,7 @@
                 <tr v-if="this.delivery.contact.phone">
                   <td class="text-left text-bold">Telefone</td>
                   <td class="text-left">
-                    {{ this.formatPhone(this.delivery.contact.phone) }}
+                    {{ this.this.$formatter.formatPhone(this.delivery.contact.phone) }}
                   </td>
                 </tr>
                 <tr v-if="this.delivery.document">
@@ -163,7 +136,7 @@
                 <tr v-if="this.delivery.address.postal_code">
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
-                    {{ this.formatCEP(this.delivery.address.postal_code) }}
+                    {{ this.this.$formatter.formatCEP(this.delivery.address.postal_code) }}
                   </td>
                 </tr>
 
@@ -171,8 +144,9 @@
                   <td class="text-left text-bold">Endereço</td>
                   <td class="text-left">
                     {{
-                      `${this.delivery.address.street}, ${this.delivery.address.number} ${this.delivery.address.complement}`
-                    }}
+      `${this.delivery.address.street}, ${this.delivery.address.number}
+                    ${this.delivery.address.complement}`
+    }}
                   </td>
                 </tr>
                 <tr v-if="this.delivery.address.district">
@@ -185,8 +159,8 @@
                   <td class="text-left text-bold">Cidade</td>
                   <td class="text-left">
                     {{
-                      `${this.delivery.address.city} / ${this.delivery.address.state}`
-                    }}
+      `${this.delivery.address.city} / ${this.delivery.address.state}`
+    }}
                   </td>
                 </tr>
               </tbody>
@@ -210,16 +184,16 @@
                 <tr>
                   <td class="text-center">
                     {{
-                      `${new Intl.NumberFormat("pt-br").format(
-                        this.product.sumCubage
-                      )} kg`
-                    }}
+        `${new Intl.NumberFormat("pt-br").format(
+          this.product.sumCubage
+        )} kg`
+      }}
                   </td>
                   <td class="text-center">
                     {{ this.product.type }}
                   </td>
                   <td class="text-center">
-                    {{ formatMoney(this.product.totalPrice) }}
+                    {{ this.$formatter. formatMoney(this.product.totalPrice) }}
                   </td>
                 </tr>
               </tbody>
@@ -257,36 +231,18 @@
 
         <div class="row q-mt-lg">
           <div class="col-xs-12">
-            <q-input
-              outlined
-              stack-label
-              v-model="comments"
-              type="textarea"
-              label="Observações"
-              :disable="!editable"
-            />
+            <q-input outlined stack-label v-model="comments" type="textarea" label="Observações" :disable="!editable" />
           </div>
         </div>
       </div>
 
-      <q-dialog
-        v-model="dialogs.details.visible"
-        transition-show="scale"
-        transition-hide="scale"
-      >
+      <q-dialog v-model="dialogs.details.visible" transition-show="scale" transition-hide="scale">
         <q-card class="text-white" style="background-color: #00519b">
           <q-card-section>
             <div class="row items-center">
               <div class="text-h6">Detalhes</div>
               <q-space />
-              <q-btn
-                icon="close"
-                color="white"
-                flat
-                round
-                dense
-                v-close-popup
-              />
+              <q-btn icon="close" color="white" flat round dense v-close-popup />
             </div>
           </q-card-section>
 
@@ -343,12 +299,7 @@
 
 <script>
 import ContactForm from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/ContactForm.vue";
-import {
-formatCEP,
-formatDocument,
-formatMoney,
-formatPhone,
-} from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
+
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -473,8 +424,8 @@ export default {
         this.payerIsOther === null
           ? -1
           : this.payerIsOther
-          ? null
-          : this.summary.payer.id;
+            ? null
+            : this.summary.payer.id;
 
       if (this.summary.retrievePeople !== null) {
         let retrieveName = `${this.summary.retrievePeople.name} ${this.summary.retrievePeople.alias}`;
@@ -687,27 +638,27 @@ export default {
       return opts;
     },
     formatPhone(document) {
-      return formatPhone(document);
+      return this.$formatter.formatPhone(document);
     },
     formatCEP(document) {
-      return formatCEP(document);
+      return this.$formatter.formatCEP(document);
     },
     formatDoc(document) {
-      return formatDocument(document);
+      return this.$formatter.formatDocument(document);
     },
 
-    formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+   formatMoney(value) {
+      return this.$formatter. formatMoney(value, "BRL", "pt-br");
     },
 
     seeDetails(data) {
       this.dialogs.details.data.name = data.contact.name;
       this.dialogs.details.data.email = data.contact.email;
-      this.dialogs.details.data.phone = formatPhone(data.contact.phone);
+      this.dialogs.details.data.phone = this.$formatter.formatPhone(data.contact.phone);
       this.dialogs.details.data.state = data.address.state;
       this.dialogs.details.data.city = data.address.city;
       this.dialogs.details.data.district = data.address.district;
-      this.dialogs.details.data.postal_code = formatCEP(
+      this.dialogs.details.data.postal_code = this.$formatter.formatCEP(
         data.address.postal_code
       );
       this.dialogs.details.data.street = data.address.street;

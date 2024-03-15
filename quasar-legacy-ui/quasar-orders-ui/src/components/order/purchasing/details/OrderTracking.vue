@@ -33,7 +33,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import { formatDateYmdTodmY } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
+
 
 const SETTINGS = {
   visibleColumns: [
@@ -61,7 +61,7 @@ const SETTINGS = {
       field: "dataHora",
       align: "left",
       format: (val, row) => {
-        return formatDateYmdTodmY(val, true);
+        return this.$formatter.formatDateYmdTodmY(val, true);
       },
       label: "Data",
     },
@@ -106,7 +106,7 @@ const SETTINGS = {
       field: "dataHoraEfetiva",
       align: "left",
       format: (val, row) => {
-        return formatDateYmdTodmY(val, true);
+        return this.$formatter.formatDateYmdTodmY(val, true);
       },
       label: "Data efetiva",
     },

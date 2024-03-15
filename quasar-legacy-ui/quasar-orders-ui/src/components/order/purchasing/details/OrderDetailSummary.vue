@@ -1,12 +1,7 @@
 <template>
   <div class="row items-center justify-center">
     <div class="flex flex-center" v-if="isLoading">
-      <q-circular-progress
-        :indeterminate="isLoading"
-        size="sm"
-        color="primary"
-        class="q-ma-md"
-      />
+      <q-circular-progress :indeterminate="isLoading" size="sm" color="primary" class="q-ma-md" />
       Carregando...
     </div>
 
@@ -17,93 +12,39 @@
           Quem pagará pelo frete?
         </div>
         <div class="col-xs-12 text-center q-mb-md">
-          <q-btn-toggle
-            no-caps
-            v-model="payer"
-            toggle-color="primary"
-            :options="options"
-            :disable="!editable"
-          />
+          <q-btn-toggle no-caps v-model="payer" toggle-color="primary" :options="options" :disable="!editable" />
         </div>
       </div>
 
-      <ContactForm
-        v-if="payer === null"
-        :itemData="payerContact"
-        :withSave="false"
-        :canEdit="editable"
-      />
+      <ContactForm v-if="payer === null" :itemData="payerContact" :withSave="false" :canEdit="editable" />
 
       <q-separator />
 
       <div class="row" style="margin: 10px">
         <div class="col-10 col-sm-7">
-          <q-input
-            stack-label
-            lazy-rules
-            unmasked-value
-            hide-bottom-space
-            v-if="editCompany === false"
-            :value="
-              summary.providerAlias +
-              (summary.providerDocument ? ' (' + summary.providerDocument + ')' : '')
-            "
-            type="text"
-            label="Responsável pelo pedido"
-            :disable="true"
-          />
-          <ListAutocomplete
-            v-else
-            :source="getCompaniesSelect"
-            :isLoading="false"
-            label="Responsável pelo pedido"
-            placeholder="Digite o nome da empresa responsável..."
-            @selected="onCompanySelect"
-          />
+          <q-input stack-label lazy-rules unmasked-value hide-bottom-space v-if="editCompany === false" :value="summary.providerAlias +
+      (summary.providerDocument ? ' (' + summary.providerDocument + ')' : '')
+      " type="text" label="Responsável pelo pedido" :disable="true" />
+          <ListAutocomplete v-else :source="getCompaniesSelect" :isLoading="false" label="Responsável pelo pedido"
+            placeholder="Digite o nome da empresa responsável..." @selected="onCompanySelect" />
         </div>
         <div class="col-2 col-sm-1">
-          <q-btn
-            flat
-            round
-            dense
-            style="margin-top: 13px"
-            color="primary"
-            :icon="editCompany ? 'cancel' : 'edit'"
-            @click="editCompany = !editCompany"
-          >
+          <q-btn flat round dense style="margin-top: 13px" color="primary" :icon="editCompany ? 'cancel' : 'edit'"
+            @click="editCompany = !editCompany">
             <q-tooltip>Editar</q-tooltip>
           </q-btn>
-          <q-btn
-            flat
-            round
-            dense
-            v-if="editCompany"
-            style="margin-top: 13px"
-            color="primary"
-            icon="check"
-            @click="onSaveCompany"
-            :disable="updatedCompanyId === null"
-          >
+          <q-btn flat round dense v-if="editCompany" style="margin-top: 13px" color="primary" icon="check"
+            @click="onSaveCompany" :disable="updatedCompanyId === null">
             <q-tooltip>Salvar</q-tooltip>
           </q-btn>
         </div>
         <div v-if="status != 'quote'" class="col-6 col-sm-2">
-          <q-btn
-            dense
-            style="margin-top: 13px"
-            color="primary"
-            @click="onPropostaClick()"
-          >
+          <q-btn dense style="margin-top: 13px" color="primary" @click="onPropostaClick()">
             Gerar Proposta
           </q-btn>
         </div>
         <div v-if="status != 'quote'" class="col-6 col-sm-2">
-          <q-btn
-            dense
-            style="margin-top: 13px"
-            color="primary"
-            @click="createNewContract()"
-          >
+          <q-btn dense style="margin-top: 13px" color="primary" @click="createNewContract()">
             {{ hasContract() ? "Ver" : "Gerar" }} Contrato
           </q-btn>
         </div>
@@ -129,8 +70,8 @@
                   <td class="text-left text-bold">Nome</td>
                   <td class="text-left">
                     {{
-                      this.retrieve.name ? this.retrieve.name : this.retrieve.contact.name
-                    }}
+      this.retrieve.name ? this.retrieve.name : this.retrieve.contact.name
+    }}
                   </td>
                 </tr>
                 <tr>
@@ -147,18 +88,8 @@
                 </tr>
                 <tr>
                   <td colspan="2" class="text-right">
-                    <q-btn
-                      size="sm"
-                      color="primary bt-edit"
-                      label="Editar"
-                      @click="btEditRem()"
-                    />
-                    <q-btn
-                      size="sm"
-                      color="primary"
-                      label="Detalhes da coleta"
-                      @click="seeDetails(retrieve)"
-                    />
+                    <q-btn size="sm" color="primary bt-edit" label="Editar" @click="btEditRem()" />
+                    <q-btn size="sm" color="primary" label="Detalhes da coleta" @click="seeDetails(retrieve)" />
                   </td>
                 </tr>
               </tbody>
@@ -183,8 +114,8 @@
                   <td class="text-left text-bold">Nome</td>
                   <td class="text-left">
                     {{
-                      this.delivery.name ? this.delivery.name : this.delivery.contact.name
-                    }}
+      this.delivery.name ? this.delivery.name : this.delivery.contact.name
+    }}
                   </td>
                 </tr>
                 <tr>
@@ -201,18 +132,8 @@
                 </tr>
                 <tr>
                   <td colspan="2" class="text-right">
-                    <q-btn
-                      size="sm"
-                      color="primary bt-edit"
-                      label="Editar"
-                      @click="btEditDest()"
-                    />
-                    <q-btn
-                      size="sm"
-                      color="primary"
-                      label="Detalhes da entrega"
-                      @click="seeDetails(delivery)"
-                    />
+                    <q-btn size="sm" color="primary bt-edit" label="Editar" @click="btEditDest()" />
+                    <q-btn size="sm" color="primary" label="Detalhes da entrega" @click="seeDetails(delivery)" />
                   </td>
                 </tr>
               </tbody>
@@ -236,16 +157,16 @@
                 <tr>
                   <td v-if="!isCeg()" class="text-center">
                     {{
-                      `${new Intl.NumberFormat("pt-br").format(
-                        this.product.sumCubage
-                      )} kg`
-                    }}
+      `${new Intl.NumberFormat("pt-br").format(
+        this.product.sumCubage
+      )} kg`
+    }}
                   </td>
                   <td class="text-center">
                     {{ this.product.type }}
                   </td>
                   <td class="text-center">
-                    {{ formatMoney(this.product.totalPrice) }}
+                    {{ this.$formatter.formatMoney(this.product.totalPrice) }}
                   </td>
                 </tr>
               </tbody>
@@ -281,23 +202,13 @@
 
         <div class="row q-mt-lg">
           <div class="col-xs-12">
-            <q-input
-              outlined
-              stack-label
-              v-model="comments"
-              type="textarea"
-              label="Observações"
-              :readonly="!editable"
-            />
+            <q-input outlined stack-label v-model="comments" type="textarea" label="Observações"
+              :readonly="!editable" />
           </div>
         </div>
       </div>
 
-      <q-dialog
-        v-model="dialogs.details.visible"
-        transition-show="scale"
-        transition-hide="scale"
-      >
+      <q-dialog v-model="dialogs.details.visible" transition-show="scale" transition-hide="scale">
         <q-card class="text-white" style="background-color: #00519b">
           <q-card-section>
             <div class="row items-center">
@@ -362,12 +273,6 @@
 import { api } from "@controleonline/../../src/boot/api";
 import ContactForm from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/ContactForm.vue";
 import ListAutocomplete from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/ListAutocomplete.vue";
-import {
-formatCEP,
-formatDocument,
-formatMoney,
-formatPhone,
-} from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -676,7 +581,7 @@ export default {
           body: ({
             payerId: this.summary.payer.id,
           }),
-          
+
         };
 
         params.headers.set("API-TOKEN", this.logged.token);
@@ -915,10 +820,10 @@ export default {
     },
 
     formatDoc(document) {
-      return formatDocument(document);
+      return this.$formatter.formatDocument(document);
     },
     formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+      return this.$formatter.formatMoney(value, "BRL", "pt-br");
     },
 
     btEditRem() {
@@ -934,11 +839,11 @@ export default {
     seeDetails(data) {
       this.dialogs.details.data.name = data.contact.name;
       this.dialogs.details.data.email = data.contact.email;
-      this.dialogs.details.data.phone = formatPhone(data.contact.phone);
+      this.dialogs.details.data.phone = this.$formatter.formatPhone(data.contact.phone);
       this.dialogs.details.data.state = data.address.state;
       this.dialogs.details.data.city = data.address.city;
       this.dialogs.details.data.district = data.address.district;
-      this.dialogs.details.data.postal_code = formatCEP(data.address.postal_code);
+      this.dialogs.details.data.postal_code = this.$formatter.formatCEP(data.address.postal_code);
       this.dialogs.details.data.street = data.address.street;
       this.dialogs.details.data.number = data.address.number;
 

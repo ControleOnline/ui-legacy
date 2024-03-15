@@ -137,10 +137,6 @@
 
 <script>
 import UploadFileForm from "@controleonline/quasar-default-ui/src/components/Default/Common/Inputs/UploadInput.vue";
-import {
-formatCEP,
-formatDocument,
-} from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
 import { ENTRYPOINT } from "src/config/entrypoint";
 
@@ -268,7 +264,7 @@ export default {
               this.carrier.name = order.carrier.name;
               this.carrier.document =
                 order.carrier.document !== null
-                  ? formatDocument(order.carrier.document)
+                  ? this.$formatter.formatDocument(order.carrier.document)
                   : "";
               this.carrier.address.street =
                 order.carrier.address !== null
@@ -280,7 +276,7 @@ export default {
                   : "";
               this.carrier.address.postalCode =
                 order.carrier.address !== null
-                  ? formatCEP(order.carrier.address.postalCode)
+                  ? this.$formatter.formatCEP(order.carrier.address.postalCode)
                   : "";
               this.carrier.address.district =
                 order.carrier.address !== null
@@ -297,7 +293,7 @@ export default {
 
               this.provider.name = order.provider.name;
               this.provider.document = order.provider.document
-                ? formatDocument(order.provider.document)
+                ? this.$formatter.formatDocument(order.provider.document)
                 : "";
               this.order = order;
 

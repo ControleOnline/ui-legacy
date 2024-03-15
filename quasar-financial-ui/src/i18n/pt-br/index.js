@@ -2,7 +2,7 @@
 // so you can safely delete all default props below
 
 export const translate = {
-  expense:{
+  expense: {
     title: {
       categories_expense: "Centros de Custo",
     },
@@ -10,7 +10,7 @@ export const translate = {
       categories_expense: "Centros de Custo",
     },
   },
-  receive:{
+  receive: {
     title: {
       categories_receive: "Centros de Custo",
     },
@@ -23,6 +23,7 @@ export const translate = {
       categories_invoice: "Centros de Custo",
     },
     input: {
+      payer: "Pagador",
       receiver: "Fornecedor",
       category: "Centro de Custo",
       status: "Status",

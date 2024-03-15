@@ -68,7 +68,7 @@
 
 <script>
 import Contract from './../entity/Contract';
-import { formatDateYmdTodmY } from './../library/formatter';
+
 import configurable from './../mixins/configurable';
 import validation from './../mixins/validation';
 
@@ -96,7 +96,7 @@ export default {
     return {
       status        : this.$t(`contracts.statuses.${this.contract.status}`),
       template      : null,
-      startDate     : formatDateYmdTodmY(this.contract.startDate),
+      startDate     : this.$formatter.formatDateYmdTodmY(this.contract.startDate),
       contractModels: [],
       loadingModels : false,
       isSaving      : false,

@@ -1,13 +1,8 @@
 import * as actions from "@controleonline/quasar-default-ui/src/store/default/actions";
 import * as getters from "@controleonline/quasar-default-ui/src/store/default/getters";
 import mutations from "@controleonline/quasar-default-ui/src/store/default/mutations";
-import {
-  buildAmericanDate,
-  formatMoney,
-  formatFloat,
-  formatDateYmdTodmY,
-} from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
-import { translate } from "@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js";
+import Formatter from "@controleonline/quasar-common-ui/src/utils/formatter.js";
+
 
 export default {
   namespaced: true,
@@ -242,13 +237,13 @@ export default {
         align: "right",
         sum: true,
         editFormat(value) {
-          return formatMoney(value);
+          return Formatter.formatMoney(value);
         },
         saveFormat(value) {
           return formatFloat(value);
         },
         format(value) {
-          return formatMoney(value);
+          return Formatter.formatMoney(value);
         },
       },
       {
@@ -259,13 +254,13 @@ export default {
         align: "right",
         sum: true,
         editFormat(value) {
-          return formatMoney(value);
+          return Formatter.formatMoney(value);
         },
         saveFormat(value) {
           return formatFloat(value);
         },
         format(value) {
-          return formatMoney(value);
+          return Formatter.formatMoney(value);
         },
       },
       {
@@ -277,13 +272,13 @@ export default {
         align: "right",
         sum: true,
         editFormat(value) {
-          return formatMoney(value);
+          return Formatter.formatMoney(value);
         },
         saveFormat(value) {
           return formatFloat(value);
         },
         format(value) {
-          return formatMoney(value);
+          return Formatter.formatMoney(value);
         },
       },
       {
@@ -295,7 +290,7 @@ export default {
         saveFormat: function (value) {
           return buildAmericanDate(value);
         },
-        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
+        format: (val) => (val ? Formatter.formatDateYmdTodmY(val) : ""),
       },
       {
         externalFilter: true,
@@ -306,7 +301,7 @@ export default {
         saveFormat: function (value) {
           return buildAmericanDate(value);
         },
-        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
+        format: (val) => (val ? Formatter.formatDateYmdTodmY(val) : ""),
       },
       {
         externalFilter: true,
@@ -317,7 +312,7 @@ export default {
         saveFormat: function (value) {
           return buildAmericanDate(value);
         },
-        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
+        format: (val) => (val ? Formatter.formatDateYmdTodmY(val) : ""),
       },
       {
         externalFilter: true,
@@ -328,7 +323,7 @@ export default {
         saveFormat: function (value) {
           return buildAmericanDate(value);
         },
-        format: (val) => (val ? formatDateYmdTodmY(val) : ""),
+        format: (val) => (val ? Formatter.formatDateYmdTodmY(val) : ""),
       },
       {
         editable: false,
@@ -336,7 +331,7 @@ export default {
         name: "lastModified",
         label: "lastModified",
         align: "center",
-        format: (val) => (val ? formatDateYmdTodmY(val, true) : ""),
+        format: (val) => (val ? Formatter.formatDateYmdTodmY(val, true) : ""),
       },
       {
         editable: false,

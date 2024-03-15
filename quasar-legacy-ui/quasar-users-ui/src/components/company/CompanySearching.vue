@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import { formatDocument } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 import FormCompany from '@controleonline/quasar-legacy-ui/quasar-login-ui/src/components/user/signup/Company';
 import { mapActions, mapGetters } from 'vuex';
 

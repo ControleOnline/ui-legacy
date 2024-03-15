@@ -47,7 +47,7 @@
                       </li>
                       <li>
                         <strong>Valor:</strong>
-                        {{ formatMoney(order_.product.totalPrice) }}
+                        {{ this.$formatter. formatMoney(order_.product.totalPrice) }}
                       </li>
                     </ul>
                   </div>
@@ -141,7 +141,7 @@
                   <h7 class="black">
                     {{ tax.group.name }}
                     {{ tax.group.code ? tax.group.code : "" }} -
-                    {{ formatMoney(tax.total) }}
+                    {{ this.$formatter. formatMoney(tax.total) }}
                     <q-btn
                       round
                       :id="domainType() == 'simple' ? 'taxa-button' : ''"
@@ -180,7 +180,7 @@
           </li>
           <li>
             <h7>Frete (R$):</h7>
-            {{ formatMoney(quote.total) }}
+            {{ this.$formatter. formatMoney(quote.total) }}
             <q-btn
               round
               :id="domainType() == 'simple' ? 'taxa-button' : ''"
@@ -619,7 +619,7 @@ export default {
       this.routeTime = this.routeTime > 0 ? "de " + Math.round(minRouteTime) + " até " + Math.round(this.routeTime) + " dias" : "--";
     },
 
-    formatMoney(value) {
+   formatMoney(value) {
       let formatter = new Intl.NumberFormat(this.$i18n.locale, {
         style: "currency",
         currency: "BRL",

@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { formatMoney } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
+
 import QuoteTable from '@controleonline/quasar-legacy-ui/quasar-logistic-ui/src/components/ClientQuoteTable';
 import ContractPage from '@controleonline/quasar-legacy-ui/quasar-logistic-ui/src/components/checkout/Index';
 import { mapActions, mapGetters } from 'vuex';
@@ -157,8 +157,8 @@ export default {
       this.dialog = false;
     },
 
-    formatMoney(value) {
-      return formatMoney(value, 'BRL', 'pt-br');
+   formatMoney(value) {
+      return this.$formatter. formatMoney(value, 'BRL', 'pt-br');
     },
 
     requestQuotation(orderId) {

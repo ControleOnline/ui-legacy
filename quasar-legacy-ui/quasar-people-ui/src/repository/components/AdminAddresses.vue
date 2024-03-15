@@ -121,7 +121,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import { formatCEP } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
+
 import SearchCEPAddress from './SearchCEPAddress';
 
 const SETTINGS = {
@@ -155,7 +155,7 @@ const SETTINGS = {
       name: 'postalCode',
       field: 'postalCode',
       format: (val, row) => {
-        return formatCEP(`${val}`);
+        return this.$formatter.formatCEP(`${val}`);
       },
       align: 'left',
       label: 'CEP'

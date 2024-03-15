@@ -144,7 +144,7 @@
 
 <script>
 import DataFilter from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/DataFilter.vue";
-import { formatMoney } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
+
 import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
 import CreateCoupon from "./CreateCoupon.vue";
@@ -194,7 +194,7 @@ const SETTINGS = {
         return val
           ? row.type == "percentage"
             ? parseFloat(val).toFixed(2) + " %"
-            : formatMoney(val, "BRL", "pt-br")
+            : this.$formatter. formatMoney(val, "BRL", "pt-br")
           : "";
       },
     },
@@ -203,7 +203,7 @@ const SETTINGS = {
       field: "total",
       align: "left",
       format: (val, row) => {
-        return formatMoney(val, "BRL", "pt-br");
+        return this.$formatter. formatMoney(val, "BRL", "pt-br");
       },
       label: "Desconto Total",
     },

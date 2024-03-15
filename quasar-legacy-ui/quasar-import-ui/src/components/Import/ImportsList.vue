@@ -232,7 +232,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import { formatDateYmdTodmY } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
+
 import { ENTRYPOINT } from "src/config/entrypoint";
 
 const SETTINGS = {
@@ -456,7 +456,7 @@ export default {
                 feedback: /[0-9]/g.test(row.feedback)
                   ? row.feedback
                   : this.$t("import.feedback." + row.feedback),
-                uploadDate: formatDateYmdTodmY(row.uploadDate),
+                uploadDate: this.$formatter.formatDateYmdTodmY(row.uploadDate),
                 _bussy: false,
               });
             }

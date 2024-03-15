@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { formatCEP } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
+
 import { mapActions, mapGetters } from 'vuex';
 import FormAddress from './FormAddress';
 
@@ -87,7 +87,7 @@ const SETTINGS = {
   columns       : [
     {
       name : 'postalCode',
-      field: row => formatCEP(`${row.postalCode}`),
+      field: row => this.$formatter.formatCEP(`${row.postalCode}`),
       label: 'CEP'
     },
     {

@@ -1,14 +1,7 @@
 import * as actions from "@controleonline/quasar-default-ui/src/store/default/actions";
 import * as getters from "@controleonline/quasar-default-ui/src/store/default/getters";
 import mutations from "@controleonline/quasar-default-ui/src/store/default/mutations";
-import {
-  buildAmericanDate,
-  formatMoney,
-  formatFloat,
-  formatDateYmdTodmY,
-} from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
-
-import { translate } from "@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultMethods.js";
+import Formatter from "@controleonline/quasar-common-ui/src/utils/formatter.js";
 
 export default {
   namespaced: true,
@@ -64,8 +57,11 @@ export default {
         format: function (value) {
           return value?.name;
         },
-        saveFormat: function (value) {
-          return value ? parseInt(value.value || value) : null;
+        saveFormat: function (value, column, row) {
+
+          //if (row && row["@id"])
+            return "/categories/" + parseInt(value.value || value);
+          //else return parseInt(value.value || value);
         },
         formatList: function (value) {
           return value
@@ -107,10 +103,10 @@ export default {
         label: "dueDate",
         externalFilter: true,
         saveFormat: function (value) {
-          return buildAmericanDate(value);
+          return Formatter.buildAmericanDate(value);
         },
         format: function (value) {
-          return formatDateYmdTodmY(value);
+          return Formatter.formatDateYmdTodmY(value);
         },
       },
       {
@@ -123,13 +119,13 @@ export default {
         label: "price",
         sum: true,
         editFormat(value) {
-          return formatMoney(value);
+          return Formatter.formatMoney(value);
         },
         saveFormat(value) {
-          return formatFloat(value);
+          return Formatter.formatFloat(value);
         },
         format(value) {
-          return formatMoney(value);
+          return Formatter.formatMoney(value);
         },
       },
     ],

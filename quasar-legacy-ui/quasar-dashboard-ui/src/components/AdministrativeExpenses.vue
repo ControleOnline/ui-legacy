@@ -12,7 +12,7 @@
         </div>
         <div class="col-6 text-right text-red-14 text-h6">
           {{
-            (administrative_expenses.total_price || 0) | formatMoney
+            (administrative_expenses.total_price || 0) |this.$formatter. formatMoney
           }}
         </div>
       </div>

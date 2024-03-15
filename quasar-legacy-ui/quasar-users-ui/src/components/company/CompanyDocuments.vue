@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import { formatDocument } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 import { mapActions, mapGetters } from 'vuex';
 import FormDocument from './FormDocument';
 
@@ -97,7 +96,7 @@ const SETTINGS = {
     },
     {
       name : 'document',
-      field: row => formatDocument(row.document),
+      field: row => this.$formatter.formatDocument(row.document),
       align: 'left',
       label: 'Documento'
     },

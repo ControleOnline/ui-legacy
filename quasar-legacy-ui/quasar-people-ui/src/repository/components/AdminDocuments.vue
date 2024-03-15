@@ -61,7 +61,6 @@
 <script>
 
 import { api } from "@controleonline/../../src/boot/api";
-import { formatDocument } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 
 const SETTINGS = {
   visibleColumns: [
@@ -81,7 +80,7 @@ const SETTINGS = {
       field: row => row.document,
       align: 'left',
       format: (val) => {
-        return formatDocument(val);
+        return this.$formatter.formatDocument(val);
       },
       label: 'Documento'
     },

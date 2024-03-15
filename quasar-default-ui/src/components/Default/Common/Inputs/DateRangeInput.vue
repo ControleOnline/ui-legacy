@@ -28,10 +28,6 @@
 </template>   
 <script>
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
-import {
-    buildAmericanDate,
-    formatDateYmdTodmY,
-} from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 
 export default {
     props: {
@@ -87,8 +83,8 @@ export default {
         rangeDate(range) {
             let filters = this.$copyObject(range);
             let initialDate = {};
-            initialDate.from = formatDateYmdTodmY(filters?.after);
-            initialDate.to = formatDateYmdTodmY(filters?.before);
+            initialDate.from = this.$formatter.formatDateYmdTodmY(filters?.after);
+            initialDate.to = this.$formatter.formatDateYmdTodmY(filters?.before);
             return initialDate;
         },
         setinputDate() {

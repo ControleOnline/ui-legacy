@@ -70,7 +70,7 @@
             @click="reserve"
           />
           <h5 class="col q-ma-none text-right title-list text-secondary">
-            R$ {{ formatMoney(guideDetailsEdit.main_information.price) }}
+            R$ {{ this.$formatter. formatMoney(guideDetailsEdit.main_information.price) }}
           </h5>
         </div>
 
@@ -157,7 +157,7 @@
                   icon="add_circle_outline" />
               </div>
               <p class="col-4 q-ma-none text-grey-9 text-right text-description">
-                R$ {{ formatMoney(item.price) }}
+                R$ {{ this.$formatter. formatMoney(item.price) }}
               </p>
             </div>
             <div style="justify-content: right;" class="full-width flex items-center">
@@ -416,9 +416,9 @@ export default {
           return acc + cur.price * cur.quantity;
         }, 0);
 
-      this.total = this.formatMoney(sumPrices);
+      this.total = this.this.$formatter. formatMoney(sumPrices);
     },
-    formatMoney(value) {
+   formatMoney(value) {
       const moneyFormated = value.toLocaleString('pt-br', { minimumFractionDigits: 2 });
 
       return moneyFormated;

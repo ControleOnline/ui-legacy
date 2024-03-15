@@ -63,7 +63,6 @@
 </template>
 
 <script>
-//import { payLio } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 export default {
   data() {
     return {

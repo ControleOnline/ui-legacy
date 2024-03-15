@@ -178,7 +178,7 @@ export default {
                     if (this.listObject[name])
                         p[name] = this.listObject[name] + '/' + params[name].value;
                     else
-                        p[name] = this.saveFormat(name, params[name]);
+                        p[name] = this.saveFormat(name, params[name], (this.id ? { '@id': this.id } : params));
                 } else {
                     p[name] = null
                 }

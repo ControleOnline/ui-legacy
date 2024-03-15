@@ -99,7 +99,7 @@
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
                     {{
-                      this.formatCEP(this.steps.retrieve.address.postal_code)
+                      this.this.$formatter.formatCEP(this.steps.retrieve.address.postal_code)
                     }}
                   </td>
                 </tr>
@@ -181,7 +181,7 @@
                   <td class="text-left text-bold">CEP</td>
                   <td class="text-left">
                     {{
-                      this.formatCEP(this.steps.delivery.address.postal_code)
+                      this.this.$formatter.formatCEP(this.steps.delivery.address.postal_code)
                     }}
                   </td>
                 </tr>
@@ -238,7 +238,7 @@
                     {{ this.order.product.type }}
                   </td>
                   <td class="text-center">
-                    {{ formatMoney(this.order.product.totalPrice) }}
+                    {{ this.$formatter.formatMoney(this.order.product.totalPrice) }}
                   </td>
                 </tr>
               </tbody>
@@ -396,10 +396,7 @@
 
 <script>
 import ContactForm from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/ContactForm";
-import {
-formatDocument,
-formatPhone
-} from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
+
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -509,7 +506,7 @@ export default {
       this.dialogs.details.data.state = data.address.state;
       this.dialogs.details.data.city = data.address.city;
       this.dialogs.details.data.district = data.address.district;
-      this.dialogs.details.data.postal_code = this.formatCEP(
+      this.dialogs.details.data.postal_code = this.this.$formatter.formatCEP(
         data.address.postal_code
       );
       this.dialogs.details.data.street = data.address.street;
@@ -576,15 +573,15 @@ export default {
     },
 
     formatDoc(document) {
-      return formatDocument(document);
+      return this.$formatter.formatDocument(document);
     },
     fPhone(phone) {
       return formatPhone(phone);
     },
     formatCEP(cep) {
-      return formatPhone(cep);
+      return this.$formatter.formatCep(cep);
     },
-    formatMoney(value) {
+   formatMoney(value) {
       let formatter = new Intl.NumberFormat(this.$i18n.locale, {
         style: "currency",
         currency: "BRL",

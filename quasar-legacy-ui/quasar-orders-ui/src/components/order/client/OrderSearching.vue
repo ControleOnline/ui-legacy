@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { formatMoney } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
+
 import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
 
@@ -163,7 +163,7 @@ const SETTINGS = {
       field: "preco",
       align: "left",
       format: (val, row) => {
-        return formatMoney(val, "BRL", "pt-br");
+        return this.$formatter. formatMoney(val, "BRL", "pt-br");
       },
       label: "Preço",
     },

@@ -27,7 +27,6 @@ import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/co
 import DateRangeInput from '../Common/Inputs/DateRangeInput';
 import SelectInput from '../Common/Inputs/SelectInput';
 
-import { buildAmericanDate, formatDateYmdTodmY } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 
 export default {
     components: {
@@ -104,11 +103,11 @@ export default {
             let filters = this.$copyObject(this.filters);
             let filter = filters[this.column.key || this.column.name] || {};
             if (dateModel.from)
-                filter.after = buildAmericanDate(dateModel.from);
+                filter.after = this.$formatter.buildAmericanDate(dateModel.from);
             else
                 delete filter.after
             if (dateModel.to)
-                filter.before = buildAmericanDate(dateModel.to);
+                filter.before = this.$formatter.buildAmericanDate(dateModel.to);
             else
                 delete filter.before
 
