@@ -18,7 +18,7 @@
               {{ tax.name }}
             </td>
             <td class="text-right">
-              {{ formatMoney(tax.total) }}
+              {{  formatMoney(tax.total) }}
             </td>
           </tr>
         </tbody>
@@ -230,7 +230,7 @@ export default {
         });
     },
 
-    formatMoney(value) {
+     formatMoney(value) {
       let format = new Intl.NumberFormat(this.$i18n.locale, {
         style: "currency",
         currency: "BRL",

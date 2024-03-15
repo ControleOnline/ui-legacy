@@ -219,7 +219,7 @@
                     {{ this.product.type }}
                   </td>
                   <td class="text-center">
-                    {{ formatMoney(this.product.totalPrice) }}
+                    {{  formatMoney(this.product.totalPrice) }}
                   </td>
                 </tr>
               </tbody>
@@ -346,7 +346,7 @@ import ContactForm from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/c
 import {
 formatCEP,
 formatDocument,
-formatMoney,
+ formatMoney,
 formatPhone,
 } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
@@ -696,8 +696,8 @@ export default {
       return formatDocument(document);
     },
 
-    formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+     formatMoney(value) {
+      return  formatMoney(value, "BRL", "pt-br");
     },
 
     seeDetails(data) {

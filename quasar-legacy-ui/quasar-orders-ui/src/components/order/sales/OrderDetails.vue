@@ -61,7 +61,7 @@
                 <tr>
                   <td class="text-left text-bold">Valor do pedido</td>
                   <td class="text-left">
-                    {{ formatMoney(this.price) }}
+                    {{  formatMoney(this.price) }}
                   </td>
                 </tr>
                 <tr v-if="this.purchasingOrderId">
@@ -72,7 +72,7 @@
                     </router-link>
                   </td>
                   <td class="text-left">
-                    {{ formatMoney(this.purchasingPrice) }}
+                    {{  formatMoney(this.purchasingPrice) }}
                   </td>
                 </tr>
                 <tr v-if="this.purchasingOrderId">
@@ -86,7 +86,7 @@
                     ? 'red text-left text-bold'
                     : 'green text-left text-bold'
                     ">
-                    {{ formatMoney(this.price - this.purchasingPrice) }}
+                    {{  formatMoney(this.price - this.purchasingPrice) }}
                     ({{ parseFloat(this.realPecentage).toFixed(2) }}
                     %)
                   </td>
@@ -94,7 +94,7 @@
                 <tr v-if="this.purchasingOrderId">
                   <td class="text-left text-bold">Valor correto do ticket</td>
                   <td class="text-left">
-                    {{ formatMoney(this.correctValue) }}
+                    {{  formatMoney(this.correctValue) }}
                     ({{ parseFloat(this.correctPercentage).toFixed(2) }}
                     %)
                   </td>
@@ -411,7 +411,7 @@ import OrderDetailSummary from "./details/OrderDetailSummary";
 
 import {
   formatDateYmdTodmY,
-  formatMoney,
+   formatMoney,
 } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 import OrderDetailDACTE from "./details/OrderDetailDACTE";
@@ -874,8 +874,8 @@ export default {
       });
     },
 
-    formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+     formatMoney(value) {
+      return  formatMoney(value, "BRL", "pt-br");
     },
 
     requestStatus(orderId) {

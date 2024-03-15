@@ -52,7 +52,7 @@
             icon="add_circle_outline" />
         </div>
         <p class="col-4 q-ma-none text-grey-9 text-right text-description">
-          R$ {{ formatMoney(reserveEdit.quantity_customers.price) }}
+          R$ {{  formatMoney(reserveEdit.quantity_customers.price) }}
         </p>
       </div>
 
@@ -92,7 +92,7 @@
         </div>
 
         <p class="col-4 q-ma-none text-grey-9 text-right text-description">
-          R$ {{ formatMoney(item.price) }}
+          R$ {{  formatMoney(item.price) }}
         </p>
       </div>
     </q-item>
@@ -182,9 +182,9 @@ export default {
           return acc + cur.price * cur.quantity;
         }, 0);
 
-      this.total = this.formatMoney(sumPrices + sumCostumers);
+      this.total = this. formatMoney(sumPrices + sumCostumers);
     },
-    formatMoney(value) {
+     formatMoney(value) {
       const moneyFormated = value.toLocaleString('pt-br', { minimumFractionDigits: 2 });
 
       return moneyFormated;

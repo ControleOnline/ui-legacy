@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { formatMoney } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
+import {  formatMoney } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 import { mapGetters } from 'vuex';
 
 const SETTINGS = {
@@ -165,7 +165,7 @@ export default {
 
   filters: {
     money(value) {
-      return formatMoney(value, 'BRL', 'pt-br');
+      return  formatMoney(value, 'BRL', 'pt-br');
     }
   },
 };

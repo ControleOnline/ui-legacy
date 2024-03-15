@@ -38,13 +38,13 @@
                   </router-link>
                 </td>
                 <td class="text-left">
-                  {{ formatMoney(this.mainPrice) }}
+                  {{  formatMoney(this.mainPrice) }}
                 </td>
               </tr>
               <tr>
                 <td class="text-left text-bold">Valor do Fornecedor</td>
                 <td class="text-left">
-                  {{ formatMoney(this.price) }}
+                  {{  formatMoney(this.price) }}
                 </td>
               </tr>
               <tr v-if="this.mainOrderId">
@@ -64,7 +64,7 @@
                       : 'green text-left text-bold'
                   "
                 >
-                  {{ formatMoney(this.mainPrice - this.price) }}
+                  {{  formatMoney(this.mainPrice - this.price) }}
                   ({{ parseFloat(this.realPecentage).toFixed(2) }}
                   %)
                 </td>
@@ -72,7 +72,7 @@
               <tr v-if="this.mainOrderId">
                 <td class="text-left text-bold">Valor correto do ticket</td>
                 <td class="text-left">
-                  {{ formatMoney(this.correctValue) }}
+                  {{  formatMoney(this.correctValue) }}
                   ({{ parseFloat(this.correctPercentage).toFixed(2) }}
                   %)
                 </td>
@@ -263,7 +263,7 @@
 </template>
 
 <script>
-import { formatMoney } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
+import {  formatMoney } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
@@ -479,8 +479,8 @@ export default {
       });
     },
 
-    formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+     formatMoney(value) {
+      return  formatMoney(value, "BRL", "pt-br");
     },
 
     requestStatus(orderId) {

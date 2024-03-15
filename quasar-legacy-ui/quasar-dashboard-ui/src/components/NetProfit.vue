@@ -11,7 +11,7 @@
           {{ $t("dashboard.net_profit") }} ({{ net_profit_percent || 0 }} %)
         </div>
         <div class="col-6 text-right text-green-14 text-h6">
-          {{ (net_profit || 0) | formatMoney }}
+          {{ (net_profit || 0) |  formatMoney }}
         </div>
       </div>
     </div>

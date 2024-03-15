@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { formatMoney } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
+import {  formatMoney } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -77,7 +77,7 @@ export default {
         .then(billing => {
           if (billing !== null) {
             this.item = {
-              amount : billing.amount  > 0 ? formatMoney(billing.amount, 'BRL', 'pt-br') : 'À Vista',
+              amount : billing.amount  > 0 ?  formatMoney(billing.amount, 'BRL', 'pt-br') : 'À Vista',
               period : billing.amount  > 0 ? (periods[billing.period] ? periods[billing.period] : billing.period) : 'Por Pedido',
               dueDays: billing.dueDays > 1 ? `${billing.dueDays} dias` : `${billing.dueDays} dia`,
             };

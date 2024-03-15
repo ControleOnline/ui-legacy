@@ -75,7 +75,7 @@
 
 <script>
 import DataFilter from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/DataFilter.vue";
-import { formatMoney } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
+import {  formatMoney } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import { date } from "quasar";
 import { mapActions, mapGetters } from "vuex";
 
@@ -189,7 +189,7 @@ const SETTINGS = {
       field: "preco",
       align: "left",
       format: (val, row) => {
-        return formatMoney(val, "BRL", "pt-br");
+        return  formatMoney(val, "BRL", "pt-br");
       },
       label: "Preço",
     },

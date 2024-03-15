@@ -421,7 +421,7 @@
                   <td class="text-center">
                     <div class="flex justify-center items-center q-gutter-x-xs">
                       <div v-if="!editTotalPrice">
-                        {{ formatMoney(this.product.totalPrice) }}
+                        {{  formatMoney(this.product.totalPrice) }}
                       </div>
                       <q-input
                         v-if="editTotalPrice"
@@ -682,7 +682,7 @@ import { api } from "@controleonline/../../src/boot/api";
 import {
 formatCEP,
 formatDocument,
-formatMoney,
+ formatMoney,
 formatPhone,
 } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
@@ -1302,8 +1302,8 @@ export default {
       return formatDocument(document);
     },
 
-    formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+     formatMoney(value) {
+      return  formatMoney(value, "BRL", "pt-br");
     },
     createNewContract() {
       if (this.summary.contractId) {
@@ -1569,8 +1569,8 @@ export default {
     formatDoc(document) {
       return formatDocument(document);
     },
-    formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+     formatMoney(value) {
+      return  formatMoney(value, "BRL", "pt-br");
     },
 
     btEditRem() {

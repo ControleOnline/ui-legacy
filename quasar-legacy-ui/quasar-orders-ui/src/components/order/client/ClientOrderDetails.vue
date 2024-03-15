@@ -26,7 +26,7 @@
               <tr>
                 <td class="text-left text-bold">Valor do pedido</td>
                 <td class="text-left">
-                  {{ formatMoney(this.status.price) }}
+                  {{  formatMoney(this.status.price) }}
                 </td>
               </tr>
               <tr>
@@ -176,7 +176,7 @@
 </template>
 
 <script>
-import { formatMoney } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
+import {  formatMoney } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 import { mapActions, mapGetters } from "vuex";
 import OrderDetailTag from "../sales/details/OrderDetailTag";
@@ -318,8 +318,8 @@ export default {
       this.requestStatus(this.orderId);
     },
 
-    formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+     formatMoney(value) {
+      return  formatMoney(value, "BRL", "pt-br");
     },
 
     requestStatus(orderId) {

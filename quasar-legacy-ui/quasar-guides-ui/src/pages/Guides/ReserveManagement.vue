@@ -10,7 +10,7 @@
       <q-item-section class="text-bold">
         <div class="flex items-center">
           <q-item-label class="title-list">
-            {{ $t('wallet') }}: {{ formatMoney(reserve_edit.wallet_value) }}
+            {{ $t('wallet') }}: {{  formatMoney(reserve_edit.wallet_value) }}
           </q-item-label>
           <q-space></q-space>
           <q-icon size="1.5rem" name="o_account_balance_wallet"></q-icon>
@@ -130,7 +130,7 @@ export default {
   },
 
   methods: {
-    formatMoney(value) {
+     formatMoney(value) {
       const moneyFormated = value.toLocaleString('pt-br', { minimumFractionDigits: 2 });
 
       return moneyFormated;

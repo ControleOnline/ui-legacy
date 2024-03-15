@@ -12,7 +12,7 @@
         </div>
         <div class="col-6 text-right text-green-14 text-h6">
           {{
-            (comission_order_totals.total_price || 0) | formatMoney
+            (comission_order_totals.total_price || 0) |  formatMoney
           }}
         </div>
       </div>

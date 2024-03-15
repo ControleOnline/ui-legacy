@@ -25,7 +25,7 @@
               <div
                 class="text-bold absolute-bottom text-subtitle1 text-secondary text-right bg-positive color-label"
               >
-                R$ {{ formatMoney(price) }}
+                R$ {{  formatMoney(price) }}
               </div>
 
               <div
@@ -184,7 +184,7 @@ export default {
         favorite: !this.favorite,
       });
     },
-    formatMoney(value) {
+     formatMoney(value) {
       const moneyFormated = value.toLocaleString("pt-br", { minimumFractionDigits: 2 });
 
       return moneyFormated;

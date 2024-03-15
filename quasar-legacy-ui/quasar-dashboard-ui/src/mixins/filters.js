@@ -8,7 +8,7 @@ export default {
     formatToDmy(date) {
       return formatDateYmdTodmY(date)
     },
-    formatMoney(value) {
+     formatMoney(value) {
       return formatBRMoney(value)
     }
   },

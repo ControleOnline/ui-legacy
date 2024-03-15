@@ -91,7 +91,7 @@ export default {
           position : 'left',
           axisLabel: {
             formatter: (value) => {
-              return this.formatMoney(value);
+              return this. formatMoney(value);
             },
           },
           axisLine : {
@@ -145,7 +145,7 @@ export default {
       return date.formatDate(date.extractDate(dateString, 'YYYY-MM-DD'), 'DD-MM-YYYY');
     },
 
-    formatMoney(value) {
+     formatMoney(value) {
       let formatter = new Intl.NumberFormat(this.$i18n.locale, {
         style   : 'currency',
         currency: 'BRL',

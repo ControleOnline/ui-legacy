@@ -8,11 +8,11 @@
     <div class="col-9">
       <div class="column">
         <div class="col-6 text-right text-uppercase">          
-          {{ $t('dashboard.average_ticket') }} ({{ (data.average_ticket || 0) | formatMoney }})
+          {{ $t('dashboard.average_ticket') }} ({{ (data.average_ticket || 0) |  formatMoney }})
         </div>
         <div class="col-6 text-right text-green-14 text-h6">
           {{
-            (data.average_ticket_total || 0) | formatMoney
+            (data.average_ticket_total || 0) |  formatMoney
           }}
         </div>
       </div>

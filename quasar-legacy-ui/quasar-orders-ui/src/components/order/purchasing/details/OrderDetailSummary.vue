@@ -245,7 +245,7 @@
                     {{ this.product.type }}
                   </td>
                   <td class="text-center">
-                    {{ formatMoney(this.product.totalPrice) }}
+                    {{  formatMoney(this.product.totalPrice) }}
                   </td>
                 </tr>
               </tbody>
@@ -365,7 +365,7 @@ import ListAutocomplete from "@controleonline/quasar-legacy-ui/quasar-common-ui/
 import {
 formatCEP,
 formatDocument,
-formatMoney,
+ formatMoney,
 formatPhone,
 } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";
 import { mapActions, mapGetters } from "vuex";
@@ -917,8 +917,8 @@ export default {
     formatDoc(document) {
       return formatDocument(document);
     },
-    formatMoney(value) {
-      return formatMoney(value, "BRL", "pt-br");
+     formatMoney(value) {
+      return  formatMoney(value, "BRL", "pt-br");
     },
 
     btEditRem() {

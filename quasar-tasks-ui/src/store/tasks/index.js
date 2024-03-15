@@ -3,7 +3,7 @@ import * as getters from "@controleonline/quasar-default-ui/src/store/default/ge
 import mutations from "@controleonline/quasar-default-ui/src/store/default/mutations";
 import {
   buildAmericanDate,
-  formatMoney,
+   formatMoney,
   formatFloat,
   formatDateYmdTodmY,
 } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter";

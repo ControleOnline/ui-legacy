@@ -238,7 +238,7 @@
                     {{ this.order.product.type }}
                   </td>
                   <td class="text-center">
-                    {{ formatMoney(this.order.product.totalPrice) }}
+                    {{  formatMoney(this.order.product.totalPrice) }}
                   </td>
                 </tr>
               </tbody>
@@ -584,7 +584,7 @@ export default {
     formatCEP(cep) {
       return formatPhone(cep);
     },
-    formatMoney(value) {
+     formatMoney(value) {
       let formatter = new Intl.NumberFormat(this.$i18n.locale, {
         style: "currency",
         currency: "BRL",

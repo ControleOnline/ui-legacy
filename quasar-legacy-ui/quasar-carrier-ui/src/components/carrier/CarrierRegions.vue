@@ -119,7 +119,7 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import { formatMoney } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
+import {  formatMoney } from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/formatter';
 
 const SETTINGS = {
   visibleColumns: [
@@ -172,7 +172,7 @@ const SETTINGS = {
       field : row => row.tax,
       align : 'left',
       format: (val) => {
-        return formatMoney(val, 'BRL', 'pt-BR');
+        return  formatMoney(val, 'BRL', 'pt-BR');
       },
       label : 'Taxa de coleta'
     },
