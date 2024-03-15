@@ -357,7 +357,6 @@ export default {
             category: quote.group.name,
             variant: quote.group.name,
             price: this. formatMoneyToBRL(quote.total),
-            price: this. formatMoneyToBRL(quote.total),
             currency: "BRL",
             quantity: 1,
           },
@@ -383,7 +382,7 @@ export default {
             name: `Frete de ${this.order.address.origin.city}/${this.order.address.origin.state} para ${this.order.address.destination.city}/${this.order.address.destination.state} (${this.order.quotes[i].retrieveDeadline}-${this.order.quotes[i].deliveryDeadline})`,
             list_name: "Cotação",
             variant: this.order.quotes[i].group.name,
-            price: this.  formatMoneyToBRL(this.order.quotes[i].total),
+            price: this. formatMoneyToBRL(this.order.quotes[i].total),
             currency: "BRL",
             quantity: 1,
           });
@@ -409,7 +408,6 @@ export default {
       let data = {
         event_category: "Cotação",
         event_label: this.order.address.origin.state,
-        value: this. formatMoneyToBRL(this.order.price),
         value: this. formatMoneyToBRL(this.order.price),
       };
 
@@ -499,7 +497,6 @@ export default {
           category: quote.group.name,
           variant: quote.group.name,
           price: this. formatMoneyToBRL(quote.total),
-          price: this. formatMoneyToBRL(quote.total),
           currency: "BRL",
           quantity: 1,
         },
@@ -507,10 +504,8 @@ export default {
           transaction_id: this.order.id,
           affiliation: "Google online store",
           value: this. formatMoneyToBRL(this.order.price),
-          value: this. formatMoneyToBRL(this.order.price),
           currency: "BRL",
           tax: 0,
-          shipping: this. formatMoneyToBRL(this.order.price),
           shipping: this. formatMoneyToBRL(this.order.price),
           items: item,
         };
