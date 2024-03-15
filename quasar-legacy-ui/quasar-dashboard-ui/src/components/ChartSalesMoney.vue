@@ -91,7 +91,7 @@ export default {
           position : 'left',
           axisLabel: {
             formatter: (value) => {
-              return this.formatMoney(value);
+              return this. formatMoney(value);
             },
           },
           axisLine : {
