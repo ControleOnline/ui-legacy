@@ -10,26 +10,30 @@
       default-opened
     >
       <div class="row q-col-gutter-md">
-        <q-card
-          class="icon-card col-md-3 col-sm-6 col-lg-2 col-xl-1 col-sm-6 col-xs-12 d-flex flex-wrap justify-between q-ma-md"
+        <div
+          class="q-pa-md col-md-3 col-sm-6 col-lg-2 col-xl-1 col-sm-6 col-xs-12 d-flex flex-wrap justify-between"
           v-for="(item, index) in mItem.menus"
           :key="index"
-          @click="click(item)"
-          :style="{
-            backgroundColor: getCardBackground(
-              mIndex.toString() + index.toString()
-            ),
-          }"
         >
-          <q-card-section class="q-pa-md">
-            <q-avatar class="big-icon">
-              <q-icon :name="item.icon" size="50px" />
-            </q-avatar>
-          </q-card-section>
-          <q-card-section class="q-pa-md">
-            <div class="text-center">{{ $t(item.label) }}</div>
-          </q-card-section>
-        </q-card>
+          <q-card
+          class="icon-card"
+            @click="click(item)"
+            :style="{
+              backgroundColor: getCardBackground(
+                mIndex.toString() + index.toString()
+              ),
+            }"
+          >
+            <q-card-section class="q-pa-md">
+              <q-avatar class="big-icon">
+                <q-icon :name="item.icon" size="50px" />
+              </q-avatar>
+            </q-card-section>
+            <q-card-section class="q-pa-md">
+              <div class="text-center">{{ $t(item.label) }}</div>
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
     </q-expansion-item>
   </q-list>
