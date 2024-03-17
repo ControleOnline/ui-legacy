@@ -49,7 +49,7 @@ export default {
           return value?.status;
         },
         formatList: function (value) {
-          if (value)
+          if (value && value["@id"])
             return {
               value: value["@id"].split("/").pop(),
               label: value?.status,
@@ -72,7 +72,7 @@ export default {
           return value ? value?.name + " - " + value?.alias : " - ";
         },
         formatList: function (value) {
-          if (value)
+          if (value && value["@id"])
             return {
               value: value["@id"].split("/").pop(),
               label: value?.name + " - " + value?.alias,
@@ -173,7 +173,7 @@ export default {
           return value ? value?.name + " - " + value?.alias : " - ";
         },
         formatList: function (value) {
-          if (value)
+          if (value && value["@id"])
             return {
               value: value["@id"].split("/").pop(),
               label: value?.name + " - " + value?.alias,
@@ -196,7 +196,7 @@ export default {
           return value ? value?.name + " - " + value?.alias : " - ";
         },
         formatList: function (value) {
-          if (value)
+          if (value && value["@id"])
             return {
               value: value["@id"].split("/").pop(),
               label: value?.name + " - " + value?.alias,

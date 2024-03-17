@@ -56,7 +56,7 @@ export default {
                             company: '/people/' + this.myCompany.id
                         }
                     },
-                    status: {
+                    taskStatus: {
                         filters: {
                             context: this.context
                         }
