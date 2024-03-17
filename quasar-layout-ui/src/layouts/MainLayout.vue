@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="bg-image" :style="style()">
+  <q-layout view="lHh Lpr lFf" class="bg-image k" :style="style()">
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -21,7 +21,7 @@ export default {
 
     style() {
       if (this.defaultCompany && this.defaultCompany.theme.background) {
-        return "background-image: url('//" + this.defaultCompany.theme.background.domain + this.defaultCompany.theme.background.url + "')";
+        return "min-height: 125vh;background-image: url('//" + this.defaultCompany.theme.background.domain + this.defaultCompany.theme.background.url + "')";
       }
     },
   },

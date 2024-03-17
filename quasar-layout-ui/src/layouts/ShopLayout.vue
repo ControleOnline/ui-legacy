@@ -70,7 +70,7 @@ export default {
   methods: {
     style() {
       if (this.defaultCompany && this.defaultCompany.background) {
-        return "background-image: url('//" + this.defaultCompany.theme.background.domain + this.defaultCompany.theme.background.url + "')";
+        return "min-height: 125vh;background-image: url('//" + this.defaultCompany.theme.background.domain + this.defaultCompany.theme.background.url + "')";
       }
     },
   },
