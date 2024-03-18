@@ -3,7 +3,6 @@ import * as getters from "@controleonline/quasar-default-ui/src/store/default/ge
 import mutations from "@controleonline/quasar-default-ui/src/store/default/mutations";
 import Formatter from "@controleonline/quasar-common-ui/src/utils/formatter.js";
 
-
 export default {
   namespaced: true,
   state: {
@@ -18,7 +17,7 @@ export default {
         isIdentity: true,
         externalFilter: true,
         sortable: true,
-        editable: false,
+        editable: true,
         name: "id",
         align: "center",
         label: "id",
@@ -29,7 +28,7 @@ export default {
       {
         externalFilter: true,
         sortable: true,
-        editable: false,
+        editable: true,
         name: "name",
         align: "center",
         label: "name",
@@ -37,7 +36,7 @@ export default {
       {
         externalFilter: true,
         sortable: true,
-        editable: false,
+        editable: true,
         name: "taskStatus",
         align: "center",
         label: "taskStatus",
@@ -63,7 +62,7 @@ export default {
         externalFilter: true,
 
         sortable: true,
-        editable: false,
+        editable: true,
         name: "client",
         align: "center",
         label: "client",
@@ -86,7 +85,7 @@ export default {
         externalFilter: true,
 
         sortable: true,
-        editable: false,
+        editable: true,
         name: "criticality",
         align: "center",
         label: "criticality",
@@ -97,7 +96,7 @@ export default {
           return value?.name;
         },
         saveFormat: function (value) {
-          return value ? parseInt(value.value || value) : null;
+          return value ? "/categories/" + parseInt(value.value || value) : null;
         },
         formatList: function (value) {
           return value
@@ -112,7 +111,7 @@ export default {
         externalFilter: true,
 
         sortable: true,
-        editable: false,
+        editable: true,
         name: "category",
         align: "center",
         label: "category",
@@ -123,7 +122,7 @@ export default {
           return value?.name;
         },
         saveFormat: function (value) {
-          return value ? parseInt(value.value || value) : null;
+          return value ? "/categories/" + parseInt(value.value || value) : null;
         },
         formatList: function (value) {
           return value
@@ -138,7 +137,7 @@ export default {
         externalFilter: true,
 
         sortable: true,
-        editable: false,
+        editable: true,
         name: "reason",
         align: "center",
         label: "reason",
@@ -149,7 +148,7 @@ export default {
           return value?.name;
         },
         saveFormat: function (value) {
-          return value ? parseInt(value.value || value) : null;
+          return value ? "/categories/" + parseInt(value.value || value) : null;
         },
         formatList: function (value) {
           return value
@@ -187,7 +186,7 @@ export default {
         externalFilter: true,
 
         sortable: true,
-        editable: false,
+        editable: true,
         name: "taskFor",
         align: "center",
         label: "taskFor",
@@ -211,7 +210,7 @@ export default {
         externalFilter: true,
         inputType: "date-range",
         sortable: true,
-        editable: false,
+        editable: true,
         name: "createdAt",
         align: "center",
         label: "createdAt",
@@ -226,7 +225,7 @@ export default {
         externalFilter: true,
         inputType: "date-range",
         sortable: true,
-        editable: false,
+        editable: true,
         name: "dueDate",
         align: "center",
         label: "dueDate",
@@ -241,7 +240,7 @@ export default {
         externalFilter: true,
         inputType: "date-range",
         sortable: true,
-        editable: false,
+        editable: true,
         name: "alterDate",
         align: "center",
         label: "alterDate",

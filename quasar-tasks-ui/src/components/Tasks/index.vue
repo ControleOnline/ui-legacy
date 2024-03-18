@@ -4,11 +4,12 @@
 <script>
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
 import { mapActions, mapGetters } from "vuex";
-import Status from "@controleonline/quasar-common-ui/src/components/Status/Button";
+import ActionBar from "./ActionBar";
+
 export default {
     components: {
         DefaultTable,
-        Status,
+        ActionBar,
     },
     props: {
         context: {
@@ -70,7 +71,7 @@ export default {
                         }
                     },
                     headerActions: {
-                        //component: Status,
+                        component: ActionBar,
                         props: {
                             context: this.context
                         }
