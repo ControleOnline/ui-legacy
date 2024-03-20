@@ -131,7 +131,7 @@ export const translate = {
     'SupportIndex': 'Ocorrências',
     'CarriersIndex': 'Transportadoras',
     'StretchSearching': 'Logística',
-    'FinancePayIndex': 'Contas a Pagar',
+    'FinanceExpenseIndex': 'Contas a Pagar',
     'FinanceReceiveIndex': 'Contas a Receber',
     'MenuIndex': 'Menus',
     'ModuleIndex': 'Módulos',

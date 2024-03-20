@@ -16,7 +16,19 @@ export const updateProfile = ({ commit }, { id, component, payload }) => {
       return data;
     });
 };
+export const addUser = ({ commit }, { id, payload }) => {
+  const params = {
+    method: "POST",
+    body: payload,
+  };
 
+  return api
+    .fetch(`people/${id}/add-user`, params)
+
+    .then((data) => {
+      return data;
+    });
+};
 export const getPhones = ({ commit }, params = {}) => {
   commit(types.SET_ISLOADING);
 
