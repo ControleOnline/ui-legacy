@@ -1,231 +1,264 @@
 <template>
-    <q-card class="q-pa-md full-width default-form">
-        <q-card-section class="row items-center">
-            <label class="text-h5">{{ $translate(configs.store, (item?.id ? 'edit' : 'add'), 'title')
-            }}</label>
-            <q-space />
-            <q-btn icon="close" flat round dense v-close-popup />
-        </q-card-section>
-        <q-separator></q-separator>
-        <q-card-section>
-            <q-form ref="myForm" @submit="onSubmit">
-                <div class="row q-col-gutter-xs q-pb-xs">
-                    <template v-for="(column, index)  in columns">
-                        <div v-if="column.isIdentity != true && showFormColumn[column.key || column.name]"
-                            :class="(column.formClass || getFilterSize()) + ' q-pa-xs'">
-                            <FormInputs :editable="column.editable" :prefix="column.prefix" :sufix="column.sufix"
-                                :inputType="getList(configs, column) ? 'list' : column.inputType" :store="configs.store"
-                                :mask="mask(column)" :rules="column.rules" :labelType="'outer-label'" :label="column.label"
-                                :filters="getSearchFilters(column)" :initialValue="item[column.key || column.name]"
-                                :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
-                                :searchAction="getList(configs, column)" @focus="editingInit(column)" @changed="(value) => {
-                                    item[column.key || column.name] = value;
-                                }" />
-                        </div>
-                    </template>
-                </div>
+  <q-card class="q-pa-md full-width default-form">
+    <q-card-section class="row items-center">
+      <label class="text-h5">{{
+        $translate(configs.store, item?.id ? "edit" : "add", "title")
+      }}</label>
+      <q-space />
+      <q-btn icon="close" flat round dense v-close-popup />
+    </q-card-section>
+    <q-separator></q-separator>
+    <q-card-section>
+      <q-form ref="myForm" @submit="onSubmit">
+        <div class="row q-col-gutter-xs q-pb-xs">
+          <template v-for="(column, index) in columns">
+            <div
+              v-if="
+                column.isIdentity != true &&
+                showFormColumn[column.key || column.name]
+              "
+              :class="(column.formClass || getFilterSize()) + ' q-pa-xs'"
+            >
+              <FormInputs
+                :editable="isEditable(column)"
+                :prefix="column.prefix"
+                :sufix="column.sufix"
+                :inputType="
+                  getList(configs, column) ? 'list' : column.inputType
+                "
+                :store="configs.store"
+                :mask="mask(column)"
+                :rules="column.rules"
+                :labelType="'outer-label'"
+                :label="column.label"
+                :filters="getSearchFilters(column)"
+                :initialValue="item[column.key || column.name]"
+                :searchParam="column.searchParam || 'search'"
+                :formatOptions="column.formatList"
+                :searchAction="getList(configs, column)"
+                @focus="editingInit(column)"
+                @changed="
+                  (value) => {
+                    item[column.key || column.name] = value;
+                  }
+                "
+              />
+            </div>
+          </template>
+        </div>
 
-                <div class="row justify-end">
-                    <q-btn :loading="isSaving" icon="save" type="submit" :label="$translate(configs.store, 'save', 'btn')
-                        " size="md" class="q-mt-md btn-primary" />
-                </div>
-            </q-form>
-        </q-card-section>
-    </q-card>
+        <div class="row justify-end">
+          <q-btn
+            :loading="isSaving"
+            icon="save"
+            type="submit"
+            :label="$translate(configs.store, 'save', 'btn')"
+            size="md"
+            class="q-mt-md btn-primary"
+          />
+        </div>
+      </q-form>
+    </q-card-section>
+  </q-card>
 </template>
-  
+
 <script>
-import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
+import * as DefaultFiltersMethods from "@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js";
 import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Common/FormInputs";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-    props: {
-        configs: {
-            type: Object,
-            required: true,
-        },
-        index: {
-            type: Number,
-            required: false,
-        },
-        data: {
-            type: Object,
-            required: false,
-            default() {
-                return {};
-            }
-        },
+  props: {
+    configs: {
+      type: Object,
+      required: true,
     },
-    components: {
-        FormInputs
+    index: {
+      type: Number,
+      required: false,
     },
-    data() {
-        return {
-            showFormColumn: {},
-            showInput: {},
-            listObject: {},
-            listAutocomplete: [],
-            editing: [],
-            periodo: false,
-            item: {},
-            id: null,
-        };
+    data: {
+      type: Object,
+      required: false,
+      default() {
+        return {};
+      },
     },
-    created() {
+  },
+  components: {
+    FormInputs,
+  },
+  data() {
+    return {
+      showFormColumn: {},
+      showInput: {},
+      listObject: {},
+      listAutocomplete: [],
+      editing: [],
+      periodo: false,
+      item: {},
+      id: null,
+    };
+  },
+  created() {
+    this.getFilteredColumns();
 
+    let data = {};
+    Object.keys(this.data).forEach((item, i) => {
+      let column = this.columns.find((c) => {
+        return (c.key || c.name) == item;
+      });
+
+      if (column) {
+        data[column.key || column.name] = this.getList(this.configs, column)
+          ? this.formatList(column, this.data[column.key || column.name], true)
+          : this.format(column, item, this.data[column.key || column.name]);
+
+        if (column.isIdentity) {
+          this.id = this.data[column.key || column.name];
+          data.id = this.id;
+        }
+      }
+    });
+
+    if (this.data["@id"]) data["id"] = this.data["@id"].split("/").pop();
+
+    this.item = data;
+  },
+  mounted() {
+    this.$nextTick(() => {});
+  },
+
+  computed: {
+    ...mapGetters({
+      myCompany: "people/currentCompany",
+    }),
+    isSaving() {
+      return this.$store.getters[this.configs.store + "/isSaving"];
+    },
+    filters() {
+      return this.$store.getters[this.configs.store + "/filters"] || {};
+    },
+    columns() {
+      return this.$store.getters[this.configs.store + "/columns"];
+    },
+    isLoadingList() {
+      return this.$store.getters[this.configs.store + "/isLoadingList"];
+    },
+  },
+  watch: {
+    item: {
+      handler: function (current, preview) {
         this.getFilteredColumns();
+      },
+      deep: true,
+    },
+  },
+  methods: {
+    ...DefaultFiltersMethods,
+    isEditable(column) {
+      return this.id ? column.editable : true;
+    },
+    getFilteredColumns() {
+      let columns = {};
+      Object.values(this.columns).forEach((c, key) => {
+        if (!this.configs?.columns) {
+          columns[c.key || c.name] = true;
+        } else {
+          let cc = this.configs?.columns[c.key || c.name];
+          if (cc?.visibleForm && typeof cc.visibleForm === "function") {
+            columns[c.key || c.name] = cc.visibleForm(this.item, c);
+          } else {
+            columns[c.key || c.name] = true;
+          }
+        }
+      });
+      this.showFormColumn = columns;
+    },
 
-        let data = {};
-        Object.keys(this.data).forEach((item, i) => {
-            let column = this.columns.find((c) => {
-                return (c.key || c.name) == item
-            });
+    getFilterSize() {
+      let size = 0;
+      let number = this.columns.length;
 
-            if (column) {
-                data[column.key || column.name] =
+      if (number > 0) size = Math.floor(12 / (number + 1));
 
-                    this.getList(this.configs, column) ?
-                        this.formatList(column, this.data[column.key || column.name], true) :
-                        this.format(column, item, this.data[column.key || column.name]);
+      if (this.$q.screen.gt.sm) {
+        if (size < 4) size = 4;
+      } else {
+        if (size < 6) size = 6;
+      }
 
-                if (column.isIdentity) {
-                    this.id = this.data[column.key || column.name];
-                    data.id = this.id;
-                }
-            }
+      return (
+        "col-xs-12 col-sm-4 col-md-" +
+        size +
+        " col-lg-" +
+        size +
+        " col-xl-" +
+        size
+      );
+    },
+
+    save(params) {
+      let p = this.$copyObject(this.filters);
+      for (const name in params) {
+        if (this.showFormColumn[name]) {
+          if (this.listObject[name])
+            p[name] = this.listObject[name] + "/" + params[name].value;
+          else
+            p[name] = this.saveFormat(
+              name,
+              params[name],
+              this.id ? { "@id": this.id } : params
+            );
+        } else {
+          p[name] = null;
+        }
+      }
+      if (this.id) p.id = this.id;
+
+      if (this.myCompany)
+        p[this.configs.companyParam || "company"] =
+          "/people/" + this.myCompany.id;
+
+      this.$store
+        .dispatch(this.configs.store + "/save", p)
+        .then((item) => {
+          this.$q.notify({
+            message: this.$translate(this.configs.store, "success", "message"),
+            position: "bottom",
+            type: "positive",
+          });
+          this.$emit("saved", item, this.index);
+        })
+        .catch((error) => {
+          this.$emit("error", error);
+          this.$q.notify({
+            message: this.$translate(this.configs.store, "error", "message"),
+            position: "bottom",
+            type: "negative",
+          });
         });
-
-        if (this.data['@id'])
-            data['id'] = this.data['@id'].split('/').pop();
-
-        this.item = data;
-    },
-    mounted() {
-        this.$nextTick(() => {
-        });
     },
 
-    computed: {
-        ...mapGetters({
-            myCompany: 'people/currentCompany',
-        }),
-        isSaving() {
-            return this.$store.getters[this.configs.store + '/isSaving']
-        },
-        filters() {
-            return this.$store.getters[this.configs.store + '/filters'] || {}
-        },
-        columns() {
-            return this.$store.getters[this.configs.store + '/columns']
-        },
-        isLoadingList() {
-            return this.$store.getters[this.configs.store + '/isLoadingList']
-        },
+    editingInit(col) {
+      this.editing = [{ [col.key || col.name]: true }];
+      return this.editing;
     },
-    watch: {
-        item: {
-            handler: function (current, preview) {
-                this.getFilteredColumns();
-            },
-            deep: true,
-        },
+
+    onSubmit() {
+      this.$refs.myForm.validate().then((success) => {
+        if (success) {
+          let payload = this.item;
+          this.save(payload);
+        }
+      });
     },
-    methods: {
-        ...DefaultFiltersMethods,
-
-        getFilteredColumns() {
-            let columns = {};
-            Object.values(this.columns).forEach((c, key) => {
-                if (!this.configs?.columns) {
-                    columns[c.key || c.name] = true;
-                } else {
-                    let cc = this.configs?.columns[c.key || c.name];
-                    if (cc?.visibleForm && typeof cc.visibleForm === 'function') {
-                        columns[c.key || c.name] = cc.visibleForm(this.item, c);
-                    } else {
-                        columns[c.key || c.name] = true;
-                    }
-                }
-            });
-            this.showFormColumn = columns;
-        },
-
-        getFilterSize() {
-            let size = 0;
-            let number = this.columns.length;
-
-            if (number > 0)
-                size = Math.floor(12 / (number + 1));
-
-
-            if (this.$q.screen.gt.sm) {
-                if (size < 4)
-                    size = 4;
-            } else {
-                if (size < 6)
-                    size = 6;
-            }
-
-
-            return 'col-xs-12 col-sm-4 col-md-' + size + ' col-lg-' + size + ' col-xl-' + size;
-        },
-
-        save(params) {
-            let p = this.$copyObject(this.filters);
-            for (const name in params) {
-                if (this.showFormColumn[name]) {
-                    if (this.listObject[name])
-                        p[name] = this.listObject[name] + '/' + params[name].value;
-                    else
-                        p[name] = this.saveFormat(name, params[name], (this.id ? { '@id': this.id } : params));
-                } else {
-                    p[name] = null
-                }
-            }
-            if (this.id)
-                p.id = this.id;
-
-            if (this.myCompany)
-                p[this.configs.companyParam || 'company'] = '/people/' + this.myCompany.id;
-
-            this.$store.dispatch(this.configs.store + '/save', p
-            ).then((item) => {
-                this.$q.notify({
-                    message: this.$translate(this.configs.store, 'success', 'message'),
-                    position: "bottom",
-                    type: "positive",
-                });
-                this.$emit("saved", item, this.index);
-            }).catch((error) => {
-                this.$emit("error", error);
-                this.$q.notify({
-                    message: this.$translate(this.configs.store, 'error', 'message'),
-                    position: "bottom",
-                    type: "negative",
-                });
-            });
-        },
-
-        editingInit(col) {
-            this.editing = [{ [col.key || col.name]: true }];
-            return this.editing;
-        },
-
-        onSubmit() {
-            this.$refs.myForm.validate().then((success) => {
-                if (success) {
-                    let payload = this.item;
-                    this.save(payload);
-                }
-            });
-        },
-    }
+  },
 };
-</script>  
+</script>
 
 <style>
 .default-form {
-    max-width: 1024px !important
+  max-width: 1024px !important;
 }
 </style>

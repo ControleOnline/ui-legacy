@@ -2,7 +2,7 @@
     <label v-if="labelType != 'stack-label'">
         {{ $translate(store, label, 'input') }}
     </label>
-    <q-input outlined v-if="inputType == 'date-range'" filled v-model="data" mask="##/##/####" :rules="['validateBRDate']"
+    <q-input :disable="editable == false" outlined v-if="inputType == 'date-range'" filled v-model="data" mask="##/##/####" :rules="['validateBRDate']"
         @keydown="this.$emit('keydown', $event)">
         <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
@@ -17,7 +17,7 @@
         </template>
     </q-input>
 
-    <SelectInput v-else-if="inputType == 'list'" :store="store" :labelType="labelType" :label="label" multiple
+    <SelectInput :disable="editable == false" v-else-if="inputType == 'list'" :store="store" :labelType="labelType" :label="label" multiple
         :searchAction="searchAction" :filters="filters" :initialValue="initialValue" :formatOptions="formatOptions"
         :searchParam="searchParam" @keydown="this.$emit('keydown', $event)" @blur="this.$emit('blur', $event)"
         @update="this.$emit('update', $event)" @selected="(value) => {

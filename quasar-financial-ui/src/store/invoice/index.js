@@ -57,6 +57,11 @@ export default {
         format: function (value) {
           return value?.name;
         },
+        style: function (value) {
+          return {
+            color: value.category.color,
+          };
+        },
         saveFormat: function (value, column, row) {
           //if (row && row["@id"])
           return "/categories/" + parseInt(value.value || value);
@@ -81,6 +86,11 @@ export default {
         externalFilter: true,
         format: function (value) {
           return value?.status;
+        },
+        style: function (value) {
+          return {
+            color: value.status.color,
+          };
         },
         formatList: function (value) {
           if (value)
@@ -137,6 +147,7 @@ export default {
         list: "paymentType/getItems",
         searchParam: "paymentType",
         externalFilter: true,
+        editable: false,
         format: function (value) {
           return value?.paymentType;
         },

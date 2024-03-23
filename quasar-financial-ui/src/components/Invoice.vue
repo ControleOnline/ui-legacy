@@ -37,6 +37,16 @@ export default {
                             company: '/people/' + this.myCompany.id
                         }
                     },
+                    paymentType: {
+                        filters: {
+                            people: '/people/' + this.myCompany.id
+                        }
+                    },
+                    wallet: {
+                        filters: {
+                            people: '/people/' + this.myCompany.id
+                        }
+                    },
                     status: {
                         filters: {
                             context: 'invoice'

@@ -20,7 +20,7 @@ export default {
     }),
     configs() {
       return {
-        store: 'categories',
+        store: 'status',
         add: true,
         selection: false,
         filters: true,
@@ -47,7 +47,7 @@ export default {
       context: this.context,
       company: '/people/' + this.myCompany.id
     };
-    this.$store.commit('categories' + '/SET_FILTERS', filters);
+    this.$store.commit('status' + '/SET_FILTERS', filters);
 
   },
   methods: {
