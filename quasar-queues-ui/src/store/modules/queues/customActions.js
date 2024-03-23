@@ -42,7 +42,7 @@ export function getOrders ({ commit }, data)  {
     });
 };
 
-export function getHardwares({ commit }, data){
+export function getDisplays({ commit }, data){
 
   commit(types.SET_ISLOADING);
 
@@ -54,7 +54,7 @@ export function getHardwares({ commit }, data){
 
 
 
-  return api.fetch('hardware', options)
+  return api.fetch('display', options)
     
     .then(data => {
       commit(types.SET_ISLOADING, false);

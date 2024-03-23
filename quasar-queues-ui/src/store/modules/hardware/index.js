@@ -5,7 +5,7 @@ import mutations from "@controleonline/quasar-default-ui/src/store/default/mutat
 export default {
   namespaced: true,
   state: {
-    resourceEndpoint: "hardware",
+    resourceEndpoint: "display",
     isLoading: false,
     error: "",
     violations: null,
@@ -22,7 +22,7 @@ export default {
         sum: false,
         to: function (column) {
           return {
-            name: "hardwareDetails",
+            name: "displayDetails",
             params: { id: column.id },
           };
         },
@@ -32,9 +32,9 @@ export default {
       },
       {
         sortable: true,
-        name: "hardware",
+        name: "display",
         align: "left",
-        label: "hardware",
+        label: "display",
         sum: false,
         format: function (value) {
           return value;
@@ -42,14 +42,14 @@ export default {
       },
       {
         list: [
-          { label: "hardwareType.production", value: "production" },
-          { label: "hardwareType.delivery", value: "delivery" },
-          { label: "hardwareType.display", value: "display" },
+          { label: "displayType.production", value: "production" },
+          { label: "displayType.delivery", value: "delivery" },
+          { label: "displayType.display", value: "display" },
         ],
         sortable: true,
-        name: "hardwareType",
+        name: "displayType",
         align: "left",
-        label: "hardwareType",
+        label: "displayType",
         format: function (value) {
           return value;
         },

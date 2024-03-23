@@ -82,7 +82,7 @@ export default {
       refresh: false,
       config: new Config(),
       orders: {
-        hardware: null,
+        display: null,
         open: [],
         pending: [],
       },
@@ -90,8 +90,8 @@ export default {
   },
 
   created() {
-    this.timeout = (parseFloat(this.config.getConfig("refresh-hardware-time") || 60)) * 1000;
-    this.hardware = decodeURIComponent(this.$route.params.id);
+    this.timeout = (parseFloat(this.config.getConfig("refresh-display-time") || 60)) * 1000;
+    this.display = decodeURIComponent(this.$route.params.id);
     this.onRequest();
   },
 
@@ -115,7 +115,7 @@ export default {
       return this.getQueueOrders({
         "itemsPerPage": rows,
         "orderQueue.status.realStatus": status,
-        "orderQueue.queue.hardwareQueue.hardware": this.hardware,
+        "orderQueue.queue.displayQueue.display": this.display,
       })
         .then((result) => {
           this.orders[status] = result;

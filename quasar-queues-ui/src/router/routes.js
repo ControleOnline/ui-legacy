@@ -6,7 +6,7 @@ export const routes = [
       {
         name: "hardwareList",
         path: "",
-        component: () => import("../pages/Hardware/List.vue"),
+        component: () => import("../pages/Displays/List.vue"),
       },
       {
         name: "hardwareDetails",
@@ -17,7 +17,7 @@ export const routes = [
   },
 
   {
-    path: "/displays  ",
+    path: "/displays",
     component: () => import("@controleonline/quasar-layout-ui/src/layouts/MainLayout.vue"),
     children: [
       {

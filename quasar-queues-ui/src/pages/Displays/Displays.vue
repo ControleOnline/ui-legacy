@@ -1,30 +1,54 @@
 <template>
   <q-page>
     <div class="q-pa-md row q-gutter-md">
-
-      <q-card v-for="hardware in hardwares" :key="hardware.id" @click="openHardware(hardware)"
-        class=" hardware-card  col-4 col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+      <q-card
+        v-for="display in displays"
+        :key="display.id"
+        @click="openDisplay(display)"
+        class="display-card col-4 col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3"
+      >
         <q-card-actions>
           <div class="q-gutter-sm items-center row full-width">
-            <img :src="getCompanyLogo(hardware)" class="current-logo" v-if="getCompanyLogo(hardware)" />
-            <span v-else> {{ hardware.company.alias }}</span>
+            <img
+              :src="getCompanyLogo(display)"
+              class="display current-logo"
+              v-if="getCompanyLogo(display)"
+            />
+            <span v-else> {{ display.company.alias }}</span>
           </div>
           <div class="col-auto justify-end icon-absolute-right">
-            <q-btn v-if="hardware.hardwareType == 'delivery'" fab class="btn-primary" icon="place"
-              @click="openHardware(hardware)" />
-            <q-btn v-if="hardware.hardwareType == 'hardware'" fab class="btn-positive" icon="done" @click="openHardware(hardware)" />
-            <q-btn v-if="hardware.hardwareType == 'production'" fab class="btn-primary" icon="receipt_long"
-              @click="openHardware(hardware)" />
-
+            <q-btn
+              v-if="display.displayType == 'delivery'"
+              fab
+              class="btn-primary"
+              icon="place"
+              @click="openDisplay(display)"
+            />
+            <q-btn
+              v-if="display.displayType == 'display'"
+              fab
+              class="btn-positive"
+              icon="done"
+              @click="openDisplay(display)"
+            />
+            <q-btn
+              v-if="display.displayType == 'production'"
+              fab
+              class="btn-primary"
+              icon="receipt_long"
+              @click="openDisplay(display)"
+            />
           </div>
         </q-card-actions>
         <q-separator />
         <q-card-section class="full-width">
           <div class="row no-wrap items-center q-col-gutter-md justify-between">
             <div class="col text-h6 ellipsis">
-              {{ hardware.hardware }}
+              {{ display.display }}
             </div>
-            <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
+            <div
+              class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
+            >
               <q-icon name="place" />
               250 ft
             </div>
@@ -32,10 +56,10 @@
         </q-card-section>
         <q-card-section class="q-pt-none">
           <div class="text-subtitle1">
-            {{ $t('hardware.types.' + hardware.hardwareType) }}
+            {{ $t("display.types." + display.displayType) }}
           </div>
           <div class="text-caption text-grey">
-            {{ $t('hardware.messages.' + hardware.hardwareType) }}
+            {{ $t("display.messages." + display.displayType) }}
           </div>
         </q-card-section>
       </q-card>
@@ -44,13 +68,13 @@
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { ENTRYPOINT } from 'src/config/entrypoint';
+import { ENTRYPOINT } from "src/config/entrypoint";
 
 export default {
   data() {
     return {
       isSearching: false,
-      hardwares: [],
+      displays: [],
     };
   },
   computed: {
@@ -67,28 +91,27 @@ export default {
 
   methods: {
     ...mapActions({
-      getHardwares: "queues/getHardwares",
+      getDisplays: "queues/getDisplays",
     }),
 
-    getCompanyLogo(hardware) {
-      if (hardware.company.file.id)
-        return ENTRYPOINT + '/files/download/' + hardware.company.file.id
-
+    getCompanyLogo(display) {
+      if (display.company.file.id)
+        return ENTRYPOINT + "/files/download/" + display.company.file.id;
     },
     onRequest() {
-      this.getMyHardwares();
+      this.getMyDisplays();
     },
-    openHardware(hardware) {
+    openDisplay(display) {
       this.$router.push({
         name: "displayDetails",
-        params: { id: hardware.id },
+        params: { id: display.id },
       });
     },
-    getMyHardwares() {
+    getMyDisplays() {
       this.isSearching = true;
-      return this.getHardwares()
+      return this.getDisplays()
         .then((result) => {
-          this.hardwares = result;
+          this.displays = result;
         })
         .finally(() => {
           this.isSearching = false;
@@ -98,9 +121,8 @@ export default {
 };
 </script>
 
-
 <style scoped>
-.hardware-card {
+.display-card {
   cursor: pointer;
   transition: box-shadow 0.3s ease;
 }
@@ -111,7 +133,10 @@ export default {
   top: 25px;
 }
 
-.hardware-card:hover {
+.display-card:hover {
   box-shadow: 0 4px 8px rgb(0 0 0 / 53%);
+}
+.display.current-logo {
+  max-width: 80%;
 }
 </style>

@@ -4,14 +4,14 @@
 export const translate = {
   people: "Pessoa",
 
-  hardware: {
+  display: {
     id: "ID",
-    hardwareType: "Tipo",
+    displayType: "Tipo",
     edit: "Editar",
     company: "Empresa",
-    hardware: "Dispostivo",
-    add: "Adicionar Hardware",
-    msg_delete: "Deseja remover o Hardware?",
+    display: "Dispostivo",
+    add: "Adicionar Display",
+    msg_delete: "Deseja remover o Display?",
     delete: "Remover",
     cancel: "Cancelar",
     confirm: "Confirmar",
@@ -31,12 +31,12 @@ export const translate = {
     },
 
     messages: {
-      hardware: "Para acompanhamento do cliente",
+      display: "Para acompanhamento do cliente",
       production: "Para a produção dos itens do pedido",
       delivery: "Para entrega de pedidos",
     },
   },
-  hardwareType: {
+  displayType: {
     delivery: "Delivery",
     production: "Produção",
     display: "Display",

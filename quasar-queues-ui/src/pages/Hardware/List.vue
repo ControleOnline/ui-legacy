@@ -15,7 +15,7 @@ export default {
     }),
     configs() {
       return {
-        store: 'hardware',
+        store: 'display',
         add: true,
         selection: false,
         search: {
