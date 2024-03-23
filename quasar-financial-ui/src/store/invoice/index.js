@@ -126,7 +126,7 @@ export default {
             };
         },
         saveFormat: function (value) {
-          return value ? "/wallet/" + (value.value || value) : null;
+          return value ? "/wallets/" + (value.value || value) : null;
         },
       },
       {
@@ -148,7 +148,7 @@ export default {
             };
         },
         saveFormat: function (value) {
-          return value ? "/paymentType/" + (value.value || value) : null;
+          return value ? "/payment_types/" + (value.value || value) : null;
         },
       },
       {

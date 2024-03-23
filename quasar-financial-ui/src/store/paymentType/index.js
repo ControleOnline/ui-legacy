@@ -6,14 +6,13 @@ import Formatter from "@controleonline/quasar-common-ui/src/utils/formatter.js";
 export default {
   namespaced: true,
   state: {
-    resourceEndpoint: "paymentTypes",
+    resourceEndpoint: "payment_types",
     isLoading: false,
     error: "",
     violations: null,
     totalItems: 0,
     filters: {},
-    columns: [
-    ],
+    columns: [],
   },
   actions: actions,
   getters,
