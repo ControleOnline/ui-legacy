@@ -5,7 +5,7 @@ import mutations from "@controleonline/quasar-default-ui/src/store/default/mutat
 export default {
   namespaced: true,
   state: {
-    resourceEndpoint: "display",
+    resourceEndpoint: "displays",
     isLoading: false,
     error: "",
     violations: null,

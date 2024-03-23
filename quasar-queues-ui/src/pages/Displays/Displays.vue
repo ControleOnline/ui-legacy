@@ -91,7 +91,7 @@ export default {
 
   methods: {
     ...mapActions({
-      getDisplays: "queues/getDisplays",
+      getDisplays: "displays/getItems",
     }),
 
     getCompanyLogo(display) {

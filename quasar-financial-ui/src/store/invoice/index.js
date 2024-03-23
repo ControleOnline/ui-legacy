@@ -58,9 +58,8 @@ export default {
           return value?.name;
         },
         saveFormat: function (value, column, row) {
-
           //if (row && row["@id"])
-            return "/categories/" + parseInt(value.value || value);
+          return "/categories/" + parseInt(value.value || value);
           //else return parseInt(value.value || value);
         },
         formatList: function (value) {
@@ -95,7 +94,6 @@ export default {
         },
       },
       {
-        externalFilter: true,
         inputType: "date-range",
         sortable: true,
         name: "dueDate",
@@ -107,6 +105,50 @@ export default {
         },
         format: function (value) {
           return Formatter.formatDateYmdTodmY(value);
+        },
+      },
+      {
+        sortable: true,
+        name: "wallet",
+        align: "left",
+        label: "wallet",
+        list: "wallet/getItems",
+        searchParam: "wallet",
+        externalFilter: true,
+        format: function (value) {
+          return value?.wallet;
+        },
+        formatList: function (value) {
+          if (value)
+            return {
+              value: value["@id"].split("/").pop(),
+              label: value?.wallet,
+            };
+        },
+        saveFormat: function (value) {
+          return value ? "/wallet/" + (value.value || value) : null;
+        },
+      },
+      {
+        sortable: true,
+        name: "paymentType",
+        align: "left",
+        label: "paymentType",
+        list: "paymentType/getItems",
+        searchParam: "paymentType",
+        externalFilter: true,
+        format: function (value) {
+          return value?.paymentType;
+        },
+        formatList: function (value) {
+          if (value)
+            return {
+              value: value["@id"].split("/").pop(),
+              label: value?.paymentType,
+            };
+        },
+        saveFormat: function (value) {
+          return value ? "/paymentType/" + (value.value || value) : null;
         },
       },
       {

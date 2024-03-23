@@ -23,6 +23,8 @@ export const translate = {
       categories_invoice: "Centros de Custo",
     },
     input: {
+      paymentType: "Forma de Pagamento",
+      wallet: "Carteira",
       payer: "Pagador",
       receiver: "Fornecedor",
       category: "Centro de Custo",

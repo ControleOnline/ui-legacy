@@ -15,7 +15,7 @@ export default {
     }),
     configs() {
       return {
-        store: 'display',
+        store: 'displays',
         add: true,
         selection: false,
         search: {
