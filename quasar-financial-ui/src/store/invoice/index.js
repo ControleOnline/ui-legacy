@@ -61,7 +61,7 @@ export default {
         },
         style: function (value) {
           return {
-            color: value.category.color,
+            color: value?.category?.color,
           };
         },
         saveFormat: function (value, column, row) {
@@ -174,10 +174,10 @@ export default {
         inputType: "number",
         mask: "####",
         editFormat(value) {
-          return value || 1;
+          return parseInt(value || 1);
         },
         saveFormat(value) {
-          return value || 1;
+          return parseInt(value || 1);
         },
         format(value, column, row, editing) {
           if (row.paymentType.frequency == "single") {
