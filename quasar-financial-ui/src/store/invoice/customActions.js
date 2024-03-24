@@ -2,9 +2,9 @@ import { api } from "@controleonline/../../src/boot/api";
 import SubmissionError from "@controleonline/quasar-default-ui/src/error/SubmissionError";
 import * as types from "@controleonline/quasar-default-ui/src/store/default/mutation_types";
 
-const RESOURCE_ENDPOINT = "/sales/orders";
+const RESOURCE_ENDPOINT = "/income_statements";
 
-export function getOrders({ commit }, data) {
+export function getIncomeStatements({ commit }, data) {
   commit(types.SET_ISLOADING);
 
   const options = {

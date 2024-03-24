@@ -2,6 +2,7 @@ import * as actions from "@controleonline/quasar-default-ui/src/store/default/ac
 import * as getters from "@controleonline/quasar-default-ui/src/store/default/getters";
 import mutations from "@controleonline/quasar-default-ui/src/store/default/mutations";
 import Formatter from "@controleonline/quasar-common-ui/src/utils/formatter.js";
+import * as customActions from "./customActions";
 
 export default {
   namespaced: true,
@@ -178,7 +179,7 @@ export default {
         saveFormat(value) {
           return value || 1;
         },
-        format(value, column, row,editing) {
+        format(value, column, row, editing) {
           if (row.paymentType.frequency == "single") {
             return "1X";
           }
@@ -209,7 +210,7 @@ export default {
       },
     ],
   },
-  actions: actions,
+  actions: { ...actions, ...customActions },
   getters,
   mutations,
 };
