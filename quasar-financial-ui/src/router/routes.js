@@ -27,9 +27,9 @@ export const routes = [
       },
 
       {
-        name: "FinanceReports",
-        path: "reports",
-        component: () => import("../pages/Reports/Reports.vue"),
+        name: "IncomeStatement",
+        path: "IS",
+        component: () => import("../pages/Reports/IncomeStatement.vue"),
       },
     ],
   },

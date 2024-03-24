@@ -46,6 +46,7 @@ export default {
           return value ? "/people/" + (value.value || value) : null;
         },
       },
+
       {
         sortable: true,
         name: "category",
@@ -156,10 +157,35 @@ export default {
             return {
               value: value["@id"].split("/").pop(),
               label: value?.paymentType,
+              object: value,
             };
         },
         saveFormat: function (value) {
           return value ? "/payment_types/" + (value.value || value) : null;
+        },
+      },
+      {
+        sortable: true,
+        name: "installments",
+        align: "center",
+        label: "installments",
+        editable: false,
+        inputType: "number",
+        mask: "####",
+        editFormat(value) {
+          return value || 1;
+        },
+        saveFormat(value) {
+          return value || 1;
+        },
+        format(value, column, row,editing) {
+          if (row.paymentType.frequency == "single") {
+            return "1X";
+          }
+          if (row.installments == 0) {
+            return "Recorrente";
+          }
+          return (row.portion > 0 ? row.portion : 1) + "X/" + row.installments;
         },
       },
       {

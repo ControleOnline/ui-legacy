@@ -31,6 +31,7 @@ export const translate = {
       status: "Status",
       dueDate: "Data de Vencimento",
       parent: "Centro de Custo Pai",
+      installments: "Parcelas",
     },
 
     title: {

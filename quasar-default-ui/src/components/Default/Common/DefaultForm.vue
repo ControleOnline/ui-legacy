@@ -112,7 +112,12 @@ export default {
       if (column) {
         data[column.key || column.name] = this.getList(this.configs, column)
           ? this.formatList(column, this.data[column.key || column.name], true)
-          : this.format(column, item, this.data[column.key || column.name]);
+          : this.format(
+              column,
+              this.data,
+              this.data[column.key || column.name],
+              true
+            );
 
         if (column.isIdentity) {
           this.id = this.data[column.key || column.name];
@@ -211,7 +216,11 @@ export default {
               this.id ? { "@id": this.id } : params
             );
         } else {
-          p[name] = null;
+          p[name] = this.saveFormat(
+              name,
+              params[name],
+              this.id ? { "@id": this.id } : params
+            );
         }
       }
       if (this.id) p.id = this.id;
