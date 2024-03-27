@@ -2,22 +2,24 @@
 // so you can safely delete all default props below
 
 export const translate = {
-  products:{
-    productCondition: 'Condição',
-    type: 'Tipo',
-    product: 'Produto',
-    id: 'ID',
-    price: 'Preço',
-
+  products: {
+    input: {
+      productCondition: "Condição",
+      type: "Tipo",
+      product: "Produto",
+      id: "ID",
+      price: "Preço",
+      sku: "SKU",
+      description: "Descrição",
+      productUnit: "Unidade",
+    },
   },
-  product:{
-    used:'Usado',
-    new:'Novo',
-    recondicioned: 'Recondicionado',
-    product: 'Produto',
-    service: 'Serviço',
-    component: 'Componente',
-
-
-  }
-}
+  product: {
+    used: "Usado",
+    new: "Novo",
+    recondicioned: "Recondicionado",
+    product: "Produto",
+    service: "Serviço",
+    component: "Componente",
+  },
+};

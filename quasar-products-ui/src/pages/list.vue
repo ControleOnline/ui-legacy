@@ -8,18 +8,17 @@ import DefaultTable from "@controleonline/quasar-default-ui/src/components/Defau
 export default {
   name: "Products",
   components: {
-    DefaultTable
+    DefaultTable,
     //acoes
   },
 
   computed: {
     configs() {
       return {
-        store: 'products',
+        filters: true,
+        store: "products",
         selection: false,
-        search: {
-          
-        },
+        search: {},
         components: {
           /*
           tableActions: {
@@ -30,35 +29,15 @@ export default {
           }
           */
         },
-
-        list: {
-          productType: this.productType,
-          productConditions: this.productConditions,
-        },
       };
-    }
+    },
   },
   data() {
     return {
 
-      productType: [
-        { label: this.$t('product.product'), value: 'product' },
-        { label: this.$t('product.service'), value: 'service' },
-        { label: this.$t('product.component'), value: 'component' }
-      ],
-      productConditions: [
-        { label: this.$t('product.new'), value: 'new' },
-        { label: this.$t('product.used'), value: 'used' },
-        { label: this.$t('product.recondicioned'), value: 'recondicioned' }
-      ],
-
     };
   },
-  created() {
-
-  },
-  methods: {
-
-  },
+  created() {},
+  methods: {},
 };
 </script>

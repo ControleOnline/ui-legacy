@@ -1,11 +1,12 @@
 import * as actions from "@controleonline/quasar-default-ui/src/store/default/actions";
 import * as getters from "@controleonline/quasar-default-ui/src/store/default/getters";
 import mutations from "@controleonline/quasar-default-ui/src/store/default/mutations";
+import Formatter from "@controleonline/quasar-common-ui/src/utils/formatter.js";
 
 export default {
-  namespaced: true,  
+  namespaced: true,
   state: {
-    resourceEndpoint:'products',
+    resourceEndpoint: "products",
     isLoading: false,
     error: "",
     violations: null,
@@ -16,12 +17,13 @@ export default {
         sortable: true,
         name: "id",
         align: "left",
-        label: "products.id",
+        label: "id",
         sum: false,
-        to: function (column) {
+        isIdentity: true,
+        to: function (value) {
           return {
             name: "ProductDetails",
-            params: { id: column.id },
+            params: { id: value },
           };
         },
         format: function (value) {
@@ -31,9 +33,13 @@ export default {
       {
         sortable: true,
         name: "sku",
+        externalFilter: true,
         align: "left",
-        label: "products.sku",
+        label: "sku",
         sum: false,
+        saveFormat(value) {
+          return value + "";
+        },
         format: function (value) {
           return value;
         },
@@ -41,18 +47,56 @@ export default {
       {
         sortable: true,
         name: "product",
+        externalFilter: true,
         align: "left",
-        label: "products.product",
+        label: "product",
         format: function (value) {
           return value;
         },
       },
       {
         sortable: true,
+        name: "description",
+        externalFilter: true,
+        align: "left",
+        label: "description",
+        format: function (value) {
+          return value;
+        },
+      },
+      {
+        sortable: true,
+        externalFilter: true,
+        name: "productUnit",
+        align: "left",
+        list: "productUnit/getItems",
+        label: "productUnit",
+        format: function (value) {
+          return value?.productUnit;
+        },
+        formatList: function (value) {
+          if (value)
+            return {
+              value: value["@id"].split("/").pop(),
+              label: value.productUnit,
+            };
+        },
+        saveFormat: function (value) {
+          return value ? "/product_unities/" + (value.value || value) : null;
+        },
+      },
+
+      {
+        sortable: true,
+        externalFilter: true,
         name: "type",
         align: "left",
-        list:"productType",
-        label: "products.type",
+        list: [
+          { value: "product", label: "Produto" },
+          { value: "service", label: "Serviço" },
+          { value: "component", label: "Componente" },
+        ],
+        label: "type",
         format: function (value) {
           return value;
         },
@@ -60,9 +104,14 @@ export default {
       {
         sortable: true,
         name: "productCondition",
-        list:"productConditions",
+        externalFilter: true,
+        list: [
+          { value: "new", label: "Novo" },
+          { value: "used", label: "Usado" },
+          { value: "recondicioned", label: "Recondicionado" },
+        ],
         align: "left",
-        label: "products.productCondition",
+        label: "productCondition",
         format: function (value) {
           return value;
         },
@@ -71,11 +120,18 @@ export default {
         sortable: true,
         name: "price",
         align: "right",
-        label: "products.price",
-        format: function (value) {
-          return parseFloat(value);
+        label: "price",
+        sum: true,
+        editFormat(value) {
+          return Formatter.formatMoney(value);
         },
-      },      
+        saveFormat(value) {
+          return Formatter.formatFloat(value);
+        },
+        format(value) {
+          return Formatter.formatMoney(value);
+        },
+      },
     ],
   },
   actions,
