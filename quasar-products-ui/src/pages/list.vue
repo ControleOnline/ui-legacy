@@ -3,7 +3,6 @@
 </template>
 <script>
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
-//import acoes from "@nelsys/../../src/modules/nelsys/quasar-waybill-ui/src/components/pedido/acoes.vue";
 
 export default {
   name: "Products",

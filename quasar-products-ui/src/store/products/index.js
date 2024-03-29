@@ -69,7 +69,7 @@ export default {
         externalFilter: true,
         name: "productUnit",
         align: "left",
-        list: "productUnit/getItems",
+        list: "product_unit/getItems",
         label: "productUnit",
         format: function (value) {
           return value?.productUnit;
@@ -95,6 +95,8 @@ export default {
           { value: "product", label: "Produto" },
           { value: "service", label: "Serviço" },
           { value: "component", label: "Componente" },
+          { value: "feedstock", label: "Matéria Prima" },
+          { value: "package", label: "Embalagem" },
         ],
         label: "type",
         format: function (value) {

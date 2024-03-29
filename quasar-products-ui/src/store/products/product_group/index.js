@@ -6,7 +6,7 @@ import Formatter from "@controleonline/quasar-common-ui/src/utils/formatter.js";
 export default {
   namespaced: true,
   state: {
-    resourceEndpoint: "products",
+    resourceEndpoint: "product_groups",
     isLoading: false,
     error: "",
     violations: null,

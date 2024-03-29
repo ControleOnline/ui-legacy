@@ -1,44 +1,37 @@
 <template>
-  <div class="row col-12">
-    <div class="row col-12">Grupos</div>
-  </div>
+  <DefaultTable :configs="configs" v-if="configs" />
 </template>
-
 <script>
-import { mapGetters, mapActions } from "vuex";
-
-
+import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
 
 export default {
+  components: {
+    DefaultTable,
 
+  },
   props: {
     ProductId: {
       required: false,
     },
   },
+  computed: {
+    configs() {
+      return {
+        filters: true,
+        store: "product_group",
+        selection: false,
+        search: {},
+        components: {
+        },
+      };
+    },
+  },
   data() {
     return {
+
     };
   },
-  created() {
-
-  },
-
-  computed: {
-    ...mapGetters({
-      isLoading: "products/isLoading",
-    }),
-  },
-  methods: {
-    ...mapActions({
-      saveProduct: "products/save",
-    }),
-
-  },
-  watch: {
-
-  },
-
-
+  created() {},
+  methods: {},
 };
 </script>
