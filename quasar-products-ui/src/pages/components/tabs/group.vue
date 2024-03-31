@@ -3,7 +3,7 @@
     <div
       v-for="(group, index) in product_groups"
       :key="index"
-      class="col-3 col-sm-6 col-xs-12 col-md-3 col-lg-2 col-xl-1 q-mb-md q-pa-sm"
+      class="col-3 col-sm-6 col-xs-12 col-md-4 col-lg-3 col-xl-2 q-mb-md q-pa-sm"
       style="display: flex; flex-direction: column"
     >
       <q-card style="flex: 1; padding-bottom: 80px">
@@ -56,6 +56,7 @@
                 </div>
                 <div class="col-6 q-pr-sm">
                   <q-select
+                  map-options
                     label="Tipo de Cálculo"
                     v-model="group.priceCalculation"
                     :options="price_calculation"
@@ -166,11 +167,6 @@ export default {
         this.getProductGroups(this.filters)
           .then((response) => {
             this.product_groups = this.$copyObject(response);
-            this.product_groups.forEach((grupo) => {
-              grupo.priceCalculation = this.price_calculation.find(
-                (obj) => obj.value === grupo.priceCalculation
-              );
-            });
           })
           .finally(() => {
             this.key++;
