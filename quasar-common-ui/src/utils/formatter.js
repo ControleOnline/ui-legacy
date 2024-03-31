@@ -82,7 +82,7 @@ export default class Formatter {
       formattedValue += ",00";
     }
 
-    return formattedValue;
+    return formattedValue || 0;
   }
 
   static buildAmericanDate(dateString) {

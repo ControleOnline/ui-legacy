@@ -15,17 +15,12 @@ export default {
     columns: [
       {
         sortable: true,
+        editable: false,
         name: "id",
         align: "left",
         label: "id",
         sum: false,
         isIdentity: true,
-        to: function (value) {
-          return {
-            name: "ProductDetails",
-            params: { id: value },
-          };
-        },
         format: function (value) {
           return "#" + value;
         },
@@ -33,7 +28,8 @@ export default {
       {
         sortable: true,
         name: "sku",
-        externalFilter: true,
+        externalFilter: false,
+        editable: false,
         align: "left",
         label: "sku",
         sum: false,
@@ -46,82 +42,30 @@ export default {
       },
       {
         sortable: true,
-        name: "product",
-        externalFilter: true,
+        name: "productChild",
+        externalFilter: false,
+        editable: false,
         align: "left",
-        label: "product",
-        format: function (value) {
-          return value;
+        label: "productChild",
+        list: "products/getItems",
+        saveFormat(value, column, row) {
+          return "/products/" + value.value;
         },
-      },
-      {
-        sortable: true,
-        name: "description",
-        externalFilter: true,
-        align: "left",
-        label: "description",
-        format: function (value) {
-          return value;
+        formatList(value, column, row) {
+          return { value: value["@id"].split("/").pop(), label: value.product };
         },
-      },
-      {
-        sortable: true,
-        externalFilter: true,
-        name: "productUnit",
-        align: "left",
-        list: "productUnit/getItems",
-        label: "productUnit",
-        format: function (value) {
-          return value?.productUnit;
-        },
-        formatList: function (value) {
-          if (value)
-            return {
-              value: value["@id"].split("/").pop(),
-              label: value.productUnit,
-            };
-        },
-        saveFormat: function (value) {
-          return value ? "/product_unities/" + (value.value || value) : null;
-        },
-      },
 
-      {
-        sortable: true,
-        externalFilter: true,
-        name: "type",
-        align: "left",
-        list: [
-          { value: "product", label: "Produto" },
-          { value: "service", label: "Serviço" },
-          { value: "component", label: "Componente" },
-        ],
-        label: "type",
         format: function (value) {
-          return value;
+          return value.product;
         },
       },
-      {
-        sortable: true,
-        name: "productCondition",
-        externalFilter: true,
-        list: [
-          { value: "new", label: "Novo" },
-          { value: "used", label: "Usado" },
-          { value: "recondicioned", label: "Recondicionado" },
-        ],
-        align: "left",
-        label: "productCondition",
-        format: function (value) {
-          return value;
-        },
-      },
+      
       {
         sortable: true,
         name: "price",
         align: "right",
         label: "price",
-        sum: true,
+        sum: false,
         editFormat(value) {
           return Formatter.formatMoney(value);
         },
