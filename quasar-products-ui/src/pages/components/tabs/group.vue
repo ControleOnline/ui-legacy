@@ -1,41 +1,69 @@
 <template>
   <div class="row">
     <div
-      v-for="(month, index) in income_statements"
-      :key="month"
+      v-for="(group, index) in product_groups"
+      :key="index"
       class="col-3 col-sm-6 col-xs-12 col-md-3 col-lg-2 col-xl-1 q-mb-md q-pa-sm"
       style="display: flex; flex-direction: column"
     >
       <q-card style="flex: 1; padding-bottom: 80px">
         <q-card-section>
-          <div class="text-h6">
-            {{ month.productGroup }}
-          </div>
+          <q-item>
+            <q-item-section>
+              <div class="row">
+                <div class="col-8 q-pr-sm">
+                  <q-input
+                    dense
+                    stack-label
+                    v-model="group.productGroup"
+                    class="min-max-input"
+                    label="Grupo"
+                    @change="updateGroup(group)"
+                  />
+                </div>
+                <div class="col-4 q-pt-sm text-center">
+                  <label class="required-label">Obrigatório</label>
+                  <q-toggle
+                    dense
+                    stack-label
+                    v-model="group.required"
+                    color="primary"
+                    class="min-max-input required-input"
+                    @update:model-value="updateGroup(group)"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 q-pr-sm">
+                  <q-input
+                    dense
+                    stack-label
+                    label="Mínimo"
+                    v-model="group.minimum"
+                    class="min-max-input"
+                    @change="updateGroup(group)"
+                  />
+                </div>
+                <div class="col-6 q-pr-sm">
+                  <q-input
+                    dense
+                    stack-label
+                    label="Máximo"
+                    v-model="group.maximum"
+                    class="min-max-input"
+                    @change="updateGroup(group)"
+                  />
+                </div>
+              </div>
+            </q-item-section>
+          </q-item>
         </q-card-section>
         <q-card-section>
           <q-list bordered>
-            <q-item-label header>
-              <q-item
-                :style="{ 'min-height': 'auto' }"
-                v-for="(productChild, parentId) in month.products"
-                :key="parentId"
-                class="q-pa-none q-gutter-xs"
-              >
-                <q-item-section class="q-item-section-main">
-                  {{ productChild.productChild.product }}
-                </q-item-section>
-
-                <q-item-section class="q-item-section-side" side>
-                  {{ productChild.quantity }}
-                  {{ productChild.productChild.productUnit.unit }}
-                  x
-                  {{
-                    "R$ " +
-                    $formatter.formatMoney(productChild.productChild.price)
-                  }}
-                </q-item-section>
-              </q-item>
-            </q-item-label>
+            <ProductGroupProduct
+              :products="group.products"
+              :productGroup="group['@id']"
+            />
           </q-list>
         </q-card-section>
       </q-card>
@@ -44,9 +72,12 @@
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
+import ProductGroupProduct from "./components/product_group_product.vue";
 
 export default {
-  components: {},
+  components: {
+    ProductGroupProduct,
+  },
   props: {
     ProductId: {
       required: false,
@@ -73,20 +104,35 @@ export default {
   },
   data() {
     return {
-      income_statements: [
-      ],
+      product_groups: [],
     };
   },
 
   methods: {
     ...mapActions({
       getProductGroups: "product_group/getItems",
+      saveProductGroups: "product_group/save",
     }),
+    updateGroup(group) {
+      let data = this.$copyObject(group);
+      delete data.products;
+      data.minimum = parseFloat(data.minimum);
+      data.maximum = parseFloat(data.maximum);
+      data.groupOrder = parseFloat(data.groupOrder);
+      data.productGroup = data.productGroup + "";
+      this.saveProductGroups(data).then(() => {
+        this.$q.notify({
+          message: this.$translate(this.configs.store, "success", "message"),
+          position: "bottom",
+          type: "positive",
+        });
+      });
+    },
     loadData() {
       if (this.myCompany) {
         this.filters.people = this.myCompany.id;
         this.getProductGroups(this.filters).then((response) => {
-          this.income_statements = response;
+          this.product_groups = this.$copyObject(response);
         });
       }
     },
@@ -107,6 +153,17 @@ export default {
     this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
     this.loadData();
   },
-
 };
 </script>
+<style>
+.min-max-input {
+  max-width: 100%;
+}
+.required-label {
+  position: absolute;
+  font-size: 12px;
+}
+.required-input {
+  margin-top: 20px;
+}
+</style>
