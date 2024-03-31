@@ -71,8 +71,6 @@ export default {
     filters.productGroup = this.productGroup;
     filters.productType = "component";
     this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
-    this.$store.commit(this.configs.store + "/SET_ITEMS", this.products);
-    this.$store.commit(this.configs.store + "/SET_ISLOADING", true);
     this.loaded = true;
   },
 };
