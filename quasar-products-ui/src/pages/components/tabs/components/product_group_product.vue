@@ -127,6 +127,7 @@ export default {
       product_details: {},
       modalVisible: false,
       SelectedProduct: null,
+    
     };
   },
 

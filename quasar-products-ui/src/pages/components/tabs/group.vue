@@ -54,6 +54,14 @@
                     @change="updateGroup(group)"
                   />
                 </div>
+                <div class="col-6 q-pr-sm">
+                  <q-select
+                    label="Tipo de Cálculo"
+                    v-model="group.priceCalculation"
+                    :options="price_calculation"
+                    @update:model-value="updateGroup(group)"
+                  />
+                </div>
               </div>
             </q-item-section>
           </q-item>
@@ -61,7 +69,7 @@
         <q-card-section>
           <q-list bordered>
             <ProductGroupProduct
-            :key="key"
+              :key="key"
               :products="group.products"
               :productGroup="group['@id']"
               :ProductId="ProductId"
@@ -107,8 +115,26 @@ export default {
   },
   data() {
     return {
-      key:0,
+      key: 0,
       product_groups: [],
+      price_calculation: [
+        {
+          value: "sum",
+          label: "Soma",
+        },
+        {
+          value: "average",
+          label: "Média",
+        },
+        {
+          value: "biggest",
+          label: "Maior",
+        },
+        {
+          value: "free",
+          label: "Brinde",
+        },
+      ],
     };
   },
 
@@ -124,6 +150,8 @@ export default {
       data.maximum = parseFloat(data.maximum);
       data.groupOrder = parseFloat(data.groupOrder);
       data.productGroup = data.productGroup + "";
+      data.priceCalculation =
+        data.priceCalculation.value || data.priceCalculation;
       this.saveProductGroups(data).then(() => {
         this.$q.notify({
           message: this.$translate(this.configs.store, "success", "message"),
@@ -135,11 +163,18 @@ export default {
     loadData() {
       if (this.myCompany) {
         this.filters.people = this.myCompany.id;
-        this.getProductGroups(this.filters).then((response) => {
-          this.product_groups = this.$copyObject(response);
-        }).finally(() => {
-          this.key++;
-        });
+        this.getProductGroups(this.filters)
+          .then((response) => {
+            this.product_groups = this.$copyObject(response);
+            this.product_groups.forEach((grupo) => {
+              grupo.priceCalculation = this.price_calculation.find(
+                (obj) => obj.value === grupo.priceCalculation
+              );
+            });
+          })
+          .finally(() => {
+            this.key++;
+          });
       }
     },
   },
