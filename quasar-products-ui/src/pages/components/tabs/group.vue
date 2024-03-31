@@ -61,8 +61,11 @@
         <q-card-section>
           <q-list bordered>
             <ProductGroupProduct
+            :key="key"
               :products="group.products"
               :productGroup="group['@id']"
+              :ProductId="ProductId"
+              @update="loadData"
             />
           </q-list>
         </q-card-section>
@@ -104,6 +107,7 @@ export default {
   },
   data() {
     return {
+      key:0,
       product_groups: [],
     };
   },
@@ -133,6 +137,8 @@ export default {
         this.filters.people = this.myCompany.id;
         this.getProductGroups(this.filters).then((response) => {
           this.product_groups = this.$copyObject(response);
+        }).finally(() => {
+          this.key++;
         });
       }
     },

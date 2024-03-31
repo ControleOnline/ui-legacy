@@ -1,4 +1,19 @@
 <template>
+  <div class="row">
+    <SelectInput
+      :disable="editable == false"
+      :store="'products'"
+      label="Produto"
+      :searchAction="'products/getItems'"
+      :formatOptions="formatOptions"
+      :searchParam="'product'"
+      :filters="{ type: ['product', 'service', 'component', 'package'] }"
+      @keydown="this.$emit('keydown', $event)"
+      @blur="this.$emit('blur', $event)"
+      @update="this.$emit('update', $event)"
+      @selected="addProductToGroup"
+    />
+  </div>
   <div
     :style="{ 'min-height': 'auto' }"
     v-for="(productChild, parentId) in product_groups"
@@ -43,17 +58,23 @@
           :searchAction="'products/getItems'"
           :formatOptions="formatOptions"
           :searchParam="'product'"
-          :filters="getFeedStockFilters()"
+          :filters="{ type: 'feedstock' }"
           @keydown="this.$emit('keydown', $event)"
           @blur="this.$emit('blur', $event)"
           @update="this.$emit('update', $event)"
-          @selected="addProductToGroup"
+          @selected="addFeedstockToGroup"
         />
       </div>
       <template v-for="product in product_details">
         <q-card-section>
           <div class="text-h6">
-            {{ product.quantity }}
+            <q-input
+              dense
+              stack-label
+              v-model="product.quantity"
+              label="Preço"
+              @change="updateGroup(product)"
+            />
             {{ product.productChild.productUnit.productUnit }} x
             {{ product.productChild.product }}
           </div>
@@ -75,6 +96,9 @@ export default {
       required: true,
     },
     productGroup: {
+      required: true,
+    },
+    ProductId: {
       required: true,
     },
   },
@@ -112,13 +136,32 @@ export default {
       getProductGroupProducts: "product_group_product/getItems",
       saveProductGroups: "product_group_product/save",
     }),
-    getFeedStockFilters() {
-      return {
-        type: "feedstock",
 
-      };
-    },
     addProductToGroup(product) {
+      if (!product || !product.value) return;
+      let params = {
+        active: true,
+        price: 0,
+        product: "/products/" + this.ProductId,
+        productChild: "/products/" + product.value,
+        productGroup: this.productGroup,
+        productType: "component",
+        quantity: 0,
+      };
+      this.saveProductGroups(params)
+        .then((response) => {
+          this.$q.notify({
+            message: this.$translate(this.configs.store, "success", "message"),
+            position: "bottom",
+            type: "positive",
+          });
+        })
+        .finally(() => {
+          this.$emit("update");
+        });
+    },
+
+    addFeedstockToGroup(product) {
       if (!product || !product.value) return;
       let params = {
         active: true,
@@ -155,16 +198,16 @@ export default {
       };
       this.SelectedProduct = product_details;
       this.getProductGroupProducts(params).then((response) => {
-        this.product_details = response;
+        this.product_details = this.$copyObject(response);
         this.modalVisible = true;
       });
     },
-    updateGroup(group) {
-      let data = this.$copyObject(group);
-      data.productType = "component";
+    updateGroup(product) {
+      let data = this.$copyObject(product);
       data.product = data.product["@id"];
       data.productChild = data.productChild["@id"];
       data.price = parseFloat(data.price) || 0;
+      data.quantity = parseFloat(data.quantity) || 0;
       this.saveProductGroups(data)
         .then((response) => {
           this.$q.notify({
