@@ -59,11 +59,12 @@ export default {
           return value.product;
         },
       },
+      
       {
         sortable: true,
-        name: "price",
+        name: "quantity",
         align: "right",
-        label: "price",
+        label: "quantity",
         sum: false,
         editFormat(value) {
           return Formatter.formatMoney(value);
@@ -75,7 +76,6 @@ export default {
           return Formatter.formatMoney(value);
         },
       },
-      
     ],
   },
   actions,

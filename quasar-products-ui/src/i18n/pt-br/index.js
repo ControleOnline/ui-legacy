@@ -22,4 +22,20 @@ export const translate = {
     service: "Serviço",
     component: "Componente",
   },
+  product_group_product: {
+    input: {
+      sku: "SKU",
+      productChild: "Produto",
+    },
+  },
+  product_group_feedstock: {
+    tooltip: {
+      feedstock: "Matéria-prima",
+    },
+    input: {
+      sku: "SKU",
+      productChild: "Produto",
+      quantity: "Quantidade",
+    },
+  },
 };

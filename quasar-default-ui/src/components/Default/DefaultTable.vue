@@ -1422,19 +1422,22 @@ export default {
     },
     adjustElementHeight(full) {
       setTimeout(() => {
-        const e = document.querySelectorAll(".q-body--fullscreen-mixin").length;
-        let elements;
+        const e = document?.querySelectorAll(
+          ".q-body--fullscreen-mixin"
+        ).length;
+        let elements = [];
         if (e > 0 || full)
-          elements = document.querySelectorAll(".fullscreen .q-table__middle");
-        else
-          elements = this.$el.querySelectorAll(
+          elements = document?.querySelectorAll(".fullscreen .q-table__middle");
+        else if (typeof this.$el.querySelectorAll === "function")
+          elements = this.$el?.querySelectorAll(
             ".default-table.full-height .q-table__middle"
           );
 
         if (elements.length == 0) {
-          elements = this.$el.querySelectorAll(
-            ".default-table .q-table__middle"
-          );
+          if (typeof this.$el.querySelectorAll === "function")
+            elements = this.$el?.querySelectorAll(
+              ".default-table .q-table__middle"
+            );
           elements.forEach((element) => {
             if (element) {
               element.style.height = "";

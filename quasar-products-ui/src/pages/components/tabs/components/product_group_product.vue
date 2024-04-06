@@ -1,11 +1,11 @@
 <template>
-  <DefaultTable :configs="configs" v-if="loaded" :items="products" />
+  <DefaultTable :configs="configs" v-if="loaded" />
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
 import SelectInput from "@controleonline/quasar-default-ui/src/components/Default/Common/Inputs/SelectInput.vue";
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
-import FeedStock from "./FeedStock.vue";
+import product_feed_stock from "./product_feed_stock.vue";
 
 export default {
   components: {
@@ -36,15 +36,10 @@ export default {
         search: {},
         components: {
           tableActions: {
-            component: FeedStock,
+            component: product_feed_stock,
             props: {
               productGroup: this.productGroup,
             },
-          },
-        },
-        columns: {
-          productChild: {
-            filters: { type: ["product", "service", "component", "package"] },
           },
         },
       };
