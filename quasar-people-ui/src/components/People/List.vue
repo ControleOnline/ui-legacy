@@ -46,7 +46,7 @@ export default {
   created() {
     let filters = this.$copyObject(this.filters);
     if (this.context == "company")
-      filters.people = "/people/" + this.user?.people;
+      filters.link = "/people/" + this.user?.people;
       filters.link_type = "employee";
 
     this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
