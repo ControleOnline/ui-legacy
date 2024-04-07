@@ -2,7 +2,7 @@
   <q-btn
     dense
     icon="info"
-    v-if="1==1 ||row.productChild.type != 'feedstock'"
+    v-if="1 == 1 || row.productChild.type != 'feedstock'"
     class="btn-primary"
     @click="openModal"
   >

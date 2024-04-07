@@ -20,6 +20,26 @@ export default {
     companies: [],
 
     columns: [
+      {
+        editable: false,
+        isIdentity: true,
+        sortable: true,
+        name: "id",
+        align: "left",
+        label: "id",
+        externalFilter: true,
+        format: function (value) {
+          return "#" + value;
+        },
+      },
+      {
+        editable: true,
+        sortable: true,
+        name: "alias",
+        align: "left",
+        label: "alias",
+        externalFilter: true,
+      },
     ],
   },
   actions: {
