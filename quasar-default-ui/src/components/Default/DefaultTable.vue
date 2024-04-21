@@ -1358,7 +1358,7 @@ export default {
       params[col.key || col.name] =
         this.saveFormat(col.key || col.name, value, row) ||
         (col.list ? null : col.inputType == "float" ? 0 : "");
-      if (this.myCompany)
+      if (this.myCompany && this.configs.companyParam != false)
         params[this.configs.companyParam || "company"] =
           "/people/" + this.myCompany?.id;
 
@@ -1475,7 +1475,7 @@ export default {
       delete params.descending;
       delete params.rowsPerPage;
       params = this.getFilterParams(params);
-      if (this.myCompany)
+      if (this.myCompany  && this.configs.companyParam != false)
         params[this.configs.companyParam || "company"] =
           "/people/" + this.myCompany?.id;
       this.sumColumn = {};

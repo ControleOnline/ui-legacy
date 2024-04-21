@@ -29,6 +29,7 @@ export default {
     },
     configs() {
       return {
+        companyParam: false,
         filters: true,
         store: "people",
         add: true,
@@ -40,14 +41,14 @@ export default {
   },
   data() {
     return {
-      loaded:false
+      loaded: false,
     };
   },
   created() {
     let filters = this.$copyObject(this.filters);
     if (this.context == "company")
       filters.link = "/people/" + this.user?.people;
-      filters.link_type = "employee";
+    filters.link_type = "employee";
 
     this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
     this.loaded = true;

@@ -40,6 +40,32 @@ export default {
         label: "alias",
         externalFilter: true,
       },
+      {
+        editable: true,
+        sortable: true,
+        name: "name",
+        align: "left",
+        label: "name",
+        externalFilter: true,
+      },
+      {
+        editable: true,
+        sortable: true,
+        list: [
+          {
+            label: "Física",
+            value: "F",
+          },
+          {
+            label: "Jurídica",
+            value: "J",
+          },
+        ],
+        name: "peopleType",
+        align: "left",
+        label: "peopleType",
+        externalFilter: true,
+      },
     ],
   },
   actions: {
@@ -48,10 +74,10 @@ export default {
   },
   getters: {
     ...customGetters,
-    ...getters
+    ...getters,
   },
   mutations: {
     ...mutations,
-    ...customMutations
+    ...customMutations,
   },
 };

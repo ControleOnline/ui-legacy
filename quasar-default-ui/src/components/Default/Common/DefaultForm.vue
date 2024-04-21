@@ -225,7 +225,7 @@ export default {
       }
       if (this.id) p.id = this.id;
 
-      if (this.myCompany)
+      if (this.myCompany  && this.configs.companyParam != false)
         p[this.configs.companyParam || "company"] =
           "/people/" + this.myCompany.id;
 
