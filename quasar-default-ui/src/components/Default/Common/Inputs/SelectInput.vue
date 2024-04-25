@@ -98,7 +98,7 @@ export default {
                 } else {
                     this.$store.dispatch(this.searchAction, params)
                         .then((result) => {
-                            this.options.push(null);
+                            //this.options.push(null);
                             result.forEach((item) => {
                                 this.options.push(this.formatOptions(item));
                             });
