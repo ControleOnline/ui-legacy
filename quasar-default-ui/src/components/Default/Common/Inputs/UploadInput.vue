@@ -1,6 +1,6 @@
 <template>
   <q-uploader ref="uploader" no-thumbnails square flat :url="endpoint" :headers="headers" :accept="accepted"
-    field-name="file" color="white" @uploaded="fileUploaded" @failed="uploadFailed" @removed="filesRemoved"
+    field-name="file" @uploaded="fileUploaded" @failed="uploadFailed" @removed="filesRemoved"
     :multiple="multiple" :class="myClass" :auto-upload="autoupd" :form-fields="getFields">
     <template v-slot:header="scope">
       <div class="row no-wrap items-center justify-end q-pa-sm q-gutter-xs">
