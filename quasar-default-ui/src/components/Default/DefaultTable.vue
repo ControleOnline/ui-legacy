@@ -1152,7 +1152,7 @@ export default {
 
       this.$store.commit(this.configs.store + "/SET_ITEMS", items);
       this.items = items;
-      this.tableKey++;
+      //this.tableKey++;
       this.$emit("saved", data, editIndex);
     },
     openConfirm(data) {
@@ -1177,7 +1177,7 @@ export default {
           this.$store.commit(this.configs.store + "/SET_ITEMS", items);
           this.$emit("deleted", this.deleteItem);
           this.items = items;
-          this.tableKey++;
+          //this.tableKey++;
         })
         .finally(() => {
           this.deleteModal = false;
@@ -1372,7 +1372,7 @@ export default {
             else items.push(data);
             this.$store.commit(this.configs.store + "/SET_ITEMS", items);
             this.items = items;
-            this.tableKey++;
+            //this.tableKey++;
             this.$q.notify({
               message: this.$translate(
                 this.configs.store,
