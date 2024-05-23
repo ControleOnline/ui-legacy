@@ -219,8 +219,8 @@
             ]"
             v-for="(column, index) in columns"
             @click="sortTable(column.key || column.name)"
-            class="header-column"
-            @mousedisabled="setShowInput(column.key || column.name)"
+            class="header-column"            
+            @mouseover="column.columnFilter == true ? setShowInput(column.key || column.name) : false"
           >
             <div
               v-if="this.configs.filters && column.filter != false"
