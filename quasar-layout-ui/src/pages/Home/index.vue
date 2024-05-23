@@ -1,5 +1,5 @@
 <template>
-  <q-list>
+  <q-list class="q-pa-md">
     <q-expansion-item
       :content-inset-level="0.3"
       class="home-menu"
@@ -11,12 +11,12 @@
     >
       <div class="row q-col-gutter-md">
         <div
-          class="q-pa-md col-md-3 col-sm-6 col-lg-2 col-xl-1 col-sm-6 col-xs-12 d-flex flex-wrap justify-between"
+          class="q-pa-md col-6 col-md-2 col-lg-2 col-xl-2 d-flex justify-center"
           v-for="(item, index) in mItem.menus"
           :key="index"
         >
           <q-card
-          class="icon-card"
+            class="icon-card"
             @click="click(item)"
             :style="{
               backgroundColor: getCardBackground(
@@ -30,7 +30,7 @@
               </q-avatar>
             </q-card-section>
             <q-card-section class="q-pa-md">
-              <div class="text-center">{{ $t(item.label) }}</div>
+              <div class="text-center larger-text text-weight-medium">{{ $t(item.label) }}</div>
             </q-card-section>
           </q-card>
         </div>
@@ -70,12 +70,12 @@ export default {
     },
     getCardBackground(index) {
       const colors = [
-        "#ff6f61", // Vermelho
-        "#6b5b95", // Roxo
-        "#88b04b", // Verde
-        "#f8b500", // Amarelo
-        "#4a4e4d", // Cinza
-        "#003f5c", // Azul Escuro
+        "#ee3e4f", // Vermelho Carmim
+        "#43c4a6", // Verde Água
+        "#00d2c1", // Turquesa
+        "#6058cc", // Roxo Lavanda
+        "#1975ec", // Azul Real
+        "#2a5780", // Azul Escuro
       ];
       return colors[parseInt(index) % colors.length];
     },
@@ -86,12 +86,29 @@ export default {
 <style scoped>
 .icon-card {
   cursor: pointer;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  aspect-ratio: 1;
 }
+
 .home-menu {
   width: 100%;
 }
 
 .big-icon {
   margin: auto;
+}
+
+.larger-text {
+  font-size: 1.2em;
+}
+
+.q-card-section {
+  padding: 10px;
+  flex-grow: 1;
 }
 </style>
