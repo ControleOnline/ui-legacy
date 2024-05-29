@@ -255,7 +255,7 @@
                 }}
               </q-tooltip>
             </q-btn>
-            <q-btn icon-right="archive btn-primary" dense class="q-pa-xs btn-primary" label="" @click="exportTable"
+            <q-btn icon-right="archive btn-primary" dense class="q-pa-xs btn-primary" label="" @click="configs.export"
               v-if="configs.export">
               <q-tooltip>
                 {{ $translate(configs.store, "export", "tooltip") }}
