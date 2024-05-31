@@ -150,20 +150,20 @@ export function getNameFromList(column, row, editing) {
     name = column.list.find((item) => {
       let i;
       if (item instanceof Object) i = this.formatList(column, item);
-      else i = this.format(column, row, item);
+      else i = this.format(column, row, item, editing);
 
       return (
         i &&
         i.value &&
         i.value.toString().trim() ==
-          (row[column.key || column.name] instanceof Object &&
+        (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-            ? row[column.key || column.name]["@id"]
-                .split("/")
-                .pop()
-                .toString()
-                .trim()
-            : row[column.key || column.name]
+          ? row[column.key || column.name]["@id"]
+            .split("/")
+            .pop()
+            .toString()
+            .trim()
+          : row[column.key || column.name]
             ? row[column.key || column.name].toString().trim()
             : null)
       );

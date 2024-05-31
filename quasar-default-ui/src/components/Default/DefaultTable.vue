@@ -12,8 +12,8 @@
         <q-tr :props="props.row" @click="rowClick(props.row, $event)">
 
           <q-td v-if="configs.selection">
-            <q-checkbox  v-model="selectedRows[items.indexOf(props.row)]"
-              v-bind:value="false" :disable="selectionDisabled(props.row, configs)" />
+            <q-checkbox v-model="selectedRows[items.indexOf(props.row)]" v-bind:value="false"
+              :disable="selectionDisabled(props.row, configs)" />
           </q-td>
 
           <q-td :style="styleColumn(column, props.row)" v-for="(column, index) in columns"
@@ -56,7 +56,7 @@
                       formatData(column, props.row, true)
                     )
                     ">
-                {{ column.prefix }} {{ formatData(column, props.row) }}
+                {{ column.prefix }} {{ formatData(column, props.row, false) }}
                 {{ column.sufix }}
                 <q-icon v-if="
                   column.editable != false &&
@@ -361,7 +361,7 @@
                           formatData(column, props.row, true)
                         )
                         ">
-                        {{ column.prefix }} {{ formatData(column, props.row) }}
+                        {{ column.prefix }} {{ formatData(column, props.row, false) }}
                         <q-icon v-if="column.editable != false && !isSaving" size="1.0em" name="edit" />
                         <q-icon v-else size="1.0em" name="" />
 
