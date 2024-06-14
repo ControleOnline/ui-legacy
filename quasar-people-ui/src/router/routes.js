@@ -12,7 +12,7 @@ export const routes = [
       {
         name: "CompanyDetailsPage",
         path: "id/:id",
-        component: () => import("../pages/Company"),
+        component: () => import("../pages/Details"),
       },
     ],
   },

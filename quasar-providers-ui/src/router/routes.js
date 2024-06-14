@@ -1,17 +1,17 @@
 export const routes = [
   {
-    path: '/customers/',
+    path: '/providers/',
     component: () =>  import ('@controleonline/quasar-layout-ui/src/layouts/AdminLayout.vue'),
     children: [
       {
-        name: 'CustomersIndex',
+        name: 'ProvidersIndex',
         path: '',
-        component: () =>  import ('../pages/Customer')
+        component: () =>  import ('../pages/Provider/Index.vue')
       },
       {
-        name: 'CustomersDetails',
+        name: 'ProvidersDetails',
         path: 'id/:id',
-        component: () =>  import ('../pages/Customer/Details.vue')
+        component: () =>  import ('../pages/Provider/Details.vue')
       },
     ]
   },

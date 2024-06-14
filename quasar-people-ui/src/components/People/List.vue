@@ -57,10 +57,34 @@ export default {
         filters.link_type = "employee";
       }
 
+      if (this.context == "employee") {
+        delete filters.company;
+        filters.company = "/people/" + this.myCompany?.id;
+        filters.link_type = "employee";
+      }    
+
       if (this.context == "customers") {
         delete filters.link;
         filters.company = "/people/" + this.myCompany?.id;
         filters.link_type = "client";
+      }
+
+      if (this.context == "professional") {
+        delete filters.link;
+        filters.company = "/people/" + this.myCompany?.id;
+        filters.link_type = "professional";
+      }
+
+      if (this.context == "carrier") {
+        delete filters.link;
+        filters.company = "/people/" + this.myCompany?.id;
+        filters.link_type = "carrier";
+      }
+
+      if (this.context == "provider") {
+        delete filters.link;
+        filters.company = "/people/" + this.myCompany?.id;
+        filters.link_type = "provider";
       }
 
       this.$store.commit(this.configs.store + "/SET_FILTERS", filters);

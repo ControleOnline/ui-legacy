@@ -1,109 +1,38 @@
 <template>
-  <DefaultTable :configs="configs" v-if="configs" />
+  <q-page padding>
+    <PeoplePage :people_type="'customers'" :id="clientId" :config="{
+      endpoint: endpoint,
+      token: $store.getters['auth/user'].token
+    }" />
+  </q-page>
 </template>
+
 <script>
-import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
-import { mapActions, mapGetters } from "vuex";
-import Button from "@controleonline/quasar-common-ui/src/components/Categories/Button";
+import PeoplePage from '@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/pages/PageUpDate/Index.vue';
+import { mapGetters } from 'vuex';
+
 
 export default {
   components: {
-    DefaultTable,
-    Button,
+    PeoplePage,
   },
-  props: {
-    context: {
-      required: true,
-    },
+
+  created() {
+    if (this.$route.params.id)
+      this.clientId = decodeURIComponent(this.$route.params.id);
   },
+
   computed: {
     ...mapGetters({
-      myCompany: "people/currentCompany",
-      columns: "invoice/columns",
+      myProvider: 'people/currentCompany',
     }),
-    configs() {
-      return {
-        companyParam: this.context == "expense" ? "payer" : "receiver",
-        filters: true,
-        store: "invoice",
-        add: true,
-        delete: false,
-        selection: true,
-        search: true,
-        columns: {
-          category: {
-            filters: {
-              context: this.context,
-              company: "/people/" + this.myCompany.id,
-            },
-          },
-          paymentType: {
-            filters: {
-              people: "/people/" + this.myCompany.id,
-            },
-          },
-          wallet: {
-            filters: {
-              people: "/people/" + this.myCompany.id,
-            },
-          },
-          status: {
-            filters: {
-              context: "invoice",
-            },
-          },
-          installments: {
-            visibleForm(item) {
-              if (
-                item?.paymentType?.object?.installments &&
-                item?.paymentType?.object?.installments != "single"
-              )
-                return true;
-              return false;
-            },
-          },
-        },
-        components: {
-          headerActions: {
-            component: Button,
-            props: {
-              context: this.context,
-            },
-          },
-        },
-      };
-    },
   },
+
   data() {
-    return {};
-  },
-  created() {
-    const columns = this.$copyObject(this.columns);
-    const columnIndex = columns.findIndex(
-      (c) => c.name === "receiver" || c.name === "payer"
-    );
-    if (columnIndex !== -1) {
-      columns[columnIndex].name =
-        this.context === "expense" ? "receiver" : "payer";
-      columns[columnIndex].label =
-        this.context === "expense" ? "receiver" : "payer";
+    return {
+      endpoint: this.$entrypoint,
+      clientId: null,
     }
-
-    const columnIdIndex = columns.findIndex((c) => c.name === "id");
-    if (columnIdIndex !== -1) {
-      columns[columnIdIndex].to = (value) => {
-        let route = this.context === "expense" ? "receiver" : "payer";
-        return {
-          name: "FinanceExpenseCategories",
-          params: {
-            id: value,
-          },
-        };
-      };
-    }
-
-    this.$store.commit(this.configs.store + "/SET_COLUMNS", columns);
   },
-  methods: {},
-};
+}
 </script>

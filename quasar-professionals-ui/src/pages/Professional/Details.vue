@@ -12,7 +12,7 @@ export default {
 
   data() {
     return {
-      context: 'customers'
+      context: 'professional'
     };
   },
   created() {
