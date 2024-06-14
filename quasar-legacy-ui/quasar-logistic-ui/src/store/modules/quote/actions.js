@@ -214,7 +214,7 @@ export const sendProposta = ({ commit }, { id, params }) => {
     method: 'GET',
     params: {
       ...params,
-      'app-domain': DOMAIN
+      'app-domain': this.$domain
     }
   };
 

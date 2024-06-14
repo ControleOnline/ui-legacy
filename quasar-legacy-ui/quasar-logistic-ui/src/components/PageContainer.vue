@@ -288,7 +288,7 @@ export default {
         domain:
           this.myCompany && this.myCompany.domains
             ? this.myCompany.domains[0]?.domain
-            : DOMAIN,
+            : this.$domain,
         origin: this.getAddress(this.origin),
         destination: this.getAddress(this.destination),
         productTotalPrice: parseFloat(

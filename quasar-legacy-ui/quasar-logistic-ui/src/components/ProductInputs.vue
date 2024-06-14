@@ -288,7 +288,7 @@ export default {
 
   methods: {
     loadGroupTables() {
-      this.getGroupTables(DOMAIN);
+      this.getGroupTables(this.$domain);
     },
     onCarSelect(item) {
       var text = item;
