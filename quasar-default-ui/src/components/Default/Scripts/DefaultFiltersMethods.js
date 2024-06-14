@@ -156,14 +156,14 @@ export function getNameFromList(column, row, editing) {
         i &&
         i.value &&
         i.value.toString().trim() ==
-        (row[column.key || column.name] instanceof Object &&
+          (row[column.key || column.name] instanceof Object &&
           row[column.key || column.name]
-          ? row[column.key || column.name]["@id"]
-            .split("/")
-            .pop()
-            .toString()
-            .trim()
-          : row[column.key || column.name]
+            ? row[column.key || column.name]["@id"]
+                .split("/")
+                .pop()
+                .toString()
+                .trim()
+            : row[column.key || column.name]
             ? row[column.key || column.name].toString().trim()
             : null)
       );

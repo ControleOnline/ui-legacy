@@ -29,7 +29,6 @@ export default {
     },
     configs() {
       return {
-        companyParam: false,
         filters: true,
         store: "people",
         add: true,
@@ -45,14 +44,28 @@ export default {
     };
   },
   created() {
-    let filters = this.$copyObject(this.filters);
-    if (this.context == "company")
-      filters.link = "/people/" + this.user?.people;
-    filters.link_type = "employee";
-
-    this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
-    this.loaded = true;
+    this.load();
   },
-  methods: {},
+  methods: {
+    load() {
+      if (!this.context) return;
+
+      let filters = this.$copyObject(this.filters);
+      if (this.context == "company") {
+        delete filters.company;
+        filters.link = "/people/" + this.user?.people;
+        filters.link_type = "employee";
+      }
+
+      if (this.context == "customers") {
+        delete filters.link;
+        filters.company = "/people/" + this.myCompany?.id;
+        filters.link_type = "client";
+      }
+
+      this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
+      this.loaded = true;
+    },
+  },
 };
 </script>

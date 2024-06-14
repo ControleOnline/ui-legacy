@@ -1,35 +1,66 @@
 <template>
-  <div v-if="configsLoaded" :class="(configs['full-height'] == false ? '' : 'full-height') +
-    ' full-width default-table'
-    ">
+  <div
+    v-if="configsLoaded"
+    :class="
+      (configs['full-height'] == false ? '' : 'full-height') +
+      ' full-width default-table'
+    "
+  >
     <div class="q-gutter-sm" v-if="$q.screen.gt.sm && this.configs.filters">
-      <DefaultExternalFilters :configs="configs" @loadData="loadData"></DefaultExternalFilters>
+      <DefaultExternalFilters
+        :configs="configs"
+        @loadData="loadData"
+      ></DefaultExternalFilters>
     </div>
-    <q-table :grid="isTableView" class="default-table" dense :rows="items" :loading="isLoading"
-      :row-key="columns[0].name" v-model:pagination="pagination" @request="loadData"
-      :rows-per-page-options="rowsOptions" :key="tableKey" binary-state-sort>
+    <q-table
+      :grid="isTableView"
+      class="default-table"
+      dense
+      :rows="items"
+      :loading="isLoading"
+      :row-key="columns[0].name"
+      v-model:pagination="pagination"
+      @request="loadData"
+      :rows-per-page-options="rowsOptions"
+      :key="tableKey"
+      binary-state-sort
+    >
       <template v-slot:body="props">
         <q-tr :props="props.row" @click="rowClick(props.row, $event)">
-
           <q-td v-if="configs.selection">
-            <q-checkbox v-model="selectedRows[items.indexOf(props.row)]" v-bind:value="false"
-              :disable="selectionDisabled(props.row, configs)" />
+            <q-checkbox
+              v-model="selectedRows[items.indexOf(props.row)]"
+              v-bind:value="false"
+              :disable="selectionDisabled(props.row, configs)"
+            />
           </q-td>
 
-          <q-td :style="styleColumn(column, props.row)" v-for="(column, index) in columns"
-            :key="column.key || column.name" :class="[
+          <q-td
+            :style="styleColumn(column, props.row)"
+            v-for="(column, index) in columns"
+            :key="column.key || column.name"
+            :class="[
               'text-' + column.align,
               { 'dragging-column': isDraggingCollumn[index] },
               { hidden: !shouldIncludeColumn(column) },
-            ]">
-
+            ]"
+          >
             <template v-if="tableColumnComponent(column.key || column.name)">
-              <component :componentProps="tableColumnComponent(column.key || column.name).props
-                " :is="tableColumnComponent(column.key || column.name).component" :row="props.row"
-                @loadData="loadData" />
+              <component
+                :componentProps="
+                  tableColumnComponent(column.key || column.name).props
+                "
+                :is="tableColumnComponent(column.key || column.name).component"
+                :row="props.row"
+                @loadData="loadData"
+              />
             </template>
-            <q-btn class="btn-primary" v-else-if="column.to && props.row[column.key || column.name]"
-              @click="verifyClick(column, props.row)" :icon:="column.icon">{{
+            <q-btn
+              class="btn-primary"
+              v-else-if="column.to && props.row[column.key || column.name]"
+              @click="verifyClick(column, props.row)"
+              :icon:="column.icon"
+              >{{
                 this.format(
                   column,
                   props.row,
@@ -38,73 +69,126 @@
               }}
             </q-btn>
 
-            <template v-else-if="editingInit(items.indexOf(props.row), column) != true">
-              <span @mouseenter="
-                showEdit[items.indexOf(props.row)] =
-                column.editable == false
-                  ? false
-                  : { [column.key || column.name]: true }
-                " @mouseleave="
+            <template
+              v-else-if="editingInit(items.indexOf(props.row), column) != true"
+            >
+              <span
+                @mouseenter="
+                  showEdit[items.indexOf(props.row)] =
+                    column.editable == false
+                      ? false
+                      : { [column.key || column.name]: true }
+                "
+                @mouseleave="
                   showEdit[items.indexOf(props.row)] = {
                     [column.key || column.name]: false,
                   }
-                  " @click="
-                    startEditing(
-                      items.indexOf(props.row),
-                      column,
-                      props.row,
-                      formatData(column, props.row, true)
-                    )
-                    ">
+                "
+                @click="
+                  startEditing(
+                    items.indexOf(props.row),
+                    column,
+                    props.row,
+                    formatData(column, props.row, true)
+                  )
+                "
+              >
                 {{ column.prefix }} {{ formatData(column, props.row, false) }}
                 {{ column.sufix }}
-                <q-icon v-if="
-                  column.editable != false &&
-                  !isSaving &&
-                  showEdit[items.indexOf(props.row)] &&
-                  showEdit[items.indexOf(props.row)][
-                  column.key || column.name
-                  ] == true
-                " size="1.0em" name="edit" />
+                <q-icon
+                  v-if="
+                    column.editable != false &&
+                    !isSaving &&
+                    showEdit[items.indexOf(props.row)] &&
+                    showEdit[items.indexOf(props.row)][
+                      column.key || column.name
+                    ] == true
+                  "
+                  size="1.0em"
+                  name="edit"
+                />
                 <q-icon v-else size="1.0em" name="" />
-                <q-spinner-ios v-if="isSaving && isEditing(items.indexOf(props.row), column)" class="loading-primary"
-                  size="2em" />
+                <q-spinner-ios
+                  v-if="isSaving && isEditing(items.indexOf(props.row), column)"
+                  class="loading-primary"
+                  size="2em"
+                />
               </span>
             </template>
 
             <template v-else>
-              <FormInputs :prefix="column.prefix" :sufix="column.sufix" :editable="column.editable" :inputType="getList(configs, column) ? 'list' : column.inputType
-                " :store="configs.store" :mask="mask(column)" :rules="[isInvalid()]" :labelType="'stack-label'"
-                :label="column.label" :filters="getSearchFilters(column, props.row)" :initialValue="editedValue"
-                :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
-                :searchAction="getList(configs, column)" @focus="editingInit(items.indexOf(props.row), column)"
-                @changed="(value) => {
-                  editedValue = value;
-                }
-                  " @apply="
-                    stopEditing(items.indexOf(props.row), column, props.row)
-                    " @blur="stopEditing(items.indexOf(props.row), column, props.row)" @update:modelValue="
-                      stopEditing(items.indexOf(props.row), column, props.row)
-                      " @keydown.enter="
-                        stopEditing(items.indexOf(props.row), column, props.row)
-                        " />
+              <FormInputs
+                :prefix="column.prefix"
+                :sufix="column.sufix"
+                :editable="column.editable"
+                :inputType="
+                  getList(configs, column) ? 'list' : column.inputType
+                "
+                :store="configs.store"
+                :mask="mask(column)"
+                :rules="[isInvalid()]"
+                :labelType="'stack-label'"
+                :label="column.label"
+                :filters="getSearchFilters(column, props.row)"
+                :initialValue="editedValue"
+                :searchParam="column.searchParam || 'search'"
+                :formatOptions="column.formatList"
+                :searchAction="getList(configs, column)"
+                @focus="editingInit(items.indexOf(props.row), column)"
+                @changed="
+                  (value) => {
+                    editedValue = value;
+                  }
+                "
+                @apply="
+                  stopEditing(items.indexOf(props.row), column, props.row)
+                "
+                @blur="stopEditing(items.indexOf(props.row), column, props.row)"
+                @update:modelValue="
+                  stopEditing(items.indexOf(props.row), column, props.row)
+                "
+                @keydown.enter="
+                  stopEditing(items.indexOf(props.row), column, props.row)
+                "
+              />
             </template>
           </q-td>
           <q-td class="q-gutter-sm text-right">
-            <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-primary" :disable="isLoading || addModal || deleteModal || editing.length > 0
-              " @click="editItem(props.row)">
+            <q-btn
+              v-if="configs.editable != false"
+              dense
+              icon="edit"
+              class="btn-primary"
+              :disable="
+                isLoading || addModal || deleteModal || editing.length > 0
+              "
+              @click="editItem(props.row)"
+            >
               <q-tooltip>
                 {{ $translate(configs.store, "edit", "tooltip") }}
               </q-tooltip>
             </q-btn>
-            <q-btn v-if="configs.delete != false" dense icon="delete" class="btn-danger" :disable="isLoading || addModal || deleteModal || editing.length > 0
-              " @click="openConfirm(props.row)">
+            <q-btn
+              v-if="configs.delete != false"
+              dense
+              icon="delete"
+              class="btn-danger"
+              :disable="
+                isLoading || addModal || deleteModal || editing.length > 0
+              "
+              @click="openConfirm(props.row)"
+            >
               <q-tooltip>
                 {{ $translate(configs.store, "delete", "tooltip") }}
               </q-tooltip>
             </q-btn>
-            <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
-              :componentProps="tableActionsProps()" :row="props.row" @loadData="loadData" />
+            <component
+              v-if="tableActionsComponent()"
+              :is="tableActionsComponent()"
+              :componentProps="tableActionsProps()"
+              :row="props.row"
+              @loadData="loadData"
+            />
           </q-td>
         </q-tr>
       </template>
@@ -112,9 +196,16 @@
       <template v-slot:header="props">
         <q-tr :props="props.row">
           <q-th v-if="configs.selection">
-            <q-checkbox v-on:click.native="toggleSelectAll" v-model="selectAll" />
+            <q-checkbox
+              v-on:click.native="toggleSelectAll"
+              v-model="selectAll"
+            />
           </q-th>
-          <q-th @mousedown="startDrag(index)" @mouseup="stopDrag()" @mousemove="dragColumn(index)" :style="column.style"
+          <q-th
+            @mousedown="startDrag(index)"
+            @mouseup="stopDrag()"
+            @mousemove="dragColumn(index)"
+            :style="column.style"
             :class="[
               'text-' + column.align,
               { 'no-drag': index === 0 && nodrag },
@@ -133,28 +224,59 @@
               },
               { 'dragging-column': isDraggingCollumn[index] },
               { hidden: !shouldIncludeColumn(column) },
-            ]" v-for="(column, index) in columns" @click="sortTable(column.key || column.name)" class="header-column"
-            @mouseover="column.columnFilter == true ? setShowInput(column.key || column.name) : false">
-            <div v-if="this.configs.filters && column.filter != false" @click="stopPropagation">
-              <q-menu transition-show="flip-right" transition-hide="flip-left"
-                v-model="showInput[column.key || column.name]" anchor="top middle" self="bottom middle" persistent>
+            ]"
+            v-for="(column, index) in columns"
+            @click="sortTable(column.key || column.name)"
+            class="header-column"
+            @mouseover="
+              column.columnFilter == true
+                ? setShowInput(column.key || column.name)
+                : false
+            "
+          >
+            <div
+              v-if="this.configs.filters && column.filter != false"
+              @click="stopPropagation"
+            >
+              <q-menu
+                transition-show="flip-right"
+                transition-hide="flip-left"
+                v-model="showInput[column.key || column.name]"
+                anchor="top middle"
+                self="bottom middle"
+                persistent
+              >
                 <q-list style="min-width: 100px">
                   <q-item>
                     <q-item-section>
-                      <FilterInputs :key="filterKey" :column="column" :configs="configs" @loadData="loadData" @focus="
-                        forceShowInput = true;
-                      showInput[column.key || column.name];
-                      " @blur="
-                        loadData();
-                      forceShowInput = false;
-                      ">
+                      <FilterInputs
+                        :key="filterKey"
+                        :column="column"
+                        :configs="configs"
+                        @loadData="loadData"
+                        @focus="
+                          forceShowInput = true;
+                          showInput[column.key || column.name];
+                        "
+                        @blur="
+                          loadData();
+                          forceShowInput = false;
+                        "
+                      >
                       </FilterInputs>
-                      <q-spinner-ios class="loading-primary" v-if="isLoading && colFilter[column.key || column.name]"
-                        size="2em" />
-                      <q-icon name="close" @click.stop="
-                        clearFilter(column.key || column.name);
-                      loadData();
-                      " v-else-if="colFilter[column.key || column.name]" />
+                      <q-spinner-ios
+                        class="loading-primary"
+                        v-if="isLoading && colFilter[column.key || column.name]"
+                        size="2em"
+                      />
+                      <q-icon
+                        name="close"
+                        @click.stop="
+                          clearFilter(column.key || column.name);
+                          loadData();
+                        "
+                        v-else-if="colFilter[column.key || column.name]"
+                      />
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -162,65 +284,121 @@
             </div>
             <div class="">
               <span class="custom-icon-text">
-                <q-icon v-if="isDragging && index === draggedColumnIndex" :name="draggedColumnPosition === 'before'
-                  ? 'keyboard_arrow_left'
-                  : 'keyboard_arrow_right'
-                  " />
+                <q-icon
+                  v-if="isDragging && index === draggedColumnIndex"
+                  :name="
+                    draggedColumnPosition === 'before'
+                      ? 'keyboard_arrow_left'
+                      : 'keyboard_arrow_right'
+                  "
+                />
 
                 {{ $translate(configs.store, column.label, "input") }}
-                <q-icon v-if="column.sortable" :name="sortedColumn === column.name || sortedColumn === column.key
-                  ? sortDirection === 'ASC'
-                    ? 'arrow_upward'
-                    : 'arrow_downward'
-                  : 'unfold_more'
-                  " size="14px" />
-                <q-icon name="filter_list" v-if="colFilter[column.key || column.name]" />
+                <q-icon
+                  v-if="column.sortable"
+                  :name="
+                    sortedColumn === column.name || sortedColumn === column.key
+                      ? sortDirection === 'ASC'
+                        ? 'arrow_upward'
+                        : 'arrow_downward'
+                      : 'unfold_more'
+                  "
+                  size="14px"
+                />
+                <q-icon
+                  name="filter_list"
+                  v-if="colFilter[column.key || column.name]"
+                />
               </span>
             </div>
           </q-th>
-          <q-th v-if="
-            tableActionsComponent() ||
-            configs.delete != false ||
-            configs.edit != false
-          ">
+          <q-th
+            v-if="
+              tableActionsComponent() ||
+              configs.delete != false ||
+              configs.edit != false
+            "
+          >
           </q-th>
         </q-tr>
       </template>
 
       <template v-slot:top-left="props">
         <div class="q-gutter-sm">
-          <DefaultSearch :configs="configs" @loadData="loadData"></DefaultSearch>
+          <DefaultSearch
+            :configs="configs"
+            @loadData="loadData"
+          ></DefaultSearch>
         </div>
       </template>
 
       <template v-slot:top-right="props">
         <div class="table-toolbar">
           <q-toolbar class="q-gutter-sm">
-            <q-btn v-if="configs.add != false" class="q-pa-xs btn-positive" dense label="" icon="add" :disable="isLoading || addModal || deleteModal || editing.length > 0
-              " @click="editItem({})">
+            <q-btn
+              v-if="configs.add != false"
+              class="q-pa-xs btn-positive"
+              dense
+              label=""
+              icon="add"
+              :disable="
+                isLoading || addModal || deleteModal || editing.length > 0
+              "
+              @click="editItem({})"
+            >
               <q-tooltip>
                 {{ $translate(configs.store, "add", "tooltip") }}
               </q-tooltip>
             </q-btn>
             <q-space></q-space>
 
-            <q-checkbox dense v-model="selectAll" @click.native="toggleSelectAll"
-              v-if="$q.screen.gt.sm == false && configs.selection" />
-            <q-space v-if="$q.screen.gt.sm == false && configs.selection"></q-space>
-            <component v-if="headerActionsComponent()" :is="headerActionsComponent()"
-              :componentProps="headerActionsProps()" :row="props.row" @saved="saved" @loadData="loadData" />
+            <q-checkbox
+              dense
+              v-model="selectAll"
+              @click.native="toggleSelectAll"
+              v-if="$q.screen.gt.sm == false && configs.selection"
+            />
+            <q-space
+              v-if="$q.screen.gt.sm == false && configs.selection"
+            ></q-space>
+            <component
+              v-if="headerActionsComponent()"
+              :is="headerActionsComponent()"
+              :componentProps="headerActionsProps()"
+              :row="props.row"
+              @saved="saved"
+              @loadData="loadData"
+            />
 
             <q-space v-if="headerActionsComponent()"></q-space>
 
-            <DefaultFilters v-if="this.configs.filters" :configs="configs" @loadData="loadData">
+            <DefaultFilters
+              v-if="this.configs.filters"
+              :configs="configs"
+              @loadData="loadData"
+            >
             </DefaultFilters>
             <q-space></q-space>
-            <q-btn v-if="isTableView" @click="toggleView" class="q-pa-xs btn-primary" label="" dense icon="menu">
+            <q-btn
+              v-if="isTableView"
+              @click="toggleView"
+              class="q-pa-xs btn-primary"
+              label=""
+              dense
+              icon="menu"
+            >
               <q-tooltip>
                 {{ $translate(configs.store, "table", "tooltip") }}
               </q-tooltip>
             </q-btn>
-            <q-btn v-else @click="toggleView" class="q-pa-xs btn-primary" label="" dense icon="dashboard">
+            <q-btn
+              v-else
+              @click="toggleView"
+              class="q-pa-xs btn-primary"
+              label=""
+              dense
+              icon="dashboard"
+            >
               <q-tooltip>
                 {{ $translate(configs.store, "cards", "tooltip") }}
               </q-tooltip>
@@ -232,19 +410,37 @@
               <!-- Menu de configuração de colunas -->
               <q-menu v-model="showColumnMenu">
                 <q-list>
-                  <q-item v-for="column in columns" :key="column.key || column.name">
+                  <q-item
+                    v-for="column in columns"
+                    :key="column.key || column.name"
+                  >
                     <q-item-section>
-                      <q-toggle v-model="toogleVisibleColumns[column.key || column.name]
-                        " :label="$translate(configs.store, column.name, 'input')" @click="saveVisibleColumns" />
+                      <q-toggle
+                        v-model="
+                          toogleVisibleColumns[column.key || column.name]
+                        "
+                        :label="$translate(configs.store, column.name, 'input')"
+                        @click="saveVisibleColumns"
+                      />
                     </q-item-section>
                   </q-item>
                 </q-list>
-                <q-btn slot="bottom" class="btn-primary" label="Fechar" @click="toggleShowColumnMenu" />
+                <q-btn
+                  slot="bottom"
+                  class="btn-primary"
+                  label="Fechar"
+                  @click="toggleShowColumnMenu"
+                />
               </q-menu>
             </q-btn>
 
-            <q-btn class="q-pa-xs btn-primary" label="" dense
-              :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="toggleMaximize(props)">
+            <q-btn
+              class="q-pa-xs btn-primary"
+              label=""
+              dense
+              :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+              @click="toggleMaximize(props)"
+            >
               <q-tooltip>
                 {{
                   $translate(
@@ -255,8 +451,14 @@
                 }}
               </q-tooltip>
             </q-btn>
-            <q-btn icon-right="archive btn-primary" dense class="q-pa-xs btn-primary" label="" @click="configs.export"
-              v-if="configs.export">
+            <q-btn
+              icon-right="archive btn-primary"
+              dense
+              class="q-pa-xs btn-primary"
+              label=""
+              @click="configs.export"
+              v-if="configs.export"
+            >
               <q-tooltip>
                 {{ $translate(configs.store, "export", "tooltip") }}
               </q-tooltip>
@@ -266,26 +468,55 @@
       </template>
 
       <template v-slot:item="props">
-        <div @click="rowClick(props.row, $event)"
-          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition" :style="selectedRows[items.indexOf(props.row)]
-            ? { transform: 'scale(0.95)' }
-            : {}
-            ">
-          <q-card bordered flat :class="selectedRows[items.indexOf(props.row)] ? 'selected-card' : ''
-            ">
+        <div
+          @click="rowClick(props.row, $event)"
+          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+          :style="
+            selectedRows[items.indexOf(props.row)]
+              ? { transform: 'scale(0.95)' }
+              : {}
+          "
+        >
+          <q-card
+            bordered
+            flat
+            :class="
+              selectedRows[items.indexOf(props.row)] ? 'selected-card' : ''
+            "
+          >
             <q-card-section>
               <q-item>
-                <template v-for="(column, index) in columns" :key="column.key || column.name">
-                  <q-item-section v-if="column.isIdentity" :class="[{ hidden: !shouldIncludeColumn(column) }]">
-                    <template v-if="tableColumnComponent(column.key || column.name)">
-                      <component :componentProps="tableColumnComponent(column.key || column.name).props
-                        " :is="tableColumnComponent(column.key || column.name)
-                          .component
-                          " :row="props.row" @loadData="loadData" />
+                <template
+                  v-for="(column, index) in columns"
+                  :key="column.key || column.name"
+                >
+                  <q-item-section
+                    v-if="column.isIdentity"
+                    :class="[{ hidden: !shouldIncludeColumn(column) }]"
+                  >
+                    <template
+                      v-if="tableColumnComponent(column.key || column.name)"
+                    >
+                      <component
+                        :componentProps="
+                          tableColumnComponent(column.key || column.name).props
+                        "
+                        :is="
+                          tableColumnComponent(column.key || column.name)
+                            .component
+                        "
+                        :row="props.row"
+                        @loadData="loadData"
+                      />
                     </template>
-                    <q-btn class="btn-primary" v-else-if="
-                      column.to && props.row[column.key || column.name]
-                    " @click="verifyClick(column, props.row)" :icon:="column.icon">
+                    <q-btn
+                      class="btn-primary"
+                      v-else-if="
+                        column.to && props.row[column.key || column.name]
+                      "
+                      @click="verifyClick(column, props.row)"
+                      :icon:="column.icon"
+                    >
                       {{
                         this.format(
                           column,
@@ -314,14 +545,22 @@
                   </q-item-section>
                 </template>
                 <q-item-section side>
-                  <q-checkbox v-if="configs.selection" dense v-model="selectedRows[items.indexOf(props.row)]"
-                    v-bind:value="false" :disable="selectionDisabled(props.row, configs)" />
+                  <q-checkbox
+                    v-if="configs.selection"
+                    dense
+                    v-model="selectedRows[items.indexOf(props.row)]"
+                    v-bind:value="false"
+                    :disable="selectionDisabled(props.row, configs)"
+                  />
                 </q-item-section>
               </q-item>
             </q-card-section>
             <q-separator />
             <q-list dense>
-              <template v-for="(column, index) in columns" :key="column.key || column.name">
+              <template
+                v-for="(column, index) in columns"
+                :key="column.key || column.name"
+              >
                 <q-item v-if="!column.isIdentity">
                   <q-item-section>
                     <q-item-label>{{
@@ -329,83 +568,129 @@
                     }}</q-item-label>
                   </q-item-section>
                   <q-item-section side>
-                    <template v-if="tableColumnComponent(column.key || column.name)">
-                      <component :componentProps="tableColumnComponent(column.key || column.name).props
-                        " :is="tableColumnComponent(column.key || column.name)
-                          .component
-                          " :row="props.row" @loadData="loadData" />
+                    <template
+                      v-if="tableColumnComponent(column.key || column.name)"
+                    >
+                      <component
+                        :componentProps="
+                          tableColumnComponent(column.key || column.name).props
+                        "
+                        :is="
+                          tableColumnComponent(column.key || column.name)
+                            .component
+                        "
+                        :row="props.row"
+                        @loadData="loadData"
+                      />
                     </template>
-                    <q-btn class="btn-primary" v-else-if="
-                      column.to && props.row[column.key || column.name]
-                    " @click="verifyClick(column, props.row)" :icon:="column.icon">{{
-                      this.format(
-                        column,
-                        props.row,
-                        getNameFromList(
+                    <q-btn
+                      class="btn-primary"
+                      v-else-if="
+                        column.to && props.row[column.key || column.name]
+                      "
+                      @click="verifyClick(column, props.row)"
+                      :icon:="column.icon"
+                      >{{
+                        this.format(
                           column,
                           props.row,
-                          column.key || column.name
+                          getNameFromList(
+                            column,
+                            props.row,
+                            column.key || column.name
+                          )
                         )
-                      )
-                    }}
+                      }}
                     </q-btn>
 
-                    <template v-else-if="
-                      editingInit(items.indexOf(props.row), column) != true
-                    ">
-                      <span @click="
-                        startEditing(
-                          items.indexOf(props.row),
-                          column,
-                          props.row,
-                          formatData(column, props.row, true)
-                        )
-                        ">
-                        {{ column.prefix }} {{ formatData(column, props.row, false) }}
-                        <q-icon v-if="column.editable != false && !isSaving" size="1.0em" name="edit" />
+                    <template
+                      v-else-if="
+                        editingInit(items.indexOf(props.row), column) != true
+                      "
+                    >
+                      <span
+                        @click="
+                          startEditing(
+                            items.indexOf(props.row),
+                            column,
+                            props.row,
+                            formatData(column, props.row, true)
+                          )
+                        "
+                      >
+                        {{ column.prefix }}
+                        {{ formatData(column, props.row, false) }}
+                        <q-icon
+                          v-if="column.editable != false && !isSaving"
+                          size="1.0em"
+                          name="edit"
+                        />
                         <q-icon v-else size="1.0em" name="" />
 
-                        <q-spinner-ios v-if="
-                          isSaving &&
-                          isEditing(items.indexOf(props.row), column)
-                        " class="loading-primary" size="2em" />
+                        <q-spinner-ios
+                          v-if="
+                            isSaving &&
+                            isEditing(items.indexOf(props.row), column)
+                          "
+                          class="loading-primary"
+                          size="2em"
+                        />
                       </span>
                     </template>
 
                     <template v-else>
-                      <FormInputs :editable="column.editable" :prefix="column.prefix" :sufix="column.sufix" :inputType="getList(configs, column) ? 'list' : column.inputType
-                        " :store="configs.store" :mask="mask(column)" :rules="[isInvalid()]" :labelType="'stack-label'"
-                        :label="column.label" :filters="getSearchFilters(column, props.row)" :initialValue="editedValue"
-                        :searchParam="column.searchParam || 'search'" :formatOptions="column.formatList"
-                        :searchAction="getList(configs, column)" @focus="editingInit(items.indexOf(props.row), column)"
-                        @changed="(value) => {
-                          editedValue = value;
-                        }
-                          " @blur="
-                            stopEditing(
-                              items.indexOf(props.row),
-                              column,
-                              props.row
-                            )
-                            " @apply="
-                              stopEditing(
-                                items.indexOf(props.row),
-                                column,
-                                props.row
-                              )
-                              " @update:modelValue="
-                                stopEditing(
-                                  items.indexOf(props.row),
-                                  column,
-                                  props.row
-                                )
-                                " @keydown.enter="
-                                  stopEditing(
-                                    items.indexOf(props.row),
-                                    column,
-                                    props.row
-                                  )
-                                  " />
+                      <FormInputs
+                        :editable="column.editable"
+                        :prefix="column.prefix"
+                        :sufix="column.sufix"
+                        :inputType="
+                          getList(configs, column) ? 'list' : column.inputType
+                        "
+                        :store="configs.store"
+                        :mask="mask(column)"
+                        :rules="[isInvalid()]"
+                        :labelType="'stack-label'"
+                        :label="column.label"
+                        :filters="getSearchFilters(column, props.row)"
+                        :initialValue="editedValue"
+                        :searchParam="column.searchParam || 'search'"
+                        :formatOptions="column.formatList"
+                        :searchAction="getList(configs, column)"
+                        @focus="editingInit(items.indexOf(props.row), column)"
+                        @changed="
+                          (value) => {
+                            editedValue = value;
+                          }
+                        "
+                        @blur="
+                          stopEditing(
+                            items.indexOf(props.row),
+                            column,
+                            props.row
+                          )
+                        "
+                        @apply="
+                          stopEditing(
+                            items.indexOf(props.row),
+                            column,
+                            props.row
+                          )
+                        "
+                        @update:modelValue="
+                          stopEditing(
+                            items.indexOf(props.row),
+                            column,
+                            props.row
+                          )
+                        "
+                        @keydown.enter="
+                          stopEditing(
+                            items.indexOf(props.row),
+                            column,
+                            props.row
+                          )
+                        "
+                      />
                     </template>
                   </q-item-section>
                 </q-item>
@@ -415,20 +700,41 @@
             <q-card-section>
               <q-item-section side class="">
                 <div class="row justify-end q-gutter-sm">
-                  <q-btn v-if="configs.editable != false" dense icon="edit" class="btn-primary" :disable="isLoading || addModal || deleteModal || editing.length > 0
-                    " @click="editItem(props.row)">
+                  <q-btn
+                    v-if="configs.editable != false"
+                    dense
+                    icon="edit"
+                    class="btn-primary"
+                    :disable="
+                      isLoading || addModal || deleteModal || editing.length > 0
+                    "
+                    @click="editItem(props.row)"
+                  >
                     <q-tooltip>
                       {{ $translate(configs.store, "edit", "tooltip") }}
                     </q-tooltip>
                   </q-btn>
-                  <q-btn v-if="configs.delete != false" dense icon="delete" class="btn-danger" :disable="isLoading || addModal || deleteModal || editing.length > 0
-                    " @click="openConfirm(props.row)">
+                  <q-btn
+                    v-if="configs.delete != false"
+                    dense
+                    icon="delete"
+                    class="btn-danger"
+                    :disable="
+                      isLoading || addModal || deleteModal || editing.length > 0
+                    "
+                    @click="openConfirm(props.row)"
+                  >
                     <q-tooltip>
                       {{ $translate(configs.store, "delete", "tooltip") }}
                     </q-tooltip>
                   </q-btn>
-                  <component v-if="tableActionsComponent()" :is="tableActionsComponent()"
-                    :componentProps="tableActionsProps()" :row="props.row" @loadData="loadData" />
+                  <component
+                    v-if="tableActionsComponent()"
+                    :is="tableActionsComponent()"
+                    :componentProps="tableActionsProps()"
+                    :row="props.row"
+                    @loadData="loadData"
+                  />
                 </div>
               </q-item-section>
             </q-card-section>
@@ -438,17 +744,21 @@
 
       <template v-slot:bottom-row>
         <q-tr class="tr-sum">
-          <q-td v-if="configs.selection">
-          </q-td>
+          <q-td v-if="configs.selection"> </q-td>
 
-          <q-td v-for="(column, index) in columns" :class="[
-            'text-' + column.align,
-            { hidden: !shouldIncludeColumn(column) },
-          ]">
-            <span v-if="
-              sumColumn[column.key || column.name] != false &&
-              sumColumn[column.key || column.name] != undefined
-            ">
+          <q-td
+            v-for="(column, index) in columns"
+            :class="[
+              'text-' + column.align,
+              { hidden: !shouldIncludeColumn(column) },
+            ]"
+          >
+            <span
+              v-if="
+                sumColumn[column.key || column.name] != false &&
+                sumColumn[column.key || column.name] != undefined
+              "
+            >
               {{
                 (column.prefix || "") +
                 format(column, {}, sumColumn[column.key || column.name]) +
@@ -457,11 +767,13 @@
               <q-icon size="1.0em" name="" />
             </span>
           </q-td>
-          <q-td v-if="
-            tableActionsComponent() ||
-            configs.delete != false ||
-            configs.edit != false
-          ">
+          <q-td
+            v-if="
+              tableActionsComponent() ||
+              configs.delete != false ||
+              configs.edit != false
+            "
+          >
           </q-td>
         </q-tr>
       </template>
@@ -482,7 +794,13 @@
     </q-table>
 
     <q-dialog v-model="addModal" :full-width="columns.length >= 16">
-      <DefaultForm :configs="configs" @saved="saved" @error="error" :data="item" :index="editIndex" />
+      <DefaultForm
+        :configs="configs"
+        @saved="saved"
+        @error="error"
+        :data="item"
+        :index="editIndex"
+      />
     </q-dialog>
     <q-dialog v-model="deleteModal">
       <q-card class="q-pa-md full-width">
@@ -496,12 +814,19 @@
         <q-separator></q-separator>
         <q-card-section>
           <div class="flex q-pt-md">
-            <q-btn class="q-py-sm q-px-md text-capitalize btn-primary"
-              :label="$translate(configs.store, 'cancel', 'btn')" v-close-popup>
+            <q-btn
+              class="q-py-sm q-px-md text-capitalize btn-primary"
+              :label="$translate(configs.store, 'cancel', 'btn')"
+              v-close-popup
+            >
             </q-btn>
             <q-space></q-space>
-            <q-btn class="q-py-sm q-px-md text-capitalize btn-primary"
-              :label="$translate(configs.store, 'confirm', 'btn')" @click="confirmDelete" :loading="isSaving">
+            <q-btn
+              class="q-py-sm q-px-md text-capitalize btn-primary"
+              :label="$translate(configs.store, 'confirm', 'btn')"
+              @click="confirmDelete"
+              :loading="isSaving"
+            >
             </q-btn>
           </div>
         </q-card-section>
@@ -645,8 +970,15 @@ export default {
     myCompany: {
       handler: function (current, preview) {
         if (current?.id != preview?.id) {
-          this.loadPersistentFilters();
-          this.loadData();
+          if (this.configs.companyParam != false) {
+            this.addFilter(
+              this.configs.companyParam || "company",
+              "/people/" + current?.id
+            );
+
+            this.loadPersistentFilters();
+            this.loadData();
+          }
         }
       },
       deep: true,
@@ -1013,7 +1345,7 @@ export default {
           column.key || column.name
         ]
           ? parseFloat(this.sumColumn[column.key || column.name]) +
-          parseFloat(value)
+            parseFloat(value)
           : parseFloat(value);
       }
     },
