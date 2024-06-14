@@ -233,7 +233,7 @@
 <script>
 import { api } from "@controleonline/../../src/boot/api";
 
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 
 const SETTINGS = {
   columns: [
@@ -339,7 +339,7 @@ export default {
         rowsPerPage: 10,
         rowsNumber: 10,
       },
-      uploadEndpoint: `${ENTRYPOINT}/import `,
+      uploadEndpoint: `${this.$entrypoint}/import `,
       uploadHeaders: [
         {
           name: "API-TOKEN",

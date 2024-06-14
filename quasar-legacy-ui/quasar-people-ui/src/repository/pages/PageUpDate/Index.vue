@@ -355,7 +355,7 @@ import PersonAvatar from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/
 import PeopleOrders from "@controleonline/quasar-legacy-ui/quasar-orders-ui/src/components/order/sales/OrderSearching.vue";
 import TasksSearching from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 import { mapGetters } from "vuex";
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 import PeopleAdminAddresses from "../../components/AdminAddresses.vue";
 import PeopleAdminBilling from "../../components/AdminBilling.vue";
 import PeopleAdminDocuments from "../../components/AdminDocuments.vue";
@@ -412,7 +412,7 @@ export default {
 
   data() {
     return {
-      baseUrl: ENTRYPOINT,
+      baseUrl: this.$entrypoint,
       people: {},
       currentTab: "summary",
       goBackRoute: null,
@@ -493,7 +493,7 @@ export default {
             this.averageRating = data.averageRating;
 
             this.people.avatar =
-              data.file !== null ? `${ENTRYPOINT}${data.file.url}` : null;
+              data.file !== null ? `${this.$entrypoint}${data.file.url}` : null;
 
             this.people.name =
               data.peopleType === "J" ? data.alias : `${data.name} ${data.alias}`;

@@ -17,7 +17,7 @@ import { LocalStorage } from "quasar";
 import { mapActions, mapGetters } from "vuex";
 import LoginPage from "../components/user/login/Index.vue";
 import SignUpPage from "../components/user/signup/Index.vue";
-import { DOMAIN } from 'src/config/domain.js'
+
 
 export default {
   name: "PageIndex",

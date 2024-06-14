@@ -120,7 +120,6 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { ENTRYPOINT } from 'src/config/entrypoint';
 import CompanyAddress from './../../../components/company/CompanyAddress';
 import CompanyDocuments from './../../../components/company/CompanyDocuments';
 import CompanyEmployees from './../../../components/company/CompanyEmployees';
@@ -149,7 +148,7 @@ export default {
         if (company) {
           this.company.name = company.alias;
           if (company.image && company.image.url) {
-            this.company.image = `//${ENTRYPOINT}${company.image.url}`;
+            this.company.image = `//${this.$entrypoint}${company.image.url}`;
           } else {
             this.company.image = null;
           }

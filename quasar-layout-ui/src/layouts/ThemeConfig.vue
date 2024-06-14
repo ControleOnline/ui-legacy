@@ -1,7 +1,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 
 export default {
   name: "ThemeConfig",
@@ -20,7 +20,7 @@ export default {
     },
 
     setColors() {
-      let url = ENTRYPOINT + "/themes-colors.css";
+      let url = this.$entrypoint + "/themes-colors.css";
       console.log(url);
       document.head.innerHTML += `<link rel="stylesheet" href="${url}">`;
     },

@@ -147,7 +147,6 @@
 
 <script>
 import { api } from "@controleonline/../../src/boot/api";
-import { ENTRYPOINT } from 'src/config/entrypoint';
 import { mapGetters } from "vuex";
 
 import configurable from "./../mixins/configurable";
@@ -375,7 +374,7 @@ export default {
         myCompany: this.myCompany.id,
       };
 
-      const url = `${ENTRYPOINT}/my_contracts/${this.contract}/document`;
+      const url = `${this.$entrypoint}/my_contracts/${this.contract}/document`;
 
       const config = {
         method: 'GET',

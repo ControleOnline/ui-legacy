@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import { ENTRYPOINT } from 'src/config/entrypoint';
 import * as DefaultFiltersMethods from '@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js';
 
 export default {
@@ -84,7 +83,7 @@ export default {
     endpoint: {
       type: String,
       required: false,
-      default: () => `${ENTRYPOINT}/media_objects`
+      default: () => `${this.$entrypoint}/media_objects`
     },
     showError: {
       type: Boolean,

@@ -90,7 +90,6 @@ import OriginInputs from "./OriginInputs";
 import ProductInputs from "./ProductInputs";
 
 import { MyPackage } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/mypackage";
-import { DOMAIN } from "src/config/domain";
 
 export default {
   name: "PageContainer",

@@ -28,7 +28,6 @@
 <script>
 import PeoplePage from '@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/pages/PageAdmin/Index.vue';
 import { mapGetters } from 'vuex';
-import { ENTRYPOINT } from 'src/config/entrypoint';
 
 
 export default {
@@ -45,7 +44,7 @@ export default {
   data() {
     return {
       key: 0,
-      endpoint: ENTRYPOINT
+      endpoint: this.$entrypoint
     }
   },
 

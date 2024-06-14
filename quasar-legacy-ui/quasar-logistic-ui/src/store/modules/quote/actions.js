@@ -1,5 +1,4 @@
 import { api } from "@controleonline/../../src/boot/api";
-import { DOMAIN } from "src/config/domain";
 import SubmissionError from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/error/SubmissionError';
 import * as types from './mutation_types';
 

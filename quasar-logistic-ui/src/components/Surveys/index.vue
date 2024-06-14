@@ -181,7 +181,7 @@
 
 <script>
 import axios from "axios";
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 
 function findIn(obj, search) {
   let tmp = obj.find((c) => c.value === search);
@@ -373,7 +373,7 @@ export default {
 
       axios({
         url:
-          ENTRYPOINT +
+          this.$entrypoint +
           `/order_logistic_surveys/${id}/surveys/status_update?timestamp=${new Date().getTime()}`,
         params,
         method: "PUT",
@@ -447,7 +447,7 @@ export default {
     callAjaxAddNewSurvey(orderId) {
       axios({
         url:
-          ENTRYPOINT +
+          this.$entrypoint +
           `/tasks_surveys/${orderId}/surveys?timestamp=${new Date().getTime()}`,
         method: "POST",
         headers: { "api-token": this.API.token },
@@ -471,7 +471,7 @@ export default {
     callAjaxGetCollection(orderId) {
       this.isLoading = true;
       return axios({
-        url: ENTRYPOINT + `/order_logistics_surveys/surveys/${orderId}`,
+        url: this.$entrypoint + `/order_logistics_surveys/surveys/${orderId}`,
         method: "get",
         headers: { "api-token": this.API.token },
       }).then((response) => {

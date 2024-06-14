@@ -16,7 +16,7 @@
 import ClientPage from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/pages/PageUpDate/Index.vue";
 import { mapGetters } from "vuex";
 
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 
 export default {
   components: {
@@ -36,7 +36,7 @@ export default {
 
   data() {
     return {
-      endpoint: ENTRYPOINT,
+      endpoint: this.$entrypoint,
       clientId: null,
     };
   },

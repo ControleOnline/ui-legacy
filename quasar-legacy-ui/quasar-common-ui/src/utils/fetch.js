@@ -1,6 +1,6 @@
 import { Loading, LocalStorage, Notify } from "quasar";
-import { DOMAIN } from "src/config/domain";
-import { ENTRYPOINT } from "src/config/entrypoint";
+import { DOMAIN } from "../../../../../../config/domain";
+import { ENTRYPOINT } from "../../../../../../config/entrypoint.js";
 import SubmissionError from "../error/SubmissionError";
 
 export default function (id, options = {}) {

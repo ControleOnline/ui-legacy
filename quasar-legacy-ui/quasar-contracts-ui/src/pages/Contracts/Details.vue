@@ -74,7 +74,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { ENTRYPOINT } from 'src/config/entrypoint';
 
 export default {
   name: 'ContractDetailsPage',
@@ -116,7 +115,7 @@ export default {
     setConfig(configs) {
       // config api
 
-      configs.Api.setBaseUrl(ENTRYPOINT);
+      configs.Api.setBaseUrl(this.$entrypoint);
       configs.Api.setToken  (this.$store.getters['auth/user'].token);
       
       // config routes

@@ -53,7 +53,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 
 export default {
   props: {
@@ -84,8 +84,8 @@ export default {
 
   computed: {
     urlCarrierTag() {
-      return `${ENTRYPOINT}${
-        ENTRYPOINT.endsWith("/") ? "" : "/"
+      return `${this.$entrypoint}${
+        this.$entrypoint.endsWith("/") ? "" : "/"
       }vendor/pdf.js/web/viewer.html?file=/carrier_tags/${
         this.orderId
       }/download-tag`;

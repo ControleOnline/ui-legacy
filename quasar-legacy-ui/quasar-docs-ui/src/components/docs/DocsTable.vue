@@ -136,7 +136,7 @@
 import { api } from "@controleonline/../../src/boot/api";
 import axios from "axios";
 import { mapGetters } from "vuex";
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 
 function forceDownloadFile(blob, fileName) {
   if (window.navigator && window.navigator.msSaveOrOpenBlob) {
@@ -376,7 +376,7 @@ export default {
 
       axios({
         url:
-          ENTRYPOINT +
+          this.$entrypoint +
           `/filesb/${id}/download?type=${type}&timestamp=${new Date().getTime()}`,
         method: "get",
         responseType: "blob",

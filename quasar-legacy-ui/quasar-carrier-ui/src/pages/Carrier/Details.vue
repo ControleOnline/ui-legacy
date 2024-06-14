@@ -510,7 +510,7 @@ import CustomerSalesman from "@controleonline/quasar-legacy-ui/quasar-people-ui/
 import CustomerSummary from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/Summary.vue";
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 import { mapGetters } from "vuex";
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 import CarrierIntegration from "../../components/carrier/CarrierIntegration";
 import CarrierRegions from "../../components/carrier/CarrierRegions";
 import CarrierTables from "../../components/carrier/CarrierTables";
@@ -547,7 +547,7 @@ export default {
 
   data() {
     return {
-      baseUrl: ENTRYPOINT,
+      baseUrl: this.$entrypoint,
       currentTab: "summary",
       carrierId: this.$route.params.id,
       people: {},
@@ -581,7 +581,7 @@ export default {
             this.carrier.name = `${data.name} / ${data.alias}`;
             this.carrier.peopleType = data.peopleType;
             this.carrier.avatar =
-              data.file !== null ? `${ENTRYPOINT}${data.file.url}` : null;
+              data.file !== null ? `${this.$entrypoint}${data.file.url}` : null;
           }
         });
     },

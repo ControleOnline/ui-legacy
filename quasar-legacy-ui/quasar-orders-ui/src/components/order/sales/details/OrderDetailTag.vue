@@ -59,7 +59,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 
 export default {
   props: {
@@ -104,8 +104,8 @@ export default {
       let url = encodeURIComponent(
         `/carrier_tags/${this.orderId}/download-tag?pkg-total=${this.total_packages}`
       );
-      return `${ENTRYPOINT}${
-        ENTRYPOINT.endsWith("/") ? "" : "/"
+      return `${this.$entrypoint}${
+        this.$entrypoint.endsWith("/") ? "" : "/"
       }vendor/pdf.js/web/viewer.html?file=${url}`;
     },
   },
@@ -118,8 +118,8 @@ export default {
       let url = encodeURIComponent(
         `/carrier_tags/${this.orderId}/download-tag?pkg-total=${pkg}`
       );
-      this.$refs.docviewer.src = `${ENTRYPOINT}${
-        ENTRYPOINT.endsWith("/") ? "" : "/"
+      this.$refs.docviewer.src = `${this.$entrypoint}${
+        this.$entrypoint.endsWith("/") ? "" : "/"
       }vendor/pdf.js/web/viewer.html?file=${url}`;
     },
     onCreateTagClick() {

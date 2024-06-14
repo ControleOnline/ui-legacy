@@ -68,7 +68,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 
 export default {
   data() {
@@ -96,7 +96,7 @@ export default {
 
     getCompanyLogo(display) {
       if (display.company.file.id)
-        return ENTRYPOINT + "/files/download/" + display.company.file.id;
+        return this.$entrypoint + "/files/download/" + display.company.file.id;
     },
     onRequest() {
       this.getMyDisplays();

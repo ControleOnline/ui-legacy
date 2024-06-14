@@ -198,7 +198,7 @@
 import { api } from "@controleonline/../../src/boot/api";
 import axios from "axios";
 import { mapGetters } from "vuex";
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 
 
 const msgErro = "Este campo é obrigatório";
@@ -422,7 +422,7 @@ export default {
       this.guiRecHideShowLoading(type, "show");
       axios({
         url:
-          ENTRYPOINT +
+          this.$entrypoint +
           `/filesb/${id}/download?type=${type}&timestamp=${new Date().getTime()}`,
         method: "get",
         responseType: "blob",
@@ -560,7 +560,7 @@ export default {
       }
       return axios({
         method: method,
-        url: ENTRYPOINT + "/filesb" + idStr,
+        url: this.$entrypoint + "/filesb" + idStr,
         data: formData,
         headers: {
           "api-token": this.API.token,

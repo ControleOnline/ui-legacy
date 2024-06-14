@@ -556,7 +556,7 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 
 function findIn(obj, search) {
   return obj.find((c) => c.value === search);
@@ -1151,9 +1151,9 @@ export default {
           region: null,
           breakdown: null,
           path_real_size:
-            ENTRYPOINT + `/order_logistic_surveys/${surveyId}/${surveyFilesId}/viewphoto/realsize`,
+            this.$entrypoint + `/order_logistic_surveys/${surveyId}/${surveyFilesId}/viewphoto/realsize`,
           path_thumb:
-            ENTRYPOINT + `/order_logistic_surveys/${surveyId}/${surveyFilesId}/viewphoto/thumb`,
+            this.$entrypoint + `/order_logistic_surveys/${surveyId}/${surveyFilesId}/viewphoto/thumb`,
         };
 
         if (this.photoGallery === null) {
@@ -1191,7 +1191,7 @@ export default {
       let tokenUrl = this.route.token_url;
       return axios({
         url:
-          ENTRYPOINT +
+          this.$entrypoint +
           `/order_logistic_surveys/${idSurvey}/${tokenUrl}/allfilesimages`,
         method: "get",
       }).then((response) => {
@@ -1259,7 +1259,7 @@ export default {
 
       axios({
         url:
-          ENTRYPOINT +
+          this.$entrypoint +
           `/order_logistic_surveys/surveys?id=${id_local}&token=${token_url}`,
         method: "get",
       }).then((response) => {
@@ -1339,7 +1339,7 @@ export default {
           }
 
           this.qUpUrlUpload =
-            ENTRYPOINT + "/order_logistic_surveys/" + id_local + "/" + token_url + "/filesimages"; // Define a URL de upload do componente q-uploader
+            this.$entrypoint + "/order_logistic_surveys/" + id_local + "/" + token_url + "/filesimages"; // Define a URL de upload do componente q-uploader
 
           this.callAjaxGetAllPhotoGallery().then((response) => {
             // Carrega, se já existir a galeria de imagens
@@ -1370,7 +1370,7 @@ export default {
 
       axios({
         url:
-          ENTRYPOINT +
+          this.$entrypoint +
           `/order_logistic_surveys/${id_local}/${token_url}/surveys/update`,
         method: "put",
         data: {
@@ -1605,7 +1605,7 @@ export default {
 
       return axios({
         url:
-          ENTRYPOINT +
+          this.$entrypoint +
           `/order_logistic_surveys/findpeopleprofessional?companyId=${defaultCompanyId_local}`,
         method: "get",
       }).then((response) => {
@@ -1638,7 +1638,7 @@ export default {
 
       axios({
         url:
-          ENTRYPOINT +
+          this.$entrypoint +
           `/order_logistic_surveys/findpsurveyorbyemail?email=${email}`,
         method: "get",
       }).then((response) => {

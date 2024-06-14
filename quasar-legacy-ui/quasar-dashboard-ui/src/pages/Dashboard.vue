@@ -127,7 +127,7 @@
 </template>  
 
 <script>
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 import { mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
 
@@ -179,7 +179,7 @@ export default {
       // config api
 
       configs.Api.setAsFake(false);
-      configs.Api.setBaseUrl(ENTRYPOINT);
+      configs.Api.setBaseUrl(this.$entrypoint);
       configs.Api.setToken(this.$store.getters["auth/user"].token);
 
       // config params

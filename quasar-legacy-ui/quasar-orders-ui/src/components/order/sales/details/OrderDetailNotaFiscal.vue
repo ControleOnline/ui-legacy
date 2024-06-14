@@ -116,7 +116,7 @@
 <script>
 import UploadFileForm from "@controleonline/quasar-default-ui/src/components/Default/Common/Inputs/UploadInput.vue";
 import { mapActions, mapGetters } from "vuex";
-import { ENTRYPOINT } from "src/config/entrypoint";
+
 
 export default {
   props: {
@@ -167,14 +167,14 @@ export default {
     }),
 
     updEndpoint() {
-      return `${ENTRYPOINT}${ENTRYPOINT.endsWith("/") ? "" : "/"
+      return `${this.$entrypoint}${this.$entrypoint.endsWith("/") ? "" : "/"
         }invoice_taxes/upload-nf?myCompany=${this.myCompany.id}`;
     },
 
     urlInvoiceTax() {
       if (this.invoiceTax === null) return "";
 
-      return `${ENTRYPOINT}${ENTRYPOINT.endsWith("/") ? "" : "/"
+      return `${this.$entrypoint}${this.$entrypoint.endsWith("/") ? "" : "/"
         }vendor/pdf.js/web/viewer.html?file=/invoice_taxes/${this.invoiceTax.id
         }/download-nf`;
     },
