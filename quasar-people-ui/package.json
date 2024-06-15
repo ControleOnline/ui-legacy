@@ -1,6 +1,6 @@
 {
-  "name": "@controleonline/quasar-legacy-ui/quasar-people-ui",
-  "version": "1.0.85",
+  "name": "@controleonline/quasar-people-ui",
+  "version": "1.0.86",
   "author": "ControleOnline",
   "description": "ControleOnline people Quasar UI Component",
   "license": "MIT",
