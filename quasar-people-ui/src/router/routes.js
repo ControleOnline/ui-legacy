@@ -10,7 +10,7 @@ export const routes = [
         component: () => import("../pages/Company"),
       },
       {
-        name: "CompanyDetailsPage",
+        name: "CompanyDetails",
         path: "id/:id",
         component: () => import("../pages/Details"),
       },

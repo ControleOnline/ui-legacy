@@ -19,7 +19,7 @@ export default {
   computed: {
     ...mapGetters({
       myCompany: "people/currentCompany",
-      columns: "invoice/columns",
+      columns: "people/columns",
     }),
     filters() {
       return this.$store.getters[this.configs.store + "/filters"];
@@ -44,9 +44,36 @@ export default {
     };
   },
   created() {
+    this.addColumnTo();
     this.load();
   },
   methods: {
+    routeExists(routeName) {
+      return this.$router.options.routes.some((route) => {
+        if (route.children)
+          return route.children.some((child) => routeName === child.name);
+      });
+    },
+    addColumnTo() {
+      let routeName =
+        this.context.charAt(0).toUpperCase() +
+        this.context.slice(1) +
+        "Details";
+      if (this.routeExists(routeName)) {
+        const columns = this.$copyObject(this.columns);
+        columns[0].to = (value) => {
+          return {
+            name: routeName,
+            params: {
+              id: value,
+            },
+          };
+        };
+
+        this.$store.commit(this.configs.store + "/SET_COLUMNS", columns);
+      }
+    },
+
     load() {
       if (!this.context) return;
 
@@ -61,7 +88,7 @@ export default {
         delete filters.company;
         filters.company = "/people/" + this.myCompany?.id;
         filters.link_type = "employee";
-      }    
+      }
 
       if (this.context == "customers") {
         delete filters.link;

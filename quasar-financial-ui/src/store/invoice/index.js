@@ -91,7 +91,7 @@ export default {
         },
         style: function (value) {
           return {
-            color: value.status.color,
+            color: value?.status?.color,
           };
         },
         formatList: function (value) {
@@ -102,7 +102,7 @@ export default {
             };
         },
         saveFormat: function (value) {
-          return value ? "/statuses/" + (value.value || value) : null;
+          return value ? "/statuses/" + (value?.value || value) : null;
         },
       },
       {
@@ -138,7 +138,7 @@ export default {
             };
         },
         saveFormat: function (value) {
-          return value ? "/wallets/" + (value.value || value) : null;
+          return value ? "/wallets/" + (value?.value || value) : null;
         },
       },
       {
@@ -162,7 +162,7 @@ export default {
             };
         },
         saveFormat: function (value) {
-          return value ? "/payment_types/" + (value.value || value) : null;
+          return value ? "/payment_types/" + (value?.value || value) : null;
         },
       },
       {
@@ -180,13 +180,13 @@ export default {
           return parseInt(value || 1);
         },
         format(value, column, row, editing) {
-          if (row.paymentType.frequency == "single") {
+          if (row?.paymentType?.frequency == "single") {
             return "1X";
           }
-          if (row.installments == 0) {
+          if (row?.installments == 0) {
             return "Recorrente";
           }
-          return (row.portion > 0 ? row.portion : 1) + "X/" + row.installments;
+          return (row?.portion > 0 ? row?.portion : 1) + "X/" + row?.installments;
         },
       },
       {
