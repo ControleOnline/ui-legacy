@@ -7,13 +7,22 @@ export const routes = [
       {
         name: "FinanceExpenseIndex",
         path: "expense",
-        component: () => import("../pages/Expense/Invoice.vue"),
+        component: () => import("../pages/Expense"),
       },
-
+      {
+        name: "FinanceExpenseDetails",
+        path: "expense/id/:id",
+        component: () => import("../pages/Expense/Details.vue"),
+      },
       {
         name: "FinanceReceiveIndex",
         path: "receive",
-        component: () => import("../pages/Receive/Invoice.vue"),
+        component: () => import("../pages/Receive"),
+      },
+      {
+        name: "FinanceReceiveDetails",
+        path: "receive/id/:id",
+        component: () => import("../pages/Receive/Details.vue"),
       },
       {
         name: "FinanceExpenseCategories",

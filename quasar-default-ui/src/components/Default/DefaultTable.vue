@@ -792,15 +792,28 @@
         </div>
       </template>
     </q-table>
-
     <q-dialog v-model="addModal" :full-width="columns.length >= 16">
-      <DefaultForm
-        :configs="configs"
-        @saved="saved"
-        @error="error"
-        :data="item"
-        :index="editIndex"
-      />
+      <q-card class="q-pa-md full-width default-form">
+        <q-card-section class="row items-center">
+          <label class="text-h5">{{
+            $translate(configs.store, item?.id ? "edit" : "add", "title")
+          }}</label>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-separator></q-separator>
+        <q-card-section>
+          <DefaultForm
+            :configs="configs"
+            @saved="saved"
+            @error="error"
+            :data="item"
+            :index="editIndex"
+            :cardClass="'q-pa-none'"
+            :sectionClass="'q-pa-none'"
+          />
+        </q-card-section>
+      </q-card>
     </q-dialog>
     <q-dialog v-model="deleteModal">
       <q-card class="q-pa-md full-width">

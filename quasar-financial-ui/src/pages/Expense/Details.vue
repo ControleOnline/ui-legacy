@@ -1,9 +1,9 @@
 <template>
-  <Invoice :context="context" v-if="context" />
+  <Invoice :context="context" v-if="context"/>
 </template>
 
 <script>
-import Invoice from "../../components/Invoice.vue";
+import Invoice from "../../components/Invoice/Details.vue";
 
 export default {
   components: {
@@ -12,10 +12,10 @@ export default {
 
   data() {
     return {
-      context: 'receive'
+      context: 'expense'
     };
   },
   created() {
-  },
+   },
 };
 </script>

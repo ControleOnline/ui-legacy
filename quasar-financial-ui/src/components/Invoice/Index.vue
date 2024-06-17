@@ -1,0 +1,66 @@
+<template>
+  <DefaultTable :configs="configs" v-if="configs" />
+</template>
+<script>
+import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
+import { mapActions, mapGetters } from "vuex";
+import getConfigs from "./Configs";  
+
+export default {
+  components: {
+    DefaultTable,
+  },
+  props: {
+    context: {
+      required: true,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      myCompany: "people/currentCompany",
+      columns: "invoice/columns",
+    }),
+    configs() {
+      return getConfigs(this.context, this.myCompany);
+    },
+  },
+  data() {
+    return {};
+  },
+  created() {
+    this.addColumnTo();
+  },
+  methods: {
+    addColumnTo() {
+      const columns = this.$copyObject(this.columns);
+      const columnIndex = columns.findIndex(
+        (c) => c.name === "receiver" || c.name === "payer"
+      );
+      if (columnIndex !== -1) {
+        columns[columnIndex].name =
+          this.context === "expense" ? "receiver" : "payer";
+        columns[columnIndex].label =
+          this.context === "expense" ? "receiver" : "payer";
+      }
+
+      const columnIdIndex = columns.findIndex((c) => c.name === "id");
+      if (columnIdIndex !== -1) {
+        columns[columnIdIndex].to = (value) => {
+          let route =
+            this.context === "expense"
+              ? "FinanceExpenseDetails"
+              : "FinanceReceiveDetails";
+          return {
+            name: route,
+            params: {
+              id: value,
+            },
+          };
+        };
+      }
+
+      this.$store.commit(this.configs.store + "/SET_COLUMNS", columns);
+    },
+  },
+};
+</script>

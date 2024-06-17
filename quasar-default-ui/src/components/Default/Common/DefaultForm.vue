@@ -1,14 +1,6 @@
 <template>
-  <q-card class="q-pa-md full-width default-form">
-    <q-card-section class="row items-center">
-      <label class="text-h5">{{
-        $translate(configs.store, item?.id ? "edit" : "add", "title")
-      }}</label>
-      <q-space />
-      <q-btn icon="close" flat round dense v-close-popup />
-    </q-card-section>
-    <q-separator></q-separator>
-    <q-card-section>
+  <q-card :class="cardClass">
+    <q-card-section :class="sectionClass">
       <q-form ref="myForm" @submit="onSubmit">
         <div class="row q-col-gutter-xs q-pb-xs">
           <template v-for="(column, index) in columns">
@@ -76,6 +68,18 @@ export default {
     index: {
       type: Number,
       required: false,
+    },
+    sectionClass: {
+      required: false,
+      default() {
+        return "row items-center";
+      },
+    },
+    cardClass: {
+      required: false,
+      default() {
+        return "q-pa-md";
+      },
     },
     data: {
       type: Object,
@@ -217,15 +221,15 @@ export default {
             );
         } else {
           p[name] = this.saveFormat(
-              name,
-              params[name],
-              this.id ? { "@id": this.id } : params
-            );
+            name,
+            params[name],
+            this.id ? { "@id": this.id } : params
+          );
         }
       }
       if (this.id) p.id = this.id;
 
-      if (this.myCompany  && this.configs.companyParam != false)
+      if (this.myCompany && this.configs.companyParam != false)
         p[this.configs.companyParam || "company"] =
           "/people/" + this.myCompany.id;
 
