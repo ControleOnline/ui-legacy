@@ -8,6 +8,7 @@
             class="q-card q-pa-sm"
             style="max-width: calc(var(--zoom-width) - 30px)"
           >
+            <Product :ProductId="ProductId" />
             <q-tabs
               inline-label
               no-caps
@@ -19,7 +20,6 @@
               indicator-color="primary"
               v-model="tab"
             >
-              <q-tab name="product" icon="tab" :label="$t('Product')" />
               <q-tab name="group" icon="tab" :label="$t('Group')" />
               <q-tab name="categories" icon="tab" :label="$t('Categories')" />
               <q-tab name="price" icon="tab" :label="$t('Price')" />
@@ -39,9 +39,6 @@
               transition-prev="jump-up"
               transition-next="jump-up"
             >
-              <q-tab-panel class="items-center" name="product">
-                <Product :ProductId="ProductId" />
-              </q-tab-panel>
               <q-tab-panel class="items-center" name="group">
                 <Group :ProductId="ProductId" />
               </q-tab-panel>
@@ -97,7 +94,7 @@ export default {
   data() {
     return {
       ProductId: null,
-      tab: "product",
+      tab: "group",
     };
   },
   created() {

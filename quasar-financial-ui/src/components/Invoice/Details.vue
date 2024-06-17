@@ -1,14 +1,14 @@
 <template>
-  <DefaultForm :configs="configs" :data="invoiceData" v-if="invoiceData" />
+  <DefaultDetail :configs="configs" :data="invoiceData" v-if="invoiceData" />
 </template>
 <script>
-import DefaultForm from "@controleonline/quasar-default-ui/src/components/Default/Common/DefaultForm.vue";
+import DefaultDetail from "@controleonline/quasar-default-ui/src/components/Default/Common/DefaultDetail.vue";
 import { mapActions, mapGetters } from "vuex";
 import getConfigs from "./Configs";
 
 export default {
   components: {
-    DefaultForm,
+    DefaultDetail,
   },
   props: {
     context: {

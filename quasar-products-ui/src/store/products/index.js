@@ -77,7 +77,7 @@ export default {
         formatList: function (value) {
           if (value)
             return {
-              value: value["@id"].split("/").pop(),
+              value: value["@id"]?.split("/").pop(),
               label: value.productUnit,
             };
         },

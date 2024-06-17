@@ -809,8 +809,6 @@
             @error="error"
             :data="item"
             :index="editIndex"
-            :cardClass="'q-pa-none'"
-            :sectionClass="'q-pa-none'"
           />
         </q-card-section>
       </q-card>

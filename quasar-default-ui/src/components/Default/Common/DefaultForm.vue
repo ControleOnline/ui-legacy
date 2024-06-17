@@ -1,6 +1,4 @@
 <template>
-  <q-card :class="cardClass">
-    <q-card-section :class="sectionClass">
       <q-form ref="myForm" @submit="onSubmit">
         <div class="row q-col-gutter-xs q-pb-xs">
           <template v-for="(column, index) in columns">
@@ -50,8 +48,6 @@
           />
         </div>
       </q-form>
-    </q-card-section>
-  </q-card>
 </template>
 
 <script>
@@ -68,18 +64,6 @@ export default {
     index: {
       type: Number,
       required: false,
-    },
-    sectionClass: {
-      required: false,
-      default() {
-        return "row items-center";
-      },
-    },
-    cardClass: {
-      required: false,
-      default() {
-        return "q-pa-md";
-      },
     },
     data: {
       type: Object,
