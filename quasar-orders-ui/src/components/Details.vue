@@ -10,8 +10,8 @@
           >
             <DefaultDetail
               :configs="configs"
-              :data="invoiceData"
-              v-if="invoiceData"
+              :data="orderData"
+              v-if="orderData"
             />
             <q-tabs
               inline-label
@@ -24,7 +24,7 @@
               indicator-color="primary"
               v-model="tab"
             >
-              <q-tab name="orders" icon="tab" :label="$t('Orders')" />
+              <q-tab name="invoice" icon="tab" :label="$t('Invoices')" />
             </q-tabs>
             <q-tab-panels
               v-model="tab"
@@ -33,12 +33,8 @@
               transition-prev="jump-up"
               transition-next="jump-up"
             >
-              <q-tab-panel class="items-center" name="orders">
-                <Orders
-                  :invoiceId="invoiceId"
-                  :context="context == 'receive' ? 'sales' : 'purchasing'"
-                  v-if="invoiceId"
-                />
+              <q-tab-panel class="items-center" name="invoice">
+                <Invoice :orderId="orderId" :context="context" v-if="orderId" />
               </q-tab-panel>
             </q-tab-panels>
           </div>
@@ -49,7 +45,7 @@
 </template>
 <script>
 import DefaultDetail from "@controleonline/quasar-default-ui/src/components/Default/Common/DefaultDetail.vue";
-import Orders from "@controleonline/quasar-orders-ui/src/components/Orders.vue";
+import Invoice from "@controleonline/quasar-financial-ui/src/components/Invoice";
 
 import { mapActions, mapGetters } from "vuex";
 import getConfigs from "./Configs";
@@ -57,7 +53,7 @@ import getConfigs from "./Configs";
 export default {
   components: {
     DefaultDetail,
-    Orders,
+    Invoice,
   },
   props: {
     context: {
@@ -77,20 +73,20 @@ export default {
   },
   data() {
     return {
-      tab: "orders",
-      invoiceData: null,
-      invoiceId: null,
+      tab: "invoice",
+      orderData: null,
+      orderId: null,
     };
   },
   created() {
-    this.invoiceId = decodeURIComponent(this.$route.params.id);
-    this.getInvoice(this.invoiceId).then((data) => {
-      this.invoiceData = data;
+    this.orderId = decodeURIComponent(this.$route.params.id);
+    this.getOrder(this.orderId).then((data) => {
+      this.orderData = data;
     });
   },
   methods: {
     ...mapActions({
-      getInvoice: "invoice/get",
+      getOrder: "orders/get",
     }),
   },
 };

@@ -1,8 +1,9 @@
 <template>
-  kkk
+  <People :context="context" v-if="context"/>
 </template>
 
 <script>
+import People from "@controleonline/quasar-orders-ui/src/components/Details.vue";
 
 export default {
   components: {
@@ -11,7 +12,7 @@ export default {
 
   data() {
     return {
-      context: 'customers'
+      context: 'sales'
     };
   },
   created() {

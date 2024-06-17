@@ -496,18 +496,7 @@
 <script>
 import { api } from "@controleonline/../../src/boot/api";
 import PersonAvatar from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/PersonAvatar";
-import CustomerOrders from "@controleonline/quasar-legacy-ui/quasar-orders-ui/src/components/order/purchasing/OrderSearching.vue";
-import PeopleAdminAddresses from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/AdminAddresses.vue";
-import PeopleAdminBilling from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/AdminBilling.vue";
-import PeopleAdminDocuments from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/AdminDocuments.vue";
-import PeopleAdminEmails from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/AdminEmails.vue";
-import PeopleAdminEmployees from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/AdminEmployees.vue";
-import PeopleAdminPhones from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/AdminPhones.vue";
-import PeopleAdminUsers from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/AdminUsers.vue";
-import CustomerCompany from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/Company.vue";
-import CustomerContracts from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/Contracts.vue";
-import CustomerSalesman from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/Salesman.vue";
-import CustomerSummary from "@controleonline/quasar-legacy-ui/quasar-people-ui/src/repository/components/Summary.vue";
+
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks";
 import { mapGetters } from "vuex";
 
@@ -521,19 +510,7 @@ export default {
     CarrierTables,
     CarrierIntegration,
     PersonAvatar,
-    OrderTasks,
-    PeopleAdminEmails,
-    PeopleAdminUsers,
-    PeopleAdminAddresses,
-    PeopleAdminPhones,
-    PeopleAdminDocuments,
-    PeopleAdminEmployees,
-    PeopleAdminBilling,
-    CustomerOrders,
-    CustomerContracts,
-    CustomerSummary,
-    CustomerSalesman,
-    CustomerCompany,
+    
   },
 
   created() {

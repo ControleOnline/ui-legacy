@@ -6,7 +6,12 @@
       ' full-width default-table'
     "
   >
-    <div class="q-gutter-sm" v-if="$q.screen.gt.sm && this.configs.filters">
+    <div
+      class="q-gutter-sm"
+      v-if="
+        $q.screen.gt.sm && configs.filters && configs.externalFilters != false
+      "
+    >
       <DefaultExternalFilters
         :configs="configs"
         @loadData="loadData"

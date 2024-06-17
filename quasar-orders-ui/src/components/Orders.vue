@@ -6,14 +6,12 @@ import DefaultTable from "@controleonline/quasar-default-ui/src/components/Defau
 import { mapActions, mapGetters } from "vuex";
 import Status from "@controleonline/quasar-common-ui/src/components/Status/Button";
 import OtherInformations from "./OtherInformations/Button";
-import FormPayment from "@controleonline/quasar-orders-ui/src/components/Cielo/FormPayment.vue";
-
+import getConfigs from "./Configs";
 export default {
   components: {
     DefaultTable,
     Status,
     OtherInformations,
-    FormPayment,
   },
   props: {
     context: {
@@ -29,47 +27,7 @@ export default {
       columns: "orders/columns",
     }),
     configs() {
-      return {
-        companyParam: this.invoiceId
-          ? false
-          : this.context == "sales"
-          ? "provider"
-          : "client",
-        filters: true,
-        store: "orders",
-        add: true,
-        delete: false,
-        selection: false,
-        search: false,
-        columns: {
-          category: {
-            filters: {
-              context: this.context,
-              company: "/people/" + this.myCompany.id,
-            },
-          },
-          status: {
-            filters: {
-              context: "order",
-            },
-          },
-        },
-        components: {
-          tableActions: {
-            //component: OtherInformations,
-            component: FormPayment,
-            props: {
-              context: this.context,
-            },
-          },
-          headerActions: {
-            //component: Status,
-            props: {
-              context: this.context,
-            },
-          },
-        },
-      };
+      return getConfigs(this.context, this.myCompany, this.invoiceId);
     },
   },
   data() {
@@ -85,7 +43,7 @@ export default {
     setFilters() {
       if (this.invoiceId) {
         let filters = {
-            invoiceId: this.invoiceId,
+          invoiceId: this.invoiceId,
         };
         this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
       }

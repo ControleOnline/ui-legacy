@@ -9,6 +9,11 @@ export const routes = [
         path: "sales",
         component: () => import("../pages/Orders"),
       },
+      {
+        name: "OrderDetails",
+        path: "id/:id",
+        component: () => import("../pages/Orders/Details.vue"),
+      },      
     ],
   },
 ];
