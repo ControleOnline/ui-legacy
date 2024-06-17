@@ -1,6 +1,5 @@
 <template>
-    <DefaultTable :configs="configs" v-if="configs" />
-
+  <DefaultTable :configs="configs" v-if="loaded" />
 </template>
 <script>
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
@@ -9,93 +8,121 @@ import Status from "@controleonline/quasar-common-ui/src/components/Status/Butto
 import OtherInformations from "./OtherInformations/Button";
 import FormPayment from "@controleonline/quasar-orders-ui/src/components/Cielo/FormPayment.vue";
 
-
 export default {
-    components: {
-        DefaultTable,
-        Status,
-        OtherInformations,
-        FormPayment
+  components: {
+    DefaultTable,
+    Status,
+    OtherInformations,
+    FormPayment,
+  },
+  props: {
+    context: {
+      required: true,
     },
-    props: {
-        context: {
-            required: true
+    invoiceId: {
+      required: false,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      myCompany: "people/currentCompany",
+      columns: "orders/columns",
+    }),
+    configs() {
+      return {
+        companyParam: this.invoiceId
+          ? false
+          : this.context == "sales"
+          ? "provider"
+          : "client",
+        filters: true,
+        store: "orders",
+        add: true,
+        delete: false,
+        selection: false,
+        search: false,
+        columns: {
+          category: {
+            filters: {
+              context: this.context,
+              company: "/people/" + this.myCompany.id,
+            },
+          },
+          status: {
+            filters: {
+              context: "order",
+            },
+          },
         },
+        components: {
+          tableActions: {
+            //component: OtherInformations,
+            component: FormPayment,
+            props: {
+              context: this.context,
+            },
+          },
+          headerActions: {
+            //component: Status,
+            props: {
+              context: this.context,
+            },
+          },
+        },
+      };
     },
-    computed: {
-        ...mapGetters({
-            myCompany: 'people/currentCompany',
-            columns: 'orders/columns',
-        }),
-        configs() {
-            return {
-                companyParam: this.context == 'sales' ? 'provider' : 'client',
-                filters: true,
-                store: 'orders',
-                add: true,
-                delete: false,
-                selection: false,
-                search: false,
-                columns: {
-                    category: {
-                        filters: {
-                            context: this.context,
-                            company: '/people/' + this.myCompany.id
-                        }
-                    },
-                    status: {
-                        filters: {
-                            context: 'order'
-                        }
-                    }
-                },
-                components: {
-                    tableActions: {
-                        //component: OtherInformations,
-                        component: FormPayment,
-                        props: {
-                            context: this.context
-                        }
-                    },
-                    headerActions: {
-                        //component: Status,
-                        props: {
-                            context: this.context
-                        }
-                    }
-                }
-            };
-        }
-    },
-    data() {
-        return {
+  },
+  data() {
+    return {
+      loaded: false,
+    };
+  },
+  created() {
+    this.setColumns();
+    this.setFilters();
+  },
+  methods: {
+    setFilters() {
+      if (this.invoiceId) {
+        let filters = {
+            invoiceId: this.invoiceId,
         };
+        this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
+      }
+
+      this.loaded = true;
     },
-    created() {
-        const columns = this.$copyObject(this.columns);
-        const columnIndex = columns.findIndex(c => c.name === 'provider' || c.name === 'client');
-        if (columnIndex !== -1) {
-            columns[columnIndex].name = this.context === 'sales' ? 'client' : 'provider';
-            columns[columnIndex].label = this.context === 'sales' ? 'client' : 'provider';
+
+    setColumns() {
+      const columns = this.$copyObject(this.columns);
+      const columnIndex = columns.findIndex(
+        (c) => c.name === "provider" || c.name === "client"
+      );
+      if (columnIndex !== -1) {
+        columns[columnIndex].name =
+          this.context === "sales" ? "client" : "provider";
+        columns[columnIndex].label =
+          this.context === "sales" ? "client" : "provider";
+      }
+
+      const columnIdIndex = columns.findIndex((c) => c.name === "id");
+      if (columnIdIndex !== -1) {
+        columns[columnIdIndex].to = (value) => {
+          let route =
+            this.context === "sales"
+              ? "OrderDetails"
+              : "PurchasingOrderDetails";
+          return {
+            name: route,
+            params: {
+              id: value,
+            },
+          };
         };
+      }
 
-        const columnIdIndex = columns.findIndex(c => c.name === 'id');
-        if (columnIdIndex !== -1) {
-            columns[columnIdIndex].to = (value) => {
-                let route = this.context === 'sales' ? 'OrderDetails' : 'PurchasingOrderDetails';
-                return {
-                    name: route,
-                    params: {
-                        id: value
-                    }
-                };
-            };
-        }
-
-        this.$store.commit(this.configs.store + '/SET_COLUMNS', columns);
-
+      this.$store.commit(this.configs.store + "/SET_COLUMNS", columns);
     },
-    methods: {
-    },
+  },
 };
 </script>
