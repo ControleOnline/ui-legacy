@@ -26,8 +26,15 @@ export default {
       myCompany: "people/currentCompany",
       columns: "orders/columns",
     }),
+
     configs() {
-      return getConfigs(this.context, this.myCompany, this.invoiceId);
+      let config = getConfigs(this.context, this.myCompany, this.invoiceId);
+
+      if (this.invoiceId) {
+        config.externalFilters = false;
+        config["full-height"] = false;
+      }
+      return config;
     },
   },
   data() {

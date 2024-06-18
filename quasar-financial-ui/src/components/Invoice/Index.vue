@@ -4,7 +4,7 @@
 <script>
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
 import { mapActions, mapGetters } from "vuex";
-import getConfigs from "./Configs";  
+import getConfigs from "./Configs";
 
 export default {
   components: {
@@ -14,6 +14,9 @@ export default {
     context: {
       required: true,
     },
+    orderId: {
+      required: false,
+    },
   },
   computed: {
     ...mapGetters({
@@ -21,7 +24,13 @@ export default {
       columns: "invoice/columns",
     }),
     configs() {
-      return getConfigs(this.context, this.myCompany);
+      let config = getConfigs(this.context, this.myCompany);
+
+      if (this.orderId) {
+        config.externalFilters = false;
+        config["full-height"] = false;
+      }
+      return config;
     },
   },
   data() {

@@ -1,21 +1,20 @@
 <template>
-  <People :context="context" v-if="context"/>
+  <Orders :context="context" v-if="context" />
 </template>
 
 <script>
-import People from "@controleonline/quasar-orders-ui/src/components/Details.vue";
+import Orders from "@controleonline/quasar-orders-ui/src/components/Details.vue";
 
 export default {
   components: {
-      People,
+    Orders,
   },
 
   data() {
     return {
-      context: 'sales'
+      context: "sales",
     };
   },
-  created() {
-   },
+  created() {},
 };
 </script>

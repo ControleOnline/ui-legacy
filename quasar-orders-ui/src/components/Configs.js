@@ -13,7 +13,6 @@ export default function getConfigs(context, myCompany,invoiceId) {
     delete: false,
     selection: false,
     search: false,
-    "full-height": false,
     columns: {
       category: {
         filters: {

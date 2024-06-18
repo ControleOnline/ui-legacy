@@ -68,6 +68,7 @@ export default {
     configs() {
       let config = getConfigs(this.context, this.myCompany);
       config.externalFilters = false;
+      config["full-height"] = false;
       return config;
     },
   },
