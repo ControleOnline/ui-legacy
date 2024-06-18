@@ -5,6 +5,7 @@
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
 import { mapActions, mapGetters } from "vuex";
 import Button from "@controleonline/quasar-common-ui/src/components/Categories/Button";
+import getConfigs from "./Configs";  
 
 export default {
   components: {
@@ -28,14 +29,8 @@ export default {
       return this.$store.getters["auth/user"];
     },
     configs() {
-      return {
-        filters: true,
-        store: "people",
-        add: true,
-        delete: false,
-        selection: true,
-        search: true,
-      };
+      let config = getConfigs(this.context, this.myCompany);
+      return config;
     },
   },
   data() {
