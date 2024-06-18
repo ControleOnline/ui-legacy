@@ -1,5 +1,5 @@
 <template>
-  <DefaultTable :configs="configs" v-if="configs" />
+  <DefaultTable :configs="configs" v-if="loaded" />
 </template>
 <script>
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
@@ -34,12 +34,24 @@ export default {
     },
   },
   data() {
-    return {};
+    return { 
+      loaded: false 
+    };
   },
   created() {
     this.addColumnTo();
+    this.setFilters();
   },
   methods: {
+    setFilters() {
+      if (this.orderId) {
+        let filters = {
+          orderId: this.orderId,
+        };
+        this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
+      }
+      this.loaded = true;
+    },
     addColumnTo() {
       const columns = this.$copyObject(this.columns);
       const columnIndex = columns.findIndex(
