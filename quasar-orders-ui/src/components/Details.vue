@@ -10,8 +10,8 @@
           >
             <DefaultDetail
               :configs="configs"
-              :data="orderData"
-              v-if="orderData"
+              :id="orderId"
+              v-if="orderId"
             />
             <q-tabs
               inline-label
@@ -75,20 +75,14 @@ export default {
   data() {
     return {
       tab: "invoice",
-      orderData: null,
       orderId: null,
     };
   },
   created() {
     this.orderId = decodeURIComponent(this.$route.params.id);
-    this.getOrder(this.orderId).then((data) => {
-      this.orderData = data;
-    });
   },
   methods: {
-    ...mapActions({
-      getOrder: "orders/get",
-    }),
+
   },
 };
 </script>

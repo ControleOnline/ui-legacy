@@ -10,8 +10,8 @@
           >
             <DefaultDetail
               :configs="configs"
-              :data="invoiceData"
-              v-if="invoiceData"
+              :id="invoiceId"
+              v-if="invoiceId"
             />
             <q-tabs
               inline-label
@@ -84,14 +84,9 @@ export default {
   },
   created() {
     this.invoiceId = decodeURIComponent(this.$route.params.id);
-    this.getInvoice(this.invoiceId).then((data) => {
-      this.invoiceData = data;
-    });
   },
   methods: {
-    ...mapActions({
-      getInvoice: "invoice/get",
-    }),
+
   },
 };
 </script>

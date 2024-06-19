@@ -7,6 +7,7 @@
         @error="error"
         :data="data"
         :index="index"
+        v-if="data"
       />
     </q-card-section>
   </q-card>
@@ -38,21 +39,21 @@ export default {
         return "q-pa-md";
       },
     },
-    data: {
-      type: Object,
-      required: false,
-      default() {
-        return {};
-      },
+    id: {
+      required: true,
     },
   },
   components: {
     DefaultForm,
   },
   data() {
-    return {};
+    return {
+      data: null,
+    };
   },
-  created() {},
+  created() {
+    this.init();
+  },
   mounted() {},
 
   computed: {
@@ -61,6 +62,21 @@ export default {
     }),
   },
   watch: {},
-  methods: {},
+  methods: {
+    saved(data) {
+      this.$emit("saved", data);
+    },
+    error(error) {
+      this.$emit("error", error);
+    },
+    init() {
+      this.$store
+        .dispatch(this.configs.store + "/get", this.id)
+        .then((data) => {
+          console.log(data);
+          this.data = data;
+        });
+    },
+  },
 };
 </script>

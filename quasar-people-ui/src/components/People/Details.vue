@@ -8,11 +8,7 @@
             class="q-card q-pa-sm"
             style="max-width: calc(var(--zoom-width) - 30px)"
           >
-            <DefaultDetail
-              :configs="configs"
-              :data="peopleData"
-              v-if="peopleData"
-            />
+            <DefaultDetail :configs="configs" :id="peopleId" v-if="peopleId" />
           </div>
         </q-card-section>
       </q-card>
@@ -50,20 +46,12 @@ export default {
   data() {
     return {
       tab: "orders",
-      peopleData: null,
       peopleId: null,
     };
   },
   created() {
     this.peopleId = decodeURIComponent(this.$route.params.id);
-    this.getPeople(this.peopleId).then((data) => {
-      this.peopleData = data;
-    });
   },
-  methods: {
-    ...mapActions({
-      getPeople: "people/get",
-    }),
-  },
+  methods: {},
 };
 </script>
