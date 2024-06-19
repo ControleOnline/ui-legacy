@@ -73,7 +73,6 @@ export default {
       this.$store
         .dispatch(this.configs.store + "/get", this.id)
         .then((data) => {
-          console.log(data);
           this.data = data;
         });
     },

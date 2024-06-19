@@ -76,7 +76,7 @@ export default {
           let route =
             this.context === "sales"
               ? "OrderDetails"
-              : "PurchasingOrderDetails";
+              : "OrderDetails";
           return {
             name: route,
             params: {
