@@ -26,11 +26,11 @@
           >
             <q-card-section class="q-pa-md">
               <q-avatar class="big-icon">
-                <q-icon :name="item.icon" size="50px" />
+                <q-icon :name="item.icon" color="white" size="50px" />
               </q-avatar>
             </q-card-section>
             <q-card-section class="q-pa-md">
-              <div class="text-center larger-text text-weight-medium">{{ $t(item.label) }}</div>
+              <div class="text-center larger-text text-weight-medium text-white">{{ $t(item.label) }}</div>
             </q-card-section>
           </q-card>
         </div>
