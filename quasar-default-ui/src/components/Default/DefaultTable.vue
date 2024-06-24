@@ -384,6 +384,13 @@
             >
             </DefaultFilters>
             <q-space></q-space>
+            <ExtraFields
+              v-if="this.configs.extraFields"
+              :configs="configs"
+              @loadData="loadData"
+            >
+            </ExtraFields>
+            <q-space  v-if="this.configs.extraFields"></q-space>
             <q-btn
               v-if="isTableView"
               @click="toggleView"
@@ -862,6 +869,8 @@ import Filters from "@controleonline/quasar-default-ui/src/utils/filters";
 import * as DefaultFiltersMethods from "@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js";
 import { mapActions, mapGetters } from "vuex";
 import isEqual from "lodash/isEqual";
+import ExtraFields from "@controleonline/quasar-default-ui/src/components/Default/Common/ExtraFields";
+
 
 export default {
   props: {
@@ -880,6 +889,7 @@ export default {
 
   components: {
     DefaultForm,
+    ExtraFields,
     DefaultExternalFilters,
     FilterInputs,
     FormInputs,
