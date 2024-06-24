@@ -5,6 +5,9 @@
     icon="variable_add"
     @click="openFields = true"
   >
+    <q-tooltip>
+      {{ $translate(configs.store, "extra", "tooltip") }}
+    </q-tooltip>
   </q-btn>
   <q-dialog v-model="openFields" full-width>
     <q-card class="">
