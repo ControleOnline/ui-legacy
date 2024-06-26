@@ -7,10 +7,10 @@
         :rules="field.rules"
         :labelType="'outer-label'"
         :label="field.label"
-        :initialValue="extraData[field.id]"
+        :initialValue="extraData.data[field.id]"
         @changed="
           (value) => {
-            extraData[field.id] = value;
+            extraData.data[field.id] = value;
           }
         "
       />
@@ -40,7 +40,12 @@ export default {
     return {
       loaded: false,
       extraFields: null,
-      extraData: {},
+      extraData: {
+        entity_id: this.entity.id,
+        entity_name: this.entity["@type"],
+        context: this.configs?.extraFields?.context || this.configs.store,
+        data: {},
+      },
     };
   },
   created() {
@@ -69,7 +74,7 @@ export default {
     init() {
       if (this.configs.extraFields)
         this.getExtraFields({
-          context: this.configs?.extraFields?.context || configs.store,
+          context: this.configs?.extraFields?.context || this.configs.store,
         }).then((result) => {
           this.extraFields = result;
           if (this.extraFields)
@@ -77,11 +82,11 @@ export default {
               entity_id: this.entity.id,
               entity_name: this.entity["@type"],
               "extra_fields.context":
-                this.configs?.extraFields?.context || configs.store,
+                this.configs?.extraFields?.context || this.configs.store,
             })
               .then((data) => {
                 data.forEach((element) => {
-                  this.extraData[element.extra_fields.id] = element.value;
+                  this.extraData.data[element.extra_fields.id] = element.value;
                 });
               })
               .finally(() => {
