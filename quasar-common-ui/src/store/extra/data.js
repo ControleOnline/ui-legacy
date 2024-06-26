@@ -5,7 +5,7 @@ import mutations from "@controleonline/quasar-default-ui/src/store/default/mutat
 export default {
   namespaced: true,
   state: {
-    resourceEndpoint: "extra_fields",
+    resourceEndpoint: "extra_data",
     isLoading: false,
     error: "",
     violations: null,
@@ -27,9 +27,9 @@ export default {
       {
         externalFilter: true,
         sortable: true,
-        name: "field_name",
+        name: "typeValue",
         align: "left",
-        label: "field_name",
+        label: "typeValue",
         sum: false,
         format: function (value) {
           return value;
@@ -38,9 +38,9 @@ export default {
       {
         externalFilter: true,
         sortable: true,
-        name: "field_type",
+        name: "fieldType",
         align: "left",
-        label: "field_type",
+        label: "fieldType",
         sum: false,
         list: [
           { value: "text", label: "text" },
@@ -61,16 +61,13 @@ export default {
         format: function (value) {
           return value;
         },
-        saveFormat: function (value) {
-          return false;
-        },
       },
       {
         externalFilter: true,
         sortable: true,
-        name: "field_configs",
+        name: "fieldConfigs",
         align: "left",
-        label: "field_configs",
+        label: "fieldConfigs",
         sum: false,
         format: function (value) {
           return value;

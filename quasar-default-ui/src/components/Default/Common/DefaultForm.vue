@@ -1,58 +1,63 @@
 <template>
-      <q-form ref="myForm" @submit="onSubmit">
-        <div class="row q-col-gutter-xs q-pb-xs">
-          <template v-for="(column, index) in columns">
-            <div
-              v-if="
-                column.isIdentity != true &&
-                showFormColumn[column.key || column.name]
-              "
-              :class="(column.formClass || getFilterSize()) + ' q-pa-xs'"
-            >
-              <FormInputs
-                :editable="isEditable(column)"
-                :prefix="column.prefix"
-                :sufix="column.sufix"
-                :inputType="
-                  getList(configs, column) ? 'list' : column.inputType
-                "
-                :store="configs.store"
-                :mask="mask(column)"
-                :rules="column.rules"
-                :labelType="'outer-label'"
-                :label="column.label"
-                :filters="getSearchFilters(column)"
-                :initialValue="item[column.key || column.name]"
-                :searchParam="column.searchParam || 'search'"
-                :formatOptions="column.formatList"
-                :searchAction="getList(configs, column)"
-                @focus="editingInit(column)"
-                @changed="
-                  (value) => {
-                    item[column.key || column.name] = value;
-                  }
-                "
-              />
-            </div>
-          </template>
-        </div>
-
-        <div class="row justify-end">
-          <q-btn
-            :loading="isSaving"
-            icon="save"
-            type="submit"
-            :label="$translate(configs.store, 'save', 'btn')"
-            size="md"
-            class="q-mt-md btn-primary"
+  <q-form ref="myForm" @submit="onSubmit">
+    <div class="row q-col-gutter-xs q-pb-xs">
+      <template v-for="(column, index) in columns">
+        <div
+          v-if="
+            column.isIdentity != true &&
+            showFormColumn[column.key || column.name]
+          "
+          :class="(column.formClass || getFilterSize()) + ' q-pa-xs'"
+        >
+          <FormInputs
+            :editable="isEditable(column)"
+            :prefix="column.prefix"
+            :sufix="column.sufix"
+            :inputType="getList(configs, column) ? 'list' : column.inputType"
+            :store="configs.store"
+            :mask="mask(column)"
+            :rules="column.rules"
+            :labelType="'outer-label'"
+            :label="column.label"
+            :filters="getSearchFilters(column)"
+            :initialValue="item[column.key || column.name]"
+            :searchParam="column.searchParam || 'search'"
+            :formatOptions="column.formatList"
+            :searchAction="getList(configs, column)"
+            @focus="editingInit(column)"
+            @changed="
+              (value) => {
+                item[column.key || column.name] = value;
+              }
+            "
           />
         </div>
-      </q-form>
+      </template>
+
+      <ExtraData
+        :entity="data"
+        :configs="configs"
+        @changedExtraData="changedExtraData"
+      />
+    </div>
+
+    <div class="row justify-end">
+      <q-btn
+        :loading="isSaving"
+        icon="save"
+        type="submit"
+        :label="$translate(configs.store, 'save', 'btn')"
+        size="md"
+        class="q-mt-md btn-primary"
+      />
+    </div>
+  </q-form>
 </template>
 
 <script>
 import * as DefaultFiltersMethods from "@controleonline/quasar-default-ui/src/components/Default/Scripts/DefaultFiltersMethods.js";
 import FormInputs from "@controleonline/quasar-default-ui/src/components/Default/Common/FormInputs";
+import ExtraData from "@controleonline/quasar-default-ui/src/components/Default/Common/ExtraData";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -75,6 +80,7 @@ export default {
   },
   components: {
     FormInputs,
+    ExtraData,
   },
   data() {
     return {
@@ -82,6 +88,7 @@ export default {
       showInput: {},
       listObject: {},
       listAutocomplete: [],
+      extraData: {},
       editing: [],
       periodo: false,
       item: {},
@@ -90,33 +97,7 @@ export default {
   },
   created() {
     this.getFilteredColumns();
-
-    let data = {};
-    Object.keys(this.data).forEach((item, i) => {
-      let column = this.columns.find((c) => {
-        return (c.key || c.name) == item;
-      });
-
-      if (column) {
-        data[column.key || column.name] = this.getList(this.configs, column)
-          ? this.formatList(column, this.data[column.key || column.name], true)
-          : this.format(
-              column,
-              this.data,
-              this.data[column.key || column.name],
-              true
-            );
-
-        if (column.isIdentity) {
-          this.id = this.data[column.key || column.name];
-          data.id = this.id;
-        }
-      }
-    });
-
-    if (this.data["@id"]) data["id"] = this.data["@id"].split("/").pop();
-
-    this.item = data;
+    this.getData();
   },
   mounted() {
     this.$nextTick(() => {});
@@ -149,6 +130,42 @@ export default {
   },
   methods: {
     ...DefaultFiltersMethods,
+    ...mapActions({
+      getExtraFields: "extra_fields/getItems",
+    }),
+    getData() {
+      let data = {};
+      Object.keys(this.data).forEach((item, i) => {
+        let column = this.columns.find((c) => {
+          return (c.key || c.name) == item;
+        });
+
+        if (column) {
+          data[column.key || column.name] = this.getList(this.configs, column)
+            ? this.formatList(
+                column,
+                this.data[column.key || column.name],
+                true
+              )
+            : this.format(
+                column,
+                this.data,
+                this.data[column.key || column.name],
+                true
+              );
+
+          if (column.isIdentity) {
+            this.id = this.data[column.key || column.name];
+            data.id = this.id;
+          }
+        }
+      });
+
+      if (this.data["@id"]) data["id"] = this.data["@id"].split("/").pop();
+
+      this.item = data;
+    },
+
     isEditable(column) {
       return this.id ? column.editable : true;
     },
@@ -190,7 +207,9 @@ export default {
         size
       );
     },
-
+    changedExtraData(data) {
+      this.extraData = data;
+    },
     save(params) {
       let p = this.$copyObject(this.filters);
       for (const name in params) {
@@ -216,6 +235,8 @@ export default {
       if (this.myCompany && this.configs.companyParam != false)
         p[this.configs.companyParam || "company"] =
           "/people/" + this.myCompany.id;
+
+      if (this.extraData) p["extra-data"] = this.extraData;
 
       this.$store
         .dispatch(this.configs.store + "/save", p)

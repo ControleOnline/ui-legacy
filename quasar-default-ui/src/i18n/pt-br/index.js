@@ -12,6 +12,10 @@ export const translate = {
       confirm: "Confirmar",
     },
     input: {
+      field_name: "Nome do Campo",
+      field_type: "Tipo do Campo",
+      required: "Obrigatório",
+      field_configs: "Configurações do Campo",
       name: "Nome",
       price: "Valor",
       dateFrom: "De: ",

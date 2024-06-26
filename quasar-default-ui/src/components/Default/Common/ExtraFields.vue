@@ -20,7 +20,7 @@
         </q-toolbar>
       </q-card-section>
       <q-card-section class="row items-center no-wrap">
-        <FieldsTypes :context="configs.extraFields.context || configs.store" />
+        <FieldsTypes  :context="context" />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -41,9 +41,12 @@ export default {
     FieldsTypes,
   },
   computed: {},
-  created() {},
+  created() {
+    this.context = this.configs?.extraFields?.context || this.configs.store;
+  },
   data() {
     return {
+      context: null,
       openFields: false,
     };
   },

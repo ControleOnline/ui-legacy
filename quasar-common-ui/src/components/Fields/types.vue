@@ -1,5 +1,5 @@
-<template>
-  <DefaultTable :configs="configs" v-if="loaded" />
+<template v-if="loaded">
+  <DefaultTable :configs="configs" v-if="configs" />
 </template>
 <script>
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable";
@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      loaded: false,
+      loaded: null,
     };
   },
   created() {
