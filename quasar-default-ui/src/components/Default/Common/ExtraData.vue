@@ -1,5 +1,5 @@
 <template>
-  <template v-for="(field, index) in extraFields" v-if="loaded">
+  <template v-for="(field, index) in extraFields" :key="key">
     <div :class="(field.formClass || getFilterSize()) + ' q-pa-xs'">
       <FormInputs
         :editable="true"
@@ -38,14 +38,9 @@ export default {
   },
   data() {
     return {
-      loaded: false,
+      key: 0,
       extraFields: null,
-      extraData: {
-        entity_id: this.entity.id,
-        entity_name: this.entity["@type"],
-        context: this.configs?.extraFields?.context || this.configs.store,
-        data: {},
-      },
+      extraData: { data: {} },
     };
   },
   created() {
@@ -77,21 +72,28 @@ export default {
           context: this.configs?.extraFields?.context || this.configs.store,
         }).then((result) => {
           this.extraFields = result;
-          if (this.extraFields)
+          if (this.extraFields?.length > 0 && this.entity?.id)
             this.getExtraData({
               entity_id: this.entity.id,
               entity_name: this.entity["@type"],
               "extra_fields.context":
                 this.configs?.extraFields?.context || this.configs.store,
-            })
-              .then((data) => {
-                data.forEach((element) => {
-                  this.extraData.data[element.extra_fields.id] = element.value;
-                });
-              })
-              .finally(() => {
-                this.loaded = true;
+            }).then((data) => {
+              let ed = {
+                entity_id: this.entity.id,
+                entity_name: this.entity["@type"],
+                context:
+                  this.configs?.extraFields?.context || this.configs.store,
+                data: {},
+              };
+
+              data.forEach((element) => {
+                ed.data[element.extra_fields.id] = element.value;
               });
+
+              this.extraData = ed;
+              this.key++;
+            });
         });
     },
     getFilterSize() {
