@@ -165,7 +165,6 @@
           <q-card class="q-mb-md q-pa-none">
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <q-icon name="mdi-cart" size="24px" class="q-mr-sm" />
                 <Orders />
               </div>
             </q-card-section>
