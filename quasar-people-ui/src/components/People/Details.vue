@@ -281,6 +281,7 @@ export default {
     configsEmail() {
       return {
         externalFilters: false,
+        filters: true,
         "full-height": false,
         store: "emails",
         add: true,
@@ -292,6 +293,7 @@ export default {
     configsPhones() {
       return {
         externalFilters: false,
+        filters: true,
         "full-height": false,
         store: "phones",
         add: true,
@@ -303,6 +305,7 @@ export default {
     configsAddresses() {
       return {
         externalFilters: false,
+        filters: true,
         "full-height": false,
         store: "addresses",
         add: true,
@@ -314,6 +317,7 @@ export default {
     configsDocuments() {
       return {
         externalFilters: false,
+        filters: true,
         "full-height": false,
         store: "documents",
         add: true,
@@ -325,6 +329,7 @@ export default {
     configsUsers() {
       return {
         externalFilters: false,
+        filters: true,
         "full-height": false,
         store: "usersCustomer",
         add: true,
@@ -336,6 +341,7 @@ export default {
     configsCompanies() {
       return {
         externalFilters: false,
+        filters: true,
         "full-height": false,
         store: "companies",
         add: true,
