@@ -1,15 +1,14 @@
 <template>
   <q-page>
     <div class="q-pt-lg q-pa-md">
-      <q-card class="q-mb-md q-pa-none" flat bordered>
-        <q-card-section class="q-pa-none">
-          <div class="q-pa-none">
-            <q-icon name="mdi-account-details" size="24px" class="q-mr-sm" />
+
+          <div class="q-mb-md q-pa-none">
+      
             <h3
-              class="text-teal text-h6 q-mb-md inline-block absolute"
-              style="z-index: 999"
+              class="text-teal text-h6 q-mb-md inline-block"
+             
             >
-              Detalhes da Pessoa
+            <q-icon name="mdi-account-details" size="24px" class="q-mr-sm" />  Detalhes da Pessoa
             </h3>
             <DefaultDetail
               :cardClass="'full-width'"
@@ -19,8 +18,7 @@
               v-if="peopleId"
             />
           </div>
-        </q-card-section>
-      </q-card>
+
     </div>
 
     <q-tabs v-model="tab" class="text-teal">
@@ -36,7 +34,7 @@
         <div class="q-pt-lg">
           <div class="row q-col-gutter-md">
             <div class="col-12 col-md-6">
-              <q-card class="q-mb-md q-pa-none" flat bordered>
+              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
                     <h3
@@ -55,7 +53,7 @@
               </q-card>
             </div>
             <div class="col-12 col-md-6">
-              <q-card class="q-mb-md q-pa-none" flat bordered>
+              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
                     <h3
@@ -76,7 +74,7 @@
           </div>
         </div>
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flat bordered>
+          <q-card class="q-mb-md q-pa-none" flattt borderedddd>
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
                 <h3
@@ -100,7 +98,7 @@
         </div>
 
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flat bordered>
+          <q-card class="q-mb-md q-pa-none" flattt borderedddd>
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
                 <h3
@@ -119,7 +117,7 @@
           </q-card>
         </div>
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flat bordered>
+          <q-card class="q-mb-md q-pa-none" flattt borderedddd>
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
                 <h3
@@ -142,7 +140,7 @@
           </q-card>
         </div>
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flat bordered>
+          <q-card class="q-mb-md q-pa-none" flattt borderedddd>
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
 
@@ -173,7 +171,7 @@
         <q-tab-panels v-model="financialTab">
           <q-tab-panel name="receive">
             <div class="q-pt-lg">
-              <q-card class="q-mb-md q-pa-none" flat bordered>
+              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
                     <q-icon
@@ -195,7 +193,7 @@
           </q-tab-panel>
           <q-tab-panel name="expense">
             <div class="q-pt-lg">
-              <q-card class="q-mb-md q-pa-none" flat bordered>
+              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
                     <q-icon
@@ -225,7 +223,7 @@
         <q-tab-panels v-model="attendanceTab">
           <q-tab-panel name="crm">
             <div class="q-pt-lg">
-              <q-card class="q-mb-md q-pa-none" flat bordered>
+              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
                     <CRMDetails :context="context" />
@@ -236,7 +234,7 @@
           </q-tab-panel>
           <q-tab-panel name="tasks">
             <div class="q-pt-lg">
-              <q-card class="q-mb-md q-pa-none" flat bordered>
+              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
                     <TaskDetails :context="context" />
@@ -249,7 +247,7 @@
       </q-tab-panel>
       <q-tab-panel name="orders">
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flat bordered>
+          <q-card class="q-mb-md q-pa-none" flattt borderedddd>
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
                 <q-icon name="mdi-cart" size="24px" class="q-mr-sm" />
