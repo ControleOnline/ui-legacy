@@ -1,24 +1,15 @@
 <template>
   <q-page>
     <div class="q-pt-lg q-pa-md">
-
-          <div class="q-mb-md q-pa-none">
-      
-            <h3
-              class="text-teal text-h6 q-mb-md inline-block"
-             
-            >
-            <q-icon name="mdi-account-details" size="24px" class="q-mr-sm" />  Detalhes da Pessoa
-            </h3>
-            <DefaultDetail
-              :cardClass="'full-width'"
-              :sectionClass="'full-width'"
-              :configs="configs"
-              :id="peopleId"
-              v-if="peopleId"
-            />
-          </div>
-
+      <div class="q-mb-md q-pa-none">
+        <DefaultDetail
+          :cardClass="'full-width'"
+          :sectionClass="'full-width'"
+          :configs="configs"
+          :id="peopleId"
+          v-if="peopleId"
+        />
+      </div>
     </div>
 
     <q-tabs v-model="tab" class="text-teal">
@@ -34,16 +25,9 @@
         <div class="q-pt-lg">
           <div class="row q-col-gutter-md">
             <div class="col-12 col-md-6">
-              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
+              <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <h3
-                      class="text-teal text-h6 q-mb-md inline-block absolute"
-                      style="z-index: 999"
-                    >
-                      <q-icon name="mdi-email" size="24px" class="q-mr-sm" />
-                      Emails
-                    </h3>
                     <DefaultTable
                       :configs="configsEmail"
                       v-if="loaded && configsEmail"
@@ -53,16 +37,9 @@
               </q-card>
             </div>
             <div class="col-12 col-md-6">
-              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
+              <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <h3
-                      class="text-teal text-h6 q-mb-md inline-block absolute"
-                      style="z-index: 999"
-                    >
-                      <q-icon name="mdi-phone" size="24px" class="q-mr-sm" />
-                      Telefones
-                    </h3>
                     <DefaultTable
                       :configs="configsPhones"
                       v-if="loaded && configsPhones"
@@ -74,20 +51,9 @@
           </div>
         </div>
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flattt borderedddd>
+          <q-card class="q-mb-md q-pa-none">
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <h3
-                  class="text-teal text-h6 q-mb-md inline-block absolute"
-                  style="z-index: 999"
-                >
-                  <q-icon
-                    name="mdi-file-document"
-                    size="24px"
-                    class="q-mr-sm"
-                  />
-                  Documentos
-                </h3>
                 <DefaultTable
                   :configs="configsDocuments"
                   v-if="loaded && configsDocuments"
@@ -98,16 +64,9 @@
         </div>
 
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flattt borderedddd>
+          <q-card class="q-mb-md q-pa-none">
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <h3
-                  class="text-teal text-h6 q-mb-md inline-block absolute"
-                  style="z-index: 999"
-                >
-                  <q-icon name="mdi-map-marker" size="24px" class="q-mr-sm" />
-                  Endereços
-                </h3>
                 <DefaultTable
                   :configs="configsAddresses"
                   v-if="loaded && configsAddresses"
@@ -117,20 +76,9 @@
           </q-card>
         </div>
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flattt borderedddd>
+          <q-card class="q-mb-md q-pa-none">
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <h3
-                  class="text-teal text-h6 q-mb-md inline-block absolute"
-                  style="z-index: 999"
-                >
-                  <q-icon
-                    name="mdi-account-multiple"
-                    size="24px"
-                    class="q-mr-sm"
-                  />
-                  Usuários
-                </h3>
                 <DefaultTable
                   :configs="configsUsers"
                   v-if="loaded && configsUsers"
@@ -140,20 +88,9 @@
           </q-card>
         </div>
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flattt borderedddd>
+          <q-card class="q-mb-md q-pa-none">
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-
-                <h3
-                  class="text-teal text-h6 q-mb-md inline-block absolute"
-                  style="z-index: 999"
-                >
-                <q-icon
-                  name="mdi-office-building"
-                  size="24px"
-                  class="q-mr-sm"
-                />   Empresas
-                </h3>
                 <DefaultTable
                   :configs="configsCompanies"
                   v-if="loaded && configsCompanies"
@@ -171,20 +108,9 @@
         <q-tab-panels v-model="financialTab">
           <q-tab-panel name="receive">
             <div class="q-pt-lg">
-              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
+              <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <q-icon
-                      name="mdi-cash-receipt"
-                      size="24px"
-                      class="q-mr-sm"
-                    />
-                    <h3
-                      class="text-teal text-h6 q-mb-md inline-block absolute"
-                      style="z-index: 999"
-                    >
-                      Receber
-                    </h3>
                     <InvoiceReceive :context="context" />
                   </div>
                 </q-card-section>
@@ -193,20 +119,9 @@
           </q-tab-panel>
           <q-tab-panel name="expense">
             <div class="q-pt-lg">
-              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
+              <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <q-icon
-                      name="mdi-cash-multiple"
-                      size="24px"
-                      class="q-mr-sm"
-                    />
-                    <h3
-                      class="text-teal text-h6 q-mb-md inline-block absolute"
-                      style="z-index: 999"
-                    >
-                      Pagar
-                    </h3>
                     <InvoiceExpense :context="context" />
                   </div>
                 </q-card-section>
@@ -223,7 +138,7 @@
         <q-tab-panels v-model="attendanceTab">
           <q-tab-panel name="crm">
             <div class="q-pt-lg">
-              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
+              <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
                     <CRMDetails :context="context" />
@@ -234,7 +149,7 @@
           </q-tab-panel>
           <q-tab-panel name="tasks">
             <div class="q-pt-lg">
-              <q-card class="q-mb-md q-pa-none" flattt borderedddd>
+              <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
                     <TaskDetails :context="context" />
@@ -247,16 +162,10 @@
       </q-tab-panel>
       <q-tab-panel name="orders">
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flattt borderedddd>
+          <q-card class="q-mb-md q-pa-none">
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
                 <q-icon name="mdi-cart" size="24px" class="q-mr-sm" />
-                <h3
-                  class="text-teal text-h6 q-mb-md inline-block absolute"
-                  style="z-index: 999"
-                >
-                  Pedidos
-                </h3>
                 <Orders />
               </div>
             </q-card-section>
@@ -320,6 +229,14 @@ export default {
         filters: true,
         "full-height": false,
         store: "emails",
+        title: {
+          class: "text-teal text-h6 q-mb-md",
+          icon: {
+            name: "mdi-email",
+            size: "24px",
+            class: "q-mr-sm",
+          },
+        },
         add: true,
         delete: true,
         selection: false,

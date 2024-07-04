@@ -330,6 +330,18 @@
 
       <template v-slot:top-left="props">
         <div class="q-gutter-sm">
+          <h3
+            v-if="configs?.title != false && configs?.title != undefined"
+            :class="configs?.title?.class || 'text-secondary text-h6 q-mb-md'"
+          >
+            <q-icon
+              v-if="configs.title.icon"
+              :name="configs.title.icon.name"
+              :size="configs.title.icon.size || '24px'"
+              :class="configs.title.icon.class || 'q-mr-sm'"
+            />
+            {{ $translate(configs.store, "header", "title") }}
+          </h3>
           <DefaultSearch
             :configs="configs"
             @loadData="loadData"
@@ -390,7 +402,7 @@
               @loadData="loadData"
             >
             </ExtraFields>
-            <q-space  v-if="this.configs.extraFields"></q-space>
+            <q-space v-if="this.configs.extraFields"></q-space>
             <q-btn
               v-if="isTableView"
               @click="toggleView"
@@ -870,7 +882,6 @@ import * as DefaultFiltersMethods from "@controleonline/quasar-default-ui/src/co
 import { mapActions, mapGetters } from "vuex";
 import isEqual from "lodash/isEqual";
 import ExtraFields from "@controleonline/quasar-default-ui/src/components/Default/Common/ExtraFields";
-
 
 export default {
   props: {
