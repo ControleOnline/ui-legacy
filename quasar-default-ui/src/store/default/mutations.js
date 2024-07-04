@@ -40,6 +40,7 @@ export default {
   },
 
   [types.SET_FILTERS](state, filters) {
+    // console.log('Setting filters:', filters);
     const persistentFilter = new Filters(this.$router.currentRoute.value.name, state.resourceEndpoint);
     persistentFilter.setFilters(filters);
     Object.assign(state, { filters });
