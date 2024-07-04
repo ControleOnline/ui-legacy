@@ -14,9 +14,19 @@
           <q-card class="q-mb-md q-pa-none" flat bordered>
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <q-icon name="mdi-account-details" size="24px" class="q-mr-sm" />
-                <h3 class="text-teal text-h6 q-mb-md inline-block">Detalhes da Pessoa</h3>
-                <DefaultDetail :configs="configs" :id="peopleId" v-if="peopleId" />
+                <q-icon
+                  name="mdi-account-details"
+                  size="24px"
+                  class="q-mr-sm"
+                />
+                <h3 class="text-teal text-h6 q-mb-md inline-block">
+                  Detalhes da Pessoa
+                </h3>
+                <DefaultDetail
+                  :configs="configs"
+                  :id="peopleId"
+                  v-if="peopleId"
+                />
               </div>
             </q-card-section>
           </q-card>
@@ -29,8 +39,13 @@
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
                     <q-icon name="mdi-email" size="24px" class="q-mr-sm" />
-                    <h3 class="text-teal text-h6 q-mb-md inline-block">Emails</h3>
-                    <DefaultTable :configs="configsEmail" v-if="this.loaded" />
+                    <h3 class="text-teal text-h6 q-mb-md inline-block">
+                      Emails
+                    </h3>
+                    <DefaultTable
+                      :configs="configsEmail"
+                      v-if="loaded && configsEmail"
+                    />
                   </div>
                 </q-card-section>
               </q-card>
@@ -40,8 +55,13 @@
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
                     <q-icon name="mdi-phone" size="24px" class="q-mr-sm" />
-                    <h3 class="text-teal text-h6 q-mb-md inline-block">Telefones</h3>
-                    <DefaultTable :configs="configsPhones" v-if="this.loaded" />
+                    <h3 class="text-teal text-h6 q-mb-md inline-block">
+                      Telefones
+                    </h3>
+                    <DefaultTable
+                      :configs="configsPhones"
+                      v-if="loaded && configsPhones"
+                    />
                   </div>
                 </q-card-section>
               </q-card>
@@ -53,8 +73,13 @@
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
                 <q-icon name="mdi-file-document" size="24px" class="q-mr-sm" />
-                <h3 class="text-teal text-h6 q-mb-md inline-block">Documentos</h3>
-                <DefaultTable :configs="configsDocuments" v-if="this.loaded" />
+                <h3 class="text-teal text-h6 q-mb-md inline-block">
+                  Documentos
+                </h3>
+                <DefaultTable
+                  :configs="configsDocuments"
+                  v-if="loaded && configsDocuments"
+                />
               </div>
             </q-card-section>
           </q-card>
@@ -65,8 +90,13 @@
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
                 <q-icon name="mdi-map-marker" size="24px" class="q-mr-sm" />
-                <h3 class="text-teal text-h6 q-mb-md inline-block">Endereços</h3>
-                <DefaultTable :configs="configsAddresses" />
+                <h3 class="text-teal text-h6 q-mb-md inline-block">
+                  Endereços
+                </h3>
+                <DefaultTable
+                  :configs="configsAddresses"
+                  v-if="loaded && configsAddresses"
+                />
               </div>
             </q-card-section>
           </q-card>
@@ -75,9 +105,16 @@
           <q-card class="q-mb-md q-pa-none" flat bordered>
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <q-icon name="mdi-account-multiple" size="24px" class="q-mr-sm" />
+                <q-icon
+                  name="mdi-account-multiple"
+                  size="24px"
+                  class="q-mr-sm"
+                />
                 <h3 class="text-teal text-h6 q-mb-md inline-block">Usuários</h3>
-                <DefaultTable :configs="configsUsers" v-if="this.loaded" />
+                <DefaultTable
+                  :configs="configsUsers"
+                  v-if="loaded && configsUsers"
+                />
               </div>
             </q-card-section>
           </q-card>
@@ -86,9 +123,16 @@
           <q-card class="q-mb-md q-pa-none" flat bordered>
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <q-icon name="mdi-office-building" size="24px" class="q-mr-sm" />
+                <q-icon
+                  name="mdi-office-building"
+                  size="24px"
+                  class="q-mr-sm"
+                />
                 <h3 class="text-teal text-h6 q-mb-md inline-block">Empresas</h3>
-                <DefaultTable :configs="configsCompanies" v-if="this.loaded" />
+                <DefaultTable
+                  :configs="configsCompanies"
+                  v-if="loaded && configsCompanies"
+                />
               </div>
             </q-card-section>
           </q-card>
@@ -105,8 +149,14 @@
               <q-card class="q-mb-md q-pa-none" flat bordered>
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <q-icon name="mdi-cash-receipt" size="24px" class="q-mr-sm" />
-                    <h3 class="text-teal text-h6 q-mb-md inline-block">Receber</h3>
+                    <q-icon
+                      name="mdi-cash-receipt"
+                      size="24px"
+                      class="q-mr-sm"
+                    />
+                    <h3 class="text-teal text-h6 q-mb-md inline-block">
+                      Receber
+                    </h3>
                     <InvoiceReceive :context="context" />
                   </div>
                 </q-card-section>
@@ -118,8 +168,14 @@
               <q-card class="q-mb-md q-pa-none" flat bordered>
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <q-icon name="mdi-cash-multiple" size="24px" class="q-mr-sm" />
-                    <h3 class="text-teal text-h6 q-mb-md inline-block">Pagar</h3>
+                    <q-icon
+                      name="mdi-cash-multiple"
+                      size="24px"
+                      class="q-mr-sm"
+                    />
+                    <h3 class="text-teal text-h6 q-mb-md inline-block">
+                      Pagar
+                    </h3>
                     <InvoiceExpense :context="context" />
                   </div>
                 </q-card-section>
@@ -195,7 +251,7 @@ export default {
     InvoiceReceive,
     InvoiceExpense,
     CRMDetails,
-    TaskDetails
+    TaskDetails,
   },
   props: {
     context: {
@@ -204,9 +260,9 @@ export default {
   },
   data() {
     return {
-      tab: 'details',
-      financialTab: 'receive',
-      attendanceTab: 'crm',
+      tab: "details",
+      financialTab: "receive",
+      attendanceTab: "crm",
       peopleId: null,
       loaded: false,
     };
@@ -224,75 +280,69 @@ export default {
     },
     configsEmail() {
       return {
-        filters: false,
         externalFilters: false,
-        fullHeight: false,
+        "full-height": false,
         store: "emails",
         add: true,
         delete: true,
         selection: false,
         search: false,
-      }
+      };
     },
     configsPhones() {
       return {
-        filters: false,
         externalFilters: false,
-        fullHeight: false,
+        "full-height": false,
         store: "phones",
         add: true,
         delete: true,
         selection: false,
         search: false,
-      }
+      };
     },
     configsAddresses() {
       return {
-        filters: false,
         externalFilters: false,
-        fullHeight: false,
+        "full-height": false,
         store: "addresses",
         add: true,
         delete: true,
         selection: false,
         search: true,
-      }
+      };
     },
     configsDocuments() {
       return {
-        filters: false,
         externalFilters: false,
-        fullHeight: false,
+        "full-height": false,
         store: "documents",
         add: true,
         delete: true,
         selection: false,
         search: false,
-      }
+      };
     },
     configsUsers() {
       return {
-        filters: false,
         externalFilters: false,
-        fullHeight: false,
+        "full-height": false,
         store: "usersCustomer",
         add: true,
         delete: true,
         selection: false,
         search: false,
-      }
+      };
     },
     configsCompanies() {
       return {
-        filters: false,
         externalFilters: false,
-        fullHeight: false,
+        "full-height": false,
         store: "companies",
         add: true,
         delete: true,
         selection: false,
         search: false,
-      }
+      };
     },
   },
   created() {
@@ -302,17 +352,16 @@ export default {
   methods: {
     init() {
       let filters = {
-        people: '/people/' + this.peopleId,
+        people: "/people/" + this.peopleId,
       };
-      this.$store.commit('emails/SET_FILTERS', filters);
-      this.$store.commit('phones/SET_FILTERS', filters);
-      this.$store.commit('addresses/SET_FILTERS', filters);
-      this.$store.commit('documents/SET_FILTERS', filters);
-      this.$store.commit('usersCustomer/SET_FILTERS', filters);
-      this.$store.commit('companies/SET_FILTERS', filters);
+      this.$store.commit("emails/SET_FILTERS", filters);
+      this.$store.commit("phones/SET_FILTERS", filters);
+      this.$store.commit("addresses/SET_FILTERS", filters);
+      this.$store.commit("documents/SET_FILTERS", filters);
+      this.$store.commit("usersCustomer/SET_FILTERS", filters);
+      this.$store.commit("companies/SET_FILTERS", filters);
       this.loaded = true;
-    }
+    },
   },
 };
 </script>
-
