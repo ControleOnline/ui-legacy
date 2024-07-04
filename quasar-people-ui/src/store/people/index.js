@@ -35,17 +35,17 @@ export default {
       {
         editable: true,
         sortable: true,
-        name: "alias",
+        name: "name",
         align: "left",
-        label: "alias",
+        label: "name",
         externalFilter: true,
       },
       {
         editable: true,
         sortable: true,
-        name: "name",
+        name: "alias",
         align: "left",
-        label: "name",
+        label: "alias",
         externalFilter: true,
       },
       {
