@@ -1,5 +1,19 @@
 <template>
   <q-page>
+    <div class="q-pt-lg q-pa-md">
+      <q-card class="q-mb-md q-pa-none" flat bordered>
+        <q-card-section class="q-pa-none">
+          <div class="q-pa-none">
+            <q-icon name="mdi-account-details" size="24px" class="q-mr-sm" />
+            <h3 class="text-teal text-h6 q-mb-md inline-block">
+              Detalhes da Pessoa
+            </h3>
+            <DefaultDetail :configs="configs" :id="peopleId" v-if="peopleId" />
+          </div>
+        </q-card-section>
+      </q-card>
+    </div>
+
     <q-tabs v-model="tab" class="text-teal">
       <q-tab name="details" label="Detalhes" />
       <q-tab name="occurrences" label="Ocorrências" />
@@ -10,28 +24,6 @@
 
     <q-tab-panels v-model="tab">
       <q-tab-panel name="details">
-        <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flat bordered>
-            <q-card-section class="q-pa-none">
-              <div class="q-pa-none">
-                <q-icon
-                  name="mdi-account-details"
-                  size="24px"
-                  class="q-mr-sm"
-                />
-                <h3 class="text-teal text-h6 q-mb-md inline-block">
-                  Detalhes da Pessoa
-                </h3>
-                <DefaultDetail
-                  :configs="configs"
-                  :id="peopleId"
-                  v-if="peopleId"
-                />
-              </div>
-            </q-card-section>
-          </q-card>
-        </div>
-
         <div class="q-pt-lg">
           <div class="row q-col-gutter-md">
             <div class="col-12 col-md-6">
