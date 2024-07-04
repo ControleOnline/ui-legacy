@@ -8,7 +8,7 @@
             <h3 class="text-teal text-h6 q-mb-md inline-block">
               Detalhes da Pessoa
             </h3>
-            <DefaultDetail :configs="configs" :id="peopleId" v-if="peopleId" />
+            <DefaultDetail :cardClass="'full-width'" :sectionClass="'full-width'" :configs="configs" :id="peopleId" v-if="peopleId" />
           </div>
         </q-card-section>
       </q-card>
