@@ -21,17 +21,7 @@
             </q-card-section>
           </q-card>
         </div>
-        <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none" flat bordered>
-            <q-card-section class="q-pa-none">
-              <div class="q-pa-none">
-                <q-icon name="mdi-map-marker" size="24px" class="q-mr-sm" />
-                <h3 class="text-teal text-h6 q-mb-md inline-block">Endereços</h3>
-                <DefaultTable :configs="configsAddresses" />
-              </div>
-            </q-card-section>
-          </q-card>
-        </div>
+
         <div class="q-pt-lg">
           <div class="row q-col-gutter-md">
             <div class="col-12 col-md-6">
@@ -65,6 +55,18 @@
                 <q-icon name="mdi-file-document" size="24px" class="q-mr-sm" />
                 <h3 class="text-teal text-h6 q-mb-md inline-block">Documentos</h3>
                 <DefaultTable :configs="configsDocuments" v-if="this.loaded" />
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+
+        <div class="q-pt-lg">
+          <q-card class="q-mb-md q-pa-none" flat bordered>
+            <q-card-section class="q-pa-none">
+              <div class="q-pa-none">
+                <q-icon name="mdi-map-marker" size="24px" class="q-mr-sm" />
+                <h3 class="text-teal text-h6 q-mb-md inline-block">Endereços</h3>
+                <DefaultTable :configs="configsAddresses" />
               </div>
             </q-card-section>
           </q-card>
