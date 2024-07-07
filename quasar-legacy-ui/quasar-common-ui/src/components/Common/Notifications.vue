@@ -37,7 +37,6 @@
 <script>
 import { api } from "@controleonline/../../src/boot/api";
 import { mapActions, mapGetters } from "vuex";
-import io from "socket.io-client";
 
 export default {
   data() {
