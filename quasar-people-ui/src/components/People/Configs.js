@@ -1,8 +1,8 @@
 export default function getConfigs(context, myCompany) {
   return {
-    // extraFields: {
-    //   context: context,
-    // },
+    extraFields: {
+      context: context,
+    },
     filters: true,
     store: "people",
     add: true,

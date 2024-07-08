@@ -2,13 +2,8 @@
   <q-page>
     <div class="q-pt-lg q-pa-md">
       <div class="q-mb-md q-pa-none">
-        <DefaultDetail
-          :cardClass="'full-width'"
-          :sectionClass="'full-width'"
-          :configs="configs"
-          :id="peopleId"
-          v-if="peopleId"
-        />
+        <DefaultDetail :cardClass="'full-width'" :sectionClass="'full-width'" :configs="configs" :id="peopleId"
+          v-if="peopleId" />
       </div>
     </div>
 
@@ -28,10 +23,7 @@
               <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <DefaultTable
-                      :configs="configsEmail"
-                      v-if="loaded && configsEmail"
-                    />
+                    <DefaultTable :configs="configsEmail" v-if="loaded && configsEmail" />
                   </div>
                 </q-card-section>
               </q-card>
@@ -40,10 +32,7 @@
               <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <DefaultTable
-                      :configs="configsPhones"
-                      v-if="loaded && configsPhones"
-                    />
+                    <DefaultTable :configs="configsPhones" v-if="loaded && configsPhones" />
                   </div>
                 </q-card-section>
               </q-card>
@@ -54,10 +43,7 @@
           <q-card class="q-mb-md q-pa-none">
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <DefaultTable
-                  :configs="configsDocuments"
-                  v-if="loaded && configsDocuments"
-                />
+                <DefaultTable :configs="configsDocuments" v-if="loaded && configsDocuments" />
               </div>
             </q-card-section>
           </q-card>
@@ -67,10 +53,7 @@
           <q-card class="q-mb-md q-pa-none">
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <DefaultTable
-                  :configs="configsAddresses"
-                  v-if="loaded && configsAddresses"
-                />
+                <DefaultTable :configs="configsAddresses" v-if="loaded && configsAddresses" />
               </div>
             </q-card-section>
           </q-card>
@@ -79,10 +62,7 @@
           <q-card class="q-mb-md q-pa-none">
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <DefaultTable
-                  :configs="configsUsers"
-                  v-if="loaded && configsUsers"
-                />
+                <DefaultTable :configs="configsUsers" v-if="loaded && configsUsers" />
               </div>
             </q-card-section>
           </q-card>
@@ -91,10 +71,7 @@
           <q-card class="q-mb-md q-pa-none">
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <DefaultTable
-                  :configs="configsCompanies"
-                  v-if="loaded && configsCompanies"
-                />
+                <DefaultTable :configs="configsCompanies" v-if="loaded && configsCompanies" />
               </div>
             </q-card-section>
           </q-card>
@@ -111,7 +88,7 @@
               <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <InvoiceReceive :context="context" />
+                    <InvoiceReceive :context="receive" />
                   </div>
                 </q-card-section>
               </q-card>
@@ -122,7 +99,7 @@
               <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <InvoiceExpense :context="context" />
+                    <InvoiceExpense :context="expense" />
                   </div>
                 </q-card-section>
               </q-card>
@@ -165,7 +142,7 @@
           <q-card class="q-mb-md q-pa-none">
             <q-card-section class="q-pa-none">
               <div class="q-pa-none">
-                <Orders />
+                <Orders :context="'sales'" :peopleId="peopleId" />
               </div>
             </q-card-section>
           </q-card>
@@ -178,14 +155,15 @@
 <script>
 import DefaultDetail from "@controleonline/quasar-default-ui/src/components/Default/Common/DefaultDetail.vue";
 import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable.vue";
-import InvoiceReceive from "@controleonline/quasar-financial-ui/src/pages/Receive/Details.vue";
-import InvoiceExpense from "@controleonline/quasar-financial-ui/src/pages/Expense/Details.vue";
+import InvoiceReceive from "@controleonline/quasar-financial-ui/src/pages/Receive/index.vue";
+import InvoiceExpense from "@controleonline/quasar-financial-ui/src/pages/Expense/index.vue";
 import Orders from "@controleonline/quasar-orders-ui/src/components/Orders.vue";
 import CRMDetails from "@controleonline/quasar-crm-ui/src/pages/CRM/details.vue";
 import TaskDetails from "@controleonline/quasar-tasks-ui/src/pages/Tasks/details.vue";
 
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import getConfigs from "./Configs";
+import people from "../../store/people";
 
 export default {
   components: {
@@ -252,8 +230,17 @@ export default {
         delete: true,
         selection: false,
         search: false,
+        title: {
+          class: "text-teal text-h6 q-mb-md",
+          icon: {
+            name: "mdi-phone",
+            size: "24px",
+            class: "q-mr-sm",
+          },
+        },
       };
     },
+
     configsAddresses() {
       return {
         externalFilters: false,
@@ -264,8 +251,17 @@ export default {
         delete: true,
         selection: false,
         search: false,
+        title: {
+          class: "text-teal text-h6 q-mb-md",
+          icon: {
+            name: "mdi-map-marker",
+            size: "24px",
+            class: "q-mr-sm",
+          },
+        },
       };
     },
+
     configsDocuments() {
       return {
         externalFilters: false,
@@ -276,8 +272,17 @@ export default {
         delete: true,
         selection: false,
         search: false,
+        title: {
+          class: "text-teal text-h6 q-mb-md",
+          icon: {
+            name: "mdi-file-document",
+            size: "24px",
+            class: "q-mr-sm",
+          },
+        },
       };
     },
+
     configsUsers() {
       return {
         externalFilters: false,
@@ -288,8 +293,17 @@ export default {
         delete: true,
         selection: false,
         search: false,
+        title: {
+          class: "text-teal text-h6 q-mb-md",
+          icon: {
+            name: "mdi-account-multiple",
+            size: "24px",
+            class: "q-mr-sm",
+          },
+        },
       };
     },
+
     configsCompanies() {
       return {
         externalFilters: false,
@@ -300,6 +314,14 @@ export default {
         delete: true,
         selection: false,
         search: false,
+        title: {
+          class: "text-teal text-h6 q-mb-md",
+          icon: {
+            name: "mdi-office-building",
+            size: "24px",
+            class: "q-mr-sm",
+          },
+        },
       };
     },
   },
@@ -307,8 +329,15 @@ export default {
     this.peopleId = decodeURIComponent(this.$route.params.id);
     this.init();
   },
+  watch: {
+    financialTab(newVal) {
+      this.setFinancialFilters();
+    },
+  },
   methods: {
     init() {
+      this.setFinancialFilters();
+      // this.setOrdersFilters();
       let filters = {
         people: "/people/" + this.peopleId,
       };
@@ -319,6 +348,31 @@ export default {
       this.$store.commit("usersCustomer/SET_FILTERS", filters);
       this.$store.commit("companies/SET_FILTERS", filters);
       this.loaded = true;
+    },
+
+    setFinancialFilters() {
+      let financeFilters;
+
+      if (this.financialTab === 'receive') {
+        financeFilters = { receiver: "/people/" + this.peopleId };
+      } else {
+        this.$store.commit("invoice/SET_FILTERS", {});
+        financeFilters = { payer: "/people/" + this.peopleId };
+      }
+
+      this.$store.commit("invoice/SET_FILTERS", financeFilters);
+      this.loaded = true;
+    },
+    setOrdersFilters() {
+      let orderFilters;
+
+      if (this.context === "sales") {
+        orderFilters = { client: "/people/" + this.peopleId };
+      } else if (this.context === "purchasing") {
+        orderFilters = { provider: "/people/" + this.peopleId };
+      }
+
+      this.$store.commit("orders/SET_FILTERS", orderFilters);
     },
   },
 };
