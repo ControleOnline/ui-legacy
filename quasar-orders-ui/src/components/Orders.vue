@@ -20,6 +20,9 @@ export default {
     invoiceId: {
       required: false,
     },
+    peopleId: {
+      required: false,
+    }
   },
   computed: {
     ...mapGetters({
@@ -48,13 +51,24 @@ export default {
   },
   methods: {
     setFilters() {
+      let filters = {};
+
       if (this.invoiceId) {
-        let filters = {
-          invoiceId: this.invoiceId,
-        };
-        this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
+        filters.invoiceId = this.invoiceId;
+      }
+      // console.log('peopleId:', this.peopleId);
+      // console.log('myCompany.id:', this.myCompany.id);
+      // console.log('context:', this.context);
+      if (this.peopleId) {
+        if (this.context === 'purchasing') {
+          filters.client = "/people/" + this.peopleId;
+        } else if (this.context === 'sales') {
+          filters.provider = "/people/" + this.peopleId;
+        }
+        // console.log('filters', filters);
       }
 
+      this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
       this.loaded = true;
     },
 

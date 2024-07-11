@@ -15,6 +15,7 @@ export default {
     totalItems: 0,
     filters: {},
     company: null,
+    item: {},
     currentCompany: null,
     defaultCompany: null,
     companies: [],

@@ -2,85 +2,47 @@
   <q-page>
     <div class="q-pt-lg q-pa-md">
       <div class="q-mb-md q-pa-none">
-        <DefaultDetail :cardClass="'full-width'" :sectionClass="'full-width'" :configs="configs" :id="peopleId"
-          v-if="peopleId" />
+        <DefaultDetail :cardClass="'full-width'" :sectionClass="'full-width'" :configs="configs" :id="peopleId" v-if="peopleId" />
       </div>
     </div>
 
     <q-tabs v-model="tab" class="text-teal">
-      <q-tab name="details" label="Detalhes" />
-      <q-tab name="occurrences" label="Ocorrências" />
-      <q-tab name="financial" label="Financeiro" />
-      <q-tab name="attendances" label="Atendimentos" />
-      <q-tab name="orders" label="Pedidos" />
+      <q-tab :name="'details'" :label="$t('menu.details')" />
+      <q-tab :name="'occurrences'" :label="$t('menu.occurrences')" />
+      <q-tab :name="'financial'" :label="$t('menu.financial')" />
+      <q-tab :name="'attendances'" :label="$t('menu.attendances')" />
+      <q-tab :name="'orders'" :label="$t('menu.orders')" />
     </q-tabs>
 
     <q-tab-panels v-model="tab">
       <q-tab-panel name="details">
         <div class="q-pt-lg">
-          <div class="row q-col-gutter-md">
-            <div class="col-12 col-md-6">
-              <q-card class="q-mb-md q-pa-none">
-                <q-card-section class="q-pa-none">
-                  <div class="q-pa-none">
-                    <DefaultTable :configs="configsEmail" v-if="loaded && configsEmail" />
-                  </div>
-                </q-card-section>
-              </q-card>
-            </div>
-            <div class="col-12 col-md-6">
-              <q-card class="q-mb-md q-pa-none">
-                <q-card-section class="q-pa-none">
-                  <div class="q-pa-none">
-                    <DefaultTable :configs="configsPhones" v-if="loaded && configsPhones" />
-                  </div>
-                </q-card-section>
-              </q-card>
-            </div>
+          <div class="row q-col-gutter-md" v-if="currentPerson.peopleType !== 'J'">
+            <EmailsList :loaded="loaded" :configsEmail="configsEmail" />
+            <PhonesList :loaded="loaded" :configsPhones="configsPhones" />
           </div>
         </div>
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none">
-            <q-card-section class="q-pa-none">
-              <div class="q-pa-none">
-                <DefaultTable :configs="configsDocuments" v-if="loaded && configsDocuments" />
-              </div>
-            </q-card-section>
-          </q-card>
-        </div>
-
-        <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none">
-            <q-card-section class="q-pa-none">
-              <div class="q-pa-none">
-                <DefaultTable :configs="configsAddresses" v-if="loaded && configsAddresses" />
-              </div>
-            </q-card-section>
-          </q-card>
+          <DocumentsList :loaded="loaded" :configsDocuments="configsDocuments" />
         </div>
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none">
-            <q-card-section class="q-pa-none">
-              <div class="q-pa-none">
-                <DefaultTable :configs="configsUsers" v-if="loaded && configsUsers" />
-              </div>
-            </q-card-section>
-          </q-card>
+          <AddressesList :loaded="loaded" :configsAddresses="configsAddresses" />
+        </div>
+        <div class="q-pt-lg" v-if="currentPerson.peopleType == 'F'">
+          <UsersList :loaded="loaded" :configsUsers="configsUsers" />
+        </div>
+        <div class="q-pt-lg" v-if="currentPerson.peopleType == 'F'">
+          <CompaniesList :loaded="loaded" :configsCompanies="configsCompanies" />
         </div>
         <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none">
-            <q-card-section class="q-pa-none">
-              <div class="q-pa-none">
-                <DefaultTable :configs="configsCompanies" v-if="loaded && configsCompanies" />
-              </div>
-            </q-card-section>
-          </q-card>
+          <ContractsList :loaded="loaded" :configsContracts="configsContracts" />
         </div>
       </q-tab-panel>
+
       <q-tab-panel name="financial">
         <q-tabs v-model="financialTab" class="text-teal">
-          <q-tab name="receive" label="Receber" />
-          <q-tab name="expense" label="Pagar" />
+          <q-tab :name="'receive'" :label="$t('button.receive')" />
+          <q-tab :name="'expense'" :label="$t('button.expense')" />
         </q-tabs>
         <q-tab-panels v-model="financialTab">
           <q-tab-panel name="receive">
@@ -88,7 +50,7 @@
               <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <InvoiceReceive :context="receive" />
+                    <InvoiceReceive :peopleId="peopleId" />
                   </div>
                 </q-card-section>
               </q-card>
@@ -99,7 +61,7 @@
               <q-card class="q-mb-md q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="q-pa-none">
-                    <InvoiceExpense :context="expense" />
+                    <InvoiceExpense :peopleId="peopleId" />
                   </div>
                 </q-card-section>
               </q-card>
@@ -109,8 +71,8 @@
       </q-tab-panel>
       <q-tab-panel name="attendances">
         <q-tabs v-model="attendanceTab" class="text-teal">
-          <q-tab name="crm" label="CRM" />
-          <q-tab name="tasks" label="Tasks" />
+          <q-tab :name="'crm'" :label="$t('menu.attendances')" />
+          <q-tab :name="'tasks'" :label="$t('menu.tasks')" />
         </q-tabs>
         <q-tab-panels v-model="attendanceTab">
           <q-tab-panel name="crm">
@@ -137,43 +99,76 @@
           </q-tab-panel>
         </q-tab-panels>
       </q-tab-panel>
+
       <q-tab-panel name="orders">
-        <div class="q-pt-lg">
-          <q-card class="q-mb-md q-pa-none">
-            <q-card-section class="q-pa-none">
-              <div class="q-pa-none">
-                <Orders :context="'sales'" :peopleId="peopleId" />
-              </div>
-            </q-card-section>
-          </q-card>
-        </div>
+        <q-tabs v-model="ordersTab" class="text-teal">
+          <q-tab :name="'purchases'" :label="$t('menu.purchasingorders')" />
+          <q-tab :name="'sales'" :label="$t('menu.salesorders')" />
+        </q-tabs>
+        <q-tab-panels v-model="ordersTab">
+          <q-tab-panel name="sales">
+            <div class="q-pt-lg">
+              <q-card class="q-mb-md q-pa-none">
+                <q-card-section class="q-pa-none">
+                  <div class="q-pa-none">
+                    <Orders :context="'sales'" :peopleId="peopleId" />
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+          </q-tab-panel>
+          <q-tab-panel name="purchases">
+            <div class="q-pt-lg">
+              <q-card class="q-mb-md q-pa-none">
+                <q-card-section class="q-pa-none">
+                  <div class="q-pa-none">
+                    <Orders :context="'purchasing'" :peopleId="peopleId" />
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+          </q-tab-panel>
+        </q-tab-panels>
       </q-tab-panel>
+
     </q-tab-panels>
   </q-page>
 </template>
 
 <script>
 import DefaultDetail from "@controleonline/quasar-default-ui/src/components/Default/Common/DefaultDetail.vue";
-import DefaultTable from "@controleonline/quasar-default-ui/src/components/Default/DefaultTable.vue";
 import InvoiceReceive from "@controleonline/quasar-financial-ui/src/pages/Receive/index.vue";
 import InvoiceExpense from "@controleonline/quasar-financial-ui/src/pages/Expense/index.vue";
-import Orders from "@controleonline/quasar-orders-ui/src/components/Orders.vue";
+import Orders from "@controleonline/quasar-orders-ui/src/pages/Orders/index.vue";
 import CRMDetails from "@controleonline/quasar-crm-ui/src/pages/CRM/details.vue";
 import TaskDetails from "@controleonline/quasar-tasks-ui/src/pages/Tasks/details.vue";
 
+import EmailsList from '../Emails/ListEmails.vue';
+import PhonesList from '../Phones/List.vue';
+import AddressesList from '../Addresses/List.vue';
+import DocumentsList from '../Documents/List.vue';
+import UsersList from '../Users/List.vue';
+import CompaniesList from '../Companies/List.vue';
+import ContractsList from '../Contracts/List.vue';
+
 import { mapGetters } from "vuex";
 import getConfigs from "./Configs";
-import people from "../../store/people";
 
 export default {
   components: {
     DefaultDetail,
-    DefaultTable,
-    Orders,
     InvoiceReceive,
     InvoiceExpense,
+    Orders,
     CRMDetails,
     TaskDetails,
+    EmailsList,
+    PhonesList,
+    AddressesList,
+    DocumentsList,
+    UsersList,
+    CompaniesList,
+    ContractsList,
   },
   props: {
     context: {
@@ -185,6 +180,7 @@ export default {
       tab: "details",
       financialTab: "receive",
       attendanceTab: "crm",
+      ordersTab: "sales",
       peopleId: null,
       loaded: false,
     };
@@ -192,187 +188,35 @@ export default {
   computed: {
     ...mapGetters({
       myCompany: "people/currentCompany",
+      companies: "people/companies",
       columns: "people/columns",
-      companies: "companies/companies",
+      currentPerson: "people/currentPerson",
     }),
     configs() {
       let config = getConfigs(this.context, this.myCompany);
       config.externalFilters = false;
       return config;
     },
-    configsEmail() {
-      return {
-        externalFilters: false,
-        filters: true,
-        "full-height": false,
-        store: "emails",
-        title: {
-          class: "text-teal text-h6 q-mb-md",
-          icon: {
-            name: "mdi-email",
-            size: "24px",
-            class: "q-mr-sm",
-          },
-        },
-        add: true,
-        delete: true,
-        selection: false,
-        search: false,
-      };
-    },
-    configsPhones() {
-      return {
-        externalFilters: false,
-        filters: true,
-        "full-height": false,
-        store: "phones",
-        add: true,
-        delete: true,
-        selection: false,
-        search: false,
-        title: {
-          class: "text-teal text-h6 q-mb-md",
-          icon: {
-            name: "mdi-phone",
-            size: "24px",
-            class: "q-mr-sm",
-          },
-        },
-      };
-    },
-
-    configsAddresses() {
-      return {
-        externalFilters: false,
-        filters: true,
-        "full-height": false,
-        store: "addresses",
-        add: true,
-        delete: true,
-        selection: false,
-        search: false,
-        title: {
-          class: "text-teal text-h6 q-mb-md",
-          icon: {
-            name: "mdi-map-marker",
-            size: "24px",
-            class: "q-mr-sm",
-          },
-        },
-      };
-    },
-
-    configsDocuments() {
-      return {
-        externalFilters: false,
-        filters: true,
-        "full-height": false,
-        store: "documents",
-        add: true,
-        delete: true,
-        selection: false,
-        search: false,
-        title: {
-          class: "text-teal text-h6 q-mb-md",
-          icon: {
-            name: "mdi-file-document",
-            size: "24px",
-            class: "q-mr-sm",
-          },
-        },
-      };
-    },
-
-    configsUsers() {
-      return {
-        externalFilters: false,
-        filters: true,
-        "full-height": false,
-        store: "usersCustomer",
-        add: true,
-        delete: true,
-        selection: false,
-        search: false,
-        title: {
-          class: "text-teal text-h6 q-mb-md",
-          icon: {
-            name: "mdi-account-multiple",
-            size: "24px",
-            class: "q-mr-sm",
-          },
-        },
-      };
-    },
-
-    configsCompanies() {
-      return {
-        externalFilters: false,
-        filters: true,
-        "full-height": false,
-        store: "companies",
-        add: true,
-        delete: true,
-        selection: false,
-        search: false,
-        title: {
-          class: "text-teal text-h6 q-mb-md",
-          icon: {
-            name: "mdi-office-building",
-            size: "24px",
-            class: "q-mr-sm",
-          },
-        },
-      };
-    },
   },
   created() {
     this.peopleId = decodeURIComponent(this.$route.params.id);
     this.init();
   },
-  watch: {
-    financialTab(newVal) {
-      this.setFinancialFilters();
-    },
-  },
+
   methods: {
     init() {
-      this.setFinancialFilters();
-      // this.setOrdersFilters();
       let filters = {
         people: "/people/" + this.peopleId,
       };
+
       this.$store.commit("emails/SET_FILTERS", filters);
       this.$store.commit("phones/SET_FILTERS", filters);
       this.$store.commit("addresses/SET_FILTERS", filters);
       this.$store.commit("documents/SET_FILTERS", filters);
+      this.$store.commit("contracts/SET_FILTERS", filters);
       this.$store.commit("usersCustomer/SET_FILTERS", filters);
-      this.$store.commit("companies/SET_FILTERS", filters);
+
       this.loaded = true;
-    },
-
-    setFinancialFilters() {
-      let financeFilters;
-
-      if (this.financialTab === 'receive') {
-        financeFilters = { receiver: "/people/" + this.peopleId };
-      } else {
-        this.$store.commit("invoice/SET_FILTERS", {});
-        financeFilters = { payer: "/people/" + this.peopleId };
-      }
-
-      this.$store.commit("invoice/SET_FILTERS", financeFilters);
-      this.loaded = true;
-    },
-    setOrdersFilters() {
-      let orderFilters;
-
-      if (this.context === "sales") {
-        orderFilters = { client: "/people/" + this.peopleId };
-      } else if (this.context === "purchasing") {
-        orderFilters = { provider: "/people/" + this.peopleId };
-      }
-
-      this.$store.commit("orders/SET_FILTERS", orderFilters);
     },
   },
 };

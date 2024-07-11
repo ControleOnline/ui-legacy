@@ -8,12 +8,12 @@ import * as customGetters from "./getters";
 export default {
   namespaced: true,
   state: {
-    resourceEndpoint: "people/companies/my",
+    resourceEndpoint: "people",
     isLoading: false,
     error: "",
     violations: null,
     totalItems: 0,
-    filters: {},
+    filters: true,
     company: null,
     currentCompany: null,
     defaultCompany: null,
