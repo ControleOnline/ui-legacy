@@ -17,6 +17,10 @@ export default {
     context: {
       required: true,
     },
+    loaded: {
+      type: Boolean,
+      required: true,
+    },
     invoiceId: {
       required: false,
     },
@@ -34,6 +38,10 @@ export default {
       let config = getConfigs(this.context, this.myCompany, this.invoiceId);
 
       if (this.invoiceId) {
+        config.externalFilters = false;
+        config["full-height"] = false;
+      }
+      if (this.peopleId) {
         config.externalFilters = false;
         config["full-height"] = false;
       }
@@ -56,18 +64,10 @@ export default {
       if (this.invoiceId) {
         filters.invoiceId = this.invoiceId;
       }
-      // console.log('peopleId:', this.peopleId);
-      // console.log('myCompany.id:', this.myCompany.id);
-      // console.log('context:', this.context);
+      //ID People - Filtragem:
       if (this.peopleId) {
-        if (this.context === 'purchasing') {
-          filters.client = "/people/" + this.peopleId;
-        } else if (this.context === 'sales') {
-          filters.provider = "/people/" + this.peopleId;
-        }
-        // console.log('filters', filters);
+        filters.people = "/people/" + this.peopleId;
       }
-
       this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
       this.loaded = true;
     },

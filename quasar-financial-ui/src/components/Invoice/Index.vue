@@ -17,6 +17,13 @@ export default {
     orderId: {
       required: false,
     },
+    loaded: {
+      type: Boolean,
+      required: true,
+    },
+    peopleId: {
+      required: true,
+    },
   },
   computed: {
     ...mapGetters({
@@ -28,6 +35,11 @@ export default {
 
       if (this.orderId) {
         config.companyParam = false;
+        config.externalFilters = false;
+        config["full-height"] = false;
+      }
+      if (this.peopleId) {
+        // config.companyParam = false;
         config.externalFilters = false;
         config["full-height"] = false;
       }
@@ -49,6 +61,13 @@ export default {
         let filters = {
           orderId: this.orderId,
         };
+        this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
+      }
+      //ID People - filtro
+      if (this.peopleId) {
+        let filters = {
+          people: this.peopleId,
+        }
         this.$store.commit(this.configs.store + "/SET_FILTERS", filters);
       }
       this.loaded = true;
