@@ -52,7 +52,7 @@ export default {
   },
 
   created() {
-    this.getNotifications();
+    //this.getNotifications();
     this.socketInit();
   },
 
