@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
+import { api } from "app/modules/controleonline/quasar-common-ui/src/api";
 import axios from "axios";
 import { mapGetters } from "vuex";
 

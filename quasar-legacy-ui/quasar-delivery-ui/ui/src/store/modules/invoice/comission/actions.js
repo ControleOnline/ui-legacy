@@ -1,5 +1,5 @@
 import { api } from "@controleonline/../../src/boot/api";
-import SubmissionError from '@controleonline/quasar-legacy-ui/quasar-common-ui/src/error/SubmissionError';
+import SubmissionError from '@controleonline/quasar-common-ui/src/error/SubmissionError';
 import * as types from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/finance/comission';

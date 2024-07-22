@@ -153,7 +153,7 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
+import { api } from "app/modules/controleonline/quasar-common-ui/src/api";
 import ListAutocomplete from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/ListAutocomplete";
 import { MyPackage } from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/utils/mypackage";
 import { mapGetters } from "vuex";

@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
+import { api } from "app/modules/controleonline/quasar-common-ui/src/api";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -93,6 +93,8 @@ export default {
         console.error("WebSocket error:", error);
       };
 
+      //this.socket.send('Hello World!');
+
       // Evento de conexão fechada
       this.socket.onclose = () => {
         console.log(
@@ -100,7 +102,7 @@ export default {
             this.reconnectInterval / 1000 +
             " segundos..."
         );
-        setTimeout(this.connectWebSocket, this.reconnectInterval);
+        setTimeout(this.socketInit, this.reconnectInterval);
       };
     },
     getNotifications() {

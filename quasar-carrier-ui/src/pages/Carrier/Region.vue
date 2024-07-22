@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
+import { api } from "app/modules/controleonline/quasar-common-ui/src/api";
 import CarrierRegionCities from '../../components/carrier/RegionCities';
 import CarrierRegionSummary from '../../components/carrier/RegionSummary';
 

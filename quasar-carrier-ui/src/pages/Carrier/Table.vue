@@ -239,7 +239,7 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
+import { api } from "app/modules/controleonline/quasar-common-ui/src/api";
 import CarrierImports from "@controleonline/quasar-legacy-ui/quasar-import-ui/src/components/Import/ImportsList";
 import CarrierTableFixedkg from "../../components/carrier/TableFixedkg";
 import CarrierTableFixedkm from "../../components/carrier/TableFixedkm";

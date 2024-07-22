@@ -163,8 +163,8 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
-import SubmissionError from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/error/SubmissionError";
+import { api } from "app/modules/controleonline/quasar-common-ui/src/api";
+import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 import { extend } from "quasar";
 
 export default {

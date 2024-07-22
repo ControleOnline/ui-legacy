@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
+import { api } from "app/modules/controleonline/quasar-common-ui/src/api";
 import Contract from "./../entity/Contract";
 import configurable from "./../mixins/configurable";
 import validation from "./../mixins/validation";

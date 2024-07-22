@@ -494,7 +494,7 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
+import { api } from "app/modules/controleonline/quasar-common-ui/src/api";
 import PersonAvatar from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/PersonAvatar";
 
 import OrderTasks from "@controleonline/quasar-tasks-ui/src/components/Tasks";

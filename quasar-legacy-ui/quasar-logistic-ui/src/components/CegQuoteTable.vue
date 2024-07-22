@@ -245,9 +245,9 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
+import { api } from "app/modules/controleonline/quasar-common-ui/src/api";
 import QuotationTaxes from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/components/Common/QuotationTaxes";
-import SubmissionError from "@controleonline/quasar-legacy-ui/quasar-common-ui/src/error/SubmissionError";
+import SubmissionError from "@controleonline/quasar-common-ui/src/error/SubmissionError";
 import { mapActions, mapGetters } from "vuex";
 
 export default {

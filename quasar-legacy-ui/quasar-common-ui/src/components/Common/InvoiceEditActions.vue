@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { api } from "@controleonline/../../src/boot/api";
+import { api } from "app/modules/controleonline/quasar-common-ui/src/api";
 import { mapGetters } from "vuex";
 
 export default {
