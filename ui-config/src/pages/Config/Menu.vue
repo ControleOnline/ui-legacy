@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import TableCategories from "@controleonline/ui-common/src/components/Categories/Table.vue";
+import TableCategories from "@controleonline/ui-default/src/components/Default/Categories/Table.vue";
 import Menu from "../../components/config/Menu/Table";
 
 export default {
