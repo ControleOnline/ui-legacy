@@ -133,7 +133,7 @@
           </q-markup-table>
         </q-card-section>
 
-        <q-card-actions align="right" class=" text-teal">
+        <q-card-actions align="right" class=" text-primary">
           <q-btn flat label="OK" v-close-popup />
         </q-card-actions>
       </q-card>
