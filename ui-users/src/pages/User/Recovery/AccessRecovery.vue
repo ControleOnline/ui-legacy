@@ -42,6 +42,7 @@ export default {
       this.$store.dispatch(
         'auth/logIn',
         {
+          id: userData.id,
           username: userData.username,
           api_key : userData.api_key,
           people  : userData.people,

@@ -8,6 +8,7 @@ export default {
 
       if (payload !== null && payload.api_key) {
         _user = {
+          id: payload.id,
           username: payload.username,
           token: payload.api_key,
           people: payload.people,
