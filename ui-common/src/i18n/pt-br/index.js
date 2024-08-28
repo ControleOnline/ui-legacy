@@ -95,7 +95,7 @@ export const translate = {
   route: {
     HomeIndex: "Dashboard",
     DashboardIndex: "Dashboard",
-    CustomersIndex: "CRM",
+    CustomersIndex: "Clientes",
     ContractIndex: "Contratos",
     ShippingQuoteIndex: "Cotação",
     SalesOrderIndex: "Pedidos de Venda",
