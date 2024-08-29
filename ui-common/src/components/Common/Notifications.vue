@@ -53,7 +53,7 @@ export default {
 
   created() {
     //this.getNotifications();
-    this.socketInit();
+    //this.socketInit();
   },
 
   computed: {
