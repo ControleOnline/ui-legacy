@@ -1,5 +1,5 @@
 import { api } from "@controleonline/../../src/boot/api";
-import SubmissionError from '@controleonline/ui-common/src/error/SubmissionError';
+
 import * as types from './mutation_types';
 
 const RESOURCE_ENDPOINT = '/coupons';
@@ -23,14 +23,8 @@ export const getItems = ({ commit }, params = {}) => {
     }).catch(e => {
       commit(types.SET_ISLOADING, false);
 
-      if (e instanceof SubmissionError) {
-        commit(types.SET_VIOLATIONS, e.errors);
-        // eslint-disable-next-line
-        commit(types.SET_ERROR, e.errors._error);
-        return;
-      }
-
       commit(types.SET_ERROR, e.message);
+      throw e;
     });
 };
 
@@ -53,11 +47,8 @@ export const createCoupon = ({ commit }, data) => {
       return response.data ? response.data : null;
     })
     .catch(e => {
-      if (e instanceof SubmissionError) {
-        throw new Error(e.errors._error);
-      }
-
-      throw new Error(e.message);
+      commit(types.SET_ERROR, e.message);
+      throw e;
     });
 }
 
@@ -70,14 +61,8 @@ export const getStatuses = ({ commit }, params = {}) => {
       return data['hydra:member'];
 
     }).catch(e => {
-      if (e instanceof SubmissionError) {
-        commit(types.SET_VIOLATIONS, e.errors);
-        // eslint-disable-next-line
-        commit(types.SET_ERROR, e.errors._error);
-        return;
-      }
-
       commit(types.SET_ERROR, e.message);
+      throw e;
     });
 };
 

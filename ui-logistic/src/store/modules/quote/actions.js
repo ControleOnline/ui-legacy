@@ -1,5 +1,5 @@
 import { api } from "@controleonline/../../src/boot/api";
-import SubmissionError from '@controleonline/ui-common/src/error/SubmissionError';
+
 import * as types from './mutation_types';
 
 export const quote = ({ commit }, { values, query = null }) => {
@@ -25,14 +25,8 @@ export const quote = ({ commit }, { values, query = null }) => {
     }).catch(e => {
       commit(types.SET_ISLOADING, false);
 
-      if (e instanceof SubmissionError) {
-        commit(types.SET_VIOLATIONS, e.errors);
-        // eslint-disable-next-line
-        commit(types.SET_ERROR, e.errors._error);
-        return;
-      }
-
       commit(types.SET_ERROR, e.message);
+      throw e;
     });
 };
 
@@ -54,12 +48,8 @@ export const chooseRouteTime = ({ commit }, { id, values, query = null }) => {
 
     }).catch(e => {
       commit(types.SET_ISLOADING, false);
-
-      if (e instanceof SubmissionError) {
-        return e.errors._error;
-      }
-
-      return e.message;
+      commit(types.SET_ERROR, e.message);
+      throw e;
     });
 };
 
@@ -84,12 +74,8 @@ export const choose_retireve_quote = ({ commit }, { id, values, query = null }) 
 
     }).catch(e => {
       commit(types.SET_ISLOADING, false);
-
-      if (e instanceof SubmissionError) {
-        return e.errors._error;
-      }
-
-      return e.message;
+      commit(types.SET_ERROR, e.message);
+      throw e;
     });
 };
 export const choose_delivery_quote = ({ commit }, { id, values, query = null }) => {
@@ -112,12 +98,8 @@ export const choose_delivery_quote = ({ commit }, { id, values, query = null }) 
 
     }).catch(e => {
       commit(types.SET_ISLOADING, false);
-
-      if (e instanceof SubmissionError) {
-        return e.errors._error;
-      }
-
-      return e.message;
+      commit(types.SET_ERROR, e.message);
+      throw e;
     });
 };
 
@@ -141,12 +123,8 @@ export const choose_payer_quote = ({ commit }, { id, values, query = null }) => 
 
     }).catch(e => {
       commit(types.SET_ISLOADING, false);
-
-      if (e instanceof SubmissionError) {
-        return e.errors._error;
-      }
-
-      return e.message;
+      commit(types.SET_ERROR, e.message);
+      throw e;
     });
 };
 
@@ -170,12 +148,8 @@ export const choose_payment_quote = ({ commit }, { id, values, query = null }) =
 
     }).catch(e => {
       commit(types.SET_ISLOADING, false);
-
-      if (e instanceof SubmissionError) {
-        return e.errors._error;
-      }
-
-      return e.message;
+      commit(types.SET_ERROR, e.message);
+      throw e;
     });
 };
 export const choose_quote = ({ commit }, { id, values, query = null }) => {
@@ -198,12 +172,8 @@ export const choose_quote = ({ commit }, { id, values, query = null }) => {
 
     }).catch(e => {
       commit(types.SET_ISLOADING, false);
-
-      if (e instanceof SubmissionError) {
-        return e.errors._error;
-      }
-
-      return e.message;
+      commit(types.SET_ERROR, e.message);
+      throw e;
     });
 };
 

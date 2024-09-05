@@ -1,5 +1,5 @@
 import { api } from "@controleonline/../../src/boot/api";
-import SubmissionError from '@controleonline/ui-common/src/error/SubmissionError';
+
 
 
 
@@ -30,11 +30,8 @@ export const createExpense = ({ commit }, data) => {
       return response.data ? response.data : null;
     })
     .catch(e => {
-      if (e instanceof SubmissionError) {
-        throw new Error(e.errors._error);
-      }
-
-      throw new Error(e.message);
+      commit(types.SET_ERROR, e.message);
+      throw e;
     });
 }
 
@@ -51,11 +48,8 @@ export const createProvider = ({ commit }, data) => {
       return response;
     })
     .catch(e => {
-      if (e instanceof SubmissionError) {
-        throw new Error(e.errors._error);
-      }
-
-      throw new Error(e.message);
+      commit(types.SET_ERROR, e.message);
+      throw e;
     });
 }
 
@@ -72,11 +66,8 @@ export const updateExpense = ({ commit }, data) => {
       return response.data ? response.data : null;
     })
     .catch(e => {
-      if (e instanceof SubmissionError) {
-        throw new Error(e.errors._error);
-      }
-
-      throw new Error(e.message);
+      commit(types.SET_ERROR, e.message);
+      throw e;
     });
 }
 
@@ -89,10 +80,7 @@ export const deleteExpense = ({ commit }, data) => {
 
   return api.fetch(`/invoices/${data.id}`, options)
     .catch(e => {
-      if (e instanceof SubmissionError) {
-        throw new Error(e.errors._error);
-      }
-
-      throw new Error(e.message);
+      commit(types.SET_ERROR, e.message);
+      throw e;
     });
 }

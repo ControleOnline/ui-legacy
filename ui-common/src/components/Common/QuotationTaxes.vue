@@ -88,7 +88,7 @@
 
 <script>
 import { api } from "app/modules/controleonline/ui-common/src/api";
-import SubmissionError from "@controleonline/ui-common/src/error/SubmissionError";
+
 
 export default {
   props: {
@@ -221,12 +221,8 @@ export default {
           return quotation;
         })
         .catch((e) => {
-          if (e instanceof SubmissionError) {
-            throw Error(e.errors._error);
-            return;
-          }
-
-          throw Error(e.message);
+          commit(types.SET_ERROR, e.message);
+          throw e;
         });
     },
 

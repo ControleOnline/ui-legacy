@@ -1,5 +1,5 @@
 import { api } from "@controleonline/../../src/boot/api";
-import SubmissionError from '@controleonline/ui-common/src/error/SubmissionError';
+
 import * as types from './mutation_types';
 
 export const passwordRecovery = ({ commit }, values) => {
@@ -37,11 +37,6 @@ export const recoveryAccess = ({ commit }, values) => {
       return data;
     }).catch(e => {
       commit(types.SET_ISLOADING, false);
-
-      if (e instanceof SubmissionError) {
-        return e.errors._error;
-      }
-
-      return e.message;
+      throw e;
     });
 };

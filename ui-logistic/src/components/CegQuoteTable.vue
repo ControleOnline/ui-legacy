@@ -247,7 +247,7 @@
 <script>
 import { api } from "app/modules/controleonline/ui-common/src/api";
 import QuotationTaxes from "@controleonline/ui-legacy/ui-common/src/components/Common/QuotationTaxes";
-import SubmissionError from "@controleonline/ui-common/src/error/SubmissionError";
+
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -675,12 +675,8 @@ export default {
           this.dtaxes = _taxes.length > 0;
         })
         .catch((e) => {
-          if (e instanceof SubmissionError) {
-            throw Error(e.errors._error);
-            return;
-          }
-
-          throw Error(e.message);
+          commit(types.SET_ERROR, e.message);
+          throw e;
         });
     },
 
