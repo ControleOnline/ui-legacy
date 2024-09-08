@@ -40,7 +40,7 @@ export default {
     getGeoPlaces(input) {
       this.isLoading = true;
 
-      return this.geoplace(input)
+      return this.geoplace({input})
         .then(result => {
           this.isLoading = false;
 
