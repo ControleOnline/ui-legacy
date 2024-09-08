@@ -15,7 +15,7 @@ diretorios=(
     "ui-legacy/ui-guides"
     "ui-legacy/ui-import"
     "ui-layout"
-    "ui-legacy/ui-login"
+    "ui-login"
     "ui-legacy/ui-orders"
     "ui-legacy/quasar-people-ui"
     "quasar-products-ui"

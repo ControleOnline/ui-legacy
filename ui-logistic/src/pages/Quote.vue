@@ -78,8 +78,8 @@
 import { mapActions, mapGetters } from "vuex";
 
 import Analytics from "@controleonline/ui-common/src/utils/analytics";
-import LoginPage from "@controleonline/ui-legacy/ui-login/src/components/user/login/Index.vue";
-import SignUpPage from "@controleonline/ui-legacy/ui-login/src/components/user/signup/Index";
+import LoginPage from "@controleonline/ui-login/src/components/user/login/Index.vue";
+import SignUpPage from "@controleonline/ui-login/src/components/user/signup/Index";
 
 import CegPageContainer from "../components/CegPageContainer";
 import CegQuoteTable from "../components/CegQuoteTable";
