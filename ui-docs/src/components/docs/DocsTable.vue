@@ -34,7 +34,7 @@
             <q-td key="date_period" :props="props">{{ props.row.date_period }}</q-td>
             <q-td key="status" :props="props">
               <q-badge
-                :text-color="props.row.status.color"
+                :text-color="props.row?.status?.color"
                 :label="$t(docs_type + '.status.' + props.row.status.status)"
               />
             </q-td>
