@@ -10,7 +10,6 @@
       v-for="(item, index) in list"
       :key="item.user_name"
       :id="item.id"
-      :index="index"
       :title_guide="item.title_guide"
       :price="item.price"
       :images_slide="item.images_slide"

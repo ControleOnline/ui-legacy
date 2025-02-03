@@ -150,10 +150,7 @@ export default {
       type: Number,
       default: 0,
     },
-    index: {
-      type: Number,
-      default: 0,
-    },
+
     edit: {
       type: Boolean,
       default: false,
