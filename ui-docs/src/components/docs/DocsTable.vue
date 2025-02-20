@@ -248,9 +248,7 @@ export default {
     ...mapGetters({
       myCompany: "people/currentCompany",
     }),
-    user() {
-      return this.$store.getters["auth/user"];
-    },
+
   },
 
   watch: {
