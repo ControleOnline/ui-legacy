@@ -1,9 +1,12 @@
 <template>
   <div>
     <q-card v-if="this.order.quotes.length > 0">
-      <q-card-section v-if="header" style="background-color: var(--primary);">
+      <q-card-section v-if="header" style="background-color: var(--primary)">
         <div class="row items-center title-bar">
-          <q-icon name="local_shipping" style="color: #ffbc16; font-size: 40px; margin-right: 20px" />
+          <q-icon
+            name="local_shipping"
+            style="color: #ffbc16; font-size: 40px; margin-right: 20px"
+          />
           <div class="text-h5" style="color: #ffbc16">
             Cotação #{{ this.order.id }}
           </div>
@@ -12,77 +15,113 @@
         </div>
       </q-card-section>
 
-      <q-card-section style="max-width: 1250px !important; margin: auto !important">
-        <q-table dense  grid hide-header :rows="order.quotes" :columns="columns" :visible-columns="visible" row-key="id"
-          v-model:pagination="pagination">
+      <q-card-section
+        style="max-width: 1250px !important; margin: auto !important"
+      >
+        <q-table
+          dense
+          grid
+          hide-header
+          :rows="order.quotes"
+          :columns="columns"
+          :visible-columns="visible"
+          row-key="id"
+          v-model:pagination="pagination"
+        >
           <template v-slot:item="props">
             <div class="q-pb-xs-md q-pa-sm-md col-xs-12 col-sm-6 col-md-3">
               <q-card class="shadow-10" :style="getSelectedStyle(props.row.id)">
-                <q-img v-if="!logged" src="~/assets/placeholder.png" style="height: 130px; width: 80%; margin-left: 9%"
-                  ratio="1" transition="scale" :contain="true">
+                <q-img
+                  v-if="!logged"
+                  src="~/assets/placeholder.png"
+                  style="height: 130px; width: 80%; margin-left: 9%"
+                  ratio="1"
+                  transition="scale"
+                  :contain="true"
+                >
                   <template v-slot:error>
-                    <div class="
-                        row
-                        items-center
-                        justify-center
-                        text-center text-subtitle2 text-black
-                      " style="
+                    <div
+                      class="row items-center justify-center text-center text-subtitle2 text-black"
+                      style="
                         height: 130px;
                         width: 80%;
                         margin-left: 9%;
                         background: none;
-                      ">
+                      "
+                    >
                       {{ props.cols[1].value }}
                     </div>
                   </template>
                 </q-img>
-                <q-img v-else-if="props.cols[5].value !== null" :src="props.cols[5].value"
-                  style="height: 130px; width: 80%; margin-left: 9%" ratio="1" transition="scale" :contain="true">
+                <q-img
+                  v-else-if="props.cols[5].value !== null"
+                  :src="props.cols[5].value"
+                  style="height: 130px; width: 80%; margin-left: 9%"
+                  ratio="1"
+                  transition="scale"
+                  :contain="true"
+                >
                   <template v-slot:error>
-                    <div class="
-                        row
-                        items-center
-                        justify-center
-                        text-center text-subtitle2 text-black
-                      " style="
+                    <div
+                      class="row items-center justify-center text-center text-subtitle2 text-black"
+                      style="
                         height: 130px;
                         width: 80%;
                         margin-left: 9%;
                         background: none;
-                      ">
+                      "
+                    >
                       {{ props.cols[1].value }}
                     </div>
                   </template>
                 </q-img>
-                <q-card-section class="text-white" align="center" style="background: var(--primary);">
+                <q-card-section
+                  class="text-white"
+                  align="center"
+                  style="background: var(--primary)"
+                >
                   <q-list>
-                    <q-item :class="
-                      props.row.retrieveDeadline == 0 ||
-                        props.row.retrieveDeadline == null
-                        ? 'no-retrieve-container'
-                        : ''
-                    ">
-                      <q-item-section style="min-width: 0; padding-right: 8px" avatar>
-                        <q-icon :color="
-                          props.row.retrieveDeadline == 0 ||
-                            props.row.retrieveDeadline == null
-                            ? 'red'
-                            : 'orange'
-                        " name="send" />
-                      </q-item-section>
-                      <q-item-section :class="
+                    <q-item
+                      :class="
                         props.row.retrieveDeadline == 0 ||
+                        props.row.retrieveDeadline == null
+                          ? 'no-retrieve-container'
+                          : ''
+                      "
+                    >
+                      <q-item-section
+                        style="min-width: 0; padding-right: 8px"
+                        avatar
+                      >
+                        <q-icon
+                          :color="
+                            props.row.retrieveDeadline == 0 ||
+                            props.row.retrieveDeadline == null
+                              ? 'red'
+                              : 'orange'
+                          "
+                          name="send"
+                        />
+                      </q-item-section>
+                      <q-item-section
+                        :class="
+                          props.row.retrieveDeadline == 0 ||
                           props.row.retrieveDeadline == null
-                          ? 'text-left text-bold red'
-                          : 'text-left text-bold'
-                      ">{{ props.cols[2].value }}</q-item-section>
+                            ? 'text-left text-bold red'
+                            : 'text-left text-bold'
+                        "
+                        >{{ props.cols[2].value }}</q-item-section
+                      >
                     </q-item>
                     <q-item>
-                      <q-item-section style="min-width: 0; padding-right: 8px" avatar>
+                      <q-item-section
+                        style="min-width: 0; padding-right: 8px"
+                        avatar
+                      >
                         <q-icon color="orange" name="send" />
                       </q-item-section>
                       <q-item-section class="text-left text-bold">{{
-                          props.cols[3].value
+                        props.cols[3].value
                       }}</q-item-section>
                     </q-item>
                     <q-item class="obs-container">
@@ -95,8 +134,14 @@
                     {{ props.cols[4].value }}
                   </div>
                   <div class="col-12">
-                    <q-btn rounded icon="send" style="width: 85%; background-color: #56da63" :class="mayContract()"
-                      :label="logged ? 'Contratar' : 'Entrar'" @click="chooseQuote(props.row)" />
+                    <q-btn
+                      rounded
+                      icon="send"
+                      style="width: 85%; background-color: #56da63"
+                      :class="mayContract()"
+                      :label="logged ? 'Contratar' : 'Entrar'"
+                      @click="chooseQuote(props.row)"
+                    />
                   </div>
                 </q-card-section>
               </q-card>
@@ -106,12 +151,22 @@
       </q-card-section>
 
       <q-card-actions v-if="footer" align="center" class="q-pa-md">
-        <q-btn flat label="Retornar aos dados da Cotação" style="color: var(--primary);" v-close-popup />
+        <q-btn
+          flat
+          label="Retornar aos dados da Cotação"
+          style="color: var(--primary)"
+          v-close-popup
+        />
       </q-card-actions>
     </q-card>
 
-    <q-dialog v-model="dtaxes" persistent transition-show="scale" transition-hide="scale">
-      <q-card class="text-white" style="background-color: var(--primary);">
+    <q-dialog
+      v-model="dtaxes"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      <q-card class="text-white" style="background-color: var(--primary)">
         <q-card-section>
           <div class="text-h6 text-center">Taxas</div>
         </q-card-section>
@@ -133,7 +188,7 @@
           </q-markup-table>
         </q-card-section>
 
-        <q-card-actions align="right" class=" text-primary">
+        <q-card-actions align="right" class="text-primary">
           <q-btn flat label="OK" v-close-popup />
         </q-card-actions>
       </q-card>
@@ -217,8 +272,9 @@ export default {
           format: (value) => {
             if (value == 1) return "Entrega em 1 dia útil";
             else
-              return `Entrega entre ${value} e ${parseInt(value) + 2
-                } dias úteis`;
+              return `Entrega entre ${value} e ${
+                parseInt(value) + 2
+              } dias úteis`;
           },
           label: "Delivery Deadline",
         },
@@ -265,9 +321,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-
-    }),
+    ...mapGetters({}),
     isNewUser() {
       return this.order.user.logged == false && this.order.user.isNew == true;
     },
@@ -282,16 +336,15 @@ export default {
 
     logged() {
       /*
-      let logged = this.getLoggedUser();
+      let logged = this.this.$auth.user();
       if (logged && logged.email) {
         this.contact.name = logged.username || logged.user;
         this.contact.email = logged.email;
         this.contact.phone = logged.phone;
       }
       */
-      return this.isLogged();
+      return this.this.$auth.isLogged();
     },
-
   },
 
   methods: {
@@ -321,16 +374,7 @@ export default {
         this.$emit("choose", { id: quote.id, price: quote.total });
       }
     },
-    getLoggedUser() {
-      return this.$store.getters["auth/user"];
-    },
 
-    isLogged() {
-      return (
-        this.getLoggedUser() !== null &&
-        this.getLoggedUser().user
-      );
-    },
     showTaxes(taxes) {
       let _taxes = [];
 

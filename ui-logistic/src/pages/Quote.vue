@@ -8,46 +8,114 @@
       </div>
     </div>
 
-    <CegPageContainer v-else-if="isCeg()" :contact="contact" :product="product" :origin="origin"
-      :destination="destination" :productTypeLabel="productTypeLabel" :invoiceTaxLabel="invoiceTaxLabel"
-      @addressChanged="addressChanged" />
+    <CegPageContainer
+      v-else-if="isCeg()"
+      :contact="contact"
+      :product="product"
+      :origin="origin"
+      :destination="destination"
+      :productTypeLabel="productTypeLabel"
+      :invoiceTaxLabel="invoiceTaxLabel"
+      @addressChanged="addressChanged"
+    />
 
-    <PageContainer v-else :contact="contact" :product="product" :origin="origin" :destination="destination"
-      :productTypeLabel="productTypeLabel" :invoiceTaxLabel="invoiceTaxLabel" />
+    <PageContainer
+      v-else
+      :contact="contact"
+      :product="product"
+      :origin="origin"
+      :destination="destination"
+      :productTypeLabel="productTypeLabel"
+      :invoiceTaxLabel="invoiceTaxLabel"
+    />
 
     <!-- QUOTE TABLE RESULTS -->
-    <q-dialog v-if="!pageLoading" maximized v-model="dialogs.quote.visible" transition-show="scale"
-      transition-hide="scale">
-      <CegQuoteTable v-if="isCeg()" :order="order" :origin="origin" :destination="destination" @choose="onChoose"
-        @load="onViewQuotes" />
+    <q-dialog
+      v-if="!pageLoading"
+      maximized
+      v-model="dialogs.quote.visible"
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      <CegQuoteTable
+        v-if="isCeg()"
+        :order="order"
+        :origin="origin"
+        :destination="destination"
+        @choose="onChoose"
+        @load="onViewQuotes"
+      />
 
-      <QuoteTable v-else :order="order" :origin="origin" :destination="destination" @choose="onChoose"
-        @load="onViewQuotes" />
+      <QuoteTable
+        v-else
+        :order="order"
+        :origin="origin"
+        :destination="destination"
+        @choose="onChoose"
+        @load="onViewQuotes"
+      />
     </q-dialog>
 
     <!-- LOGIN FORM -->
-    <q-dialog maximized no-backdrop-dismiss v-model="dialogs.login.visible" transition-show="slide-left"
-      transition-hide="slide-right">
+    <q-dialog
+      maximized
+      no-backdrop-dismiss
+      v-model="dialogs.login.visible"
+      transition-show="slide-left"
+      transition-hide="slide-right"
+    >
       <LoginPage @logged="onLogged" @signup="onSignUp" />
     </q-dialog>
 
     <!-- SIGNUP STEP TO STEP -->
-    <q-dialog maximized no-backdrop-dismiss v-model="dialogs.signup.visible" transition-show="slide-left"
-      transition-hide="slide-right">
-      <SignUpPage :order="order" @created="onCreated" @company="onCompany" @registered="onRegistered" />
+    <q-dialog
+      maximized
+      no-backdrop-dismiss
+      v-model="dialogs.signup.visible"
+      transition-show="slide-left"
+      transition-hide="slide-right"
+    >
+      <SignUpPage
+        :order="order"
+        @created="onCreated"
+        @company="onCompany"
+        @registered="onRegistered"
+      />
     </q-dialog>
 
     <!-- ORDER STEP TO STEP -->
-    <q-dialog maximized no-backdrop-dismiss v-model="dialogs.order.visible" transition-show="slide-left"
-      transition-hide="slide-right">
-      <CheckoutPage :order="order" :quoteContact="contact" @finished="onFinished" @load="onCheckOut" />
+    <q-dialog
+      maximized
+      no-backdrop-dismiss
+      v-model="dialogs.order.visible"
+      transition-show="slide-left"
+      transition-hide="slide-right"
+    >
+      <CheckoutPage
+        :order="order"
+        :quoteContact="contact"
+        @finished="onFinished"
+        @load="onCheckOut"
+      />
     </q-dialog>
 
-    <q-dialog v-if="selectedMarker" v-model="dialogs.details.visible" transition-show="slide-left"
-      transition-hide="slide-right">
+    <q-dialog
+      v-if="selectedMarker"
+      v-model="dialogs.details.visible"
+      transition-show="slide-left"
+      transition-hide="slide-right"
+    >
       <div class="details-dialog-container">
         <h3 class="title-details-dialog">{{ selectedMarker.name }}</h3>
-        <q-btn icon="close" color="black" class="close-details-dialog" flat round dense v-close-popup />
+        <q-btn
+          icon="close"
+          color="black"
+          class="close-details-dialog"
+          flat
+          round
+          dense
+          v-close-popup
+        />
         <div class="details-dialog-content">
           <strong>Nome: </strong> {{ selectedMarker.name }}
           {{ selectedMarker.alias }}<br />
@@ -66,8 +134,11 @@
           <strong>CEP: </strong> {{ selectedMarker.cep }}
         </div>
         <div class="row q-pa-md justify-center items-center">
-          <q-btn :label="isMarkerSelected() ? 'Remover' : 'Selecionar'" :color="isMarkerSelected() ? 'red' : 'primary'"
-            @click="onSelectMarkerClick" />
+          <q-btn
+            :label="isMarkerSelected() ? 'Remover' : 'Selecionar'"
+            :color="isMarkerSelected() ? 'red' : 'primary'"
+            @click="onSelectMarkerClick"
+          />
         </div>
       </div>
     </q-dialog>
@@ -199,17 +270,6 @@ export default {
       myCompany: "people/currentCompany",
       defaultCompany: "people/defaultCompany",
     }),
-
-    isLogged() {
-      return (
-        this.$store.getters["auth/user"] !== null &&
-        this.$store.getters["auth/user"].api_key
-      );
-    },
-
-    logged() {
-      return this.$store.getters["auth/user"];
-    },
   },
 
   created() {
@@ -239,8 +299,6 @@ export default {
         this.order.address.destination = this.destination;
 
         this.showDialog("quote");
-
-
       } else if (response.error) {
         this.$q.notify({
           message: this.$t(response.error),
@@ -310,16 +368,16 @@ export default {
 
       if (this.order.id && this.order.choose) {
         let quote = this.order.quotes.find(
-          (_quote) => _quote.id == this.order.choose
-        ),
+            (_quote) => _quote.id == this.order.choose
+          ),
           item = {
             id: quote.id,
             brand: quote.carrier.name,
             name: `Frete de ${this.order.address.origin.city}/${this.order.address.origin.state} para ${this.order.address.destination.city}/${this.order.address.destination.state} (${quote.retrieveDeadline}-${quote.deliveryDeadline})`,
             category: quote.group.name,
             variant: quote.group.name,
-            price: this. formatMoneyToBRL(quote.total),
-            price: this. formatMoneyToBRL(quote.total),
+            price: this.formatMoneyToBRL(quote.total),
+            price: this.formatMoneyToBRL(quote.total),
             currency: "BRL",
             quantity: 1,
           },
@@ -345,8 +403,8 @@ export default {
             name: `Frete de ${this.order.address.origin.city}/${this.order.address.origin.state} para ${this.order.address.destination.city}/${this.order.address.destination.state} (${this.order.quotes[i].retrieveDeadline}-${this.order.quotes[i].deliveryDeadline})`,
             list_name: "Cotação",
             variant: this.order.quotes[i].group.name,
-            price: this. formatMoneyToBRL(this.order.quotes[i].total),
-            price: this. formatMoneyToBRL(this.order.quotes[i].total),
+            price: this.formatMoneyToBRL(this.order.quotes[i].total),
+            price: this.formatMoneyToBRL(this.order.quotes[i].total),
             currency: "BRL",
             quantity: 1,
           });
@@ -371,14 +429,14 @@ export default {
       let data = {
         event_category: "Cotação",
         event_label: this.order.address.origin.state,
-        value: this. formatMoneyToBRL(this.order.price),
-        value: this. formatMoneyToBRL(this.order.price),
+        value: this.formatMoneyToBRL(this.order.price),
+        value: this.formatMoneyToBRL(this.order.price),
       };
 
       Analytics.logEvent("Solicitar", data);
 
-      if (this.isLogged) {
-        if (this.logged.company === null) this.showDialog("signup");
+      if (this.$auth.isLogged) {
+        if (this.$auth.user.company === null) this.showDialog("signup");
         else this.showDialog("order");
       } else this.showDialog("login");
     },
@@ -393,7 +451,7 @@ export default {
       });
 
       if (this.order.choose !== null) {
-        this.showDialog(this.logged.company === null ? "signup" : "order");
+        this.showDialog(this.$auth.user.company === null ? "signup" : "order");
       }
     },
 
@@ -408,7 +466,7 @@ export default {
     onCreated(user) {
       this.$store.dispatch("auth/logIn");
 
-      if (this.isLogged)
+      if (this.$auth.isLogged)
         this.$q.notify({
           message: `Agora você esta logado como "${user.username}"`,
           position: "top",
@@ -452,28 +510,28 @@ export default {
       // log analytics event
 
       let quote = this.order.quotes.find(
-        (_quote) => _quote.id == this.order.choose
-      ),
+          (_quote) => _quote.id == this.order.choose
+        ),
         item = {
           id: quote.id,
           brand: quote.carrier.name,
           name: `Frete de ${this.order.address.origin.city}/${this.order.address.origin.state} para ${this.order.address.destination.city}/${this.order.address.destination.state} (${quote.retrieveDeadline}-${quote.deliveryDeadline})`,
           category: quote.group.name,
           variant: quote.group.name,
-          price: this. formatMoneyToBRL(quote.total),
-          price: this. formatMoneyToBRL(quote.total),
+          price: this.formatMoneyToBRL(quote.total),
+          price: this.formatMoneyToBRL(quote.total),
           currency: "BRL",
           quantity: 1,
         },
         data = {
           transaction_id: this.order.id,
           affiliation: "Google online store",
-          value: this. formatMoneyToBRL(this.order.price),
-          value: this. formatMoneyToBRL(this.order.price),
+          value: this.formatMoneyToBRL(this.order.price),
+          value: this.formatMoneyToBRL(this.order.price),
           currency: "BRL",
           tax: 0,
-          shipping: this. formatMoneyToBRL(this.order.price),
-          shipping: this. formatMoneyToBRL(this.order.price),
+          shipping: this.formatMoneyToBRL(this.order.price),
+          shipping: this.formatMoneyToBRL(this.order.price),
           items: item,
         };
 
@@ -518,7 +576,7 @@ export default {
       }, time);
     },
 
-   formatMoneyToBRL(value) {
+    formatMoneyToBRL(value) {
       let formatter = new Intl.NumberFormat(this.$i18n.locale, {
         style: "currency",
         currency: "BRL",
@@ -588,7 +646,7 @@ export default {
                 this.onMarkerDetailsClick("origin", data);
               }).bind(this)
             );
-          }.bind(this)(res));
+          }).bind(this)(res);
 
           this.originMarkers[res.id] = marker;
           this.originMarkers[res.id].isSelected = false;
@@ -649,7 +707,7 @@ export default {
                 this.onMarkerDetailsClick("destination", data);
               }).bind(this)
             );
-          }.bind(this)(res));
+          }).bind(this)(res);
 
           marker.setMap(this.map);
 

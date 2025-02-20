@@ -431,9 +431,7 @@ export default {
       defaultCompany: "people/defaultCompany",
     }),
 
-    logged() {
-      return this.$store.getters["auth/user"];
-    },
+
 
     quoteAddressIsFull() {
       if (this.order.address.destination === null) return null;
@@ -499,7 +497,7 @@ export default {
           }
           this.searchEmailTime = setTimeout(
             function () {
-              this.search(this.logged.people, email);
+              this.search(this.this.$auth.user.people, email);
             }.bind(this),
             1000
           );

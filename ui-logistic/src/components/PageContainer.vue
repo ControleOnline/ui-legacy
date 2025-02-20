@@ -96,22 +96,8 @@ export default {
       defaultCompany: "people/defaultCompany",
     }),
 
-    isLogged() {
-      return (
-        this.$store.getters["auth/user"] !== null &&
-        this.$store.getters["auth/user"].api_key
-      );
-    },
 
-    logged() {
-      let logged = this.$store.getters["auth/user"];
-      if (logged && logged.email) {
-        this.contact.name = logged.username || logged.user;
-        this.contact.email = logged.email;
-        this.contact.phone = logged.phone;
-      }
-      return logged;
-    },
+
 
     isPublic() {
       return this.$route.name == "QuoteIndex";
@@ -129,7 +115,7 @@ export default {
 
     logout() {
       if (this.isPublic) {
-        this.$store.dispatch("auth/logOut");
+        this.$auth.logout();
       } else {
         this.showContacts = true;
       }
@@ -139,7 +125,7 @@ export default {
       let isValid = true;
       let message = "";
 
-      if (!this.isLogged) {
+      if (!this.this.$auth.isLogged) {
         // name
         if (!this.contact.name.length) {
           message = "O campo NOME não é válido";

@@ -107,7 +107,7 @@ export default {
     },
     getNotifications() {
       let params = {};
-      params["people.id"] = this.$store.getters["auth/user"].people;
+      params["people.id"] = this.$auth.user.people;
       params["read"] = 0;
       params.itemsPerPage = 10;
 

@@ -26,7 +26,7 @@
         :order="order"
         :origin="origin"
         :destination="destination"
-        :isLogged="logged"
+        :isLogged="this.$auth.isLogged"
         @choose="onChoose"
         @load="onViewQuotes"
       />
@@ -40,7 +40,7 @@
       transition-show="slide-left"
       transition-hide="slide-right"
     >
-      <LoginPage @logged="onLogged" @signup="onSignUp" />
+      <LoginPage @logged="this.$auth.isLogged" @signup="onSignUp" />
     </q-dialog>
 
     <!-- SIGNUP STEP TO STEP -->
@@ -246,15 +246,7 @@ export default {
       signUpFields: "auth/signUpFields",
     }),
 
-    logged() {
-      let logged = this.$store.getters["auth/user"];
-      if (logged && logged.email) {
-        this.contact.name = logged.realname || logged.username || logged.user;
-        this.contact.email = logged.email;
-        this.contact.phone = logged.phone;
-      }
-      return this.isLogged();
-    },
+
   },
 
   created() {
@@ -312,15 +304,6 @@ export default {
       if (this.defaultCompany) {
         return cegTypes.indexOf(this.defaultCompany.domainType) > -1;
       }
-    },
-    isLogged() {
-      return (
-        this.$store.getters["auth/user"] !== null &&
-        this.$store.getters["auth/user"].api_key
-      );
-    },
-    getLoggedUser() {
-      return this.$store.getters["auth/user"];
     },
 
     domainType() {
@@ -413,8 +396,8 @@ export default {
 
       Analytics.logEvent("Solicitar", data);
 
-      if (this.isLogged()) {
-        if (!this.getLoggedUser()) this.showDialog("signup");
+      if (this.$auth.isLogged) {
+        if (!this.this.$auth.user()) this.showDialog("signup");
         else this.showDialog("order");
       } else this.showDialog("login");
     },
@@ -429,7 +412,7 @@ export default {
       });
 
       if (this.order.choose !== null) {
-        this.showDialog(!this.getLoggedUser() ? "signup" : "order");
+        this.showDialog(!this.this.$auth.user() ? "signup" : "order");
       }
     },
 
@@ -444,7 +427,7 @@ export default {
     onCreated(user) {
       this.$store.dispatch("auth/logIn");
 
-      if (this.isLogged())
+      if (this.$auth.isLogged)
         this.$q.notify({
           message: `Agora você esta logado como "${user.username}"`,
           position: "top",

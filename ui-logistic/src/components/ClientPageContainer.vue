@@ -84,7 +84,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
- import ContactInputs from "./ContactInputs";
+import ContactInputs from "./ContactInputs";
 import DestinationInputs from "./DestinationInputs";
 import OriginInputs from "./OriginInputs";
 import ProductInputs from "./ProductInputs";
@@ -144,13 +144,13 @@ export default {
     }),
 
     logged() {
-      let logged = this.getLoggedUser();
+      let logged = this.this.$auth.user();
       if (logged && logged.email) {
         this.contact.name = logged.username || logged.user;
         this.contact.email = logged.email;
         this.contact.phone = logged.phone;
       }
-      return this.isLogged();
+      return this.this.$auth.isLogged();
     },
   },
 
@@ -158,12 +158,7 @@ export default {
     ...mapActions({
       quote: "quote/quote",
     }),
-    isLogged() {
-      return this.getLoggedUser() !== null && this.getLoggedUser().user;
-    },
-    getLoggedUser() {
-      return this.$store.getters["auth/user"];
-    },
+
     isPublic() {
       return this.$route.name == "QuoteIndex";
     },
@@ -173,7 +168,7 @@ export default {
 
     logout() {
       if (this.isPublic) {
-        this.$store.dispatch("auth/logOut");
+        this.$auth.logout();
       } else {
         //this.showContacts = true;
       }
@@ -236,7 +231,9 @@ export default {
       }
 
       // product price
-      else if (!(parseFloat(this.product.totalPrice.toString().replace(",", ".")) > 0)) {
+      else if (
+        !(parseFloat(this.product.totalPrice.toString().replace(",", ".")) > 0)
+      ) {
         const label = this.invoiceTaxLabel.toUpperCase();
         message = "O campo " + label + " não é válido";
         isValid = false;
@@ -324,7 +321,7 @@ export default {
       }
 
       return {
-        app: '',
+        app: "",
         groupTable: this.groupTable,
         selectedCompany: this.myCompany ? this.myCompany.id : null,
         domain:

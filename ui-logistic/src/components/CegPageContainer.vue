@@ -23,7 +23,7 @@
         spellcheck="false"
       >
         <!-- USER LOGGED INFO -->
-        <ContactInputs v-if="!isLogged || showContacts" :values="contact" />
+        <ContactInputs v-if="!this.$auth.isLogged || showContacts" :values="contact" />
 
         <div class="row q-col-gutter-xs q-pb-xs">
           <OriginInputs
@@ -161,12 +161,7 @@ export default {
       defaultCompany: "people/defaultCompany",
     }),
 
-    isLogged() {
-      return (
-        this.$store.getters["auth/user"] !== null &&
-        this.$store.getters["auth/user"].api_key
-      );
-    },
+   
 
     isPublic() {
       return this.$route.name == "QuoteIndex";
@@ -182,7 +177,7 @@ export default {
       let isValid = true;
       let message = "";
 
-      if (!this.isLogged) {
+      if (!this.this.$auth.isLogged) {
         // name
         if (!this.contact.name.length) {
           message = "O campo NOME não é válido";
