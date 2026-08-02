@@ -1,11 +1,5 @@
-## Escopo
-- Namespace de codigo legado em Vue e submodulos antigos.
-- Serve principalmente como referencia historica e compatibilidade.
+# ui-legacy
 
-## Estado
-- Este modulo inteiro deve ser tratado como legado.
-- Deve ser ignorado em novos prompts e em novas implementacoes.
-- So mexer aqui se o usuario pedir explicitamente Vue/legado ou se nao houver equivalente atual em React.
+## Qualidade de código
 
-## Quando usar
-- Prompts que citarem explicitamente `legacy`, Quasar antigo ou arquivos dentro deste namespace.
+- A barra comum de modularizacao, testes, smoke tests e limite de tamanho de componentes vive em `https://github.com/ControleOnline/agents-mcp/blob/master/skills/shared/code-quality.md`.

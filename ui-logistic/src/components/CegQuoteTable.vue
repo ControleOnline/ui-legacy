@@ -211,7 +211,7 @@
               rounded
               v-if="domainType() !== 'simple'"
               icon="share"
-              style="background-color: #ff9800"
+              style="background-color: #e67e22"
               class="ceg-button ceg-proposta"
               label="Gerar Proposta"
               @click="onPropostaClick(quote)"
