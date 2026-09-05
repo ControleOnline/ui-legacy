@@ -31,7 +31,7 @@
                 ? 'form.labels.product_price'
                 : 'form.labels.price'
             )
-              " mask="#,##" fill-mask="0" />
+              " mask="#.###,##" fill-mask="0" />
         </div>
       </div>
 
@@ -296,7 +296,7 @@ export default {
 
       if (data) {
         this.values.type = data.label;
-        this.values.totalPrice = (data?.price).toString().replace(".", ",");
+        this.values.totalPrice = Number(data?.price || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       } else {
         this.values.type = text;
       }
