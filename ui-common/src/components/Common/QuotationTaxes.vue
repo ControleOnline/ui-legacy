@@ -55,7 +55,7 @@
         :class="showValues == false ? 'hidden' : ''"
         type="number"
         label="Valor"
-        mask="#,##"
+        mask="#.###,##"
         fill-mask="0"
         placeholder="Digite um valor"
         :loading="isLoadingTaxes"
@@ -133,7 +133,7 @@ export default {
         return;
       }
 
-      let taxVal = parseFloat(this.taxValue ? this.taxValue.toString().replace(",", ".") : 0);
+      let taxVal = parseFloat(this.taxValue ? this.taxValue.toString().replace(/\./g, "").replace(",", ".") : 0);
 
       if (this.newTax.label.toUpperCase() == "DESCONTO") {
         taxVal = parseFloat(taxVal) * -1;

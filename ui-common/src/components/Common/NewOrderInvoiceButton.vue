@@ -24,7 +24,7 @@
                   v-model="item.price"
                   type="text"
                   label="Valor"
-                  mask="#,##"
+                  mask="#.###,##"
                   :rules="[isInvalid('price')]"
                   fill-mask="0"
                 />
@@ -107,7 +107,7 @@ export default {
       let options = {
         method: "PUT",
         body: ({
-          price: parseFloat(this.item.price.replace(",", ".")),
+          price: parseFloat(String(this.item.price).replace(/\./g, "").replace(",", ".")),
           dueDate: this.item.dueDate.replace(
             /^(\d{2})\/(\d{2})\/(\d{4})$/,
             "\$3\-\$2\-\$1"
