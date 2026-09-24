@@ -31,7 +31,7 @@
                 ? 'form.labels.product_price'
                 : 'form.labels.price'
             )
-              " mask="#.###,##" fill-mask="0" />
+              " mask="#,##" fill-mask="0" />
         </div>
       </div>
 
@@ -195,7 +195,7 @@ export default {
   computed: {
     ...mapGetters({
       myCompany: "people/currentCompany",
-      mainCompany: "people/mainCompany",
+      defaultCompany: "people/defaultCompany",
     }),
     totalCubage() {
       return new Intl.NumberFormat("pt-br").format(this.sumCubage);
@@ -296,7 +296,7 @@ export default {
 
       if (data) {
         this.values.type = data.label;
-        this.values.totalPrice = Number(data?.price || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        this.values.totalPrice = (data?.price).toString().replace(".", ",");
       } else {
         this.values.type = text;
       }
@@ -405,7 +405,7 @@ export default {
       return cegTypes.indexOf(this.domainType()) > -1;
     },
     domainType() {
-      return this.mainCompany ? this.mainCompany.domainType : null;
+      return this.defaultCompany ? this.defaultCompany.domainType : null;
     },
     enableDeliveryOptions() {
       let options = {

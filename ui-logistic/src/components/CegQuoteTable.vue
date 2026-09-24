@@ -374,7 +374,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      mainCompany: "people/mainCompany",
+      defaultCompany: "people/defaultCompany",
       myCompany: "people/currentCompany",
     }),
 
@@ -530,7 +530,7 @@ export default {
       return blob;
     },
     domainType() {
-      return this.mainCompany.domainType;
+      return this.defaultCompany.domainType;
     },
 
     formatTodayDate() {
