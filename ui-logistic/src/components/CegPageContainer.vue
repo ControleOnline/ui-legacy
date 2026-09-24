@@ -82,14 +82,14 @@
           </div>
         </div>
 
-        <ProductInputs :mainCompany="mainCompany" :values="product" />
+        <ProductInputs :defaultCompany="defaultCompany" :values="product" />
 
         <div class="row q-pa-md justify-center items-center">
           <q-btn
             :loading="isLoading"
             :label="
               $t(
-                mainCompany.domainType === 'simple'
+                defaultCompany.domainType === 'simple'
                   ? 'form.labels.minimumQuotation'
                   : 'form.labels.submit'
               )
@@ -158,7 +158,7 @@ export default {
     ...mapGetters({
       isLoading: "quote/isLoading",
       myCompany: "people/currentCompany",
-      mainCompany: "people/mainCompany",
+      defaultCompany: "people/defaultCompany",
     }),
 
    
