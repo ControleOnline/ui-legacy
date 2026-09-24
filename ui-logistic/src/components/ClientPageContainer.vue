@@ -140,7 +140,7 @@ export default {
     ...mapGetters({
       isLoading: "quote/isLoading",
       myCompany: "people/currentCompany",
-      mainCompany: "people/mainCompany",
+      defaultCompany: "people/defaultCompany",
     }),
 
     logged() {
@@ -232,7 +232,7 @@ export default {
 
       // product price
       else if (
-        !(parseFloat(this.product.totalPrice.toString().replace(/\./g, "").replace(",", ".")) > 0)
+        !(parseFloat(this.product.totalPrice.toString().replace(",", ".")) > 0)
       ) {
         const label = this.invoiceTaxLabel.toUpperCase();
         message = "O campo " + label + " não é válido";
@@ -331,7 +331,7 @@ export default {
         origin: this.getAddress(this.origin),
         destination: this.getAddress(this.destination),
         productTotalPrice: parseFloat(
-          this.product.totalPrice.toString().replace(/\./g, "").replace(",", ".")
+          this.product.totalPrice.toString().replace(",", ".")
         ),
         packages: packages,
         productType: this.product.type + "," + this.product.product,

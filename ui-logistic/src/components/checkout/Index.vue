@@ -131,7 +131,7 @@ export default {
   computed: {
     ...mapGetters({
       myCompany: "people/currentCompany",
-      mainCompany: "people/mainCompany",
+      defaultCompany: "people/defaultCompany",
     }),
   },
 
@@ -220,7 +220,7 @@ export default {
                 this.saveDelivery(form);
               }
               if (this.current == "summary") {
-                if (this.mainCompany.domainType == "ceg") {
+                if (this.defaultCompany.domainType == "ceg") {
                   this.savePaymentType(form);
                 } else {
                   this.savePayer(form);
@@ -236,7 +236,7 @@ export default {
             this.saveDelivery(form);
           }
           if (this.current == "summary") {
-            if (this.mainCompany.domainType == "ceg") {
+            if (this.defaultCompany.domainType == "ceg") {
               this.savePaymentType(form);
             } else {
               this.savePayer(form);
