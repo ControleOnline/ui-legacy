@@ -82,14 +82,14 @@
           </div>
         </div>
 
-        <ProductInputs :mainCompany="mainCompany" :values="product" />
+        <ProductInputs :defaultCompany="defaultCompany" :values="product" />
 
         <div class="row q-pa-md justify-center items-center">
           <q-btn
             :loading="isLoading"
             :label="
               $t(
-                mainCompany.domainType === 'simple'
+                defaultCompany.domainType === 'simple'
                   ? 'form.labels.minimumQuotation'
                   : 'form.labels.submit'
               )
@@ -158,7 +158,7 @@ export default {
     ...mapGetters({
       isLoading: "quote/isLoading",
       myCompany: "people/currentCompany",
-      mainCompany: "people/mainCompany",
+      defaultCompany: "people/defaultCompany",
     }),
 
    
@@ -225,7 +225,7 @@ export default {
       }
 
       // product price
-      else if (!(parseFloat(this.product.totalPrice.toString().replace(/\./g, "").replace(",", ".")) > 0)) {
+      else if (!(parseFloat(this.product.totalPrice.toString().replace(",", ".")) > 0)) {
         const label = this.invoiceTaxLabel.toUpperCase();
         message = "O campo " + label + " não é válido";
         isValid = false;
@@ -294,7 +294,7 @@ export default {
         origin: this.getAddress(this.origin),
         destination: this.getAddress(this.destination),
         productTotalPrice: parseFloat(
-          this.product.totalPrice.toString().replace(/\./g, "").replace(",", ".")
+          this.product.totalPrice.toString().replace(",", ".")
         ),
         packages: packages,
         productType: this.product.type,

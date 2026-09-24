@@ -465,7 +465,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      mainCompany: "people/mainCompany",
+      defaultCompany: "people/defaultCompany",
     }),
     options() {
       let opts = [];
@@ -528,7 +528,7 @@ export default {
         return;
       } else if (
         this.termsAccepted === false &&
-        this.mainCompany.domainType != "ceg"
+        this.defaultCompany.domainType != "ceg"
       ) {
         this.$q.notify({
           message: "Primeiro deve aceitar os termos e condições",
