@@ -435,7 +435,7 @@ export default {
     ...mapGetters({
       isLoading: "people/isLoading",
       myCompany: "people/currentCompany",
-      mainCompany: "people/mainCompany",
+      defaultCompany: "people/defaultCompany",
     }),
 
     quoteAddressIsFull() {

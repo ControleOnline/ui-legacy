@@ -444,7 +444,7 @@ export default {
       logged: "auth/user",
       haveToShowTaxes: "quote/showTaxes",
       myCompany: "people/currentCompany",
-      mainCompany: "people/mainCompany",
+      defaultCompany: "people/defaultCompany",
     }),
 
     isNewUser() {
@@ -476,7 +476,7 @@ export default {
     },
 
     domainType() {
-      return this.mainCompany.domainType;
+      return this.defaultCompany.domainType;
     },
     getSelectedStyle(quoteId) {
       let style = "border-radius: 30px;";
