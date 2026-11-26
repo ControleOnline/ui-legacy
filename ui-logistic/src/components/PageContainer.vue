@@ -180,7 +180,7 @@ export default {
       }
 
       // product price
-      else if (!(parseFloat(this.product.totalPrice.toString().replace(",", ".")) > 0)) {
+      else if (!(parseFloat(this.product.totalPrice.toString().replace(/\./g, "").replace(",", ".")) > 0)) {
         const label = this.invoiceTaxLabel.toUpperCase();
         message = "O campo " + label + " não é válido";
         isValid = false;
@@ -278,7 +278,7 @@ export default {
         origin: this.getAddress(this.origin),
         destination: this.getAddress(this.destination),
         productTotalPrice: parseFloat(
-          this.product.totalPrice.toString().replace(",", ".")
+          this.product.totalPrice.toString().replace(/\./g, "").replace(",", ".")
         ),
         packages: packages,
         productType: this.product.type + "," + this.product.product,
