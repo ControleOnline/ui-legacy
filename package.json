@@ -1,6 +1,6 @@
 {
   "name": "@controleonline/ui-legacy",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "ControleOnline",
   "description": "ControleOnline people Quasar UI Component",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/controleonline/conline-quasar-ui"
+    "url": "https://github.com/ControleOnline/ui-legacy"
   },
   "bugs": "",
   "homepage": "https://www.controleonline.com/devs/plugins",
