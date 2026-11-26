@@ -140,7 +140,7 @@ export default {
     ...mapGetters({
       isLoading: "quote/isLoading",
       myCompany: "people/currentCompany",
-      defaultCompany: "people/defaultCompany",
+      mainCompany: "people/mainCompany",
     }),
 
     logged() {

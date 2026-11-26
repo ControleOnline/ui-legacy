@@ -57,7 +57,7 @@
         @registered="onRegistered"
         @signIn="dialogs.signup.visible = false"
         :signUpFields="signUpFields"
-        :defaultCompany="defaultCompany"
+        :mainCompany="mainCompany"
       />
     </q-dialog>
 
@@ -242,7 +242,7 @@ export default {
     ...mapGetters({
       retrieved: "quote/retrieved",
       myCompany: "people/currentCompany",
-      defaultCompany: "people/defaultCompany",
+      mainCompany: "people/mainCompany",
       signUpFields: "auth/signUpFields",
     }),
 
@@ -250,14 +250,14 @@ export default {
   },
 
   created() {
-    if (this.defaultCompany) {
+    if (this.mainCompany) {
       this.pageLoading = false;
       this.checkLabels();
     }
   },
 
   watch: {
-    defaultCompany(data) {
+    mainCompany(data) {
       if (data) {
         this.pageLoading = false;
         this.checkLabels();
@@ -301,14 +301,14 @@ export default {
     }),
     isCeg() {
       const cegTypes = ["ceg", "simple"];
-      if (this.defaultCompany) {
-        return cegTypes.indexOf(this.defaultCompany.domainType) > -1;
+      if (this.mainCompany) {
+        return cegTypes.indexOf(this.mainCompany.domainType) > -1;
       }
     },
 
     domainType() {
-      if (this.defaultCompany) {
-        return this.defaultCompany.domainType;
+      if (this.mainCompany) {
+        return this.mainCompany.domainType;
       }
     },
 

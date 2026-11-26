@@ -195,7 +195,7 @@ export default {
   computed: {
     ...mapGetters({
       myCompany: "people/currentCompany",
-      defaultCompany: "people/defaultCompany",
+      mainCompany: "people/mainCompany",
     }),
     totalCubage() {
       return new Intl.NumberFormat("pt-br").format(this.sumCubage);
@@ -405,7 +405,7 @@ export default {
       return cegTypes.indexOf(this.domainType()) > -1;
     },
     domainType() {
-      return this.defaultCompany ? this.defaultCompany.domainType : null;
+      return this.mainCompany ? this.mainCompany.domainType : null;
     },
     enableDeliveryOptions() {
       let options = {

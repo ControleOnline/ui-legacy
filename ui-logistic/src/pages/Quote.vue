@@ -268,19 +268,19 @@ export default {
     ...mapGetters({
       retrieved: "quote/retrieved",
       myCompany: "people/currentCompany",
-      defaultCompany: "people/defaultCompany",
+      mainCompany: "people/mainCompany",
     }),
   },
 
   created() {
-    if (this.defaultCompany) {
+    if (this.mainCompany) {
       this.pageLoading = false;
       this.checkLabels();
     }
   },
 
   watch: {
-    defaultCompany(data) {
+    mainCompany(data) {
       if (data) {
         this.pageLoading = false;
         this.checkLabels();
@@ -324,11 +324,11 @@ export default {
     isCeg() {
       const cegTypes = ["ceg", "simple"];
 
-      return cegTypes.indexOf(this.defaultCompany.domainType) > -1;
+      return cegTypes.indexOf(this.mainCompany.domainType) > -1;
     },
 
     domainType() {
-      return this.defaultCompany.domainType;
+      return this.mainCompany.domainType;
     },
 
     checkLabels() {
