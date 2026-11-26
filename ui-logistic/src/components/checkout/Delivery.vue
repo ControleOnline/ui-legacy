@@ -428,7 +428,7 @@ export default {
     ...mapGetters({
       isLoading: "people/isLoading",
       myCompany: "people/currentCompany",
-      defaultCompany: "people/defaultCompany",
+      mainCompany: "people/mainCompany",
     }),
 
 
